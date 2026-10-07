@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#WebExperimentsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#WebExperimentsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#WebExperimentsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.web_experiments#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#WebExperimentsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#WebExperimentsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#WebExperimentsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.web_experiments#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#BadRequest",
+      "before": "com.posthog.web_experiments#WebExperiments",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#Forbidden",
+      "before": "com.posthog.web_experiments#WebExperiments",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.web_experiments#NotFound",
+      "before": "com.posthog.web_experiments#WebExperiments",
       "value": {
         "type": "structure",
         "members": {},

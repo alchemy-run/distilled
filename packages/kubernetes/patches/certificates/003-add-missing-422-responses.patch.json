@@ -109,6 +109,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#UnprocessableEntity",
+      "before": "com.kubernetes.certificates#NotFound",
       "value": {
         "type": "structure",
         "members": {},

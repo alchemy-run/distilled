@@ -18,6 +18,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authentication#UnprocessableEntity",
+      "before": "com.kubernetes.authentication#Authentication",
       "value": {
         "type": "structure",
         "members": {},

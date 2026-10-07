@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#DataColorThemesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#DataColorThemesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#DataColorThemesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.data_color_themes#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#DataColorThemesUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#DataColorThemesPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#DataColorThemesDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.data_color_themes#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#BadRequest",
+      "before": "com.posthog.data_color_themes#DataColorThemes",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#Forbidden",
+      "before": "com.posthog.data_color_themes#DataColorThemes",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.data_color_themes#NotFound",
+      "before": "com.posthog.data_color_themes#DataColorThemes",
       "value": {
         "type": "structure",
         "members": {},

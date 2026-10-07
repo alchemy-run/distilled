@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#CreateDiscoveryV1NamespacedEndpointSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.discovery#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#Conflict",
+      "before": "com.kubernetes.discovery#NotFound",
       "value": {
         "type": "structure",
         "members": {},

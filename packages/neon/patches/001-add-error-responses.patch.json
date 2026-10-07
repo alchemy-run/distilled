@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#RevokeApiKey/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectOperation/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProject/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#BadRequest"
@@ -34,6 +37,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#UpdateProject/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#BadRequest"
@@ -46,6 +50,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#DeleteProject/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -55,6 +60,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectOperations/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -64,6 +70,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectPermissions/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -73,6 +80,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetConnectionURI/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -82,6 +90,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectBranches/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -91,6 +100,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#CreateProjectBranch/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#Conflict"
@@ -100,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#CountProjectBranches/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -109,6 +120,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranch/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -118,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#UpdateProjectBranch/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#BadRequest"
@@ -130,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#DeleteProjectBranch/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -142,6 +156,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#RestoreProjectBranch/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -151,6 +166,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranchSchema/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -160,6 +176,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranchSchemaComparison/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -169,6 +186,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#SetDefaultProjectBranch/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -178,6 +196,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectBranchEndpoints/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -187,6 +206,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectBranchDatabases/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -196,6 +216,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#CreateProjectBranchDatabase/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#BadRequest"
@@ -214,6 +235,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranchDatabase/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -223,6 +245,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#UpdateProjectBranchDatabase/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -232,6 +255,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#DeleteProjectBranchDatabase/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -241,6 +265,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectBranchRoles/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -250,6 +275,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#CreateProjectBranchRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -262,6 +288,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranchRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -271,6 +298,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#DeleteProjectBranchRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -283,6 +311,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ResetProjectBranchRolePassword/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -292,6 +321,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#ListProjectEndpoints/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -301,6 +331,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#CreateProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -313,6 +344,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -322,6 +354,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#UpdateProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -331,6 +364,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#DeleteProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -340,6 +374,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#StartProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -349,6 +384,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#SuspendProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -358,6 +394,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#RestartProjectEndpoint/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"

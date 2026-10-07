@@ -53,6 +53,7 @@
     {
       "op": "add",
       "path": "/shapes/com.prisma#GetV1DatabasesByDatabaseIdConnections/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.prisma#UnprocessableEntity"

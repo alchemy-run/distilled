@@ -182,14 +182,6 @@
       "output": {
         "target": "com.posthog.reverse_proxy#ProxyRecordListResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/proxy_records/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List all reverse proxies configured for the organization. Returns proxy records along with the maximum number allowed by the current plan."
-      },
       "errors": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -197,7 +189,15 @@
         {
           "target": "com.posthog.reverse_proxy#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/proxy_records/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all reverse proxies configured for the organization. Returns proxy records along with the maximum number allowed by the current plan."
+      }
     },
     "com.posthog.reverse_proxy#CreateProxyRecordRequest": {
       "type": "structure",
@@ -229,14 +229,6 @@
       "output": {
         "target": "com.posthog.reverse_proxy#ProxyRecord"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/proxy_records/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new managed reverse proxy. Provide the domain you want to proxy through. The response includes the CNAME target you need to add as a DNS record. Once the CNAME is configured, the proxy will be automatically verified and provisioned."
-      },
       "errors": [
         {
           "target": "com.posthog.reverse_proxy#BadRequest"
@@ -247,7 +239,15 @@
         {
           "target": "com.posthog.reverse_proxy#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/proxy_records/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new managed reverse proxy. Provide the domain you want to proxy through. The response includes the CNAME target you need to add as a DNS record. Once the CNAME is configured, the proxy will be automatically verified and provisioned."
+      }
     },
     "com.posthog.reverse_proxy#GetProxyRecordRequest": {
       "type": "structure",
@@ -281,14 +281,6 @@
       "output": {
         "target": "com.posthog.reverse_proxy#ProxyRecord"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/proxy_records/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get details of a specific reverse proxy by ID. Returns the full configuration including domain, CNAME target, and current provisioning status."
-      },
       "errors": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -296,7 +288,15 @@
         {
           "target": "com.posthog.reverse_proxy#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/proxy_records/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get details of a specific reverse proxy by ID. Returns the full configuration including domain, CNAME target, and current provisioning status."
+      }
     },
     "com.posthog.reverse_proxy#UpdateProxyRecordsPartialRequest": {
       "type": "structure",
@@ -377,14 +377,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/organizations/{organization_id}/proxy_records/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Delete a reverse proxy. For proxies in 'waiting', 'erroring', or 'timed_out' status, the record is deleted immediately. For active proxies, a deletion workflow is started to clean up the provisioned infrastructure."
-      },
       "errors": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -392,7 +384,15 @@
         {
           "target": "com.posthog.reverse_proxy#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{organization_id}/proxy_records/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a reverse proxy. For proxies in 'waiting', 'erroring', or 'timed_out' status, the record is deleted immediately. For active proxies, a deletion workflow is started to clean up the provisioned infrastructure."
+      }
     },
     "com.posthog.reverse_proxy#CreateProxyRecordsDiagnoseRequest": {
       "type": "structure",
@@ -726,14 +726,6 @@
       "output": {
         "target": "com.posthog.reverse_proxy#ProxyRecord"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/proxy_records/{id}/retry/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Retry provisioning a failed reverse proxy. Only available for proxies in 'erroring' or 'timed_out' status. Resets the proxy to 'waiting' status and restarts the provisioning workflow."
-      },
       "errors": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -741,36 +733,14 @@
         {
           "target": "com.posthog.reverse_proxy#NotFound"
         }
-      ]
-    },
-    "com.posthog.reverse_proxy#ReverseProxy": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.reverse_proxy#ListProxyRecords"
-        },
-        {
-          "target": "com.posthog.reverse_proxy#CreateProxyRecord"
-        },
-        {
-          "target": "com.posthog.reverse_proxy#GetProxyRecord"
-        },
-        {
-          "target": "com.posthog.reverse_proxy#UpdateProxyRecordsPartial"
-        },
-        {
-          "target": "com.posthog.reverse_proxy#ProxyRecordsDestroy"
-        },
-        {
-          "target": "com.posthog.reverse_proxy#CreateProxyRecordsDiagnose"
-        },
-        {
-          "target": "com.posthog.reverse_proxy#ProxyRecordsRetryCreate"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/proxy_records/{id}/retry/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retry provisioning a failed reverse proxy. Only available for proxies in 'erroring' or 'timed_out' status. Resets the proxy to 'waiting' status and restarts the provisioning workflow."
       }
     },
     "com.posthog.reverse_proxy#Forbidden": {
@@ -810,6 +780,36 @@
             "status": 400
           }
         ]
+      }
+    },
+    "com.posthog.reverse_proxy#ReverseProxy": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.reverse_proxy#ListProxyRecords"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#CreateProxyRecord"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#GetProxyRecord"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#UpdateProxyRecordsPartial"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#ProxyRecordsDestroy"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#CreateProxyRecordsDiagnose"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#ProxyRecordsRetryCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

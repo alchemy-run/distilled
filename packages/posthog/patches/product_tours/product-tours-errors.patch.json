@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursDiscardDraftDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursDraftPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -115,6 +123,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursDraftStatusRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#Forbidden"
@@ -127,6 +136,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursGenerateCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -142,6 +152,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursPublishDraftCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -157,6 +168,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#BadRequest",
+      "before": "com.posthog.product_tours#ProductTours",
       "value": {
         "type": "structure",
         "members": {},
@@ -174,6 +186,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#Forbidden",
+      "before": "com.posthog.product_tours#ProductTours",
       "value": {
         "type": "structure",
         "members": {},
@@ -191,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.product_tours#NotFound",
+      "before": "com.posthog.product_tours#ProductTours",
       "value": {
         "type": "structure",
         "members": {},

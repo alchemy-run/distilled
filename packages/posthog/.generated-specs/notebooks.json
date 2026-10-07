@@ -319,14 +319,6 @@
       "output": {
         "target": "com.posthog.notebooks#PaginatedNotebookMinimalListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -337,7 +329,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#NotebookVariable": {
       "type": "structure",
@@ -570,14 +570,6 @@
       "output": {
         "target": "com.posthog.notebooks#NotebookOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -588,7 +580,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#ListNotebooksSharingRequest": {
       "type": "structure",
@@ -894,14 +894,6 @@
       "output": {
         "target": "com.posthog.notebooks#NotebookOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -909,7 +901,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#UpdateNotebookRequestVariablesList": {
       "type": "list",
@@ -992,14 +992,6 @@
       "output": {
         "target": "com.posthog.notebooks#NotebookOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -1010,7 +1002,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#UpdateNotebooksPartialRequestVariablesList": {
       "type": "list",
@@ -1093,14 +1093,6 @@
       "output": {
         "target": "com.posthog.notebooks#NotebookOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -1111,7 +1103,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#NotebooksDestroyRequest": {
       "type": "structure",
@@ -1144,14 +1144,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -1159,7 +1151,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      }
     },
     "com.posthog.notebooks#GetNotebooksActivityRequest": {
       "type": "structure",
@@ -1192,14 +1192,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -1207,7 +1199,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#NotebookCollabCursor": {
       "type": "structure",
@@ -1462,14 +1462,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/collab/save/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -1480,7 +1472,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/collab/save/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#GetNotebooksCollabStreamRequest": {
       "type": "structure",
@@ -1513,14 +1513,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/collab/stream/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -1528,7 +1520,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/collab/stream/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#CreateNotebooksKernelCompleteRequest": {
       "type": "structure",
@@ -1744,14 +1744,6 @@
       "output": {
         "target": "com.posthog.notebooks#NotebookKernelConfigResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/config/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Set the notebook's kernel compute configuration. Applies at sandbox provision time: a currently running kernel keeps its resources until restarted."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -1762,7 +1754,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/config/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the notebook's kernel compute configuration. Applies at sandbox provision time: a currently running kernel keeps its resources until restarted."
+      }
     },
     "com.posthog.notebooks#NotebooksKernelExecuteCreateRequestVariablesList": {
       "type": "list",
@@ -1845,14 +1845,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/execute/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -1863,7 +1855,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/execute/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#CreateNotebooksKernelInspectRequest": {
       "type": "structure",
@@ -2026,14 +2026,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/restart/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -2044,7 +2036,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/restart/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#NotebooksKernelStartCreateRequestVariablesList": {
       "type": "list",
@@ -2127,14 +2127,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/start/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -2145,7 +2137,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/start/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#GetNotebooksKernelStatusRequest": {
       "type": "structure",
@@ -2355,14 +2355,6 @@
       "output": {
         "target": "com.posthog.notebooks#NotebookKernelStatusResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/status/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Live-checked kernel runtime state for this notebook, its compute configuration, and the catalog of dataframes/tables a cell can currently reference (with column schemas)."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -2370,7 +2362,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/status/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Live-checked kernel runtime state for this notebook, its compute configuration, and the catalog of dataframes/tables a cell can currently reference (with column schemas)."
+      }
     },
     "com.posthog.notebooks#NotebooksKernelStopCreateRequestVariablesList": {
       "type": "list",
@@ -2453,14 +2453,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/stop/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -2471,7 +2463,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/stop/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#CreateNotebooksRunRequestVariablesList": {
       "type": "list",
@@ -6185,14 +6185,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -6200,7 +6192,15 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
     },
     "com.posthog.notebooks#GetNotebooksKernelComputeOptionRequest": {
       "type": "structure",
@@ -6405,14 +6405,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/recording_comments/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      },
       "errors": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -6420,19 +6412,14 @@
         {
           "target": "com.posthog.notebooks#NotFound"
         }
-      ]
-    },
-    "com.posthog.notebooks#Conflict": {
-      "type": "structure",
-      "members": {},
+      ],
       "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/recording_comments/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
       }
     },
     "com.posthog.notebooks#BadRequest": {
@@ -6444,6 +6431,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.notebooks#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
           }
         ]
       }
@@ -6461,15 +6461,15 @@
         ]
       }
     },
-    "com.posthog.notebooks#Forbidden": {
+    "com.posthog.notebooks#Conflict": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
+        "smithy.api#httpError": 409,
         "com.distilled.openapi#errorMatchers": [
           {
-            "status": 403
+            "status": 409
           }
         ]
       }

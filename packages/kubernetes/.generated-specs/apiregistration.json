@@ -1007,14 +1007,6 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/apiregistration.k8s.io/v1/apiservices",
-          "code": 200
-        },
-        "smithy.api#documentation": "create an APIService"
-      },
       "errors": [
         {
           "target": "com.kubernetes.apiregistration#Conflict"
@@ -1022,7 +1014,15 @@
         {
           "target": "com.kubernetes.apiregistration#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/apiregistration.k8s.io/v1/apiservices",
+          "code": 200
+        },
+        "smithy.api#documentation": "create an APIService"
+      }
     },
     "com.kubernetes.apiregistration#DeleteApiregistrationV1CollectionAPIServiceRequestDryRunList": {
       "type": "list",
@@ -1367,6 +1367,11 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.apiregistration#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1374,12 +1379,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified APIService"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.apiregistration#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.apiregistration#ReplaceApiregistrationV1APIServiceRequest": {
       "type": "structure",
@@ -1463,14 +1463,6 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified APIService"
-      },
       "errors": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -1481,7 +1473,15 @@
         {
           "target": "com.kubernetes.apiregistration#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified APIService"
+      }
     },
     "com.kubernetes.apiregistration#PatchApiregistrationV1APIServiceRequest": {
       "type": "structure",
@@ -1542,14 +1542,6 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified APIService"
-      },
       "errors": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -1560,7 +1552,15 @@
         {
           "target": "com.kubernetes.apiregistration#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified APIService"
+      }
     },
     "com.kubernetes.apiregistration#DeleteApiregistrationV1APIServiceRequestDryRunList": {
       "type": "list",
@@ -1655,14 +1655,6 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "delete an APIService"
-      },
       "errors": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -1670,7 +1662,15 @@
         {
           "target": "com.kubernetes.apiregistration#Conflict"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "delete an APIService"
+      }
     },
     "com.kubernetes.apiregistration#ReadApiregistrationV1APIServiceStatusRequest": {
       "type": "structure",
@@ -1703,6 +1703,11 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.apiregistration#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1710,12 +1715,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified APIService"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.apiregistration#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.apiregistration#ReplaceApiregistrationV1APIServiceStatusRequest": {
       "type": "structure",
@@ -1799,14 +1799,6 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified APIService"
-      },
       "errors": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -1817,7 +1809,15 @@
         {
           "target": "com.kubernetes.apiregistration#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified APIService"
+      }
     },
     "com.kubernetes.apiregistration#PatchApiregistrationV1APIServiceStatusRequest": {
       "type": "structure",
@@ -1878,14 +1878,6 @@
       "output": {
         "target": "com.kubernetes.apiregistration#IoK8sKubeAggregatorPkgApisApiregistrationV1APIService"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified APIService"
-      },
       "errors": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -1896,7 +1888,15 @@
         {
           "target": "com.kubernetes.apiregistration#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apiregistration.k8s.io/v1/apiservices/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified APIService"
+      }
     },
     "com.kubernetes.apiregistration#WatchApiregistrationV1APIServiceListRequest": {
       "type": "structure",
@@ -2145,6 +2145,45 @@
         "smithy.api#documentation": "watch changes to an object of kind APIService. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
+    "com.kubernetes.apiregistration#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.apiregistration#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.kubernetes.apiregistration#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.kubernetes.apiregistration#Apiregistration": {
       "type": "service",
       "version": "unversioned",
@@ -2194,45 +2233,6 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
-      }
-    },
-    "com.kubernetes.apiregistration#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
-    "com.kubernetes.apiregistration#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.apiregistration#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
       }
     }
   }

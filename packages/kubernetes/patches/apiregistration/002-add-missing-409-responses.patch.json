@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#CreateApiregistrationV1APIService/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#Conflict"
@@ -48,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#Conflict",
+      "before": "com.kubernetes.apiregistration#NotFound",
       "value": {
         "type": "structure",
         "members": {},

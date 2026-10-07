@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#SubscriptionsTestDeliveryCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.subscriptions#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#BadRequest",
+      "before": "com.posthog.subscriptions#Subscriptions",
       "value": {
         "type": "structure",
         "members": {},
@@ -117,6 +125,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#Forbidden",
+      "before": "com.posthog.subscriptions#Subscriptions",
       "value": {
         "type": "structure",
         "members": {},
@@ -134,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.subscriptions#NotFound",
+      "before": "com.posthog.subscriptions#Subscriptions",
       "value": {
         "type": "structure",
         "members": {},

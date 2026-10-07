@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system_shortcut#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system_shortcut#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#BadRequest",
+      "before": "com.posthog.file_system_shortcut#FileSystemShortcut",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#Forbidden",
+      "before": "com.posthog.file_system_shortcut#FileSystemShortcut",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system_shortcut#NotFound",
+      "before": "com.posthog.file_system_shortcut#FileSystemShortcut",
       "value": {
         "type": "structure",
         "members": {},

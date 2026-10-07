@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.ai_observability#DatasetItemsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.ai_observability#BadRequest"
@@ -40,6 +41,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.ai_observability#DatasetsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.ai_observability#BadRequest"
@@ -76,6 +78,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.ai_observability#DatasetsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.ai_observability#Forbidden"

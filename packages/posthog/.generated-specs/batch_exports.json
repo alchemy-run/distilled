@@ -5802,13 +5802,6 @@
       "output": {
         "target": "com.posthog.batch_exports#PaginatedBatchExportListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -5819,7 +5812,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#BatchExportDestinationRequest": {
       "type": "union",
@@ -6277,13 +6277,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -6294,7 +6287,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#ListBatchExportsBackfillsRequest": {
       "type": "structure",
@@ -6535,14 +6535,6 @@
       "output": {
         "target": "com.posthog.batch_exports#PaginatedBatchExportBackfillList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/",
-          "code": 200
-        },
-        "smithy.api#documentation": "ViewSet for BatchExportBackfill models.\n\nAllows creating and reading backfills, but not updating or deleting them."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -6553,7 +6545,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/",
+          "code": 200
+        },
+        "smithy.api#documentation": "ViewSet for BatchExportBackfill models.\n\nAllows creating and reading backfills, but not updating or deleting them."
+      }
     },
     "com.posthog.batch_exports#CreateBatchExportsBackfillRequest": {
       "type": "structure",
@@ -6639,14 +6639,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportBackfill"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new backfill for a BatchExport."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -6657,7 +6649,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new backfill for a BatchExport."
+      }
     },
     "com.posthog.batch_exports#GetBatchExportsBackfillRequest": {
       "type": "structure",
@@ -6698,14 +6698,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportBackfill"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "ViewSet for BatchExportBackfill models.\n\nAllows creating and reading backfills, but not updating or deleting them."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#Forbidden"
@@ -6713,7 +6705,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "ViewSet for BatchExportBackfill models.\n\nAllows creating and reading backfills, but not updating or deleting them."
+      }
     },
     "com.posthog.batch_exports#BatchExportsBackfillsCancelCreateRequest": {
       "type": "structure",
@@ -6807,14 +6807,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/{id}/cancel/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Cancel a batch export backfill."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -6825,7 +6817,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/backfills/{id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel a batch export backfill."
+      }
     },
     "com.posthog.batch_exports#ListBatchExportsRunsRequestStatusItem": {
       "type": "enum",
@@ -7010,13 +7010,6 @@
       "output": {
         "target": "com.posthog.batch_exports#PaginatedBatchExportRunList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7027,7 +7020,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#GetBatchExportsRunRequest": {
       "type": "structure",
@@ -7068,13 +7068,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportRun"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#Forbidden"
@@ -7082,7 +7075,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#BatchExportsRunsCancelCreateRequest": {
       "type": "structure",
@@ -7205,14 +7205,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/cancel/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Cancel a batch export run."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7223,7 +7215,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel a batch export run."
+      }
     },
     "com.posthog.batch_exports#GetBatchExportsRunsLogRequest": {
       "type": "structure",
@@ -7306,13 +7306,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/logs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7323,7 +7316,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/logs/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#BatchExportsRunsRetryCreateRequest": {
       "type": "structure",
@@ -7446,14 +7446,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/retry/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Retry a batch export run.\n\nWe use the same underlying mechanism as when backfilling a batch export, as retrying\na run is the same as backfilling one run."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7464,7 +7456,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{batch_export_id}/runs/{id}/retry/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retry a batch export run.\n\nWe use the same underlying mechanism as when backfilling a batch export, as retrying\na run is the same as backfilling one run."
+      }
     },
     "com.posthog.batch_exports#GetBatchExportRequest": {
       "type": "structure",
@@ -7498,13 +7498,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#Forbidden"
@@ -7512,7 +7505,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#UpdateBatchExportRequest": {
       "type": "structure",
@@ -7620,13 +7620,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7637,7 +7630,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#UpdateBatchExportsPartialRequest": {
       "type": "structure",
@@ -7742,13 +7742,6 @@
       "output": {
         "target": "com.posthog.batch_exports#BatchExportOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7759,7 +7752,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#BatchExportsDestroyRequest": {
       "type": "structure",
@@ -7793,13 +7793,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#Forbidden"
@@ -7807,7 +7800,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#GetBatchExportsLogRequest": {
       "type": "structure",
@@ -7883,13 +7883,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/logs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7900,7 +7893,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/logs/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#CreateBatchExportsPauseRequest": {
       "type": "structure",
@@ -7934,14 +7934,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/pause/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Pause a BatchExport."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -7952,7 +7944,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/pause/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause a BatchExport."
+      }
     },
     "com.posthog.batch_exports#CreateBatchExportsRunTestStepRequestModel": {
       "type": "union",
@@ -8124,13 +8124,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/run_test_step/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -8141,7 +8134,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/run_test_step/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#BatchExportsUnpauseCreateRequest": {
       "type": "structure",
@@ -8181,14 +8181,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/{id}/unpause/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Unpause a BatchExport."
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -8199,7 +8191,15 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/{id}/unpause/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unpause a BatchExport."
+      }
     },
     "com.posthog.batch_exports#CreateBatchExportsRunTestStepNewRequestModel": {
       "type": "union",
@@ -8329,13 +8329,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/batch_exports/run_test_step_new/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#BadRequest"
@@ -8346,7 +8339,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/batch_exports/run_test_step_new/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#GetBatchExportsTestRequest": {
       "type": "structure",
@@ -8372,13 +8372,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/batch_exports/test/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.batch_exports#Forbidden"
@@ -8386,7 +8379,14 @@
         {
           "target": "com.posthog.batch_exports#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/batch_exports/test/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.batch_exports#FileDownloadBatchExportsListRequest": {
       "type": "structure",
@@ -9291,6 +9291,19 @@
         ]
       }
     },
+    "com.posthog.batch_exports#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.posthog.batch_exports#BatchExports": {
       "type": "service",
       "version": "1.0.0",
@@ -9382,19 +9395,6 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
-      }
-    },
-    "com.posthog.batch_exports#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
       }
     }
   }

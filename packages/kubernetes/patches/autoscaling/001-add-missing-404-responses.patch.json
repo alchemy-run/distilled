@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReadAutoscalingV1NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReplaceAutoscalingV1NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#PatchAutoscalingV1NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#DeleteAutoscalingV1NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReplaceAutoscalingV1NamespacedHorizontalPodAutoscalerStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReadAutoscalingV2NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReplaceAutoscalingV2NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#PatchAutoscalingV2NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#DeleteAutoscalingV2NamespacedHorizontalPodAutoscaler/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReadAutoscalingV2NamespacedHorizontalPodAutoscalerStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#ReplaceAutoscalingV2NamespacedHorizontalPodAutoscalerStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#PatchAutoscalingV2NamespacedHorizontalPodAutoscalerStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#NotFound",
+      "before": "com.kubernetes.autoscaling#Autoscaling",
       "value": {
         "type": "structure",
         "members": {},

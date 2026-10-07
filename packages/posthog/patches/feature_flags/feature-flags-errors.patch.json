@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -102,6 +108,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreateStaticCohortForFlagCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -117,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsDependentFlagsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -129,6 +137,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsRemoteConfigRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -141,6 +150,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsStatusRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -160,6 +170,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsAllActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -203,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkUpdateTagsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -218,6 +230,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsEvaluationReasonsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -233,6 +246,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsMatchingIdsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -245,6 +259,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsMyFlagsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -260,6 +275,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#FeatureFlagsUserBlastRadiusCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -275,6 +291,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.feature_flags#Forbidden",
+      "before": "com.posthog.feature_flags#NotFound",
       "value": {
         "type": "structure",
         "members": {},

@@ -426,14 +426,6 @@
       "output": {
         "target": "com.posthog.signals#PaginatedPauseStateResponseList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/signals/processing/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Return current processing state including pause status."
-      },
       "errors": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -444,7 +436,15 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/signals/processing/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Return current processing state including pause status."
+      }
     },
     "com.posthog.signals#UpdateSignalsProcessingPauseRequest": {
       "type": "structure",
@@ -494,14 +494,6 @@
       "output": {
         "target": "com.posthog.signals#PauseResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/signals/processing/pause/",
-          "code": 200
-        },
-        "smithy.api#documentation": "View and control signal processing pipeline state for a team."
-      },
       "errors": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -512,7 +504,15 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/signals/processing/pause/",
+          "code": 200
+        },
+        "smithy.api#documentation": "View and control signal processing pipeline state for a team."
+      }
     },
     "com.posthog.signals#PauseSignalsProcessingDestroyRequest": {
       "type": "structure",
@@ -538,14 +538,6 @@
       "output": {
         "target": "com.posthog.signals#PauseResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/signals/processing/pause/",
-          "code": 200
-        },
-        "smithy.api#documentation": "View and control signal processing pipeline state for a team."
-      },
       "errors": [
         {
           "target": "com.posthog.signals#Forbidden"
@@ -553,7 +545,15 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/signals/processing/pause/",
+          "code": 200
+        },
+        "smithy.api#documentation": "View and control signal processing pipeline state for a team."
+      }
     },
     "com.posthog.signals#ListSignalsReportsRequestAssignee": {
       "type": "enum",
@@ -23490,13 +23490,6 @@
       "output": {
         "target": "com.posthog.signals#PaginatedSignalSourceConfigList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/signals/source_configs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -23507,7 +23500,14 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/signals/source_configs/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.signals#CreateSignalsSourceConfigRequestConfigMap": {
       "type": "map",
@@ -23560,13 +23560,6 @@
       "output": {
         "target": "com.posthog.signals#SignalSourceConfig"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/signals/source_configs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -23577,7 +23570,14 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/signals/source_configs/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.signals#GetSignalsSourceConfigRequest": {
       "type": "structure",
@@ -23611,13 +23611,6 @@
       "output": {
         "target": "com.posthog.signals#SignalSourceConfig"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.signals#Forbidden"
@@ -23625,7 +23618,14 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.signals#UpdateSignalsSourceConfigRequestConfigMap": {
       "type": "map",
@@ -23686,13 +23686,6 @@
       "output": {
         "target": "com.posthog.signals#SignalSourceConfig"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -23703,7 +23696,14 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.signals#UpdateSignalsSourceConfigsPartialRequestConfigMap": {
       "type": "map",
@@ -23764,13 +23764,6 @@
       "output": {
         "target": "com.posthog.signals#SignalSourceConfig"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -23781,7 +23774,14 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.signals#SignalsSourceConfigsDestroyRequest": {
       "type": "structure",
@@ -23815,13 +23815,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.signals#Forbidden"
@@ -23829,7 +23822,14 @@
         {
           "target": "com.posthog.signals#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/signals/source_configs/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.signals#BadRequest": {
       "type": "structure",
@@ -23840,6 +23840,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.signals#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
           }
         ]
       }
@@ -23866,19 +23879,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 409
-          }
-        ]
-      }
-    },
-    "com.posthog.signals#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
           }
         ]
       }

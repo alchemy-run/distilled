@@ -39,6 +39,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#UnprocessableEntity",
+      "before": "com.kubernetes.storagemigration#NotFound",
       "value": {
         "type": "structure",
         "members": {},

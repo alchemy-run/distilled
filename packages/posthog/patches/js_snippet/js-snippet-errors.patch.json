@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.js_snippet#JsSnippetResolveRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.js_snippet#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.js_snippet#JsSnippetVersionRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.js_snippet#Forbidden"
@@ -28,6 +30,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.js_snippet#JsSnippetVersionPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.js_snippet#BadRequest"
@@ -43,6 +46,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.js_snippet#Forbidden",
+      "before": "com.posthog.js_snippet#JsSnippet",
       "value": {
         "type": "structure",
         "members": {},
@@ -60,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.js_snippet#NotFound",
+      "before": "com.posthog.js_snippet#JsSnippet",
       "value": {
         "type": "structure",
         "members": {},
@@ -77,6 +82,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.js_snippet#BadRequest",
+      "before": "com.posthog.js_snippet#JsSnippet",
       "value": {
         "type": "structure",
         "members": {},

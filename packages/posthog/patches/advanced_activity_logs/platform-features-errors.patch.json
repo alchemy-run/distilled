@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.advanced_activity_logs#AdvancedActivityLogsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.advanced_activity_logs#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.advanced_activity_logs#AdvancedActivityLogsAvailableFiltersRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.advanced_activity_logs#Forbidden"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.advanced_activity_logs#AdvancedActivityLogsExportCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.advanced_activity_logs#BadRequest"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.advanced_activity_logs#BadRequest",
+      "before": "com.posthog.advanced_activity_logs#AdvancedActivityLogs",
       "value": {
         "type": "structure",
         "members": {},
@@ -63,6 +67,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.advanced_activity_logs#Forbidden",
+      "before": "com.posthog.advanced_activity_logs#AdvancedActivityLogs",
       "value": {
         "type": "structure",
         "members": {},
@@ -80,6 +85,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.advanced_activity_logs#NotFound",
+      "before": "com.posthog.advanced_activity_logs#AdvancedActivityLogs",
       "value": {
         "type": "structure",
         "members": {},

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#ReadApiregistrationV1APIService/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#ReplaceApiregistrationV1APIService/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#PatchApiregistrationV1APIService/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#DeleteApiregistrationV1APIService/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#ReadApiregistrationV1APIServiceStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#ReplaceApiregistrationV1APIServiceStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#PatchApiregistrationV1APIServiceStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apiregistration#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiregistration#NotFound",
+      "before": "com.kubernetes.apiregistration#Apiregistration",
       "value": {
         "type": "structure",
         "members": {},

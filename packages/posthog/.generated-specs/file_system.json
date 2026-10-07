@@ -306,13 +306,6 @@
       "output": {
         "target": "com.posthog.file_system#PaginatedFileSystemList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/file_system/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -323,7 +316,14 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/file_system/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.file_system#CreateFileSystemRequest": {
       "type": "structure",
@@ -376,13 +376,6 @@
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/file_system/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -393,7 +386,14 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/file_system/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.file_system#GetFileSystemRequest": {
       "type": "structure",
@@ -427,13 +427,6 @@
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/file_system/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#Forbidden"
@@ -441,7 +434,14 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/file_system/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.file_system#UpdateFileSystemRequest": {
       "type": "structure",
@@ -502,13 +502,6 @@
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/file_system/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -519,7 +512,14 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/file_system/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.file_system#UpdateFileSystemPartialRequest": {
       "type": "structure",
@@ -580,13 +580,6 @@
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/file_system/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -597,7 +590,14 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/file_system/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.file_system#FileSystemDestroyRequest": {
       "type": "structure",
@@ -638,13 +638,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/file_system/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#Forbidden"
@@ -652,7 +645,14 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/file_system/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.file_system#CreateFileSystemHomeFolderRequest": {
       "type": "structure",
@@ -759,13 +759,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/file_system/undo_delete/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -776,39 +769,13 @@
         {
           "target": "com.posthog.file_system#NotFound"
         }
-      ]
-    },
-    "com.posthog.file_system#FileSystem": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.file_system#ListFileSystem"
-        },
-        {
-          "target": "com.posthog.file_system#CreateFileSystem"
-        },
-        {
-          "target": "com.posthog.file_system#GetFileSystem"
-        },
-        {
-          "target": "com.posthog.file_system#UpdateFileSystem"
-        },
-        {
-          "target": "com.posthog.file_system#UpdateFileSystemPartial"
-        },
-        {
-          "target": "com.posthog.file_system#FileSystemDestroy"
-        },
-        {
-          "target": "com.posthog.file_system#CreateFileSystemHomeFolder"
-        },
-        {
-          "target": "com.posthog.file_system#FileSystemUndoDeleteCreate"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/file_system/undo_delete/",
+          "code": 200
+        }
       }
     },
     "com.posthog.file_system#BadRequest": {
@@ -848,6 +815,39 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.file_system#FileSystem": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.file_system#ListFileSystem"
+        },
+        {
+          "target": "com.posthog.file_system#CreateFileSystem"
+        },
+        {
+          "target": "com.posthog.file_system#GetFileSystem"
+        },
+        {
+          "target": "com.posthog.file_system#UpdateFileSystem"
+        },
+        {
+          "target": "com.posthog.file_system#UpdateFileSystemPartial"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemDestroy"
+        },
+        {
+          "target": "com.posthog.file_system#CreateFileSystemHomeFolder"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemUndoDeleteCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

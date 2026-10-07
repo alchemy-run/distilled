@@ -18,6 +18,7 @@
     {
       "op": "add",
       "path": "/shapes/com.forgejo.repository#RepoListBranchProtection/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.forgejo.repository#Forbidden"

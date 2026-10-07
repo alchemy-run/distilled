@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#ReadCoordinationV1NamespacedLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#ReplaceCoordinationV1NamespacedLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#PatchCoordinationV1NamespacedLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#DeleteCoordinationV1NamespacedLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#ReadCoordinationV1alpha2NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#ReplaceCoordinationV1alpha2NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#PatchCoordinationV1alpha2NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#DeleteCoordinationV1alpha2NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#ReadCoordinationV1beta1NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#ReplaceCoordinationV1beta1NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#PatchCoordinationV1beta1NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#DeleteCoordinationV1beta1NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#NotFound",
+      "before": "com.kubernetes.coordination#Coordination",
       "value": {
         "type": "structure",
         "members": {},

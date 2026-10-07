@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReadCertificatesV1CertificateSigningRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#DeleteCertificatesV1CertificateSigningRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReadCertificatesV1CertificateSigningRequestApproval/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestApproval/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestApproval/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReadCertificatesV1CertificateSigningRequestStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReadCertificatesV1beta1ClusterTrustBundle/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1beta1ClusterTrustBundle/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1beta1ClusterTrustBundle/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#DeleteCertificatesV1beta1ClusterTrustBundle/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReadCertificatesV1beta1NamespacedPodCertificateRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -139,6 +154,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1beta1NamespacedPodCertificateRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -148,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1beta1NamespacedPodCertificateRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -157,6 +174,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#DeleteCertificatesV1beta1NamespacedPodCertificateRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -166,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReadCertificatesV1beta1NamespacedPodCertificateRequestStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -175,6 +194,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1beta1NamespacedPodCertificateRequestStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -184,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1beta1NamespacedPodCertificateRequestStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -193,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#NotFound",
+      "before": "com.kubernetes.certificates#Certificates",
       "value": {
         "type": "structure",
         "members": {},

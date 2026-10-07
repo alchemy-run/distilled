@@ -890,13 +890,6 @@
       "output": {
         "target": "com.posthog.subscriptions#PaginatedSubscriptionListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/subscriptions/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -907,7 +900,14 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/subscriptions/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.subscriptions#CreateSubscriptionRequestDashboardExportInsightsList": {
       "type": "list",
@@ -1205,13 +1205,6 @@
       "output": {
         "target": "com.posthog.subscriptions#SubscriptionOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/subscriptions/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -1222,7 +1215,14 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/subscriptions/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.subscriptions#GetSubscriptionRequest": {
       "type": "structure",
@@ -1256,13 +1256,6 @@
       "output": {
         "target": "com.posthog.subscriptions#SubscriptionOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#Forbidden"
@@ -1270,7 +1263,14 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.subscriptions#UpdateSubscriptionRequestDashboardExportInsightsList": {
       "type": "list",
@@ -1576,13 +1576,6 @@
       "output": {
         "target": "com.posthog.subscriptions#SubscriptionOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -1593,7 +1586,14 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestDashboardExportInsightsList": {
       "type": "list",
@@ -1894,13 +1894,6 @@
       "output": {
         "target": "com.posthog.subscriptions#SubscriptionOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#BadRequest"
@@ -1911,7 +1904,14 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.subscriptions#SubscriptionsDestroyRequest": {
       "type": "structure",
@@ -1945,14 +1945,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#Forbidden"
@@ -1960,7 +1952,15 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/subscriptions/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      }
     },
     "com.posthog.subscriptions#CreateSubscriptionsTestDeliveryRequest": {
       "type": "structure",
@@ -1994,13 +1994,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/subscriptions/{id}/test-delivery/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.subscriptions#Forbidden"
@@ -2008,7 +2001,14 @@
         {
           "target": "com.posthog.subscriptions#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/subscriptions/{id}/test-delivery/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.subscriptions#ListSubscriptionsDeliveriesRequestStatus": {
       "type": "enum",
@@ -2510,45 +2510,6 @@
         }
       }
     },
-    "com.posthog.subscriptions#Subscriptions": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.subscriptions#ListSubscriptions"
-        },
-        {
-          "target": "com.posthog.subscriptions#CreateSubscription"
-        },
-        {
-          "target": "com.posthog.subscriptions#GetSubscription"
-        },
-        {
-          "target": "com.posthog.subscriptions#UpdateSubscription"
-        },
-        {
-          "target": "com.posthog.subscriptions#UpdateSubscriptionsPartial"
-        },
-        {
-          "target": "com.posthog.subscriptions#SubscriptionsDestroy"
-        },
-        {
-          "target": "com.posthog.subscriptions#CreateSubscriptionsTestDelivery"
-        },
-        {
-          "target": "com.posthog.subscriptions#ListSubscriptionsDeliveries"
-        },
-        {
-          "target": "com.posthog.subscriptions#GetSubscriptionsDelivery"
-        },
-        {
-          "target": "com.posthog.subscriptions#GetSubscriptionsSummaryQuota"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
-      }
-    },
     "com.posthog.subscriptions#BadRequest": {
       "type": "structure",
       "members": {},
@@ -2586,6 +2547,45 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.subscriptions#Subscriptions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.subscriptions#ListSubscriptions"
+        },
+        {
+          "target": "com.posthog.subscriptions#CreateSubscription"
+        },
+        {
+          "target": "com.posthog.subscriptions#GetSubscription"
+        },
+        {
+          "target": "com.posthog.subscriptions#UpdateSubscription"
+        },
+        {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionsPartial"
+        },
+        {
+          "target": "com.posthog.subscriptions#SubscriptionsDestroy"
+        },
+        {
+          "target": "com.posthog.subscriptions#CreateSubscriptionsTestDelivery"
+        },
+        {
+          "target": "com.posthog.subscriptions#ListSubscriptionsDeliveries"
+        },
+        {
+          "target": "com.posthog.subscriptions#GetSubscriptionsDelivery"
+        },
+        {
+          "target": "com.posthog.subscriptions#GetSubscriptionsSummaryQuota"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

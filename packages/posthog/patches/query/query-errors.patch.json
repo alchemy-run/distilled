@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -43,6 +46,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryLogRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -55,6 +59,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryCreateWithKind/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -67,6 +72,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryCheckAuthForAsyncCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -79,6 +85,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryDraftSqlRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -91,6 +98,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#QueryUpgradeCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.query#BadRequest"
@@ -106,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#BadRequest",
+      "before": "com.posthog.query#NotFound",
       "value": {
         "type": "structure",
         "members": {},
@@ -123,6 +132,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.query#Forbidden",
+      "before": "com.posthog.query#NotFound",
       "value": {
         "type": "structure",
         "members": {},

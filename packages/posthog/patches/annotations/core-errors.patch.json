@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#AnnotationsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#AnnotationsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#AnnotationsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.annotations#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#AnnotationsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#AnnotationsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#AnnotationsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.annotations#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#BadRequest",
+      "before": "com.posthog.annotations#Annotations",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#Forbidden",
+      "before": "com.posthog.annotations#Annotations",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.annotations#NotFound",
+      "before": "com.posthog.annotations#Annotations",
       "value": {
         "type": "structure",
         "members": {},

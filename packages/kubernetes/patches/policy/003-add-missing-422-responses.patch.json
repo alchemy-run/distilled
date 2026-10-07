@@ -39,6 +39,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#UnprocessableEntity",
+      "before": "com.kubernetes.policy#NotFound",
       "value": {
         "type": "structure",
         "members": {},

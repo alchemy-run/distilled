@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedControllerRevision/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedDaemonSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#Conflict"
@@ -78,6 +80,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedDeployment/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#Conflict"
@@ -136,6 +139,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedReplicaSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#Conflict"
@@ -194,6 +198,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedStatefulSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#Conflict"
@@ -252,6 +257,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#Conflict",
+      "before": "com.kubernetes.apps#NotFound",
       "value": {
         "type": "structure",
         "members": {},

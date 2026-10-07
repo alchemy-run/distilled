@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesMetricsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesMetricsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesMetricsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesMetricsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesMetricsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesMetricsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#BadRequest",
+      "before": "com.posthog.groups_types#GroupsTypes",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#Forbidden",
+      "before": "com.posthog.groups_types#BadRequest",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#NotFound",
+      "before": "com.posthog.groups_types#BadRequest",
       "value": {
         "type": "structure",
         "members": {},

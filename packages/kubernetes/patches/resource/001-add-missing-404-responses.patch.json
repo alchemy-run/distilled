@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -139,6 +154,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -148,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -157,6 +174,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -166,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -175,6 +194,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1alpha3DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -184,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1alpha3DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -193,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1alpha3DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -202,6 +224,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1alpha3DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -211,6 +234,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1alpha3DeviceTaintRuleStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -220,6 +244,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1alpha3DeviceTaintRuleStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -229,6 +254,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1alpha3DeviceTaintRuleStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -238,6 +264,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -247,6 +274,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -256,6 +284,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -265,6 +294,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -274,6 +304,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -283,6 +314,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -292,6 +324,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -301,6 +334,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -310,6 +344,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta1NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -319,6 +354,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta1NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -328,6 +364,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta1NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -337,6 +374,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -346,6 +384,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -355,6 +394,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -364,6 +404,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -373,6 +414,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -382,6 +424,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -391,6 +434,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -400,6 +444,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -409,6 +454,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -418,6 +464,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -427,6 +474,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -436,6 +484,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta2DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -445,6 +494,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -454,6 +504,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -463,6 +514,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -472,6 +524,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta2DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -481,6 +534,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2DeviceTaintRuleStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -490,6 +544,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2DeviceTaintRuleStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -499,6 +554,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2DeviceTaintRuleStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -508,6 +564,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -517,6 +574,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -526,6 +584,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -535,6 +594,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta2NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -544,6 +604,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -553,6 +614,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -562,6 +624,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2NamespacedResourceClaimStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -571,6 +634,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -580,6 +644,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -589,6 +654,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -598,6 +664,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta2NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -607,6 +674,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReadResourceV1beta2ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -616,6 +684,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#ReplaceResourceV1beta2ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -625,6 +694,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#PatchResourceV1beta2ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -634,6 +704,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#DeleteResourceV1beta2ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -643,6 +714,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#NotFound",
+      "before": "com.kubernetes.resource#Resource",
       "value": {
         "type": "structure",
         "members": {},

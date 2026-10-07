@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsDeletePropertyCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -64,6 +68,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsFindRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -79,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsPropertyValuesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#Forbidden"
@@ -91,6 +97,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsRelatedList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -106,6 +113,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#GroupsUpdatePropertyCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -121,6 +129,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#BadRequest",
+      "before": "com.posthog.groups#Groups",
       "value": {
         "type": "structure",
         "members": {},
@@ -138,6 +147,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#Forbidden",
+      "before": "com.posthog.groups#Groups",
       "value": {
         "type": "structure",
         "members": {},
@@ -155,6 +165,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups#NotFound",
+      "before": "com.posthog.groups#Groups",
       "value": {
         "type": "structure",
         "members": {},

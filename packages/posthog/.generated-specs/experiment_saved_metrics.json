@@ -343,13 +343,6 @@
       "output": {
         "target": "com.posthog.experiment_saved_metrics#PaginatedExperimentSavedMetricList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/experiment_saved_metrics/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -360,7 +353,14 @@
         {
           "target": "com.posthog.experiment_saved_metrics#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiment_saved_metrics/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.experiment_saved_metrics#CreateExperimentSavedMetricsRequestTagsList": {
       "type": "list",
@@ -415,13 +415,6 @@
       "output": {
         "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetric"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiment_saved_metrics/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -432,7 +425,14 @@
         {
           "target": "com.posthog.experiment_saved_metrics#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiment_saved_metrics/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.experiment_saved_metrics#GetExperimentSavedMetricsRequest": {
       "type": "structure",
@@ -466,13 +466,6 @@
       "output": {
         "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetric"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.experiment_saved_metrics#Forbidden"
@@ -480,7 +473,14 @@
         {
           "target": "com.posthog.experiment_saved_metrics#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.experiment_saved_metrics#UpdateExperimentSavedMetricsRequestTagsList": {
       "type": "list",
@@ -543,13 +543,6 @@
       "output": {
         "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetric"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -560,7 +553,14 @@
         {
           "target": "com.posthog.experiment_saved_metrics#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.experiment_saved_metrics#UpdateExperimentSavedMetricsPartialRequestTagsList": {
       "type": "list",
@@ -623,13 +623,6 @@
       "output": {
         "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetric"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -640,7 +633,14 @@
         {
           "target": "com.posthog.experiment_saved_metrics#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.experiment_saved_metrics#ExperimentSavedMetricsDestroyRequest": {
       "type": "structure",
@@ -674,13 +674,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.experiment_saved_metrics#Forbidden"
@@ -688,33 +681,13 @@
         {
           "target": "com.posthog.experiment_saved_metrics#NotFound"
         }
-      ]
-    },
-    "com.posthog.experiment_saved_metrics#ExperimentSavedMetrics": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.experiment_saved_metrics#ListExperimentSavedMetrics"
-        },
-        {
-          "target": "com.posthog.experiment_saved_metrics#CreateExperimentSavedMetrics"
-        },
-        {
-          "target": "com.posthog.experiment_saved_metrics#GetExperimentSavedMetrics"
-        },
-        {
-          "target": "com.posthog.experiment_saved_metrics#UpdateExperimentSavedMetrics"
-        },
-        {
-          "target": "com.posthog.experiment_saved_metrics#UpdateExperimentSavedMetricsPartial"
-        },
-        {
-          "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetricsDestroy"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/experiment_saved_metrics/{id}/",
+          "code": 200
+        }
       }
     },
     "com.posthog.experiment_saved_metrics#BadRequest": {
@@ -754,6 +727,33 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.experiment_saved_metrics#ExperimentSavedMetrics": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#ListExperimentSavedMetrics"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#CreateExperimentSavedMetrics"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#GetExperimentSavedMetrics"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#UpdateExperimentSavedMetrics"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#UpdateExperimentSavedMetricsPartial"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#ExperimentSavedMetricsDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

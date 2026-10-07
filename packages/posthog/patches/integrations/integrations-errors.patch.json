@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -58,6 +62,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsChannelsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -70,6 +75,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsClickupListsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -82,6 +88,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsClickupSpacesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -94,6 +101,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsClickupWorkspacesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -106,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsEmailPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -121,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsEmailVerifyCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -136,6 +146,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsGithubBranchesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -151,6 +162,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsGithubReposRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -166,6 +178,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsGithubReposRefreshCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -178,6 +191,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsGoogleAccessibleAccountsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -190,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsGoogleConversionActionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -202,6 +217,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsJiraProjectsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -214,6 +230,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsLinearTeamsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -226,6 +243,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsLinkedinAdsAccountsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -238,6 +256,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsLinkedinAdsConversionRulesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -250,6 +269,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsTwilioPhoneNumbersRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -262,6 +282,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsAuthorizeRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -274,6 +295,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsDomainConnectApplyUrlCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -289,6 +311,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#IntegrationsDomainConnectCheckRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -301,6 +324,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#BadRequest",
+      "before": "com.posthog.integrations#Integrations",
       "value": {
         "type": "structure",
         "members": {},
@@ -318,6 +342,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#Forbidden",
+      "before": "com.posthog.integrations#Integrations",
       "value": {
         "type": "structure",
         "members": {},
@@ -335,6 +360,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.integrations#NotFound",
+      "before": "com.posthog.integrations#Integrations",
       "value": {
         "type": "structure",
         "members": {},

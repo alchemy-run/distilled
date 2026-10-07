@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -64,6 +68,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -79,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -94,6 +100,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#ActionsReferencesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.actions#BadRequest"
@@ -124,6 +131,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#BadRequest",
+      "before": "com.posthog.actions#Actions",
       "value": {
         "type": "structure",
         "members": {},
@@ -141,6 +149,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#Forbidden",
+      "before": "com.posthog.actions#Actions",
       "value": {
         "type": "structure",
         "members": {},
@@ -158,6 +167,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.actions#NotFound",
+      "before": "com.posthog.actions#Actions",
       "value": {
         "type": "structure",
         "members": {},

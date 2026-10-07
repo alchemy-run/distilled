@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#Forbidden"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#Forbidden"
@@ -73,6 +78,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsBulkUpdateTagsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsSeenTogetherRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.property_definitions#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#BadRequest",
+      "before": "com.posthog.property_definitions#PropertyDefinitions",
       "value": {
         "type": "structure",
         "members": {},
@@ -117,6 +125,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#Forbidden",
+      "before": "com.posthog.property_definitions#PropertyDefinitions",
       "value": {
         "type": "structure",
         "members": {},
@@ -134,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.property_definitions#NotFound",
+      "before": "com.posthog.property_definitions#PropertyDefinitions",
       "value": {
         "type": "structure",
         "members": {},

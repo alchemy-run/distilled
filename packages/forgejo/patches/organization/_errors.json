@@ -39,6 +39,7 @@
     {
       "op": "add",
       "path": "/shapes/com.forgejo.organization#Conflict",
+      "before": "com.forgejo.organization#ForgejoOrganization",
       "value": {
         "type": "structure",
         "members": {},

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RoleExternalReferencesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RoleExternalReferencesDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RoleExternalReferencesLookupRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"

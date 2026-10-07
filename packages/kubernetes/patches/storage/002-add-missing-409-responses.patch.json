@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#CreateStorageV1CSIDriver/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storage#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#CreateStorageV1CSINode/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storage#Conflict"
@@ -64,6 +66,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#CreateStorageV1NamespacedCSIStorageCapacity/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storage#Conflict"
@@ -94,6 +97,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#CreateStorageV1StorageClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storage#Conflict"
@@ -124,6 +128,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#CreateStorageV1VolumeAttachment/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storage#Conflict"
@@ -168,6 +173,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#CreateStorageV1VolumeAttributesClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storage#Conflict"
@@ -198,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storage#Conflict",
+      "before": "com.kubernetes.storage#NotFound",
       "value": {
         "type": "structure",
         "members": {},

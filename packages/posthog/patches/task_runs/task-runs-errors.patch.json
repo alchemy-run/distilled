@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.task_runs#TasksRunsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.task_runs#BadRequest"
@@ -138,6 +139,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.task_runs#TasksRunsStreamRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.task_runs#Forbidden"

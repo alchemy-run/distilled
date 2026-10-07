@@ -241,13 +241,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_query_folders#ListWarehouseSavedQueryFoldersResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
@@ -255,7 +248,14 @@
         {
           "target": "com.posthog.warehouse_saved_query_folders#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.warehouse_saved_query_folders#CreateWarehouseSavedQueryFolderRequest": {
       "type": "structure",
@@ -287,13 +287,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_query_folders#DataWarehouseSavedQueryFolder"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_query_folders#BadRequest"
@@ -304,7 +297,14 @@
         {
           "target": "com.posthog.warehouse_saved_query_folders#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.warehouse_saved_query_folders#GetWarehouseSavedQueryFolderRequest": {
       "type": "structure",
@@ -338,13 +338,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_query_folders#DataWarehouseSavedQueryFolder"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
@@ -352,7 +345,14 @@
         {
           "target": "com.posthog.warehouse_saved_query_folders#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.warehouse_saved_query_folders#UpdateWarehouseSavedQueryFoldersPartialRequest": {
       "type": "structure",
@@ -392,13 +392,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_query_folders#DataWarehouseSavedQueryFolder"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_query_folders#BadRequest"
@@ -409,7 +402,14 @@
         {
           "target": "com.posthog.warehouse_saved_query_folders#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersDestroyRequest": {
       "type": "structure",
@@ -443,13 +443,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
@@ -457,30 +450,13 @@
         {
           "target": "com.posthog.warehouse_saved_query_folders#NotFound"
         }
-      ]
-    },
-    "com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFolders": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.warehouse_saved_query_folders#ListWarehouseSavedQueryFolders"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_query_folders#CreateWarehouseSavedQueryFolder"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_query_folders#GetWarehouseSavedQueryFolder"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_query_folders#UpdateWarehouseSavedQueryFoldersPartial"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersDestroy"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/warehouse_saved_query_folders/{id}/",
+          "code": 200
+        }
       }
     },
     "com.posthog.warehouse_saved_query_folders#Forbidden": {
@@ -520,6 +496,30 @@
             "status": 400
           }
         ]
+      }
+    },
+    "com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFolders": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#ListWarehouseSavedQueryFolders"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#CreateWarehouseSavedQueryFolder"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#GetWarehouseSavedQueryFolder"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#UpdateWarehouseSavedQueryFoldersPartial"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

@@ -228,6 +228,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#UnprocessableEntity",
+      "before": "com.kubernetes.admissionregistration#NotFound",
       "value": {
         "type": "structure",
         "members": {},

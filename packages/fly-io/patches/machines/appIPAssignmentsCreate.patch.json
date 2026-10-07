@@ -11,6 +11,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppIPAssignmentsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Conflict"

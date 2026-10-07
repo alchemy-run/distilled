@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#Forbidden"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#Forbidden"
@@ -87,6 +92,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasDeleteDataDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#Forbidden"
@@ -99,6 +105,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -142,6 +149,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#Forbidden",
+      "before": "com.posthog.external_data_schemas#ExternalDataSchemas",
       "value": {
         "type": "structure",
         "members": {},
@@ -159,6 +167,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.external_data_schemas#NotFound",
+      "before": "com.posthog.external_data_schemas#ExternalDataSchemas",
       "value": {
         "type": "structure",
         "members": {},

@@ -9,6 +9,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DashboardResource/members/version/traits/smithy.api#documentation",
+      "before": "smithy.api#required",
       "value": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
     },
     {
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DashboardResourceVersion",
+      "before": "com.axiom.api#ListDashboardsResponseBodyList",
       "value": {
         "type": "union",
         "members": {
@@ -52,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateDashboardRequestVersion",
+      "before": "com.axiom.api#CreateDashboardRequest",
       "value": {
         "type": "union",
         "members": {
@@ -70,6 +73,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateDashboardRequestVersion",
+      "before": "com.axiom.api#UpdateDashboardRequest",
       "value": {
         "type": "union",
         "members": {

@@ -753,14 +753,6 @@
       "output": {
         "target": "com.posthog.feature_flags#PaginatedFeatureFlagListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -771,7 +763,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#FeatureFlagFiltersSchema": {
       "type": "structure",
@@ -1689,14 +1689,6 @@
       "output": {
         "target": "com.posthog.feature_flags#FeatureFlagOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/feature_flags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -1707,7 +1699,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_flags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#GetFeatureFlagRequest": {
       "type": "structure",
@@ -1741,14 +1741,6 @@
       "output": {
         "target": "com.posthog.feature_flags#FeatureFlagOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -1756,7 +1748,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#UpdateFeatureFlagRequestFiltersMap": {
       "type": "map",
@@ -1976,14 +1976,6 @@
       "output": {
         "target": "com.posthog.feature_flags#FeatureFlagOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -1994,7 +1986,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#UpdateFeatureFlagsPartialRequestTagsList": {
       "type": "list",
@@ -2116,14 +2116,6 @@
       "output": {
         "target": "com.posthog.feature_flags#FeatureFlagOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -2134,7 +2126,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#FeatureFlagsDestroyRequest": {
       "type": "structure",
@@ -2168,14 +2168,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -2183,7 +2175,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      }
     },
     "com.posthog.feature_flags#GetFeatureFlagsActivityRequest": {
       "type": "structure",
@@ -2641,14 +2641,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/create_static_cohort_for_flag/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -2659,7 +2651,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/create_static_cohort_for_flag/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#ListFeatureFlagsDependentFlagsRequest": {
       "type": "structure",
@@ -2739,14 +2739,6 @@
       "output": {
         "target": "com.posthog.feature_flags#ListFeatureFlagsDependentFlagsResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/dependent_flags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get other active flags that depend on this flag."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -2754,7 +2746,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/dependent_flags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get other active flags that depend on this flag."
+      }
     },
     "com.posthog.feature_flags#FeatureFlagsDisableCreateRequest": {
       "type": "structure",
@@ -2886,14 +2886,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/remote_config/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -2901,7 +2893,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/remote_config/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#CreateFeatureFlagsRollOutToEveryoneRequest": {
       "type": "structure",
@@ -3135,14 +3135,6 @@
       "output": {
         "target": "com.posthog.feature_flags#FeatureFlagStatusResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/{id}/status/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -3150,7 +3142,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/{id}/status/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#CreateFeatureFlagsTestEvaluationRequest": {
       "type": "structure",
@@ -3734,14 +3734,6 @@
       "output": {
         "target": "com.posthog.feature_flags#ActivityLogPaginatedResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -3752,7 +3744,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#BulkDeleteFilters": {
       "type": "structure",
@@ -4323,14 +4323,6 @@
       "output": {
         "target": "com.posthog.feature_flags#BulkUpdateTagsResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/feature_flags/bulk_update_tags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -4341,7 +4333,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_flags/bulk_update_tags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
+      }
     },
     "com.posthog.feature_flags#GetFeatureFlagsEvaluationReasonRequestFlagKeysList": {
       "type": "list",
@@ -4396,14 +4396,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/evaluation_reasons/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -4414,7 +4406,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/evaluation_reasons/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#GetFeatureFlagsMatchingIdsRequest": {
       "type": "structure",
@@ -4440,14 +4440,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/matching_ids/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get IDs of all feature flags matching the current filters.\nUses the same filtering logic as the list endpoint.\nReturns only IDs that the user has permission to edit."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#Forbidden"
@@ -4455,7 +4447,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/matching_ids/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get IDs of all feature flags matching the current filters.\nUses the same filtering logic as the list endpoint.\nReturns only IDs that the user has permission to edit."
+      }
     },
     "com.posthog.feature_flags#GetFeatureFlagsMyFlagRequestFlagKeysList": {
       "type": "list",
@@ -4637,14 +4637,6 @@
       "output": {
         "target": "com.posthog.feature_flags#GetFeatureFlagsMyFlagResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/feature_flags/my_flags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -4655,7 +4647,15 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flags/my_flags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
+      }
     },
     "com.posthog.feature_flags#CreateFeatureFlagsUserBlastRadiusRequestConditionMap": {
       "type": "map",
@@ -4724,14 +4724,6 @@
       "output": {
         "target": "com.posthog.feature_flags#UserBlastRadiusResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/feature_flags/user_blast_radius/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
-      },
       "errors": [
         {
           "target": "com.posthog.feature_flags#BadRequest"
@@ -4742,19 +4734,14 @@
         {
           "target": "com.posthog.feature_flags#NotFound"
         }
-      ]
-    },
-    "com.posthog.feature_flags#NotFound": {
-      "type": "structure",
-      "members": {},
+      ],
       "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_flags/user_blast_radius/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete feature flags. [See docs](https://posthog.com/docs/feature-flags) for more information on feature flags.\n\nIf you're looking to use feature flags on your application, you can either use our JavaScript Library or our dedicated endpoint to check if feature flags are enabled for a given user."
       }
     },
     "com.posthog.feature_flags#BadRequest": {
@@ -4766,6 +4753,32 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.feature_flags#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.feature_flags#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
           }
         ]
       }
@@ -4884,19 +4897,6 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
-      }
-    },
-    "com.posthog.feature_flags#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
       }
     }
   }

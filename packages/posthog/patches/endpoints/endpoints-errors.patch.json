@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsMaterializationPreviewCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -103,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsMaterializationStatusRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#Forbidden"
@@ -115,6 +123,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsOpenapiSpecRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -130,6 +139,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsRunRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#Forbidden"
@@ -142,6 +152,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsRunCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -157,6 +168,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsVersionsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -172,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#EndpointsLastExecutionTimesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -187,6 +200,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#BadRequest",
+      "before": "com.posthog.endpoints#Endpoints",
       "value": {
         "type": "structure",
         "members": {},
@@ -204,6 +218,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#Forbidden",
+      "before": "com.posthog.endpoints#Endpoints",
       "value": {
         "type": "structure",
         "members": {},
@@ -221,6 +236,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.endpoints#NotFound",
+      "before": "com.posthog.endpoints#Endpoints",
       "value": {
         "type": "structure",
         "members": {},

@@ -70574,13 +70574,6 @@
       "output": {
         "target": "com.posthog.query#CreateQueryResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/query/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.query#BadRequest"
@@ -70591,7 +70584,14 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/query/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.query#GetQueryRequest": {
       "type": "structure",
@@ -70633,14 +70633,6 @@
       "output": {
         "target": "com.posthog.query#QueryStatusResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/query/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "(Experimental)"
-      },
       "errors": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -70648,7 +70640,15 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/query/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "(Experimental)"
+      }
     },
     "com.posthog.query#QueryDestroyRequest": {
       "type": "structure",
@@ -70681,14 +70681,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/query/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "(Experimental)"
-      },
       "errors": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -70696,7 +70688,15 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/query/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "(Experimental)"
+      }
     },
     "com.posthog.query#GetQueryLogRequest": {
       "type": "structure",
@@ -70754,14 +70754,6 @@
       "output": {
         "target": "com.posthog.query#GetQueryLogResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/query/{id}/log/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get query log details from query_log_archive table for a specific query_id, the query must have been issued in last 24 hours."
-      },
       "errors": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -70769,7 +70761,15 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/query/{id}/log/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get query log details from query_log_archive table for a specific query_id, the query must have been issued in last 24 hours."
+      }
     },
     "com.posthog.query#CreateQueryWithKindRequest": {
       "type": "structure",
@@ -70802,13 +70802,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/query/{query_kind}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -70816,7 +70809,14 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/query/{query_kind}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.query#CreateQueryCheckAuthForAsyncRequest": {
       "type": "structure",
@@ -70867,13 +70867,6 @@
       "output": {
         "target": "com.posthog.query#CreateQueryCheckAuthForAsyncResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/query/check_auth_for_async/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -70881,7 +70874,14 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/query/check_auth_for_async/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.query#GetQueryDraftSqlRequest": {
       "type": "structure",
@@ -70932,13 +70932,6 @@
       "output": {
         "target": "com.posthog.query#GetQueryDraftSqlResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/query/draft_sql/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.query#Forbidden"
@@ -70946,7 +70939,14 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/query/draft_sql/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.query#GetQueryScanRequest": {
       "type": "structure",
@@ -71677,14 +71677,6 @@
       "output": {
         "target": "com.posthog.query#QueryUpgradeResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/query/upgrade/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Upgrades a query without executing it. Returns a query with all nodes migrated to the latest version."
-      },
       "errors": [
         {
           "target": "com.posthog.query#BadRequest"
@@ -71695,7 +71687,41 @@
         {
           "target": "com.posthog.query#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/query/upgrade/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upgrades a query without executing it. Returns a query with all nodes migrated to the latest version."
+      }
+    },
+    "com.posthog.query#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.query#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
     },
     "com.posthog.query#NotFound": {
       "type": "structure",
@@ -71744,32 +71770,6 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
-      }
-    },
-    "com.posthog.query#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.query#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
       }
     }
   }

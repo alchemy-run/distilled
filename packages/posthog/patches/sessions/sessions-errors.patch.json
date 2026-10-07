@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sessions#SessionsPropertyDefinitionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sessions#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sessions#SessionsValuesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sessions#Forbidden"
@@ -28,6 +30,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sessions#Forbidden",
+      "before": "com.posthog.sessions#Sessions",
       "value": {
         "type": "structure",
         "members": {},
@@ -45,6 +48,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sessions#NotFound",
+      "before": "com.posthog.sessions#Sessions",
       "value": {
         "type": "structure",
         "members": {},

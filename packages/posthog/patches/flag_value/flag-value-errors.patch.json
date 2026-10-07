@@ -11,6 +11,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.flag_value#Forbidden",
+      "before": "com.posthog.flag_value#NotFound",
       "value": {
         "type": "structure",
         "members": {},

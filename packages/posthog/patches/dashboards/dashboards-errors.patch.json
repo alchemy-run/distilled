@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.dashboards#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.dashboards#Forbidden"

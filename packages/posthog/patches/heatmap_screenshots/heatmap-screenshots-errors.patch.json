@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.heatmap_screenshots#HeatmapScreenshotsContentRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.heatmap_screenshots#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.heatmap_screenshots#Forbidden",
+      "before": "com.posthog.heatmap_screenshots#HeatmapScreenshots",
       "value": {
         "type": "structure",
         "members": {},
@@ -33,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.heatmap_screenshots#NotFound",
+      "before": "com.posthog.heatmap_screenshots#HeatmapScreenshots",
       "value": {
         "type": "structure",
         "members": {},

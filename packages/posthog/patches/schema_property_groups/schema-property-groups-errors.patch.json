@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroupsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroupsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroupsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.schema_property_groups#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroupsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroupsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#SchemaPropertyGroupsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.schema_property_groups#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#BadRequest",
+      "before": "com.posthog.schema_property_groups#SchemaPropertyGroups",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#Forbidden",
+      "before": "com.posthog.schema_property_groups#SchemaPropertyGroups",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.schema_property_groups#NotFound",
+      "before": "com.posthog.schema_property_groups#SchemaPropertyGroups",
       "value": {
         "type": "structure",
         "members": {},

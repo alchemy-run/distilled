@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.discord.api#GetChannel/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.discord.api#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.discord.api#GetGuild/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.discord.api#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.discord.api#NotFound",
+      "before": "com.discord.api#Discord",
       "value": {
         "type": "structure",
         "members": {},

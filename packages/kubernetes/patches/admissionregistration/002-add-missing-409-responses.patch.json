@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -64,6 +66,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1MutatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -94,6 +97,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1ValidatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -138,6 +142,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -168,6 +173,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1ValidatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -198,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -228,6 +235,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -258,6 +266,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -288,6 +297,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#Conflict"
@@ -318,6 +328,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#Conflict",
+      "before": "com.kubernetes.admissionregistration#NotFound",
       "value": {
         "type": "structure",
         "members": {},

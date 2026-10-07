@@ -9,6 +9,7 @@
     {
       "op": "add",
       "path": "/shapes/com.hetzner.servers#CreateServerRequestSshKeysItem",
+      "before": "com.hetzner.servers#CreateServerRequestSshKeysList",
       "value": {
         "type": "union",
         "members": {

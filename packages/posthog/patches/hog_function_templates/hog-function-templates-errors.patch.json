@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_function_templates#HogFunctionTemplatesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_function_templates#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_function_templates#HogFunctionTemplatesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_function_templates#Forbidden"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_function_templates#PublicHogFunctionTemplatesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_function_templates#BadRequest"
@@ -43,6 +46,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_function_templates#BadRequest",
+      "before": "com.posthog.hog_function_templates#HogFunctionTemplates",
       "value": {
         "type": "structure",
         "members": {},
@@ -60,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_function_templates#Forbidden",
+      "before": "com.posthog.hog_function_templates#HogFunctionTemplates",
       "value": {
         "type": "structure",
         "members": {},
@@ -77,6 +82,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_function_templates#NotFound",
+      "before": "com.posthog.hog_function_templates#HogFunctionTemplates",
       "value": {
         "type": "structure",
         "members": {},

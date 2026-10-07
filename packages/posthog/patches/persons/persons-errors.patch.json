@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -64,6 +68,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -79,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsDeletePropertyCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -94,6 +100,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsPropertiesTimelineRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -109,6 +116,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsSplitCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -124,6 +132,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsUpdatePropertyCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -139,6 +148,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsAllActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -154,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsBatchByDistinctIdsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -169,6 +180,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsBatchByUuidsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -184,6 +196,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsBulkDeleteCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -199,6 +212,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsCohortsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -214,6 +228,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsDeletionStatusList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -236,6 +251,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsResetPersonDistinctIdCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -251,6 +267,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#PersonsValuesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -266,6 +283,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.persons#Forbidden",
+      "before": "com.posthog.persons#NotFound",
       "value": {
         "type": "structure",
         "members": {},

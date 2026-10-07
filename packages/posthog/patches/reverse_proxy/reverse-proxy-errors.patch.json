@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.reverse_proxy#BadRequest"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -43,6 +46,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -55,6 +59,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsRetryCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.reverse_proxy#Forbidden"
@@ -67,6 +72,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#Forbidden",
+      "before": "com.posthog.reverse_proxy#ReverseProxy",
       "value": {
         "type": "structure",
         "members": {},
@@ -84,6 +90,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#NotFound",
+      "before": "com.posthog.reverse_proxy#ReverseProxy",
       "value": {
         "type": "structure",
         "members": {},
@@ -101,6 +108,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.reverse_proxy#BadRequest",
+      "before": "com.posthog.reverse_proxy#ReverseProxy",
       "value": {
         "type": "structure",
         "members": {},

@@ -18,6 +18,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCertificatesCheck/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -27,6 +28,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCreateDeployToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -43,6 +45,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -52,6 +55,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesCordon/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesCreateLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -70,6 +75,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesSetMemoryLimit/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -79,6 +85,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesReclaimMemory/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -88,6 +95,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesStart/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -97,6 +105,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesSuspend/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -106,6 +115,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesUncordon/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -115,6 +125,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#VolumesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -124,6 +135,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#VolumesExtend/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -133,6 +145,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#CreateVolumeSnapshot/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -142,6 +155,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#PlatformPlacementsPost/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"
@@ -151,6 +165,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#TokensRequestKms/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#BadRequest"

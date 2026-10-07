@@ -6596,6 +6596,11 @@
       "output": {
         "target": "com.digitalocean.api#CreateSshKeyResponse"
       },
+      "errors": [
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6603,12 +6608,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Create a New SSH Key\n\nTo add a new SSH public key to your DigitalOcean account, send a POST request to `/v2/account/keys`. Set the `name` attribute to the name you wish to use and the `public_key` attribute to the full public key you are adding."
-      },
-      "errors": [
-        {
-          "target": "com.digitalocean.api#UnprocessableEntity"
-        }
-      ]
+      }
     },
     "com.digitalocean.api#GetSshKeyRequest": {
       "type": "structure",
@@ -33514,6 +33514,13 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateDropletResponseDropletsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#Droplet"
+      },
+      "traits": {}
+    },
     "com.digitalocean.api#ActionLink": {
       "type": "structure",
       "members": {
@@ -33539,6 +33546,22 @@
       "traits": {
         "smithy.api#documentation": "The linked actions can be used to check the status of a Droplet's create event."
       }
+    },
+    "com.digitalocean.api#CreateDropletResponseLinksActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ActionLink"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateDropletResponseLinks": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.digitalocean.api#CreateDropletResponseLinksActionsList"
+        }
+      },
+      "traits": {}
     },
     "com.digitalocean.api#CreateDropletResponse": {
       "type": "structure",
@@ -36300,6 +36323,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope."
       }
     },
+    "com.digitalocean.api#FirewallTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
+      }
+    },
     "com.digitalocean.api#FirewallInboundRulesItemProtocol": {
       "type": "enum",
       "members": {
@@ -36380,6 +36412,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#FirewallInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#FirewallInboundRulesItemSources": {
@@ -36538,6 +36579,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#FirewallOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#FirewallOutboundRulesItemDestinations": {
@@ -38461,6 +38511,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope."
       }
     },
+    "com.digitalocean.api#CreateFirewallRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
+      }
+    },
     "com.digitalocean.api#CreateFirewallRequestInboundRulesItemProtocol": {
       "type": "enum",
       "members": {
@@ -38541,6 +38600,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#CreateFirewallRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#CreateFirewallRequestInboundRulesItemSources": {
@@ -38699,6 +38767,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinations": {
@@ -38915,6 +38992,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope."
       }
     },
+    "com.digitalocean.api#UpdateFirewallRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
+      }
+    },
     "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemProtocol": {
       "type": "enum",
       "members": {
@@ -38995,6 +39081,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSources": {
@@ -39153,6 +39248,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinations": {
@@ -39471,6 +39575,15 @@
         "smithy.api#documentation": "Remove Droplets from a Firewall\n\nTo remove a Droplet from a firewall, send a DELETE request to\n`/v2/firewalls/$FIREWALL_ID/droplets`. In the body of the request, there should\nbe a `droplet_ids` attribute containing a list of Droplet IDs.\n\nNo response body will be sent back, but the response code will indicate\nsuccess. Specifically, the response code will be a 204, which means that the\naction was successful with no returned body data."
       }
     },
+    "com.digitalocean.api#AddFirewallTagsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags to be assigned to the firewall."
+      }
+    },
     "com.digitalocean.api#AddFirewallTagsRequest": {
       "type": "structure",
       "members": {
@@ -39485,8 +39598,8 @@
         "tags": {
           "target": "com.digitalocean.api#AddFirewallTagsRequestTagsList",
           "traits": {
-            "smithy.api#required": {},
-            "smithy.api#documentation": "An array containing the names of the Tags to be assigned to the firewall."
+            "smithy.api#documentation": "An array containing the names of the Tags to be assigned to the firewall.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -39519,6 +39632,15 @@
         "smithy.api#documentation": "Add Tags to a Firewall\n\nTo assign a tag representing a group of Droplets to a firewall, send a POST\nrequest to `/v2/firewalls/$FIREWALL_ID/tags`. In the body of the request,\nthere should be a `tags` attribute containing a list of tag names.\n\nNo response body will be sent back, but the response code will indicate\nsuccess. Specifically, the response code will be a 204, which means that the\naction was successful with no returned body data."
       }
     },
+    "com.digitalocean.api#DeleteFirewallTagsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags to be removed from the firewall."
+      }
+    },
     "com.digitalocean.api#DeleteFirewallTagsRequest": {
       "type": "structure",
       "members": {
@@ -39533,8 +39655,8 @@
         "tags": {
           "target": "com.digitalocean.api#DeleteFirewallTagsRequestTagsList",
           "traits": {
-            "smithy.api#required": {},
-            "smithy.api#documentation": "An array containing the names of the Tags to be removed from the firewall."
+            "smithy.api#documentation": "An array containing the names of the Tags to be removed from the firewall.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -39647,6 +39769,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSources": {
@@ -39805,6 +39936,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinations": {
@@ -40018,6 +40158,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSources": {
       "type": "structure",
       "members": {
@@ -40174,6 +40323,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
+      }
+    },
+    "com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     },
     "com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinations": {
@@ -103058,164 +103216,6 @@
       ],
       "traits": {
         "smithy.api#title": "DigitalOcean API"
-      }
-    },
-    "com.digitalocean.api#CreateDropletResponseDropletsList": {
-      "type": "list",
-      "member": {
-        "target": "com.digitalocean.api#Droplet"
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#CreateDropletResponseLinksActionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.digitalocean.api#ActionLink"
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#CreateDropletResponseLinks": {
-      "type": "structure",
-      "members": {
-        "actions": {
-          "target": "com.digitalocean.api#CreateDropletResponseLinksActionsList"
-        }
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#FirewallTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
-      }
-    },
-    "com.digitalocean.api#FirewallInboundRulesItemSourcesTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#FirewallOutboundRulesItemDestinationsTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#CreateFirewallRequestTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
-      }
-    },
-    "com.digitalocean.api#CreateFirewallRequestInboundRulesItemSourcesTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinationsTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#UpdateFirewallRequestTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
-      }
-    },
-    "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSourcesTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinationsTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#AddFirewallTagsRequestTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of the Tags to be assigned to the firewall."
-      }
-    },
-    "com.digitalocean.api#DeleteFirewallTagsRequestTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of the Tags to be removed from the firewall."
-      }
-    },
-    "com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSourcesTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinationsTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSourcesTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
-      }
-    },
-    "com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinationsTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
       }
     }
   }

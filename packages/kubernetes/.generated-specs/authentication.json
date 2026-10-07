@@ -724,14 +724,6 @@
       "output": {
         "target": "com.kubernetes.authentication#IoK8sApiAuthenticationV1SelfSubjectReview"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/authentication.k8s.io/v1/selfsubjectreviews",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a SelfSubjectReview"
-      },
       "errors": [
         {
           "target": "com.kubernetes.authentication#Conflict"
@@ -739,7 +731,15 @@
         {
           "target": "com.kubernetes.authentication#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/authentication.k8s.io/v1/selfsubjectreviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a SelfSubjectReview"
+      }
     },
     "com.kubernetes.authentication#IoK8sApiAuthenticationV1TokenReviewSpec": {
       "type": "structure",
@@ -926,14 +926,6 @@
       "output": {
         "target": "com.kubernetes.authentication#IoK8sApiAuthenticationV1TokenReview"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/authentication.k8s.io/v1/tokenreviews",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a TokenReview"
-      },
       "errors": [
         {
           "target": "com.kubernetes.authentication#Conflict"
@@ -941,27 +933,14 @@
         {
           "target": "com.kubernetes.authentication#UnprocessableEntity"
         }
-      ]
-    },
-    "com.kubernetes.authentication#Authentication": {
-      "type": "service",
-      "version": "unversioned",
-      "operations": [
-        {
-          "target": "com.kubernetes.authentication#GetAuthenticationAPIGroup"
-        },
-        {
-          "target": "com.kubernetes.authentication#GetAuthenticationV1APIResources"
-        },
-        {
-          "target": "com.kubernetes.authentication#CreateAuthenticationV1SelfSubjectReview"
-        },
-        {
-          "target": "com.kubernetes.authentication#CreateAuthenticationV1TokenReview"
-        }
       ],
       "traits": {
-        "smithy.api#title": "Kubernetes"
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/authentication.k8s.io/v1/tokenreviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a TokenReview"
       }
     },
     "com.kubernetes.authentication#Conflict": {
@@ -988,6 +967,27 @@
             "status": 422
           }
         ]
+      }
+    },
+    "com.kubernetes.authentication#Authentication": {
+      "type": "service",
+      "version": "unversioned",
+      "operations": [
+        {
+          "target": "com.kubernetes.authentication#GetAuthenticationAPIGroup"
+        },
+        {
+          "target": "com.kubernetes.authentication#GetAuthenticationV1APIResources"
+        },
+        {
+          "target": "com.kubernetes.authentication#CreateAuthenticationV1SelfSubjectReview"
+        },
+        {
+          "target": "com.kubernetes.authentication#CreateAuthenticationV1TokenReview"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Kubernetes"
       }
     }
   }

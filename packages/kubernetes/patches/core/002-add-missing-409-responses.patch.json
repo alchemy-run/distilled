@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1Namespace/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedConfigMap/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -52,6 +55,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedEndpoints/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -82,6 +86,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedEvent/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -112,6 +117,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedLimitRange/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -142,6 +148,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPersistentVolumeClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -186,6 +193,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPod/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -216,6 +224,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPodBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -239,6 +248,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPodEviction/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -276,6 +286,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPodTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -306,6 +317,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedReplicationController/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -364,6 +376,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedResourceQuota/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -408,6 +421,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedSecret/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -438,6 +452,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedServiceAccount/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -468,6 +483,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedServiceAccountToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -477,6 +493,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedService/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -563,6 +580,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1Node/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -607,6 +625,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#CreateCoreV1PersistentVolume/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.core#Conflict"
@@ -651,6 +670,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#Conflict",
+      "before": "com.kubernetes.core#Core",
       "value": {
         "type": "structure",
         "members": {},

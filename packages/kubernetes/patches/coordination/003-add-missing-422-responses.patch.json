@@ -67,6 +67,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#UnprocessableEntity",
+      "before": "com.kubernetes.coordination#NotFound",
       "value": {
         "type": "structure",
         "members": {},

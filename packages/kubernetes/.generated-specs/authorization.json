@@ -990,14 +990,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1LocalSubjectAccessReview"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/authorization.k8s.io/v1/namespaces/{namespace}/localsubjectaccessreviews",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a LocalSubjectAccessReview"
-      },
       "errors": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -1005,7 +997,15 @@
         {
           "target": "com.kubernetes.authorization#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/authorization.k8s.io/v1/namespaces/{namespace}/localsubjectaccessreviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a LocalSubjectAccessReview"
+      }
     },
     "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectAccessReviewSpec": {
       "type": "structure",
@@ -1141,14 +1141,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectAccessReview"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/authorization.k8s.io/v1/selfsubjectaccessreviews",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a SelfSubjectAccessReview"
-      },
       "errors": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -1156,7 +1148,15 @@
         {
           "target": "com.kubernetes.authorization#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/authorization.k8s.io/v1/selfsubjectaccessreviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a SelfSubjectAccessReview"
+      }
     },
     "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec": {
       "type": "structure",
@@ -1443,14 +1443,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectRulesReview"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/authorization.k8s.io/v1/selfsubjectrulesreviews",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a SelfSubjectRulesReview"
-      },
       "errors": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -1458,7 +1450,15 @@
         {
           "target": "com.kubernetes.authorization#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/authorization.k8s.io/v1/selfsubjectrulesreviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a SelfSubjectRulesReview"
+      }
     },
     "com.kubernetes.authorization#CreateAuthorizationV1SubjectAccessReviewRequest": {
       "type": "structure",
@@ -1574,14 +1574,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SubjectAccessReview"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/authorization.k8s.io/v1/subjectaccessreviews",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a SubjectAccessReview"
-      },
       "errors": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -1589,33 +1581,14 @@
         {
           "target": "com.kubernetes.authorization#UnprocessableEntity"
         }
-      ]
-    },
-    "com.kubernetes.authorization#Authorization": {
-      "type": "service",
-      "version": "unversioned",
-      "operations": [
-        {
-          "target": "com.kubernetes.authorization#GetAuthorizationAPIGroup"
-        },
-        {
-          "target": "com.kubernetes.authorization#GetAuthorizationV1APIResources"
-        },
-        {
-          "target": "com.kubernetes.authorization#CreateAuthorizationV1NamespacedLocalSubjectAccessReview"
-        },
-        {
-          "target": "com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectAccessReview"
-        },
-        {
-          "target": "com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectRulesReview"
-        },
-        {
-          "target": "com.kubernetes.authorization#CreateAuthorizationV1SubjectAccessReview"
-        }
       ],
       "traits": {
-        "smithy.api#title": "Kubernetes"
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/authorization.k8s.io/v1/subjectaccessreviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a SubjectAccessReview"
       }
     },
     "com.kubernetes.authorization#Conflict": {
@@ -1642,6 +1615,33 @@
             "status": 422
           }
         ]
+      }
+    },
+    "com.kubernetes.authorization#Authorization": {
+      "type": "service",
+      "version": "unversioned",
+      "operations": [
+        {
+          "target": "com.kubernetes.authorization#GetAuthorizationAPIGroup"
+        },
+        {
+          "target": "com.kubernetes.authorization#GetAuthorizationV1APIResources"
+        },
+        {
+          "target": "com.kubernetes.authorization#CreateAuthorizationV1NamespacedLocalSubjectAccessReview"
+        },
+        {
+          "target": "com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectAccessReview"
+        },
+        {
+          "target": "com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectRulesReview"
+        },
+        {
+          "target": "com.kubernetes.authorization#CreateAuthorizationV1SubjectAccessReview"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Kubernetes"
       }
     }
   }

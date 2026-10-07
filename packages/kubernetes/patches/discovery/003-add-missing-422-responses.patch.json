@@ -25,6 +25,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#UnprocessableEntity",
+      "before": "com.kubernetes.discovery#NotFound",
       "value": {
         "type": "structure",
         "members": {},

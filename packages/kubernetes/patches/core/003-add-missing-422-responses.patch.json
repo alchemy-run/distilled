@@ -508,6 +508,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.core#UnprocessableEntity",
+      "before": "com.kubernetes.core#Core",
       "value": {
         "type": "structure",
         "members": {},

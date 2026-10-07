@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.early_access_feature#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeaturePartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.early_access_feature#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#BadRequest",
+      "before": "com.posthog.early_access_feature#EarlyAccessFeature",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#Forbidden",
+      "before": "com.posthog.early_access_feature#EarlyAccessFeature",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.early_access_feature#NotFound",
+      "before": "com.posthog.early_access_feature#EarlyAccessFeature",
       "value": {
         "type": "structure",
         "members": {},

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#InsightVariablesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#InsightVariablesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#InsightVariablesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insight_variables#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#InsightVariablesUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#InsightVariablesPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#InsightVariablesDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insight_variables#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#BadRequest",
+      "before": "com.posthog.insight_variables#InsightVariables",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#Forbidden",
+      "before": "com.posthog.insight_variables#InsightVariables",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insight_variables#NotFound",
+      "before": "com.posthog.insight_variables#InsightVariables",
       "value": {
         "type": "structure",
         "members": {},

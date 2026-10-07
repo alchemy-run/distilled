@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsPreferredForEventRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.object_media_previews#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#BadRequest",
+      "before": "com.posthog.object_media_previews#ObjectMediaPreviews",
       "value": {
         "type": "structure",
         "members": {},
@@ -117,6 +125,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#Forbidden",
+      "before": "com.posthog.object_media_previews#ObjectMediaPreviews",
       "value": {
         "type": "structure",
         "members": {},
@@ -134,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.object_media_previews#NotFound",
+      "before": "com.posthog.object_media_previews#ObjectMediaPreviews",
       "value": {
         "type": "structure",
         "members": {},

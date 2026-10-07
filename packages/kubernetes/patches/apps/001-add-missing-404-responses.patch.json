@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedControllerRevision/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedControllerRevision/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedControllerRevision/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedControllerRevision/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedDaemonSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDaemonSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedDaemonSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedDaemonSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDaemonSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedDeployment/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDeployment/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeployment/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedDeployment/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -139,6 +154,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedDeploymentScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -148,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -157,6 +174,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -166,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedDeploymentStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -175,6 +194,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -184,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -193,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedReplicaSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -202,6 +224,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -211,6 +234,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -220,6 +244,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedReplicaSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -229,6 +254,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedReplicaSetScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -238,6 +264,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -247,6 +274,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -256,6 +284,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedReplicaSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -265,6 +294,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -274,6 +304,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -283,6 +314,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedStatefulSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -292,6 +324,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -301,6 +334,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -310,6 +344,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedStatefulSet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -319,6 +354,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedStatefulSetScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -328,6 +364,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -337,6 +374,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetScale/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -346,6 +384,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReadAppsV1NamespacedStatefulSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -355,6 +394,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -364,6 +404,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -373,6 +414,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#NotFound",
+      "before": "com.kubernetes.apps#Apps",
       "value": {
         "type": "structure",
         "members": {},

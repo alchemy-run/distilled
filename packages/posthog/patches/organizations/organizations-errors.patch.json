@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#IntegrationsEnvironmentMappingPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"

@@ -4762,13 +4762,6 @@
       "output": {
         "target": "com.posthog.users#PaginatedUserListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -4776,7 +4769,14 @@
         {
           "target": "com.posthog.users#Forbidden"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#GetUsersSignalAutonomyRequest": {
       "type": "structure",
@@ -4944,14 +4944,6 @@
       "output": {
         "target": "com.posthog.users#SignalUserAutonomyConfig"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{user_id}/signal_autonomy/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -4959,7 +4951,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{user_id}/signal_autonomy/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
+      }
     },
     "com.posthog.users#CreateUsersSignalAutonomyRequest": {
       "type": "structure",
@@ -5030,14 +5030,6 @@
       "output": {
         "target": "com.posthog.users#SignalUserAutonomyConfig"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/{user_id}/signal_autonomy/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -5048,7 +5040,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{user_id}/signal_autonomy/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
+      }
     },
     "com.posthog.users#SignalUserAutonomyDestroyRequest": {
       "type": "structure",
@@ -5073,14 +5073,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/users/{user_id}/signal_autonomy/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -5088,7 +5080,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/users/{user_id}/signal_autonomy/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Per-user signal autonomy config (singleton keyed by user).\n\nGET    /api/users/<id>/signal_autonomy/ → current config (or 404)\nPOST   /api/users/<id>/signal_autonomy/ → create or update\nDELETE /api/users/<id>/signal_autonomy/ → remove (opt out)"
+      }
     },
     "com.posthog.users#GetUserRequest": {
       "type": "structure",
@@ -5113,14 +5113,6 @@
       "output": {
         "target": "com.posthog.users#UserOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{uuid}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Retrieve a user's profile and settings. Pass `@me` as the UUID to fetch the authenticated user; non-staff callers may only access their own account."
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -5128,7 +5120,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a user's profile and settings. Pass `@me` as the UUID to fetch the authenticated user; non-staff callers may only access their own account."
+      }
     },
     "com.posthog.users#UpdateUserRequestNotificationSettingsMap": {
       "type": "map",
@@ -5309,14 +5309,6 @@
       "output": {
         "target": "com.posthog.users#UserOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/users/{uuid}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Replace the authenticated user's profile and settings. Pass `@me` as the UUID to update the authenticated user. Prefer the PATCH endpoint for partial updates — PUT requires every writable field to be provided."
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -5327,7 +5319,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/users/{uuid}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace the authenticated user's profile and settings. Pass `@me` as the UUID to update the authenticated user. Prefer the PATCH endpoint for partial updates — PUT requires every writable field to be provided."
+      }
     },
     "com.posthog.users#UpdateUsersPartialRequestNotificationSettingsMap": {
       "type": "map",
@@ -5508,14 +5508,6 @@
       "output": {
         "target": "com.posthog.users#UserOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/users/{uuid}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update one or more of the authenticated user's profile fields or settings."
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -5526,7 +5518,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/users/{uuid}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update one or more of the authenticated user's profile fields or settings."
+      }
     },
     "com.posthog.users#UsersDestroyRequest": {
       "type": "structure",
@@ -5551,13 +5551,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/users/{uuid}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -5565,7 +5558,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/users/{uuid}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#CreateUsersCredentialsReviewCompleteRequest": {
       "type": "structure",
@@ -5636,13 +5636,6 @@
       "output": {
         "target": "com.posthog.users#UserGithubLogin"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{uuid}/github_login/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -5650,7 +5643,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/github_login/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#GetUsersHedgehogConfigRequest": {
       "type": "structure",
@@ -5675,13 +5675,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{uuid}/hedgehog_config/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -5689,7 +5682,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/hedgehog_config/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#UpdateUsersHedgehogConfigPartialRequestNotificationSettingsMap": {
       "type": "map",
@@ -5870,13 +5870,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/users/{uuid}/hedgehog_config/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -5887,7 +5880,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/users/{uuid}/hedgehog_config/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#ListUsersIntegrationsRequestKind": {
       "type": "enum",
@@ -7863,13 +7863,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/{uuid}/scene_personalisation/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -7880,7 +7873,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{uuid}/scene_personalisation/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#GetUsersStart2faSetupRequest": {
       "type": "structure",
@@ -7905,13 +7905,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{uuid}/start_2fa_setup/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -7919,7 +7912,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/start_2fa_setup/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#CreateUsersTwoFactorBackupCodeRequestNotificationSettingsMap": {
       "type": "map",
@@ -8100,14 +8100,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/{uuid}/two_factor_backup_codes/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Generate new backup codes, invalidating any existing ones"
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -8118,7 +8110,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{uuid}/two_factor_backup_codes/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate new backup codes, invalidating any existing ones"
+      }
     },
     "com.posthog.users#UsersTwoFactorDisableCreateRequestNotificationSettingsMap": {
       "type": "map",
@@ -8299,14 +8299,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/{uuid}/two_factor_disable/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Disable 2FA and remove all related devices"
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -8317,7 +8309,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{uuid}/two_factor_disable/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Disable 2FA and remove all related devices"
+      }
     },
     "com.posthog.users#UsersTwoFactorStartSetupRetrieveRequest": {
       "type": "structure",
@@ -8342,13 +8342,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{uuid}/two_factor_start_setup/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -8356,7 +8349,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/two_factor_start_setup/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#GetUsersTwoFactorStatusRequest": {
       "type": "structure",
@@ -8430,14 +8430,6 @@
       "output": {
         "target": "com.posthog.users#TwoFactorStatus"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/users/{uuid}/two_factor_status/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get current 2FA status, including how many backup codes are left."
-      },
       "errors": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -8445,7 +8437,15 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{uuid}/two_factor_status/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get current 2FA status, including how many backup codes are left."
+      }
     },
     "com.posthog.users#UsersTwoFactorValidateCreateRequestNotificationSettingsMap": {
       "type": "map",
@@ -8626,13 +8626,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/{uuid}/two_factor_validate/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -8643,7 +8636,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{uuid}/two_factor_validate/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#CreateUsersValidate2faRequestNotificationSettingsMap": {
       "type": "map",
@@ -8824,13 +8824,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/{uuid}/validate_2fa/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -8841,7 +8834,14 @@
         {
           "target": "com.posthog.users#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/{uuid}/validate_2fa/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#UsersCancelEmailChangeRequestPartialUpdateRequestNotificationSettingsMap": {
       "type": "map",
@@ -9015,13 +9015,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/users/cancel_email_change_request/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -9029,7 +9022,14 @@
         {
           "target": "com.posthog.users#Forbidden"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/users/cancel_email_change_request/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#CreateUsersRequestEmailVerificationRequestNotificationSettingsMap": {
       "type": "map",
@@ -9203,13 +9203,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/request_email_verification/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -9217,7 +9210,14 @@
         {
           "target": "com.posthog.users#Forbidden"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/request_email_verification/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#UsersVerifyEmailCreateRequest": {
       "type": "structure",
@@ -9249,13 +9249,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/users/verify_email/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -9263,7 +9256,14 @@
         {
           "target": "com.posthog.users#Forbidden"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/users/verify_email/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.users#BadRequest": {
       "type": "structure",

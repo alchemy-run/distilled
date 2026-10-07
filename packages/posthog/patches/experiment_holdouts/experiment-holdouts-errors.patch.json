@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_holdouts#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_holdouts#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#BadRequest",
+      "before": "com.posthog.experiment_holdouts#ExperimentHoldouts",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#Forbidden",
+      "before": "com.posthog.experiment_holdouts#ExperimentHoldouts",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_holdouts#NotFound",
+      "before": "com.posthog.experiment_holdouts#ExperimentHoldouts",
       "value": {
         "type": "structure",
         "members": {},

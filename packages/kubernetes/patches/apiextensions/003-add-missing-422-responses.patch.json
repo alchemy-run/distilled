@@ -39,6 +39,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apiextensions#UnprocessableEntity",
+      "before": "com.kubernetes.apiextensions#NotFound",
       "value": {
         "type": "structure",
         "members": {},

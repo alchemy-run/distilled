@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#GetDatabaseConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#UpdateDatabaseConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#ListDatabaseInstances/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#GetDatabaseInstance/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -47,6 +51,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#GetGroupConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -56,6 +61,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#UpdateGroupConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -72,6 +78,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#RevokeAPIToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#NotFound"
@@ -81,6 +88,7 @@
     {
       "op": "add",
       "path": "/shapes/com.turso.api#InviteOrganizationMemberV2/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.turso.api#BadRequest"

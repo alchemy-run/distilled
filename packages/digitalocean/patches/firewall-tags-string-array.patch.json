@@ -126,6 +126,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#FirewallsAddTagsRequest/members/tags/traits/smithy.api#documentation",
+      "before": "smithy.api#required",
       "value": "An array containing the names of the Tags to be assigned to the firewall."
     },
     {
@@ -136,6 +137,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#FirewallsDeleteTagsRequest/members/tags/traits/smithy.api#documentation",
+      "before": "smithy.api#required",
       "value": "An array containing the names of the Tags to be removed from the firewall."
     },
     {
@@ -193,6 +195,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#FirewallTagsList",
+      "before": "com.digitalocean.api#FirewallInboundRulesItemProtocol",
       "value": {
         "type": "list",
         "member": {
@@ -206,6 +209,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#FirewallInboundRulesItemSourcesTagsList",
+      "before": "com.digitalocean.api#FirewallInboundRulesItemSources",
       "value": {
         "type": "list",
         "member": {
@@ -219,6 +223,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#FirewallOutboundRulesItemDestinationsTagsList",
+      "before": "com.digitalocean.api#FirewallOutboundRulesItemDestinations",
       "value": {
         "type": "list",
         "member": {
@@ -232,6 +237,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#CreateFirewallRequestTagsList",
+      "before": "com.digitalocean.api#FirewallsCreateRequestInboundRulesItemProtocol",
       "value": {
         "type": "list",
         "member": {
@@ -245,6 +251,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#CreateFirewallRequestInboundRulesItemSourcesTagsList",
+      "before": "com.digitalocean.api#FirewallsCreateRequestInboundRulesItemSources",
       "value": {
         "type": "list",
         "member": {
@@ -258,6 +265,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinationsTagsList",
+      "before": "com.digitalocean.api#FirewallsCreateRequestOutboundRulesItemDestinations",
       "value": {
         "type": "list",
         "member": {
@@ -271,6 +279,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#UpdateFirewallRequestTagsList",
+      "before": "com.digitalocean.api#FirewallsUpdateRequestInboundRulesItemProtocol",
       "value": {
         "type": "list",
         "member": {
@@ -284,6 +293,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSourcesTagsList",
+      "before": "com.digitalocean.api#FirewallsUpdateRequestInboundRulesItemSources",
       "value": {
         "type": "list",
         "member": {
@@ -297,6 +307,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinationsTagsList",
+      "before": "com.digitalocean.api#FirewallsUpdateRequestOutboundRulesItemDestinations",
       "value": {
         "type": "list",
         "member": {
@@ -310,6 +321,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#AddFirewallTagsRequestTagsList",
+      "before": "com.digitalocean.api#FirewallsAddTagsRequest",
       "value": {
         "type": "list",
         "member": {
@@ -323,6 +335,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#DeleteFirewallTagsRequestTagsList",
+      "before": "com.digitalocean.api#FirewallsDeleteTagsRequest",
       "value": {
         "type": "list",
         "member": {
@@ -336,6 +349,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSourcesTagsList",
+      "before": "com.digitalocean.api#FirewallsAddRulesRequestInboundRulesItemSources",
       "value": {
         "type": "list",
         "member": {
@@ -349,6 +363,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinationsTagsList",
+      "before": "com.digitalocean.api#FirewallsAddRulesRequestOutboundRulesItemDestinations",
       "value": {
         "type": "list",
         "member": {
@@ -362,6 +377,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSourcesTagsList",
+      "before": "com.digitalocean.api#FirewallsDeleteRulesRequestInboundRulesItemSources",
       "value": {
         "type": "list",
         "member": {
@@ -375,6 +391,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinationsTagsList",
+      "before": "com.digitalocean.api#FirewallsDeleteRulesRequestOutboundRulesItemDestinations",
       "value": {
         "type": "list",
         "member": {

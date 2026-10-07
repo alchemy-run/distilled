@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_saved_metrics#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_saved_metrics#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.experiment_saved_metrics#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#BadRequest",
+      "before": "com.posthog.experiment_saved_metrics#ExperimentSavedMetrics",
       "value": {
         "type": "structure",
         "members": {},
@@ -105,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#Forbidden",
+      "before": "com.posthog.experiment_saved_metrics#ExperimentSavedMetrics",
       "value": {
         "type": "structure",
         "members": {},
@@ -122,6 +130,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.experiment_saved_metrics#NotFound",
+      "before": "com.posthog.experiment_saved_metrics#ExperimentSavedMetrics",
       "value": {
         "type": "structure",
         "members": {},

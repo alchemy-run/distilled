@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#CreateNodeV1RuntimeClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.node#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#Conflict",
+      "before": "com.kubernetes.node#NotFound",
       "value": {
         "type": "structure",
         "members": {},

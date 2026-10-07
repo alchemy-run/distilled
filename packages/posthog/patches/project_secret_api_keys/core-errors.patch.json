@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysRollCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.project_secret_api_keys#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#BadRequest",
+      "before": "com.posthog.project_secret_api_keys#ProjectSecretApiKeys",
       "value": {
         "type": "structure",
         "members": {},
@@ -117,6 +125,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#Forbidden",
+      "before": "com.posthog.project_secret_api_keys#ProjectSecretApiKeys",
       "value": {
         "type": "structure",
         "members": {},
@@ -134,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.project_secret_api_keys#NotFound",
+      "before": "com.posthog.project_secret_api_keys#ProjectSecretApiKeys",
       "value": {
         "type": "structure",
         "members": {},

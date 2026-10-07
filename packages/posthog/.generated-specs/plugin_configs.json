@@ -191,13 +191,6 @@
       "output": {
         "target": "com.posthog.plugin_configs#PaginatedPluginLogEntryList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/plugin_configs/{plugin_config_id}/logs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.plugin_configs#BadRequest"
@@ -208,18 +201,13 @@
         {
           "target": "com.posthog.plugin_configs#NotFound"
         }
-      ]
-    },
-    "com.posthog.plugin_configs#PluginConfigs": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.plugin_configs#ListPluginConfigsLogs"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/plugin_configs/{plugin_config_id}/logs/",
+          "code": 200
+        }
       }
     },
     "com.posthog.plugin_configs#BadRequest": {
@@ -259,6 +247,18 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.plugin_configs#PluginConfigs": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.plugin_configs#ListPluginConfigsLogs"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

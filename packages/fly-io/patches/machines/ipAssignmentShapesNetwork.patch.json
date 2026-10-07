@@ -18,6 +18,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#NetworkNotFound",
+      "before": "com.flyio.machines#FlyMachineServiceAutostop",
       "value": {
         "type": "structure",
         "members": {

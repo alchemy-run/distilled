@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsProcessingList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsProcessingPauseUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsProcessingPauseDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -103,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#BadRequest"
@@ -118,6 +126,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.signals#Forbidden"

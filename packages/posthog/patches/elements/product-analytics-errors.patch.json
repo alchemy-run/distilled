@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsStatsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#ElementsValuesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -112,6 +120,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#BadRequest",
+      "before": "com.posthog.elements#Elements",
       "value": {
         "type": "structure",
         "members": {},
@@ -129,6 +138,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#Forbidden",
+      "before": "com.posthog.elements#Elements",
       "value": {
         "type": "structure",
         "members": {},
@@ -146,6 +156,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.elements#NotFound",
+      "before": "com.posthog.elements#Elements",
       "value": {
         "type": "structure",
         "members": {},

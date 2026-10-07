@@ -629,6 +629,11 @@
       "output": {
         "target": "com.turso.api#DatabaseConfigurationResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -636,12 +641,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve Database Configuration\n\nRetrieve an individual database configuration belonging to the organization or user."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#UpdateDatabaseConfigurationRequestAllowedIpsList": {
       "type": "list",
@@ -735,6 +735,11 @@
       "output": {
         "target": "com.turso.api#DatabaseConfigurationResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -742,12 +747,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Update Database Configuration\n\nUpdate a database configuration belonging to the organization or user."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#ListDatabaseInstancesRequest": {
       "type": "structure",
@@ -855,6 +855,11 @@
       "output": {
         "target": "com.turso.api#ListDatabaseInstancesResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -862,12 +867,7 @@
           "code": 200
         },
         "smithy.api#documentation": "List Database Instances\n\nReturns a list of instances of a database. Instances are the individual primary or replica databases in each region defined by the group."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#GetDatabaseInstanceRequest": {
       "type": "structure",
@@ -920,6 +920,11 @@
       "output": {
         "target": "com.turso.api#GetDatabaseInstanceResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -927,12 +932,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve Database Instance\n\nReturn the individual database instance by name."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#CreateDatabaseTokenRequestAuthorization": {
       "type": "enum",
@@ -1797,6 +1797,11 @@
       "output": {
         "target": "com.turso.api#GroupConfigurationResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1804,12 +1809,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve Group Configuration\n\nRetrieve an individual group configuration belonging to the organization or user."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#UpdateGroupConfigurationRequest": {
       "type": "structure",
@@ -1849,6 +1849,11 @@
       "output": {
         "target": "com.turso.api#GroupConfigurationResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -1856,12 +1861,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Update Group Configuration\n\nUpdate a group configuration belonging to the organization or user."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#TransferGroupRequest": {
       "type": "structure",
@@ -3974,6 +3974,11 @@
       "output": {
         "target": "com.turso.api#RevokeAPITokenResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3981,12 +3986,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Revoke API Token\n\nRevokes the provided API token belonging to a user."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#NotFound"
-        }
-      ]
+      }
     },
     "com.turso.api#ListOrganizationAPITokensRequest": {
       "type": "structure",
@@ -4693,6 +4693,11 @@
       "output": {
         "target": "com.turso.api#InviteOrganizationMemberV2Response"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4700,12 +4705,7 @@
           "code": 200
         },
         "smithy.api#documentation": "Invite Organization Member\n\nInvite a user to an organization. If the user isn't already registered with Turso, they will receive a signup link. If an existing pending invite exists for the same email, it will be replaced."
-      },
-      "errors": [
-        {
-          "target": "com.turso.api#BadRequest"
-        }
-      ]
+      }
     },
     "com.turso.api#DeleteOrganizationInviteByEmailV2Request": {
       "type": "structure",

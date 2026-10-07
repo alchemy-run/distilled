@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -64,6 +68,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -79,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#Forbidden"
@@ -91,6 +97,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#AlertsSimulateCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -106,6 +113,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#BadRequest",
+      "before": "com.posthog.alerts#Alerts",
       "value": {
         "type": "structure",
         "members": {},
@@ -123,6 +131,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#Forbidden",
+      "before": "com.posthog.alerts#Alerts",
       "value": {
         "type": "structure",
         "members": {},
@@ -140,6 +149,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.alerts#NotFound",
+      "before": "com.posthog.alerts#Alerts",
       "value": {
         "type": "structure",
         "members": {},

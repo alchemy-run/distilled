@@ -24,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranchFunction/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"
@@ -33,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#GetProjectBranchTrigger/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.neon.api#NotFound"

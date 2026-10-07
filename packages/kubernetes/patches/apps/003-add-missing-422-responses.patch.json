@@ -207,6 +207,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.apps#UnprocessableEntity",
+      "before": "com.kubernetes.apps#NotFound",
       "value": {
         "type": "structure",
         "members": {},

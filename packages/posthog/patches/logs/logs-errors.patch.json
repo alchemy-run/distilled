@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsDestinationsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -103,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsDestinationsDeleteCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -118,6 +126,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsEventsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -133,6 +142,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsResetCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -145,6 +155,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAlertsSimulateCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -160,6 +171,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsAttributesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -175,6 +187,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsCountCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -190,6 +203,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsExportCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -202,6 +216,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsHasLogsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -214,6 +229,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsQueryCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -229,6 +245,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsServicesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -244,6 +261,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsSparklineCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -259,6 +277,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#LogsValuesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -274,6 +293,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#Forbidden",
+      "before": "com.posthog.logs#UnprocessableEntity",
       "value": {
         "type": "structure",
         "members": {},
@@ -291,6 +311,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.logs#NotFound",
+      "before": "com.posthog.logs#UnprocessableEntity",
       "value": {
         "type": "structure",
         "members": {},

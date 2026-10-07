@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#CodeInvitesCheckAccessRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#Forbidden"

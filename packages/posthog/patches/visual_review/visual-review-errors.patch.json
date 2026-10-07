@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewReposList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewReposCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewReposRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewReposPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewReposQuarantineList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewReposQuarantineCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -105,6 +111,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -120,6 +127,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -135,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#Forbidden"
@@ -147,6 +156,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsAddSnapshotsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -162,6 +172,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsApproveCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -177,6 +188,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsCompleteCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#Forbidden"
@@ -189,6 +201,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsRecomputeCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#Forbidden"
@@ -201,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsSnapshotHistoryList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -216,6 +230,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsSnapshotsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -231,6 +246,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsTolerateCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -246,6 +262,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsToleratedHashesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -261,6 +278,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#VisualReviewRunsCountsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.visual_review#Forbidden"
@@ -273,6 +291,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#Forbidden",
+      "before": "com.posthog.visual_review#VisualReview",
       "value": {
         "type": "structure",
         "members": {},
@@ -290,6 +309,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.visual_review#NotFound",
+      "before": "com.posthog.visual_review#VisualReview",
       "value": {
         "type": "structure",
         "members": {},

@@ -74,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.autoscaling#UnprocessableEntity",
+      "before": "com.kubernetes.autoscaling#NotFound",
       "value": {
         "type": "structure",
         "members": {},

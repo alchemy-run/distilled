@@ -92,6 +92,7 @@
     {
       "op": "add",
       "path": "/shapes/com.surrealdb.api#UpdateKeyRequestBodyMap",
+      "before": "com.surrealdb.api#PostKeyTableRequest",
       "value": {
         "type": "map",
         "key": {
@@ -108,6 +109,7 @@
     {
       "op": "add",
       "path": "/shapes/com.surrealdb.api#PutKeyRequestBodyMap",
+      "before": "com.surrealdb.api#PutKeyTableRequest",
       "value": {
         "type": "map",
         "key": {
@@ -124,6 +126,7 @@
     {
       "op": "add",
       "path": "/shapes/com.surrealdb.api#UpdateKeyByTableRequestBodyMap",
+      "before": "com.surrealdb.api#PatchKeyTableRequest",
       "value": {
         "type": "map",
         "key": {
@@ -140,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.surrealdb.api#UpdateKeyByIdRequestBodyMap",
+      "before": "com.surrealdb.api#PostKeyTableIdRequest",
       "value": {
         "type": "map",
         "key": {
@@ -156,6 +160,7 @@
     {
       "op": "add",
       "path": "/shapes/com.surrealdb.api#PutKeyByIdRequestBodyMap",
+      "before": "com.surrealdb.api#PutKeyTableIdRequest",
       "value": {
         "type": "map",
         "key": {
@@ -172,6 +177,7 @@
     {
       "op": "add",
       "path": "/shapes/com.surrealdb.api#UpdateKeyByIdRequestBodyMap2",
+      "before": "com.surrealdb.api#PatchKeyTableIdRequest",
       "value": {
         "type": "map",
         "key": {

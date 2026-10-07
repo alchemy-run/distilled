@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#List/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#Create/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -28,6 +30,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#Retrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -40,6 +43,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#Update/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -55,6 +59,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#PartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -70,6 +75,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#Destroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -82,6 +88,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RolesRoleMembershipsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -97,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RolesRoleMembershipsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -112,6 +120,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RolesRoleMembershipsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -124,6 +133,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#RolesRoleMembershipsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.organizations#Forbidden"

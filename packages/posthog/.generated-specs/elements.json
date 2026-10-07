@@ -151,13 +151,6 @@
       "output": {
         "target": "com.posthog.elements#PaginatedElementList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/elements/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -168,7 +161,14 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/elements/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.elements#CreateElementRequestAttrClassList": {
       "type": "list",
@@ -252,13 +252,6 @@
       "output": {
         "target": "com.posthog.elements#Element"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/elements/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -269,7 +262,14 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/elements/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.elements#GetElementRequest": {
       "type": "structure",
@@ -303,13 +303,6 @@
       "output": {
         "target": "com.posthog.elements#Element"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/elements/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -317,7 +310,14 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/elements/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.elements#UpdateElementRequestAttrClassList": {
       "type": "list",
@@ -409,13 +409,6 @@
       "output": {
         "target": "com.posthog.elements#Element"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/elements/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -426,7 +419,14 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/elements/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.elements#UpdateElementsPartialRequestAttrClassList": {
       "type": "list",
@@ -518,13 +518,6 @@
       "output": {
         "target": "com.posthog.elements#Element"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/elements/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#BadRequest"
@@ -535,7 +528,14 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/elements/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.elements#ElementsDestroyRequest": {
       "type": "structure",
@@ -569,13 +569,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/elements/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -583,7 +576,14 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/elements/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.elements#GetElementsStatRequestIncludeList": {
       "type": "list",
@@ -761,14 +761,6 @@
       "output": {
         "target": "com.posthog.elements#ElementStatsResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/elements/stats/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Counts of $autocapture, $rageclick, and $dead_click events grouped by the element chain\nthey occurred on, ordered by count. Defaults to all three event types; narrow with the\ninclude parameter."
-      },
       "errors": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -776,7 +768,15 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/elements/stats/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Counts of $autocapture, $rageclick, and $dead_click events grouped by the element chain\nthey occurred on, ordered by count. Defaults to all three event types; narrow with the\ninclude parameter."
+      }
     },
     "com.posthog.elements#ListElementsValuesRequest": {
       "type": "structure",
@@ -852,13 +852,6 @@
       "output": {
         "target": "com.posthog.elements#ListElementsValuesResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/elements/values/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.elements#Forbidden"
@@ -866,39 +859,13 @@
         {
           "target": "com.posthog.elements#NotFound"
         }
-      ]
-    },
-    "com.posthog.elements#Elements": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.elements#ListElements"
-        },
-        {
-          "target": "com.posthog.elements#CreateElement"
-        },
-        {
-          "target": "com.posthog.elements#GetElement"
-        },
-        {
-          "target": "com.posthog.elements#UpdateElement"
-        },
-        {
-          "target": "com.posthog.elements#UpdateElementsPartial"
-        },
-        {
-          "target": "com.posthog.elements#ElementsDestroy"
-        },
-        {
-          "target": "com.posthog.elements#GetElementsStat"
-        },
-        {
-          "target": "com.posthog.elements#ListElementsValues"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/elements/values/",
+          "code": 200
+        }
       }
     },
     "com.posthog.elements#BadRequest": {
@@ -938,6 +905,39 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.elements#Elements": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.elements#ListElements"
+        },
+        {
+          "target": "com.posthog.elements#CreateElement"
+        },
+        {
+          "target": "com.posthog.elements#GetElement"
+        },
+        {
+          "target": "com.posthog.elements#UpdateElement"
+        },
+        {
+          "target": "com.posthog.elements#UpdateElementsPartial"
+        },
+        {
+          "target": "com.posthog.elements#ElementsDestroy"
+        },
+        {
+          "target": "com.posthog.elements#GetElementsStat"
+        },
+        {
+          "target": "com.posthog.elements#ListElementsValues"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

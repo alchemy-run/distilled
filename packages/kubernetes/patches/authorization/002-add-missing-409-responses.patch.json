@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1NamespacedLocalSubjectAccessReview/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectAccessReview/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectRulesReview/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1SubjectAccessReview/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.authorization#Conflict"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authorization#Conflict",
+      "before": "com.kubernetes.authorization#Authorization",
       "value": {
         "type": "structure",
         "members": {},

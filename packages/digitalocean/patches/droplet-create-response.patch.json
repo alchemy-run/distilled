@@ -93,6 +93,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#CreateDropletResponseDropletsList",
+      "before": "com.digitalocean.api#ActionLink",
       "value": {
         "type": "list",
         "member": {
@@ -104,6 +105,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#CreateDropletResponseLinksActionsList",
+      "before": "com.digitalocean.api#DropletsCreateResponse",
       "value": {
         "type": "list",
         "member": {
@@ -115,6 +117,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#CreateDropletResponseLinks",
+      "before": "com.digitalocean.api#DropletsCreateResponse",
       "value": {
         "type": "structure",
         "members": {

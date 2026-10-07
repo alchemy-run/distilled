@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#Forbidden"
@@ -175,6 +181,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#FileSystemUndoDeleteCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.file_system#BadRequest"
@@ -202,6 +209,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#BadRequest",
+      "before": "com.posthog.file_system#FileSystem",
       "value": {
         "type": "structure",
         "members": {},
@@ -219,6 +227,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#Forbidden",
+      "before": "com.posthog.file_system#FileSystem",
       "value": {
         "type": "structure",
         "members": {},
@@ -236,6 +245,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.file_system#NotFound",
+      "before": "com.posthog.file_system#FileSystem",
       "value": {
         "type": "structure",
         "members": {},

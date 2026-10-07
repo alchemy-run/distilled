@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -28,6 +30,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesCreateDetailDashboardUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -43,6 +46,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesSetDefaultColumnsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -58,6 +62,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.groups_types#GroupsTypesUpdateMetadataPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.groups_types#BadRequest"

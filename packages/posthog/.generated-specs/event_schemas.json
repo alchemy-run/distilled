@@ -376,13 +376,6 @@
       "output": {
         "target": "com.posthog.event_schemas#PaginatedEventSchemaListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_schemas/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -393,7 +386,14 @@
         {
           "target": "com.posthog.event_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_schemas/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.event_schemas#CreateEventSchemaRequest": {
       "type": "structure",
@@ -425,13 +425,6 @@
       "output": {
         "target": "com.posthog.event_schemas#EventSchemaOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/event_schemas/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -442,7 +435,14 @@
         {
           "target": "com.posthog.event_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/event_schemas/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.event_schemas#UpdateEventSchemaRequest": {
       "type": "structure",
@@ -482,13 +482,6 @@
       "output": {
         "target": "com.posthog.event_schemas#EventSchemaOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/event_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -499,7 +492,14 @@
         {
           "target": "com.posthog.event_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/event_schemas/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.event_schemas#UpdateEventSchemasPartialRequest": {
       "type": "structure",
@@ -539,13 +539,6 @@
       "output": {
         "target": "com.posthog.event_schemas#EventSchemaOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/event_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -556,7 +549,14 @@
         {
           "target": "com.posthog.event_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/event_schemas/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.event_schemas#EventSchemasDestroyRequest": {
       "type": "structure",
@@ -590,13 +590,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/event_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.event_schemas#Forbidden"
@@ -604,30 +597,13 @@
         {
           "target": "com.posthog.event_schemas#NotFound"
         }
-      ]
-    },
-    "com.posthog.event_schemas#EventSchemas": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.event_schemas#ListEventSchemas"
-        },
-        {
-          "target": "com.posthog.event_schemas#CreateEventSchema"
-        },
-        {
-          "target": "com.posthog.event_schemas#UpdateEventSchema"
-        },
-        {
-          "target": "com.posthog.event_schemas#UpdateEventSchemasPartial"
-        },
-        {
-          "target": "com.posthog.event_schemas#EventSchemasDestroy"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/event_schemas/{id}/",
+          "code": 200
+        }
       }
     },
     "com.posthog.event_schemas#BadRequest": {
@@ -667,6 +643,30 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.event_schemas#EventSchemas": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.event_schemas#ListEventSchemas"
+        },
+        {
+          "target": "com.posthog.event_schemas#CreateEventSchema"
+        },
+        {
+          "target": "com.posthog.event_schemas#UpdateEventSchema"
+        },
+        {
+          "target": "com.posthog.event_schemas#UpdateEventSchemasPartial"
+        },
+        {
+          "target": "com.posthog.event_schemas#EventSchemasDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

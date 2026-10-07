@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#SandboxList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sandbox_environments#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#SandboxCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sandbox_environments#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#SandboxRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sandbox_environments#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#SandboxPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sandbox_environments#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#SandboxDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.sandbox_environments#Forbidden"
@@ -73,6 +78,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#BadRequest",
+      "before": "com.posthog.sandbox_environments#SandboxEnvironments",
       "value": {
         "type": "structure",
         "members": {},
@@ -90,6 +96,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#Forbidden",
+      "before": "com.posthog.sandbox_environments#SandboxEnvironments",
       "value": {
         "type": "structure",
         "members": {},
@@ -107,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.sandbox_environments#NotFound",
+      "before": "com.posthog.sandbox_environments#SandboxEnvironments",
       "value": {
         "type": "structure",
         "members": {},

@@ -1,0 +1,17 @@
+{
+  "description": "Keeps the shape order the converter wrote while these fixes were OpenAPI spec patches: the spec patches changed which error class an operation used first, and so the order the converter created the shapes in.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.axiom.api#Forbidden",
+      "path": "/shapes/com.axiom.api#Forbidden",
+      "before": "com.axiom.api#Conflict"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.axiom.api#BadRequest",
+      "path": "/shapes/com.axiom.api#BadRequest",
+      "before": "com.axiom.api#UnprocessableEntity"
+    }
+  ]
+}

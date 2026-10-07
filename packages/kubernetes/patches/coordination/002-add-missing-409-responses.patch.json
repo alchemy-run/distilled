@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#CreateCoordinationV1NamespacedLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#CreateCoordinationV1alpha2NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#Conflict"
@@ -64,6 +66,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#CreateCoordinationV1beta1NamespacedLeaseCandidate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.coordination#Conflict"
@@ -94,6 +97,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.coordination#Conflict",
+      "before": "com.kubernetes.coordination#NotFound",
       "value": {
         "type": "structure",
         "members": {},

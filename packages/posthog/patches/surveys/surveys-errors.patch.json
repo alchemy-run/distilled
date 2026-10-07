@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysArchivedResponseUuidsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#Forbidden"
@@ -112,6 +120,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysDuplicateToProjectsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -127,6 +136,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysResponsesArchiveCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -142,6 +152,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysResponsesUnarchiveCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -157,6 +168,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysStatsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -172,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysSummarizeResponsesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -187,6 +200,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysSummaryHeadlineCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -202,6 +216,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysAllActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#Forbidden"
@@ -214,6 +229,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysResponsesCountRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#Forbidden"
@@ -226,6 +242,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#SurveysGlobalStatsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -241,6 +258,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#BadRequest",
+      "before": "com.posthog.surveys#Surveys",
       "value": {
         "type": "structure",
         "members": {},
@@ -258,6 +276,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#Forbidden",
+      "before": "com.posthog.surveys#Surveys",
       "value": {
         "type": "structure",
         "members": {},
@@ -275,6 +294,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.surveys#NotFound",
+      "before": "com.posthog.surveys#Surveys",
       "value": {
         "type": "structure",
         "members": {},

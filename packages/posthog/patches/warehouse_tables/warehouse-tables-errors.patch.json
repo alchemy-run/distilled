@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesRefreshSchemaCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -103,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesUpdateSchemaCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -118,6 +126,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#WarehouseTablesFileCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -133,6 +142,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#BadRequest",
+      "before": "com.posthog.warehouse_tables#WarehouseTables",
       "value": {
         "type": "structure",
         "members": {},
@@ -150,6 +160,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#Forbidden",
+      "before": "com.posthog.warehouse_tables#WarehouseTables",
       "value": {
         "type": "structure",
         "members": {},
@@ -167,6 +178,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.warehouse_tables#NotFound",
+      "before": "com.posthog.warehouse_tables#WarehouseTables",
       "value": {
         "type": "structure",
         "members": {},

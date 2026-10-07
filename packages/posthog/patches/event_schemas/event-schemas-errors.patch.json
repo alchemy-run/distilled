@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#EventSchemasList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#EventSchemasCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#EventSchemasUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#EventSchemasPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_schemas#BadRequest"
@@ -64,6 +68,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#EventSchemasDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_schemas#Forbidden"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#BadRequest",
+      "before": "com.posthog.event_schemas#EventSchemas",
       "value": {
         "type": "structure",
         "members": {},
@@ -93,6 +99,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#Forbidden",
+      "before": "com.posthog.event_schemas#EventSchemas",
       "value": {
         "type": "structure",
         "members": {},
@@ -110,6 +117,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_schemas#NotFound",
+      "before": "com.posthog.event_schemas#EventSchemas",
       "value": {
         "type": "structure",
         "members": {},

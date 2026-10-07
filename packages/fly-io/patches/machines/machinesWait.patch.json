@@ -11,6 +11,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#GatewayTimeout",
+      "before": "com.flyio.machines#FlyMachines",
       "value": {
         "type": "structure",
         "members": {},

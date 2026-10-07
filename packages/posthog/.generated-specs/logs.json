@@ -2813,13 +2813,6 @@
       "output": {
         "target": "com.posthog.logs#PaginatedLogsAlertConfigurationList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/logs/alerts/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -2830,7 +2823,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/logs/alerts/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#CreateLogsAlertRequest": {
       "type": "structure",
@@ -2924,13 +2924,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertConfiguration"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/alerts/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -2941,7 +2934,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/alerts/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#GetLogsAlertRequest": {
       "type": "structure",
@@ -3233,13 +3233,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertConfigurationDetail"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -3247,7 +3240,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#UpdateLogsAlertRequest": {
       "type": "structure",
@@ -3349,13 +3349,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertConfiguration"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -3366,7 +3359,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#UpdateLogsAlertsPartialRequest": {
       "type": "structure",
@@ -3468,13 +3468,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertConfiguration"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -3485,7 +3478,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#LogsAlertsDestroyRequest": {
       "type": "structure",
@@ -3519,13 +3519,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -3533,7 +3526,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#CreateLogsAlertsDestinationRequest": {
       "type": "structure",
@@ -3613,14 +3613,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertDestinationResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/destinations/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a notification destination for this alert. One HogFunction is created per alert event kind (firing, resolved, ...) atomically."
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -3631,7 +3623,15 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/destinations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a notification destination for this alert. One HogFunction is created per alert event kind (firing, resolved, ...) atomically."
+      }
     },
     "com.posthog.logs#LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList": {
       "type": "list",
@@ -3680,14 +3680,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/destinations/delete/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Delete a notification destination by deleting its HogFunction group atomically."
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -3698,7 +3690,15 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/destinations/delete/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a notification destination by deleting its HogFunction group atomically."
+      }
     },
     "com.posthog.logs#ListLogsAlertsEventsRequest": {
       "type": "structure",
@@ -3875,14 +3875,6 @@
       "output": {
         "target": "com.posthog.logs#PaginatedLogsAlertEventList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/events/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Paginated event history for this alert, newest first. Returns state transitions, errored checks, and user-initiated control-plane rows (reset, enable/disable, snooze/unsnooze, threshold change) — quiet no-op check rows (where state didn't change and there was no error) are filtered out since only the last 10 are kept and they carry no forensic value. Optional `?kind=...` narrows to a single kind."
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -3893,7 +3885,15 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/events/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Paginated event history for this alert, newest first. Returns state transitions, errored checks, and user-initiated control-plane rows (reset, enable/disable, snooze/unsnooze, threshold change) — quiet no-op check rows (where state didn't change and there was no error) are filtered out since only the last 10 are kept and they carry no forensic value. Optional `?kind=...` narrows to a single kind."
+      }
     },
     "com.posthog.logs#LogsAlertsResetCreateRequest": {
       "type": "structure",
@@ -3927,14 +3927,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertConfiguration"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/alerts/{id}/reset/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Reset a broken alert. Clears the consecutive-failure counter and schedules an immediate recheck."
-      },
       "errors": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -3942,7 +3934,15 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/alerts/{id}/reset/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reset a broken alert. Clears the consecutive-failure counter and schedules an immediate recheck."
+      }
     },
     "com.posthog.logs#CreateLogsAlertsSimulateRequest": {
       "type": "structure",
@@ -4115,14 +4115,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAlertSimulateResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/alerts/simulate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Simulate a logs alert on historical data using the full state machine. Read-only — no alert check records are created."
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -4133,7 +4125,15 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/alerts/simulate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Simulate a logs alert on historical data using the full state machine. Read-only — no alert check records are created."
+      }
     },
     "com.posthog.logs#ScanDateRange": {
       "type": "structure",
@@ -5414,13 +5414,6 @@
       "output": {
         "target": "com.posthog.logs#LogsAttributesResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/logs/attributes/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -5431,7 +5424,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/logs/attributes/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#LogsCountBody": {
       "type": "structure",
@@ -5582,13 +5582,6 @@
       "output": {
         "target": "com.posthog.logs#LogsCountResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/count/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -5599,7 +5592,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/count/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#LogsCountRangesBody": {
       "type": "structure",
@@ -5889,13 +5889,6 @@
       "output": {
         "target": "com.posthog.logs#LogsExportCreateResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/export/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -5903,7 +5896,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/export/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#LogsFacetValuesBody": {
       "type": "structure",
@@ -6474,13 +6474,6 @@
       "output": {
         "target": "com.posthog.logs#GetLogsHasLogResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/logs/has_logs/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#Forbidden"
@@ -6488,7 +6481,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/logs/has_logs/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#CreateLogsImpactRequest": {
       "type": "structure",
@@ -8286,13 +8286,6 @@
       "output": {
         "target": "com.posthog.logs#LogsQueryResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/query/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -8303,7 +8296,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/query/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#ListLogsRetentionRulesRequest": {
       "type": "structure",
@@ -9903,13 +9903,6 @@
       "output": {
         "target": "com.posthog.logs#LogsServicesResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/services/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -9920,7 +9913,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/services/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#LogsSparklineBody": {
       "type": "structure",
@@ -10133,13 +10133,6 @@
       "output": {
         "target": "com.posthog.logs#LogsSparklineResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/logs/sparkline/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -10150,7 +10143,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/logs/sparkline/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#GetLogsValueRequestAttributeType": {
       "type": "enum",
@@ -10302,13 +10302,6 @@
       "output": {
         "target": "com.posthog.logs#LogsValuesResponse"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/logs/values/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.logs#BadRequest"
@@ -10319,7 +10312,14 @@
         {
           "target": "com.posthog.logs#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/logs/values/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.logs#ListLogsViewsRequest": {
       "type": "structure",
@@ -10879,19 +10879,6 @@
         }
       }
     },
-    "com.posthog.logs#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
     "com.posthog.logs#BadRequest": {
       "type": "structure",
       "members": {},
@@ -10901,6 +10888,45 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.logs#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.logs#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.logs#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
           }
         ]
       }
@@ -11080,32 +11106,6 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
-      }
-    },
-    "com.posthog.logs#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.logs#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
       }
     }
   }

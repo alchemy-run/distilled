@@ -137,6 +137,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#UnprocessableEntity",
+      "before": "com.kubernetes.networking#NotFound",
       "value": {
         "type": "structure",
         "members": {},

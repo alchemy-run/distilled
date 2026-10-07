@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.supabase.api#V1GetAvailableRegions/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.supabase.api#Forbidden"

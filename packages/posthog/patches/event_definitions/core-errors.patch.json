@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -115,6 +121,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsByNameRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -130,6 +137,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsGolangRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -142,6 +150,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsPythonRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -154,6 +163,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#EventDefinitionsTypescriptRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -166,6 +176,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#BadRequest",
+      "before": "com.posthog.event_definitions#EventDefinitions",
       "value": {
         "type": "structure",
         "members": {},
@@ -183,6 +194,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#Forbidden",
+      "before": "com.posthog.event_definitions#EventDefinitions",
       "value": {
         "type": "structure",
         "members": {},
@@ -200,6 +212,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.event_definitions#NotFound",
+      "before": "com.posthog.event_definitions#EventDefinitions",
       "value": {
         "type": "structure",
         "members": {},

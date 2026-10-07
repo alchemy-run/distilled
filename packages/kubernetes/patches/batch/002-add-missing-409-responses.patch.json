@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#CreateBatchV1NamespacedCronJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#Conflict"
@@ -48,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#CreateBatchV1NamespacedJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#Conflict"
@@ -92,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#Conflict",
+      "before": "com.kubernetes.batch#NotFound",
       "value": {
         "type": "structure",
         "members": {},

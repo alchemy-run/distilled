@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.users#UsersSignalAutonomyRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.users#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.users#UsersSignalAutonomyCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.users#BadRequest"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.users#UsersSignalAutonomyDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.users#Forbidden"

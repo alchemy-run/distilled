@@ -117,13 +117,6 @@
       "output": {
         "target": "com.posthog.object_media_previews#PaginatedObjectMediaPreviewListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/object_media_previews/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -134,7 +127,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/object_media_previews/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.object_media_previews#CreateObjectMediaPreviewRequest": {
       "type": "structure",
@@ -181,13 +181,6 @@
       "output": {
         "target": "com.posthog.object_media_previews#ObjectMediaPreviewOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/object_media_previews/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -198,7 +191,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/object_media_previews/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.object_media_previews#GetObjectMediaPreviewRequest": {
       "type": "structure",
@@ -232,13 +232,6 @@
       "output": {
         "target": "com.posthog.object_media_previews#ObjectMediaPreviewOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#Forbidden"
@@ -246,7 +239,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.object_media_previews#UpdateObjectMediaPreviewRequest": {
       "type": "structure",
@@ -301,13 +301,6 @@
       "output": {
         "target": "com.posthog.object_media_previews#ObjectMediaPreviewOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -318,7 +311,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.object_media_previews#UpdateObjectMediaPreviewsPartialRequest": {
       "type": "structure",
@@ -373,13 +373,6 @@
       "output": {
         "target": "com.posthog.object_media_previews#ObjectMediaPreviewOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#BadRequest"
@@ -390,7 +383,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.object_media_previews#ObjectMediaPreviewsDestroyRequest": {
       "type": "structure",
@@ -424,13 +424,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#Forbidden"
@@ -438,7 +431,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/object_media_previews/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.object_media_previews#GetObjectMediaPreviewsPreferredForEventRequest": {
       "type": "structure",
@@ -464,14 +464,6 @@
       "output": {
         "target": "com.posthog.object_media_previews#ObjectMediaPreviewOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/object_media_previews/preferred_for_event/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get the preferred media preview for an event definition.\nMost recent user-uploaded, then most recent exported asset.\nRequires event_definition (query param)."
-      },
       "errors": [
         {
           "target": "com.posthog.object_media_previews#Forbidden"
@@ -479,36 +471,14 @@
         {
           "target": "com.posthog.object_media_previews#NotFound"
         }
-      ]
-    },
-    "com.posthog.object_media_previews#ObjectMediaPreviews": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.object_media_previews#ListObjectMediaPreviews"
-        },
-        {
-          "target": "com.posthog.object_media_previews#CreateObjectMediaPreview"
-        },
-        {
-          "target": "com.posthog.object_media_previews#GetObjectMediaPreview"
-        },
-        {
-          "target": "com.posthog.object_media_previews#UpdateObjectMediaPreview"
-        },
-        {
-          "target": "com.posthog.object_media_previews#UpdateObjectMediaPreviewsPartial"
-        },
-        {
-          "target": "com.posthog.object_media_previews#ObjectMediaPreviewsDestroy"
-        },
-        {
-          "target": "com.posthog.object_media_previews#GetObjectMediaPreviewsPreferredForEvent"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/object_media_previews/preferred_for_event/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the preferred media preview for an event definition.\nMost recent user-uploaded, then most recent exported asset.\nRequires event_definition (query param)."
       }
     },
     "com.posthog.object_media_previews#BadRequest": {
@@ -548,6 +518,36 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.object_media_previews#ObjectMediaPreviews": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.object_media_previews#ListObjectMediaPreviews"
+        },
+        {
+          "target": "com.posthog.object_media_previews#CreateObjectMediaPreview"
+        },
+        {
+          "target": "com.posthog.object_media_previews#GetObjectMediaPreview"
+        },
+        {
+          "target": "com.posthog.object_media_previews#UpdateObjectMediaPreview"
+        },
+        {
+          "target": "com.posthog.object_media_previews#UpdateObjectMediaPreviewsPartial"
+        },
+        {
+          "target": "com.posthog.object_media_previews#ObjectMediaPreviewsDestroy"
+        },
+        {
+          "target": "com.posthog.object_media_previews#GetObjectMediaPreviewsPreferredForEvent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

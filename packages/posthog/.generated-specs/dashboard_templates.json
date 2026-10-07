@@ -500,13 +500,6 @@
       "output": {
         "target": "com.posthog.dashboard_templates#PaginatedDashboardTemplateList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboard_templates/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#BadRequest"
@@ -517,7 +510,14 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboard_templates/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.dashboard_templates#CreateDashboardTemplateRequestTagsList": {
       "type": "list",
@@ -626,13 +626,6 @@
       "output": {
         "target": "com.posthog.dashboard_templates#DashboardTemplate"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboard_templates/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#BadRequest"
@@ -643,7 +636,14 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboard_templates/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.dashboard_templates#GetDashboardTemplateRequest": {
       "type": "structure",
@@ -677,13 +677,6 @@
       "output": {
         "target": "com.posthog.dashboard_templates#DashboardTemplate"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#Forbidden"
@@ -691,7 +684,14 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.dashboard_templates#UpdateDashboardTemplateRequestTagsList": {
       "type": "list",
@@ -808,13 +808,6 @@
       "output": {
         "target": "com.posthog.dashboard_templates#DashboardTemplate"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#BadRequest"
@@ -825,7 +818,14 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.dashboard_templates#UpdateDashboardTemplatesPartialRequestTagsList": {
       "type": "list",
@@ -942,13 +942,6 @@
       "output": {
         "target": "com.posthog.dashboard_templates#DashboardTemplate"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#BadRequest"
@@ -959,7 +952,14 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.dashboard_templates#DashboardTemplatesDestroyRequest": {
       "type": "structure",
@@ -993,14 +993,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#Forbidden"
@@ -1008,7 +1000,15 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/dashboard_templates/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      }
     },
     "com.posthog.dashboard_templates#DashboardTemplatesCopyBetweenProjectsCreateRequest": {
       "type": "structure",
@@ -1040,14 +1040,6 @@
       "output": {
         "target": "com.posthog.dashboard_templates#DashboardTemplate"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboard_templates/copy_between_projects/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Copy a team template to this project\n\nCreates a new team-scoped template in the **target** project (URL) from a **team-scoped** source template in the same organization. Global and feature-flag templates return 400. Cross-organization or inaccessible sources return 404. Source and destination projects must differ (400 if equal). Conflicting `template_name` values on the destination are auto-suffixed with `(copy)`, `(copy 2)`, …"
-      },
       "errors": [
         {
           "target": "com.posthog.dashboard_templates#BadRequest"
@@ -1058,36 +1050,14 @@
         {
           "target": "com.posthog.dashboard_templates#NotFound"
         }
-      ]
-    },
-    "com.posthog.dashboard_templates#DashboardTemplates": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.dashboard_templates#ListDashboardTemplates"
-        },
-        {
-          "target": "com.posthog.dashboard_templates#CreateDashboardTemplate"
-        },
-        {
-          "target": "com.posthog.dashboard_templates#GetDashboardTemplate"
-        },
-        {
-          "target": "com.posthog.dashboard_templates#UpdateDashboardTemplate"
-        },
-        {
-          "target": "com.posthog.dashboard_templates#UpdateDashboardTemplatesPartial"
-        },
-        {
-          "target": "com.posthog.dashboard_templates#DashboardTemplatesDestroy"
-        },
-        {
-          "target": "com.posthog.dashboard_templates#DashboardTemplatesCopyBetweenProjectsCreate"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboard_templates/copy_between_projects/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Copy a team template to this project\n\nCreates a new team-scoped template in the **target** project (URL) from a **team-scoped** source template in the same organization. Global and feature-flag templates return 400. Cross-organization or inaccessible sources return 404. Source and destination projects must differ (400 if equal). Conflicting `template_name` values on the destination are auto-suffixed with `(copy)`, `(copy 2)`, …"
       }
     },
     "com.posthog.dashboard_templates#BadRequest": {
@@ -1127,6 +1097,36 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.dashboard_templates#DashboardTemplates": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.dashboard_templates#ListDashboardTemplates"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#CreateDashboardTemplate"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#GetDashboardTemplate"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#UpdateDashboardTemplate"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#UpdateDashboardTemplatesPartial"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#DashboardTemplatesDestroy"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#DashboardTemplatesCopyBetweenProjectsCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }

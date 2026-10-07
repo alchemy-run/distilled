@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#ReadEventsV1NamespacedEvent/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.events#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#ReplaceEventsV1NamespacedEvent/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.events#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#PatchEventsV1NamespacedEvent/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.events#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#DeleteEventsV1NamespacedEvent/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.events#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#NotFound",
+      "before": "com.kubernetes.events#Events",
       "value": {
         "type": "structure",
         "members": {},

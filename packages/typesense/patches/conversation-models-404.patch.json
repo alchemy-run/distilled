@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.typesense.api#RetrieveConversationModel/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.typesense.api#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.typesense.api#UpdateConversationModel/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.typesense.api#BadRequest"
@@ -25,6 +27,7 @@
     {
       "op": "add",
       "path": "/shapes/com.typesense.api#DeleteConversationModel/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.typesense.api#NotFound"

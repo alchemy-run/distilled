@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -20,6 +21,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppsShow/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -29,6 +31,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppsDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -38,6 +41,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCertificatesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCertificatesShow/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -70,6 +75,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCertificatesDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -79,6 +85,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCertificatesAcmeDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -95,6 +102,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppCertificatesCustomDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -111,6 +119,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppIPAssignmentsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -127,6 +136,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AppIPAssignmentsDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -136,6 +146,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -152,6 +163,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesShow/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -168,6 +180,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -184,6 +197,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesListEvents/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -200,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesShowLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -216,6 +231,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesReleaseLease/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -225,6 +241,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesGetMemory/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -248,6 +265,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesShowMetadata/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -271,6 +289,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesDeleteMetadata/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -329,6 +348,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesListVersions/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -345,6 +365,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#SecretkeysList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -354,6 +375,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#SecretkeyGet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -370,6 +392,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#SecretkeyDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -414,6 +437,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#SecretsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -430,6 +454,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#SecretGet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -446,6 +471,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#SecretDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -455,6 +481,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#VolumesList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -471,6 +498,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#VolumesGetById/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -487,6 +515,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#VolumeDelete/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -503,6 +532,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#VolumesListSnapshots/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -519,6 +549,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#MachinesOrgList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -535,6 +566,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#PlatformRegionsGet/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -544,6 +576,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#CurrentTokenShow/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.flyio.machines#Forbidden"
@@ -567,6 +600,7 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#Forbidden",
+      "before": "com.flyio.machines#BadRequest",
       "value": {
         "type": "structure",
         "members": {},

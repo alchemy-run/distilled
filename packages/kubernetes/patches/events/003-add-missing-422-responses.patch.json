@@ -25,6 +25,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#UnprocessableEntity",
+      "before": "com.kubernetes.events#NotFound",
       "value": {
         "type": "structure",
         "members": {},

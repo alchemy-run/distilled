@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#ReadNodeV1RuntimeClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.node#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#ReplaceNodeV1RuntimeClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.node#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#PatchNodeV1RuntimeClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.node#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#DeleteNodeV1RuntimeClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.node#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.node#NotFound",
+      "before": "com.kubernetes.node#Node",
       "value": {
         "type": "structure",
         "members": {},

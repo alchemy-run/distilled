@@ -39,6 +39,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.internal_apiserver#UnprocessableEntity",
+      "before": "com.kubernetes.internal_apiserver#NotFound",
       "value": {
         "type": "structure",
         "members": {},

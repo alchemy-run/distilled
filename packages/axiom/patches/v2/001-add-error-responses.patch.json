@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateAnnotation/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetAnnotation/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -28,6 +30,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateAnnotation/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -43,6 +46,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteAnnotation/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -97,6 +101,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetFieldForDataset/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -106,6 +111,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateFieldForDataset/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -118,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetMapFields/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -127,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateMapField/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -139,6 +147,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateMapFields/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -148,6 +157,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteMapField/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -157,6 +167,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateMonitor/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -166,6 +177,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetMonitor/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -175,6 +187,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateMonitor/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -187,6 +200,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteMonitor/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -196,6 +210,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetMonitorHistory/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -208,6 +223,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateNotifier/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -217,6 +233,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetNotifier/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -226,6 +243,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateNotifier/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -238,6 +256,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteNotifier/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -247,6 +266,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetOrg/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -256,6 +276,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateOrg/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -265,6 +286,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -274,6 +296,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetRoleById/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -283,6 +306,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -295,6 +319,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -304,6 +329,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateGroup/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -313,6 +339,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetGroupById/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -322,6 +349,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateGroup/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -334,6 +362,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteGroup/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -343,6 +372,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateStarred/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -352,6 +382,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetStarred/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -361,6 +392,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateStarred/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -373,6 +405,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteStarred/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -382,6 +415,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateAPIToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -391,6 +425,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetAPIToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -400,6 +435,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteAPIToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -409,6 +445,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#RegenerateAPIToken/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -421,6 +458,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateUser/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -433,6 +471,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetUser/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -442,6 +481,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#RemoveUserFromOrg/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -451,6 +491,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateUserRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -463,6 +504,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateVirtualField/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -472,6 +514,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetVirtualField/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -481,6 +524,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateVirtualField/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -493,6 +537,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteVirtualField/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -502,6 +547,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#CreateView/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#UnprocessableEntity"
@@ -511,6 +557,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#GetView/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -520,6 +567,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UpdateView/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -532,6 +580,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#DeleteView/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.axiom.api#NotFound"
@@ -541,6 +590,7 @@
     {
       "op": "add",
       "path": "/shapes/com.axiom.api#UnprocessableEntity",
+      "before": "com.axiom.api#NotFound",
       "value": {
         "type": "structure",
         "members": {},

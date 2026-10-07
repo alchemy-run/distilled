@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.digitalocean.api#SshKeysCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.digitalocean.api#UnprocessableEntity"

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#CreateEventsV1NamespacedEvent/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.events#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.events#Conflict",
+      "before": "com.kubernetes.events#NotFound",
       "value": {
         "type": "structure",
         "members": {},

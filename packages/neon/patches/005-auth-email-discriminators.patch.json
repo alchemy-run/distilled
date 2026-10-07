@@ -37,6 +37,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#StandardEmailServerResponseType",
+      "before": "com.neon.api#SharedEmailServer",
       "value": {
         "type": "enum",
         "members": {
@@ -55,6 +56,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#SharedEmailServerType",
+      "before": "com.neon.api#GetNeonAuthEmailProviderResponse",
       "value": {
         "type": "enum",
         "members": {
@@ -73,6 +75,7 @@
     {
       "op": "add",
       "path": "/shapes/com.neon.api#StandardEmailServerType",
+      "before": "com.neon.api#UpdateNeonAuthEmailProviderRequest",
       "value": {
         "type": "enum",
         "members": {

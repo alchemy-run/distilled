@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1MutatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1ValidatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -139,6 +154,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -148,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1ValidatingAdmissionPolicyStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -157,6 +174,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -166,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -175,6 +194,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -184,6 +204,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -193,6 +214,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -202,6 +224,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -211,6 +234,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1ValidatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -220,6 +244,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -229,6 +254,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -238,6 +264,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingWebhookConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -247,6 +274,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -256,6 +284,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -265,6 +294,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -274,6 +304,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -283,6 +314,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -292,6 +324,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -301,6 +334,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -310,6 +344,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -319,6 +354,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -328,6 +364,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -337,6 +374,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -346,6 +384,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -355,6 +394,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReadAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -364,6 +404,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -373,6 +414,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -382,6 +424,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -391,6 +434,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.admissionregistration#NotFound",
+      "before": "com.kubernetes.admissionregistration#Admissionregistration",
       "value": {
         "type": "structure",
         "members": {},

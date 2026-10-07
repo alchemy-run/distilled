@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#CreateCertificatesV1CertificateSigningRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#Conflict"
@@ -62,6 +63,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#CreateCertificatesV1beta1ClusterTrustBundle/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#Conflict"
@@ -92,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#CreateCertificatesV1beta1NamespacedPodCertificateRequest/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.certificates#Conflict"
@@ -136,6 +139,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.certificates#Conflict",
+      "before": "com.kubernetes.certificates#NotFound",
       "value": {
         "type": "structure",
         "members": {},

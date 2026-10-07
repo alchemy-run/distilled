@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#CreateSchedulingV1PriorityClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.scheduling#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#Conflict",
+      "before": "com.kubernetes.scheduling#NotFound",
       "value": {
         "type": "structure",
         "members": {},

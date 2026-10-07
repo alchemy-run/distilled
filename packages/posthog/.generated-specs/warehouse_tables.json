@@ -8640,14 +8640,6 @@
       "output": {
         "target": "com.posthog.warehouse_tables#PaginatedTableListOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/warehouse_tables/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -8658,7 +8650,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/warehouse_tables/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#CredentialInput": {
       "type": "structure",
@@ -8749,14 +8749,6 @@
       "output": {
         "target": "com.posthog.warehouse_tables#TableOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_tables/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -8767,7 +8759,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_tables/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#GetWarehouseTableRequest": {
       "type": "structure",
@@ -8801,14 +8801,6 @@
       "output": {
         "target": "com.posthog.warehouse_tables#TableOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#Forbidden"
@@ -8816,7 +8808,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#UpdateWarehouseTableRequestOptionsMap": {
       "type": "map",
@@ -8896,14 +8896,6 @@
       "output": {
         "target": "com.posthog.warehouse_tables#TableOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -8914,7 +8906,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#UpdateWarehouseTablesPartialRequestOptionsMap": {
       "type": "map",
@@ -8994,14 +8994,6 @@
       "output": {
         "target": "com.posthog.warehouse_tables#TableOutput"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -9012,7 +9004,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#WarehouseTablesDestroyRequest": {
       "type": "structure",
@@ -9046,14 +9046,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#Forbidden"
@@ -9061,7 +9053,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#WarehouseTablesRefreshSchemaCreateRequest": {
       "type": "structure",
@@ -9095,14 +9095,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/refresh_schema/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Refresh table schema from source\n\nRe-introspect a self-managed (manually linked) warehouse table's schema from its underlying source files and overwrite its stored column list. Use when the source schema has evolved (e.g. new columns in the underlying Delta/Parquet/CSV files) but queries still can't see the new columns, because PostHog serves a cached column snapshot until the table is refreshed. Not for tables managed by an external data source sync — those refresh on their own schedule."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -9113,7 +9105,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/refresh_schema/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Refresh table schema from source\n\nRe-introspect a self-managed (manually linked) warehouse table's schema from its underlying source files and overwrite its stored column list. Use when the source schema has evolved (e.g. new columns in the underlying Delta/Parquet/CSV files) but queries still can't see the new columns, because PostHog serves a cached column snapshot until the table is refreshed. Not for tables managed by an external data source sync — those refresh on their own schedule."
+      }
     },
     "com.posthog.warehouse_tables#WarehouseTablesUpdateSchemaCreateRequestOptionsMap": {
       "type": "map",
@@ -9193,14 +9193,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/update_schema/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -9211,7 +9203,15 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_tables/{id}/update_schema/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      }
     },
     "com.posthog.warehouse_tables#CreateTableFromUploadFileFormatEnum": {
       "type": "enum",
@@ -9370,16 +9370,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_tables/file/",
-          "code": 200,
-          "contentType": "form-urlencoded"
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables.",
-        "com.distilled.openapi#contentType": "form-urlencoded"
-      },
       "errors": [
         {
           "target": "com.posthog.warehouse_tables#BadRequest"
@@ -9390,7 +9380,17 @@
         {
           "target": "com.posthog.warehouse_tables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_tables/file/",
+          "code": 200,
+          "contentType": "form-urlencoded"
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables.",
+        "com.distilled.openapi#contentType": "form-urlencoded"
+      }
     },
     "com.posthog.warehouse_tables#WarehouseTablesUploadFileCreateRequestFileFormat": {
       "type": "enum",
@@ -9501,6 +9501,45 @@
         "com.distilled.openapi#contentType": "multipart"
       }
     },
+    "com.posthog.warehouse_tables#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.warehouse_tables#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.warehouse_tables#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.posthog.warehouse_tables#WarehouseTables": {
       "type": "service",
       "version": "1.0.0",
@@ -9541,45 +9580,6 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
-      }
-    },
-    "com.posthog.warehouse_tables#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.warehouse_tables#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.warehouse_tables#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
       }
     }
   }

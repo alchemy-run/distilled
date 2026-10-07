@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.activity_logs#ActivityLogList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.activity_logs#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.activity_logs#BadRequest",
+      "before": "com.posthog.activity_logs#ActivityLogs",
       "value": {
         "type": "structure",
         "members": {},
@@ -36,6 +38,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.activity_logs#Forbidden",
+      "before": "com.posthog.activity_logs#ActivityLogs",
       "value": {
         "type": "structure",
         "members": {},
@@ -53,6 +56,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.activity_logs#NotFound",
+      "before": "com.posthog.activity_logs#ActivityLogs",
       "value": {
         "type": "structure",
         "members": {},

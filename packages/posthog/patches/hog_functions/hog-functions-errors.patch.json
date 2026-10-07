@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsEnableBackfillsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -103,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsInvocationsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -118,6 +126,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsLogsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -133,6 +142,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsMetricsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -148,6 +158,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -163,6 +174,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsIconRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -175,6 +187,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsIconsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -187,6 +200,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#HogFunctionsRearrangePartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -202,6 +216,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#Forbidden",
+      "before": "com.posthog.hog_functions#HogFunctions",
       "value": {
         "type": "structure",
         "members": {},
@@ -219,6 +234,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.hog_functions#NotFound",
+      "before": "com.posthog.hog_functions#HogFunctions",
       "value": {
         "type": "structure",
         "members": {},

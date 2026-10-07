@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -33,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#Forbidden"
@@ -45,6 +47,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -60,6 +63,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -75,6 +79,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#Forbidden"
@@ -101,6 +106,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksRepositoriesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#Forbidden"
@@ -113,6 +119,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.tasks#TasksRepositoryReadinessRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.tasks#BadRequest"

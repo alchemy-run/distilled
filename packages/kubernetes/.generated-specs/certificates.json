@@ -1036,14 +1036,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#Conflict"
@@ -1051,7 +1043,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#DeleteCertificatesV1CollectionCertificateSigningRequestRequestDryRunList": {
       "type": "list",
@@ -1396,6 +1396,11 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.certificates#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1403,12 +1408,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified CertificateSigningRequest"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.certificates#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestRequest": {
       "type": "structure",
@@ -1493,14 +1493,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -1511,7 +1503,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestRequest": {
       "type": "structure",
@@ -1572,14 +1572,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -1590,7 +1582,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#DeleteCertificatesV1CertificateSigningRequestRequestDryRunList": {
       "type": "list",
@@ -1685,14 +1685,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "delete a CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -1700,7 +1692,15 @@
         {
           "target": "com.kubernetes.certificates#Conflict"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "delete a CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#ReadCertificatesV1CertificateSigningRequestApprovalRequest": {
       "type": "structure",
@@ -1733,6 +1733,11 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.certificates#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1740,12 +1745,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read approval of the specified CertificateSigningRequest"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.certificates#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestApprovalRequest": {
       "type": "structure",
@@ -1830,14 +1830,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/approval",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace approval of the specified CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -1848,7 +1840,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/approval",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace approval of the specified CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestApprovalRequest": {
       "type": "structure",
@@ -1909,14 +1909,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/approval",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update approval of the specified CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -1927,7 +1919,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/approval",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update approval of the specified CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#ReadCertificatesV1CertificateSigningRequestStatusRequest": {
       "type": "structure",
@@ -1960,6 +1960,11 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.certificates#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1967,12 +1972,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified CertificateSigningRequest"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.certificates#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestStatusRequest": {
       "type": "structure",
@@ -2057,14 +2057,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -2075,7 +2067,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestStatusRequest": {
       "type": "structure",
@@ -2136,14 +2136,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1CertificateSigningRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified CertificateSigningRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -2154,7 +2146,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified CertificateSigningRequest"
+      }
     },
     "com.kubernetes.certificates#ListCertificatesV1ClusterTrustBundleRequest": {
       "type": "structure",
@@ -5312,14 +5312,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1ClusterTrustBundle"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a ClusterTrustBundle"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#Conflict"
@@ -5327,7 +5319,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a ClusterTrustBundle"
+      }
     },
     "com.kubernetes.certificates#DeleteCertificatesV1beta1CollectionClusterTrustBundleRequestDryRunList": {
       "type": "list",
@@ -5517,6 +5517,11 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1ClusterTrustBundle"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.certificates#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5524,12 +5529,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ClusterTrustBundle"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.certificates#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.certificates#ReplaceCertificatesV1beta1ClusterTrustBundleRequest": {
       "type": "structure",
@@ -5608,14 +5608,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1ClusterTrustBundle"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ClusterTrustBundle"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -5626,7 +5618,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ClusterTrustBundle"
+      }
     },
     "com.kubernetes.certificates#PatchCertificatesV1beta1ClusterTrustBundleRequest": {
       "type": "structure",
@@ -5687,14 +5687,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1ClusterTrustBundle"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ClusterTrustBundle"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -5705,7 +5697,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ClusterTrustBundle"
+      }
     },
     "com.kubernetes.certificates#DeleteCertificatesV1beta1ClusterTrustBundleRequestDryRunList": {
       "type": "list",
@@ -5800,14 +5800,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "delete a ClusterTrustBundle"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -5815,7 +5807,15 @@
         {
           "target": "com.kubernetes.certificates#Conflict"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/apis/certificates.k8s.io/v1beta1/clustertrustbundles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "delete a ClusterTrustBundle"
+      }
     },
     "com.kubernetes.certificates#ListCertificatesV1beta1NamespacedPodCertificateRequestRequest": {
       "type": "structure",
@@ -6245,14 +6245,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests",
-          "code": 200
-        },
-        "smithy.api#documentation": "create a PodCertificateRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#Conflict"
@@ -6260,7 +6252,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests",
+          "code": 200
+        },
+        "smithy.api#documentation": "create a PodCertificateRequest"
+      }
     },
     "com.kubernetes.certificates#DeleteCertificatesV1beta1CollectionNamespacedPodCertificateRequestRequestDryRunList": {
       "type": "list",
@@ -6466,6 +6466,11 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.certificates#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6473,12 +6478,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PodCertificateRequest"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.certificates#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.certificates#ReplaceCertificatesV1beta1NamespacedPodCertificateRequestRequest": {
       "type": "structure",
@@ -6571,14 +6571,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PodCertificateRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -6589,7 +6581,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PodCertificateRequest"
+      }
     },
     "com.kubernetes.certificates#PatchCertificatesV1beta1NamespacedPodCertificateRequestRequest": {
       "type": "structure",
@@ -6658,14 +6658,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PodCertificateRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -6676,7 +6668,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PodCertificateRequest"
+      }
     },
     "com.kubernetes.certificates#DeleteCertificatesV1beta1NamespacedPodCertificateRequestRequestDryRunList": {
       "type": "list",
@@ -6779,14 +6779,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "delete a PodCertificateRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -6794,7 +6786,15 @@
         {
           "target": "com.kubernetes.certificates#Conflict"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "delete a PodCertificateRequest"
+      }
     },
     "com.kubernetes.certificates#ReadCertificatesV1beta1NamespacedPodCertificateRequestStatusRequest": {
       "type": "structure",
@@ -6835,6 +6835,11 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
+      "errors": [
+        {
+          "target": "com.kubernetes.certificates#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6842,12 +6847,7 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified PodCertificateRequest"
-      },
-      "errors": [
-        {
-          "target": "com.kubernetes.certificates#NotFound"
-        }
-      ]
+      }
     },
     "com.kubernetes.certificates#ReplaceCertificatesV1beta1NamespacedPodCertificateRequestStatusRequest": {
       "type": "structure",
@@ -6940,14 +6940,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified PodCertificateRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -6958,7 +6950,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified PodCertificateRequest"
+      }
     },
     "com.kubernetes.certificates#PatchCertificatesV1beta1NamespacedPodCertificateRequestStatusRequest": {
       "type": "structure",
@@ -7027,14 +7027,6 @@
       "output": {
         "target": "com.kubernetes.certificates#IoK8sApiCertificatesV1beta1PodCertificateRequest"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified PodCertificateRequest"
-      },
       "errors": [
         {
           "target": "com.kubernetes.certificates#NotFound"
@@ -7045,7 +7037,15 @@
         {
           "target": "com.kubernetes.certificates#UnprocessableEntity"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/certificates.k8s.io/v1beta1/namespaces/{namespace}/podcertificaterequests/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified PodCertificateRequest"
+      }
     },
     "com.kubernetes.certificates#ListCertificatesV1beta1PodCertificateRequestForAllNamespacesRequest": {
       "type": "structure",
@@ -7733,6 +7733,45 @@
         "smithy.api#documentation": "watch individual changes to a list of PodCertificateRequest. deprecated: use the 'watch' parameter with a list operation instead."
       }
     },
+    "com.kubernetes.certificates#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.certificates#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.kubernetes.certificates#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.kubernetes.certificates#Certificates": {
       "type": "service",
       "version": "unversioned",
@@ -7932,45 +7971,6 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
-      }
-    },
-    "com.kubernetes.certificates#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
-    "com.kubernetes.certificates#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.certificates#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
       }
     }
   }

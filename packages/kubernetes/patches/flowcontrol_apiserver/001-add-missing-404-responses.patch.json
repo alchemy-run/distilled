@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReadFlowcontrolApiserverV1FlowSchema/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1FlowSchema/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1FlowSchema/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#DeleteFlowcontrolApiserverV1FlowSchema/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReadFlowcontrolApiserverV1FlowSchemaStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1FlowSchemaStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1FlowSchemaStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReadFlowcontrolApiserverV1PriorityLevelConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1PriorityLevelConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1PriorityLevelConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#DeleteFlowcontrolApiserverV1PriorityLevelConfiguration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReadFlowcontrolApiserverV1PriorityLevelConfigurationStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1PriorityLevelConfigurationStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1PriorityLevelConfigurationStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#NotFound",
+      "before": "com.kubernetes.flowcontrol_apiserver#FlowcontrolApiserver",
       "value": {
         "type": "structure",
         "members": {},

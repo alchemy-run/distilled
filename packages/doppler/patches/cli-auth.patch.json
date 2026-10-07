@@ -25,6 +25,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#GenerateCliAuthRequest",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "structure",
         "members": {
@@ -66,6 +67,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#GenerateCliAuthResponse",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "structure",
         "members": {
@@ -97,6 +99,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#GenerateCliAuth",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "operation",
         "input": {
@@ -118,6 +121,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#AuthorizeCliAuthRequest",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "structure",
         "members": {
@@ -137,6 +141,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#AuthorizeCliAuthResponse",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "structure",
         "members": {
@@ -168,6 +173,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#AuthorizeCliAuth",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "operation",
         "input": {
@@ -194,6 +200,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#RevokeCliAuthRequest",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "structure",
         "members": {
@@ -213,6 +220,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#RevokeCliAuthResponse",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "structure",
         "members": {
@@ -232,6 +240,7 @@
     {
       "op": "add",
       "path": "/shapes/com.doppler.api#RevokeCliAuth",
+      "before": "com.doppler.api#BadRequest",
       "value": {
         "type": "operation",
         "input": {

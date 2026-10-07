@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1IngressClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.networking#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1IPAddress/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.networking#Conflict"
@@ -64,6 +66,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1NamespacedIngress/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.networking#Conflict"
@@ -108,6 +111,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1NamespacedNetworkPolicy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.networking#Conflict"
@@ -138,6 +142,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1ServiceCIDR/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.networking#Conflict"
@@ -182,6 +187,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.networking#Conflict",
+      "before": "com.kubernetes.networking#NotFound",
       "value": {
         "type": "structure",
         "members": {},

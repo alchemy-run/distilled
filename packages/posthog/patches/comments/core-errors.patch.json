@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#BadRequest"
@@ -40,6 +41,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -52,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#BadRequest"
@@ -67,6 +70,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#BadRequest"
@@ -82,6 +86,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -94,6 +99,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsThreadRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -106,6 +112,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#CommentsCountRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -118,6 +125,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#BadRequest",
+      "before": "com.posthog.comments#Conflict",
       "value": {
         "type": "structure",
         "members": {},
@@ -135,6 +143,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#Forbidden",
+      "before": "com.posthog.comments#Conflict",
       "value": {
         "type": "structure",
         "members": {},
@@ -152,6 +161,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.comments#NotFound",
+      "before": "com.posthog.comments#Conflict",
       "value": {
         "type": "structure",
         "members": {},

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.uploaded_media#UploadedMediaCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.uploaded_media#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.uploaded_media#Forbidden",
+      "before": "com.posthog.uploaded_media#NotFound",
       "value": {
         "type": "structure",
         "members": {},

@@ -25,6 +25,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#UnprocessableEntity",
+      "before": "com.kubernetes.scheduling#NotFound",
       "value": {
         "type": "structure",
         "members": {},

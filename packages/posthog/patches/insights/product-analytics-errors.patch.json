@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -64,6 +68,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -79,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -94,6 +100,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -109,6 +116,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsAllActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -124,6 +132,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsBulkUpdateTagsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -139,6 +148,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsCancelCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -154,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsGenerateMetadataCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -169,6 +180,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsMyLastViewedRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -184,6 +196,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsTrendingRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -199,6 +212,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsViewedCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"

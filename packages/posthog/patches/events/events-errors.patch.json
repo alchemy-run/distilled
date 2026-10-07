@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.events#EventsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.events#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.events#EventsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.events#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.events#EventsValuesRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.events#BadRequest"
@@ -49,6 +52,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.events#BadRequest",
+      "before": "com.posthog.events#Events",
       "value": {
         "type": "structure",
         "members": {},
@@ -66,6 +70,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.events#Forbidden",
+      "before": "com.posthog.events#Events",
       "value": {
         "type": "structure",
         "members": {},
@@ -83,6 +88,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.events#NotFound",
+      "before": "com.posthog.events#Events",
       "value": {
         "type": "structure",
         "members": {},

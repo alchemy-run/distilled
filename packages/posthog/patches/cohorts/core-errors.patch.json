@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsAddPersonsToStaticCohortPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -115,6 +123,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsCalculationHistoryRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -127,6 +136,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsPersonsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -142,6 +152,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsRemovePersonFromStaticCohortPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -157,6 +168,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#CohortsAllActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -169,6 +181,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#BadRequest",
+      "before": "com.posthog.cohorts#Cohorts",
       "value": {
         "type": "structure",
         "members": {},
@@ -186,6 +199,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#Forbidden",
+      "before": "com.posthog.cohorts#Cohorts",
       "value": {
         "type": "structure",
         "members": {},
@@ -203,6 +217,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.cohorts#NotFound",
+      "before": "com.posthog.cohorts#Cohorts",
       "value": {
         "type": "structure",
         "members": {},

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksCollabSaveCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -115,6 +123,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksCollabStreamRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -127,6 +136,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksKernelConfigCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -142,6 +152,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksKernelExecuteCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -157,6 +168,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksKernelRestartCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -172,6 +184,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksKernelStartCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -187,6 +200,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksKernelStatusRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -199,6 +213,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksKernelStopCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#BadRequest"
@@ -214,6 +229,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksAllActivityRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"
@@ -226,6 +242,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.notebooks#NotebooksRecordingCommentsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.notebooks#Forbidden"

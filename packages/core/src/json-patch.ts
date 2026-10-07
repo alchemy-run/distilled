@@ -20,6 +20,14 @@ export interface JsonPatchOperation {
   path: string;
   value?: unknown;
   from?: string;
+  /**
+   * Extension for `add` and `move`: when the op creates a new object key,
+   * insert it just before this sibling key instead of at the end, so the
+   * patched model keeps the order the converter would have written. A `move`
+   * whose `from` equals `path` reorders a key. Ignored when the key already
+   * exists, the parent is an array, or the sibling is absent.
+   */
+  before?: string;
 }
 
 export type JsonPatch = JsonPatchOperation[];
@@ -88,6 +96,7 @@ export function setValueAtPath(
   pointer: string,
   value: unknown,
   mode: "add" | "replace" = "add",
+  before?: string,
 ): void {
   const segments = parseJsonPointer(pointer);
   if (segments.length === 0) {
@@ -129,7 +138,19 @@ export function setValueAtPath(
       current.splice(index, 0, value);
     }
   } else {
-    (current as Record<string, unknown>)[lastSegment] = value;
+    const record = current as Record<string, unknown>;
+    if (before === undefined || lastSegment in record || !(before in record)) {
+      record[lastSegment] = value;
+      return;
+    }
+    // Rebuild the keys in place: the parent object stays the same object,
+    // since callers and later ops may hold a reference to it.
+    const entries = Object.entries(record);
+    for (const [key] of entries) delete record[key];
+    for (const [key, v] of entries) {
+      if (key === before) record[lastSegment] = value;
+      record[key] = v;
+    }
   }
 }
 
@@ -183,7 +204,7 @@ export function removeValueAtPath(obj: unknown, pointer: string): void {
 export function applyOperation(obj: unknown, operation: JsonPatchOperation): void {
   switch (operation.op) {
     case "add":
-      setValueAtPath(obj, operation.path, operation.value);
+      setValueAtPath(obj, operation.path, operation.value, "add", operation.before);
       break;
     case "remove":
       removeValueAtPath(obj, operation.path);
@@ -203,7 +224,7 @@ export function applyOperation(obj: unknown, operation: JsonPatchOperation): voi
         throw new StaleTargetError(`Cannot move from path ${operation.from}: not an object`);
       }
       removeValueAtPath(obj, operation.from);
-      setValueAtPath(obj, operation.path, moveValue);
+      setValueAtPath(obj, operation.path, moveValue, "add", operation.before);
       break;
     }
     case "copy": {

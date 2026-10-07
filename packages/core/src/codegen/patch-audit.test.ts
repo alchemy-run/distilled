@@ -182,6 +182,26 @@ describe("convert-stage patch audit", () => {
     expect(result.files[0]!.deadOps).toEqual([1]);
   });
 
+  test("a file that only orders keys is needed", async () => {
+    const root = convertFixture({
+      "1-member.json": [addMember("b")],
+      "2-order.json": [
+        {
+          op: "move",
+          from: "/shapes/x#Thing/members/b",
+          path: "/shapes/x#Thing/members/b",
+          before: "a",
+        },
+      ],
+    });
+    const result = await auditPackage(root, { jobs: 1 });
+    if (result.kind !== "audited") throw new Error(result.reason);
+    expect(result.files.find((f) => f.file.key === "svc/2-order.json")!.verdict).toEqual({
+      kind: "needed",
+      diff: ["(key order only)"],
+    });
+  });
+
   test("leaves the package as it was and removes its scratch copies", async () => {
     const root = convertFixture({ "member.json": [addMember("b")], "spec.json": [addField("s")] });
     const result = await auditPackage(root, { jobs: 2 });

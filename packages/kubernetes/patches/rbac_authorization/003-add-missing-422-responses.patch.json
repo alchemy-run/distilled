@@ -88,6 +88,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#UnprocessableEntity",
+      "before": "com.kubernetes.rbac_authorization#NotFound",
       "value": {
         "type": "structure",
         "members": {},

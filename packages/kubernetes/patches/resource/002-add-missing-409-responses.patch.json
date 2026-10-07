@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -34,6 +35,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -78,6 +80,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -108,6 +111,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -138,6 +142,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1alpha3DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -182,6 +187,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta1DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -212,6 +218,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta1NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -256,6 +263,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta1NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -286,6 +294,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta1ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -316,6 +325,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta2DeviceClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -346,6 +356,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta2DeviceTaintRule/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -390,6 +401,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta2NamespacedResourceClaim/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -434,6 +446,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta2NamespacedResourceClaimTemplate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -464,6 +477,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#CreateResourceV1beta2ResourceSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.resource#Conflict"
@@ -494,6 +508,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.resource#Conflict",
+      "before": "com.kubernetes.resource#NotFound",
       "value": {
         "type": "structure",
         "members": {},

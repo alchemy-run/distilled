@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#ReadStoragemigrationV1beta1StorageVersionMigration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#ReplaceStoragemigrationV1beta1StorageVersionMigration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#DeleteStoragemigrationV1beta1StorageVersionMigration/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#ReadStoragemigrationV1beta1StorageVersionMigrationStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#ReplaceStoragemigrationV1beta1StorageVersionMigrationStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigrationStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.storagemigration#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.storagemigration#NotFound",
+      "before": "com.kubernetes.storagemigration#Storagemigration",
       "value": {
         "type": "structure",
         "members": {},

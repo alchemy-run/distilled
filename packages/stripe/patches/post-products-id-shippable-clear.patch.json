@@ -9,6 +9,7 @@
     {
       "op": "add",
       "path": "/shapes/com.stripe.api#UpdateProductRequestShippableCase1",
+      "before": "com.stripe.api#PostProductsIdRequestTaxCodeCase1",
       "value": {
         "type": "enum",
         "members": {
@@ -25,6 +26,7 @@
     {
       "op": "add",
       "path": "/shapes/com.stripe.api#UpdateProductRequestShippable",
+      "before": "com.stripe.api#PostProductsIdRequestTaxCodeCase1",
       "value": {
         "type": "union",
         "members": {

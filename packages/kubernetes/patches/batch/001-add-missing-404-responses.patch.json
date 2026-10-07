@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedCronJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedCronJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedCronJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#DeleteBatchV1NamespacedCronJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedCronJobStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedCronJobStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedCronJobStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#DeleteBatchV1NamespacedJob/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedJobStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedJobStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedJobStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#NotFound",
+      "before": "com.kubernetes.batch#Batch",
       "value": {
         "type": "structure",
         "members": {},

@@ -74,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.batch#UnprocessableEntity",
+      "before": "com.kubernetes.batch#NotFound",
       "value": {
         "type": "structure",
         "members": {},

@@ -663,13 +663,6 @@
       "output": {
         "target": "com.posthog.external_data_schemas#PaginatedExternalDataSchemaList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/external_data_schemas/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -680,7 +673,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/external_data_schemas/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#GetExternalDataSchemaRequest": {
       "type": "structure",
@@ -714,13 +714,6 @@
       "output": {
         "target": "com.posthog.external_data_schemas#ExternalDataSchema"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#Forbidden"
@@ -728,7 +721,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestPrimaryKeyColumnsList": {
       "type": "list",
@@ -909,13 +909,6 @@
       "output": {
         "target": "com.posthog.external_data_schemas#ExternalDataSchema"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -926,7 +919,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList": {
       "type": "list",
@@ -1107,13 +1107,6 @@
       "output": {
         "target": "com.posthog.external_data_schemas#ExternalDataSchema"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -1124,7 +1117,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#ExternalDataSchemasDestroyRequest": {
       "type": "structure",
@@ -1158,13 +1158,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#Forbidden"
@@ -1172,7 +1165,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequest": {
       "type": "structure",
@@ -1268,13 +1268,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/delete_data/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#Forbidden"
@@ -1282,7 +1275,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/delete_data/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#GetExternalDataSchemasDestinationRequest": {
       "type": "structure",
@@ -1461,13 +1461,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/incremental_fields/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.external_data_schemas#BadRequest"
@@ -1478,7 +1471,14 @@
         {
           "target": "com.posthog.external_data_schemas#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/incremental_fields/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.external_data_schemas#GetExternalDataSchemasLogRequest": {
       "type": "structure",
@@ -1679,6 +1679,32 @@
         ]
       }
     },
+    "com.posthog.external_data_schemas#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.external_data_schemas#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.posthog.external_data_schemas#ExternalDataSchemas": {
       "type": "service",
       "version": "1.0.0",
@@ -1725,32 +1751,6 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
-      }
-    },
-    "com.posthog.external_data_schemas#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.external_data_schemas#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
       }
     }
   }

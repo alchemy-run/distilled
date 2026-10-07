@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsThresholdsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.insights#InsightsThresholdsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.insights#Forbidden"

@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#ReadSchedulingV1PriorityClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.scheduling#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#ReplaceSchedulingV1PriorityClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.scheduling#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#PatchSchedulingV1PriorityClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.scheduling#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#DeleteSchedulingV1PriorityClass/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.scheduling#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.scheduling#NotFound",
+      "before": "com.kubernetes.scheduling#Scheduling",
       "value": {
         "type": "structure",
         "members": {},

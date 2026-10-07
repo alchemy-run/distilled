@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#ReadDiscoveryV1NamespacedEndpointSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.discovery#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#ReplaceDiscoveryV1NamespacedEndpointSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.discovery#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#PatchDiscoveryV1NamespacedEndpointSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.discovery#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#DeleteDiscoveryV1NamespacedEndpointSlice/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.discovery#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.discovery#NotFound",
+      "before": "com.kubernetes.discovery#Discovery",
       "value": {
         "type": "structure",
         "members": {},

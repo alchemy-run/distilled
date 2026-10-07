@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReadRbacAuthorizationV1ClusterRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1ClusterRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1ClusterRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReadRbacAuthorizationV1ClusterRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1ClusterRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1ClusterRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -76,6 +84,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReadRbacAuthorizationV1NamespacedRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -85,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -94,6 +104,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1NamespacedRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -103,6 +114,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1NamespacedRoleBinding/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -112,6 +124,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReadRbacAuthorizationV1NamespacedRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -121,6 +134,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -130,6 +144,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1NamespacedRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -139,6 +154,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1NamespacedRole/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -148,6 +164,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.rbac_authorization#NotFound",
+      "before": "com.kubernetes.rbac_authorization#RbacAuthorization",
       "value": {
         "type": "structure",
         "members": {},

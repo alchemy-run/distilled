@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -76,6 +81,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -88,6 +94,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsRecordingsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -100,6 +107,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsRecordingsCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -115,6 +123,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistsRecordingsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -127,6 +136,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingsList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -142,6 +152,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -154,6 +165,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingsUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -169,6 +181,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -184,6 +197,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#SessionRecordingsDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -196,6 +210,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#BadRequest",
+      "before": "com.posthog.replay#Replay",
       "value": {
         "type": "structure",
         "members": {},
@@ -213,6 +228,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#Forbidden",
+      "before": "com.posthog.replay#Replay",
       "value": {
         "type": "structure",
         "members": {},
@@ -230,6 +246,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.replay#NotFound",
+      "before": "com.posthog.replay#Replay",
       "value": {
         "type": "structure",
         "members": {},

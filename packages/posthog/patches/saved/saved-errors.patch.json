@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#SavedList/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.saved#BadRequest"
@@ -19,6 +20,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#SavedCreate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.saved#BadRequest"
@@ -34,6 +36,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#SavedRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.saved#Forbidden"
@@ -46,6 +49,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#SavedPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.saved#BadRequest"
@@ -61,6 +65,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#SavedDestroy/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.saved#Forbidden"
@@ -87,6 +92,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#Forbidden",
+      "before": "com.posthog.saved#Saved",
       "value": {
         "type": "structure",
         "members": {},
@@ -104,6 +110,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.saved#NotFound",
+      "before": "com.posthog.saved#Saved",
       "value": {
         "type": "structure",
         "members": {},

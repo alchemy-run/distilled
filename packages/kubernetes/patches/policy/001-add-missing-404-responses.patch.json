@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#ReadPolicyV1NamespacedPodDisruptionBudget/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#ReplacePolicyV1NamespacedPodDisruptionBudget/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#PatchPolicyV1NamespacedPodDisruptionBudget/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -31,6 +34,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#DeletePolicyV1NamespacedPodDisruptionBudget/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -40,6 +44,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#ReadPolicyV1NamespacedPodDisruptionBudgetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -49,6 +54,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#ReplacePolicyV1NamespacedPodDisruptionBudgetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -58,6 +64,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#PatchPolicyV1NamespacedPodDisruptionBudgetStatus/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -67,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.policy#NotFound",
+      "before": "com.kubernetes.policy#Policy",
       "value": {
         "type": "structure",
         "members": {},

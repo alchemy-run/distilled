@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.user_home_settings#UserHomeSettingsRetrieve/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.user_home_settings#Forbidden"
@@ -16,6 +17,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.user_home_settings#UserHomeSettingsPartialUpdate/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.posthog.user_home_settings#BadRequest"
@@ -31,6 +33,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.user_home_settings#Forbidden",
+      "before": "com.posthog.user_home_settings#UserHomeSettings",
       "value": {
         "type": "structure",
         "members": {},
@@ -48,6 +51,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.user_home_settings#NotFound",
+      "before": "com.posthog.user_home_settings#UserHomeSettings",
       "value": {
         "type": "structure",
         "members": {},
@@ -65,6 +69,7 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.user_home_settings#BadRequest",
+      "before": "com.posthog.user_home_settings#UserHomeSettings",
       "value": {
         "type": "structure",
         "members": {},

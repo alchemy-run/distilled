@@ -4,6 +4,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authentication#CreateAuthenticationV1SelfSubjectReview/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.authentication#Conflict"
@@ -13,6 +14,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authentication#CreateAuthenticationV1TokenReview/errors",
+      "before": "traits",
       "value": [
         {
           "target": "com.kubernetes.authentication#Conflict"
@@ -22,6 +24,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.authentication#Conflict",
+      "before": "com.kubernetes.authentication#Authentication",
       "value": {
         "type": "structure",
         "members": {},

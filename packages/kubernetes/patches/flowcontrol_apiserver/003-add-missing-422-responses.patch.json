@@ -74,6 +74,7 @@
     {
       "op": "add",
       "path": "/shapes/com.kubernetes.flowcontrol_apiserver#UnprocessableEntity",
+      "before": "com.kubernetes.flowcontrol_apiserver#NotFound",
       "value": {
         "type": "structure",
         "members": {},

@@ -194,13 +194,6 @@
       "output": {
         "target": "com.posthog.insight_variables#PaginatedInsightVariableList"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insight_variables/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -211,7 +204,14 @@
         {
           "target": "com.posthog.insight_variables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insight_variables/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.insight_variables#CreateInsightVariableRequest": {
       "type": "structure",
@@ -281,13 +281,6 @@
       "output": {
         "target": "com.posthog.insight_variables#InsightVariable"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insight_variables/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -298,7 +291,14 @@
         {
           "target": "com.posthog.insight_variables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insight_variables/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.insight_variables#GetInsightVariableRequest": {
       "type": "structure",
@@ -332,13 +332,6 @@
       "output": {
         "target": "com.posthog.insight_variables#InsightVariable"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.insight_variables#Forbidden"
@@ -346,7 +339,14 @@
         {
           "target": "com.posthog.insight_variables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.insight_variables#UpdateInsightVariableRequest": {
       "type": "structure",
@@ -424,13 +424,6 @@
       "output": {
         "target": "com.posthog.insight_variables#InsightVariable"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -441,7 +434,14 @@
         {
           "target": "com.posthog.insight_variables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.insight_variables#UpdateInsightVariablesPartialRequest": {
       "type": "structure",
@@ -519,13 +519,6 @@
       "output": {
         "target": "com.posthog.insight_variables#InsightVariable"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.insight_variables#BadRequest"
@@ -536,7 +529,14 @@
         {
           "target": "com.posthog.insight_variables#NotFound"
         }
-      ]
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
+          "code": 200
+        }
+      }
     },
     "com.posthog.insight_variables#InsightVariablesDestroyRequest": {
       "type": "structure",
@@ -570,13 +570,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
-          "code": 200
-        }
-      },
       "errors": [
         {
           "target": "com.posthog.insight_variables#Forbidden"
@@ -584,33 +577,13 @@
         {
           "target": "com.posthog.insight_variables#NotFound"
         }
-      ]
-    },
-    "com.posthog.insight_variables#InsightVariables": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.insight_variables#ListInsightVariables"
-        },
-        {
-          "target": "com.posthog.insight_variables#CreateInsightVariable"
-        },
-        {
-          "target": "com.posthog.insight_variables#GetInsightVariable"
-        },
-        {
-          "target": "com.posthog.insight_variables#UpdateInsightVariable"
-        },
-        {
-          "target": "com.posthog.insight_variables#UpdateInsightVariablesPartial"
-        },
-        {
-          "target": "com.posthog.insight_variables#InsightVariablesDestroy"
-        }
       ],
       "traits": {
-        "smithy.api#title": "PostHog API"
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/insight_variables/{id}/",
+          "code": 200
+        }
       }
     },
     "com.posthog.insight_variables#BadRequest": {
@@ -650,6 +623,33 @@
             "status": 404
           }
         ]
+      }
+    },
+    "com.posthog.insight_variables#InsightVariables": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.insight_variables#ListInsightVariables"
+        },
+        {
+          "target": "com.posthog.insight_variables#CreateInsightVariable"
+        },
+        {
+          "target": "com.posthog.insight_variables#GetInsightVariable"
+        },
+        {
+          "target": "com.posthog.insight_variables#UpdateInsightVariable"
+        },
+        {
+          "target": "com.posthog.insight_variables#UpdateInsightVariablesPartial"
+        },
+        {
+          "target": "com.posthog.insight_variables#InsightVariablesDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     }
   }
