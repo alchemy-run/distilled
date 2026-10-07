@@ -1,0 +1,2730 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: Artifacts is in Cloudflare's OpenAPI (api-schemas) but not in the developers.cloudflare.com/api reference the spec-to-smithy converter mines. Transcribed from the OpenAPI document + https://developers.cloudflare.com/artifacts/api/rest-api/ and /api/errors/. Delete this file if/when the docs gain an artifacts resource."
+  },
+  "shapes": {
+    "com.cloudflare.artifacts#ArtifactsForkInProgress": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10303
+          }
+        ],
+        "smithy.api#documentation": "The repository is still being forked (FORK_IN_PROGRESS, 10303). Retriable."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsImportInProgress": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10302
+          }
+        ],
+        "smithy.api#documentation": "The repository is still being imported (IMPORT_IN_PROGRESS, 10302). Retriable."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsInvalidImportUrl": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10104
+          }
+        ],
+        "smithy.api#documentation": "The import source URL does not point to a valid git repository (INVALID_URL, 10104)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsInvalidInput": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10100
+          }
+        ],
+        "smithy.api#documentation": "A request parameter is missing, malformed, or outside the accepted range (INVALID_INPUT, 10100)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsInvalidRepositoryName": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10101
+          }
+        ],
+        "smithy.api#documentation": "The repository name does not meet naming requirements (INVALID_REPO_NAME, 10101)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsInvalidTokenTtl": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10103
+          }
+        ],
+        "smithy.api#documentation": "The token TTL is outside 60..31536000 seconds (INVALID_TTL, 10103)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsMemoryLimitExceeded": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10402
+          }
+        ],
+        "smithy.api#documentation": "The operation exceeds service memory limits (MEMORY_LIMIT, 10402)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsNamespaceAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10201
+          }
+        ],
+        "smithy.api#documentation": "The namespace already exists (ALREADY_EXISTS, 10201)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsNamespaceNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10200
+          }
+        ],
+        "smithy.api#documentation": "The namespace does not exist (NOT_FOUND, 10200)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsObjectNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10200
+          }
+        ],
+        "smithy.api#documentation": "The repository, git object, ref or file path does not exist (NOT_FOUND, 10200)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsRemoteAuthRequired": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10106
+          }
+        ],
+        "smithy.api#documentation": "The import source remote requires authentication (REMOTE_AUTH_REQUIRED, 10106)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsRepositoryAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10201
+          }
+        ],
+        "smithy.api#documentation": "The target repository already exists in the namespace (ALREADY_EXISTS, 10201)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsRepositoryNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10200
+          },
+          {
+            "code": 10200,
+            "message": {
+              "includes": "Repository not found"
+            }
+          }
+        ],
+        "smithy.api#documentation": "The repository does not exist (NOT_FOUND, 10200)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsTokenNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10200
+          }
+        ],
+        "smithy.api#documentation": "The token (or its repository) does not exist (NOT_FOUND, 10200)."
+      }
+    },
+    "com.cloudflare.artifacts#ArtifactsUpstreamUnavailable": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10401
+          }
+        ],
+        "smithy.api#documentation": "The import source git server could not be reached (UPSTREAM_UNAVAILABLE, 10401)."
+      }
+    },
+    "com.cloudflare.artifacts#Commit": {
+      "type": "structure",
+      "members": {
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lowercase, 40-character SHA-1 commit ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "treeHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-1 ID of the commit's root tree.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit message.",
+            "smithy.api#required": {}
+          }
+        },
+        "author": {
+          "target": "com.cloudflare.artifacts#GitIdentity",
+          "traits": {
+            "smithy.api#documentation": "Author identity.",
+            "smithy.api#required": {}
+          }
+        },
+        "committer": {
+          "target": "com.cloudflare.artifacts#GitIdentity",
+          "traits": {
+            "smithy.api#documentation": "Committer identity.",
+            "smithy.api#required": {}
+          }
+        },
+        "parents": {
+          "target": "com.cloudflare.artifacts#CommitParentList",
+          "traits": {
+            "smithy.api#documentation": "Parent commit IDs in git order; empty for a root commit.",
+            "smithy.api#required": {}
+          }
+        },
+        "authoredAt": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "Author timestamp in Unix seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "committedAt": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "Committer timestamp in Unix seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#CommitList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.artifacts#Commit"
+      }
+    },
+    "com.cloudflare.artifacts#CommitParentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.artifacts#CreateNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#CreateNamespaceRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#CreateNamespaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/artifacts/namespaces",
+          "code": 201
+        },
+        "smithy.api#documentation": "Create an Artifacts namespace explicitly (namespaces are otherwise created implicitly by the first repo). The jurisdiction cannot be changed after creation."
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsNamespaceAlreadyExists"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#CreateNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Namespace name.",
+            "smithy.api#required": {}
+          }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.artifacts#Jurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Data-localization jurisdiction. Defaults to unrestricted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#CreateNamespaceResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#Namespace",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#CreateRepo": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#CreateRepoRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#CreateRepoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos",
+          "code": 201
+        },
+        "smithy.api#documentation": "Create a repository (implicitly creating the namespace) and return its remote plus an initial write token."
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidRepositoryName"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryAlreadyExists"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#CreateRepoRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name (alphanumeric, dots, hyphens, underscores).",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository description."
+          }
+        },
+        "default_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default branch name."
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create the repository read-only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#CreateRepoResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#CreatedRepo",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#CreateToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#CreateTokenRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#CreateTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/tokens",
+          "code": 201
+        },
+        "smithy.api#documentation": "Mint a git access token for a repository. Tokens authenticate git-over-HTTPS, not the REST API."
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidTokenTtl"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#CreateTokenRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.cloudflare.artifacts#TokenScope",
+          "traits": {
+            "smithy.api#documentation": "Token scope (default `write`)."
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time-to-live in seconds (60-31536000, default 86400)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#CreateTokenResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#CreatedToken",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#CreatedRepo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique repository ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository description, or null if not set."
+          }
+        },
+        "default_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default branch name.",
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTPS git remote URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Initial write token (`art_v1_<40 hex>?expires=<unix_seconds>`). Secret; only returned at creation time.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#CreatedToken": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique token ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "plaintext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plaintext token (`art_v1_<40 hex>?expires=<unix_seconds>`). Secret; only returned at creation time.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.cloudflare.artifacts#TokenScope",
+          "traits": {
+            "smithy.api#documentation": "Token scope.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 expiry timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#DeleteNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#DeleteNamespaceRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#DeleteNamespaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}",
+          "code": 204
+        },
+        "smithy.api#documentation": "Delete an Artifacts namespace.",
+        "smithy.api#idempotent": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsNamespaceNotFound"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#DeleteNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#DeleteNamespaceResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#DeleteRepo": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#DeleteRepoRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#DeleteRepoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}",
+          "code": 202
+        },
+        "smithy.api#documentation": "Delete a repository and all of its tokens. Returns 202 Accepted.",
+        "smithy.api#idempotent": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#DeleteRepoRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#DeleteRepoResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#IdResult",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#ForkRepo": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#ForkRepoRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#ForkRepoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{repo}/fork",
+          "code": 201
+        },
+        "smithy.api#documentation": "Fork a repository into a new repository in the same namespace."
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidRepositoryName"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryAlreadyExists"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#ForkRepoRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target (fork) repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target repository description."
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create the fork read-only."
+          }
+        },
+        "default_branch_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Copy only the default branch (default true)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#ForkRepoResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#ForkedRepo",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#ForkedRepo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique repository ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository description, or null if not set."
+          }
+        },
+        "default_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default branch name.",
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTPS git remote URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Initial write token (`art_v1_<40 hex>?expires=<unix_seconds>`). Secret; only returned at creation time.",
+            "smithy.api#required": {}
+          }
+        },
+        "objects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of git objects copied into the fork.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#GetNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetNamespaceRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetNamespaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an Artifacts namespace.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsNamespaceNotFound"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetNamespaceResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#Namespace",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepo": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a repository.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoBlob": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoBlobRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoBlobResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/blob/{hash}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read raw git blob bytes by object ID.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsObjectNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsMemoryLimitExceeded"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoBlobRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob SHA-1.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoBlobResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "com.cloudflare.protocols#binaryResponseBody": {},
+            "smithy.api#documentation": "Raw bytes as an Effect Stream."
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "content-type",
+            "smithy.api#documentation": "Content type of the bytes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoCommit": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoCommitRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoCommitResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/commit/{hash}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Decode a git commit by object ID.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsObjectNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoCommitRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit SHA-1.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoCommitResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#Commit",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoFileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/file",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resolve a file at a ref and return its bytes (`application/octet-stream`).",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsObjectNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsMemoryLimitExceeded"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoFileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch, tag, or commit ID.",
+            "smithy.api#httpQuery": "ref",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository-relative file path.",
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoFileResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "com.cloudflare.protocols#binaryResponseBody": {},
+            "smithy.api#documentation": "Raw bytes as an Effect Stream."
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "content-type",
+            "smithy.api#documentation": "Content type of the bytes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoLog": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoLogRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoLogResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/log",
+          "code": 200
+        },
+        "smithy.api#documentation": "List commits along the first-parent chain, newest first.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsObjectNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoLogRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch, tag, or commit hash (default `HEAD`).",
+            "smithy.api#httpQuery": "ref"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum commits (default 50, max 1000).",
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of commits to skip (default 0).",
+            "smithy.api#httpQuery": "offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoLogResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#CommitList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoRawRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/raw/{ref}/{path+}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resolve a file at a ref and return its bytes with a sniffed content type.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsObjectNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsMemoryLimitExceeded"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoRawRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch, tag, or commit ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository-relative file path.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "com.cloudflare.protocols#binaryResponseBody": {},
+            "smithy.api#documentation": "Raw bytes as an Effect Stream."
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "content-type",
+            "smithy.api#documentation": "Content type of the bytes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#Repo",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoTree": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#GetRepoTreeRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#GetRepoTreeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/tree/{hash}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read the immediate children of a git tree.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsObjectNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#GetRepoTreeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tree SHA-1.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#GetRepoTreeResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#TreeEntryList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#GitIdentity": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#IdResult": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the affected object.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#ImportRepo": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#ImportRepoRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#ImportRepoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/import",
+          "code": 201
+        },
+        "smithy.api#documentation": "Import a public HTTPS git remote into a new repository."
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidInput"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidRepositoryName"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsInvalidImportUrl"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRemoteAuthRequired"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryAlreadyExists"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsUpstreamUnavailable"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsMemoryLimitExceeded"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#ImportRepoRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full HTTPS git remote URL, e.g. `https://github.com/facebook/react`.",
+            "smithy.api#required": {}
+          }
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch to import (defaults to the remote's default branch)."
+          }
+        },
+        "depth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Shallow clone depth."
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create the imported repository read-only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#ImportRepoResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#CreatedRepo",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#Jurisdiction": {
+      "type": "enum",
+      "members": {
+        "UNRESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unrestricted"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#ListNamespaces": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#ListNamespacesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#ListNamespacesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Artifacts namespaces in the account.",
+        "smithy.api#readonly": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "cursor",
+          "outputToken": "resultInfo.cursor",
+          "items": "result",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.cloudflare.artifacts#ListNamespacesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Page size (1-200, default 100).",
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor from the previous page's `result_info.cursor`.",
+            "smithy.api#httpQuery": "cursor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#ListNamespacesResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#NamespaceList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#ListRepoTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#ListRepoTokensRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#ListRepoTokensResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "List a repository's git access tokens (metadata only).",
+        "smithy.api#readonly": {},
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "resultInfo.page",
+          "items": "result",
+          "pageSize": "perPage"
+        }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsRepositoryNotFound"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsImportInProgress"
+        },
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsForkInProgress"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#ListRepoTokensRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.cloudflare.artifacts#TokenStateFilter",
+          "traits": {
+            "smithy.api#documentation": "Filter by token state (default `active`).",
+            "smithy.api#httpQuery": "state"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Page number (default 1).",
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Page size (default 30, max 100).",
+            "smithy.api#httpQuery": "per_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#ListRepoTokensResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#TokenList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#ListRepos": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#ListReposRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#ListReposResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos",
+          "code": 200
+        },
+        "smithy.api#documentation": "List repositories in a namespace.",
+        "smithy.api#readonly": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "cursor",
+          "outputToken": "resultInfo.cursor",
+          "items": "result",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.cloudflare.artifacts#ListReposRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Page size (1-200, default 50).",
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor from the previous page's `result_info.cursor`.",
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter repositories by name substring.",
+            "smithy.api#httpQuery": "search"
+          }
+        },
+        "sort": {
+          "target": "com.cloudflare.artifacts#RepoSortField",
+          "traits": {
+            "smithy.api#documentation": "Sort field (default `created_at`).",
+            "smithy.api#httpQuery": "sort"
+          }
+        },
+        "direction": {
+          "target": "com.cloudflare.artifacts#SortDirection",
+          "traits": {
+            "smithy.api#documentation": "Sort direction (default `desc`).",
+            "smithy.api#httpQuery": "direction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#ListReposResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#RepoList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#ListedRepo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique repository ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository description, or null if not set."
+          }
+        },
+        "default_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default branch name (e.g. `main`).",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 creation timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 last-updated timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_push_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp of the last push, or null if never pushed."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fork/import source (e.g. `github:owner/repo`, `artifacts:namespace/repo`), or null."
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the repository is read-only.",
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTPS git remote URL (`https://<ACCOUNT_ID>.artifacts.cloudflare.net/git/<namespace>/<repo>.git`).",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.artifacts#RepoStatus",
+          "traits": {
+            "smithy.api#documentation": "Provisioning status: `ready`, `importing`, `forking` (or `creating`)."
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#Namespace": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Namespace name.",
+            "smithy.api#required": {}
+          }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.artifacts#Jurisdiction",
+          "traits": {
+            "smithy.api#documentation": "Data-localization jurisdiction applied to every repo in the namespace.",
+            "smithy.api#required": {}
+          }
+        },
+        "repo_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of repositories in the namespace.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 creation timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 last-updated timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#NamespaceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.artifacts#Namespace"
+      }
+    },
+    "com.cloudflare.artifacts#Repo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique repository ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository description, or null if not set."
+          }
+        },
+        "default_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default branch name (e.g. `main`).",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 creation timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 last-updated timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_push_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp of the last push, or null if never pushed."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fork/import source (e.g. `github:owner/repo`, `artifacts:namespace/repo`), or null."
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the repository is read-only.",
+            "smithy.api#required": {}
+          }
+        },
+        "remote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTPS git remote URL (`https://<ACCOUNT_ID>.artifacts.cloudflare.net/git/<namespace>/<repo>.git`).",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#RepoList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.artifacts#ListedRepo"
+      }
+    },
+    "com.cloudflare.artifacts#RepoSortField": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "LAST_PUSH_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_push_at"
+          }
+        },
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#RepoStatus": {
+      "type": "enum",
+      "members": {
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "IMPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "importing"
+          }
+        },
+        "FORKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forking"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#RevokeToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.artifacts#RevokeTokenRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.artifacts#RevokeTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/artifacts/namespaces/{namespace}/tokens/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke a git access token.",
+        "smithy.api#idempotent": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.artifacts#ArtifactsTokenNotFound"
+        }
+      ]
+    },
+    "com.cloudflare.artifacts#RevokeTokenRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Artifacts namespace name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.artifacts#RevokeTokenResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.artifacts#IdResult",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.artifacts#SortDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#Token": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique token ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.cloudflare.artifacts#TokenScope",
+          "traits": {
+            "smithy.api#documentation": "Token scope.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.cloudflare.artifacts#TokenState",
+          "traits": {
+            "smithy.api#documentation": "Token state.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 creation timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 expiry timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#TokenList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.artifacts#Token"
+      }
+    },
+    "com.cloudflare.artifacts#TokenScope": {
+      "type": "enum",
+      "members": {
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#TokenState": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoked"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#TokenStateFilter": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoked"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#TreeEntry": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name relative to the tree being read.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Canonical git mode, e.g. `100644` or `40000`.",
+            "smithy.api#required": {}
+          }
+        },
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lowercase, 40-character SHA-1 object ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.artifacts#TreeEntryType",
+          "traits": {
+            "smithy.api#documentation": "Classification derived from `mode`.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.artifacts#TreeEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.artifacts#TreeEntry"
+      }
+    },
+    "com.cloudflare.artifacts#TreeEntryType": {
+      "type": "enum",
+      "members": {
+        "TREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tree"
+          }
+        },
+        "BLOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blob"
+          }
+        },
+        "SYMLINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "symlink"
+          }
+        },
+        "GITLINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gitlink"
+          }
+        },
+        "EXEC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exec"
+          }
+        }
+      }
+    }
+  }
+}
