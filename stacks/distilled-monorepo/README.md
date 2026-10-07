@@ -33,39 +33,31 @@ it ever reaching a terminal or a CI log.
 | `STACKS_CLOUDFLARE_API_TOKEN` | secret | minted here | submodules stack, website |
 | `STACKS_CLOUDFLARE_ACCOUNT_ID` | secret | the deploying profile | submodules stack, website |
 | `ALCHEMY_GITHUB_TOKEN` | secret | `DISTILLED_REPOS_PAT`, else the deploying profile | submodules stack |
-| `ALCHEMY_VERSION_BOT_ID` | secret | public app id, default `3107227` | release, PR package, website |
-| `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | secret | `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | release, PR package, website |
-| `PR_PACKAGE_TOKEN` | secret | `PR_PACKAGE_TOKEN` | PR package |
-| `NPM_TOKEN` | secret | `NPM_TOKEN` | release (dist-tags only) |
+| `ALCHEMY_VERSION_BOT_ID` | secret | public app id, default `3107227` | release, website |
+| `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | secret | `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | release, website |
 | `DISCORD_WEBHOOK_URL` | secret | `DISCORD_WEBHOOK_URL` | release |
 | `DISTILLED_REPOS_OWNER` | variable | `DISTILLED_REPOS_OWNER`, default `distilled-mirror` | submodules stack |
 
-The four sourced from the environment cannot be minted through any API, and
+The two sourced from the environment cannot be minted through any API, and
 GitHub never hands an existing secret's value back, so the stack treats each as
 optional: a value present in the environment is written, an absent one leaves
 whatever the repository already holds and is listed under
-`secretsLeftUnchanged` in the deploy's output. Those four resources are also
+`secretsLeftUnchanged` in the deploy's output. Both resources are also
 `retain`-on-removal, so skipping one deletes nothing. Deploying with none of
 them set is therefore safe, and still converges the repository, the Cloudflare
 token, the app id and the variable.
 
 A value you no longer hold has to be rotated at its source — the app's private
-key under Settings → Developer settings → GitHub Apps, the npm token on
-npmjs.com, the webhook in Discord — and passed in fresh.
+key under Settings → Developer settings → GitHub Apps, the webhook in
+Discord — and passed in fresh.
 
-### What the two publish tokens actually do
+### Publishing needs no tokens
 
-Neither is an npm publishing credential.
-
-`NPM_TOKEN` moves dist-tags. Publishing is npm trusted publishing:
-`release.yml` grants `id-token: write`, and `scripts/release/publish.sh` runs
-`pnpm publish` with no credential at all. OIDC does not cover `pnpm dist-tag
-add`, so the token is read only by that path — a `--force-latest` run without
-it still publishes, then warns that the tag has to be moved by hand.
-
-`PR_PACKAGE_TOKEN` is the bearer token the `alchemy-run/actions` `pr-package`
-action uploads preview tarballs to **pkg.ing** with — not npm, and not
-available over OIDC either, since `pr-package.yml` grants no `id-token: write`.
+Releases use npm trusted publishing: `release.yml` grants `id-token: write`,
+and `scripts/release/publish.ts` runs `pnpm publish` with no credential at
+all. Preview packages need none either: `pkg.yml` vouches for its manifest by
+uploading it as an artifact of its own run, which the pkg.distilled.cloud
+registry checks through the GitHub API.
 
 ### Why `STACKS_` and not `CLOUDFLARE_API_TOKEN`
 
@@ -103,8 +95,6 @@ credentials or changing repository settings:
 ```bash
 cd stacks/distilled-monorepo
 DISCORD_WEBHOOK_URL=<#releases webhook> \
-NPM_TOKEN=<npm token, dist-tag moves only> \
-PR_PACKAGE_TOKEN=<pkg.ing upload token> \
 ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
 DISTILLED_REPOS_PAT=<org fine-grained PAT> \
   pnpm exec alchemy deploy --stage prod --profile <admin profile>
@@ -113,9 +103,8 @@ DISTILLED_REPOS_PAT=<org fine-grained PAT> \
 Every line above is optional, so a bare deploy is safe and is enough to fix a
 missing `ALCHEMY_VERSION_BOT_ID` — that one is a public app id with a default
 in `alchemy.run.ts`, not something you supply. Without it the `Generate bot
-token` step of `release.yml`, `pr-package.yml` and `website.yml` fails with
-*the 'client-id' (or deprecated 'app-id') input must be set to a non-empty
-string*.
+token` step of `release.yml` and `website.yml` fails with *the 'client-id'
+(or deprecated 'app-id') input must be set to a non-empty string*.
 
 ### Where the values go
 
@@ -127,7 +116,6 @@ over `.env` unless `--env-file` is given, in which case the file wins.
 ```bash
 # stacks/distilled-monorepo/.env
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/…
-NPM_TOKEN=npm_…
 ```
 
 `DISTILLED_REPOS_PAT` is optional — without it the deploying profile's own
