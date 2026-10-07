@@ -19,6 +19,9 @@ await runOpenApiConvert({
     {
       name: "inngest",
       specPath: "specs/spec-mirror-inngest/specs/v2.json",
+      options: {
+        headerParams: true,
+      },
     },
   ],
   // OpenAPI-document patches (patches/inngest/*.patch.json). The smithy-model
@@ -28,6 +31,5 @@ await runOpenApiConvert({
     namespace: "com.inngest.api",
     serviceName: "Inngest",
     skipDeprecated: true,
-    headerParams: true,
   },
 });
