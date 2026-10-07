@@ -1,0 +1,1570 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.inngest.v1#ListEventsRequest": {
+      "type": "structure",
+      "members": {
+        "received_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "received_before",
+            "smithy.api#documentation": "List events received before this RFC3339 timestamp"
+          }
+        },
+        "received_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "received_after",
+            "smithy.api#documentation": "List events received after this RFC3339 timestamp"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The number of events to list"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "The optional name of the event to filter by"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "The internal event ID used as a cursor to paginate through events within your time range"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#ListEventsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "internal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier used to represent this event internally and to the API.",
+            "smithy.api#required": {}
+          }
+        },
+        "accountID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your account ID",
+            "smithy.api#required": {}
+          }
+        },
+        "environmentID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your environment ID",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The origin of the event, eg. \"key\" for an event key.",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the key used to deliver the event"
+          }
+        },
+        "receivedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event was received by Inngest",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `id` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `name` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The `data` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The `user` field specified in the event",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `ts` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "v": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `v` field specified in the event",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An event and metadata attached to the event returned from an API response"
+      }
+    },
+    "com.inngest.v1#ListEventsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.inngest.v1#ListEventsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListEventsResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "fetchedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cachedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListEventsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#ListEventsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.inngest.v1#ListEventsResponseMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#ListEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#ListEventsRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#ListEventsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/events",
+          "code": 200
+        },
+        "smithy.api#documentation": "List events\n\nFetches recent events from your environment."
+      }
+    },
+    "com.inngest.v1#GetEventRequest": {
+      "type": "structure",
+      "members": {
+        "internalID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#GetEventResponseData": {
+      "type": "structure",
+      "members": {
+        "internal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier used to represent this event internally and to the API.",
+            "smithy.api#required": {}
+          }
+        },
+        "accountID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your account ID",
+            "smithy.api#required": {}
+          }
+        },
+        "environmentID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your environment ID",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The origin of the event, eg. \"key\" for an event key.",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the key used to deliver the event"
+          }
+        },
+        "receivedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event was received by Inngest",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `id` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `name` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The `data` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The `user` field specified in the event",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The `ts` field specified in the event",
+            "smithy.api#required": {}
+          }
+        },
+        "v": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `v` field specified in the event",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An event and metadata attached to the event returned from an API response"
+      }
+    },
+    "com.inngest.v1#GetEventResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "fetchedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cachedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#GetEventResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#GetEventResponseData",
+          "traits": {
+            "smithy.api#documentation": "An event and metadata attached to the event returned from an API response",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.inngest.v1#GetEventResponseMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#GetEvent": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#GetEventRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#GetEventResponse"
+      },
+      "errors": [
+        {
+          "target": "com.inngest.v1#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/events/{internalID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an event\n\nRetrieve a single event within your environment, given its internal ID"
+      }
+    },
+    "com.inngest.v1#ListEventRunsRequest": {
+      "type": "structure",
+      "members": {
+        "internalID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#ListEventRunsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListEventRunsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the function run",
+            "smithy.api#required": {}
+          }
+        },
+        "run_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the function run was scheduled",
+            "smithy.api#required": {}
+          }
+        },
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If the function has ended, the end time.  A function has ended if the status is not Running.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.inngest.v1#ListEventRunsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Data returned from the function handler. The data structure returned will match what the function returns.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal ID of the triggering event, if the function was initialized via an event",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the batch, if this function was initialized via a batch of events",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "original_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The run ID of the original run, if this is a replay",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cron": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cron used to initialize this scheduled function, if the function was initialized via a cron",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListEventRunsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.inngest.v1#ListEventRunsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListEventRunsResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "fetchedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cachedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListEventRunsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#ListEventRunsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.inngest.v1#ListEventRunsResponseMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#ListEventRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#ListEventRunsRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#ListEventRunsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.inngest.v1#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/events/{internalID}/runs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List event function runs\n\nReturns function runs initialized by the given event"
+      }
+    },
+    "com.inngest.v1#GetRunRequest": {
+      "type": "structure",
+      "members": {
+        "runID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#GetRunResponseDataStatus": {
+      "type": "enum",
+      "members": {
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#GetRunResponseData": {
+      "type": "structure",
+      "members": {
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the function run",
+            "smithy.api#required": {}
+          }
+        },
+        "run_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the function run was scheduled",
+            "smithy.api#required": {}
+          }
+        },
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If the function has ended, the end time.  A function has ended if the status is not Running.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.inngest.v1#GetRunResponseDataStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Data returned from the function handler. The data structure returned will match what the function returns.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal ID of the triggering event, if the function was initialized via an event",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the batch, if this function was initialized via a batch of events",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "original_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The run ID of the original run, if this is a replay",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cron": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cron used to initialize this scheduled function, if the function was initialized via a cron",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#GetRunResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "fetchedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cachedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#GetRunResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#GetRunResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.inngest.v1#GetRunResponseMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#GetRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#GetRunRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#GetRunResponse"
+      },
+      "errors": [
+        {
+          "target": "com.inngest.v1#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/runs/{runID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a function run\n\nReturns a single function run by its run ID"
+      }
+    },
+    "com.inngest.v1#CancelRunRequest": {
+      "type": "structure",
+      "members": {
+        "runID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#CancelRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#CancelRunRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/runs/{runID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel a function run\n\nCancels a running function immediately.  No new steps will run after a function is cancelled."
+      }
+    },
+    "com.inngest.v1#GetRunJobsRequest": {
+      "type": "structure",
+      "members": {
+        "runID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#GetRunJobsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the job is scheduled to run"
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The position of the job within the function queue"
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The attempt number of the job"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single job returned when listing jobs within a run ID"
+      }
+    },
+    "com.inngest.v1#GetRunJobsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.inngest.v1#GetRunJobsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#GetRunJobsResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "fetchedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cachedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#GetRunJobsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#GetRunJobsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.inngest.v1#GetRunJobsResponseMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#GetRunJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#GetRunJobsRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#GetRunJobsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/runs/{runID}/jobs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch function run jobs\n\nAn endpoint to fetch a subset of the function run's jobs within the function_id queue, in order of earliest to latest. This primarily allows you to see the order of the run's jobs within the function queue.\n\nA single function enqueues all function run jobs wihtin the same queue.  This endpoint fetches a subset of jobs for a given function run.\n\nThis endpoint is rate limited and cached for 5 seconds."
+      }
+    },
+    "com.inngest.v1#ResumeSignalRequest": {
+      "type": "structure",
+      "members": {
+        "signal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signal to resume.  This is a unique string, and represents a single run waiting for the signal via `step.waitForSignal`."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The data to be sent to the waiting function run."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#ResumeSignalResponse": {
+      "type": "structure",
+      "members": {
+        "run_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#ResumeSignal": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#ResumeSignalRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#ResumeSignalResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/signals",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resume signal\n\nSends data to resume a given signal"
+      }
+    },
+    "com.inngest.v1#ListCancellationsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_internal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_after": {
+          "target": "smithy.api#String"
+        },
+        "if": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListCancellationsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.inngest.v1#ListCancellationsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListCancellationsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#ListCancellationsResponseDataList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#ListCancellations": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.inngest.v1#ListCancellationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/cancellations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List cancellations\n\nReturns all cancellations in your environment"
+      }
+    },
+    "com.inngest.v1#CreateCancellationRequest": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client ID specified via the SDK for the app, eg: `new Inngest({ id: \"this-id\" })`",
+            "smithy.api#required": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The function ID specified in the SDK",
+            "smithy.api#required": {}
+          }
+        },
+        "started_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_after": {
+          "target": "smithy.api#String"
+        },
+        "if": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#CreateCancellationResponseData": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_internal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_after": {
+          "target": "smithy.api#String"
+        },
+        "if": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#CreateCancellationResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#CreateCancellationResponseData"
+        },
+        "error": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#CreateCancellation": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#CreateCancellationRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#CreateCancellationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/cancellations",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a cancellation\n\nCreates a bulk cancellation, cancelling all functions in the given time range matching an optional expression"
+      }
+    },
+    "com.inngest.v1#DeleteCancellationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#DeleteCancellation": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#DeleteCancellationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/cancellations/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a cancellation\n\nDelete a cancellation, preventing the cancellation from stopping function runs between the given dates with a given expression."
+      }
+    },
+    "com.inngest.v1#WebhookListResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#WebhookListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#WebhookRecord": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the webhook endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A custom descripter for the webhook endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique URL endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "transform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A JavaScript transform function that accepts the inbound request components and returns an object in the Inngest event payload format.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "updated_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#WebhookListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.inngest.v1#WebhookRecord"
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#ListWebhooks": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.inngest.v1#WebhookListResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/webhooks",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get webhooks\n\nGet all webhook endpoints in the given environment."
+      }
+    },
+    "com.inngest.v1#CreateWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A custom descripter for the webhook endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "transform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A JavaScript transform function that accepts the inbound request components and returns an object in the Inngest event payload format.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#WebhookResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#WebhookRecord",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#CreateWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#CreateWebhookRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#WebhookResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/webhooks",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create webhook\n\nCreate a new webhook endpoint with the given configuration."
+      }
+    },
+    "com.inngest.v1#GetWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "uuid"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#GetWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#GetWebhookRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#WebhookResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/webhooks/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get webhook\n\nGet a webhook endpoint's configuration"
+      },
+      "errors": [
+        {
+          "target": "com.inngest.v1#WebhookNotFound"
+        },
+        {
+          "target": "com.inngest.v1#InvalidWebhookId"
+        }
+      ]
+    },
+    "com.inngest.v1#UpdateWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "uuid"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A custom descripter for the webhook endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "transform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A JavaScript transform function that accepts the inbound request components and returns an object in the Inngest event payload format.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#UpdateWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#UpdateWebhookRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#WebhookResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/webhooks/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update webhook\n\nUpdate a webhook endpoint's configuration"
+      },
+      "errors": [
+        {
+          "target": "com.inngest.v1#WebhookNotFound"
+        },
+        {
+          "target": "com.inngest.v1#InvalidWebhookId"
+        }
+      ]
+    },
+    "com.inngest.v1#DeleteWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "uuid"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.inngest.v1#DeleteWebhookResponseData": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the webhook endpoint"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.inngest.v1#DeleteWebhookResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.inngest.v1#DeleteWebhookResponseData"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.inngest.v1#DeleteWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.inngest.v1#DeleteWebhookRequest"
+      },
+      "output": {
+        "target": "com.inngest.v1#DeleteWebhookResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/webhooks/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete webhook\n\nDelete a webhook endpoint"
+      },
+      "errors": [
+        {
+          "target": "com.inngest.v1#WebhookNotFound"
+        },
+        {
+          "target": "com.inngest.v1#InvalidWebhookId"
+        }
+      ]
+    },
+    "com.inngest.v1#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.inngest.v1#InngestV1": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.inngest.v1#ListEvents"
+        },
+        {
+          "target": "com.inngest.v1#GetEvent"
+        },
+        {
+          "target": "com.inngest.v1#ListEventRuns"
+        },
+        {
+          "target": "com.inngest.v1#GetRun"
+        },
+        {
+          "target": "com.inngest.v1#CancelRun"
+        },
+        {
+          "target": "com.inngest.v1#GetRunJobs"
+        },
+        {
+          "target": "com.inngest.v1#ResumeSignal"
+        },
+        {
+          "target": "com.inngest.v1#ListCancellations"
+        },
+        {
+          "target": "com.inngest.v1#CreateCancellation"
+        },
+        {
+          "target": "com.inngest.v1#DeleteCancellation"
+        },
+        {
+          "target": "com.inngest.v1#ListWebhooks"
+        },
+        {
+          "target": "com.inngest.v1#CreateWebhook"
+        },
+        {
+          "target": "com.inngest.v1#GetWebhook"
+        },
+        {
+          "target": "com.inngest.v1#UpdateWebhook"
+        },
+        {
+          "target": "com.inngest.v1#DeleteWebhook"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "API v1",
+        "smithy.api#documentation": "Inngest is an event-driven durable workflow engine served in your own API, with zero new infrastructure. Learn more at https://www.inngest.com/\n\nThis API is the V1 API for interacting with events, functions, and runs programmatically.\n\n**Authentication**\n\nUse your environment's signing key as a bearer token.  You must an `Authorization` header with the value of `Bearer ${signing-key}` to authenticate.\n\n**Note**\n\nTrailing slashes on the URLs doesn't work."
+      }
+    },
+    "com.inngest.v1#WebhookNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "No webhook has the given id (HTTP 404 \"Webhook not found\").",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "message": {
+              "includes": "Webhook not found"
+            }
+          }
+        ]
+      }
+    },
+    "com.inngest.v1#InvalidWebhookId": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The webhook id is not a UUID (HTTP 400 \"Invalid webhook ID\").",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Invalid webhook ID"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
