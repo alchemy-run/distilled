@@ -172,6 +172,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
   const subSpec = { ...fullSpec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.forgejo.${slug}`,
     // Forgejo's tags are the singular resource names its definitions use —
     // `repository` / `Repository`, `organization` / `Organization`, `user` /

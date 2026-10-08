@@ -14,7 +14,9 @@
       "value": {
         "type": "structure",
         "members": {
-          "message": { "target": "smithy.api#String" }
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -28,7 +30,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#StartMachine/errors/-",
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/-",
       "value": {
         "target": "com.flyio.machines#MachineStartFromCreatedState"
       }
@@ -39,7 +41,9 @@
       "value": {
         "type": "structure",
         "members": {
-          "message": { "target": "smithy.api#String" }
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -54,8 +58,10 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#StartMachine/errors/-",
-      "value": { "target": "com.flyio.machines#MachineReplacing" }
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/-",
+      "value": {
+        "target": "com.flyio.machines#MachineReplacing"
+      }
     }
   ]
 }

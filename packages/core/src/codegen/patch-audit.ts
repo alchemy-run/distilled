@@ -48,6 +48,7 @@ import {
   PATCH_AUDIT_ENV,
   PATCH_AUDIT_MARKER,
   patchStage,
+  RENAME_MAP_ENV,
   SKIP_PATCHES_ENV,
   type InMemoryVerdict,
   type PatchStage,
@@ -541,4 +542,32 @@ export const auditPackage = async (
   if ("error" in result)
     return { kind: "skipped", reason: `baseline build fails: ${result.error}` };
   return done(result);
+};
+
+// ---------------------------------------------------------------------------
+// names
+
+/**
+ * Each model's deferred rename — upstream shape id → the final id in
+ * `.generated-specs` — from one convert on a scratch copy. Smithy patches
+ * apply before the rename, so they use the upstream ids.
+ */
+export const renameMaps = async (
+  pkgDir: string,
+): Promise<
+  { ok: true; maps: Record<string, Record<string, string>> } | { ok: false; error: string }
+> => {
+  const command = JSON.parse(readFileSync(join(pkgDir, "package.json"), "utf8")).scripts?.convert;
+  if (!command) return { ok: false, error: "no `convert` script" };
+  const copy = scratchCopy(pkgDir, 0);
+  try {
+    const out = join(copy, ".rename-map.json");
+    const result = await runConvert(command, copy, { ...process.env, [RENAME_MAP_ENV]: out });
+    // The maps are recorded before the Smithy patches apply, so a convert
+    // that fails on a stale patch still names its shapes.
+    if (existsSync(out)) return { ok: true, maps: JSON.parse(readFileSync(out, "utf8")) };
+    return result.ok ? { ok: true, maps: {} } : { ok: false, error: result.error };
+  } finally {
+    rmSync(copy, { recursive: true, force: true });
+  }
 };

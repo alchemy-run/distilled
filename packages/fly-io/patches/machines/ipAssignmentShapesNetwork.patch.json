@@ -4,12 +4,16 @@
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#IPAssignment/members/network/traits",
-      "value": { "com.distilled.openapi#nullable": {} }
+      "value": {
+        "com.distilled.openapi#nullable": {}
+      }
     },
     {
       "op": "add",
       "path": "/shapes/com.flyio.machines#AssignIPResponse/members/network/traits",
-      "value": { "com.distilled.openapi#nullable": {} }
+      "value": {
+        "com.distilled.openapi#nullable": {}
+      }
     },
     {
       "op": "add",
@@ -36,7 +40,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#CreateAppIPAssignment/errors/-",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsCreate/errors/-",
       "value": {
         "target": "com.flyio.machines#NetworkNotFound"
       }

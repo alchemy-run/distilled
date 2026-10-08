@@ -5,6 +5,10 @@ import { join } from "node:path";
  * patches — find RFC-6902 patches a package's spec no longer needs.
  *
  *   pnpm patches:audit <pkg>… [--ops] [--only <substring>] [--jobs <n>]
+ *   pnpm patches:names <pkg> [<substring>]
+ *
+ * `names` prints the shapes finalizeConvert renames after the patches
+ * (final ← upstream): a Smithy patch targets the upstream id.
  *
  * Name the packages to audit; a convert-stage audit re-runs convert once
  * per patch file, so it is never run across the whole repo. The engine is
@@ -29,7 +33,11 @@ import { join } from "node:path";
  * Every verdict is one-at-a-time: delete, `pnpm generate <pkg>`, and audit
  * again until the list is empty.
  */
-import { auditPackage, type FileVerdict } from "../packages/core/src/codegen/patch-audit.ts";
+import {
+  auditPackage,
+  renameMaps,
+  type FileVerdict,
+} from "../packages/core/src/codegen/patch-audit.ts";
 
 const ROOT = join(import.meta.dirname, "..");
 const MAX_DIFF_LINES = 12;
@@ -60,7 +68,30 @@ const printFile = ({ file, verdict, deadOps }: FileVerdict): void => {
 
 const args = process.argv.slice(2);
 const [command] = args;
-const usage = "usage: patches.ts audit <package>… [--ops] [--only <substring>] [--jobs <n>]";
+const usage =
+  "usage: patches.ts audit <package>… [--ops] [--only <substring>] [--jobs <n>]\n" +
+  "       patches.ts names <package> [<substring>]";
+
+if (command === "names") {
+  const [pkg, filter] = args.slice(1);
+  if (!pkg) die(usage);
+  const pkgDir = join(ROOT, "packages", pkg!);
+  if (!existsSync(join(pkgDir, "package.json"))) die(`packages/${pkg} does not exist`);
+  const result = await renameMaps(pkgDir);
+  if (!result.ok) die(`convert failed: ${result.error}`);
+  if (result.ok) {
+    let shown = 0;
+    for (const [model, map] of Object.entries(result.maps)) {
+      for (const [from, to] of Object.entries(map)) {
+        if (filter && !from.includes(filter) && !to.includes(filter)) continue;
+        console.log(`${model}: ${to} ← ${from}`);
+        shown++;
+      }
+    }
+    console.log(`${shown} renamed shape(s): final ← upstream (patch the upstream id)`);
+  }
+  process.exit(0);
+}
 if (command !== "audit") die(usage);
 const valueOf = (flag: string): string | undefined => {
   const at = args.indexOf(flag);

@@ -69,10 +69,19 @@ these naturally: when upstream publishes the same fix, the patch stops
 changing the model and `pnpm patches:audit` flags it.
 
 Patch the **Smithy model** (`/shapes/<namespace>#<Shape>`) for what the
-spec cannot say — mostly typed errors with matchers. Smithy shape names are
-derived by convert (inline schemas become names like
-`PaginatedDatabaseDataItem`), so open `.generated-specs/<model>.json` and
-copy the exact id rather than guessing it.
+spec cannot say — mostly typed errors with matchers. Smithy patches apply
+in `finalizeConvert` *before* the verbNoun rename, so they name shapes the
+way the spec does (`AppIPAssignmentsCreate`, not the `CreateAppIPAssignment`
+in `.generated-specs/`). Find the id with:
+
+```sh
+pnpm patches:names <pkg> CreateAppIPAssignment
+# machines: com.flyio.machines#CreateAppIPAssignment ← com.flyio.machines#AppIPAssignmentsCreate
+```
+
+A shape `names` does not list keeps its `.generated-specs` id. A shape a
+patch adds keeps the id the patch gives it; one that takes an id the rename
+needs fails the convert.
 
 Schemas the spec inlines are separate copies. A fix on
 `/definitions/ServiceToken` does not reach the inlined item schema of
@@ -109,7 +118,7 @@ operation's `errors`:
         { "status": 400, "message": { "includes": "network not found" } }
       ] } } },
 { "op": "add",
-  "path": "/shapes/com.flyio.machines#CreateAppIPAssignment/errors/-",
+  "path": "/shapes/com.flyio.machines#AppIPAssignmentsCreate/errors/-",
   "value": { "target": "com.flyio.machines#NetworkNotFound" } }
 ```
 

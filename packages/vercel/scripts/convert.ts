@@ -280,6 +280,7 @@ let totalOps = 0;
 for (const slug of [...tagBuckets.keys()].sort()) {
   const subSpec = { ...fullSpec, paths: tagBuckets.get(slug)! };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.vercel.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
