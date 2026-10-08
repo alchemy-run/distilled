@@ -1,0 +1,2435 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.comments#ListCommentsRequest": {
+      "type": "structure",
+      "members": {
+        "block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "block_id",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_cursor"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.comments#CommentObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The comment object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.notion.comments#CommentParentResponse",
+          "traits": {
+            "smithy.api#documentation": "The parent of the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "discussion_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the discussion thread this comment belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the comment was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the comment was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.comments#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "The user who created the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "rich_text": {
+          "target": "com.notion.comments#CommentObjectResponseRichTextList",
+          "traits": {
+            "smithy.api#documentation": "The rich text content of the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "com.notion.comments#CommentObjectResponseDisplayName",
+          "traits": {
+            "smithy.api#documentation": "The display name of the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "original_content_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this comment's original content was deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_pending_attachments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether any file attachments on this comment are still uploading. Pending files are not listed in `attachments` yet. A `comment.updated` webhook is sent when each upload finishes.",
+            "smithy.api#required": {}
+          }
+        },
+        "attachments": {
+          "target": "com.notion.comments#CommentObjectResponseAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Any file attachments associated with the comment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CommentParentResponse": {
+      "type": "union",
+      "members": {
+        "PageIdCommentParentResponse": {
+          "target": "com.notion.comments#PageIdCommentParentResponse"
+        },
+        "BlockIdCommentParentResponse": {
+          "target": "com.notion.comments#BlockIdCommentParentResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#PageIdCommentParentResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page_id`",
+            "smithy.api#required": {}
+          }
+        },
+        "page_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#BlockIdCommentParentResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `block_id`",
+            "smithy.api#required": {}
+          }
+        },
+        "block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#PartialUserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponse": {
+      "type": "structure",
+      "members": {
+        "plain_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plain text content of the rich text object, without any styling.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL that the rich text object links to or mentions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "annotations": {
+          "target": "com.notion.comments#AnnotationResponse",
+          "traits": {
+            "smithy.api#documentation": "All rich text objects contain an annotations object that sets the styling for the rich text.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `text`"
+          }
+        },
+        "text": {
+          "target": "com.notion.comments#RichTextItemResponseText",
+          "traits": {
+            "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+          }
+        },
+        "mention": {
+          "target": "com.notion.comments#RichTextItemResponseMention",
+          "traits": {
+            "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+          }
+        },
+        "equation": {
+          "target": "com.notion.comments#RichTextItemResponseEquation",
+          "traits": {
+            "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#AnnotationResponse": {
+      "type": "structure",
+      "members": {
+        "bold": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "italic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "strikethrough": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "underline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.comments#ApiColor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#ApiColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        },
+        "DEFAULT_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default_background"
+          }
+        },
+        "GRAY_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray_background"
+          }
+        },
+        "BROWN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown_background"
+          }
+        },
+        "ORANGE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange_background"
+          }
+        },
+        "YELLOW_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow_background"
+          }
+        },
+        "GREEN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green_background"
+          }
+        },
+        "BLUE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue_background"
+          }
+        },
+        "PURPLE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple_background"
+          }
+        },
+        "PINK_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink_background"
+          }
+        },
+        "RED_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red_background"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`, `default_background`, `gray_background`, `brown_background`, `orange_background`, `yellow_background`, `green_background`, `blue_background`, `purple_background`, `pink_background`, `red_background`"
+      }
+    },
+    "com.notion.comments#RichTextItemResponseTextLink": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseText": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual text content of the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "com.notion.comments#RichTextItemResponseTextLink",
+          "traits": {
+            "smithy.api#documentation": "An object with information about any inline link in this text, if included.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+      }
+    },
+    "com.notion.comments#UserValueResponse": {
+      "type": "union",
+      "members": {
+        "PartialUserObjectResponse": {
+          "target": "com.notion.comments#PartialUserObjectResponse"
+        },
+        "UserObjectResponse": {
+          "target": "com.notion.comments#UserObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#UserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.comments#UserObjectResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.comments#UserObjectResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#UserObjectResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.comments#BotInfoResponse": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "com.notion.comments#BotInfoResponseOwner",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the bot's workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_limits": {
+          "target": "com.notion.comments#BotInfoResponseWorkspaceLimits",
+          "traits": {
+            "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bot's workspace.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#BotInfoResponseOwnerCase0UserCase0Person": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person info of the user."
+      }
+    },
+    "com.notion.comments#BotInfoResponseOwnerCase0UserCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "person": {
+          "target": "com.notion.comments#BotInfoResponseOwnerCase0UserCase0Person",
+          "traits": {
+            "smithy.api#documentation": "The person info of the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#BotInfoResponseOwnerCase0User": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#BotInfoResponseOwnerCase0UserCase0"
+        },
+        "PartialUserObjectResponse": {
+          "target": "com.notion.comments#PartialUserObjectResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration."
+      }
+    },
+    "com.notion.comments#BotInfoResponseOwnerCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.comments#BotInfoResponseOwnerCase0User",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#BotInfoResponseOwnerCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `workspace`",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `workspace`. This means the bot is for an internal integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#BotInfoResponseOwner": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#BotInfoResponseOwnerCase0"
+        },
+        "Case1": {
+          "target": "com.notion.comments#BotInfoResponseOwnerCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot."
+      }
+    },
+    "com.notion.comments#BotInfoResponseWorkspaceLimits": {
+      "type": "structure",
+      "members": {
+        "max_file_upload_size_in_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum allowable size of a file upload, in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace"
+      }
+    },
+    "com.notion.comments#UserObjectResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.comments#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.comments#UserValueResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the user mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#DateResponse": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the date object.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end date of the date object, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time zone of the date object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.comments#DateResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the date mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#LinkPreviewMentionResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_preview`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_preview": {
+          "target": "com.notion.comments#LinkPreviewMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#LinkMentionResponse": {
+      "type": "structure",
+      "members": {
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The href of the link mention.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the link."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the link."
+          }
+        },
+        "link_author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author of the link."
+          }
+        },
+        "link_provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider of the link."
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail URL of the link."
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The icon URL of the link."
+          }
+        },
+        "iframe_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The iframe URL of the link."
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The height of the link preview iframe."
+          }
+        },
+        "padding": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The padding of the link preview iframe."
+          }
+        },
+        "padding_top": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The top padding of the link preview iframe."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_mention": {
+          "target": "com.notion.comments#LinkMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase4Page": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the page mention."
+      }
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase4": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page`",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase4Page",
+          "traits": {
+            "smithy.api#documentation": "Details of the page mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase5Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the database mention."
+      }
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase5": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `database`",
+            "smithy.api#required": {}
+          }
+        },
+        "database": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase5Database",
+          "traits": {
+            "smithy.api#documentation": "Details of the database mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#TemplateMentionResponse": {
+      "type": "union",
+      "members": {
+        "TemplateMentionDateTemplateMentionResponse": {
+          "target": "com.notion.comments#TemplateMentionDateTemplateMentionResponse"
+        },
+        "TemplateMentionUserTemplateMentionResponse": {
+          "target": "com.notion.comments#TemplateMentionUserTemplateMentionResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#TemplateMentionDateTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_date`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_date": {
+          "target": "com.notion.comments#TemplateMentionDateTemplateMentionResponseTemplateMentionDate",
+          "traits": {
+            "smithy.api#documentation": "The date of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#TemplateMentionDateTemplateMentionResponseTemplateMentionDate": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date of the template mention."
+      }
+    },
+    "com.notion.comments#TemplateMentionUserTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_user`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase6": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention": {
+          "target": "com.notion.comments#TemplateMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CustomEmojiResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMentionCase7": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.comments#CustomEmojiResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the custom emoji mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemResponseMention": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase0"
+        },
+        "Case1": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase1"
+        },
+        "Case2": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase2"
+        },
+        "Case3": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase3"
+        },
+        "Case4": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase4"
+        },
+        "Case5": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase5"
+        },
+        "Case6": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase6"
+        },
+        "Case7": {
+          "target": "com.notion.comments#RichTextItemResponseMentionCase7"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+      }
+    },
+    "com.notion.comments#RichTextItemResponseEquation": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A KaTeX compatible string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+      }
+    },
+    "com.notion.comments#CommentObjectResponseRichTextList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.comments#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The rich text content of the comment."
+      }
+    },
+    "com.notion.comments#CommentObjectResponseDisplayNameType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "INTEGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `custom`, `user`, `integration`"
+      }
+    },
+    "com.notion.comments#CommentObjectResponseDisplayName": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.comments#CommentObjectResponseDisplayNameType",
+          "traits": {
+            "smithy.api#documentation": "One of: `custom`, `user`, `integration`",
+            "smithy.api#required": {}
+          }
+        },
+        "resolved_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The display name of the comment."
+      }
+    },
+    "com.notion.comments#CommentObjectResponseAttachmentsItemCategory": {
+      "type": "enum",
+      "members": {
+        "AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "PDF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pdf"
+          }
+        },
+        "PRODUCTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "productivity"
+          }
+        },
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `audio`, `image`, `pdf`, `productivity`, `video`"
+      }
+    },
+    "com.notion.comments#InternalFileResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiry_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the URL will expire.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CommentObjectResponseAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "category": {
+          "target": "com.notion.comments#CommentObjectResponseAttachmentsItemCategory",
+          "traits": {
+            "smithy.api#documentation": "One of: `audio`, `image`, `pdf`, `productivity`, `video`",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "com.notion.comments#InternalFileResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CommentObjectResponseAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.comments#CommentObjectResponseAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Any file attachments associated with the comment."
+      }
+    },
+    "com.notion.comments#ListCommentsResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.comments#CommentObjectResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RequestStatusResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.comments#RequestStatusResponseType",
+          "traits": {
+            "smithy.api#documentation": "Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit).",
+            "smithy.api#required": {}
+          }
+        },
+        "incomplete_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the result set is incomplete. Only present when `type` is `incomplete`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RequestStatusResponseType": {
+      "type": "enum",
+      "members": {
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incomplete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit)."
+      }
+    },
+    "com.notion.comments#ListCommentsResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `list`",
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.notion.comments#ListCommentsResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `comment`",
+            "smithy.api#required": {}
+          }
+        },
+        "comment": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_status": {
+          "target": "com.notion.comments#RequestStatusResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.comments#ListComments": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.comments#ListCommentsRequest"
+      },
+      "output": {
+        "target": "com.notion.comments#ListCommentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/comments",
+          "code": 200
+        },
+        "smithy.api#documentation": "List comments",
+        "smithy.api#paginated": {
+          "inputToken": "start_cursor",
+          "outputToken": "next_cursor",
+          "items": "results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.notion.comments#CreateCommentRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "file_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of a FileUpload object that has the status `uploaded`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `file_upload`"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.comments#CreateCommentRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of files to attach to the comment. Maximum of 3 allowed."
+      }
+    },
+    "com.notion.comments#CreateCommentRequestDisplayNameCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `integration`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestDisplayNameCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestDisplayNameCase2Custom": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The custom display name to use",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestDisplayNameCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom`",
+            "smithy.api#required": {}
+          }
+        },
+        "custom": {
+          "target": "com.notion.comments#CreateCommentRequestDisplayNameCase2Custom",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestDisplayName": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#CreateCommentRequestDisplayNameCase0"
+        },
+        "Case1": {
+          "target": "com.notion.comments#CreateCommentRequestDisplayNameCase1"
+        },
+        "Case2": {
+          "target": "com.notion.comments#CreateCommentRequestDisplayNameCase2"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Display name for the comment."
+      }
+    },
+    "com.notion.comments#CreateCommentRequestParentCase0": {
+      "type": "structure",
+      "members": {
+        "page_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent page (with or without dashes), for example, 195de9221179449fab8075a27c979105",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page_id`"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestParentCase1": {
+      "type": "structure",
+      "members": {
+        "block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent block (with or without dashes), for example, 195de9221179449fab8075a27c979105",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `block_id`"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentRequestParent": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#CreateCommentRequestParentCase0"
+        },
+        "Case1": {
+          "target": "com.notion.comments#CreateCommentRequestParentCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent of the comment. This can be a page or a block."
+      }
+    },
+    "com.notion.comments#RichTextItemRequest": {
+      "type": "structure",
+      "members": {
+        "annotations": {
+          "target": "com.notion.comments#AnnotationRequest",
+          "traits": {
+            "smithy.api#documentation": "All rich text objects contain an annotations object that sets the styling for the rich text."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `text`"
+          }
+        },
+        "text": {
+          "target": "com.notion.comments#RichTextItemRequestText",
+          "traits": {
+            "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+          }
+        },
+        "mention": {
+          "target": "com.notion.comments#RichTextItemRequestMention",
+          "traits": {
+            "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+          }
+        },
+        "equation": {
+          "target": "com.notion.comments#RichTextItemRequestEquation",
+          "traits": {
+            "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#AnnotationRequest": {
+      "type": "structure",
+      "members": {
+        "bold": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted as bold."
+          }
+        },
+        "italic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted as italic."
+          }
+        },
+        "strikethrough": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted with a strikethrough."
+          }
+        },
+        "underline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted with an underline."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted as code."
+          }
+        },
+        "color": {
+          "target": "com.notion.comments#ApiColor",
+          "traits": {
+            "smithy.api#documentation": "The color of the text."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestTextLink": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestText": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual text content of the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "com.notion.comments#RichTextItemRequestTextLink",
+          "traits": {
+            "smithy.api#documentation": "An object with information about any inline link in this text, if included.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+      }
+    },
+    "com.notion.comments#PartialUserObjectRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`"
+          }
+        },
+        "user": {
+          "target": "com.notion.comments#PartialUserObjectRequest",
+          "traits": {
+            "smithy.api#documentation": "Details of the user mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#DateRequest": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the date object.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end date of the date object, if any.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time zone of the date object, if any. E.g. America/Los_Angeles, Europe/London, etc.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`"
+          }
+        },
+        "date": {
+          "target": "com.notion.comments#DateRequest",
+          "traits": {
+            "smithy.api#documentation": "Details of the date mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase2Page": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the page mention."
+      }
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page`"
+          }
+        },
+        "page": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase2Page",
+          "traits": {
+            "smithy.api#documentation": "Details of the page mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase3Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the database mention."
+      }
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `database`"
+          }
+        },
+        "database": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase3Database",
+          "traits": {
+            "smithy.api#documentation": "Details of the database mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#TemplateMentionRequest": {
+      "type": "union",
+      "members": {
+        "TemplateMentionDateTemplateMentionRequest": {
+          "target": "com.notion.comments#TemplateMentionDateTemplateMentionRequest"
+        },
+        "TemplateMentionUserTemplateMentionRequest": {
+          "target": "com.notion.comments#TemplateMentionUserTemplateMentionRequest"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#TemplateMentionDateTemplateMentionRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_date`"
+          }
+        },
+        "template_mention_date": {
+          "target": "com.notion.comments#TemplateMentionDateTemplateMentionRequestTemplateMentionDate",
+          "traits": {
+            "smithy.api#documentation": "The date of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#TemplateMentionDateTemplateMentionRequestTemplateMentionDate": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date of the template mention."
+      }
+    },
+    "com.notion.comments#TemplateMentionUserTemplateMentionRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_user`"
+          }
+        },
+        "template_mention_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase4": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention`"
+          }
+        },
+        "template_mention": {
+          "target": "com.notion.comments#TemplateMentionRequest",
+          "traits": {
+            "smithy.api#documentation": "Details of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase5CustomEmoji": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the custom emoji mention."
+      }
+    },
+    "com.notion.comments#RichTextItemRequestMentionCase5": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`"
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase5CustomEmoji",
+          "traits": {
+            "smithy.api#documentation": "Details of the custom emoji mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#RichTextItemRequestMention": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase0"
+        },
+        "Case1": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase1"
+        },
+        "Case2": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase2"
+        },
+        "Case3": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase3"
+        },
+        "Case4": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase4"
+        },
+        "Case5": {
+          "target": "com.notion.comments#RichTextItemRequestMentionCase5"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+      }
+    },
+    "com.notion.comments#RichTextItemRequestEquation": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A KaTeX compatible string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+      }
+    },
+    "com.notion.comments#CreateCommentRequestRichTextList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.comments#RichTextItemRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rich text objects that represent the content of the comment."
+      }
+    },
+    "com.notion.comments#CreateCommentRequest": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.notion.comments#CreateCommentRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "An array of files to attach to the comment. Maximum of 3 allowed."
+          }
+        },
+        "display_name": {
+          "target": "com.notion.comments#CreateCommentRequestDisplayName",
+          "traits": {
+            "smithy.api#documentation": "Display name for the comment."
+          }
+        },
+        "parent": {
+          "target": "com.notion.comments#CreateCommentRequestParent",
+          "traits": {
+            "smithy.api#documentation": "The parent of the comment. This can be a page or a block."
+          }
+        },
+        "rich_text": {
+          "target": "com.notion.comments#CreateCommentRequestRichTextList",
+          "traits": {
+            "smithy.api#documentation": "An array of rich text objects that represent the content of the comment."
+          }
+        },
+        "markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The content of the comment as a Markdown string. Comment Markdown supports inline formatting only (bold, italic, strikethrough, code, links), inline equations ($expression$), and mentions. Block-level Markdown such as fenced code blocks, headings, lists, tables, and blockquotes does not render as structured blocks in comments."
+          }
+        },
+        "discussion_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the discussion to comment on."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.comments#PartialCommentObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The comment object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the comment.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialCommentObjectResponse": {
+          "target": "com.notion.comments#PartialCommentObjectResponse"
+        },
+        "CommentObjectResponse": {
+          "target": "com.notion.comments#CommentObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#CreateCommentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.comments#CreateCommentResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.comments#CreateComment": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.comments#CreateCommentRequest"
+      },
+      "output": {
+        "target": "com.notion.comments#CreateCommentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/comments",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a comment"
+      }
+    },
+    "com.notion.comments#GetCommentRequest": {
+      "type": "structure",
+      "members": {
+        "comment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.comments#GetCommentResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialCommentObjectResponse": {
+          "target": "com.notion.comments#PartialCommentObjectResponse"
+        },
+        "CommentObjectResponse": {
+          "target": "com.notion.comments#CommentObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#GetCommentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.comments#GetCommentResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.comments#GetComment": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.comments#GetCommentRequest"
+      },
+      "output": {
+        "target": "com.notion.comments#GetCommentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/comments/{comment_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a comment"
+      }
+    },
+    "com.notion.comments#UpdateCommentRequestBodyCase0RichTextList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.comments#RichTextItemRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of rich text objects that represent the updated content of the comment."
+      }
+    },
+    "com.notion.comments#UpdateCommentRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "rich_text": {
+          "target": "com.notion.comments#UpdateCommentRequestBodyCase0RichTextList",
+          "traits": {
+            "smithy.api#documentation": "An array of rich text objects that represent the updated content of the comment.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#UpdateCommentRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated content of the comment as a Markdown string. Comment Markdown supports inline formatting only (bold, italic, strikethrough, code, links), inline equations ($expression$), and mentions. Block-level Markdown such as fenced code blocks, headings, lists, tables, and blockquotes does not render as structured blocks in comments.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#UpdateCommentRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.comments#UpdateCommentRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.notion.comments#UpdateCommentRequestBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#UpdateCommentRequest": {
+      "type": "structure",
+      "members": {
+        "comment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.notion.comments#UpdateCommentRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.comments#UpdateCommentResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialCommentObjectResponse": {
+          "target": "com.notion.comments#PartialCommentObjectResponse"
+        },
+        "CommentObjectResponse": {
+          "target": "com.notion.comments#CommentObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#UpdateCommentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.comments#UpdateCommentResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.comments#UpdateComment": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.comments#UpdateCommentRequest"
+      },
+      "output": {
+        "target": "com.notion.comments#UpdateCommentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/comments/{comment_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a comment"
+      }
+    },
+    "com.notion.comments#DeleteCommentRequest": {
+      "type": "structure",
+      "members": {
+        "comment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.comments#DeleteCommentResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialCommentObjectResponse": {
+          "target": "com.notion.comments#PartialCommentObjectResponse"
+        },
+        "CommentObjectResponse": {
+          "target": "com.notion.comments#CommentObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.comments#DeleteCommentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.comments#DeleteCommentResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.comments#DeleteComment": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.comments#DeleteCommentRequest"
+      },
+      "output": {
+        "target": "com.notion.comments#DeleteCommentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/comments/{comment_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a comment"
+      }
+    },
+    "com.notion.comments#Comments": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.comments#ListComments"
+        },
+        {
+          "target": "com.notion.comments#CreateComment"
+        },
+        {
+          "target": "com.notion.comments#GetComment"
+        },
+        {
+          "target": "com.notion.comments#UpdateComment"
+        },
+        {
+          "target": "com.notion.comments#DeleteComment"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

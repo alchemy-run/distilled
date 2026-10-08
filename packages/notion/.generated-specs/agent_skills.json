@@ -1,0 +1,283 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.agent_skills#ListPluginsRequest": {
+      "type": "structure",
+      "members": {
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_cursor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.agent_skills#ListPluginsResponseResultsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque version identifier for the plugin. Compare this value for equality to determine whether the plugin has changed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.agent_skills#ListPluginsResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.agent_skills#ListPluginsResponseResultsItem"
+      },
+      "traits": {}
+    },
+    "com.notion.agent_skills#ListPluginsResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `list`",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.notion.agent_skills#ListPluginsResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `plugin`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.agent_skills#ListPlugins": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.agent_skills#ListPluginsRequest"
+      },
+      "output": {
+        "target": "com.notion.agent_skills#ListPluginsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/ai/plugins",
+          "code": 200
+        },
+        "smithy.api#documentation": "List skills plugins",
+        "smithy.api#paginated": {
+          "inputToken": "start_cursor",
+          "outputToken": "next_cursor",
+          "items": "results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.notion.agent_skills#GetPluginDirectoryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.agent_skills#GetPluginDirectoryResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque version identifier for the plugin directory. Compare this value for equality to determine whether the directory has changed. This matches the version_id in the corresponding plugin summary.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary signed URL for downloading the plugin directory as a gzipped tar archive.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.agent_skills#GetPluginDirectory": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.agent_skills#GetPluginDirectoryRequest"
+      },
+      "output": {
+        "target": "com.notion.agent_skills#GetPluginDirectoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/ai/plugins/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a plugin directory"
+      }
+    },
+    "com.notion.agent_skills#GetSkillDirectoryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.agent_skills#GetSkillDirectoryResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the skill page.",
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable content version for the generated skill directory.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary signed URL for downloading the skill directory archive.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.agent_skills#GetSkillDirectory": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.agent_skills#GetSkillDirectoryRequest"
+      },
+      "output": {
+        "target": "com.notion.agent_skills#GetSkillDirectoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/ai/skills/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a skill directory"
+      }
+    },
+    "com.notion.agent_skills#AgentSkills": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.agent_skills#ListPlugins"
+        },
+        {
+          "target": "com.notion.agent_skills#GetPluginDirectory"
+        },
+        {
+          "target": "com.notion.agent_skills#GetSkillDirectory"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

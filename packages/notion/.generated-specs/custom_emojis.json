@@ -1,0 +1,163 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.custom_emojis#ListCustomEmojisRequest": {
+      "type": "structure",
+      "members": {
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_cursor"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.custom_emojis#CustomEmojiResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.custom_emojis#ListCustomEmojisResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.custom_emojis#CustomEmojiResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of custom emojis."
+      }
+    },
+    "com.notion.custom_emojis#ListCustomEmojisResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `list`",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.notion.custom_emojis#ListCustomEmojisResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "The list of custom emojis.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more results available.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cursor to use for the next page of results, or null if there are no more results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.custom_emojis#ListCustomEmojis": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.custom_emojis#ListCustomEmojisRequest"
+      },
+      "output": {
+        "target": "com.notion.custom_emojis#ListCustomEmojisResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/custom_emojis",
+          "code": 200
+        },
+        "smithy.api#documentation": "List custom emojis",
+        "smithy.api#paginated": {
+          "inputToken": "start_cursor",
+          "outputToken": "next_cursor",
+          "items": "results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.notion.custom_emojis#CustomEmojis": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.custom_emojis#ListCustomEmojis"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

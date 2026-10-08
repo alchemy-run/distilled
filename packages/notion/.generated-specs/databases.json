@@ -1,0 +1,3413 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.databases#GetDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.databases#PartialDatabaseObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#DatabaseObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "com.notion.databases#DatabaseObjectResponseTitleList",
+          "traits": {
+            "smithy.api#documentation": "The title of the database.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "com.notion.databases#DatabaseObjectResponseDescriptionList",
+          "traits": {
+            "smithy.api#documentation": "The description of the database.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.notion.databases#ParentOfDatabaseResponse",
+          "traits": {
+            "smithy.api#documentation": "The parent of the database. This is typically a page, block, or workspace, but can be another database in the case of wikis.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_inline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database is inline.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_type": {
+          "target": "com.notion.databases#DatabaseObjectResponseDatabaseType",
+          "traits": {
+            "smithy.api#documentation": "The type of typed database, such as `tasks`, `projects`, or `skills`, or `null` for a regular database. Create a database accepts `tasks`, `projects`, and `skills`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database is in the trash.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database is locked from editing in the Notion app UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the database was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the database was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "data_sources": {
+          "target": "com.notion.databases#DatabaseObjectResponseDataSourcesList",
+          "traits": {
+            "smithy.api#documentation": "The data sources of the database.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon": {
+          "target": "com.notion.databases#PageIconResponse",
+          "traits": {
+            "smithy.api#documentation": "The icon of the database.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cover": {
+          "target": "com.notion.databases#PageCoverResponse",
+          "traits": {
+            "smithy.api#documentation": "The cover of the database.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the database.",
+            "smithy.api#required": {}
+          }
+        },
+        "public_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public URL of the database if it is publicly accessible.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponse": {
+      "type": "structure",
+      "members": {
+        "plain_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plain text content of the rich text object, without any styling.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL that the rich text object links to or mentions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "annotations": {
+          "target": "com.notion.databases#AnnotationResponse",
+          "traits": {
+            "smithy.api#documentation": "All rich text objects contain an annotations object that sets the styling for the rich text.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `text`"
+          }
+        },
+        "text": {
+          "target": "com.notion.databases#RichTextItemResponseText",
+          "traits": {
+            "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+          }
+        },
+        "mention": {
+          "target": "com.notion.databases#RichTextItemResponseMention",
+          "traits": {
+            "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+          }
+        },
+        "equation": {
+          "target": "com.notion.databases#RichTextItemResponseEquation",
+          "traits": {
+            "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#AnnotationResponse": {
+      "type": "structure",
+      "members": {
+        "bold": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "italic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "strikethrough": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "underline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#ApiColor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ApiColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        },
+        "DEFAULT_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default_background"
+          }
+        },
+        "GRAY_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray_background"
+          }
+        },
+        "BROWN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown_background"
+          }
+        },
+        "ORANGE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange_background"
+          }
+        },
+        "YELLOW_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow_background"
+          }
+        },
+        "GREEN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green_background"
+          }
+        },
+        "BLUE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue_background"
+          }
+        },
+        "PURPLE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple_background"
+          }
+        },
+        "PINK_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink_background"
+          }
+        },
+        "RED_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red_background"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`, `default_background`, `gray_background`, `brown_background`, `orange_background`, `yellow_background`, `green_background`, `blue_background`, `purple_background`, `pink_background`, `red_background`"
+      }
+    },
+    "com.notion.databases#RichTextItemResponseTextLink": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseText": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual text content of the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "com.notion.databases#RichTextItemResponseTextLink",
+          "traits": {
+            "smithy.api#documentation": "An object with information about any inline link in this text, if included.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+      }
+    },
+    "com.notion.databases#UserValueResponse": {
+      "type": "union",
+      "members": {
+        "PartialUserObjectResponse": {
+          "target": "com.notion.databases#PartialUserObjectResponse"
+        },
+        "UserObjectResponse": {
+          "target": "com.notion.databases#UserObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PartialUserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#UserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.databases#UserObjectResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.databases#UserObjectResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#UserObjectResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.databases#BotInfoResponse": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "com.notion.databases#BotInfoResponseOwner",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the bot's workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_limits": {
+          "target": "com.notion.databases#BotInfoResponseWorkspaceLimits",
+          "traits": {
+            "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bot's workspace.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#BotInfoResponseOwnerCase0UserCase0Person": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person info of the user."
+      }
+    },
+    "com.notion.databases#BotInfoResponseOwnerCase0UserCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "person": {
+          "target": "com.notion.databases#BotInfoResponseOwnerCase0UserCase0Person",
+          "traits": {
+            "smithy.api#documentation": "The person info of the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#BotInfoResponseOwnerCase0User": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.databases#BotInfoResponseOwnerCase0UserCase0"
+        },
+        "PartialUserObjectResponse": {
+          "target": "com.notion.databases#PartialUserObjectResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration."
+      }
+    },
+    "com.notion.databases#BotInfoResponseOwnerCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.databases#BotInfoResponseOwnerCase0User",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#BotInfoResponseOwnerCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `workspace`",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `workspace`. This means the bot is for an internal integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#BotInfoResponseOwner": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.databases#BotInfoResponseOwnerCase0"
+        },
+        "Case1": {
+          "target": "com.notion.databases#BotInfoResponseOwnerCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot."
+      }
+    },
+    "com.notion.databases#BotInfoResponseWorkspaceLimits": {
+      "type": "structure",
+      "members": {
+        "max_file_upload_size_in_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum allowable size of a file upload, in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace"
+      }
+    },
+    "com.notion.databases#UserObjectResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.databases#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.databases#UserValueResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the user mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#DateResponse": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the date object.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end date of the date object, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time zone of the date object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.databases#DateResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the date mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#LinkPreviewMentionResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_preview`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_preview": {
+          "target": "com.notion.databases#LinkPreviewMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#LinkMentionResponse": {
+      "type": "structure",
+      "members": {
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The href of the link mention.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the link."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the link."
+          }
+        },
+        "link_author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author of the link."
+          }
+        },
+        "link_provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider of the link."
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail URL of the link."
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The icon URL of the link."
+          }
+        },
+        "iframe_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The iframe URL of the link."
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The height of the link preview iframe."
+          }
+        },
+        "padding": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The padding of the link preview iframe."
+          }
+        },
+        "padding_top": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The top padding of the link preview iframe."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_mention": {
+          "target": "com.notion.databases#LinkMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase4Page": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the page mention."
+      }
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase4": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page`",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase4Page",
+          "traits": {
+            "smithy.api#documentation": "Details of the page mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase5Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the database mention."
+      }
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase5": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `database`",
+            "smithy.api#required": {}
+          }
+        },
+        "database": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase5Database",
+          "traits": {
+            "smithy.api#documentation": "Details of the database mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#TemplateMentionResponse": {
+      "type": "union",
+      "members": {
+        "TemplateMentionDateTemplateMentionResponse": {
+          "target": "com.notion.databases#TemplateMentionDateTemplateMentionResponse"
+        },
+        "TemplateMentionUserTemplateMentionResponse": {
+          "target": "com.notion.databases#TemplateMentionUserTemplateMentionResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#TemplateMentionDateTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_date`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_date": {
+          "target": "com.notion.databases#TemplateMentionDateTemplateMentionResponseTemplateMentionDate",
+          "traits": {
+            "smithy.api#documentation": "The date of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#TemplateMentionDateTemplateMentionResponseTemplateMentionDate": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date of the template mention."
+      }
+    },
+    "com.notion.databases#TemplateMentionUserTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_user`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase6": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention": {
+          "target": "com.notion.databases#TemplateMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#CustomEmojiResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMentionCase7": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.databases#CustomEmojiResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the custom emoji mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemResponseMention": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase0"
+        },
+        "Case1": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase1"
+        },
+        "Case2": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase2"
+        },
+        "Case3": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase3"
+        },
+        "Case4": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase4"
+        },
+        "Case5": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase5"
+        },
+        "Case6": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase6"
+        },
+        "Case7": {
+          "target": "com.notion.databases#RichTextItemResponseMentionCase7"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+      }
+    },
+    "com.notion.databases#RichTextItemResponseEquation": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A KaTeX compatible string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+      }
+    },
+    "com.notion.databases#DatabaseObjectResponseTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The title of the database."
+      }
+    },
+    "com.notion.databases#DatabaseObjectResponseDescriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The description of the database."
+      }
+    },
+    "com.notion.databases#ParentOfDatabaseResponse": {
+      "type": "union",
+      "members": {
+        "PageIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.databases#PageIdParentForBlockBasedObjectResponse"
+        },
+        "WorkspaceParentForBlockBasedObjectResponse": {
+          "target": "com.notion.databases#WorkspaceParentForBlockBasedObjectResponse"
+        },
+        "DatabaseParentResponse": {
+          "target": "com.notion.databases#DatabaseParentResponse"
+        },
+        "BlockIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.databases#BlockIdParentForBlockBasedObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PageIdParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#WorkspaceParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true for workspace parent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#DatabaseParentResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent database.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#BlockIdParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent block.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#DatabaseObjectResponseDatabaseType": {
+      "type": "enum",
+      "members": {
+        "TASKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tasks"
+          }
+        },
+        "PROJECTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "projects"
+          }
+        },
+        "SPRINTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprints"
+          }
+        },
+        "DOCS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docs"
+          }
+        },
+        "WIKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wiki"
+          }
+        },
+        "MEETINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meetings"
+          }
+        },
+        "MEETING_NOTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meeting_notes"
+          }
+        },
+        "SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skills"
+          }
+        },
+        "GITHUB_PRS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github_prs"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `tasks`, `projects`, `sprints`, `docs`, `wiki`, `meetings`, `meeting_notes`, `skills`, `github_prs`"
+      }
+    },
+    "com.notion.databases#DataSourceReferenceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the data source.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#DatabaseObjectResponseDataSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#DataSourceReferenceResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The data sources of the database."
+      }
+    },
+    "com.notion.databases#PageIconResponse": {
+      "type": "union",
+      "members": {
+        "EmojiPageIconResponse": {
+          "target": "com.notion.databases#EmojiPageIconResponse"
+        },
+        "FilePageIconResponse": {
+          "target": "com.notion.databases#FilePageIconResponse"
+        },
+        "ExternalPageIconResponse": {
+          "target": "com.notion.databases#ExternalPageIconResponse"
+        },
+        "CustomEmojiPageIconResponse": {
+          "target": "com.notion.databases#CustomEmojiPageIconResponse"
+        },
+        "IconPageIconResponse": {
+          "target": "com.notion.databases#IconPageIconResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#EmojiPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, an emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji character used as the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#FilePageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, a file.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "com.notion.databases#InternalFileResponse",
+          "traits": {
+            "smithy.api#documentation": "The file URL for the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#InternalFileResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiry_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the URL will expire.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, an external URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "external": {
+          "target": "com.notion.databases#ExternalPageIconResponseExternal",
+          "traits": {
+            "smithy.api#documentation": "The external URL for the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageIconResponseExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file or resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external URL for the icon."
+      }
+    },
+    "com.notion.databases#CustomEmojiPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, a custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.databases#CustomEmojiResponse",
+          "traits": {
+            "smithy.api#documentation": "The custom emoji details for the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#IconPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, a Notion native icon.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon": {
+          "target": "com.notion.databases#NoticonIconResponse",
+          "traits": {
+            "smithy.api#documentation": "The Notion native icon, specified by name and color.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#NoticonIconResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Notion icon (e.g. pizza, meeting, home). See the Notion icon picker for valid names.",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#NoticonColor",
+          "traits": {
+            "smithy.api#documentation": "The color variant of the icon. Valid values: gray, lightgray, brown, yellow, orange, green, blue, purple, pink, red.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#NoticonColor": {
+      "type": "enum",
+      "members": {
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "LIGHTGRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lightgray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `gray`, `lightgray`, `brown`, `yellow`, `orange`, `green`, `blue`, `purple`, `pink`, `red`"
+      }
+    },
+    "com.notion.databases#PageCoverResponse": {
+      "type": "union",
+      "members": {
+        "FilePageCoverResponse": {
+          "target": "com.notion.databases#FilePageCoverResponse"
+        },
+        "ExternalPageCoverResponse": {
+          "target": "com.notion.databases#ExternalPageCoverResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#FilePageCoverResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of cover. In this case, a file.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "com.notion.databases#InternalFileResponse",
+          "traits": {
+            "smithy.api#documentation": "The file URL for the cover.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageCoverResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of cover. In this case, an external URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "external": {
+          "target": "com.notion.databases#ExternalPageCoverResponseExternal",
+          "traits": {
+            "smithy.api#documentation": "The external URL for the cover.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageCoverResponseExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file or resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external URL for the cover."
+      }
+    },
+    "com.notion.databases#GetDatabaseResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialDatabaseObjectResponse": {
+          "target": "com.notion.databases#PartialDatabaseObjectResponse"
+        },
+        "DatabaseObjectResponse": {
+          "target": "com.notion.databases#DatabaseObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#GetDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.databases#GetDatabaseResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.databases#GetDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.databases#GetDatabaseRequest"
+      },
+      "output": {
+        "target": "com.notion.databases#GetDatabaseResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/databases/{database_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a database"
+      }
+    },
+    "com.notion.databases#UpdateDatabaseRequestParentType": {
+      "type": "enum",
+      "members": {
+        "PAGE_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_id"
+          }
+        },
+        "WORKSPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workspace"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of parent."
+      }
+    },
+    "com.notion.databases#UpdateDatabaseRequestParent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.databases#UpdateDatabaseRequestParentType",
+          "traits": {
+            "smithy.api#documentation": "The type of parent.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_id": {
+          "target": "smithy.api#String"
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent page or workspace to move the database to. If not provided, the database will not be moved."
+      }
+    },
+    "com.notion.databases#RichTextItemRequest": {
+      "type": "structure",
+      "members": {
+        "annotations": {
+          "target": "com.notion.databases#AnnotationRequest",
+          "traits": {
+            "smithy.api#documentation": "All rich text objects contain an annotations object that sets the styling for the rich text."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `text`"
+          }
+        },
+        "text": {
+          "target": "com.notion.databases#RichTextItemRequestText",
+          "traits": {
+            "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+          }
+        },
+        "mention": {
+          "target": "com.notion.databases#RichTextItemRequestMention",
+          "traits": {
+            "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+          }
+        },
+        "equation": {
+          "target": "com.notion.databases#RichTextItemRequestEquation",
+          "traits": {
+            "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#AnnotationRequest": {
+      "type": "structure",
+      "members": {
+        "bold": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted as bold."
+          }
+        },
+        "italic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted as italic."
+          }
+        },
+        "strikethrough": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted with a strikethrough."
+          }
+        },
+        "underline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted with an underline."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the text is formatted as code."
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#ApiColor",
+          "traits": {
+            "smithy.api#documentation": "The color of the text."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestTextLink": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestText": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual text content of the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "com.notion.databases#RichTextItemRequestTextLink",
+          "traits": {
+            "smithy.api#documentation": "An object with information about any inline link in this text, if included.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+      }
+    },
+    "com.notion.databases#PartialUserObjectRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`"
+          }
+        },
+        "user": {
+          "target": "com.notion.databases#PartialUserObjectRequest",
+          "traits": {
+            "smithy.api#documentation": "Details of the user mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#DateRequest": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the date object.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end date of the date object, if any.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time zone of the date object, if any. E.g. America/Los_Angeles, Europe/London, etc.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`"
+          }
+        },
+        "date": {
+          "target": "com.notion.databases#DateRequest",
+          "traits": {
+            "smithy.api#documentation": "Details of the date mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase2Page": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the page mention."
+      }
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page`"
+          }
+        },
+        "page": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase2Page",
+          "traits": {
+            "smithy.api#documentation": "Details of the page mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase3Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the database mention."
+      }
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `database`"
+          }
+        },
+        "database": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase3Database",
+          "traits": {
+            "smithy.api#documentation": "Details of the database mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#TemplateMentionRequest": {
+      "type": "union",
+      "members": {
+        "TemplateMentionDateTemplateMentionRequest": {
+          "target": "com.notion.databases#TemplateMentionDateTemplateMentionRequest"
+        },
+        "TemplateMentionUserTemplateMentionRequest": {
+          "target": "com.notion.databases#TemplateMentionUserTemplateMentionRequest"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#TemplateMentionDateTemplateMentionRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_date`"
+          }
+        },
+        "template_mention_date": {
+          "target": "com.notion.databases#TemplateMentionDateTemplateMentionRequestTemplateMentionDate",
+          "traits": {
+            "smithy.api#documentation": "The date of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#TemplateMentionDateTemplateMentionRequestTemplateMentionDate": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date of the template mention."
+      }
+    },
+    "com.notion.databases#TemplateMentionUserTemplateMentionRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_user`"
+          }
+        },
+        "template_mention_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase4": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention`"
+          }
+        },
+        "template_mention": {
+          "target": "com.notion.databases#TemplateMentionRequest",
+          "traits": {
+            "smithy.api#documentation": "Details of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase5CustomEmoji": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the custom emoji mention."
+      }
+    },
+    "com.notion.databases#RichTextItemRequestMentionCase5": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`"
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase5CustomEmoji",
+          "traits": {
+            "smithy.api#documentation": "Details of the custom emoji mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RichTextItemRequestMention": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase0"
+        },
+        "Case1": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase1"
+        },
+        "Case2": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase2"
+        },
+        "Case3": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase3"
+        },
+        "Case4": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase4"
+        },
+        "Case5": {
+          "target": "com.notion.databases#RichTextItemRequestMentionCase5"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+      }
+    },
+    "com.notion.databases#RichTextItemRequestEquation": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A KaTeX compatible string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+      }
+    },
+    "com.notion.databases#UpdateDatabaseRequestTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#RichTextItemRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "The updated title of the database, if any. If not provided, the title will not be updated."
+      }
+    },
+    "com.notion.databases#UpdateDatabaseRequestDescriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#RichTextItemRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "The updated description of the database, if any. If not provided, the description will not be updated."
+      }
+    },
+    "com.notion.databases#PageIconRequest": {
+      "type": "union",
+      "members": {
+        "FileUploadPageIconRequest": {
+          "target": "com.notion.databases#FileUploadPageIconRequest"
+        },
+        "EmojiPageIconRequest": {
+          "target": "com.notion.databases#EmojiPageIconRequest"
+        },
+        "ExternalPageIconRequest": {
+          "target": "com.notion.databases#ExternalPageIconRequest"
+        },
+        "CustomEmojiPageIconRequest": {
+          "target": "com.notion.databases#CustomEmojiPageIconRequest"
+        },
+        "IconPageIconRequest": {
+          "target": "com.notion.databases#IconPageIconRequest"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#FileUploadPageIconRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `file_upload`"
+          }
+        },
+        "file_upload": {
+          "target": "com.notion.databases#FileUploadPageIconRequestFileUpload",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#FileUploadPageIconRequestFileUpload": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of a FileUpload object that has the status `uploaded`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#EmojiPageIconRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `emoji`"
+          }
+        },
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An emoji character.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageIconRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `external`"
+          }
+        },
+        "external": {
+          "target": "com.notion.databases#ExternalPageIconRequestExternal",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageIconRequestExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#CustomEmojiPageIconRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`"
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.databases#CustomEmojiPageIconRequestCustomEmoji",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#CustomEmojiPageIconRequestCustomEmoji": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#IconPageIconRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `icon`"
+          }
+        },
+        "icon": {
+          "target": "com.notion.databases#IconPageIconRequestIcon",
+          "traits": {
+            "smithy.api#documentation": "A Notion native icon, specified by name and optional color.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#IconPageIconRequestIcon": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Notion icon (e.g. pizza, meeting, home). See the Notion icon picker for valid names.",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#NoticonColor",
+          "traits": {
+            "smithy.api#documentation": "The color variant of the icon. Defaults to gray if not specified. Valid values: gray, lightgray, brown, yellow, orange, green, blue, purple, pink, red."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Notion native icon, specified by name and optional color."
+      }
+    },
+    "com.notion.databases#PageCoverRequest": {
+      "type": "union",
+      "members": {
+        "FileUploadPageCoverRequest": {
+          "target": "com.notion.databases#FileUploadPageCoverRequest"
+        },
+        "ExternalPageCoverRequest": {
+          "target": "com.notion.databases#ExternalPageCoverRequest"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#FileUploadPageCoverRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `file_upload`"
+          }
+        },
+        "file_upload": {
+          "target": "com.notion.databases#FileUploadPageCoverRequestFileUpload",
+          "traits": {
+            "smithy.api#documentation": "The file upload for the cover.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#FileUploadPageCoverRequestFileUpload": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of a FileUpload object that has the status `uploaded`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The file upload for the cover."
+      }
+    },
+    "com.notion.databases#ExternalPageCoverRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `external`"
+          }
+        },
+        "external": {
+          "target": "com.notion.databases#ExternalPageCoverRequestExternal",
+          "traits": {
+            "smithy.api#documentation": "External URL for the cover.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#ExternalPageCoverRequestExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "External URL for the cover."
+      }
+    },
+    "com.notion.databases#UpdateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.notion.databases#UpdateDatabaseRequestParent",
+          "traits": {
+            "smithy.api#documentation": "The parent page or workspace to move the database to. If not provided, the database will not be moved."
+          }
+        },
+        "title": {
+          "target": "com.notion.databases#UpdateDatabaseRequestTitleList",
+          "traits": {
+            "smithy.api#documentation": "The updated title of the database, if any. If not provided, the title will not be updated."
+          }
+        },
+        "description": {
+          "target": "com.notion.databases#UpdateDatabaseRequestDescriptionList",
+          "traits": {
+            "smithy.api#documentation": "The updated description of the database, if any. If not provided, the description will not be updated."
+          }
+        },
+        "is_inline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database should be displayed inline in the parent page. If not provided, the inline status will not be updated."
+          }
+        },
+        "icon": {
+          "target": "com.notion.databases#PageIconRequest",
+          "traits": {
+            "smithy.api#documentation": "The updated icon for the database, if any. If not provided, the icon will not be updated."
+          }
+        },
+        "cover": {
+          "target": "com.notion.databases#PageCoverRequest",
+          "traits": {
+            "smithy.api#documentation": "The updated cover image for the database, if any. If not provided, the cover will not be updated."
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database should be moved to or from the trash. If not provided, the trash status will not be updated."
+          }
+        },
+        "is_locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database should be locked from editing in the Notion app UI. If not provided, the locked state will not be updated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.databases#UpdateDatabaseResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialDatabaseObjectResponse": {
+          "target": "com.notion.databases#PartialDatabaseObjectResponse"
+        },
+        "DatabaseObjectResponse": {
+          "target": "com.notion.databases#DatabaseObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#UpdateDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.databases#UpdateDatabaseResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.databases#UpdateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.databases#UpdateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.notion.databases#UpdateDatabaseResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/databases/{database_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a database"
+      }
+    },
+    "com.notion.databases#CreateDatabaseRequestParentType": {
+      "type": "enum",
+      "members": {
+        "PAGE_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_id"
+          }
+        },
+        "WORKSPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workspace"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of parent."
+      }
+    },
+    "com.notion.databases#CreateDatabaseRequestParent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.databases#CreateDatabaseRequestParentType",
+          "traits": {
+            "smithy.api#documentation": "The type of parent.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_id": {
+          "target": "smithy.api#String"
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent page or workspace where the database will be created."
+      }
+    },
+    "com.notion.databases#CreateDatabaseRequestTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#RichTextItemRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "The title of the database."
+      }
+    },
+    "com.notion.databases#CreateDatabaseRequestDescriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#RichTextItemRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "The description of the database."
+      }
+    },
+    "com.notion.databases#InitialDataSourceRequest": {
+      "type": "structure",
+      "members": {
+        "properties": {
+          "target": "com.notion.databases#InitialDataSourceRequestPropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "Property schema for the initial data source, if you'd like to create one."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the property.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `number`"
+          }
+        },
+        "number": {
+          "target": "com.notion.databases#PropertyConfigurationRequestNumber"
+        },
+        "formula": {
+          "target": "com.notion.databases#PropertyConfigurationRequestFormula"
+        },
+        "select": {
+          "target": "com.notion.databases#PropertyConfigurationRequestSelect"
+        },
+        "multi_select": {
+          "target": "com.notion.databases#PropertyConfigurationRequestMultiSelect"
+        },
+        "status": {
+          "target": "com.notion.databases#StatusPropertyConfigRequest"
+        },
+        "relation": {
+          "target": "com.notion.databases#PropertyConfigurationRequestRelation"
+        },
+        "rollup": {
+          "target": "com.notion.databases#PropertyConfigurationRequestRollup"
+        },
+        "unique_id": {
+          "target": "com.notion.databases#PropertyConfigurationRequestUniqueId"
+        },
+        "title": {
+          "target": "smithy.api#Document"
+        },
+        "rich_text": {
+          "target": "smithy.api#Document"
+        },
+        "url": {
+          "target": "smithy.api#Document"
+        },
+        "people": {
+          "target": "smithy.api#Document"
+        },
+        "files": {
+          "target": "smithy.api#Document"
+        },
+        "email": {
+          "target": "smithy.api#Document"
+        },
+        "phone_number": {
+          "target": "smithy.api#Document"
+        },
+        "date": {
+          "target": "smithy.api#Document"
+        },
+        "checkbox": {
+          "target": "smithy.api#Document"
+        },
+        "created_by": {
+          "target": "smithy.api#Document"
+        },
+        "created_time": {
+          "target": "smithy.api#Document"
+        },
+        "last_edited_by": {
+          "target": "smithy.api#Document"
+        },
+        "last_edited_time": {
+          "target": "smithy.api#Document"
+        },
+        "button": {
+          "target": "smithy.api#Document"
+        },
+        "location": {
+          "target": "smithy.api#Document"
+        },
+        "verification": {
+          "target": "smithy.api#Document"
+        },
+        "last_visited_time": {
+          "target": "smithy.api#Document"
+        },
+        "place": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestNumber": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestFormula": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#SelectColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`"
+      }
+    },
+    "com.notion.databases#PropertyConfigurationRequestSelectOptionsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#SelectColor"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestSelectOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#PropertyConfigurationRequestSelectOptionsItem"
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestSelect": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.notion.databases#PropertyConfigurationRequestSelectOptionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestMultiSelectOptionsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#SelectColor"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestMultiSelectOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#PropertyConfigurationRequestMultiSelectOptionsItem"
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestMultiSelect": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.notion.databases#PropertyConfigurationRequestMultiSelectOptionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#StatusPropertyConfigRequest": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.notion.databases#StatusOptionRequestArray",
+          "traits": {
+            "smithy.api#documentation": "The initial status options. If not provided, defaults are created."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#StatusOptionRequestArray": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.databases#StatusOptionRequest"
+      },
+      "traits": {}
+    },
+    "com.notion.databases#StatusOptionRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.databases#SelectColor"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "group": {
+          "target": "com.notion.databases#StatusOptionGroup"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#StatusOptionGroup": {
+      "type": "enum",
+      "members": {
+        "TO_DO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "To-do"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "In progress"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Complete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `To-do`, `In progress`, `Complete`"
+      }
+    },
+    "com.notion.databases#PropertyConfigurationRequestRelationDualProperty": {
+      "type": "structure",
+      "members": {
+        "synced_property_id": {
+          "target": "smithy.api#String"
+        },
+        "synced_property_name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestRelation": {
+      "type": "structure",
+      "members": {
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `single_property`"
+          }
+        },
+        "single_property": {
+          "target": "smithy.api#Document"
+        },
+        "dual_property": {
+          "target": "com.notion.databases#PropertyConfigurationRequestRelationDualProperty"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#RollupFunction": {
+      "type": "enum",
+      "members": {
+        "COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count"
+          }
+        },
+        "COUNT_VALUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count_values"
+          }
+        },
+        "EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "empty"
+          }
+        },
+        "NOT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_empty"
+          }
+        },
+        "UNIQUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique"
+          }
+        },
+        "SHOW_UNIQUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "show_unique"
+          }
+        },
+        "PERCENT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_empty"
+          }
+        },
+        "PERCENT_NOT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_not_empty"
+          }
+        },
+        "SUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sum"
+          }
+        },
+        "AVERAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average"
+          }
+        },
+        "MEDIAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "median"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        },
+        "RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "range"
+          }
+        },
+        "EARLIEST_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "earliest_date"
+          }
+        },
+        "LATEST_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "latest_date"
+          }
+        },
+        "DATE_RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_range"
+          }
+        },
+        "CHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checked"
+          }
+        },
+        "UNCHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unchecked"
+          }
+        },
+        "PERCENT_CHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_checked"
+          }
+        },
+        "PERCENT_UNCHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_unchecked"
+          }
+        },
+        "COUNT_PER_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count_per_group"
+          }
+        },
+        "PERCENT_PER_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_per_group"
+          }
+        },
+        "SHOW_ORIGINAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "show_original"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestRollup": {
+      "type": "structure",
+      "members": {
+        "function": {
+          "target": "com.notion.databases#RollupFunction",
+          "traits": {
+            "smithy.api#documentation": "The function to use for the rollup, e.g. count, count_values, percent_not_empty, max.",
+            "smithy.api#required": {}
+          }
+        },
+        "relation_property_name": {
+          "target": "smithy.api#String"
+        },
+        "rollup_property_name": {
+          "target": "smithy.api#String"
+        },
+        "relation_property_id": {
+          "target": "smithy.api#String"
+        },
+        "rollup_property_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#PropertyConfigurationRequestUniqueId": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#InitialDataSourceRequestPropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.databases#PropertyConfigurationRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "Property schema for the initial data source, if you'd like to create one."
+      }
+    },
+    "com.notion.databases#CreateDatabaseRequestDatabaseType": {
+      "type": "enum",
+      "members": {
+        "TASKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tasks"
+          }
+        },
+        "PROJECTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "projects"
+          }
+        },
+        "SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skills"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Create a typed database with Notion's canonical schema. One of `tasks`, `projects`, or `skills`. Cannot be combined with `initial_data_source`. When `title` is omitted, the database is named after the type."
+      }
+    },
+    "com.notion.databases#CreateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "com.notion.databases#CreateDatabaseRequestParent",
+          "traits": {
+            "smithy.api#documentation": "The parent page or workspace where the database will be created.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "com.notion.databases#CreateDatabaseRequestTitleList",
+          "traits": {
+            "smithy.api#documentation": "The title of the database."
+          }
+        },
+        "description": {
+          "target": "com.notion.databases#CreateDatabaseRequestDescriptionList",
+          "traits": {
+            "smithy.api#documentation": "The description of the database."
+          }
+        },
+        "is_inline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the database should be displayed inline in the parent page. Defaults to false."
+          }
+        },
+        "initial_data_source": {
+          "target": "com.notion.databases#InitialDataSourceRequest",
+          "traits": {
+            "smithy.api#documentation": "Initial data source configuration for the database."
+          }
+        },
+        "database_type": {
+          "target": "com.notion.databases#CreateDatabaseRequestDatabaseType",
+          "traits": {
+            "smithy.api#documentation": "Create a typed database with Notion's canonical schema. One of `tasks`, `projects`, or `skills`. Cannot be combined with `initial_data_source`. When `title` is omitted, the database is named after the type."
+          }
+        },
+        "icon": {
+          "target": "com.notion.databases#PageIconRequest",
+          "traits": {
+            "smithy.api#documentation": "The icon for the database."
+          }
+        },
+        "cover": {
+          "target": "com.notion.databases#PageCoverRequest",
+          "traits": {
+            "smithy.api#documentation": "The cover image for the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.databases#CreateDatabaseResponseBody": {
+      "type": "union",
+      "members": {
+        "PartialDatabaseObjectResponse": {
+          "target": "com.notion.databases#PartialDatabaseObjectResponse"
+        },
+        "DatabaseObjectResponse": {
+          "target": "com.notion.databases#DatabaseObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.databases#CreateDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.databases#CreateDatabaseResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.databases#CreateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.databases#CreateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.notion.databases#CreateDatabaseResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/databases",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a database"
+      }
+    },
+    "com.notion.databases#Databases": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.databases#GetDatabase"
+        },
+        {
+          "target": "com.notion.databases#UpdateDatabase"
+        },
+        {
+          "target": "com.notion.databases#CreateDatabase"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

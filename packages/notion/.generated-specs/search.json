@@ -1,0 +1,4178 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.search#SearchByTitleRequestSortCase0Timestamp": {
+      "type": "enum",
+      "members": {
+        "LAST_EDITED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_time"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestSortCase0Direction": {
+      "type": "enum",
+      "members": {
+        "ASCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ascending"
+          }
+        },
+        "DESCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "descending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestSortCase0": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "com.notion.search#SearchByTitleRequestSortCase0Timestamp",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.notion.search#SearchByTitleRequestSortCase0Direction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestSortCase1Property": {
+      "type": "enum",
+      "members": {
+        "RELEVANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relevance"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestSortCase1": {
+      "type": "structure",
+      "members": {
+        "property": {
+          "target": "com.notion.search#SearchByTitleRequestSortCase1Property",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestSort": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.search#SearchByTitleRequestSortCase0"
+        },
+        "Case1": {
+          "target": "com.notion.search#SearchByTitleRequestSortCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestFilterCase0Property": {
+      "type": "enum",
+      "members": {
+        "OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestFilterCase0Value": {
+      "type": "enum",
+      "members": {
+        "PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page"
+          }
+        },
+        "DATA_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_source"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestFilterCase0": {
+      "type": "structure",
+      "members": {
+        "property": {
+          "target": "com.notion.search#SearchByTitleRequestFilterCase0Property",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.search#SearchByTitleRequestFilterCase0Value",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestFilterCase1": {
+      "type": "structure",
+      "members": {
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequestFilter": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.search#SearchByTitleRequestFilterCase0"
+        },
+        "Case1": {
+          "target": "com.notion.search#SearchByTitleRequestFilterCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleRequest": {
+      "type": "structure",
+      "members": {
+        "sort": {
+          "target": "com.notion.search#SearchByTitleRequestSort"
+        },
+        "query": {
+          "target": "smithy.api#String"
+        },
+        "start_cursor": {
+          "target": "smithy.api#String"
+        },
+        "page_size": {
+          "target": "smithy.api#Double"
+        },
+        "filter": {
+          "target": "com.notion.search#SearchByTitleRequestFilter"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.search#PageObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The page object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when this page was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when this page was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the page is in trash.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the page has been archived.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the page is locked from editing in the Notion app UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the Notion page.",
+            "smithy.api#required": {}
+          }
+        },
+        "public_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public URL of the Notion page, if it has been published to the web.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parent": {
+          "target": "com.notion.search#ParentForBlockBasedObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "Information about the page's parent.",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.notion.search#PageObjectResponsePropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "Property values of this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon": {
+          "target": "com.notion.search#PageIconResponse",
+          "traits": {
+            "smithy.api#documentation": "Page icon.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cover": {
+          "target": "com.notion.search#PageCoverResponse",
+          "traits": {
+            "smithy.api#documentation": "Page cover image.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.search#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "User who created the page.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_by": {
+          "target": "com.notion.search#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "User who last edited the page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ParentForBlockBasedObjectResponse": {
+      "type": "union",
+      "members": {
+        "DatabaseParentResponse": {
+          "target": "com.notion.search#DatabaseParentResponse"
+        },
+        "DataSourceParentResponse": {
+          "target": "com.notion.search#DataSourceParentResponse"
+        },
+        "PageIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#PageIdParentForBlockBasedObjectResponse"
+        },
+        "BlockIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#BlockIdParentForBlockBasedObjectResponse"
+        },
+        "AgentIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#AgentIdParentForBlockBasedObjectResponse"
+        },
+        "WorkspaceParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#WorkspaceParentForBlockBasedObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabaseParentResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent database.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DataSourceParentResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the data source's parent database.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PageIdParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#BlockIdParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent block.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#AgentIdParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "agent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent agent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#WorkspaceParentForBlockBasedObjectResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent type.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true for workspace parent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PagePropertyValueWithIdResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `number`"
+          }
+        },
+        "number": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "select": {
+          "target": "com.notion.search#PartialSelectPropertyValueResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multi_select": {
+          "target": "com.notion.search#PagePropertyValueWithIdResponseMultiSelectList"
+        },
+        "status": {
+          "target": "com.notion.search#PartialSelectPropertyValueResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.search#DateResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkbox": {
+          "target": "smithy.api#Boolean"
+        },
+        "files": {
+          "target": "com.notion.search#PagePropertyValueWithIdResponseFilesList"
+        },
+        "created_by": {
+          "target": "com.notion.search#UserValueResponse"
+        },
+        "created_time": {
+          "target": "smithy.api#String"
+        },
+        "last_edited_by": {
+          "target": "com.notion.search#UserValueResponse"
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String"
+        },
+        "formula": {
+          "target": "com.notion.search#FormulaPropertyValueResponse"
+        },
+        "button": {
+          "target": "smithy.api#Document"
+        },
+        "unique_id": {
+          "target": "com.notion.search#UniqueIdPropertyValueResponse"
+        },
+        "verification": {
+          "target": "com.notion.search#VerificationPropertyValueResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "place": {
+          "target": "com.notion.search#PlacePropertyValueResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "com.notion.search#PagePropertyValueWithIdResponseTitleList"
+        },
+        "rich_text": {
+          "target": "com.notion.search#PagePropertyValueWithIdResponseRichTextList"
+        },
+        "people": {
+          "target": "com.notion.search#PagePropertyValueWithIdResponsePeopleList"
+        },
+        "relation": {
+          "target": "com.notion.search#PagePropertyValueWithIdResponseRelationList"
+        },
+        "rollup": {
+          "target": "com.notion.search#PartialRollupValueResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialSelectPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.search#PartialSelectPropertyValueResponseColor",
+          "traits": {
+            "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialSelectPropertyValueResponseColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`"
+      }
+    },
+    "com.notion.search#PagePropertyValueWithIdResponseMultiSelectList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#PartialSelectPropertyValueResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#DateResponse": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the date object.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end date of the date object, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time zone of the date object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#InternalOrExternalFileWithNameResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of attachment. In this case, a file uploaded to a Notion workspace."
+          }
+        },
+        "file": {
+          "target": "com.notion.search#InternalFileResponse",
+          "traits": {
+            "smithy.api#documentation": "The file URL."
+          }
+        },
+        "external": {
+          "target": "com.notion.search#InternalOrExternalFileWithNameResponseExternal",
+          "traits": {
+            "smithy.api#documentation": "The external URL."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#InternalFileResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiry_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the URL will expire.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#InternalOrExternalFileWithNameResponseExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file or resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external URL."
+      }
+    },
+    "com.notion.search#PagePropertyValueWithIdResponseFilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#InternalOrExternalFileWithNameResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#UserValueResponse": {
+      "type": "union",
+      "members": {
+        "PartialUserObjectResponse": {
+          "target": "com.notion.search#PartialUserObjectResponse"
+        },
+        "UserObjectResponse": {
+          "target": "com.notion.search#UserObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialUserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#UserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.search#UserObjectResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.search#UserObjectResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#UserObjectResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.search#BotInfoResponse": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "com.notion.search#BotInfoResponseOwner",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the bot's workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_limits": {
+          "target": "com.notion.search#BotInfoResponseWorkspaceLimits",
+          "traits": {
+            "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bot's workspace.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#BotInfoResponseOwnerCase0UserCase0Person": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person info of the user."
+      }
+    },
+    "com.notion.search#BotInfoResponseOwnerCase0UserCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "person": {
+          "target": "com.notion.search#BotInfoResponseOwnerCase0UserCase0Person",
+          "traits": {
+            "smithy.api#documentation": "The person info of the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#BotInfoResponseOwnerCase0User": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.search#BotInfoResponseOwnerCase0UserCase0"
+        },
+        "PartialUserObjectResponse": {
+          "target": "com.notion.search#PartialUserObjectResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration."
+      }
+    },
+    "com.notion.search#BotInfoResponseOwnerCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.search#BotInfoResponseOwnerCase0User",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#BotInfoResponseOwnerCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `workspace`",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `workspace`. This means the bot is for an internal integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#BotInfoResponseOwner": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.search#BotInfoResponseOwnerCase0"
+        },
+        "Case1": {
+          "target": "com.notion.search#BotInfoResponseOwnerCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot."
+      }
+    },
+    "com.notion.search#BotInfoResponseWorkspaceLimits": {
+      "type": "structure",
+      "members": {
+        "max_file_upload_size_in_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum allowable size of a file upload, in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace"
+      }
+    },
+    "com.notion.search#UserObjectResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.search#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.search#FormulaPropertyValueResponse": {
+      "type": "union",
+      "members": {
+        "BooleanFormulaPropertyValueResponse": {
+          "target": "com.notion.search#BooleanFormulaPropertyValueResponse"
+        },
+        "DateFormulaPropertyValueResponse": {
+          "target": "com.notion.search#DateFormulaPropertyValueResponse"
+        },
+        "NumberFormulaPropertyValueResponse": {
+          "target": "com.notion.search#NumberFormulaPropertyValueResponse"
+        },
+        "StringFormulaPropertyValueResponse": {
+          "target": "com.notion.search#StringFormulaPropertyValueResponse"
+        },
+        "UnsupportedFormulaPropertyValueResponse": {
+          "target": "com.notion.search#UnsupportedFormulaPropertyValueResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#BooleanFormulaPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `boolean`",
+            "smithy.api#required": {}
+          }
+        },
+        "boolean": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DateFormulaPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.search#DateResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#NumberFormulaPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `number`",
+            "smithy.api#required": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#StringFormulaPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `string`",
+            "smithy.api#required": {}
+          }
+        },
+        "string": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#UnsupportedFormulaPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `unsupported`",
+            "smithy.api#required": {}
+          }
+        },
+        "unsupported": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#UniqueIdPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#VerificationPropertyValueResponse": {
+      "type": "union",
+      "members": {
+        "VerificationPropertyUnverifiedResponse": {
+          "target": "com.notion.search#VerificationPropertyUnverifiedResponse"
+        },
+        "VerificationPropertyResponse": {
+          "target": "com.notion.search#VerificationPropertyResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#VerificationPropertyUnverifiedResponse": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `unverified`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "verified_by": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#VerificationPropertyResponse": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.notion.search#VerificationPropertyResponseState",
+          "traits": {
+            "smithy.api#documentation": "One of: `verified`, `expired`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.search#DateResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "verified_by": {
+          "target": "com.notion.search#UserValueResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#VerificationPropertyResponseState": {
+      "type": "enum",
+      "members": {
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `verified`, `expired`"
+      }
+    },
+    "com.notion.search#PlacePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "lat": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lon": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "aws_place_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "google_place_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponse": {
+      "type": "structure",
+      "members": {
+        "plain_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plain text content of the rich text object, without any styling.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL that the rich text object links to or mentions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "annotations": {
+          "target": "com.notion.search#AnnotationResponse",
+          "traits": {
+            "smithy.api#documentation": "All rich text objects contain an annotations object that sets the styling for the rich text.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `text`"
+          }
+        },
+        "text": {
+          "target": "com.notion.search#RichTextItemResponseText",
+          "traits": {
+            "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+          }
+        },
+        "mention": {
+          "target": "com.notion.search#RichTextItemResponseMention",
+          "traits": {
+            "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+          }
+        },
+        "equation": {
+          "target": "com.notion.search#RichTextItemResponseEquation",
+          "traits": {
+            "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#AnnotationResponse": {
+      "type": "structure",
+      "members": {
+        "bold": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "italic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "strikethrough": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "underline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.search#ApiColor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ApiColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        },
+        "DEFAULT_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default_background"
+          }
+        },
+        "GRAY_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray_background"
+          }
+        },
+        "BROWN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown_background"
+          }
+        },
+        "ORANGE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange_background"
+          }
+        },
+        "YELLOW_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow_background"
+          }
+        },
+        "GREEN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green_background"
+          }
+        },
+        "BLUE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue_background"
+          }
+        },
+        "PURPLE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple_background"
+          }
+        },
+        "PINK_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink_background"
+          }
+        },
+        "RED_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red_background"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`, `default_background`, `gray_background`, `brown_background`, `orange_background`, `yellow_background`, `green_background`, `blue_background`, `purple_background`, `pink_background`, `red_background`"
+      }
+    },
+    "com.notion.search#RichTextItemResponseTextLink": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseText": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual text content of the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "com.notion.search#RichTextItemResponseTextLink",
+          "traits": {
+            "smithy.api#documentation": "An object with information about any inline link in this text, if included.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+      }
+    },
+    "com.notion.search#RichTextItemResponseMentionCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.search#UserValueResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the user mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.search#DateResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the date mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#LinkPreviewMentionResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_preview`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_preview": {
+          "target": "com.notion.search#LinkPreviewMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#LinkMentionResponse": {
+      "type": "structure",
+      "members": {
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The href of the link mention.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the link."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the link."
+          }
+        },
+        "link_author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author of the link."
+          }
+        },
+        "link_provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider of the link."
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail URL of the link."
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The icon URL of the link."
+          }
+        },
+        "iframe_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The iframe URL of the link."
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The height of the link preview iframe."
+          }
+        },
+        "padding": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The padding of the link preview iframe."
+          }
+        },
+        "padding_top": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The top padding of the link preview iframe."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_mention": {
+          "target": "com.notion.search#LinkMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase4Page": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the page mention."
+      }
+    },
+    "com.notion.search#RichTextItemResponseMentionCase4": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page`",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase4Page",
+          "traits": {
+            "smithy.api#documentation": "Details of the page mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase5Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the database mention."
+      }
+    },
+    "com.notion.search#RichTextItemResponseMentionCase5": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `database`",
+            "smithy.api#required": {}
+          }
+        },
+        "database": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase5Database",
+          "traits": {
+            "smithy.api#documentation": "Details of the database mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#TemplateMentionResponse": {
+      "type": "union",
+      "members": {
+        "TemplateMentionDateTemplateMentionResponse": {
+          "target": "com.notion.search#TemplateMentionDateTemplateMentionResponse"
+        },
+        "TemplateMentionUserTemplateMentionResponse": {
+          "target": "com.notion.search#TemplateMentionUserTemplateMentionResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#TemplateMentionDateTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_date`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_date": {
+          "target": "com.notion.search#TemplateMentionDateTemplateMentionResponseTemplateMentionDate",
+          "traits": {
+            "smithy.api#documentation": "The date of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#TemplateMentionDateTemplateMentionResponseTemplateMentionDate": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date of the template mention."
+      }
+    },
+    "com.notion.search#TemplateMentionUserTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_user`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase6": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention": {
+          "target": "com.notion.search#TemplateMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#CustomEmojiResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMentionCase7": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.search#CustomEmojiResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the custom emoji mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextItemResponseMention": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase0"
+        },
+        "Case1": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase1"
+        },
+        "Case2": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase2"
+        },
+        "Case3": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase3"
+        },
+        "Case4": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase4"
+        },
+        "Case5": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase5"
+        },
+        "Case6": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase6"
+        },
+        "Case7": {
+          "target": "com.notion.search#RichTextItemResponseMentionCase7"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+      }
+    },
+    "com.notion.search#RichTextItemResponseEquation": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A KaTeX compatible string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+      }
+    },
+    "com.notion.search#PagePropertyValueWithIdResponseTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RichTextItemResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#PagePropertyValueWithIdResponseRichTextList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RichTextItemResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#GroupObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The group object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the group.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PagePropertyValueWithIdResponsePeopleItem": {
+      "type": "union",
+      "members": {
+        "UserValueResponse": {
+          "target": "com.notion.search#UserValueResponse"
+        },
+        "GroupObjectResponse": {
+          "target": "com.notion.search#GroupObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PagePropertyValueWithIdResponsePeopleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#PagePropertyValueWithIdResponsePeopleItem"
+      },
+      "traits": {}
+    },
+    "com.notion.search#RelationItemPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PagePropertyValueWithIdResponseRelationList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RelationItemPropertyValueResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialRollupValueResponse": {
+      "type": "structure",
+      "members": {
+        "function": {
+          "target": "com.notion.search#RollupFunction",
+          "traits": {
+            "smithy.api#documentation": "The function used for the rollup, e.g. count, count_values, percent_not_empty, max.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `number`"
+          }
+        },
+        "number": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.search#DateResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "array": {
+          "target": "com.notion.search#PartialRollupValueResponseArrayList"
+        },
+        "unsupported": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RollupFunction": {
+      "type": "enum",
+      "members": {
+        "COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count"
+          }
+        },
+        "COUNT_VALUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count_values"
+          }
+        },
+        "EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "empty"
+          }
+        },
+        "NOT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_empty"
+          }
+        },
+        "UNIQUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique"
+          }
+        },
+        "SHOW_UNIQUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "show_unique"
+          }
+        },
+        "PERCENT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_empty"
+          }
+        },
+        "PERCENT_NOT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_not_empty"
+          }
+        },
+        "SUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sum"
+          }
+        },
+        "AVERAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average"
+          }
+        },
+        "MEDIAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "median"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        },
+        "RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "range"
+          }
+        },
+        "EARLIEST_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "earliest_date"
+          }
+        },
+        "LATEST_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "latest_date"
+          }
+        },
+        "DATE_RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_range"
+          }
+        },
+        "CHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checked"
+          }
+        },
+        "UNCHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unchecked"
+          }
+        },
+        "PERCENT_CHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_checked"
+          }
+        },
+        "PERCENT_UNCHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_unchecked"
+          }
+        },
+        "COUNT_PER_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count_per_group"
+          }
+        },
+        "PERCENT_PER_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent_per_group"
+          }
+        },
+        "SHOW_ORIGINAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "show_original"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SimpleOrArrayPropertyValueResponse": {
+      "type": "union",
+      "members": {
+        "SimplePropertyValueResponse": {
+          "target": "com.notion.search#SimplePropertyValueResponse"
+        },
+        "ArrayBasedPropertyValueResponse": {
+          "target": "com.notion.search#ArrayBasedPropertyValueResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SimplePropertyValueResponse": {
+      "type": "union",
+      "members": {
+        "NumberSimplePropertyValueResponse": {
+          "target": "com.notion.search#NumberSimplePropertyValueResponse"
+        },
+        "UrlSimplePropertyValueResponse": {
+          "target": "com.notion.search#UrlSimplePropertyValueResponse"
+        },
+        "SelectSimplePropertyValueResponse": {
+          "target": "com.notion.search#SelectSimplePropertyValueResponse"
+        },
+        "MultiSelectSimplePropertyValueResponse": {
+          "target": "com.notion.search#MultiSelectSimplePropertyValueResponse"
+        },
+        "StatusSimplePropertyValueResponse": {
+          "target": "com.notion.search#StatusSimplePropertyValueResponse"
+        },
+        "DateSimplePropertyValueResponse": {
+          "target": "com.notion.search#DateSimplePropertyValueResponse"
+        },
+        "EmailSimplePropertyValueResponse": {
+          "target": "com.notion.search#EmailSimplePropertyValueResponse"
+        },
+        "PhoneNumberSimplePropertyValueResponse": {
+          "target": "com.notion.search#PhoneNumberSimplePropertyValueResponse"
+        },
+        "CheckboxSimplePropertyValueResponse": {
+          "target": "com.notion.search#CheckboxSimplePropertyValueResponse"
+        },
+        "FilesSimplePropertyValueResponse": {
+          "target": "com.notion.search#FilesSimplePropertyValueResponse"
+        },
+        "CreatedBySimplePropertyValueResponse": {
+          "target": "com.notion.search#CreatedBySimplePropertyValueResponse"
+        },
+        "CreatedTimeSimplePropertyValueResponse": {
+          "target": "com.notion.search#CreatedTimeSimplePropertyValueResponse"
+        },
+        "LastEditedBySimplePropertyValueResponse": {
+          "target": "com.notion.search#LastEditedBySimplePropertyValueResponse"
+        },
+        "LastEditedTimeSimplePropertyValueResponse": {
+          "target": "com.notion.search#LastEditedTimeSimplePropertyValueResponse"
+        },
+        "FormulaSimplePropertyValueResponse": {
+          "target": "com.notion.search#FormulaSimplePropertyValueResponse"
+        },
+        "ButtonSimplePropertyValueResponse": {
+          "target": "com.notion.search#ButtonSimplePropertyValueResponse"
+        },
+        "UniqueIdSimplePropertyValueResponse": {
+          "target": "com.notion.search#UniqueIdSimplePropertyValueResponse"
+        },
+        "VerificationSimplePropertyValueResponse": {
+          "target": "com.notion.search#VerificationSimplePropertyValueResponse"
+        },
+        "PlaceSimplePropertyValueResponse": {
+          "target": "com.notion.search#PlaceSimplePropertyValueResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#NumberSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `number`",
+            "smithy.api#required": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#UrlSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `url`",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SelectSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `select`",
+            "smithy.api#required": {}
+          }
+        },
+        "select": {
+          "target": "com.notion.search#PartialSelectPropertyValueResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#MultiSelectSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `multi_select`",
+            "smithy.api#required": {}
+          }
+        },
+        "multi_select": {
+          "target": "com.notion.search#MultiSelectSimplePropertyValueResponseMultiSelectList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#MultiSelectSimplePropertyValueResponseMultiSelectList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#PartialSelectPropertyValueResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#StatusSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `status`",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.notion.search#PartialSelectPropertyValueResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DateSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.search#DateResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#EmailSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `email`",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PhoneNumberSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `phone_number`",
+            "smithy.api#required": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#CheckboxSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `checkbox`",
+            "smithy.api#required": {}
+          }
+        },
+        "checkbox": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#FilesSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `files`",
+            "smithy.api#required": {}
+          }
+        },
+        "files": {
+          "target": "com.notion.search#FilesSimplePropertyValueResponseFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#FilesSimplePropertyValueResponseFilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#InternalOrExternalFileWithNameResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#CreatedBySimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `created_by`",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.search#UserValueResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#CreatedTimeSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `created_time`",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#LastEditedBySimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `last_edited_by`",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_by": {
+          "target": "com.notion.search#UserValueResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#LastEditedTimeSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `last_edited_time`",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#FormulaSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `formula`",
+            "smithy.api#required": {}
+          }
+        },
+        "formula": {
+          "target": "com.notion.search#FormulaPropertyValueResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ButtonSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `button`",
+            "smithy.api#required": {}
+          }
+        },
+        "button": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#UniqueIdSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `unique_id`",
+            "smithy.api#required": {}
+          }
+        },
+        "unique_id": {
+          "target": "com.notion.search#UniqueIdPropertyValueResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#VerificationSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `verification`",
+            "smithy.api#required": {}
+          }
+        },
+        "verification": {
+          "target": "com.notion.search#VerificationPropertyValueResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PlaceSimplePropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `place`",
+            "smithy.api#required": {}
+          }
+        },
+        "place": {
+          "target": "com.notion.search#PlacePropertyValueResponse",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ArrayBasedPropertyValueResponse": {
+      "type": "union",
+      "members": {
+        "TitleArrayBasedPropertyValueResponse": {
+          "target": "com.notion.search#TitleArrayBasedPropertyValueResponse"
+        },
+        "RichTextArrayBasedPropertyValueResponse": {
+          "target": "com.notion.search#RichTextArrayBasedPropertyValueResponse"
+        },
+        "PeopleArrayBasedPropertyValueResponse": {
+          "target": "com.notion.search#PeopleArrayBasedPropertyValueResponse"
+        },
+        "RelationArrayBasedPropertyValueResponse": {
+          "target": "com.notion.search#RelationArrayBasedPropertyValueResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#TitleArrayBasedPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `title`",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "com.notion.search#TitleArrayBasedPropertyValueResponseTitleList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#TitleArrayBasedPropertyValueResponseTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RichTextItemResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextArrayBasedPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `rich_text`",
+            "smithy.api#required": {}
+          }
+        },
+        "rich_text": {
+          "target": "com.notion.search#RichTextArrayBasedPropertyValueResponseRichTextList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RichTextArrayBasedPropertyValueResponseRichTextList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RichTextItemResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#PeopleArrayBasedPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `people`",
+            "smithy.api#required": {}
+          }
+        },
+        "people": {
+          "target": "com.notion.search#PeopleArrayBasedPropertyValueResponsePeopleList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PeopleArrayBasedPropertyValueResponsePeopleItem": {
+      "type": "union",
+      "members": {
+        "UserValueResponse": {
+          "target": "com.notion.search#UserValueResponse"
+        },
+        "GroupObjectResponse": {
+          "target": "com.notion.search#GroupObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PeopleArrayBasedPropertyValueResponsePeopleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#PeopleArrayBasedPropertyValueResponsePeopleItem"
+      },
+      "traits": {}
+    },
+    "com.notion.search#RelationArrayBasedPropertyValueResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relation`",
+            "smithy.api#required": {}
+          }
+        },
+        "relation": {
+          "target": "com.notion.search#RelationArrayBasedPropertyValueResponseRelationList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#RelationArrayBasedPropertyValueResponseRelationList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RelationItemPropertyValueResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialRollupValueResponseArrayList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#SimpleOrArrayPropertyValueResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#PageObjectResponsePropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.search#PagePropertyValueWithIdResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Property values of this page."
+      }
+    },
+    "com.notion.search#PageIconResponse": {
+      "type": "union",
+      "members": {
+        "EmojiPageIconResponse": {
+          "target": "com.notion.search#EmojiPageIconResponse"
+        },
+        "FilePageIconResponse": {
+          "target": "com.notion.search#FilePageIconResponse"
+        },
+        "ExternalPageIconResponse": {
+          "target": "com.notion.search#ExternalPageIconResponse"
+        },
+        "CustomEmojiPageIconResponse": {
+          "target": "com.notion.search#CustomEmojiPageIconResponse"
+        },
+        "IconPageIconResponse": {
+          "target": "com.notion.search#IconPageIconResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#EmojiPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, an emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji character used as the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#FilePageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, a file.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "com.notion.search#InternalFileResponse",
+          "traits": {
+            "smithy.api#documentation": "The file URL for the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ExternalPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, an external URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "external": {
+          "target": "com.notion.search#ExternalPageIconResponseExternal",
+          "traits": {
+            "smithy.api#documentation": "The external URL for the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ExternalPageIconResponseExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file or resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external URL for the icon."
+      }
+    },
+    "com.notion.search#CustomEmojiPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, a custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.search#CustomEmojiResponse",
+          "traits": {
+            "smithy.api#documentation": "The custom emoji details for the icon.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#IconPageIconResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of icon. In this case, a Notion native icon.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon": {
+          "target": "com.notion.search#NoticonIconResponse",
+          "traits": {
+            "smithy.api#documentation": "The Notion native icon, specified by name and color.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#NoticonIconResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Notion icon (e.g. pizza, meeting, home). See the Notion icon picker for valid names.",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.search#NoticonColor",
+          "traits": {
+            "smithy.api#documentation": "The color variant of the icon. Valid values: gray, lightgray, brown, yellow, orange, green, blue, purple, pink, red.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#NoticonColor": {
+      "type": "enum",
+      "members": {
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "LIGHTGRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lightgray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `gray`, `lightgray`, `brown`, `yellow`, `orange`, `green`, `blue`, `purple`, `pink`, `red`"
+      }
+    },
+    "com.notion.search#PageCoverResponse": {
+      "type": "union",
+      "members": {
+        "FilePageCoverResponse": {
+          "target": "com.notion.search#FilePageCoverResponse"
+        },
+        "ExternalPageCoverResponse": {
+          "target": "com.notion.search#ExternalPageCoverResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#FilePageCoverResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of cover. In this case, a file.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "com.notion.search#InternalFileResponse",
+          "traits": {
+            "smithy.api#documentation": "The file URL for the cover.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ExternalPageCoverResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of cover. In this case, an external URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "external": {
+          "target": "com.notion.search#ExternalPageCoverResponseExternal",
+          "traits": {
+            "smithy.api#documentation": "The external URL for the cover.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#ExternalPageCoverResponseExternal": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the external file or resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external URL for the cover."
+      }
+    },
+    "com.notion.search#PartialPageObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The page object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponseResultsItemCase0": {
+      "type": "union",
+      "members": {
+        "PageObjectResponse": {
+          "target": "com.notion.search#PageObjectResponse"
+        },
+        "PartialPageObjectResponse": {
+          "target": "com.notion.search#PartialPageObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialDataSourceObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data source object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.notion.search#PartialDataSourceObjectResponsePropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "The properties schema of the data source.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the property.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the property.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the property.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `number`"
+          }
+        },
+        "number": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseNumber"
+        },
+        "formula": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseFormula"
+        },
+        "select": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseSelect"
+        },
+        "multi_select": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseMultiSelect"
+        },
+        "status": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseStatus"
+        },
+        "relation": {
+          "target": "com.notion.search#DatabasePropertyRelationConfigResponse"
+        },
+        "rollup": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseRollup"
+        },
+        "unique_id": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseUniqueId"
+        },
+        "title": {
+          "target": "smithy.api#Document"
+        },
+        "rich_text": {
+          "target": "smithy.api#Document"
+        },
+        "url": {
+          "target": "smithy.api#Document"
+        },
+        "people": {
+          "target": "smithy.api#Document"
+        },
+        "files": {
+          "target": "smithy.api#Document"
+        },
+        "email": {
+          "target": "smithy.api#Document"
+        },
+        "phone_number": {
+          "target": "smithy.api#Document"
+        },
+        "date": {
+          "target": "smithy.api#Document"
+        },
+        "checkbox": {
+          "target": "smithy.api#Document"
+        },
+        "created_by": {
+          "target": "smithy.api#Document"
+        },
+        "created_time": {
+          "target": "smithy.api#Document"
+        },
+        "last_edited_by": {
+          "target": "smithy.api#Document"
+        },
+        "last_edited_time": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseNumber": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number format for the property.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseFormula": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SelectPropertyResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.search#SelectColor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SelectColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`"
+      }
+    },
+    "com.notion.search#DatabasePropertyConfigResponseSelectOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#SelectPropertyResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseSelect": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseSelectOptionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseMultiSelectOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#SelectPropertyResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseMultiSelect": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseMultiSelectOptionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#StatusPropertyResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the status option.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the status option.",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.search#SelectColor",
+          "traits": {
+            "smithy.api#documentation": "The color of the status option.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the status option.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseStatusOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#StatusPropertyResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The options for the status property."
+      }
+    },
+    "com.notion.search#DatabasePropertyConfigResponseStatusGroupsItemOptionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IDs of the status options in this group."
+      }
+    },
+    "com.notion.search#DatabasePropertyConfigResponseStatusGroupsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the status group.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the status group.",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.search#SelectColor",
+          "traits": {
+            "smithy.api#documentation": "The color of the status group.",
+            "smithy.api#required": {}
+          }
+        },
+        "option_ids": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseStatusGroupsItemOptionIdsList",
+          "traits": {
+            "smithy.api#documentation": "The IDs of the status options in this group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseStatusGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#DatabasePropertyConfigResponseStatusGroupsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The groups for the status property."
+      }
+    },
+    "com.notion.search#DatabasePropertyConfigResponseStatus": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseStatusOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The options for the status property.",
+            "smithy.api#required": {}
+          }
+        },
+        "groups": {
+          "target": "com.notion.search#DatabasePropertyConfigResponseStatusGroupsList",
+          "traits": {
+            "smithy.api#documentation": "The groups for the status property.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyRelationConfigResponse": {
+      "type": "structure",
+      "members": {
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `single_property`"
+          }
+        },
+        "single_property": {
+          "target": "smithy.api#Document"
+        },
+        "dual_property": {
+          "target": "com.notion.search#DatabasePropertyRelationConfigResponseDualProperty"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyRelationConfigResponseDualProperty": {
+      "type": "structure",
+      "members": {
+        "synced_property_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "synced_property_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseRollup": {
+      "type": "structure",
+      "members": {
+        "function": {
+          "target": "com.notion.search#RollupFunction",
+          "traits": {
+            "smithy.api#documentation": "The function to use for the rollup, e.g. count, count_values, percent_not_empty, max.",
+            "smithy.api#required": {}
+          }
+        },
+        "rollup_property_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "relation_property_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rollup_property_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "relation_property_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DatabasePropertyConfigResponseUniqueId": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The prefix for the unique ID.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#PartialDataSourceObjectResponsePropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.search#DatabasePropertyConfigResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties schema of the data source."
+      }
+    },
+    "com.notion.search#DataSourceObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data source object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "com.notion.search#DataSourceObjectResponseTitleList",
+          "traits": {
+            "smithy.api#documentation": "The title of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "com.notion.search#DataSourceObjectResponseDescriptionList",
+          "traits": {
+            "smithy.api#documentation": "The description of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.notion.search#ParentOfDataSourceResponse",
+          "traits": {
+            "smithy.api#documentation": "The parent of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_parent": {
+          "target": "com.notion.search#ParentOfDatabaseResponse",
+          "traits": {
+            "smithy.api#documentation": "The parent of the data source's containing database. This is typically a page, block, or workspace, but can be another database in the case of wikis.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_inline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the data source is inline.",
+            "smithy.api#required": {}
+          }
+        },
+        "database_type": {
+          "target": "com.notion.search#DataSourceObjectResponseDatabaseType",
+          "traits": {
+            "smithy.api#documentation": "The type of typed database this data source belongs to, or `null` for a regular data source.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the data source is in the trash.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the data source was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time when the data source was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.search#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "The user who created the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_by": {
+          "target": "com.notion.search#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "The user who last edited the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.notion.search#DataSourceObjectResponsePropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "The properties schema of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon": {
+          "target": "com.notion.search#PageIconResponse",
+          "traits": {
+            "smithy.api#documentation": "The icon of the data source.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cover": {
+          "target": "com.notion.search#PageCoverResponse",
+          "traits": {
+            "smithy.api#documentation": "The cover of the data source.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the data source.",
+            "smithy.api#required": {}
+          }
+        },
+        "public_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public URL of the data source if it is publicly accessible.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DataSourceObjectResponseTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The title of the data source."
+      }
+    },
+    "com.notion.search#DataSourceObjectResponseDescriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The description of the data source."
+      }
+    },
+    "com.notion.search#ParentOfDataSourceResponse": {
+      "type": "union",
+      "members": {
+        "DatabaseParentResponse": {
+          "target": "com.notion.search#DatabaseParentResponse"
+        },
+        "DataSourceParentResponse": {
+          "target": "com.notion.search#DataSourceParentResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent of the data source. This is typically a database (`database_id`), but for externally synced data sources, can be another data source (`data_source_id`)."
+      }
+    },
+    "com.notion.search#ParentOfDatabaseResponse": {
+      "type": "union",
+      "members": {
+        "PageIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#PageIdParentForBlockBasedObjectResponse"
+        },
+        "WorkspaceParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#WorkspaceParentForBlockBasedObjectResponse"
+        },
+        "DatabaseParentResponse": {
+          "target": "com.notion.search#DatabaseParentResponse"
+        },
+        "BlockIdParentForBlockBasedObjectResponse": {
+          "target": "com.notion.search#BlockIdParentForBlockBasedObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#DataSourceObjectResponseDatabaseType": {
+      "type": "enum",
+      "members": {
+        "TASKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tasks"
+          }
+        },
+        "PROJECTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "projects"
+          }
+        },
+        "SPRINTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprints"
+          }
+        },
+        "DOCS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docs"
+          }
+        },
+        "WIKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wiki"
+          }
+        },
+        "MEETINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meetings"
+          }
+        },
+        "MEETING_NOTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meeting_notes"
+          }
+        },
+        "SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skills"
+          }
+        },
+        "GITHUB_PRS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github_prs"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `tasks`, `projects`, `sprints`, `docs`, `wiki`, `meetings`, `meeting_notes`, `skills`, `github_prs`"
+      }
+    },
+    "com.notion.search#DataSourceObjectResponsePropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.search#DatabasePropertyConfigResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties schema of the data source."
+      }
+    },
+    "com.notion.search#SearchByTitleResponseResultsItemCase1": {
+      "type": "union",
+      "members": {
+        "PartialDataSourceObjectResponse": {
+          "target": "com.notion.search#PartialDataSourceObjectResponse"
+        },
+        "DataSourceObjectResponse": {
+          "target": "com.notion.search#DataSourceObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponseResultsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.search#SearchByTitleResponseResultsItemCase0"
+        },
+        "Case1": {
+          "target": "com.notion.search#SearchByTitleResponseResultsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.search#SearchByTitleResponseResultsItem"
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponseRequestStatusType": {
+      "type": "enum",
+      "members": {
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incomplete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponseRequestStatusIncompleteReason": {
+      "type": "enum",
+      "members": {
+        "QUERY_RESULT_LIMIT_REACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "query_result_limit_reached"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponseRequestStatus": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.search#SearchByTitleResponseRequestStatusType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "incomplete_reason": {
+          "target": "com.notion.search#SearchByTitleResponseRequestStatusIncompleteReason"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.search#SearchByTitleResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_or_data_source": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.notion.search#SearchByTitleResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_status": {
+          "target": "com.notion.search#SearchByTitleResponseRequestStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.search#SearchByTitle": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.search#SearchByTitleRequest"
+      },
+      "output": {
+        "target": "com.notion.search#SearchByTitleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search by title",
+        "smithy.api#paginated": {
+          "inputToken": "start_cursor",
+          "outputToken": "next_cursor",
+          "items": "results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.notion.search#Search": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.search#SearchByTitle"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}
