@@ -9,7 +9,7 @@ import * as Retries from "@distilled.cloud/core/retry";
  *
  * @example
  * ```ts
- * import * as Notion from "@distilled.cloud/daytona";
+ * import * as Notion from "@distilled.cloud/notion";
  *
  * myEffect.pipe(Notion.Retry.transient);
  * ```
