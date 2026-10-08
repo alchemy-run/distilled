@@ -3679,11 +3679,17 @@ export interface ListAppsRequest {
   org_slug: string;
   /** Filter apps by role */
   app_role?: string;
+  /** The number of apps to fetch (must be between 1 and 5000). Providing a limit enables pagination. Without it, all apps are returned in one response. */
+  limit?: number;
+  /** Value of next_cursor from the previous page. Requires limit. Later pages only include apps that existed when the first page was requested. Apps created in the seconds before the first page was requested may be missing. Cursors expire 30 minutes after the first page was requested. */
+  cursor?: string;
 }
 export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_slug: S.String.pipe(T.Query()),
     app_role: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps", code: 200 })),
 ).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
@@ -3694,11 +3700,15 @@ export const ListAppsResponseAppsList = /*@__PURE__*/ S.Array(
 
 export interface ListAppsResponse {
   apps?: ListAppsResponseAppsList;
+  /** Pagination cursor for the next page. Absent when no more apps remain. Cursors expire 30 minutes after the first page was requested. */
+  next_cursor?: string;
+  /** The number of apps matching the request, across all pages. When paginating, it is counted once when the first page is requested and not updated afterwards, so it may differ slightly from the number of apps returned: it excludes apps created later and includes apps deleted while paginating. Apps created in the seconds before the first page may also be counted but missing from the pages. */
   total_apps?: number;
 }
 export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apps: S.optional(ListAppsResponseAppsList),
+    next_cursor: S.optional(S.String),
     total_apps: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
@@ -4328,11 +4338,17 @@ export interface ListVolumesRequest {
   app_name: string;
   /** Only return summary info about volumes (omit blocks, block size, etc) */
   summary?: boolean;
+  /** Value of the fly-next-cursor response header from the previous page. Requires limit. */
+  cursor?: string;
+  /** The number of volumes to fetch (must be between 1 and 1000). Providing a limit enables pagination. This limit is advisory; responses may be shorter, or even empty, even when more volumes remain. */
+  limit?: number;
 }
 export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     summary: S.optional(S.Boolean.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/volumes", code: 200 })),
 ).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 
@@ -6605,7 +6621,7 @@ export const reclaimMachineMemory: API.OperationMethod<
 }));
 
 export type RequestKmsTokenError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Request a Petsem token for accessing KMS This site hosts documentation generated from the Fly.io Machines API OpenAPI specification. Visit our complete [Machines API docs](https://fly.io/docs/machines/api/apps-resource/) for details about using the Apps resource. */
+/** Request a Petsem token for accessing KMS */
 export const requestKmsToken: API.OperationMethod<
   RequestKmsTokenRequest,
   RequestKmsTokenResponse,

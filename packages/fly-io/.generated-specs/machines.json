@@ -35,6 +35,20 @@
             "smithy.api#httpQuery": "app_role",
             "smithy.api#documentation": "Filter apps by role"
           }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The number of apps to fetch (must be between 1 and 5000). Providing a limit enables pagination. Without it, all apps are returned in one response."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Value of next_cursor from the previous page. Requires limit. Later pages only include apps that existed when the first page was requested. Apps created in the seconds before the first page was requested may be missing. Cursors expire 30 minutes after the first page was requested."
+          }
         }
       },
       "traits": {
@@ -47,8 +61,17 @@
         "apps": {
           "target": "com.flyio.machines#ListAppsResponseAppsList"
         },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pagination cursor for the next page. Absent when no more apps remain.\nCursors expire 30 minutes after the first page was requested."
+          }
+        },
         "total_apps": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of apps matching the request, across all pages. When\npaginating, it is counted once when the first page is requested and not\nupdated afterwards, so it may differ slightly from the number of apps\nreturned: it excludes apps created later and includes apps deleted while\npaginating. Apps created in the seconds before the first page may also be\ncounted but missing from the pages."
+          }
         }
       },
       "traits": {}
@@ -6916,6 +6939,20 @@
             "smithy.api#httpQuery": "summary",
             "smithy.api#documentation": "Only return summary info about volumes (omit blocks, block size, etc)"
           }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Value of the fly-next-cursor response header from the previous page. Requires limit."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The number of volumes to fetch (must be between 1 and 1000). Providing a limit enables pagination. This limit is advisory; responses may be shorter, or even empty, even when more volumes remain."
+          }
         }
       },
       "traits": {
@@ -11047,7 +11084,7 @@
           "uri": "/v1/tokens/kms",
           "code": 200
         },
-        "smithy.api#documentation": "Request a Petsem token for accessing KMS\n\nThis site hosts documentation generated from the Fly.io Machines API OpenAPI specification. Visit our complete [Machines API docs](https://fly.io/docs/machines/api/apps-resource/) for details about using the Apps resource."
+        "smithy.api#documentation": "Request a Petsem token for accessing KMS"
       }
     },
     "com.flyio.machines#RequestOidcTokenRequest": {
