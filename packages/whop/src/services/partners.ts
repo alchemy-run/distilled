@@ -72,6 +72,135 @@ export const CreateReferralPartnerResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateReferralPartnerResponse",
 }) as any as S.Schema<CreateReferralPartnerResponse>;
 
+export interface GetPartnerRequest {
+  /** The authenticated partner's user ID, prefixed user_, or me. Other users' profiles are not accessible. */
+  id: string;
+}
+export const GetPartnerRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/partners/{id}", code: 200 })),
+).annotate({ identifier: "GetPartnerRequest" }) as any as S.Schema<GetPartnerRequest>;
+
+/** Unit of the earning window. Month means a calendar month; day means a day. */
+export type PartnerPayoutDurationUnit = "day" | "month";
+export const PartnerPayoutDurationUnit = S.String;
+
+export interface PartnerPayoutDuration {
+  /** Unit of the earning window. Month means a calendar month; day means a day. */
+  unit: PartnerPayoutDurationUnit;
+  /** Number of units in the earning window. */
+  value: number;
+}
+export const PartnerPayoutDuration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unit: PartnerPayoutDurationUnit,
+    value: S.Number,
+  }),
+).annotate({ identifier: "PartnerPayoutDuration" }) as any as S.Schema<PartnerPayoutDuration>;
+
+/** Income source that generates this percentage payout. */
+export type PartnerPayoutRateIncomeSource = "sales" | "transfer" | "card_interchange" | "ad_spend";
+export const PartnerPayoutRateIncomeSource = S.String;
+
+export interface PartnerPayoutRate {
+  /** Income source that generates this percentage payout. */
+  income_source: PartnerPayoutRateIncomeSource;
+  /** Partner's default percentage for this tier and income source. For example, 30 means 30%. */
+  percentage: number;
+}
+export const PartnerPayoutRate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    income_source: PartnerPayoutRateIncomeSource,
+    percentage: S.Number,
+  }),
+).annotate({ identifier: "PartnerPayoutRate" }) as any as S.Schema<PartnerPayoutRate>;
+
+export type PartnerPayoutTierRatesList = Array<PartnerPayoutRate>;
+export const PartnerPayoutTierRatesList = /*@__PURE__*/ S.Array(
+  PartnerPayoutRate,
+) as any as S.Schema<PartnerPayoutTierRatesList>;
+
+/** Referral tier: first for a directly referred business, or second for a business brought by a referred partner. */
+export type PartnerPayoutTierTier = "first" | "second";
+export const PartnerPayoutTierTier = S.String;
+
+export interface PartnerPayoutTier {
+  /** Default period during which a new referred business can generate commissions, measured from its attribution start. This is not a payout delay. Individual business terms can differ. */
+  duration: PartnerPayoutDuration;
+  rates: PartnerPayoutTierRatesList;
+  /** Referral tier: first for a directly referred business, or second for a business brought by a referred partner. */
+  tier: PartnerPayoutTierTier;
+}
+export const PartnerPayoutTier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    duration: PartnerPayoutDuration,
+    rates: PartnerPayoutTierRatesList,
+    tier: PartnerPayoutTierTier,
+  }),
+).annotate({ identifier: "PartnerPayoutTier" }) as any as S.Schema<PartnerPayoutTier>;
+
+export type PartnerPayoutRatesList = Array<PartnerPayoutTier>;
+export const PartnerPayoutRatesList = /*@__PURE__*/ S.Array(
+  PartnerPayoutTier,
+) as any as S.Schema<PartnerPayoutRatesList>;
+
+export interface UserProfilePicture {
+  /** Avatar image URL. Always present — a generated placeholder when the user set no picture. */
+  url: string;
+}
+export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.String,
+  }),
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
+
+export interface UserSummary {
+  /** User ID, prefixed `user_`. */
+  id: string;
+  /** Display name. */
+  name: string | null;
+  /** Avatar wrapper; its `url` is always present, using a generated placeholder when the user set no picture. */
+  profile_picture: UserProfilePicture;
+  /** Public username. */
+  username: string;
+}
+export const UserSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.NullOr(S.String),
+    profile_picture: UserProfilePicture,
+    username: S.String,
+  }),
+).annotate({ identifier: "UserSummary" }) as any as S.Schema<UserSummary>;
+
+export interface Partner {
+  /** Whether the user finished the partner certification course: every visible quiz and knowledge check has a passing result, or, when the course has none, every visible lesson is marked completed. */
+  certification_complete: boolean;
+  /** When the user joined the partner program, as an ISO 8601 timestamp. Null when they have not joined. */
+  joined_at: string | null;
+  payout_rates: PartnerPayoutRatesList;
+  /** Number of active first-tier business referrals attributed to the partner, excluding deleted businesses. */
+  referred_businesses_count: number;
+  /** The authenticated partner's public profile. */
+  user: UserSummary;
+  /** Whether the user has a pending or approved personal entry on the Verified Partner waitlist. */
+  verification_waitlist_joined: boolean;
+  /** When the user became a verified Whop Partner, as an ISO 8601 timestamp. `null` if not verified. */
+  whop_partner_verified_at: string | null;
+}
+export const Partner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certification_complete: S.Boolean,
+    joined_at: S.NullOr(S.String),
+    payout_rates: PartnerPayoutRatesList,
+    referred_businesses_count: S.Number,
+    user: UserSummary,
+    verification_waitlist_joined: S.Boolean,
+    whop_partner_verified_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "Partner" }) as any as S.Schema<Partner>;
+
 export interface GetPartnerBusinessRequest {
   /** The partner business ID (a coma_ identifier). */
   id: string;
@@ -254,16 +383,21 @@ export const GetPartnerBusinessResponseAccountRecommendedActionsList = /*@__PURE
 /** What the holder must do; new values may be added, so handle unknown actions gracefully */
 export type AccountRequiredActionAction =
   | "deposit_funds"
+  | "review_held_payments"
   | "submit_information_request"
+  | "update_automatic_withdrawal_method"
   | "reauthorize_payout_methods"
   | "update_payout_profile"
   | "card_usage_review"
   | "verify_identity"
+  | "scale_account_setup"
   | "sign_formation_documents"
   | "connect_fulfillment_tracker"
   | "setup_apple_pay_domains"
   | "configure_tax_remitter"
-  | "add_vat_registration";
+  | "add_vat_registration"
+  | "accept_payout_terms"
+  | "enable_two_factor_authentication";
 export const AccountRequiredActionAction = S.String;
 
 export type AccountRequiredActionBlockedCapabilitiesList = Array<string>;
@@ -341,6 +475,42 @@ export const GetPartnerBusinessResponseAccount = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetPartnerBusinessResponseAccount",
 }) as any as S.Schema<GetPartnerBusinessResponseAccount>;
 
+/** The user's profile picture. */
+export interface GetPartnerBusinessResponseBlueprintPartnerProfilePicture {
+  /** The user's profile picture URL. */
+  url: string;
+}
+export const GetPartnerBusinessResponseBlueprintPartnerProfilePicture = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      url: S.String,
+    }),
+).annotate({
+  identifier: "GetPartnerBusinessResponseBlueprintPartnerProfilePicture",
+}) as any as S.Schema<GetPartnerBusinessResponseBlueprintPartnerProfilePicture>;
+
+/** The partner whose blueprint the business deployed. Null unless this is a blueprint referral. */
+export interface GetPartnerBusinessResponseBlueprintPartner {
+  /** User ID, prefixed `user_`. */
+  id: string;
+  /** The user's display name. */
+  name: string | null;
+  /** The user's profile picture. */
+  profile_picture: GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
+  /** The user's unique username. */
+  username: string;
+}
+export const GetPartnerBusinessResponseBlueprintPartner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.NullOr(S.String),
+    profile_picture: GetPartnerBusinessResponseBlueprintPartnerProfilePicture,
+    username: S.String,
+  }),
+).annotate({
+  identifier: "GetPartnerBusinessResponseBlueprintPartner",
+}) as any as S.Schema<GetPartnerBusinessResponseBlueprintPartner>;
+
 export interface GetPartnerBusinessResponseEarningsUsd {
   /** Commission already paid out, in USD. */
   completed: string;
@@ -360,43 +530,18 @@ export const GetPartnerBusinessResponseEarningsUsd = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetPartnerBusinessResponseEarningsUsd>;
 
 /** The user's profile picture. */
-export interface GetPartnerBusinessResponseFirstTierPartnerProfilePicture {
-  /** The user's profile picture URL. */
-  url: string;
-}
-export const GetPartnerBusinessResponseFirstTierPartnerProfilePicture = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      url: S.String,
-    }),
-).annotate({
-  identifier: "GetPartnerBusinessResponseFirstTierPartnerProfilePicture",
-}) as any as S.Schema<GetPartnerBusinessResponseFirstTierPartnerProfilePicture>;
+export type GetPartnerBusinessResponseFirstTierPartnerProfilePicture =
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
+export const GetPartnerBusinessResponseFirstTierPartnerProfilePicture =
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner. */
-export interface GetPartnerBusinessResponseFirstTierPartner {
-  /** User ID, prefixed `user_`. */
-  id: string;
-  /** The user's display name. */
-  name: string | null;
-  /** The user's profile picture. */
-  profile_picture: GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
-  /** The user's unique username. */
-  username: string;
-}
-export const GetPartnerBusinessResponseFirstTierPartner = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.NullOr(S.String),
-    profile_picture: GetPartnerBusinessResponseFirstTierPartnerProfilePicture,
-    username: S.String,
-  }),
-).annotate({
-  identifier: "GetPartnerBusinessResponseFirstTierPartner",
-}) as any as S.Schema<GetPartnerBusinessResponseFirstTierPartner>;
+export type GetPartnerBusinessResponseFirstTierPartner = GetPartnerBusinessResponseBlueprintPartner;
+export const GetPartnerBusinessResponseFirstTierPartner =
+  GetPartnerBusinessResponseBlueprintPartner;
 
-/** Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner). */
-export type GetPartnerBusinessResponseMyPartnerTier = "first" | "second";
+/** Which tier the caller earns on for this business: `first` (they referred the owner), `second` (they referred the first-tier partner), or `blueprint` (the business deployed a site from their blueprint). */
+export type GetPartnerBusinessResponseMyPartnerTier = "first" | "second" | "blueprint";
 export const GetPartnerBusinessResponseMyPartnerTier = S.String;
 
 export type GetPartnerBusinessResponseObject = "partner_business";
@@ -404,13 +549,34 @@ export const GetPartnerBusinessResponseObject = S.String;
 
 /** The user's profile picture. */
 export type GetPartnerBusinessResponseOwnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const GetPartnerBusinessResponseOwnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The owner of the referred business. */
-export type GetPartnerBusinessResponseOwner = GetPartnerBusinessResponseFirstTierPartner;
-export const GetPartnerBusinessResponseOwner = GetPartnerBusinessResponseFirstTierPartner;
+export interface GetPartnerBusinessResponseOwner {
+  /** The business owner's email address, so a partner can follow up on a referral they made. Requires the `partner:email:read` scope; `null` without it, or while the account has no reachable address of its own. */
+  email: string | null;
+  /** User ID, prefixed `user_`. */
+  id: string;
+  /** The user's display name. */
+  name: string | null;
+  /** The user's profile picture. */
+  profile_picture: GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
+  /** The user's unique username. */
+  username: string;
+}
+export const GetPartnerBusinessResponseOwner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.NullOr(S.String),
+    id: S.String,
+    name: S.NullOr(S.String),
+    profile_picture: GetPartnerBusinessResponseBlueprintPartnerProfilePicture,
+    username: S.String,
+  }),
+).annotate({
+  identifier: "GetPartnerBusinessResponseOwner",
+}) as any as S.Schema<GetPartnerBusinessResponseOwner>;
 
 /** The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%). */
 export interface GetPartnerBusinessResponsePayoutPercentages {
@@ -436,15 +602,15 @@ export const GetPartnerBusinessResponsePayoutPercentages = /*@__PURE__*/ S.suspe
 
 /** The user's profile picture. */
 export type GetPartnerBusinessResponseSecondTierPartnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const GetPartnerBusinessResponseSecondTierPartnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner. */
 export type GetPartnerBusinessResponseSecondTierPartner =
-  GetPartnerBusinessResponseFirstTierPartner;
+  GetPartnerBusinessResponseBlueprintPartner;
 export const GetPartnerBusinessResponseSecondTierPartner =
-  GetPartnerBusinessResponseFirstTierPartner;
+  GetPartnerBusinessResponseBlueprintPartner;
 
 /** Current referral status. */
 export type GetPartnerBusinessResponseStatus = "active" | "removed";
@@ -455,6 +621,8 @@ export interface GetPartnerBusinessResponseVolumeUsd {
   attributed: string;
   /** GMV awaiting settlement (commission not yet computed), in USD. */
   awaiting_settlement: string;
+  /** Credited GMV from the trailing 30 days (awaiting_settlement + settled), in USD. */
+  last_30d: string;
   /** GMV of pending + completed payments, in USD. */
   settled: string;
 }
@@ -462,6 +630,7 @@ export const GetPartnerBusinessResponseVolumeUsd = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attributed: S.String,
     awaiting_settlement: S.String,
+    last_30d: S.String,
     settled: S.String,
   }),
 ).annotate({
@@ -471,18 +640,20 @@ export const GetPartnerBusinessResponseVolumeUsd = /*@__PURE__*/ S.suspend(() =>
 export interface GetPartnerBusinessResponse {
   /** Referred account. */
   account: GetPartnerBusinessResponseAccount | null;
+  /** The partner whose blueprint the business deployed. Null unless this is a blueprint referral. */
+  blueprint_partner: GetPartnerBusinessResponseBlueprintPartner | null;
   /** When the partner business was created. */
   created_at: string;
   earnings_usd: GetPartnerBusinessResponseEarningsUsd;
   /** The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner. */
-  first_tier_partner: GetPartnerBusinessResponseFirstTierPartner | null;
+  first_tier_partner: GetPartnerBusinessResponseBlueprintPartner | null;
   /** Partner business ID. */
   id: string;
-  /** Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner). */
+  /** Which tier the caller earns on for this business: `first` (they referred the owner), `second` (they referred the first-tier partner), or `blueprint` (the business deployed a site from their blueprint). */
   my_partner_tier: GetPartnerBusinessResponseMyPartnerTier;
   object: GetPartnerBusinessResponseObject;
   /** The owner of the referred business. */
-  owner: GetPartnerBusinessResponseFirstTierPartner | null;
+  owner: GetPartnerBusinessResponseOwner | null;
   /** The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%). */
   payout_percentages: GetPartnerBusinessResponsePayoutPercentages;
   /** When the referral expires. */
@@ -490,7 +661,7 @@ export interface GetPartnerBusinessResponse {
   /** When the referral became active. */
   referral_started_at: string | null;
   /** The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner. */
-  second_tier_partner: GetPartnerBusinessResponseFirstTierPartner | null;
+  second_tier_partner: GetPartnerBusinessResponseBlueprintPartner | null;
   /** Current referral status. */
   status: GetPartnerBusinessResponseStatus;
   volume_usd: GetPartnerBusinessResponseVolumeUsd;
@@ -498,17 +669,18 @@ export interface GetPartnerBusinessResponse {
 export const GetPartnerBusinessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.NullOr(GetPartnerBusinessResponseAccount),
+    blueprint_partner: S.NullOr(GetPartnerBusinessResponseBlueprintPartner),
     created_at: S.String,
     earnings_usd: GetPartnerBusinessResponseEarningsUsd,
-    first_tier_partner: S.NullOr(GetPartnerBusinessResponseFirstTierPartner),
+    first_tier_partner: S.NullOr(GetPartnerBusinessResponseBlueprintPartner),
     id: S.String,
     my_partner_tier: GetPartnerBusinessResponseMyPartnerTier,
     object: GetPartnerBusinessResponseObject,
-    owner: S.NullOr(GetPartnerBusinessResponseFirstTierPartner),
+    owner: S.NullOr(GetPartnerBusinessResponseOwner),
     payout_percentages: GetPartnerBusinessResponsePayoutPercentages,
     referral_expires_at: S.NullOr(S.String),
     referral_started_at: S.NullOr(S.String),
-    second_tier_partner: S.NullOr(GetPartnerBusinessResponseFirstTierPartner),
+    second_tier_partner: S.NullOr(GetPartnerBusinessResponseBlueprintPartner),
     status: GetPartnerBusinessResponseStatus,
     volume_usd: GetPartnerBusinessResponseVolumeUsd,
   }),
@@ -538,9 +710,9 @@ export const GetPartnerLeaderboardRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The user's profile picture. Present only on the caller's own entry. */
 export type GetPartnerLeaderboardResponseLeadersItemUserProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const GetPartnerLeaderboardResponseLeadersItemUserProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The ranked referrer. Identity fields (id, name, username, profile_picture) are returned only on the caller's own entry; other referrers expose coarse location only. */
 export interface GetPartnerLeaderboardResponseLeadersItemUser {
@@ -553,7 +725,7 @@ export interface GetPartnerLeaderboardResponseLeadersItemUser {
   /** The user's display name. Present only on the caller's own entry. */
   name?: string | null;
   /** The user's profile picture. Present only on the caller's own entry. */
-  profile_picture?: GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  profile_picture?: GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
   /** The user's unique username. Present only on the caller's own entry. */
   username?: string;
 }
@@ -563,7 +735,7 @@ export const GetPartnerLeaderboardResponseLeadersItemUser = /*@__PURE__*/ S.susp
     country: S.NullOr(S.String),
     id: S.optional(S.String),
     name: S.optional(S.NullOr(S.String)),
-    profile_picture: S.optional(GetPartnerBusinessResponseFirstTierPartnerProfilePicture),
+    profile_picture: S.optional(GetPartnerBusinessResponseBlueprintPartnerProfilePicture),
     username: S.optional(S.String),
   }),
 ).annotate({
@@ -603,9 +775,9 @@ export const GetPartnerLeaderboardResponseLeadersList = /*@__PURE__*/ S.Array(
 
 /** The user's profile picture. Present only on the caller's own entry. */
 export type GetPartnerLeaderboardResponseMeUserProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const GetPartnerLeaderboardResponseMeUserProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The ranked referrer. Identity fields (id, name, username, profile_picture) are returned only on the caller's own entry; other referrers expose coarse location only. */
 export type GetPartnerLeaderboardResponseMeUser = GetPartnerLeaderboardResponseLeadersItemUser;
@@ -642,7 +814,9 @@ export type ListPartnerBusinessEarningsRequestIncomeSourceItem =
   | "sales"
   | "ad_spend"
   | "transfer"
-  | "card_interchange";
+  | "card_interchange"
+  | "onboarding_reward"
+  | "partner_reward";
 export const ListPartnerBusinessEarningsRequestIncomeSourceItem = S.String;
 
 export type ListPartnerBusinessEarningsRequestIncomeSourceList = Array<
@@ -669,9 +843,13 @@ export interface ListPartnerBusinessEarningsRequest {
   status?: ListPartnerBusinessEarningsRequestStatus | (string & {});
   /** Filter to earnings from these income sources. Repeat the parameter for each one (income_source=sales&income_source=ad_spend). */
   income_source?: ListPartnerBusinessEarningsRequestIncomeSourceList;
+  /** Number of results to return from the start of the range. */
   first?: number;
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
+  /** Number of results to return from the end of the range. */
   last?: number;
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort earnings by. */
   order?: ListPartnerBusinessEarningsRequestOrder | (string & {});
@@ -763,12 +941,14 @@ export const ListPartnerBusinessEarningsResponseDataItemFinancialActivityList =
     ListPartnerBusinessEarningsResponseDataItemFinancialActivityItem,
   ) as any as S.Schema<ListPartnerBusinessEarningsResponseDataItemFinancialActivityList>;
 
-/** Which income source the commission is on: product-sales gross profit, Whop Ads spend billed to the business, platform balance transfer fees, or Whop Card interchange. */
+/** Which income source the commission is on: product-sales gross profit, Whop Ads spend billed to the business, platform balance transfer fees, Whop Card interchange, or a fixed onboarding or referral link reward paid to the partner when a referred business qualifies. */
 export type ListPartnerBusinessEarningsResponseDataItemIncomeSource =
   | "sales"
   | "ad_spend"
   | "transfer"
-  | "card_interchange";
+  | "card_interchange"
+  | "onboarding_reward"
+  | "partner_reward";
 export const ListPartnerBusinessEarningsResponseDataItemIncomeSource = S.String;
 
 export type ListPartnerBusinessEarningsResponseDataItemObject = "partner_business_earning";
@@ -880,11 +1060,62 @@ export const ListPartnerBusinessEarningsResponseDataItemResourceCase2 = /*@__PUR
   identifier: "ListPartnerBusinessEarningsResponseDataItemResourceCase2",
 }) as any as S.Schema<ListPartnerBusinessEarningsResponseDataItemResourceCase2>;
 
-/** The resource that generated the earning: the customer payment receipt for sales and ad spend earnings, the balance transfer for transfer earnings, or the card transaction for card interchange earnings. */
+export type ListPartnerBusinessEarningsResponseDataItemResourceCase3Object = "onboarding_reward";
+export const ListPartnerBusinessEarningsResponseDataItemResourceCase3Object = S.String;
+
+export interface ListPartnerBusinessEarningsResponseDataItemResourceCase3 {
+  /** The referred business that qualified. */
+  business_id: string;
+  created_at: string;
+  /** The retired onboarding reward ID. Always null; retained for historical earnings compatibility. */
+  id: string | null;
+  object: ListPartnerBusinessEarningsResponseDataItemResourceCase3Object;
+  /** The retired reward link slug. Always null; retained for historical earnings compatibility. */
+  slug: string | null;
+}
+export const ListPartnerBusinessEarningsResponseDataItemResourceCase3 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      business_id: S.String,
+      created_at: S.String,
+      id: S.NullOr(S.String),
+      object: ListPartnerBusinessEarningsResponseDataItemResourceCase3Object,
+      slug: S.NullOr(S.String),
+    }),
+).annotate({
+  identifier: "ListPartnerBusinessEarningsResponseDataItemResourceCase3",
+}) as any as S.Schema<ListPartnerBusinessEarningsResponseDataItemResourceCase3>;
+
+export type ListPartnerBusinessEarningsResponseDataItemResourceCase4Object = "partner_reward";
+export const ListPartnerBusinessEarningsResponseDataItemResourceCase4Object = S.String;
+
+export interface ListPartnerBusinessEarningsResponseDataItemResourceCase4 {
+  /** The referred business that qualified. */
+  business_id: string;
+  created_at: string;
+  /** The referral link reward the business qualified for, prefixed `prwd_`. */
+  id: string;
+  object: ListPartnerBusinessEarningsResponseDataItemResourceCase4Object;
+}
+export const ListPartnerBusinessEarningsResponseDataItemResourceCase4 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      business_id: S.String,
+      created_at: S.String,
+      id: S.String,
+      object: ListPartnerBusinessEarningsResponseDataItemResourceCase4Object,
+    }),
+).annotate({
+  identifier: "ListPartnerBusinessEarningsResponseDataItemResourceCase4",
+}) as any as S.Schema<ListPartnerBusinessEarningsResponseDataItemResourceCase4>;
+
+/** The resource that generated the earning: the customer payment receipt for sales and ad spend earnings, the balance transfer for transfer earnings, the card transaction for card interchange earnings, or the qualifying reward for fixed reward earnings. */
 export type ListPartnerBusinessEarningsResponseDataItemResource =
   | ListPartnerBusinessEarningsResponseDataItemResourceCase0
   | ListPartnerBusinessEarningsResponseDataItemResourceCase1
-  | ListPartnerBusinessEarningsResponseDataItemResourceCase2;
+  | ListPartnerBusinessEarningsResponseDataItemResourceCase2
+  | ListPartnerBusinessEarningsResponseDataItemResourceCase3
+  | ListPartnerBusinessEarningsResponseDataItemResourceCase4;
 export const ListPartnerBusinessEarningsResponseDataItemResource =
   S.Unknown as any as S.Schema<ListPartnerBusinessEarningsResponseDataItemResource>;
 
@@ -908,14 +1139,14 @@ export interface ListPartnerBusinessEarningsResponseDataItem {
   /** Income and cost lines behind this earning's commission. Null for earnings settled before this data was recorded. */
   financial_activity: ListPartnerBusinessEarningsResponseDataItemFinancialActivityList | null;
   id: string | null;
-  /** Which income source the commission is on: product-sales gross profit, Whop Ads spend billed to the business, platform balance transfer fees, or Whop Card interchange. */
+  /** Which income source the commission is on: product-sales gross profit, Whop Ads spend billed to the business, platform balance transfer fees, Whop Card interchange, or a fixed onboarding or referral link reward paid to the partner when a referred business qualifies. */
   income_source: ListPartnerBusinessEarningsResponseDataItemIncomeSource;
   object: ListPartnerBusinessEarningsResponseDataItemObject;
   payout_at: string | null;
   /** The referrer's share of Whop's gross profit, as a fraction (0.3 = 30%). Null until the earning settles. */
   payout_percentage: number | null;
   product: ListPartnerBusinessEarningsResponseDataItemProduct | null;
-  /** The resource that generated the earning: the customer payment receipt for sales and ad spend earnings, the balance transfer for transfer earnings, or the card transaction for card interchange earnings. */
+  /** The resource that generated the earning: the customer payment receipt for sales and ad spend earnings, the balance transfer for transfer earnings, the card transaction for card interchange earnings, or the qualifying reward for fixed reward earnings. */
   resource: ListPartnerBusinessEarningsResponseDataItemResource | null;
   /** Whether this earning is a second-tier (grandparent) commission. */
   second_tier: boolean;
@@ -991,13 +1222,14 @@ export type ListPartnerBusinessesRequestOrder =
   | "referral_expires_at"
   | "payout_percentage"
   | "volume_usd"
+  | "volume_30d_usd"
   | "earnings_usd";
 export const ListPartnerBusinessesRequestOrder = S.String;
 
 export type ListPartnerBusinessesRequestDirection = "asc" | "desc";
 export const ListPartnerBusinessesRequestDirection = S.String;
 
-export type ListPartnerBusinessesRequestTier = "first" | "second";
+export type ListPartnerBusinessesRequestTier = "first" | "second" | "blueprint";
 export const ListPartnerBusinessesRequestTier = S.String;
 
 export interface ListPartnerBusinessesRequest {
@@ -1005,13 +1237,13 @@ export interface ListPartnerBusinessesRequest {
   status?: ListPartnerBusinessesRequestStatus | (string & {});
   /** When true, only businesses with pending or completed earnings paid to the caller. */
   has_earnings?: boolean;
-  /** Number of partner businesses to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of partner businesses to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort partner businesses by. */
   order?: ListPartnerBusinessesRequestOrder | (string & {});
@@ -1025,8 +1257,10 @@ export interface ListPartnerBusinessesRequest {
   referred_user_id?: string;
   /** Filter by the referred user's exact username. Ignored when `referred_user_id` is present. */
   referred_username?: string;
-  /** Filter to only first-tier referrals or only second-tier referrals. */
+  /** Filter to referrals from a single tier: first, second, or blueprint. */
   tier?: ListPartnerBusinessesRequestTier | (string & {});
+  /** Case-insensitive business-name prefix, or an exact `biz_` account ID. Surrounding whitespace is ignored; blank values apply no filter. */
+  business_prefix_query?: string;
 }
 export const ListPartnerBusinessesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1043,6 +1277,7 @@ export const ListPartnerBusinessesRequest = /*@__PURE__*/ S.suspend(() =>
     referred_user_id: S.optional(S.String.pipe(T.Query())),
     referred_username: S.optional(S.String.pipe(T.Query())),
     tier: S.optional(ListPartnerBusinessesRequestTier.pipe(T.Query())),
+    business_prefix_query: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/partners/businesses", code: 200 })),
 ).annotate({
   identifier: "ListPartnerBusinessesRequest",
@@ -1054,6 +1289,18 @@ export type ListPartnerBusinessesResponseDataItemAccount =
 export const ListPartnerBusinessesResponseDataItemAccount =
   ListPartnerBusinessEarningsResponseDataItemAccount;
 
+/** The user's profile picture. */
+export type ListPartnerBusinessesResponseDataItemBlueprintPartnerProfilePicture =
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
+export const ListPartnerBusinessesResponseDataItemBlueprintPartnerProfilePicture =
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
+
+/** The partner whose blueprint the business deployed. Null unless this is a blueprint referral. */
+export type ListPartnerBusinessesResponseDataItemBlueprintPartner =
+  GetPartnerBusinessResponseBlueprintPartner;
+export const ListPartnerBusinessesResponseDataItemBlueprintPartner =
+  GetPartnerBusinessResponseBlueprintPartner;
+
 export type ListPartnerBusinessesResponseDataItemEarningsUsd =
   GetPartnerBusinessResponseEarningsUsd;
 export const ListPartnerBusinessesResponseDataItemEarningsUsd =
@@ -1061,18 +1308,18 @@ export const ListPartnerBusinessesResponseDataItemEarningsUsd =
 
 /** The user's profile picture. */
 export type ListPartnerBusinessesResponseDataItemFirstTierPartnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const ListPartnerBusinessesResponseDataItemFirstTierPartnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner. */
 export type ListPartnerBusinessesResponseDataItemFirstTierPartner =
-  GetPartnerBusinessResponseFirstTierPartner;
+  GetPartnerBusinessResponseBlueprintPartner;
 export const ListPartnerBusinessesResponseDataItemFirstTierPartner =
-  GetPartnerBusinessResponseFirstTierPartner;
+  GetPartnerBusinessResponseBlueprintPartner;
 
-/** Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner). */
-export type ListPartnerBusinessesResponseDataItemMyPartnerTier = "first" | "second";
+/** Which tier the caller earns on for this business: `first` (they referred the owner), `second` (they referred the first-tier partner), or `blueprint` (the business deployed a site from their blueprint). */
+export type ListPartnerBusinessesResponseDataItemMyPartnerTier = "first" | "second" | "blueprint";
 export const ListPartnerBusinessesResponseDataItemMyPartnerTier = S.String;
 
 export type ListPartnerBusinessesResponseDataItemObject = "partner_business";
@@ -1080,14 +1327,13 @@ export const ListPartnerBusinessesResponseDataItemObject = S.String;
 
 /** The user's profile picture. */
 export type ListPartnerBusinessesResponseDataItemOwnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const ListPartnerBusinessesResponseDataItemOwnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The owner of the referred business. */
-export type ListPartnerBusinessesResponseDataItemOwner = GetPartnerBusinessResponseFirstTierPartner;
-export const ListPartnerBusinessesResponseDataItemOwner =
-  GetPartnerBusinessResponseFirstTierPartner;
+export type ListPartnerBusinessesResponseDataItemOwner = GetPartnerBusinessResponseOwner;
+export const ListPartnerBusinessesResponseDataItemOwner = GetPartnerBusinessResponseOwner;
 
 /** The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%). */
 export type ListPartnerBusinessesResponseDataItemPayoutPercentages =
@@ -1097,15 +1343,15 @@ export const ListPartnerBusinessesResponseDataItemPayoutPercentages =
 
 /** The user's profile picture. */
 export type ListPartnerBusinessesResponseDataItemSecondTierPartnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 export const ListPartnerBusinessesResponseDataItemSecondTierPartnerProfilePicture =
-  GetPartnerBusinessResponseFirstTierPartnerProfilePicture;
+  GetPartnerBusinessResponseBlueprintPartnerProfilePicture;
 
 /** The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner. */
 export type ListPartnerBusinessesResponseDataItemSecondTierPartner =
-  GetPartnerBusinessResponseFirstTierPartner;
+  GetPartnerBusinessResponseBlueprintPartner;
 export const ListPartnerBusinessesResponseDataItemSecondTierPartner =
-  GetPartnerBusinessResponseFirstTierPartner;
+  GetPartnerBusinessResponseBlueprintPartner;
 
 /** Current referral status. */
 export type ListPartnerBusinessesResponseDataItemStatus = "active" | "removed";
@@ -1117,18 +1363,20 @@ export const ListPartnerBusinessesResponseDataItemVolumeUsd = GetPartnerBusiness
 export interface ListPartnerBusinessesResponseDataItem {
   /** Referred account. */
   account: ListPartnerBusinessEarningsResponseDataItemAccount | null;
+  /** The partner whose blueprint the business deployed. Null unless this is a blueprint referral. */
+  blueprint_partner: GetPartnerBusinessResponseBlueprintPartner | null;
   /** When the partner business was created. */
   created_at: string;
   earnings_usd: GetPartnerBusinessResponseEarningsUsd;
   /** The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner. */
-  first_tier_partner: GetPartnerBusinessResponseFirstTierPartner | null;
+  first_tier_partner: GetPartnerBusinessResponseBlueprintPartner | null;
   /** Partner business ID. */
   id: string;
-  /** Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner). */
+  /** Which tier the caller earns on for this business: `first` (they referred the owner), `second` (they referred the first-tier partner), or `blueprint` (the business deployed a site from their blueprint). */
   my_partner_tier: ListPartnerBusinessesResponseDataItemMyPartnerTier;
   object: ListPartnerBusinessesResponseDataItemObject;
   /** The owner of the referred business. */
-  owner: GetPartnerBusinessResponseFirstTierPartner | null;
+  owner: GetPartnerBusinessResponseOwner | null;
   /** The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%). */
   payout_percentages: GetPartnerBusinessResponsePayoutPercentages;
   /** When the referral expires. */
@@ -1136,7 +1384,7 @@ export interface ListPartnerBusinessesResponseDataItem {
   /** When the referral became active. */
   referral_started_at: string | null;
   /** The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner. */
-  second_tier_partner: GetPartnerBusinessResponseFirstTierPartner | null;
+  second_tier_partner: GetPartnerBusinessResponseBlueprintPartner | null;
   /** Current referral status. */
   status: ListPartnerBusinessesResponseDataItemStatus;
   volume_usd: GetPartnerBusinessResponseVolumeUsd;
@@ -1144,17 +1392,18 @@ export interface ListPartnerBusinessesResponseDataItem {
 export const ListPartnerBusinessesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.NullOr(ListPartnerBusinessEarningsResponseDataItemAccount),
+    blueprint_partner: S.NullOr(GetPartnerBusinessResponseBlueprintPartner),
     created_at: S.String,
     earnings_usd: GetPartnerBusinessResponseEarningsUsd,
-    first_tier_partner: S.NullOr(GetPartnerBusinessResponseFirstTierPartner),
+    first_tier_partner: S.NullOr(GetPartnerBusinessResponseBlueprintPartner),
     id: S.String,
     my_partner_tier: ListPartnerBusinessesResponseDataItemMyPartnerTier,
     object: ListPartnerBusinessesResponseDataItemObject,
-    owner: S.NullOr(GetPartnerBusinessResponseFirstTierPartner),
+    owner: S.NullOr(GetPartnerBusinessResponseOwner),
     payout_percentages: GetPartnerBusinessResponsePayoutPercentages,
     referral_expires_at: S.NullOr(S.String),
     referral_started_at: S.NullOr(S.String),
-    second_tier_partner: S.NullOr(GetPartnerBusinessResponseFirstTierPartner),
+    second_tier_partner: S.NullOr(GetPartnerBusinessResponseBlueprintPartner),
     status: ListPartnerBusinessesResponseDataItemStatus,
     volume_usd: GetPartnerBusinessResponseVolumeUsd,
   }),
@@ -1184,21 +1433,24 @@ export const ListPartnerBusinessesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPartnerBusinessesResponse>;
 
 export interface ListReferredUsersRequest {
+  /** Search referred users by name or username. */
+  query?: string;
   /** When true, only referred users who brought at least one business onto Whop. */
   has_businesses?: boolean;
   /** When true, only referred users with at least one business that has generated earnings. */
   has_earning_businesses?: boolean;
-  /** Number of referred users to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of referred users to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListReferredUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    query: S.optional(S.String.pipe(T.Query())),
     has_businesses: S.optional(S.Boolean.pipe(T.Query())),
     has_earning_businesses: S.optional(S.Boolean.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
@@ -1207,6 +1459,25 @@ export const ListReferredUsersRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/partners/referred_users", code: 200 })),
 ).annotate({ identifier: "ListReferredUsersRequest" }) as any as S.Schema<ListReferredUsersRequest>;
+
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
 
 export interface ListReferredUsersResponseDataItemUserProfilePicture {
   url?: string | null;
@@ -1222,6 +1493,8 @@ export const ListReferredUsersResponseDataItemUserProfilePicture = /*@__PURE__*/
 export interface ListReferredUsersResponseDataItemUser {
   city?: string | null;
   country?: string | null;
+  /** The referred user's email address, so a partner can follow up with someone they brought onto Whop. Requires the `partner:email:read` scope; `null` without it, or while the account has no reachable address of its own. */
+  email: string | null;
   id: string;
   name?: string | null;
   profile_picture?: ListReferredUsersResponseDataItemUserProfilePicture;
@@ -1231,6 +1504,7 @@ export const ListReferredUsersResponseDataItemUser = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     city: S.optional(S.NullOr(S.String)),
     country: S.optional(S.NullOr(S.String)),
+    email: S.NullOr(S.String),
     id: S.String,
     name: S.optional(S.NullOr(S.String)),
     profile_picture: S.optional(ListReferredUsersResponseDataItemUserProfilePicture),
@@ -1241,15 +1515,27 @@ export const ListReferredUsersResponseDataItemUser = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListReferredUsersResponseDataItemUser>;
 
 export interface ListReferredUsersResponseDataItem {
+  /** Number of active businesses this user referred that credit the caller as a second-tier partner. Excludes deleted businesses. */
+  business_count: number;
+  /** The caller's total earnings across the business referrals included in business_count, in USD. */
+  earnings: Money;
+  /** When the referred user joined Whop, as an ISO 8601 timestamp. */
+  joined_at: string;
   total_earnings_usd: string;
   total_volume_usd: string;
   user: ListReferredUsersResponseDataItemUser;
+  /** Attributed volume over the last 30 days across the business referrals included in business_count, in USD. */
+  volume_30d: Money;
 }
 export const ListReferredUsersResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    business_count: S.Number,
+    earnings: Money,
+    joined_at: S.String,
     total_earnings_usd: S.String,
     total_volume_usd: S.String,
     user: ListReferredUsersResponseDataItemUser,
+    volume_30d: Money,
   }),
 ).annotate({
   identifier: "ListReferredUsersResponseDataItem",
@@ -1287,6 +1573,21 @@ export const createReferralPartner: API.OperationMethod<
   input: CreateReferralPartnerRequest,
   output: CreateReferralPartnerResponse,
   errors: [Forbidden, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPartnerError = Forbidden | NotFound | WhopOpError;
+/** Retrieve a partner Retrieves the authenticated user's public profile, enrollment date, partner verification timestamp, verification waitlist status, partner certification completion, active direct business referral count, and default payout rates. Use me or the authenticated user's own user ID; other users are not accessible. Users who have not enrolled have a null joined_at. Create and manage referral links through /partner_referral_requests. */
+export const getPartner: API.OperationMethod<
+  GetPartnerRequest,
+  Partner,
+  GetPartnerError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPartnerRequest,
+  output: Partner,
+  errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));

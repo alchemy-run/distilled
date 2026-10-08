@@ -1033,6 +1033,12 @@
             "smithy.api#documentation": "Indicates the function binding type.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Binding-type-specific properties (e.g. `{ script }` for `Microsoft.StreamAnalytics/JavascriptUdf`)."
+          }
         }
       },
       "traits": {
@@ -1849,6 +1855,12 @@
           "traits": {
             "smithy.api#documentation": "partitionKey Describes a key in the input data which is used for partitioning the input data"
           }
+        },
+        "datasource": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`."
+          }
         }
       },
       "traits": {
@@ -1904,6 +1916,12 @@
           "traits": {
             "smithy.api#documentation": "Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Serialization-type-specific properties (e.g. `{ encoding: \"UTF8\", format: \"LineSeparated\" }` for Json)."
           }
         }
       },
@@ -2061,6 +2079,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "partitionKey Describes a key in the input data which is used for partitioning the input data"
+          }
+        },
+        "datasource": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`."
           }
         }
       },
@@ -2657,6 +2681,12 @@
             "smithy.api#documentation": "Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Serialization-type-specific properties."
+          }
         }
       },
       "traits": {
@@ -2671,6 +2701,12 @@
           "traits": {
             "smithy.api#documentation": "Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Data-source-type-specific properties (e.g. `storageAccounts`, `container`, `pathPattern` for `Microsoft.Storage/Blob`)."
           }
         }
       },
@@ -2833,6 +2869,12 @@
           "traits": {
             "smithy.api#documentation": "Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Serialization-type-specific properties."
           }
         }
       },

@@ -3,42 +3,42 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#DeleteNGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#DeleteNGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#GetNGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#GetNGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#ListNGroupByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#ListNGroupByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#ListNGroups/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsList/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#ListNGroups/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsList/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
@@ -53,42 +53,42 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#RestartNGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsRestart/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#RestartNGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsRestart/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#StartNGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsStart/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#StartNGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsStart/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#StopNGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsStop/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#StopNGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsStop/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#UpdateNGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-11-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.containerinstance#UpdateNGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.containerinstance#NGroupsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-11-01-preview"
     }
   ]

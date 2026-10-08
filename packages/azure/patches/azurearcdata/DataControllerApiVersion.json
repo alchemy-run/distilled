@@ -3,62 +3,62 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#DeleteDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersDeleteDataController/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#DeleteDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersDeleteDataController/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#PatchDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersPatchDataController/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#PatchDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersPatchDataController/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#PutDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersPutDataController/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#PutDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersPutDataController/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#GetDataControllerDataController/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersGetDataController/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#GetDataControllerDataController/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersGetDataController/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersListInGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersListInGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInSubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersListInSubscription/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.azurearcdata#ListDataControllerInSubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.azurearcdata#DataControllersListInSubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     }
   ]

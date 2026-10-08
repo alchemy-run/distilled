@@ -1,0 +1,16 @@
+{
+  "description": "The JSON-RPC error object on McpResponse is named McpError in the spec, which collides with the McpError union the generator emits for the Mcp operation's errors, so the SDK does not compile. Rename it McpJsonRpcError.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.meilisearch.api#McpError",
+      "path": "/shapes/com.meilisearch.api#McpJsonRpcError",
+      "before": "com.meilisearch.api#McpErrorData"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meilisearch.api#McpResponse/members/error/target",
+      "value": "com.meilisearch.api#McpJsonRpcError"
+    }
+  ]
+}

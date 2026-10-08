@@ -44,6 +44,36 @@
     "com.whop.permissions#PermissionAction": {
       "type": "enum",
       "members": {
+        "WAITLIST_ENTRY_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist_entry:read"
+          }
+        },
+        "WAITLIST_ENTRY_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist_entry:create"
+          }
+        },
+        "WAITLIST_ENTRY_CANCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist_entry:cancel"
+          }
+        },
+        "EXPERIMENT_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment:manage"
+          }
+        },
+        "EXPERIMENT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment:read"
+          }
+        },
         "AI_PROMPT_CREATE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -456,6 +486,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "company:create_child"
+          }
+        },
+        "COMPANY_SUSPEND_CHILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:suspend_child"
           }
         },
         "COMPANY_DELETE": {
@@ -1088,10 +1124,46 @@
             "smithy.api#enumValue": "partner:basic:read"
           }
         },
+        "PARTNER_EMAIL_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:email:read"
+          }
+        },
         "PARTNER_INVITE_CREATE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "partner:invite:create"
+          }
+        },
+        "PARTNER_REFERRAL_REQUEST_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:referral_request:read"
+          }
+        },
+        "PARTNER_REFERRAL_REQUEST_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:referral_request:create"
+          }
+        },
+        "PARTNER_REFERRAL_REQUEST_ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:referral_request:accept"
+          }
+        },
+        "PARTNER_REFERRAL_REQUEST_DECLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:referral_request:decline"
+          }
+        },
+        "PARTNER_REFERRAL_REQUEST_CANCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:referral_request:cancel"
           }
         },
         "PARTNER_CREATE": {
@@ -1268,6 +1340,12 @@
             "smithy.api#enumValue": "webhook_receive:deposits"
           }
         },
+        "WEBHOOK_RECEIVE_FINANCIAL_ACTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:financial_activity"
+          }
+        },
         "WEBHOOK_RECEIVE_TRANSFERS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1332,6 +1410,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "webhook_receive:ad_campaigns"
+          }
+        },
+        "WEBHOOK_RECEIVE_ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:ads"
           }
         },
         "WEBHOOK_RECEIVE_PRODUCTS": {
@@ -1466,6 +1550,18 @@
             "smithy.api#enumValue": "crypto_wallet:swap"
           }
         },
+        "CRYPTO_WALLET_TRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_wallet:trade"
+          }
+        },
+        "CRYPTO_WALLET_TRADE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_wallet:trade:read"
+          }
+        },
         "AIRDROP_LINK_BASIC_READ": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1500,6 +1596,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "user:email:read"
+          }
+        },
+        "USER_PAYMENT_CHARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:payment:charge"
           }
         },
         "USER_STAFF_READ": {

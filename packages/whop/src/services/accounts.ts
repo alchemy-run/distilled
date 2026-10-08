@@ -54,18 +54,26 @@ export const CreateAccountRequestMetadataMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<CreateAccountRequestMetadataMap>;
 
 export interface CreateAccountRequest {
-  /** The username, if any, of the partner who referred this account */
+  /** A saved partner referral link code for this new business account. An existing primary user referral takes priority. Used with user tokens creating top-level accounts. */
   affiliate_code?: string | null;
   /** The blueprint App ID, prefixed `app_`. Creates a hosted website for the account and queues its deployment asynchronously; the Account response does not report deployment completion. */
   blueprint_id?: string | null;
   /** The ISO 3166-1 alpha-2 country code where the account's business is located (e.g. `US`). Defaults to the parent account's country for connected accounts. */
   country?: string;
-  /** The email address of the account owner. Required for Account API key requests. */
+  /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts into the success fee charged on disputes it wins. Requires payment:dispute. Omit to preserve the existing setting or creation default. */
+  dispute_fighter_enabled?: boolean;
+  /** The email address of the account owner. Required when creating a connected account. */
   email?: string;
   /** Arbitrary key/value metadata to store on the account. */
   metadata?: CreateAccountRequestMetadataMap;
+  /** Whether payment orchestration is enabled for this account. Requires payout:account:update. Omit to preserve the existing setting or creation default. */
+  orchestration_enabled?: boolean;
+  /** Whether Whop sends transactional emails to customers on behalf of the connected account. */
+  send_customer_emails?: boolean;
   /** The display name of the account. Defaults to `metadata.external_id` or the owner's email when omitted. */
   title?: string;
+  /** The account's business website, as an `http` or `https` URL of at most 255 characters. Also added to the account's `social_links` as a `website` entry. */
+  website?: string | null;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
 }
@@ -74,9 +82,13 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     affiliate_code: S.optional(S.NullOr(S.String)),
     blueprint_id: S.optional(S.NullOr(S.String)),
     country: S.optional(S.String),
+    dispute_fighter_enabled: S.optional(S.Boolean),
     email: S.optional(S.String),
     metadata: S.optional(CreateAccountRequestMetadataMap),
+    orchestration_enabled: S.optional(S.Boolean),
+    send_customer_emails: S.optional(S.Boolean),
     title: S.optional(S.String),
+    website: S.optional(S.NullOr(S.String)),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/accounts", code: 200 })),
 ).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
@@ -153,29 +165,79 @@ export const AccountBalancesList = /*@__PURE__*/ S.Array(
   AccountBalanceToken,
 ) as any as S.Schema<AccountBalancesList>;
 
-/** High-level business category for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-export type AccountBusinessType =
-  | "education_program"
-  | "coaching"
-  | "software"
-  | "paid_group"
-  | "newsletter"
-  | "agency"
-  | "physical_products"
-  | "brick_and_mortar"
-  | "events"
-  | "coaching_and_courses"
-  | "other"
-  | "services"
-  | "gig_economy"
-  | "marketplace"
-  | "telehealth"
-  | "class_action_settlement"
-  | "physical_product"
-  | "saas"
-  | "course"
-  | "community";
-export const AccountBusinessType = S.String;
+export interface FileMultipartUrl {
+  /** The 1-based index of this part within the multipart upload. */
+  part_number: number;
+  /** The presigned URL to PUT this part's bytes to. */
+  url: string;
+}
+export const FileMultipartUrl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    part_number: S.Number,
+    url: S.String,
+  }),
+).annotate({ identifier: "FileMultipartUrl" }) as any as S.Schema<FileMultipartUrl>;
+
+export type FileMultipartUploadUrlsList = Array<FileMultipartUrl>;
+export const FileMultipartUploadUrlsList = /*@__PURE__*/ S.Array(
+  FileMultipartUrl,
+) as any as S.Schema<FileMultipartUploadUrlsList>;
+
+/** Where the file is in its upload lifecycle. */
+export type FileUploadStatus = "pending" | "processing" | "ready" | "failed";
+export const FileUploadStatus = S.String;
+
+/** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
+export type FileVisibility = "public" | "private";
+export const FileVisibility = S.String;
+
+export interface File {
+  /** The file's MIME type, e.g. `application/pdf`. */
+  content_type: string | null;
+  /** When the file was created, as an ISO 8601 timestamp. */
+  created_at: string;
+  /** The original filename, including its extension. */
+  filename: string | null;
+  /** The file's ID, prefixed `file_`. */
+  id: string;
+  /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
+  multipart_chunk_size?: number | null;
+  /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
+  multipart_upload_id?: string | null;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  /** The type of this object, always `file`. */
+  object: string;
+  /** The file size in bytes. `null` until the upload has finished. */
+  size: number | null;
+  /** Headers to send with the upload PUT. Present only on create. */
+  upload_headers?: unknown;
+  /** Where the file is in its upload lifecycle. */
+  upload_status: FileUploadStatus;
+  /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
+  upload_url?: string | null;
+  /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
+  url: string | null;
+  /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
+  visibility: FileVisibility;
+}
+export const File = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content_type: S.NullOr(S.String),
+    created_at: S.String,
+    filename: S.NullOr(S.String),
+    id: S.String,
+    multipart_chunk_size: S.optional(S.NullOr(S.Number)),
+    multipart_upload_id: S.optional(S.NullOr(S.String)),
+    multipart_upload_urls: S.optional(S.NullOr(FileMultipartUploadUrlsList)),
+    object: S.String,
+    size: S.NullOr(S.Number),
+    upload_headers: S.optional(S.Unknown),
+    upload_status: FileUploadStatus,
+    upload_url: S.optional(S.NullOr(S.String)),
+    url: S.NullOr(S.String),
+    visibility: FileVisibility,
+  }),
+).annotate({ identifier: "File" }) as any as S.Schema<File>;
 
 /** Bank payins: debits, transfers, and local bank rails */
 export type AccountCapabilitiesAcceptBankPayments = "active" | "inactive" | "pending";
@@ -328,11 +390,11 @@ export type AccountCompanyFormationSignatureRequestStatus = "pending" | "unknown
 export const AccountCompanyFormationSignatureRequestStatus = S.String;
 
 export interface AccountCompanyFormationSignatureRequest {
-  /** When the signing URL expires, as an ISO 8601 timestamp. Present while `status` is `pending`. */
+  /** When the signing URL expires, as an ISO 8601 timestamp. Present only when the signing URL is included. */
   expires_at?: string;
   /** `pending` when a signing session is ready for the founder; `unknown` when the signature state could not be determined. */
   status: AccountCompanyFormationSignatureRequestStatus;
-  /** Hosted signing URL where the founder completes the form. Present while `status` is `pending`. */
+  /** Hosted signing URL where the founder completes the form. Present while `status` is `pending` and the caller has `incorporation:write`. Omitted from webhooks. */
   url?: string;
 }
 export const AccountCompanyFormationSignatureRequest = /*@__PURE__*/ S.suspend(() =>
@@ -391,80 +453,6 @@ export const AccountCompanyFormation = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AccountCompanyFormation" }) as any as S.Schema<AccountCompanyFormation>;
 
-export interface FileMultipartUrl {
-  /** The 1-based index of this part within the multipart upload. */
-  part_number: number;
-  /** The presigned URL to PUT this part's bytes to. */
-  url: string;
-}
-export const FileMultipartUrl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    part_number: S.Number,
-    url: S.String,
-  }),
-).annotate({ identifier: "FileMultipartUrl" }) as any as S.Schema<FileMultipartUrl>;
-
-export type FileMultipartUploadUrlsList = Array<FileMultipartUrl>;
-export const FileMultipartUploadUrlsList = /*@__PURE__*/ S.Array(
-  FileMultipartUrl,
-) as any as S.Schema<FileMultipartUploadUrlsList>;
-
-/** Where the file is in its upload lifecycle. */
-export type FileUploadStatus = "pending" | "processing" | "ready" | "failed";
-export const FileUploadStatus = S.String;
-
-/** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
-export type FileVisibility = "public" | "private";
-export const FileVisibility = S.String;
-
-export interface File {
-  /** The file's MIME type, e.g. `application/pdf`. */
-  content_type: string | null;
-  /** When the file was created, as an ISO 8601 timestamp. */
-  created_at: string;
-  /** The original filename, including its extension. */
-  filename: string | null;
-  /** The file's ID, prefixed `file_`. */
-  id: string;
-  /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
-  /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
-  /** The type of this object, always `file`. */
-  object: string;
-  /** The file size in bytes. `null` until the upload has finished. */
-  size: number | null;
-  /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
-  /** Where the file is in its upload lifecycle. */
-  upload_status: FileUploadStatus;
-  /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
-  /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
-  url: string | null;
-  /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
-  visibility: FileVisibility;
-}
-export const File = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    content_type: S.NullOr(S.String),
-    created_at: S.String,
-    filename: S.NullOr(S.String),
-    id: S.String,
-    multipart_chunk_size: S.optional(S.NullOr(S.Number)),
-    multipart_upload_id: S.optional(S.NullOr(S.String)),
-    multipart_upload_urls: S.optional(S.NullOr(FileMultipartUploadUrlsList)),
-    object: S.String,
-    size: S.NullOr(S.Number),
-    upload_headers: S.optional(S.Unknown),
-    upload_status: FileUploadStatus,
-    upload_url: S.optional(S.NullOr(S.String)),
-    url: S.NullOr(S.String),
-    visibility: FileVisibility,
-  }),
-).annotate({ identifier: "File" }) as any as S.Schema<File>;
-
 /** Public account home page preferences. */
 export type AccountHomePreferencesItem = "hide_member_count" | "hide_members_card";
 export const AccountHomePreferencesItem = S.String;
@@ -473,2115 +461,6 @@ export type AccountHomePreferencesList = Array<AccountHomePreferencesItem>;
 export const AccountHomePreferencesList = /*@__PURE__*/ S.Array(
   AccountHomePreferencesItem,
 ) as any as S.Schema<AccountHomePreferencesList>;
-
-/** Account industry group. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-export type AccountIndustryGroup =
-  | "academic_and_test_prep"
-  | "accessories"
-  | "agriculture_and_farming"
-  | "ai_and_automation_agencies"
-  | "ai_and_automation_software"
-  | "arts_and_crafts"
-  | "automotive"
-  | "b2b_and_professional_marketplaces"
-  | "baby_and_kids"
-  | "bars_and_breweries"
-  | "beauty_and_personal_care"
-  | "beauty_and_wellness"
-  | "business_and_entrepreneurship"
-  | "business_and_money_groups"
-  | "cafes_and_quick_service"
-  | "career_and_professional"
-  | "charity_and_cause_events"
-  | "class_action_settlement"
-  | "clothing_and_apparel"
-  | "communication_and_messaging_software"
-  | "community_and_education_software"
-  | "conference_and_expo_events"
-  | "consulting"
-  | "content_and_clipping_agencies"
-  | "creative_and_content_creation"
-  | "creative_and_content_groups"
-  | "creative_and_education"
-  | "creative_gigs"
-  | "creative_services"
-  | "customer_support_agencies"
-  | "dating_and_relationships"
-  | "delivery_and_logistics"
-  | "dental_and_vision"
-  | "dermatology_and_skin"
-  | "design_and_creative_agencies"
-  | "developer_and_technical_tools"
-  | "development_agencies"
-  | "digital_and_education_marketplaces"
-  | "digital_goods_and_accounts"
-  | "e_commerce_software"
-  | "education_and_childcare"
-  | "educational_training_events"
-  | "electronics_and_gadgets"
-  | "entertainment_and_leisure"
-  | "family_and_community_events"
-  | "finance_and_investing"
-  | "fitness_and_athletics"
-  | "fitness_and_health_groups"
-  | "fitness_and_recreation"
-  | "fitness_equipment_and_gear"
-  | "food_and_beverages"
-  | "food_and_hospitality_marketplaces"
-  | "funeral_and_death_care"
-  | "gaming_and_entertainment_software"
-  | "gaming_groups"
-  | "genetic_and_specialized"
-  | "government_and_public"
-  | "health_and_wellness"
-  | "health_and_wellness_services"
-  | "healthcare"
-  | "healthcare_and_wellness_software"
-  | "hobbies_and_lifestyle"
-  | "hobby_and_interest_groups"
-  | "home_and_living"
-  | "home_and_trade_services"
-  | "home_and_trade_storefronts"
-  | "home_improvement_and_tools"
-  | "home_services_gigs"
-  | "hospitality_and_lodging"
-  | "industrial_and_manufacturing"
-  | "industry_specific_software"
-  | "language_and_communication"
-  | "legal_and_compliance"
-  | "lifestyle_and_culture"
-  | "lifestyle_and_personal_growth"
-  | "lifestyle_and_personal_growth_groups"
-  | "lifestyle_and_wellness_events"
-  | "logistics_and_transportation_services"
-  | "marketing_agencies"
-  | "marketing_and_advertising"
-  | "marketing_and_sales_software"
-  | "media_and_publishing_companies"
-  | "mental_health_and_behavioral"
-  | "miscellaneous"
-  | "music_and_performing_arts"
-  | "news_and_politics"
-  | "nonprofit_and_charity"
-  | "office_and_business_supplies"
-  | "outdoor_and_sports"
-  | "performance_and_show_events"
-  | "personal_development"
-  | "personal_finance"
-  | "personal_services"
-  | "pet_services"
-  | "pets_and_animals"
-  | "primary_and_general_care"
-  | "product_marketplaces"
-  | "productivity_and_business_ops"
-  | "professional_gigs"
-  | "professional_services"
-  | "professional_services_storefront"
-  | "publishing_and_info_products"
-  | "real_estate"
-  | "real_estate_software"
-  | "recruiting_and_staffing"
-  | "rehabilitation_and_therapy"
-  | "religion_and_faith"
-  | "rental_marketplaces"
-  | "restaurants"
-  | "retail"
-  | "sales_agencies"
-  | "sales_and_revenue"
-  | "security_and_investigations"
-  | "security_and_privacy_software"
-  | "service_marketplaces"
-  | "sleep_and_chronic_conditions"
-  | "social_and_networking_events"
-  | "social_entertainment_events"
-  | "specialized_gigs"
-  | "specialty_medical_care"
-  | "spirituality_and_mindfulness"
-  | "spirituality_and_personal_growth"
-  | "sports_and_fitness_events"
-  | "sports_betting_and_gambling"
-  | "sports_betting_groups"
-  | "supplements_and_nutrition"
-  | "sustainability_and_eco_products"
-  | "task_and_errands"
-  | "tech_and_ai"
-  | "tech_and_dev_groups"
-  | "tech_and_development"
-  | "trading_and_finance_software"
-  | "trading_and_investing"
-  | "trading_and_investing_groups"
-  | "transportation"
-  | "veterinary"
-  | "video_games_and_esports"
-  | "weight_and_metabolic_health"
-  | "wellness_and_alternative"
-  | "womens_and_mens_health";
-export const AccountIndustryGroup = S.String;
-
-/** Specific industry vertical for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-export type AccountIndustryType =
-  | "trading"
-  | "sports_betting"
-  | "reselling"
-  | "fitness"
-  | "amazon_fba"
-  | "real_estate"
-  | "kindle_book_publishing"
-  | "dating"
-  | "agencies"
-  | "health_and_wellness"
-  | "social_media"
-  | "sales"
-  | "business"
-  | "ecommerce"
-  | "video_games"
-  | "home_services"
-  | "ai"
-  | "public_speaking"
-  | "personal_finance"
-  | "careers"
-  | "travel"
-  | "clipping"
-  | "spirituality"
-  | "vas"
-  | "personal_development"
-  | "software"
-  | "other"
-  | "marketing_agency"
-  | "sales_agency"
-  | "ai_agency"
-  | "design_agency"
-  | "coaching_agency"
-  | "development_agency"
-  | "recruiting_agency"
-  | "customer_support_agency"
-  | "clipping_agency"
-  | "clothing"
-  | "supplements"
-  | "beauty_and_personal_care"
-  | "fitness_gear"
-  | "accessories"
-  | "home_goods"
-  | "electronics_and_gadgets"
-  | "food_and_beverages"
-  | "gym"
-  | "restaurant"
-  | "retail_store"
-  | "coffee_shop"
-  | "salon_spa"
-  | "medical_dentist_office"
-  | "hotel_lodging"
-  | "auto_repair_shop"
-  | "masterminds"
-  | "webinars"
-  | "bootcamps"
-  | "convention"
-  | "concerts"
-  | "meetups"
-  | "parties"
-  | "forex_trading"
-  | "stock_trading"
-  | "options_trading"
-  | "crypto_trading"
-  | "futures_trading"
-  | "day_trading"
-  | "swing_trading"
-  | "algorithmic_trading"
-  | "prop_firm_trading"
-  | "value_investing"
-  | "real_estate_investing"
-  | "alternative_investments"
-  | "penny_stock_trading"
-  | "dividend_investing"
-  | "index_fund_investing"
-  | "gold_precious_metals"
-  | "venture_capital_education"
-  | "private_equity_education"
-  | "technical_analysis"
-  | "forex_scalping"
-  | "ict_smc_trading"
-  | "personalized_investment_advice"
-  | "forex_signals_group"
-  | "stock_signals_group"
-  | "crypto_signals_group"
-  | "options_alerts_group"
-  | "futures_signals_group"
-  | "trading_education_group"
-  | "investing_community"
-  | "prediction_markets_group"
-  | "nft_alpha_group"
-  | "penny_stock_group"
-  | "dividend_investing_group"
-  | "real_estate_investing_group"
-  | "prop_firm_group"
-  | "forex_trading_bot"
-  | "stock_trading_platform"
-  | "crypto_trading_bot"
-  | "futures_trading_bot"
-  | "options_flow_tool"
-  | "portfolio_tracker"
-  | "financial_modeling_software"
-  | "accounting_software"
-  | "invoicing_software"
-  | "tax_software"
-  | "risk_management_software"
-  | "prop_trading_platform"
-  | "backtesting_software"
-  | "trading_indicators"
-  | "market_data_feed"
-  | "stock_research_tool"
-  | "banking_software"
-  | "lending_platform"
-  | "insurance_software"
-  | "bnpl_service"
-  | "check_cashing_service"
-  | "cloud_mining_schemes"
-  | "consumer_lending"
-  | "credit_repair_service"
-  | "crypto_exchange_brokerage"
-  | "crypto_trading_tools_software"
-  | "debt_collection_agency"
-  | "debt_relief_settlement"
-  | "escrow_service"
-  | "foreign_exchange_service"
-  | "non_custodial_wallet_tools"
-  | "payment_facilitation"
-  | "prediction_market_exchange"
-  | "stablecoin_issuance"
-  | "token_sales_ico"
-  | "tokenized_rwa"
-  | "yield_staking_products"
-  | "sports_betting_picks"
-  | "fantasy_sports"
-  | "horse_racing"
-  | "poker_coaching"
-  | "esports_betting"
-  | "sports_analytics"
-  | "nfl_betting"
-  | "nba_betting"
-  | "mlb_betting"
-  | "soccer_betting"
-  | "mma_ufc_betting"
-  | "sports_picks_group"
-  | "dfs_group"
-  | "horse_racing_group"
-  | "esports_picks_group"
-  | "nfl_picks_group"
-  | "nba_picks_group"
-  | "soccer_picks_group"
-  | "mlb_picks_group"
-  | "mma_picks_group"
-  | "prop_bets_group"
-  | "fantasy_sports_free_to_play"
-  | "licensed_gambling_operations"
-  | "unlicensed_gambling"
-  | "bodybuilding_coaching"
-  | "strength_training"
-  | "weight_loss_coaching"
-  | "athletic_performance"
-  | "yoga_instruction"
-  | "martial_arts_instruction"
-  | "running_coaching"
-  | "calisthenics"
-  | "flexibility_mobility"
-  | "nutrition_coaching"
-  | "swimming_coaching"
-  | "cycling_coaching"
-  | "boxing_coaching"
-  | "mma_coaching"
-  | "jiu_jitsu_coaching"
-  | "wrestling_coaching"
-  | "gymnastics_coaching"
-  | "pilates_instruction"
-  | "sports_nutrition"
-  | "body_recomposition"
-  | "golf_coaching"
-  | "tennis_coaching"
-  | "basketball_training"
-  | "soccer_training"
-  | "racket_sports_coaching"
-  | "fitness_accountability"
-  | "nutrition_community"
-  | "weight_loss_group"
-  | "bodybuilding_community"
-  | "running_community"
-  | "martial_arts_community"
-  | "mental_health_group"
-  | "biohacking_community"
-  | "addiction_support_group"
-  | "yoga_community"
-  | "crossfit_community"
-  | "longevity_community"
-  | "womens_fitness_community"
-  | "postpartum_fitness_group"
-  | "chronic_illness_support"
-  | "skincare_community"
-  | "mental_health_coaching"
-  | "life_coaching"
-  | "biohacking"
-  | "holistic_health"
-  | "addiction_recovery_coaching"
-  | "breathwork"
-  | "meditation_mindfulness"
-  | "gut_health_coaching"
-  | "longevity_coaching"
-  | "womens_health_coaching"
-  | "mens_health_coaching"
-  | "fertility_wellness"
-  | "stress_management"
-  | "grief_coaching"
-  | "trauma_recovery_coaching"
-  | "adhd_coaching"
-  | "biomarker_health_coaching"
-  | "telehealth_platform"
-  | "ehr_software"
-  | "practice_management"
-  | "mental_health_app"
-  | "fitness_app"
-  | "nutrition_tracking_app"
-  | "wellness_app"
-  | "patient_engagement"
-  | "medical_billing_software"
-  | "pharmacy_management"
-  | "lab_management"
-  | "clinical_trial_software"
-  | "dental_software"
-  | "veterinary_software"
-  | "health_data_platform"
-  | "fitness_newsletter"
-  | "mental_health_newsletter"
-  | "longevity_newsletter"
-  | "medical_newsletter"
-  | "biohacking_newsletter"
-  | "womens_health_newsletter"
-  | "mens_health_newsletter"
-  | "pharma_biotech_newsletter"
-  | "ecommerce_education"
-  | "amazon_fba_coaching"
-  | "dropshipping_coaching"
-  | "print_on_demand_coaching"
-  | "retail_arbitrage"
-  | "wholesale_coaching"
-  | "startup_coaching"
-  | "business_strategy"
-  | "agency_building"
-  | "smma_coaching"
-  | "consulting_business"
-  | "saas_entrepreneurship"
-  | "local_business_coaching"
-  | "cleaning_business_coaching"
-  | "trucking_business_coaching"
-  | "vending_machine_business"
-  | "atm_business_coaching"
-  | "car_wash_business"
-  | "airbnb_business_coaching"
-  | "private_label_coaching"
-  | "etsy_coaching"
-  | "merch_business_coaching"
-  | "licensing_business"
-  | "business_acquisition"
-  | "women_entrepreneurship"
-  | "affiliate_marketing_education"
-  | "coaching_business_coaching"
-  | "ecommerce_community"
-  | "agency_community"
-  | "saas_community"
-  | "saas_marketing_community"
-  | "real_estate_community"
-  | "sales_community"
-  | "affiliate_community"
-  | "reselling_community"
-  | "amazon_seller_community"
-  | "dropshipping_community"
-  | "freelancer_community"
-  | "startup_founder_community"
-  | "ceo_executive_community"
-  | "women_business_community"
-  | "marketing_community"
-  | "ai_business_community"
-  | "content_business_community"
-  | "local_business_community"
-  | "private_equity_community"
-  | "wholesaling_community"
-  | "coaching_business_community"
-  | "make_money_online_community"
-  | "startup_newsletter"
-  | "ecommerce_newsletter"
-  | "marketing_newsletter"
-  | "sales_newsletter"
-  | "small_business_newsletter"
-  | "leadership_newsletter"
-  | "agency_newsletter"
-  | "saas_newsletter"
-  | "hr_people_newsletter"
-  | "legal_business_newsletter"
-  | "real_estate_business_newsletter"
-  | "solopreneur_newsletter"
-  | "high_ticket_sales"
-  | "b2b_sales_coaching"
-  | "door_to_door_sales"
-  | "sales_funnel_coaching"
-  | "appointment_setting_coaching"
-  | "insurance_sales_coaching"
-  | "car_sales_coaching"
-  | "retail_sales_coaching"
-  | "solar_sales_coaching"
-  | "lead_generation_agency"
-  | "cold_email_agency"
-  | "cold_calling_agency"
-  | "sales_outsourcing"
-  | "crm_implementation"
-  | "appointment_setting_agency"
-  | "sales_training_agency"
-  | "revenue_operations_agency"
-  | "inbound_teleservices"
-  | "outbound_telemarketing"
-  | "facebook_ads"
-  | "google_ads"
-  | "tiktok_marketing"
-  | "youtube_marketing"
-  | "instagram_growth"
-  | "seo_coaching"
-  | "email_marketing_coaching"
-  | "copywriting_coaching"
-  | "affiliate_marketing"
-  | "local_seo"
-  | "ai_marketing"
-  | "webinar_marketing"
-  | "event_marketing"
-  | "saas_marketing_coaching"
-  | "digital_marketing"
-  | "smma"
-  | "performance_marketing_agency"
-  | "seo_agency"
-  | "content_marketing_agency"
-  | "email_marketing_agency"
-  | "influencer_marketing_agency"
-  | "pr_agency"
-  | "branding_agency"
-  | "video_marketing_agency"
-  | "amazon_marketing_agency"
-  | "podcast_marketing_agency"
-  | "tiktok_agency"
-  | "linkedin_agency"
-  | "local_marketing_agency"
-  | "dental_marketing_agency"
-  | "real_estate_marketing_agency"
-  | "restaurant_marketing_agency"
-  | "ecommerce_marketing_agency"
-  | "b2b_marketing_agency"
-  | "growth_marketing_agency"
-  | "affiliate_management_agency"
-  | "conversion_optimization_agency"
-  | "event_marketing_agency"
-  | "click_farm_service"
-  | "data_scraping_service"
-  | "lead_list_sales"
-  | "social_media_bot_farm"
-  | "crm_software"
-  | "email_marketing_software"
-  | "sms_marketing_software"
-  | "seo_tool"
-  | "landing_page_builder"
-  | "ad_management_tool"
-  | "affiliate_tracking"
-  | "review_management"
-  | "analytics_dashboard"
-  | "lead_gen_software"
-  | "link_in_bio_tool"
-  | "influencer_platform"
-  | "webinar_platform"
-  | "ab_testing_tool"
-  | "chatbot_marketing"
-  | "video_sales_tool"
-  | "proposal_software"
-  | "competitive_intelligence"
-  | "social_listening_tool"
-  | "whatsapp_marketing_tool"
-  | "standalone_tipping"
-  | "video_editing_education"
-  | "photography_coaching"
-  | "music_production"
-  | "ui_ux_design_education"
-  | "clipping_education"
-  | "ugc_creation"
-  | "3d_modeling_education"
-  | "dj_education"
-  | "youtube_automation"
-  | "blog_monetization"
-  | "wedding_photography_education"
-  | "calligraphy_lettering"
-  | "illustration_education"
-  | "fashion_design_education"
-  | "interior_design_education"
-  | "influencer_education"
-  | "ai_content_creator_education"
-  | "ai_nsfw_content_generation_education"
-  | "web_design_agency"
-  | "graphic_design_agency"
-  | "ui_ux_agency"
-  | "motion_design_agency"
-  | "product_design_agency"
-  | "logo_design_agency"
-  | "presentation_design_agency"
-  | "3d_visualization_agency"
-  | "fashion_design_agency"
-  | "video_clipping_agency"
-  | "video_production_agency"
-  | "ugc_agency"
-  | "content_writing_agency"
-  | "translation_agency"
-  | "social_media_management"
-  | "ghostwriting_agency"
-  | "podcast_editing_agency"
-  | "thumbnail_design_agency"
-  | "scriptwriting_agency"
-  | "seo_content_agency"
-  | "technical_writing_agency"
-  | "photography_service"
-  | "videography_service"
-  | "music_production_service"
-  | "voice_over_service"
-  | "event_photography"
-  | "drone_services"
-  | "commercial_photography"
-  | "portrait_photography_service"
-  | "real_estate_photography"
-  | "food_photography_service"
-  | "live_event_production"
-  | "podcast_production_service"
-  | "freelance_design_gig"
-  | "freelance_writing_gig"
-  | "freelance_dev_gig"
-  | "music_performance_gig"
-  | "event_staffing_gig"
-  | "model_talent_gig"
-  | "photography_gig"
-  | "videography_gig"
-  | "voiceover_gig"
-  | "illustration_gig"
-  | "social_media_gig"
-  | "dj_gig"
-  | "face_painting_gig"
-  | "clipping_gig"
-  | "content_creator_community"
-  | "video_editing_community"
-  | "music_producer_community"
-  | "photography_community"
-  | "writing_community"
-  | "design_community"
-  | "youtube_creator_community"
-  | "tiktok_creator_community"
-  | "podcast_community"
-  | "filmmaker_community"
-  | "clipping_community"
-  | "youtube_automation_community"
-  | "pirated_digital_content"
-  | "web_development_education"
-  | "ai_ml_education"
-  | "data_science_education"
-  | "cybersecurity_education"
-  | "cloud_computing_education"
-  | "blockchain_education"
-  | "no_code_education"
-  | "automation_education"
-  | "game_development_education"
-  | "prompt_engineering"
-  | "python_programming"
-  | "javascript_programming"
-  | "react_development"
-  | "database_engineering"
-  | "aws_certification"
-  | "data_engineering"
-  | "robotics_education"
-  | "vr_ar_development"
-  | "linux_sysadmin"
-  | "wordpress_development"
-  | "ai_agent_building"
-  | "web_development_agency"
-  | "mobile_app_agency"
-  | "saas_development_agency"
-  | "ecommerce_development"
-  | "blockchain_development_agency"
-  | "game_development_agency"
-  | "devops_agency"
-  | "ai_development_agency"
-  | "wordpress_agency"
-  | "shopify_agency"
-  | "api_integration_agency"
-  | "cybersecurity_agency"
-  | "data_engineering_agency"
-  | "vr_ar_development_agency"
-  | "hacking_tools_malware"
-  | "stalkerware_monitoring"
-  | "developer_community"
-  | "ai_community"
-  | "cybersecurity_community"
-  | "no_code_community"
-  | "indie_hacker_community"
-  | "devops_community"
-  | "data_science_community"
-  | "product_community"
-  | "open_source_community"
-  | "api_management"
-  | "hosting_platform"
-  | "database_tool"
-  | "devops_tool"
-  | "monitoring_tool"
-  | "testing_tool"
-  | "code_editor"
-  | "no_code_builder"
-  | "cdn_platform"
-  | "error_tracking"
-  | "documentation_tool"
-  | "webhook_tool"
-  | "3d_weapon_files"
-  | "background_check_services"
-  | "document_falsification"
-  | "fake_id_services"
-  | "fake_reference_services"
-  | "real_estate_wholesaling"
-  | "house_flipping"
-  | "property_development"
-  | "rental_property"
-  | "airbnb_str"
-  | "commercial_real_estate"
-  | "land_investing"
-  | "section_8_housing"
-  | "mobile_home_investing"
-  | "multifamily_investing"
-  | "self_storage_investing"
-  | "property_management_education"
-  | "vacation_rental_management"
-  | "real_estate_crm"
-  | "property_management_software"
-  | "deal_analysis_tool"
-  | "mls_search_tool"
-  | "virtual_tour_software"
-  | "real_estate_marketing_software"
-  | "construction_management"
-  | "home_valuation_tool"
-  | "credit_repair_education"
-  | "budgeting_coaching"
-  | "tax_strategy_education"
-  | "wealth_building"
-  | "student_loan_strategy"
-  | "credit_card_optimization"
-  | "career_coaching"
-  | "executive_coaching"
-  | "management_coaching"
-  | "tech_career_coaching"
-  | "medical_career_coaching"
-  | "trade_skills_education"
-  | "va_training"
-  | "bookkeeping_education"
-  | "data_career_coaching"
-  | "cybersecurity_career"
-  | "consulting_career"
-  | "investment_banking_career"
-  | "law_career_coaching"
-  | "nursing_career_coaching"
-  | "teaching_career_coaching"
-  | "personal_branding_career"
-  | "mens_dating_coaching"
-  | "womens_dating_coaching"
-  | "relationship_coaching"
-  | "marriage_coaching"
-  | "communication_coaching"
-  | "masculinity_coaching"
-  | "femininity_coaching"
-  | "breakup_recovery"
-  | "manifestation_coaching"
-  | "astrology_coaching"
-  | "energy_healing"
-  | "spiritual_coaching"
-  | "faith_based_coaching"
-  | "psychic_development"
-  | "numerology_coaching"
-  | "chakra_healing"
-  | "shamanic_healing"
-  | "biblical_coaching"
-  | "islamic_coaching"
-  | "productivity_coaching"
-  | "public_speaking_coaching"
-  | "mindset_coaching"
-  | "stoicism_philosophy"
-  | "mens_self_improvement"
-  | "womens_self_improvement"
-  | "leadership_development"
-  | "anger_management"
-  | "neurolinguistic_programming"
-  | "appearance_and_grooming_coaching"
-  | "amazon_kdp"
-  | "self_publishing"
-  | "audiobook_publishing"
-  | "course_creation"
-  | "digital_product_creation"
-  | "ghostwriting_business"
-  | "template_creation"
-  | "ai_book_publishing"
-  | "language_learning"
-  | "tutoring"
-  | "college_admissions_coaching"
-  | "cpa_exam_prep"
-  | "bar_exam_prep"
-  | "real_estate_exam_prep"
-  | "medical_board_prep"
-  | "pmp_certification_prep"
-  | "aws_certification_prep"
-  | "comptia_certification"
-  | "ap_exam_prep"
-  | "graduate_school_prep"
-  | "scholarship_coaching"
-  | "homeschool_education"
-  | "stem_education"
-  | "financial_certification"
-  | "coding_bootcamp_prep"
-  | "cooking_culinary"
-  | "travel_coaching"
-  | "parenting_coaching"
-  | "pet_training"
-  | "gardening_education"
-  | "diy_crafts"
-  | "survival_prepping"
-  | "baking_pastry"
-  | "wine_sommelier"
-  | "beer_brewing"
-  | "mixology_bartending"
-  | "woodworking"
-  | "pottery_ceramics"
-  | "knitting_crocheting"
-  | "jewelry_making"
-  | "aquarium_fishkeeping"
-  | "bird_watching"
-  | "astronomy_education"
-  | "magic_illusion"
-  | "car_restoration"
-  | "motorcycle_riding"
-  | "sailing_boating"
-  | "scuba_diving"
-  | "rock_climbing"
-  | "skiing_snowboarding"
-  | "surfing_education"
-  | "homesteading"
-  | "tiny_house_living"
-  | "van_life"
-  | "fashion_styling"
-  | "floral_design"
-  | "travel_planning_service"
-  | "collectibles_coaching"
-  | "car_enthusiast_community"
-  | "sneakerhead_community"
-  | "watch_collector_community"
-  | "wine_enthusiast_community"
-  | "cigar_community"
-  | "cooking_community"
-  | "gardening_community"
-  | "fishing_community"
-  | "hunting_community"
-  | "diy_maker_community"
-  | "golf_community"
-  | "collectibles_community"
-  | "sweepstakes_raffles"
-  | "event_ticket_community"
-  | "esports_coaching"
-  | "game_specific_coaching"
-  | "gaming_community"
-  | "game_account_selling"
-  | "unauthorized_ingame_currency"
-  | "legal_education"
-  | "music_theory"
-  | "music_business"
-  | "acting_coaching"
-  | "dance_instruction"
-  | "voice_acting"
-  | "english_coaching"
-  | "spanish_coaching"
-  | "mandarin_coaching"
-  | "french_coaching"
-  | "german_coaching"
-  | "japanese_coaching"
-  | "korean_coaching"
-  | "arabic_coaching"
-  | "sign_language_education"
-  | "accent_reduction"
-  | "business_english"
-  | "ai_chatbot_agency"
-  | "ai_automation_agency"
-  | "ai_consulting"
-  | "workflow_automation_agency"
-  | "data_analytics_agency"
-  | "ai_voice_agent_agency"
-  | "ai_content_agency"
-  | "machine_learning_agency"
-  | "computer_vision_agency"
-  | "tech_recruiting_agency"
-  | "executive_recruiting"
-  | "staffing_agency"
-  | "remote_staffing"
-  | "healthcare_recruiting"
-  | "va_placement_agency"
-  | "sales_recruiting"
-  | "creative_recruiting"
-  | "finance_recruiting"
-  | "legal_recruiting"
-  | "construction_staffing"
-  | "hospitality_staffing"
-  | "customer_support_outsourcing"
-  | "live_chat_agency"
-  | "technical_support_agency"
-  | "call_center_agency"
-  | "multilingual_support_agency"
-  | "community_management_agency"
-  | "management_consulting"
-  | "financial_consulting"
-  | "hr_consulting"
-  | "operations_consulting"
-  | "it_consulting"
-  | "sustainability_consulting"
-  | "legal_consulting"
-  | "compliance_consulting"
-  | "supply_chain_consulting"
-  | "change_management_consulting"
-  | "digital_transformation_consulting"
-  | "healthcare_consulting"
-  | "real_estate_consulting"
-  | "franchise_consulting"
-  | "export_trade_consulting"
-  | "nonprofit_consulting"
-  | "education_consulting"
-  | "cannabis_consulting"
-  | "restaurant_consulting"
-  | "m_and_a_consulting"
-  | "pricing_strategy_consulting"
-  | "brand_strategy_consulting"
-  | "saas_marketing_consulting"
-  | "done_for_you_services"
-  | "prop_firm_passing_service"
-  | "trading_account_management"
-  | "done_for_you_trading"
-  | "accounting_bookkeeping"
-  | "tax_preparation"
-  | "legal_services"
-  | "notary_services"
-  | "insurance_brokerage"
-  | "financial_planning_service"
-  | "real_estate_services"
-  | "property_management"
-  | "mortgage_brokerage"
-  | "immigration_services"
-  | "patent_trademark_services"
-  | "business_formation_services"
-  | "shell_company_formation"
-  | "payroll_services"
-  | "audit_services"
-  | "forensic_accounting"
-  | "actuarial_services"
-  | "appraisal_services"
-  | "mediation_arbitration"
-  | "bail_bond_services"
-  | "crowdfunding_platform"
-  | "essay_mill_paper_mill"
-  | "government_service_facilitation"
-  | "immigration_services_unlicensed"
-  | "licensed_legal_services"
-  | "personalized_tax_services"
-  | "private_investigation"
-  | "repossession_services"
-  | "unlicensed_legal_services"
-  | "record_label"
-  | "book_publishing_house"
-  | "news_media_outlet"
-  | "radio_broadcasting"
-  | "tv_production_company"
-  | "film_studio"
-  | "magazine_publisher"
-  | "music_licensing_agency"
-  | "talent_management_agency"
-  | "advertising_network"
-  | "ad_tech_platform"
-  | "cleaning_service"
-  | "landscaping_service"
-  | "plumbing_service"
-  | "electrical_service"
-  | "hvac_service"
-  | "roofing_service"
-  | "painting_service"
-  | "moving_service"
-  | "handyman_service"
-  | "pest_control"
-  | "pool_service"
-  | "solar_installation"
-  | "home_renovation"
-  | "pressure_washing"
-  | "junk_removal"
-  | "garage_door_service"
-  | "fencing_service"
-  | "concrete_masonry"
-  | "tree_service"
-  | "window_cleaning"
-  | "gutter_service"
-  | "flooring_service"
-  | "cabinet_countertop"
-  | "home_inspection"
-  | "septic_service"
-  | "waterproofing_service"
-  | "insulation_service"
-  | "chimney_service"
-  | "locksmith_service"
-  | "glass_window_service"
-  | "epoxy_coating"
-  | "private_security_guard_service"
-  | "armored_car_transport"
-  | "executive_protection_bodyguard"
-  | "event_security_service"
-  | "alarm_system_installation"
-  | "cctv_installation"
-  | "private_investigation_agency"
-  | "background_check_provider"
-  | "locksmith_commercial"
-  | "bounty_hunter_bail_enforcement"
-  | "personal_styling"
-  | "personal_chef"
-  | "personal_assistant_service"
-  | "tutoring_service"
-  | "pet_services"
-  | "wedding_planning"
-  | "concierge_service"
-  | "personal_training_service"
-  | "nanny_service"
-  | "elder_care_service"
-  | "errand_service"
-  | "life_organization"
-  | "relocation_service"
-  | "adult_dating_services"
-  | "escort_services"
-  | "hotel_accommodation_bookings"
-  | "mail_order_spouse"
-  | "psychic_fortune_telling"
-  | "timeshare_sales"
-  | "freight_brokerage"
-  | "courier_service"
-  | "warehousing_service"
-  | "last_mile_delivery"
-  | "auto_transport"
-  | "international_shipping"
-  | "cold_chain_logistics"
-  | "commercial_airline_tickets"
-  | "cruise_line_bookings"
-  | "contract_manufacturing"
-  | "cnc_machining_service"
-  | "3d_printing_service_commercial"
-  | "plastic_injection_molding"
-  | "metal_fabrication"
-  | "pcba_assembly"
-  | "chemical_manufacturing"
-  | "textile_manufacturing"
-  | "food_processing_facility"
-  | "packaging_manufacturing"
-  | "industrial_automation_integrator"
-  | "mining_and_extraction"
-  | "oil_and_gas_services"
-  | "renewable_energy_generation"
-  | "waste_management_recycling"
-  | "hazardous_waste_disposal"
-  | "aerospace_defense_contracting"
-  | "personal_training_studio"
-  | "nutrition_consulting"
-  | "mental_health_counseling"
-  | "physical_therapy_service"
-  | "occupational_therapy_service"
-  | "speech_therapy_service"
-  | "chiropractic_service"
-  | "acupuncture_service"
-  | "massage_therapy_service"
-  | "midwifery_doula"
-  | "lactation_consulting"
-  | "dietitian_service"
-  | "addiction_recovery_services"
-  | "dtc_lab_testing"
-  | "iv_therapy_infusion"
-  | "medspa_aesthetic_services"
-  | "prescription_delivery_services"
-  | "registered_dietitian_services"
-  | "unlicensed_therapy_counseling"
-  | "streetwear"
-  | "athleisure"
-  | "luxury_fashion"
-  | "kids_clothing"
-  | "custom_apparel"
-  | "workwear"
-  | "swimwear"
-  | "lingerie_intimates"
-  | "vintage_clothing"
-  | "plus_size_fashion"
-  | "maternity_clothing"
-  | "sleepwear_loungewear"
-  | "denim_brand"
-  | "outerwear_jackets"
-  | "socks_hosiery"
-  | "costumes_cosplay"
-  | "scrubs_medical_apparel"
-  | "dance_performance_wear"
-  | "hunting_camo_apparel"
-  | "casual_everyday_clothing"
-  | "protein_supplements"
-  | "vitamins_minerals"
-  | "pre_workout"
-  | "nootropics"
-  | "herbal_supplements"
-  | "weight_management_supplements"
-  | "gut_health"
-  | "cbd_products"
-  | "mushroom_supplements"
-  | "collagen_supplements"
-  | "testosterone_boosters"
-  | "sleep_supplements"
-  | "immune_support"
-  | "joint_bone_health"
-  | "greens_powder"
-  | "creatine_supplements"
-  | "electrolyte_hydration"
-  | "prenatal_supplements"
-  | "kids_supplements"
-  | "pet_supplements"
-  | "ayurvedic_supplements"
-  | "keto_supplements"
-  | "cannabis_thc_products"
-  | "cbd_hemp_products_compliant"
-  | "delta8_thc_products"
-  | "dietary_supplements"
-  | "drug_precursor_chemicals"
-  | "illegal_drugs"
-  | "kratom_kava_products"
-  | "medical_treatment_claims_product"
-  | "nutraceutical_products"
-  | "otc_medication_sales"
-  | "performance_enhancing_drugs"
-  | "research_chemicals_dangerous"
-  | "research_peptides"
-  | "sexual_enhancement_products"
-  | "tobacco_products"
-  | "unlicensed_rx_sales"
-  | "skincare"
-  | "haircare"
-  | "cosmetics_makeup"
-  | "mens_grooming"
-  | "fragrance"
-  | "oral_care"
-  | "sunscreen_spf"
-  | "hair_growth_products"
-  | "body_care"
-  | "deodorant"
-  | "lip_care"
-  | "acne_treatment"
-  | "men_skincare"
-  | "baby_skincare"
-  | "tattoo_aftercare"
-  | "intimate_care"
-  | "home_gym_equipment"
-  | "yoga_equipment"
-  | "combat_sports_gear"
-  | "outdoor_fitness_gear"
-  | "wearable_fitness"
-  | "recovery_equipment"
-  | "weightlifting_equipment"
-  | "cardio_equipment"
-  | "gymnastics_equipment"
-  | "swimming_gear"
-  | "jump_rope_equipment"
-  | "grip_strength_tools"
-  | "sauna_cold_plunge"
-  | "posture_correctors"
-  | "jewelry"
-  | "sunglasses_eyewear"
-  | "bags_wallets"
-  | "hats_headwear"
-  | "phone_accessories"
-  | "travel_accessories"
-  | "scarves_wraps"
-  | "belts"
-  | "hair_accessories"
-  | "tech_accessories"
-  | "keychains_charms"
-  | "custom_engraved_accessories"
-  | "cannabis_accessories_non_drug"
-  | "drug_paraphernalia"
-  | "high_value_goods_over_500"
-  | "precious_metals_stones"
-  | "replica_counterfeit_goods"
-  | "home_decor"
-  | "candles_scents"
-  | "kitchenware"
-  | "bedding_linens"
-  | "smart_home"
-  | "cleaning_products"
-  | "outdoor_furniture"
-  | "organization_storage"
-  | "wall_art_prints"
-  | "rugs_carpets"
-  | "lighting_fixtures"
-  | "planters_garden_decor"
-  | "bathroom_accessories"
-  | "luxury_home_goods"
-  | "seasonal_holiday_decor"
-  | "pet_home_products"
-  | "home_fragrance_diffusers"
-  | "hazardous_chemicals_b2c"
-  | "pre_orders_delayed_delivery"
-  | "audio_equipment"
-  | "camera_equipment"
-  | "gaming_hardware"
-  | "drones_robotics"
-  | "ev_accessories"
-  | "charging_power"
-  | "smart_wearables"
-  | "home_security_devices"
-  | "3d_printers"
-  | "projectors_displays"
-  | "streaming_devices"
-  | "vr_headsets"
-  | "e_readers"
-  | "portable_tech"
-  | "hardware_wallets"
-  | "regulated_medical_devices"
-  | "signal_jamming_devices"
-  | "spy_cameras_hidden_recording"
-  | "specialty_coffee_tea"
-  | "health_food"
-  | "snacks_treats"
-  | "sauces_condiments"
-  | "alcohol_spirits"
-  | "meal_kits"
-  | "baked_goods"
-  | "beverages"
-  | "pet_food_treats"
-  | "protein_bars_snacks"
-  | "jerky_meat_snacks"
-  | "chocolate_confections"
-  | "honey_sweeteners"
-  | "olive_oil_vinegar"
-  | "hot_sauce"
-  | "dried_fruit_nuts"
-  | "baby_food"
-  | "plant_based_food"
-  | "gluten_free_food"
-  | "keto_food_products"
-  | "subscription_food_box"
-  | "kombucha_fermented"
-  | "alcohol_sales"
-  | "baby_products"
-  | "kids_toys"
-  | "kids_educational"
-  | "baby_clothing_accessories"
-  | "nursery_decor"
-  | "kids_outdoor_play"
-  | "kids_books"
-  | "baby_safety_products"
-  | "kids_arts_crafts"
-  | "camping_hiking"
-  | "fishing_gear"
-  | "hunting_gear"
-  | "cycling_gear"
-  | "water_sports_gear"
-  | "golf_equipment"
-  | "snow_sports_gear"
-  | "climbing_gear"
-  | "archery_equipment"
-  | "skateboarding_gear"
-  | "pickleball_equipment"
-  | "tennis_equipment"
-  | "equestrian_gear"
-  | "tactical_gear"
-  | "overlanding_gear"
-  | "explosives_fireworks"
-  | "firearms_sales"
-  | "self_defense_products"
-  | "weapon_components"
-  | "craft_kits"
-  | "sewing_textiles"
-  | "stationery"
-  | "scrapbooking_supplies"
-  | "beading_jewelry_supplies"
-  | "pottery_supplies"
-  | "printmaking_supplies"
-  | "car_accessories"
-  | "detailing_products"
-  | "motorcycle_gear"
-  | "truck_accessories"
-  | "off_road_parts"
-  | "car_audio_electronics"
-  | "performance_parts"
-  | "car_care_products"
-  | "ev_charging_accessories"
-  | "auto_repair_service"
-  | "auto_body_shop"
-  | "car_dealership"
-  | "car_wash"
-  | "tire_shop"
-  | "oil_change_shop"
-  | "auto_parts_store"
-  | "motorcycle_shop"
-  | "ev_charging_station"
-  | "transmission_shop"
-  | "muffler_exhaust_shop"
-  | "auto_glass_shop"
-  | "auto_upholstery_shop"
-  | "car_audio_shop"
-  | "smog_emissions_shop"
-  | "truck_repair_shop"
-  | "rv_repair_shop"
-  | "boat_repair_shop"
-  | "used_car_lot"
-  | "auto_auction"
-  | "dog_products"
-  | "cat_products"
-  | "aquarium_supplies"
-  | "bird_supplies"
-  | "reptile_supplies"
-  | "horse_supplies"
-  | "pet_apparel"
-  | "pet_tech"
-  | "pet_grooming_products"
-  | "hand_tools"
-  | "power_tools_and_accessories"
-  | "hardware_and_fasteners"
-  | "workshop_equipment_and_storage"
-  | "safety_and_work_gear"
-  | "painting_and_building_supplies"
-  | "office_supplies"
-  | "desk_accessories"
-  | "printing_supplies"
-  | "shipping_packaging"
-  | "reusable_products"
-  | "solar_powered_products"
-  | "christian_books_bibles"
-  | "christian_apparel"
-  | "christian_jewelry"
-  | "christian_home_decor"
-  | "jewish_judaica"
-  | "jewish_books_torah"
-  | "jewish_apparel"
-  | "islamic_books_quran"
-  | "islamic_apparel"
-  | "islamic_prayer_goods"
-  | "hindu_puja_supplies"
-  | "hindu_books_texts"
-  | "buddhist_meditation_goods"
-  | "buddhist_books_texts"
-  | "sikh_religious_goods"
-  | "other_religious_products"
-  | "handmade_goods_marketplace"
-  | "vintage_resale_marketplace"
-  | "electronics_marketplace"
-  | "auto_parts_marketplace"
-  | "luxury_goods_marketplace"
-  | "collectibles_marketplace"
-  | "wholesale_marketplace"
-  | "local_goods_marketplace"
-  | "sneaker_marketplace"
-  | "book_marketplace"
-  | "furniture_marketplace"
-  | "musical_instrument_marketplace"
-  | "art_marketplace"
-  | "ticket_marketplace"
-  | "industrial_equipment_marketplace"
-  | "craft_supply_marketplace"
-  | "baby_kids_marketplace"
-  | "outdoor_gear_marketplace"
-  | "pet_marketplace"
-  | "sustainable_goods_marketplace"
-  | "cultural_artifacts_looted"
-  | "dropshipping_operations"
-  | "endangered_animal_products"
-  | "human_body_parts_tissue"
-  | "nft_marketplace"
-  | "penny_auction"
-  | "primary_event_ticketing"
-  | "freelancer_marketplace"
-  | "home_services_marketplace"
-  | "tutoring_marketplace"
-  | "legal_services_marketplace"
-  | "healthcare_marketplace"
-  | "wedding_services_marketplace"
-  | "creative_and_content_creation_marketplace"
-  | "beauty_services_marketplace"
-  | "fitness_trainer_marketplace"
-  | "pet_services_marketplace"
-  | "childcare_marketplace"
-  | "elder_care_marketplace"
-  | "translation_marketplace"
-  | "coaching_marketplace"
-  | "therapy_marketplace"
-  | "photography_marketplace"
-  | "dj_entertainment_marketplace"
-  | "auto_services_marketplace"
-  | "freelance_marketplace_operator"
-  | "equipment_rental_marketplace"
-  | "vehicle_rental_marketplace"
-  | "space_rental_marketplace"
-  | "vacation_rental_marketplace"
-  | "clothing_rental_marketplace"
-  | "camera_gear_rental"
-  | "rv_camper_rental"
-  | "boat_rental_marketplace"
-  | "storage_rental_marketplace"
-  | "office_coworking_rental"
-  | "parking_rental_marketplace"
-  | "restaurant_marketplace"
-  | "grocery_marketplace"
-  | "catering_marketplace"
-  | "homemade_food_marketplace"
-  | "meal_prep_marketplace"
-  | "bakery_marketplace"
-  | "farm_produce_marketplace"
-  | "chef_booking_marketplace"
-  | "course_marketplace"
-  | "template_marketplace"
-  | "stock_media_marketplace"
-  | "music_beats_marketplace"
-  | "ebook_marketplace"
-  | "plugin_theme_marketplace"
-  | "3d_model_marketplace"
-  | "prompt_marketplace"
-  | "code_snippet_marketplace"
-  | "affiliate_marketing_platform"
-  | "game_cheats_hacks"
-  | "weapon_blueprint_distribution"
-  | "saas_marketplace"
-  | "agency_marketplace"
-  | "manufacturing_marketplace"
-  | "logistics_marketplace"
-  | "commercial_real_estate_marketplace"
-  | "business_for_sale_marketplace"
-  | "food_delivery"
-  | "grocery_delivery"
-  | "package_delivery"
-  | "moving_labor"
-  | "alcohol_delivery"
-  | "pharmacy_delivery"
-  | "flower_delivery_gig"
-  | "furniture_delivery_gig"
-  | "catering_delivery"
-  | "rideshare"
-  | "chauffeur_service"
-  | "bike_scooter_rental"
-  | "boat_charter_gig"
-  | "moving_truck_rental_gig"
-  | "assembly_installation"
-  | "waiting_line_service"
-  | "personal_shopping"
-  | "grocery_shopping_gig"
-  | "gift_wrapping_gig"
-  | "notary_gig"
-  | "laundry_gig"
-  | "car_wash_gig"
-  | "cleaning_gig"
-  | "lawn_care_gig"
-  | "handyman_gig"
-  | "pet_care_gig"
-  | "childcare_gig"
-  | "elder_care_gig"
-  | "painting_gig"
-  | "snow_removal_gig"
-  | "pool_cleaning_gig"
-  | "organizing_gig"
-  | "pressure_washing_gig"
-  | "junk_removal_gig"
-  | "consulting_gig"
-  | "accounting_gig"
-  | "legal_gig"
-  | "healthcare_gig"
-  | "teaching_gig"
-  | "translation_gig"
-  | "data_entry_gig"
-  | "research_gig"
-  | "virtual_assistant_gig"
-  | "sales_gig"
-  | "recruiting_gig"
-  | "mystery_shopping"
-  | "focus_group_gig"
-  | "product_testing_gig"
-  | "drone_pilot_gig"
-  | "fitness_instruction_gig"
-  | "tour_guide_gig"
-  | "dating_community"
-  | "personal_development_community"
-  | "spirituality_community"
-  | "parenting_community"
-  | "travel_community"
-  | "networking_community"
-  | "faith_community"
-  | "mens_community"
-  | "womens_community"
-  | "expat_community"
-  | "adult_community_nsfw"
-  | "hate_violence_communities"
-  | "personal_fundraising"
-  | "political_fundraising"
-  | "political_organizations"
-  | "pornographic_content"
-  | "registered_501c3"
-  | "religious_organization"
-  | "unregistered_charities"
-  | "ai_outreach_tool"
-  | "ai_chatbot_software"
-  | "ai_writing_tool"
-  | "ai_image_generator"
-  | "ai_video_tool"
-  | "ai_voice_tool"
-  | "ai_data_analysis"
-  | "ai_code_assistant"
-  | "ai_meeting_assistant"
-  | "workflow_automation_software"
-  | "ai_sales_tool"
-  | "ai_customer_support"
-  | "ai_recruiting_tool"
-  | "ai_translation_tool"
-  | "ai_music_tool"
-  | "ai_presentation_tool"
-  | "ai_research_tool"
-  | "ai_seo_tool"
-  | "ai_social_media_tool"
-  | "ai_phone_agent"
-  | "ai_legal_tool"
-  | "ai_healthcare_tool"
-  | "llm_api_platform"
-  | "ai_agent_platform"
-  | "generative_ai_platform"
-  | "celebrity_impersonation"
-  | "deepfake_service"
-  | "ai_nsfw_content_generator"
-  | "ecommerce_platform"
-  | "product_research_tool"
-  | "price_tracker"
-  | "shipping_software"
-  | "print_on_demand_software"
-  | "marketplace_seller_tool"
-  | "resale_arbitrage_tool"
-  | "reseller_management_tool"
-  | "product_review_software"
-  | "returns_management"
-  | "product_feed_management"
-  | "checkout_optimization"
-  | "wholesale_ordering"
-  | "project_management_software"
-  | "team_communication"
-  | "video_conferencing"
-  | "document_collaboration"
-  | "time_tracking_software"
-  | "scheduling_software"
-  | "hr_software"
-  | "knowledge_base_software"
-  | "form_survey_builder"
-  | "note_taking_app"
-  | "task_management"
-  | "contract_management"
-  | "expense_management"
-  | "okr_goal_tracking"
-  | "employee_engagement"
-  | "onboarding_software"
-  | "applicant_tracking"
-  | "asset_management"
-  | "facility_management"
-  | "visitor_management"
-  | "community_platform"
-  | "event_management_software"
-  | "webinar_software"
-  | "school_management"
-  | "newsletter_platform"
-  | "podcast_hosting"
-  | "forum_software"
-  | "virtual_classroom"
-  | "restaurant_pos"
-  | "salon_software"
-  | "gym_management_software"
-  | "auto_shop_software"
-  | "legal_practice_software"
-  | "church_management"
-  | "nonprofit_software"
-  | "logistics_software"
-  | "agriculture_software"
-  | "field_service_software"
-  | "marina_management"
-  | "hotel_pms"
-  | "childcare_management"
-  | "cleaning_business_software"
-  | "roofing_software"
-  | "landscaping_software"
-  | "pest_control_software"
-  | "tattoo_studio_software"
-  | "cannabis_software"
-  | "password_manager"
-  | "cybersecurity_software"
-  | "identity_verification"
-  | "backup_recovery"
-  | "endpoint_protection"
-  | "email_security"
-  | "access_management"
-  | "compliance_software"
-  | "data_privacy_tool"
-  | "vpn_services"
-  | "people_search_tool"
-  | "game_mod_tool"
-  | "streaming_tool"
-  | "game_server_hosting"
-  | "music_software"
-  | "video_editing_software"
-  | "photo_editing_software"
-  | "animation_software"
-  | "audio_editing_software"
-  | "screen_recording_software"
-  | "sports_betting_tool"
-  | "fantasy_sports_paid_entry"
-  | "iptv_pirated_streaming"
-  | "loot_boxes_gacha"
-  | "skill_contests_free_entry"
-  | "skill_contests_paid_entry"
-  | "only_fans_management_software"
-  | "pornography_platform"
-  | "business_phone_system"
-  | "customer_messaging"
-  | "digital_key_reselling"
-  | "streaming_account_reselling"
-  | "subscription_account_sharing"
-  | "account_generation_tool"
-  | "primary_care_telehealth"
-  | "urgent_care_telehealth"
-  | "pediatric_telehealth"
-  | "geriatric_telehealth"
-  | "family_medicine_telehealth"
-  | "internal_medicine_telehealth"
-  | "preventive_care_telehealth"
-  | "licensed_online_pharmacy"
-  | "telemedicine_practitioner_services"
-  | "dermatology_telehealth"
-  | "acne_telehealth"
-  | "psoriasis_eczema_telehealth"
-  | "skin_cancer_screening_tele"
-  | "cosmetic_dermatology_tele"
-  | "therapy_telehealth"
-  | "psychiatry_telehealth"
-  | "addiction_telehealth"
-  | "couples_therapy_telehealth"
-  | "child_psychology_telehealth"
-  | "eating_disorder_telehealth"
-  | "ptsd_trauma_telehealth"
-  | "adhd_telehealth"
-  | "anxiety_depression_telehealth"
-  | "ocd_telehealth"
-  | "grief_counseling_telehealth"
-  | "anger_management_telehealth"
-  | "family_therapy_telehealth"
-  | "group_therapy_telehealth"
-  | "licensed_psychedelic_therapy"
-  | "womens_health_telehealth"
-  | "mens_health_telehealth"
-  | "sexual_health_telehealth"
-  | "fertility_telehealth"
-  | "hormone_therapy_telehealth"
-  | "menopause_telehealth"
-  | "prenatal_telehealth"
-  | "postpartum_telehealth"
-  | "erectile_dysfunction_tele"
-  | "hair_loss_telehealth"
-  | "birth_control_telehealth"
-  | "sti_testing_telehealth"
-  | "dental_telehealth"
-  | "orthodontics_telehealth"
-  | "optometry_telehealth"
-  | "oral_surgery_consultation"
-  | "vision_therapy_telehealth"
-  | "cardiology_telehealth"
-  | "endocrinology_telehealth"
-  | "neurology_telehealth"
-  | "orthopedic_telehealth"
-  | "allergy_telehealth"
-  | "ent_telehealth"
-  | "rheumatology_telehealth"
-  | "gastroenterology_telehealth"
-  | "infectious_disease_telehealth"
-  | "pulmonology_telehealth"
-  | "nephrology_telehealth"
-  | "oncology_telehealth"
-  | "hematology_telehealth"
-  | "urology_telehealth"
-  | "weight_management_telehealth"
-  | "glp1_weight_loss_tele"
-  | "diabetes_management_tele"
-  | "metabolic_health_tele"
-  | "bariatric_telehealth"
-  | "physical_therapy_telehealth"
-  | "occupational_therapy_tele"
-  | "speech_therapy_telehealth"
-  | "pain_management_telehealth"
-  | "cardiac_rehab_telehealth"
-  | "pelvic_floor_telehealth"
-  | "vestibular_telehealth"
-  | "sleep_medicine_telehealth"
-  | "chronic_disease_management"
-  | "chronic_pain_telehealth"
-  | "migraine_telehealth"
-  | "asthma_copd_telehealth"
-  | "nutrition_telehealth"
-  | "naturopathic_telehealth"
-  | "functional_medicine_telehealth"
-  | "acupuncture_telehealth"
-  | "health_coaching_telehealth"
-  | "integrative_medicine_tele"
-  | "ayurvedic_telehealth"
-  | "genetic_counseling_telehealth"
-  | "pharmacogenomics_tele"
-  | "rare_disease_telehealth"
-  | "second_opinion_telehealth"
-  | "vet_telehealth"
-  | "pet_behavior_telehealth"
-  | "exotic_pet_telehealth"
-  | "equine_telehealth"
-  | "veterinary_services"
-  | "class_action_settlement"
-  | "mastermind_event"
-  | "webinar_event"
-  | "virtual_summit"
-  | "bootcamp_event"
-  | "workshop_seminar"
-  | "hackathon"
-  | "corporate_training_event"
-  | "training_certification_event"
-  | "convention_expo"
-  | "conference_summit"
-  | "industry_awards_event"
-  | "product_launch_event"
-  | "investor_demo_day"
-  | "panel_discussion_event"
-  | "pitch_competition"
-  | "meetup_event"
-  | "dinner_event"
-  | "alumni_event"
-  | "community_gathering"
-  | "singles_event"
-  | "professional_happy_hour"
-  | "women_networking_event"
-  | "founders_dinner"
-  | "industry_mixer"
-  | "concert_event"
-  | "comedy_show"
-  | "theater_performance"
-  | "film_screening"
-  | "music_festival"
-  | "cultural_festival"
-  | "fashion_show"
-  | "drag_show"
-  | "magic_show"
-  | "dance_performance"
-  | "poetry_spoken_word"
-  | "art_exhibition"
-  | "party_event"
-  | "trivia_night"
-  | "wine_tasting_event"
-  | "beer_festival"
-  | "car_show"
-  | "food_festival"
-  | "fitness_challenge_event"
-  | "marathon_race"
-  | "tournament_event"
-  | "fight_event"
-  | "yoga_retreat_event"
-  | "outdoor_adventure_event"
-  | "esports_tournament"
-  | "obstacle_course_race"
-  | "cycling_event"
-  | "swim_meet"
-  | "golf_tournament"
-  | "pickleball_tournament"
-  | "crossfit_competition"
-  | "martial_arts_tournament"
-  | "surfing_competition"
-  | "wellness_retreat"
-  | "spiritual_retreat"
-  | "couples_retreat"
-  | "plant_medicine_retreat"
-  | "luxury_experience_event"
-  | "detox_retreat"
-  | "silent_retreat"
-  | "creative_retreat"
-  | "leadership_retreat"
-  | "mens_retreat"
-  | "womens_retreat"
-  | "digital_detox_retreat"
-  | "fundraiser_event"
-  | "awareness_event"
-  | "volunteer_event"
-  | "charity_auction"
-  | "benefit_concert"
-  | "charity_run_walk"
-  | "environmental_cleanup"
-  | "family_festival"
-  | "kids_event"
-  | "holiday_event"
-  | "farmers_market_event"
-  | "block_party"
-  | "graduation_ceremony"
-  | "memorial_event"
-  | "stock_market_newsletter"
-  | "crypto_newsletter"
-  | "personal_finance_newsletter"
-  | "real_estate_newsletter"
-  | "fintech_newsletter"
-  | "venture_capital_newsletter"
-  | "options_trading_newsletter"
-  | "forex_newsletter"
-  | "macro_economics_newsletter"
-  | "alternative_investing_newsletter"
-  | "tax_strategy_newsletter"
-  | "ai_newsletter"
-  | "tech_industry_newsletter"
-  | "cybersecurity_newsletter"
-  | "developer_newsletter"
-  | "product_newsletter"
-  | "devops_newsletter"
-  | "open_source_newsletter"
-  | "robotics_newsletter"
-  | "climate_tech_newsletter"
-  | "travel_newsletter"
-  | "fashion_newsletter"
-  | "parenting_newsletter"
-  | "sports_newsletter"
-  | "gaming_newsletter"
-  | "music_entertainment_newsletter"
-  | "book_reading_newsletter"
-  | "dating_relationships_newsletter"
-  | "home_design_newsletter"
-  | "pet_newsletter"
-  | "wine_spirits_newsletter"
-  | "automotive_newsletter"
-  | "political_newsletter"
-  | "geopolitics_newsletter"
-  | "media_journalism_newsletter"
-  | "defense_security_newsletter"
-  | "legal_policy_newsletter"
-  | "design_newsletter"
-  | "education_newsletter"
-  | "science_newsletter"
-  | "philosophy_newsletter"
-  | "sustainability_newsletter"
-  | "architecture_newsletter"
-  | "history_newsletter"
-  | "psychology_newsletter"
-  | "career_newsletter"
-  | "spirituality_newsletter"
-  | "self_improvement_newsletter"
-  | "productivity_newsletter"
-  | "faith_newsletter"
-  | "gym_facility"
-  | "crossfit_box"
-  | "yoga_studio"
-  | "pilates_studio"
-  | "martial_arts_gym"
-  | "boxing_gym"
-  | "climbing_gym"
-  | "dance_studio"
-  | "swimming_pool"
-  | "sports_facility"
-  | "golf_course"
-  | "bowling_alley"
-  | "skating_rink"
-  | "trampoline_park"
-  | "tennis_club"
-  | "pickleball_facility"
-  | "gymnastics_center"
-  | "spin_studio"
-  | "barre_studio"
-  | "personal_training_studio_bm"
-  | "recovery_studio"
-  | "indoor_soccer"
-  | "batting_cage"
-  | "shooting_range"
-  | "archery_range"
-  | "equestrian_center"
-  | "fine_dining"
-  | "fast_casual_restaurant"
-  | "steakhouse"
-  | "seafood_restaurant"
-  | "pizza_shop"
-  | "sushi_restaurant"
-  | "deli_sandwich_shop"
-  | "bbq_restaurant"
-  | "mexican_restaurant"
-  | "italian_restaurant"
-  | "chinese_restaurant"
-  | "indian_restaurant"
-  | "thai_restaurant"
-  | "korean_restaurant"
-  | "mediterranean_restaurant"
-  | "vegan_vegetarian_restaurant"
-  | "brunch_restaurant"
-  | "ramen_noodle_shop"
-  | "poke_bowl_shop"
-  | "ethnic_restaurant"
-  | "coffee_shop_cafe"
-  | "bakery"
-  | "juice_smoothie_bar"
-  | "ice_cream_shop"
-  | "donut_shop"
-  | "bubble_tea_shop"
-  | "food_truck"
-  | "fast_food"
-  | "ghost_kitchen"
-  | "food_hall_vendor"
-  | "catering_kitchen"
-  | "butcher_shop"
-  | "cheese_shop"
-  | "farmers_market_stall"
-  | "bar_lounge"
-  | "brewery_taproom"
-  | "winery_tasting"
-  | "wine_bar"
-  | "cocktail_bar"
-  | "sports_bar"
-  | "hookah_lounge"
-  | "distillery"
-  | "commercial_farming"
-  | "livestock_ranching"
-  | "hydroponic_vertical_farming"
-  | "forestry_logging"
-  | "aquaculture_fisheries"
-  | "vineyard_winery_production"
-  | "cannabis_cultivation"
-  | "hemp_farming"
-  | "grain_production"
-  | "agricultural_cooperative"
-  | "fertilizer_pesticide_sales"
-  | "farm_equipment_sales"
-  | "boutique_store"
-  | "clothing_store"
-  | "shoe_store"
-  | "jewelry_store"
-  | "electronics_store"
-  | "bookstore"
-  | "pet_store"
-  | "toy_store"
-  | "sporting_goods_store"
-  | "thrift_store"
-  | "smoke_shop"
-  | "cannabis_dispensary"
-  | "convenience_store"
-  | "grocery_store"
-  | "liquor_store"
-  | "florist"
-  | "gift_shop"
-  | "furniture_store"
-  | "home_improvement_store"
-  | "art_gallery_retail"
-  | "music_instrument_store"
-  | "outdoor_recreation_store"
-  | "phone_repair_store"
-  | "watch_store"
-  | "bridal_shop"
-  | "maternity_store"
-  | "kids_store"
-  | "sneaker_store"
-  | "vintage_store"
-  | "comic_book_store"
-  | "record_store"
-  | "craft_supply_store"
-  | "fabric_store"
-  | "health_food_store"
-  | "vitamin_supplement_store"
-  | "optical_store"
-  | "mattress_store"
-  | "appliance_store"
-  | "kitchen_bath_store"
-  | "tile_flooring_store"
-  | "paint_store"
-  | "garden_center"
-  | "gun_store"
-  | "pawn_shop"
-  | "dollar_store"
-  | "hair_salon"
-  | "nail_salon"
-  | "day_spa"
-  | "med_spa"
-  | "massage_studio"
-  | "tattoo_parlor"
-  | "tanning_salon"
-  | "beauty_supply_store"
-  | "lash_brow_studio"
-  | "waxing_studio"
-  | "sauna_bathhouse"
-  | "cryotherapy_studio"
-  | "float_sensory_studio"
-  | "iv_therapy_lounge"
-  | "teeth_whitening_studio"
-  | "microblading_studio"
-  | "spray_tan_studio"
-  | "blowout_bar"
-  | "mens_barbershop"
-  | "kids_salon"
-  | "medical_office"
-  | "dental_office"
-  | "chiropractic_office"
-  | "physical_therapy_clinic"
-  | "optometry_office"
-  | "dermatology_clinic"
-  | "urgent_care_clinic"
-  | "pharmacy"
-  | "veterinary_clinic"
-  | "mental_health_clinic"
-  | "fertility_clinic"
-  | "acupuncture_clinic"
-  | "hearing_aid_center"
-  | "orthopedic_clinic"
-  | "pediatric_clinic"
-  | "cosmetic_surgery_center"
-  | "allergy_clinic"
-  | "pain_management_clinic"
-  | "dialysis_center"
-  | "imaging_center"
-  | "lab_testing_center"
-  | "sleep_clinic"
-  | "weight_loss_clinic"
-  | "hormone_therapy_clinic"
-  | "addiction_treatment_center"
-  | "rehabilitation_center"
-  | "occupational_therapy_clinic"
-  | "speech_therapy_clinic"
-  | "wound_care_center"
-  | "funeral_home_mortuary"
-  | "crematory_service"
-  | "cemetery_memorial_park"
-  | "casket_urn_retailer"
-  | "pet_cremation_service"
-  | "biohazard_cleanup"
-  | "estate_liquidation"
-  | "hotel"
-  | "motel"
-  | "boutique_hotel"
-  | "bed_and_breakfast"
-  | "hostel"
-  | "resort"
-  | "campground_rv"
-  | "vacation_rental_property"
-  | "extended_stay"
-  | "glamping_site"
-  | "cabin_rental"
-  | "eco_lodge"
-  | "retreat_center"
-  | "tutoring_center"
-  | "daycare_center"
-  | "preschool"
-  | "learning_center"
-  | "music_school"
-  | "art_school"
-  | "driving_school"
-  | "language_school"
-  | "trade_school"
-  | "coding_bootcamp_location"
-  | "montessori_school"
-  | "after_school_program"
-  | "swim_school"
-  | "cooking_school"
-  | "test_prep_center"
-  | "special_needs_center"
-  | "adult_education_center"
-  | "flight_school"
-  | "cosmetology_school"
-  | "movie_theater"
-  | "escape_room"
-  | "arcade"
-  | "mini_golf"
-  | "laser_tag"
-  | "go_kart"
-  | "amusement_park"
-  | "museum"
-  | "zoo_aquarium"
-  | "theater_venue"
-  | "nightclub"
-  | "karaoke_bar"
-  | "comedy_club"
-  | "live_music_venue"
-  | "axe_throwing"
-  | "virtual_reality_arcade"
-  | "board_game_cafe"
-  | "cat_cafe"
-  | "haunted_house"
-  | "water_park"
-  | "indoor_playground"
-  | "concert_venue"
-  | "drive_in_theater"
-  | "billiards_hall"
-  | "dart_bar"
-  | "indoor_skydiving"
-  | "law_office"
-  | "real_estate_office"
-  | "insurance_office"
-  | "accounting_office"
-  | "bank_credit_union"
-  | "printing_shop"
-  | "shipping_center"
-  | "dry_cleaner"
-  | "laundromat"
-  | "storage_facility"
-  | "coworking_space"
-  | "check_cashing"
-  | "title_company"
-  | "travel_agency_storefront"
-  | "staffing_office"
-  | "financial_advisor_office"
-  | "immigration_office"
-  | "bail_bonds_office"
-  | "pet_grooming"
-  | "dog_daycare"
-  | "pet_boarding"
-  | "dog_training_facility"
-  | "pet_spa"
-  | "aquatic_pet_store"
-  | "pet_bakery"
-  | "pet_photography_studio"
-  | "plumbing_showroom"
-  | "hvac_showroom"
-  | "solar_showroom"
-  | "kitchen_design_showroom"
-  | "bath_design_showroom"
-  | "window_door_showroom"
-  | "pool_spa_showroom"
-  | "fireplace_showroom"
-  | "countertop_showroom"
-  | "nonprofit_organization"
-  | "charity_foundation"
-  | "political_campaign"
-  | "community_organization"
-  | "environmental_nonprofit"
-  | "education_nonprofit"
-  | "health_nonprofit"
-  | "animal_welfare_nonprofit"
-  | "arts_culture_nonprofit"
-  | "social_justice_nonprofit"
-  | "veterans_nonprofit"
-  | "youth_nonprofit"
-  | "disaster_relief_nonprofit"
-  | "food_bank"
-  | "housing_nonprofit"
-  | "government_agency"
-  | "public_utility"
-  | "public_library"
-  | "public_school"
-  | "municipal_service"
-  | "military_installation"
-  | "embassy_consulate"
-  | "niche_service"
-  | "niche_product"
-  | "hybrid_business"
-  | "other_general"
-  | "holding_company"
-  | "family_office"
-  | "cooperative"
-  | "social_enterprise"
-  | "incubator_accelerator"
-  | "coworking_community"
-  | "media_company"
-  | "research_lab";
-export const AccountIndustryType = S.String;
 
 /** Type of onboarding the account has completed. */
 export type AccountOnboardingType = "platform" | "seller";
@@ -2620,7 +499,29 @@ export const UserSummary = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserSummary" }) as any as S.Schema<UserSummary>;
 
+export interface AccountParentFeesValue {
+  /** Fixed markup in US dollars per transaction. */
+  fixed_fee_usd: number;
+  /** Percentage of the transaction charged as markup. */
+  percentage_fee: number;
+}
+export const AccountParentFeesValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed_fee_usd: S.Number,
+    percentage_fee: S.Number,
+  }),
+).annotate({ identifier: "AccountParentFeesValue" }) as any as S.Schema<AccountParentFeesValue>;
+
+/** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
+export type AccountParentFeesMap = { [key: string]: AccountParentFeesValue | undefined };
+export const AccountParentFeesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountParentFeesValue,
+) as any as S.Schema<AccountParentFeesMap>;
+
 export interface AccountParent {
+  /** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
+  fees?: AccountParentFeesMap;
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Account logo image URL. */
@@ -2632,12 +533,38 @@ export interface AccountParent {
 }
 export const AccountParent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    fees: S.optional(AccountParentFeesMap),
     id: S.String,
     logo_url: S.NullOr(S.String),
     route: S.String,
     title: S.String,
   }),
 ).annotate({ identifier: "AccountParent" }) as any as S.Schema<AccountParent>;
+
+export interface AccountPartner {
+  /** Email address for contacting the partner. Null when the partner has not added their own email address. */
+  email: string | null;
+  /** User ID, prefixed `user_`. */
+  id: string;
+  /** Display name. */
+  name: string | null;
+  /** Avatar wrapper; its `url` is always present, using a generated placeholder when the user set no picture. */
+  profile_picture: UserProfilePicture;
+  /** Public username. */
+  username: string;
+  /** When the user became a verified Whop Partner, as an ISO 8601 timestamp. Null if not verified. */
+  whop_partner_verified_at: string | null;
+}
+export const AccountPartner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.NullOr(S.String),
+    id: S.String,
+    name: S.NullOr(S.String),
+    profile_picture: UserProfilePicture,
+    username: S.String,
+    whop_partner_verified_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "AccountPartner" }) as any as S.Schema<AccountPartner>;
 
 export interface AccountDisputeAlertAutoRefundControl {
   /** Whether the account owner is prevented from changing this threshold. */
@@ -2702,6 +629,35 @@ export const AccountPaymentControlsRestrictedPaymentMethodsList = /*@__PURE__*/ 
   AccountPaymentControlsRestrictedPaymentMethodsItem,
 ) as any as S.Schema<AccountPaymentControlsRestrictedPaymentMethodsList>;
 
+/** Why pending funds without a settlement date aren't moving yet. `kyc_incomplete` and `pending_information_request` are things the merchant can act on. `withdrawals_disabled` means Whop has blocked withdrawals, so these funds cannot become available. `null` when there's no reason to show — still clearing, or held for a reason that isn't named here. */
+export type AccountPaymentControlsUndatedPendingReason =
+  | "kyc_incomplete"
+  | "pending_information_request"
+  | "withdrawals_disabled";
+export const AccountPaymentControlsUndatedPendingReason = S.String;
+
+/** How often the account's balance automatically withdraws. */
+export type AccountWithdrawalScheduleControlFrequency = "manual" | "daily" | "weekly" | "monthly";
+export const AccountWithdrawalScheduleControlFrequency = S.String;
+
+export interface AccountWithdrawalScheduleControl {
+  /** Day the automatic withdrawal runs on: 0-6 (Sunday-Saturday) for `weekly`, 1-31 for `monthly`. `null` for `manual` and `daily`. */
+  day: number | null;
+  /** How often the account's balance automatically withdraws. */
+  frequency: AccountWithdrawalScheduleControlFrequency;
+  /** Next date the automatic withdrawal is scheduled to run, as an ISO 8601 date. `null` for `manual` and `daily`, where no single next date applies. */
+  next_payout_date: string | null;
+}
+export const AccountWithdrawalScheduleControl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    day: S.NullOr(S.Number),
+    frequency: AccountWithdrawalScheduleControlFrequency,
+    next_payout_date: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "AccountWithdrawalScheduleControl",
+}) as any as S.Schema<AccountWithdrawalScheduleControl>;
+
 export interface AccountPaymentControls {
   /** Automatic refund settings for pre-chargeback dispute alerts. */
   dispute_alert_auto_refund: AccountDisputeAlertAutoRefundControl;
@@ -2722,6 +678,10 @@ export interface AccountPaymentControls {
   /** Automatic refund settings for resolution center cases. */
   resolution_center_auto_refund: AccountResolutionCenterAutoRefundControl;
   restricted_payment_methods: AccountPaymentControlsRestrictedPaymentMethodsList;
+  /** Why pending funds without a settlement date aren't moving yet. `kyc_incomplete` and `pending_information_request` are things the merchant can act on. `withdrawals_disabled` means Whop has blocked withdrawals, so these funds cannot become available. `null` when there's no reason to show — still clearing, or held for a reason that isn't named here. */
+  undated_pending_reason: AccountPaymentControlsUndatedPendingReason | null;
+  /** How the account's balance automatically withdraws. */
+  withdrawal_schedule: AccountWithdrawalScheduleControl;
 }
 export const AccountPaymentControls = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2735,6 +695,8 @@ export const AccountPaymentControls = /*@__PURE__*/ S.suspend(() =>
     reserve: AccountReserveControl,
     resolution_center_auto_refund: AccountResolutionCenterAutoRefundControl,
     restricted_payment_methods: AccountPaymentControlsRestrictedPaymentMethodsList,
+    undated_pending_reason: S.NullOr(AccountPaymentControlsUndatedPendingReason),
+    withdrawal_schedule: AccountWithdrawalScheduleControl,
   }),
 ).annotate({ identifier: "AccountPaymentControls" }) as any as S.Schema<AccountPaymentControls>;
 
@@ -2807,7 +769,7 @@ export const AccountRecommendedAction = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AccountRecommendedAction" }) as any as S.Schema<AccountRecommendedAction>;
 
-/** DEPRECATED: Use the `GET /recommended_actions?account_id={account_id}` endpoint instead. */
+/** DEPRECATED: Use the `GET /economic_intelligence?account_id={account_id}` endpoint instead. */
 export type AccountRecommendedActionsList = Array<AccountRecommendedAction>;
 export const AccountRecommendedActionsList = /*@__PURE__*/ S.Array(
   AccountRecommendedAction,
@@ -2816,16 +778,21 @@ export const AccountRecommendedActionsList = /*@__PURE__*/ S.Array(
 /** What the holder must do; new values may be added, so handle unknown actions gracefully */
 export type AccountRequiredActionAction =
   | "deposit_funds"
+  | "review_held_payments"
   | "submit_information_request"
+  | "update_automatic_withdrawal_method"
   | "reauthorize_payout_methods"
   | "update_payout_profile"
   | "card_usage_review"
   | "verify_identity"
+  | "scale_account_setup"
   | "sign_formation_documents"
   | "connect_fulfillment_tracker"
   | "setup_apple_pay_domains"
   | "configure_tax_remitter"
-  | "add_vat_registration";
+  | "add_vat_registration"
+  | "accept_payout_terms"
+  | "enable_two_factor_authentication";
 export const AccountRequiredActionAction = S.String;
 
 export type AccountRequiredActionBlockedCapabilitiesList = Array<string>;
@@ -2871,6 +838,69 @@ export type AccountRequiredActionsList = Array<AccountRequiredAction>;
 export const AccountRequiredActionsList = /*@__PURE__*/ S.Array(
   AccountRequiredAction,
 ) as any as S.Schema<AccountRequiredActionsList>;
+
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+/** Activity that qualifies this account for the reward. */
+export type AccountPartnerRewardQualificationType = "sales" | "ad_spend";
+export const AccountPartnerRewardQualificationType = S.String;
+
+/** This account's reward state. Credited requires a posted ledger entry; processing includes a met requirement awaiting fulfillment. Reversing and reversed reflect a subsequent reward reversal. */
+export type AccountPartnerRewardStatus =
+  | "in_progress"
+  | "processing"
+  | "credited"
+  | "reversing"
+  | "reversed"
+  | "unavailable";
+export const AccountPartnerRewardStatus = S.String;
+
+export interface AccountPartnerReward {
+  /** Reward definition ID, prefixed `prwd_`. Progress and status apply to the containing account. */
+  id: string;
+  /** Qualifying USD volume required to earn this reward. */
+  qualification_amount: Money;
+  /** Qualifying USD volume for the reward’s activity accumulated by this account since attribution, calculated using the fulfillment rules. */
+  qualification_progress: Money;
+  /** Activity that qualifies this account for the reward. */
+  qualification_type: AccountPartnerRewardQualificationType;
+  /** USD balance credit for this reward. Uses the saved grant amount once fulfillment has started. */
+  reward_amount: Money;
+  /** This account's reward state. Credited requires a posted ledger entry; processing includes a met requirement awaiting fulfillment. Reversing and reversed reflect a subsequent reward reversal. */
+  status: AccountPartnerRewardStatus;
+}
+export const AccountPartnerReward = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    qualification_amount: Money,
+    qualification_progress: Money,
+    qualification_type: AccountPartnerRewardQualificationType,
+    reward_amount: Money,
+    status: AccountPartnerRewardStatus,
+  }),
+).annotate({ identifier: "AccountPartnerReward" }) as any as S.Schema<AccountPartnerReward>;
+
+export type AccountRewardsList = Array<AccountPartnerReward>;
+export const AccountRewardsList = /*@__PURE__*/ S.Array(
+  AccountPartnerReward,
+) as any as S.Schema<AccountRewardsList>;
 
 /** The social platform for this link */
 export type AccountSocialLinkWebsite =
@@ -3119,9 +1149,307 @@ export const AccountTaxRemittedBy = S.String;
 export type AccountTaxType = "inclusive" | "exclusive";
 export const AccountTaxType = S.String;
 
-/** Account-level 3D Secure behavior. `mandate_challenge` requires cardholder verification on supported card payments; `null` uses the standard checkout flow. */
-export type AccountThreeDsLevel = "mandate_challenge";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` uses the standard checkout flow. */
+export type AccountThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const AccountThreeDsLevel = S.String;
+
+export interface TradingMarginSummary {
+  /** Total account value in USD, including unrealized profit and loss. */
+  account_value: Money;
+  /** Margin allocated across open positions, in USD. */
+  total_margin_used: Money;
+  /** Combined notional value of open positions, in USD. */
+  total_position_notional: Money;
+  /** Raw USD balance as Hyperliquid reports it, excluding position value. */
+  total_raw_usd: Money;
+  /** USD that can be withdrawn now without closing positions. */
+  withdrawable: Money;
+}
+export const TradingMarginSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_value: Money,
+    total_margin_used: Money,
+    total_position_notional: Money,
+    total_raw_usd: Money,
+    withdrawable: Money,
+  }),
+).annotate({ identifier: "TradingMarginSummary" }) as any as S.Schema<TradingMarginSummary>;
+
+/** The live update stream this subscription opens. */
+export type TradingWebsocketSubscriptionChannel =
+  | "clearinghouse_state"
+  | "open_orders"
+  | "order_updates"
+  | "user_fills"
+  | "user_events";
+export const TradingWebsocketSubscriptionChannel = S.String;
+
+export interface TradingWebsocketSubscription {
+  /** The live update stream this subscription opens. */
+  channel: TradingWebsocketSubscriptionChannel;
+  /** JSON subscription message to send unchanged over the Hyperliquid WebSocket. */
+  message: string;
+}
+export const TradingWebsocketSubscription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: TradingWebsocketSubscriptionChannel,
+    message: S.String,
+  }),
+).annotate({
+  identifier: "TradingWebsocketSubscription",
+}) as any as S.Schema<TradingWebsocketSubscription>;
+
+export type TradingHyperliquidAccountWebsocketSubscriptionsList =
+  Array<TradingWebsocketSubscription>;
+export const TradingHyperliquidAccountWebsocketSubscriptionsList = /*@__PURE__*/ S.Array(
+  TradingWebsocketSubscription,
+) as any as S.Schema<TradingHyperliquidAccountWebsocketSubscriptionsList>;
+
+export interface TradingHyperliquidAccount {
+  /** Lowercase wallet address that holds the Hyperliquid account. */
+  address: string;
+  /** Builder fee Whop charges on orders, in basis points as a decimal string, or `null` when no fee is configured. */
+  builder_fee_bps: string | null;
+  /** Account value, margin, and withdrawable balance, all in USD. */
+  margin_summary: TradingMarginSummary;
+  websocket_subscriptions: TradingHyperliquidAccountWebsocketSubscriptionsList;
+  /** Hyperliquid WebSocket URL to connect to directly for live updates. */
+  websocket_url: string;
+}
+export const TradingHyperliquidAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    address: S.String,
+    builder_fee_bps: S.NullOr(S.String),
+    margin_summary: TradingMarginSummary,
+    websocket_subscriptions: TradingHyperliquidAccountWebsocketSubscriptionsList,
+    websocket_url: S.String,
+  }),
+).annotate({
+  identifier: "TradingHyperliquidAccount",
+}) as any as S.Schema<TradingHyperliquidAccount>;
+
+export type TradingAccountObject = "trading_account";
+export const TradingAccountObject = S.String;
+
+export interface TradingHyperliquidOrder {
+  /** Whether the order can only reduce an existing position, or `null` when Hyperliquid omits it. */
+  reduce_only: boolean | null;
+  /** Trigger price in USD for take-profit and stop-loss orders, or `null` for orders without a trigger. */
+  trigger_price: Money | null;
+}
+export const TradingHyperliquidOrder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reduce_only: S.NullOr(S.Boolean),
+    trigger_price: S.NullOr(Money),
+  }),
+).annotate({ identifier: "TradingHyperliquidOrder" }) as any as S.Schema<TradingHyperliquidOrder>;
+
+export type TradingOrderObject = "trading_order";
+export const TradingOrderObject = S.String;
+
+export type TradingOrderOrderType = "limit" | "market" | "take_profit" | "stop_loss";
+export const TradingOrderOrderType = S.String;
+
+export type TradingOrderSide = "buy" | "sell";
+export const TradingOrderSide = S.String;
+
+export type TradingOrderStatus = "open" | "filled" | "canceled" | "triggered" | "rejected";
+export const TradingOrderStatus = S.String;
+
+/** How long the order stays active. `null` when the provider omits it or reports a policy outside the supported values. */
+export type TradingOrderTimeInForce =
+  | "add_liquidity_only"
+  | "good_til_canceled"
+  | "immediate_or_cancel";
+export const TradingOrderTimeInForce = S.String;
+
+export interface TradingOrder {
+  /** Client order ID, prefixed `trdcloid_`, or `null` when the order was placed without one. */
+  client_order_id: string | null;
+  /** When the order was placed, as an ISO 8601 timestamp, or `null` when the provider omits it. */
+  created_at: string | null;
+  /** Hyperliquid-specific order details. Present on Hyperliquid orders, otherwise `null`. */
+  hyperliquid: TradingHyperliquidOrder | null;
+  /** Trading order ID, prefixed `trdord_`. */
+  id: string;
+  /** Market symbol on the provider, such as `ETH`. */
+  market: string;
+  object: TradingOrderObject;
+  order_type: TradingOrderOrderType;
+  /** Size when the order was placed, as a decimal string, or `null` when the provider omits it. */
+  original_size: string | null;
+  /** Limit price in USD. */
+  price: Money;
+  /** The provider's own order ID, as a string. */
+  provider_order_id: string | null;
+  side: TradingOrderSide;
+  /** Remaining order size as a decimal string. */
+  size: string;
+  status: TradingOrderStatus;
+  /** When the status last changed, as an ISO 8601 timestamp, or `null` when the provider omits it. */
+  status_updated_at: string | null;
+  /** How long the order stays active. `null` when the provider omits it or reports a policy outside the supported values. */
+  time_in_force: TradingOrderTimeInForce | null;
+}
+export const TradingOrder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    client_order_id: S.NullOr(S.String),
+    created_at: S.NullOr(S.String),
+    hyperliquid: S.NullOr(TradingHyperliquidOrder),
+    id: S.String,
+    market: S.String,
+    object: TradingOrderObject,
+    order_type: TradingOrderOrderType,
+    original_size: S.NullOr(S.String),
+    price: Money,
+    provider_order_id: S.NullOr(S.String),
+    side: TradingOrderSide,
+    size: S.String,
+    status: TradingOrderStatus,
+    status_updated_at: S.NullOr(S.String),
+    time_in_force: S.NullOr(TradingOrderTimeInForce),
+  }),
+).annotate({ identifier: "TradingOrder" }) as any as S.Schema<TradingOrder>;
+
+export type TradingAccountOpenOrdersList = Array<TradingOrder>;
+export const TradingAccountOpenOrdersList = /*@__PURE__*/ S.Array(
+  TradingOrder,
+) as any as S.Schema<TradingAccountOpenOrdersList>;
+
+export interface TradingCumulativeFunding {
+  /** Funding paid on this market across the account's history, in USD, or `null` when unavailable. */
+  all_time: Money | null;
+  /** Funding paid since the position size last changed, in USD, or `null` when unavailable. */
+  since_change: Money | null;
+  /** Funding paid since the position opened, in USD, or `null` when unavailable. */
+  since_open: Money | null;
+}
+export const TradingCumulativeFunding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all_time: S.NullOr(Money),
+    since_change: S.NullOr(Money),
+    since_open: S.NullOr(Money),
+  }),
+).annotate({ identifier: "TradingCumulativeFunding" }) as any as S.Schema<TradingCumulativeFunding>;
+
+/** `cross` shares margin across positions; `isolated` limits margin to this position. */
+export type TradingPositionLeverageType = "cross" | "isolated";
+export const TradingPositionLeverageType = S.String;
+
+export interface TradingPositionLeverage {
+  /** `cross` shares margin across positions; `isolated` limits margin to this position. */
+  type: TradingPositionLeverageType;
+  /** Multiplier applied to the position's margin, such as `10` for 10x. */
+  value: number;
+}
+export const TradingPositionLeverage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: TradingPositionLeverageType,
+    value: S.Number,
+  }),
+).annotate({ identifier: "TradingPositionLeverage" }) as any as S.Schema<TradingPositionLeverage>;
+
+export interface TradingHyperliquidPosition {
+  /** Funding paid on the position over several windows, in USD. */
+  cumulative_funding: TradingCumulativeFunding;
+  /** Margin mode and multiplier for the position. */
+  leverage: TradingPositionLeverage;
+  /** Estimated liquidation price in USD, or `null` when Hyperliquid reports none. */
+  liquidation_price: Money | null;
+  /** Margin allocated to the position, in USD. */
+  margin_used: Money;
+  /** Return on equity as a decimal ratio string, such as `0.1` for 10%. */
+  return_on_equity: string;
+}
+export const TradingHyperliquidPosition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cumulative_funding: TradingCumulativeFunding,
+    leverage: TradingPositionLeverage,
+    liquidation_price: S.NullOr(Money),
+    margin_used: Money,
+    return_on_equity: S.String,
+  }),
+).annotate({
+  identifier: "TradingHyperliquidPosition",
+}) as any as S.Schema<TradingHyperliquidPosition>;
+
+export type TradingPositionObject = "trading_position";
+export const TradingPositionObject = S.String;
+
+export type TradingPositionSide = "long" | "short";
+export const TradingPositionSide = S.String;
+
+export interface TradingPosition {
+  /** Average entry price in USD, or `null` when the provider omits it. */
+  entry_price: Money | null;
+  /** Hyperliquid perpetual details. Present on Hyperliquid positions, otherwise `null`. */
+  hyperliquid: TradingHyperliquidPosition | null;
+  /** Trading position ID, prefixed `trdpos_`. Stable for a market within one trading account. */
+  id: string;
+  /** Market symbol on the provider, such as `ETH`. */
+  market: string;
+  object: TradingPositionObject;
+  /** Current position value in USD. */
+  position_value: Money;
+  side: TradingPositionSide;
+  /** Absolute position size as a decimal string. */
+  size: string;
+  /** Unrealized profit or loss in USD. Negative for a loss. */
+  unrealized_pnl: Money;
+}
+export const TradingPosition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entry_price: S.NullOr(Money),
+    hyperliquid: S.NullOr(TradingHyperliquidPosition),
+    id: S.String,
+    market: S.String,
+    object: TradingPositionObject,
+    position_value: Money,
+    side: TradingPositionSide,
+    size: S.String,
+    unrealized_pnl: Money,
+  }),
+).annotate({ identifier: "TradingPosition" }) as any as S.Schema<TradingPosition>;
+
+export type TradingAccountPositionsList = Array<TradingPosition>;
+export const TradingAccountPositionsList = /*@__PURE__*/ S.Array(
+  TradingPosition,
+) as any as S.Schema<TradingAccountPositionsList>;
+
+/** Trading venue that holds the positions and orders. */
+export type TradingAccountProvider = "hyperliquid";
+export const TradingAccountProvider = S.String;
+
+export interface TradingAccount {
+  /** The account that owns this trading account, prefixed `biz_`. `null` when a user owns it. */
+  account_id: string | null;
+  /** Hyperliquid-specific state. Present when `provider` is `hyperliquid`, otherwise `null`. */
+  hyperliquid: TradingHyperliquidAccount | null;
+  /** The Whop wallet ID backing this trading account, prefixed `cwal_`. */
+  id: string;
+  object: TradingAccountObject;
+  open_orders: TradingAccountOpenOrdersList;
+  positions: TradingAccountPositionsList;
+  /** Trading venue that holds the positions and orders. */
+  provider: TradingAccountProvider;
+  /** The user who owns this trading account, prefixed `user_`. `null` when an account owns it. */
+  user_id: string | null;
+}
+export const TradingAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.NullOr(S.String),
+    hyperliquid: S.NullOr(TradingHyperliquidAccount),
+    id: S.String,
+    object: TradingAccountObject,
+    open_orders: TradingAccountOpenOrdersList,
+    positions: TradingAccountPositionsList,
+    provider: TradingAccountProvider,
+    user_id: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "TradingAccount" }) as any as S.Schema<TradingAccount>;
 
 /** The blockchain network the wallet lives on */
 export type AccountWalletNetwork = "solana" | "ethereum" | "bitcoin";
@@ -3152,12 +1480,14 @@ export interface Account {
   /** The account's legal business name used with its tax address. */
   business_name: string | null;
   /** High-level business category for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  business_type: AccountBusinessType | null;
+  business_type: string | null;
   /** Whether pending funds may be transferred from this platform account to its connected accounts. */
   can_transfer_pending_balance_to_children: boolean;
+  /** The account's cancellation policy document, or `null` if they have not published one. */
+  cancellation_policy: File | null;
   /** Payment rails enabled for this account, each `active`, `inactive`, or `pending` (onboarding or review in progress). Computed only on `retrieve` and `me` for callers with `company:balance:read` scope; `null` otherwise. */
   capabilities: AccountCapabilities | null;
-  /** Whop Cards application details for the account. Computed only on `retrieve` and `me` for callers with `company:balance:read` scope; `null` otherwise, or when the account has no card application. */
+  /** Whop Cards application details for the account. Returned on `list`, `retrieve`, and `me` for callers with `company:balance:read` scope; `null` otherwise, or when the account has no card application or blocking application review. */
   cards: AccountCards | null;
   /** Whether checkout shows a VAT/tax ID field for buyers to optionally enter. Does not require a VAT ID to purchase. */
   collect_vat_id: boolean;
@@ -3169,6 +1499,10 @@ export interface Account {
   created_at: string;
   /** Account promotional description. */
   description: string | null;
+  /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts the account into the success fee charged on disputes it wins. */
+  dispute_fighter_enabled: boolean;
+  /** Whether Economic Intelligence is on for the account. It turns off automatically when its committed period ends. */
+  economic_intelligence: boolean;
   /** Account owner email address. */
   email: string | null;
   /** The account's end-user license agreement document, or `null` if they have not published one. */
@@ -3177,9 +1511,9 @@ export interface Account {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Account industry group. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_group: AccountIndustryGroup | null;
+  industry_group: string | null;
   /** Specific industry vertical for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_type: AccountIndustryType | null;
+  industry_type: string | null;
   /** Prefix used for account invoices. */
   invoice_prefix: string | null;
   /** Account logo image URL. */
@@ -3192,6 +1526,8 @@ export interface Account {
   opengraph_image_url: string | null;
   /** Account Open Graph image variant. */
   opengraph_image_variant: AccountOpengraphImageVariant | null;
+  /** Whether payment orchestration is enabled for this account. */
+  orchestration_enabled: boolean;
   /** Business type details when business_type is `other`. */
   other_business_description: string | null;
   /** Industry details when industry_type is `other`. */
@@ -3200,23 +1536,28 @@ export interface Account {
   owner: UserSummary;
   /** Parent account for connected accounts, or `null` for standalone accounts. */
   parent_account: AccountParent | null;
+  /** The account's active first-tier partner. Present on retrieve responses; null when no active first-tier partner is attributed to the account. Omitted from other responses. */
+  partner?: AccountPartner | null;
   /** Payment health controls currently applied to the account. Computed only on `retrieve` and `me` for callers with `company:balance:read` scope; `null` otherwise. */
   payment_controls: AccountPaymentControls | null;
   /** The account's privacy policy document, or `null` if they have not published one. */
   privacy_policy: File | null;
   /** Tax classification code applied by default to the account's products, with `id`, `name`, and `product_type`. `null` when no default is set. */
   product_tax_code: unknown | null;
-  /** DEPRECATED: Use the `GET /recommended_actions?account_id={account_id}` endpoint instead. */
+  /** DEPRECATED: Use the `GET /economic_intelligence?account_id={account_id}` endpoint instead. */
   recommended_actions: AccountRecommendedActionsList | null;
   /** Whether authorized users must enable two-factor authentication. */
   require_2fa: boolean;
   required_actions: AccountRequiredActionsList | null;
   /** The account's return policy document, or `null` if they have not published one. */
   return_policy: File | null;
+  rewards?: AccountRewardsList;
   /** Account public route identifier. */
   route: string;
   /** Whether Whop sends transactional emails to customers on behalf of this account. */
   send_customer_emails: boolean;
+  /** The account's shipping policy document, or `null` if they have not published one. */
+  shipping_policy: File | null;
   /** Whether the account appears in joined whops on other accounts. */
   show_joined_whops: boolean;
   /** Whether reviews are displayed on direct-to-consumer product pages. */
@@ -3226,9 +1567,9 @@ export interface Account {
   social_links: AccountSocialLinksList;
   /** Whether the account settles on stablecoin rails — its balance is held on-chain as USDT and paid out over crypto, rather than as fiat cash. */
   stablecoin_rails: boolean;
-  /** Whether the account can operate on Whop: `active` or `suspended`. Computed on `list`, `retrieve`, and `me`; `null` otherwise. */
+  /** Whether the account can operate on Whop: `active` or `suspended`. Computed on `list`, `retrieve`, `me`, and `suspend`; `null` otherwise. */
   status: string | null;
-  /** Why the account was suspended, in language safe to show the account owner. Computed only on `retrieve` and `me`; `null` otherwise, when `status` is not `suspended`, and when the suspension was recorded without a reason. */
+  /** Why the account was suspended, as the label shown to the account owner, such as `Suspended - Fraudulent payment activity`. Computed on `retrieve`, `me`, and `suspend`; `null` otherwise, when `status` is not `suspended`, and when the suspension was recorded without a reason. */
   status_reason: string | null;
   /** Account store page display configuration. */
   store_page_config: AccountStorePageConfig;
@@ -3242,7 +1583,7 @@ export interface Account {
   tax_type: AccountTaxType | null;
   /** The account's terms of service document, or `null` if they have not published one. */
   terms_of_service: File | null;
-  /** Account-level 3D Secure behavior. `mandate_challenge` requires cardholder verification on supported card payments; `null` uses the standard checkout flow. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` uses the standard checkout flow. */
   three_ds_level: AccountThreeDsLevel | null;
   /** Account display name. */
   title: string;
@@ -3250,6 +1591,8 @@ export interface Account {
   total_earned_usd: number | null;
   /** Total USD value across balances with known exchange rates. Computed only on single-account reads (`retrieve` and `me`); `null` on list responses, writes, missing balance-read permission, or unavailable balance source. */
   total_usd: string | null;
+  /** Live trading state. Opt in with `include_trading=true` on single-account reads; `null` otherwise, without trading permission, or without an Ethereum wallet. Provider failures return an error, not a zero balance. */
+  trading: TradingAccount | null;
   /** Whether the account uses its logo as the fallback Open Graph image. */
   use_logo_as_opengraph_image_fallback: boolean;
   /** Account identity verification status for the `individual` (KYC) and `business` (KYB) profiles. Each is `null` until created, otherwise a `status` of `not_started`, `pending`, `manual_review`, `approved`, or `rejected`. */
@@ -3258,6 +1601,8 @@ export interface Account {
   volume_usd: number | null;
   /** Account primary crypto wallet, or `null` if none has been provisioned. */
   wallet: AccountWallet | null;
+  /** The account's business website URL, or `null` if none has been provided. Setting it also adds a `website` entry to `social_links`. */
+  website: string | null;
 }
 export const Account = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3265,8 +1610,9 @@ export const Account = /*@__PURE__*/ S.suspend(() =>
     banner_image_url: S.NullOr(S.String),
     business_address: S.NullOr(S.Unknown),
     business_name: S.NullOr(S.String),
-    business_type: S.NullOr(AccountBusinessType),
+    business_type: S.NullOr(S.String),
     can_transfer_pending_balance_to_children: S.Boolean,
+    cancellation_policy: S.NullOr(File),
     capabilities: S.NullOr(AccountCapabilities),
     cards: S.NullOr(AccountCards),
     collect_vat_id: S.Boolean,
@@ -3274,22 +1620,26 @@ export const Account = /*@__PURE__*/ S.suspend(() =>
     country: S.NullOr(S.String),
     created_at: S.String,
     description: S.NullOr(S.String),
+    dispute_fighter_enabled: S.Boolean,
+    economic_intelligence: S.Boolean,
     email: S.NullOr(S.String),
     eula: S.NullOr(File),
     home_preferences: AccountHomePreferencesList,
     id: S.String,
-    industry_group: S.NullOr(AccountIndustryGroup),
-    industry_type: S.NullOr(AccountIndustryType),
+    industry_group: S.NullOr(S.String),
+    industry_type: S.NullOr(S.String),
     invoice_prefix: S.NullOr(S.String),
     logo_url: S.NullOr(S.String),
     metadata: S.Unknown,
     onboarding_type: S.NullOr(AccountOnboardingType),
     opengraph_image_url: S.NullOr(S.String),
     opengraph_image_variant: S.NullOr(AccountOpengraphImageVariant),
+    orchestration_enabled: S.Boolean,
     other_business_description: S.NullOr(S.String),
     other_industry_description: S.NullOr(S.String),
     owner: UserSummary,
     parent_account: S.NullOr(AccountParent),
+    partner: S.optional(S.NullOr(AccountPartner)),
     payment_controls: S.NullOr(AccountPaymentControls),
     privacy_policy: S.NullOr(File),
     product_tax_code: S.NullOr(S.Unknown),
@@ -3297,8 +1647,10 @@ export const Account = /*@__PURE__*/ S.suspend(() =>
     require_2fa: S.Boolean,
     required_actions: S.NullOr(AccountRequiredActionsList),
     return_policy: S.NullOr(File),
+    rewards: S.optional(AccountRewardsList),
     route: S.String,
     send_customer_emails: S.Boolean,
+    shipping_policy: S.NullOr(File),
     show_joined_whops: S.Boolean,
     show_reviews_dtc: S.Boolean,
     show_user_directory: S.Boolean,
@@ -3317,12 +1669,37 @@ export const Account = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     total_earned_usd: S.NullOr(S.Number),
     total_usd: S.NullOr(S.String),
+    trading: S.NullOr(TradingAccount),
     use_logo_as_opengraph_image_fallback: S.Boolean,
     verification: S.Unknown,
     volume_usd: S.NullOr(S.Number),
     wallet: S.NullOr(AccountWallet),
+    website: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
+
+export interface DeleteAccountRequest {
+  /** Connected account ID, prefixed `biz_`. */
+  id: string;
+}
+export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/accounts/{id}", code: 200 })),
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
+
+export interface DeleteAccountResponse {
+  /** Always true. */
+  deleted: boolean;
+  /** ID of the deleted connected account. */
+  id: string;
+}
+export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deleted: S.Boolean,
+    id: S.String,
+  }),
+).annotate({ identifier: "DeleteAccountResponse" }) as any as S.Schema<DeleteAccountResponse>;
 
 /** Company mailing address. Required unless `use_registered_agent` is `true`. */
 export interface FormCompanyRequestBusinessAddress {
@@ -3372,7 +1749,7 @@ export const FormCompanyRequestEntitySuffix = S.String;
 export type FormCompanyRequestEntityType = "llc" | "c_corp";
 export const FormCompanyRequestEntityType = S.String;
 
-/** Two-letter code of the US state (or `DC`) to form the company in. */
+/** Two-letter code of the US state (or `DC`) to form the company in. We recommend `WY` because Wyoming formations are completed the same day. */
 export type FormCompanyRequestFormationState =
   | "AL"
   | "AK"
@@ -3523,7 +1900,7 @@ export interface FormCompanyRequest {
   entity_type?: FormCompanyRequestEntityType | (string & {});
   /** Request expedited EIN processing for an additional fee. Available only when no founder supplies an SSN. */
   expedite_ein?: boolean;
-  /** Two-letter code of the US state (or `DC`) to form the company in. */
+  /** Two-letter code of the US state (or `DC`) to form the company in. We recommend `WY` because Wyoming formations are completed the same day. */
   formation_state: FormCompanyRequestFormationState | (string & {});
   /** The company's founders. Exactly one must be marked `is_primary` — the responsible party for the filing. */
   founders: FormCompanyRequestFoundersList;
@@ -3581,12 +1958,369 @@ export const FormCompanyResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetAccountRequest {
   /** Account ID, prefixed `biz_`, its public route, or `me` for the account associated with the current API key. */
   id: string;
+  /** Also retrieve live trading state under `trading`. Requires crypto_wallet:trade:read, crypto_wallet:trade, or crypto_wallet:manage permission and an Ethereum wallet; null otherwise. Provider failures return 503. */
+  include_trading?: boolean;
 }
 export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
+    include_trading: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/accounts/{id}", code: 200 })),
 ).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
+
+export interface GetAccountFeesRequest {
+  /** Account ID, prefixed `biz_`. */
+  account_id: string;
+}
+export const GetAccountFeesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/fees", code: 200 })),
+).annotate({ identifier: "GetAccountFeesRequest" }) as any as S.Schema<GetAccountFeesRequest>;
+
+/** Which group of the fee schedule this fee belongs to, for grouping in a UI. */
+export type AccountFeeCategory = "payments" | "disputes" | "optimization" | "payouts" | "other";
+export const AccountFeeCategory = S.String;
+
+export interface AccountFeeRate {
+  /** The amount charged per event. `null` when the fee has no fixed component. */
+  fixed: Money | null;
+  /** The percentage of the transaction, where `2` means 2%. `null` when the fee has no percentage component. */
+  percentage: number | null;
+}
+export const AccountFeeRate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.NullOr(Money),
+    percentage: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "AccountFeeRate" }) as any as S.Schema<AccountFeeRate>;
+
+/** The acquirer region `percentage` and `fixed` describe, for a fee that varies by where the money is processed. `null` for a fee that does not vary by region. */
+export type AccountFeeRegion =
+  | "usa"
+  | "eu"
+  | "ca"
+  | "uk"
+  | "au"
+  | "co"
+  | "mx"
+  | "ke"
+  | "cl"
+  | "pe"
+  | "ar"
+  | "cr"
+  | "gt"
+  | "uy"
+  | "br"
+  | "ph";
+export const AccountFeeRegion = S.String;
+
+/** Where the regional rate in effect comes from: `default` is the platform rate, `custom` a rate negotiated for this account, and `inherited` a rate negotiated by the platform this account is connected to. */
+export type AccountFeeRegionalRateSource = "default" | "custom" | "inherited";
+export const AccountFeeRegionalRateSource = S.String;
+
+export interface AccountFeeRegionalRate {
+  /** The platform rate for this region before custom or inherited pricing is applied. */
+  default: AccountFeeRate;
+  /** The amount charged per event in effect. `null` when the fee has no fixed component. */
+  fixed: Money | null;
+  /** The highest regional rate the caller may set. `null` when the fee is not adjustable or the caller is not capped. */
+  maximum: AccountFeeRate | null;
+  /** The lowest regional rate the caller may set, present only when the fee is adjustable. */
+  minimum: AccountFeeRate | null;
+  /** The percentage of the transaction in effect, where `2` means 2%. `null` when the fee has no percentage component. */
+  percentage: number | null;
+  /** The regional rate that takes effect when this account's custom rate is cleared, including inherited pricing. */
+  reset: AccountFeeRate;
+  /** Where the regional rate in effect comes from: `default` is the platform rate, `custom` a rate negotiated for this account, and `inherited` a rate negotiated by the platform this account is connected to. */
+  source: AccountFeeRegionalRateSource;
+}
+export const AccountFeeRegionalRate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: AccountFeeRate,
+    fixed: S.NullOr(Money),
+    maximum: S.NullOr(AccountFeeRate),
+    minimum: S.NullOr(AccountFeeRate),
+    percentage: S.NullOr(S.Number),
+    reset: AccountFeeRate,
+    source: AccountFeeRegionalRateSource,
+  }),
+).annotate({ identifier: "AccountFeeRegionalRate" }) as any as S.Schema<AccountFeeRegionalRate>;
+
+/** The rate, source, default, reset rate, and editable limits in every other region this fee varies by, keyed by region. Empty for a fee that does not vary by region. */
+export type AccountFeeRegionsMap = { [key: string]: AccountFeeRegionalRate | undefined };
+export const AccountFeeRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountFeeRegionalRate,
+) as any as S.Schema<AccountFeeRegionsMap>;
+
+/** Where the rate in effect comes from: `default` is the platform rate, `custom` a rate negotiated for this account, and `inherited` a rate negotiated by the platform this account is connected to. */
+export type AccountFeeSource = "default" | "custom" | "inherited";
+export const AccountFeeSource = S.String;
+
+/** Why the caller may not change this fee, or `null` when `adjustable`. `not_permitted` when the caller has no say over it. */
+export type AccountFeeUnadjustableReason = "not_permitted";
+export const AccountFeeUnadjustableReason = S.String;
+
+export interface AccountFee {
+  /** Whether the caller may change this fee through `PATCH`. Depends on who is asking. */
+  adjustable: boolean;
+  /** Which group of the fee schedule this fee belongs to, for grouping in a UI. */
+  category: AccountFeeCategory;
+  /** The platform rate before custom or inherited pricing is applied. */
+  default: AccountFeeRate;
+  /** When a custom or inherited rate expires and the fee returns to `default`, as an ISO 8601 timestamp. `null` when the default applies or the rate does not expire. */
+  ends_at: string | null;
+  /** The amount charged per event in effect. `null` when the fee has no fixed component. */
+  fixed: Money | null;
+  /** The highest rate the caller may set. `null` when the fee is not adjustable or the caller is not capped. */
+  maximum: AccountFeeRate | null;
+  /** The lowest rate the caller may set, present only when `adjustable`. */
+  minimum: AccountFeeRate | null;
+  /** The percentage of the transaction in effect, where `2` means 2%. `null` when the fee has no percentage component. */
+  percentage: number | null;
+  /** The acquirer region `percentage` and `fixed` describe, for a fee that varies by where the money is processed. `null` for a fee that does not vary by region. */
+  region: AccountFeeRegion | null;
+  /** The rate, source, default, reset rate, and editable limits in every other region this fee varies by, keyed by region. Empty for a fee that does not vary by region. */
+  regions: AccountFeeRegionsMap;
+  /** The rate that takes effect when this account's custom rate is cleared, including inherited pricing. */
+  reset: AccountFeeRate;
+  /** Where the rate in effect comes from: `default` is the platform rate, `custom` a rate negotiated for this account, and `inherited` a rate negotiated by the platform this account is connected to. */
+  source: AccountFeeSource;
+  /** Why the caller may not change this fee, or `null` when `adjustable`. `not_permitted` when the caller has no say over it. */
+  unadjustable_reason: AccountFeeUnadjustableReason | null;
+}
+export const AccountFee = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adjustable: S.Boolean,
+    category: AccountFeeCategory,
+    default: AccountFeeRate,
+    ends_at: S.NullOr(S.String),
+    fixed: S.NullOr(Money),
+    maximum: S.NullOr(AccountFeeRate),
+    minimum: S.NullOr(AccountFeeRate),
+    percentage: S.NullOr(S.Number),
+    region: S.NullOr(AccountFeeRegion),
+    regions: AccountFeeRegionsMap,
+    reset: AccountFeeRate,
+    source: AccountFeeSource,
+    unadjustable_reason: S.NullOr(AccountFeeUnadjustableReason),
+  }),
+).annotate({ identifier: "AccountFee" }) as any as S.Schema<AccountFee>;
+
+/** `custom` when a row is set at this level, `default` when the rate falls through to the platform default or zero. */
+export type AccountFeeMarkupSource = "default" | "custom";
+export const AccountFeeMarkupSource = S.String;
+
+/** Why the caller may not change this markup, or `null` when `adjustable`. */
+export type AccountFeeMarkupUnadjustableReason = "not_permitted";
+export const AccountFeeMarkupUnadjustableReason = S.String;
+
+export interface AccountFeeMarkup {
+  /** Whether the caller may change this markup through `PATCH`. True for the platform's team holding the `company:update_child_fees` scope. */
+  adjustable: boolean;
+  /** What applies if this row is cleared: the platform's default for all its connected accounts, or zero. */
+  default: AccountFeeRate;
+  /** The amount the platform adds per event. Zero when no markup is set. */
+  fixed: Money;
+  /** The highest markup the platform may set. */
+  maximum: AccountFeeRate;
+  /** The percentage of the transaction the platform adds, where `2` means 2%. `0` when no markup is set. */
+  percentage: number;
+  /** `custom` when a row is set at this level, `default` when the rate falls through to the platform default or zero. */
+  source: AccountFeeMarkupSource;
+  /** Why the caller may not change this markup, or `null` when `adjustable`. */
+  unadjustable_reason: AccountFeeMarkupUnadjustableReason | null;
+}
+export const AccountFeeMarkup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adjustable: S.Boolean,
+    default: AccountFeeRate,
+    fixed: Money,
+    maximum: AccountFeeRate,
+    percentage: S.Number,
+    source: AccountFeeMarkupSource,
+    unadjustable_reason: S.NullOr(AccountFeeMarkupUnadjustableReason),
+  }),
+).annotate({ identifier: "AccountFeeMarkup" }) as any as S.Schema<AccountFeeMarkup>;
+
+/** Markups on deposits into the account's balance, keyed by rail: `bank` and `crypto`. */
+export type AccountFeeMarkupsDepositsMap = { [key: string]: AccountFeeMarkup | undefined };
+export const AccountFeeMarkupsDepositsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountFeeMarkup,
+) as any as S.Schema<AccountFeeMarkupsDepositsMap>;
+
+/** Markups on withdrawals, keyed by payout method: `bank_wire`, `next_day_bank`, `rtp`, `crypto`, and `digital_wallet`. */
+export type AccountFeeMarkupsPayoutsMap = { [key: string]: AccountFeeMarkup | undefined };
+export const AccountFeeMarkupsPayoutsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountFeeMarkup,
+) as any as S.Schema<AccountFeeMarkupsPayoutsMap>;
+
+export interface AccountFeeMarkups {
+  /** The markup on card purchases settled by the connected account. */
+  card_spend: AccountFeeMarkup;
+  /** The markup on cryptocurrency token swaps. */
+  crypto_swaps: AccountFeeMarkup;
+  /** Markups on deposits into the account's balance, keyed by rail: `bank` and `crypto`. */
+  deposits: AccountFeeMarkupsDepositsMap;
+  /** The markup on payments the connected account collects without a checkout application fee. */
+  payments: AccountFeeMarkup;
+  /** Markups on withdrawals, keyed by payout method: `bank_wire`, `next_day_bank`, `rtp`, `crypto`, and `digital_wallet`. */
+  payouts: AccountFeeMarkupsPayoutsMap;
+  /** The markup on transfers between Whop balances. */
+  transfers: AccountFeeMarkup;
+}
+export const AccountFeeMarkups = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    card_spend: AccountFeeMarkup,
+    crypto_swaps: AccountFeeMarkup,
+    deposits: AccountFeeMarkupsDepositsMap,
+    payments: AccountFeeMarkup,
+    payouts: AccountFeeMarkupsPayoutsMap,
+    transfers: AccountFeeMarkup,
+  }),
+).annotate({ identifier: "AccountFeeMarkups" }) as any as S.Schema<AccountFeeMarkups>;
+
+export interface AccountCoveredPayoutFees {
+  /** Whether this account pays payout fees for all of its connected accounts' payout methods. Turning this off clears category coverage. */
+  all: boolean;
+  /** Whether this account covers its connected accounts' bank wire payout fees. Individual changes have no effect while `all` is true. */
+  bank_wire: boolean;
+  /** Whether this account covers its connected accounts' crypto payout fees. Individual changes have no effect while `all` is true. */
+  crypto: boolean;
+  /** Whether this account covers its connected accounts' digital wallet payout fees. Individual changes have no effect while `all` is true. */
+  digital_wallet: boolean;
+  /** Whether this account covers its connected accounts' next day bank payout fees. Individual changes have no effect while `all` is true. */
+  next_day_bank: boolean;
+  /** Whether this account covers its connected accounts' real-time payment payout fees. Individual changes have no effect while `all` is true. */
+  rtp: boolean;
+}
+export const AccountCoveredPayoutFees = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all: S.Boolean,
+    bank_wire: S.Boolean,
+    crypto: S.Boolean,
+    digital_wallet: S.Boolean,
+    next_day_bank: S.Boolean,
+    rtp: S.Boolean,
+  }),
+).annotate({ identifier: "AccountCoveredPayoutFees" }) as any as S.Schema<AccountCoveredPayoutFees>;
+
+/** Processing fees for every non-card payment method the platform prices, keyed by payment method type such as `us_bank_account` or `klarna`. */
+export type AccountFeesPaymentMethodsMap = { [key: string]: AccountFee | undefined };
+export const AccountFeesPaymentMethodsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountFee,
+) as any as S.Schema<AccountFeesPaymentMethodsMap>;
+
+/** Fees on withdrawals, keyed by payout method: `bank_wire`, `same_day_bank`, `next_day_bank`, `rtp`, `crypto`, and `digital_wallet`. */
+export type AccountFeesPayoutsMap = { [key: string]: AccountFee | undefined };
+export const AccountFeesPayoutsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountFee,
+) as any as S.Schema<AccountFeesPayoutsMap>;
+
+export interface AccountFees {
+  /** The account these fees are charged to, prefixed `biz_`. */
+  account_id: string;
+  /** Charged on bank deposits into the account's balance. */
+  bank_deposit: AccountFee;
+  /** Charged on recurring billing. */
+  billing: AccountFee;
+  /** Charged to the buyer at checkout, on top of the price. */
+  buyer: AccountFee;
+  /** Card payments. `percentage` and `fixed` are the rate in the headline `region`; every other acquirer region is under `regions`. */
+  card_processing: AccountFee;
+  /** The default markups this account charges connected accounts, configurable before any accounts connect. `null` if this account has a parent. */
+  child_markups: AccountFeeMarkups | null;
+  /** Which payout fees this account pays for its connected accounts. */
+  covered_payout_fees: AccountCoveredPayoutFees;
+  /** Added to a payment whose card was issued outside the region where the payment was processed. */
+  cross_border: AccountFee;
+  /** Charged when a payment is disputed. */
+  dispute: AccountFee;
+  /** Charged when an early dispute alert lets Whop refund a payment before it becomes a dispute. */
+  dispute_alert: AccountFee;
+  /** The early dispute alert fee when the alert comes through Verifi CDRN. */
+  dispute_alert_cdrn: AccountFee;
+  /** The early dispute alert fee when the alert comes through Ethoca. */
+  dispute_alert_ethoca: AccountFee;
+  /** The early dispute alert fee when the alert comes through Verifi RDR. */
+  dispute_alert_rdr: AccountFee;
+  /** Charged on the amount recovered when Whop fights a dispute and wins. */
+  dispute_representment: AccountFee;
+  /** Added to a payment settled in a currency other than the one it was charged in. */
+  foreign_exchange: AccountFee;
+  /** Charged when a payment is screened for fraud. */
+  fraud_screening: AccountFee;
+  /** Added to every payment while the account is classed as high risk. */
+  high_risk: AccountFee;
+  /** Charged on payments attributed to the Whop marketplace. */
+  marketplace: AccountFee;
+  /** What the platform this account is connected to adds on top of Whop's fees, collected by that platform. `null` unless the account has a parent. */
+  markups: AccountFeeMarkups | null;
+  /** Charged on payments routed through Whop's payment orchestration. */
+  orchestration: AccountFee;
+  /** The platform this account is connected to, whose markups appear under `markups`. `null` for a standalone account. */
+  parent_account_id: string | null;
+  /** Processing fees for every non-card payment method the platform prices, keyed by payment method type such as `us_bank_account` or `klarna`. */
+  payment_methods: AccountFeesPaymentMethodsMap;
+  /** Fees on withdrawals, keyed by payout method: `bank_wire`, `same_day_bank`, `next_day_bank`, `rtp`, `crypto`, and `digital_wallet`. */
+  payouts: AccountFeesPayoutsMap;
+  /** Charged on a Whop Ads auto top-up that is funded from pending balance. */
+  pending_auto_topup: AccountFee;
+  /** Whop's share of every payment, on top of card processing. */
+  platform_processing: AccountFee;
+  /** Charged on payouts from a shared pool balance. */
+  pool_payout: AccountFee;
+  /** Charged on revenue shared with the account. */
+  revshare: AccountFee;
+  /** Charged when tax is calculated on a payment. */
+  tax_calculation: AccountFee;
+  /** Charged when Whop collects and remits tax on the account's behalf. */
+  tax_service: AccountFee;
+  /** Charged when a payment is authenticated with 3-D Secure. */
+  three_ds: AccountFee;
+  /** Charged on transfers from the account's balance to another Whop balance. */
+  transfers: AccountFee;
+}
+export const AccountFees = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String,
+    bank_deposit: AccountFee,
+    billing: AccountFee,
+    buyer: AccountFee,
+    card_processing: AccountFee,
+    child_markups: S.NullOr(AccountFeeMarkups),
+    covered_payout_fees: AccountCoveredPayoutFees,
+    cross_border: AccountFee,
+    dispute: AccountFee,
+    dispute_alert: AccountFee,
+    dispute_alert_cdrn: AccountFee,
+    dispute_alert_ethoca: AccountFee,
+    dispute_alert_rdr: AccountFee,
+    dispute_representment: AccountFee,
+    foreign_exchange: AccountFee,
+    fraud_screening: AccountFee,
+    high_risk: AccountFee,
+    marketplace: AccountFee,
+    markups: S.NullOr(AccountFeeMarkups),
+    orchestration: AccountFee,
+    parent_account_id: S.NullOr(S.String),
+    payment_methods: AccountFeesPaymentMethodsMap,
+    payouts: AccountFeesPayoutsMap,
+    pending_auto_topup: AccountFee,
+    platform_processing: AccountFee,
+    pool_payout: AccountFee,
+    revshare: AccountFee,
+    tax_calculation: AccountFee,
+    tax_service: AccountFee,
+    three_ds: AccountFee,
+    transfers: AccountFee,
+  }),
+).annotate({ identifier: "AccountFees" }) as any as S.Schema<AccountFees>;
 
 export interface GetAccountPreferencesRequest {
   /** Account ID, prefixed `biz_`. */
@@ -3628,6 +2362,84 @@ export const GetAccountPreferencesResponseAdsAgreement = /*@__PURE__*/ S.suspend
 ).annotate({
   identifier: "GetAccountPreferencesResponseAdsAgreement",
 }) as any as S.Schema<GetAccountPreferencesResponseAdsAgreement>;
+
+/** Countries every approved application of this type covers, as ISO 3166-1 alpha-2 codes. Ads targeting only these countries are exempt from the category's restrictions. */
+export type GetAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList = Array<string>;
+export const GetAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList>;
+
+/** The kind of business on the latest application. `null` until the account applies. */
+export type GetAccountPreferencesResponseAdsCertificationsItemBusinessType =
+  | "online_pharmacy"
+  | "pharmaceutical_manufacturer"
+  | "telehealth_provider";
+export const GetAccountPreferencesResponseAdsCertificationsItemBusinessType = S.String;
+
+/** The certification this entry describes. */
+export type GetAccountPreferencesResponseAdsCertificationsItemCertificationType =
+  "prescription_drug_ads";
+export const GetAccountPreferencesResponseAdsCertificationsItemCertificationType = S.String;
+
+/** Countries the latest application covers, as ISO 3166-1 alpha-2 codes. */
+export type GetAccountPreferencesResponseAdsCertificationsItemCountriesList = Array<string>;
+export const GetAccountPreferencesResponseAdsCertificationsItemCountriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetAccountPreferencesResponseAdsCertificationsItemCountriesList>;
+
+/** `not_started` until the account applies; `pending_information` while an application waits for answers; `in_review` once submitted; then `approved` or `denied`. */
+export type GetAccountPreferencesResponseAdsCertificationsItemStatus =
+  | "not_started"
+  | "pending_information"
+  | "in_review"
+  | "approved"
+  | "denied";
+export const GetAccountPreferencesResponseAdsCertificationsItemStatus = S.String;
+
+export interface GetAccountPreferencesResponseAdsCertificationsItem {
+  /** Countries every approved application of this type covers, as ISO 3166-1 alpha-2 codes. Ads targeting only these countries are exempt from the category's restrictions. */
+  approved_countries: GetAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList;
+  /** The business name on the latest application. */
+  business_name: string | null;
+  /** The kind of business on the latest application. `null` until the account applies. */
+  business_type: GetAccountPreferencesResponseAdsCertificationsItemBusinessType | null;
+  /** The certification this entry describes. */
+  certification_type: GetAccountPreferencesResponseAdsCertificationsItemCertificationType;
+  /** Countries the latest application covers, as ISO 3166-1 alpha-2 codes. */
+  countries: GetAccountPreferencesResponseAdsCertificationsItemCountriesList;
+  /** Why the latest application was denied. `null` unless `status` is `denied`. */
+  denial_reason: string | null;
+  /** The latest application's request ID, prefixed `inrq_`. `null` until the account applies. */
+  request_id: string | null;
+  /** `not_started` until the account applies; `pending_information` while an application waits for answers; `in_review` once submitted; then `approved` or `denied`. */
+  status: GetAccountPreferencesResponseAdsCertificationsItemStatus;
+  /** The website on the latest application. */
+  url: string | null;
+}
+export const GetAccountPreferencesResponseAdsCertificationsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approved_countries: GetAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList,
+    business_name: S.NullOr(S.String),
+    business_type: S.NullOr(GetAccountPreferencesResponseAdsCertificationsItemBusinessType),
+    certification_type: GetAccountPreferencesResponseAdsCertificationsItemCertificationType,
+    countries: GetAccountPreferencesResponseAdsCertificationsItemCountriesList,
+    denial_reason: S.NullOr(S.String),
+    request_id: S.NullOr(S.String),
+    status: GetAccountPreferencesResponseAdsCertificationsItemStatus,
+    url: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "GetAccountPreferencesResponseAdsCertificationsItem",
+}) as any as S.Schema<GetAccountPreferencesResponseAdsCertificationsItem>;
+
+/** The account's advertising certifications, one entry per certification type Whop offers. Start an application by setting a type's `status` to `pending_information` via `PATCH`, then answer the fields it requests via `GET`/`PATCH /verifications/{id}`. */
+export type GetAccountPreferencesResponseAdsCertificationsList =
+  Array<GetAccountPreferencesResponseAdsCertificationsItem>;
+export const GetAccountPreferencesResponseAdsCertificationsList = /*@__PURE__*/ S.Array(
+  GetAccountPreferencesResponseAdsCertificationsItem,
+) as any as S.Schema<GetAccountPreferencesResponseAdsCertificationsList>;
 
 /** The funding source kind: a Whop balance or a saved card. */
 export type GetAccountPreferencesResponseAdsPaymentMethodsBackupType = "platform_balance" | "card";
@@ -3717,20 +2529,20 @@ export const GetAccountPreferencesResponseAdsPaymentMethods = /*@__PURE__*/ S.su
   identifier: "GetAccountPreferencesResponseAdsPaymentMethods",
 }) as any as S.Schema<GetAccountPreferencesResponseAdsPaymentMethods>;
 
-/** Where the integration stands. `requires_shopify_store` means no Shopify store is connected — Triple Whale keys records by Shopify shop, so no spend is reported until one is. */
+/** Where the integration stands. `requires_shop_domain` means no shop domain is configured — set `shop_domain` explicitly, or connect a Shopify store, before spend can be reported. */
 export type GetAccountPreferencesResponseAdsTripleWhaleIntegrationStatus =
   | "connected"
   | "not_connected"
-  | "requires_shopify_store";
+  | "requires_shop_domain";
 export const GetAccountPreferencesResponseAdsTripleWhaleIntegrationStatus = S.String;
 
-/** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. */
+/** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. Available to any Triple Whale customer — Shopify, WooCommerce, a custom checkout, or no connected store — by setting `shop_domain` explicitly; Shopify merchants may instead rely on a connected store's domain. Requires the `ad_campaign:create` scope. Once connected, ad click-through URLs Whop serves carry `tw_source=whop` and `tw_adid=<ad id>` query parameters so Triple Whale's pixel attributes conversions back to the originating ad — no destination URL changes are needed. */
 export interface GetAccountPreferencesResponseAdsTripleWhaleIntegration {
   /** The leading characters of the stored Data-In API key, followed by asterisks. The full key is never returned. `null` when no key is stored. */
   masked_api_key: string | null;
-  /** The connected Shopify store domain spend is reported for, such as `acme.myshopify.com`. `null` when no store is connected. */
+  /** The shop domain spend is reported for, such as `acme.myshopify.com` or a custom domain for a non-Shopify store. This is the explicit `shop_domain` if one was set, otherwise a connected Shopify store's domain. `null` when neither is present. */
   shop_domain: string | null;
-  /** Where the integration stands. `requires_shopify_store` means no Shopify store is connected — Triple Whale keys records by Shopify shop, so no spend is reported until one is. */
+  /** Where the integration stands. `requires_shop_domain` means no shop domain is configured — set `shop_domain` explicitly, or connect a Shopify store, before spend can be reported. */
   status: GetAccountPreferencesResponseAdsTripleWhaleIntegrationStatus;
 }
 export const GetAccountPreferencesResponseAdsTripleWhaleIntegration = /*@__PURE__*/ S.suspend(() =>
@@ -3743,31 +2555,103 @@ export const GetAccountPreferencesResponseAdsTripleWhaleIntegration = /*@__PURE_
   identifier: "GetAccountPreferencesResponseAdsTripleWhaleIntegration",
 }) as any as S.Schema<GetAccountPreferencesResponseAdsTripleWhaleIntegration>;
 
+/** The unit of time the duration is in (hours or days) */
+export type GetAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit =
+  | "hours"
+  | "days";
+export const GetAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit = S.String;
+
+/** The unique identifier for this duration. Pass this value as `economic_intelligence_duration_key` to turn it on. */
+export type GetAccountPreferencesResponseEconomicIntelligenceOffersItemKey =
+  | "7_days"
+  | "1_day"
+  | "1_hour";
+export const GetAccountPreferencesResponseEconomicIntelligenceOffersItemKey = S.String;
+
+export interface GetAccountPreferencesResponseEconomicIntelligenceOffersItem {
+  /** What period of time Economic Intelligence stays on. */
+  duration: number;
+  /** The unit of time the duration is in (hours or days) */
+  duration_unit: GetAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit;
+  /** Percentage of volume charged while Economic Intelligence is on, such as `1.5` for 1.5%. */
+  fee_percentage: number;
+  /** The unique identifier for this duration. Pass this value as `economic_intelligence_duration_key` to turn it on. */
+  key: GetAccountPreferencesResponseEconomicIntelligenceOffersItemKey;
+  /** Whether Whop recommends this duration. Exactly one offer is recommended. */
+  recommended: boolean;
+}
+export const GetAccountPreferencesResponseEconomicIntelligenceOffersItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      duration: S.Number,
+      duration_unit: GetAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit,
+      fee_percentage: S.Number,
+      key: GetAccountPreferencesResponseEconomicIntelligenceOffersItemKey,
+      recommended: S.Boolean,
+    }),
+).annotate({
+  identifier: "GetAccountPreferencesResponseEconomicIntelligenceOffersItem",
+}) as any as S.Schema<GetAccountPreferencesResponseEconomicIntelligenceOffersItem>;
+
+/** Durations the account can choose from to turn on Economic Intelligence, each with its fee. `null` while Economic Intelligence is on or the account is still on the Economic Intelligence waitlist. */
+export type GetAccountPreferencesResponseEconomicIntelligenceOffersList =
+  Array<GetAccountPreferencesResponseEconomicIntelligenceOffersItem>;
+export const GetAccountPreferencesResponseEconomicIntelligenceOffersList = /*@__PURE__*/ S.Array(
+  GetAccountPreferencesResponseEconomicIntelligenceOffersItem,
+) as any as S.Schema<GetAccountPreferencesResponseEconomicIntelligenceOffersList>;
+
+/** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. */
+export type GetAccountPreferencesResponseSubscriptionFailureBehavior = "cancel" | "none";
+export const GetAccountPreferencesResponseSubscriptionFailureBehavior = S.String;
+
 export interface GetAccountPreferencesResponse {
   /** The account's Whop Ads services and payment authorization agreement. While `pending_signature`, campaign launch is blocked; sign by answering `requested_information` via `PATCH /verifications/{id}`. */
   ads_agreement: GetAccountPreferencesResponseAdsAgreement;
+  /** The account's advertising certifications, one entry per certification type Whop offers. Start an application by setting a type's `status` to `pending_information` via `PATCH`, then answer the fields it requests via `GET`/`PATCH /verifications/{id}`. */
+  ads_certifications: GetAccountPreferencesResponseAdsCertificationsList;
   /** How the account pays for Whop Ads spend. `primary` is charged first; `backup` covers the charge when the primary fails. `null` until ads billing has been configured. */
   ads_payment_methods: GetAccountPreferencesResponseAdsPaymentMethods | null;
   /** Lowercase ISO currency code, such as `usd` or `eur`, used to display ad spend and stats. Defaults to `usd`. */
   ads_reporting_currency: string;
   /** IANA timezone (e.g. `America/New_York`) used to interpret campaign start/end times and to bucket reports. Defaults to `America/New_York` until explicitly overridden. */
   ads_scheduling_timezone: string;
-  /** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. */
+  /** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. Available to any Triple Whale customer — Shopify, WooCommerce, a custom checkout, or no connected store — by setting `shop_domain` explicitly; Shopify merchants may instead rely on a connected store's domain. Requires the `ad_campaign:create` scope. Once connected, ad click-through URLs Whop serves carry `tw_source=whop` and `tw_adid=<ad id>` query parameters so Triple Whale's pixel attributes conversions back to the originating ad — no destination URL changes are needed. */
   ads_triple_whale_integration: GetAccountPreferencesResponseAdsTripleWhaleIntegration;
   /** Whether incoming funds are automatically moved to the account's cards balance. `false` when the account has no cards balance. */
   cards_auto_top_up: boolean;
+  /** Whether Whop Card notifications reach this account's team. `true` by default, including when the account has no cards balance. Set it to `false` to stop every card email and push notification for the account — application status, verification and action-required alerts, card-ready alerts, declines, large charges, and cashback summaries. Cardholder onboarding invitations still send, because they carry the only link an invited cardholder can onboard with. Requesting a card is rejected while notifications are off, since the request reaches nobody. Cards on personal accounts are unaffected. */
+  cards_notifications: boolean;
   /** Whether Whop assembles and files the evidence response when this account's payments are disputed. Off by default; enabling it also opts the account into the success fee charged only on disputes it wins. */
   dispute_fighter_enabled: boolean;
+  /** Whether Economic Intelligence is on for the account. It turns off automatically at `economic_intelligence_ends_at`. */
+  economic_intelligence: boolean;
+  /** When the account's committed Economic Intelligence period ends, as an ISO 8601 timestamp. Economic Intelligence can't be turned off before then. `null` when Economic Intelligence is off or has no end date. */
+  economic_intelligence_ends_at: string | null;
+  /** Percentage of volume charged while Economic Intelligence is on, such as `1.5` for 1.5%. `null` when Economic Intelligence is off. */
+  economic_intelligence_fee_percentage: number | null;
+  /** Durations the account can choose from to turn on Economic Intelligence, each with its fee. `null` while Economic Intelligence is on or the account is still on the Economic Intelligence waitlist. */
+  economic_intelligence_offers: GetAccountPreferencesResponseEconomicIntelligenceOffersList | null;
+  /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. */
+  subscription_failure_behavior: GetAccountPreferencesResponseSubscriptionFailureBehavior;
 }
 export const GetAccountPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ads_agreement: GetAccountPreferencesResponseAdsAgreement,
+    ads_certifications: GetAccountPreferencesResponseAdsCertificationsList,
     ads_payment_methods: S.NullOr(GetAccountPreferencesResponseAdsPaymentMethods),
     ads_reporting_currency: S.String,
     ads_scheduling_timezone: S.String,
     ads_triple_whale_integration: GetAccountPreferencesResponseAdsTripleWhaleIntegration,
     cards_auto_top_up: S.Boolean,
+    cards_notifications: S.Boolean,
     dispute_fighter_enabled: S.Boolean,
+    economic_intelligence: S.Boolean,
+    economic_intelligence_ends_at: S.NullOr(S.String),
+    economic_intelligence_fee_percentage: S.NullOr(S.Number),
+    economic_intelligence_offers: S.NullOr(
+      GetAccountPreferencesResponseEconomicIntelligenceOffersList,
+    ),
+    subscription_failure_behavior: GetAccountPreferencesResponseSubscriptionFailureBehavior,
   }),
 ).annotate({
   identifier: "GetAccountPreferencesResponse",
@@ -3879,13 +2763,13 @@ export type ListAccountsRequestStatus = "active" | "suspended";
 export const ListAccountsRequestStatus = S.String;
 
 export interface ListAccountsRequest {
-  /** The number of accounts to return (default 10, max 50). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns accounts after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of accounts to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns accounts before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort accounts by. `volume` requires `stats:read` on the parent account. */
   order?: ListAccountsRequestOrder | (string & {});
@@ -3957,6 +2841,49 @@ export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
 
+export interface RetryAccountAdsPaymentRequest {
+  /** The account ID. */
+  id: string;
+  /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
+  idempotency_key?: string;
+}
+export const RetryAccountAdsPaymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+  }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/retry_ads_payment", code: 200 })),
+).annotate({
+  identifier: "RetryAccountAdsPaymentRequest",
+}) as any as S.Schema<RetryAccountAdsPaymentRequest>;
+
+export interface RetryAccountAdsPaymentResponse {
+  /** The account whose ads payments will be retried. */
+  account_id: string;
+  /** Whether the retry was accepted for background processing. */
+  queued: boolean;
+}
+export const RetryAccountAdsPaymentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String,
+    queued: S.Boolean,
+  }),
+).annotate({
+  identifier: "RetryAccountAdsPaymentResponse",
+}) as any as S.Schema<RetryAccountAdsPaymentResponse>;
+
+export interface SuspendAccountRequest {
+  /** Connected account ID, prefixed `biz_`. */
+  id: string;
+  /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
+  idempotency_key?: string;
+}
+export const SuspendAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+  }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/suspend", code: 200 })),
+).annotate({ identifier: "SuspendAccountRequest" }) as any as S.Schema<SuspendAccountRequest>;
+
 export interface TransferAccountOwnershipRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
@@ -3964,6 +2891,8 @@ export interface TransferAccountOwnershipRequest {
   as_partner?: boolean;
   /** The user to transfer ownership to: a user ID (`user_*`) or an email address. An email address with no Whop account yet is sent an invite to create one. */
   identifier: string;
+  /** A note from the partner, shown as a quote in the invite email and signed with their name. Requires `as_partner`; sending it on an ordinary transfer is a 400. Omit it and the email sends without a note. */
+  message?: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
 }
@@ -3972,6 +2901,7 @@ export const TransferAccountOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     as_partner: S.optional(S.Boolean),
     identifier: S.String,
+    message: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/transfer_ownership", code: 200 })),
 ).annotate({
@@ -4030,29 +2960,13 @@ export const UpdateAccountRequestBusinessAddress = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateAccountRequestBusinessAddress",
 }) as any as S.Schema<UpdateAccountRequestBusinessAddress>;
 
-/** High-level business category for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-export type UpdateAccountRequestBusinessType =
-  | "education_program"
-  | "coaching"
-  | "software"
-  | "paid_group"
-  | "newsletter"
-  | "agency"
-  | "physical_products"
-  | "brick_and_mortar"
-  | "events"
-  | "coaching_and_courses"
-  | "other"
-  | "services"
-  | "gig_economy"
-  | "marketplace"
-  | "telehealth"
-  | "class_action_settlement"
-  | "physical_product"
-  | "saas"
-  | "course"
-  | "community";
-export const UpdateAccountRequestBusinessType = S.String;
+/** The account's cancellation policy document. Attached to new disputes as the cancellation policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+export type UpdateAccountRequestCancellationPolicy = UpdateAccountRequestBannerImage;
+export const UpdateAccountRequestCancellationPolicy = UpdateAccountRequestBannerImage;
+
+/** The account's end-user license agreement document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+export type UpdateAccountRequestEula = UpdateAccountRequestBannerImage;
+export const UpdateAccountRequestEula = UpdateAccountRequestBannerImage;
 
 export type UpdateAccountRequestHomePreferencesItem = "hide_member_count" | "hide_members_card";
 export const UpdateAccountRequestHomePreferencesItem = S.String;
@@ -4064,2115 +2978,6 @@ export type UpdateAccountRequestHomePreferencesList = Array<
 export const UpdateAccountRequestHomePreferencesList = /*@__PURE__*/ S.Array(
   UpdateAccountRequestHomePreferencesItem,
 ) as any as S.Schema<UpdateAccountRequestHomePreferencesList>;
-
-/** Account industry group. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-export type UpdateAccountRequestIndustryGroup =
-  | "academic_and_test_prep"
-  | "accessories"
-  | "agriculture_and_farming"
-  | "ai_and_automation_agencies"
-  | "ai_and_automation_software"
-  | "arts_and_crafts"
-  | "automotive"
-  | "b2b_and_professional_marketplaces"
-  | "baby_and_kids"
-  | "bars_and_breweries"
-  | "beauty_and_personal_care"
-  | "beauty_and_wellness"
-  | "business_and_entrepreneurship"
-  | "business_and_money_groups"
-  | "cafes_and_quick_service"
-  | "career_and_professional"
-  | "charity_and_cause_events"
-  | "class_action_settlement"
-  | "clothing_and_apparel"
-  | "communication_and_messaging_software"
-  | "community_and_education_software"
-  | "conference_and_expo_events"
-  | "consulting"
-  | "content_and_clipping_agencies"
-  | "creative_and_content_creation"
-  | "creative_and_content_groups"
-  | "creative_and_education"
-  | "creative_gigs"
-  | "creative_services"
-  | "customer_support_agencies"
-  | "dating_and_relationships"
-  | "delivery_and_logistics"
-  | "dental_and_vision"
-  | "dermatology_and_skin"
-  | "design_and_creative_agencies"
-  | "developer_and_technical_tools"
-  | "development_agencies"
-  | "digital_and_education_marketplaces"
-  | "digital_goods_and_accounts"
-  | "e_commerce_software"
-  | "education_and_childcare"
-  | "educational_training_events"
-  | "electronics_and_gadgets"
-  | "entertainment_and_leisure"
-  | "family_and_community_events"
-  | "finance_and_investing"
-  | "fitness_and_athletics"
-  | "fitness_and_health_groups"
-  | "fitness_and_recreation"
-  | "fitness_equipment_and_gear"
-  | "food_and_beverages"
-  | "food_and_hospitality_marketplaces"
-  | "funeral_and_death_care"
-  | "gaming_and_entertainment_software"
-  | "gaming_groups"
-  | "genetic_and_specialized"
-  | "government_and_public"
-  | "health_and_wellness"
-  | "health_and_wellness_services"
-  | "healthcare"
-  | "healthcare_and_wellness_software"
-  | "hobbies_and_lifestyle"
-  | "hobby_and_interest_groups"
-  | "home_and_living"
-  | "home_and_trade_services"
-  | "home_and_trade_storefronts"
-  | "home_improvement_and_tools"
-  | "home_services_gigs"
-  | "hospitality_and_lodging"
-  | "industrial_and_manufacturing"
-  | "industry_specific_software"
-  | "language_and_communication"
-  | "legal_and_compliance"
-  | "lifestyle_and_culture"
-  | "lifestyle_and_personal_growth"
-  | "lifestyle_and_personal_growth_groups"
-  | "lifestyle_and_wellness_events"
-  | "logistics_and_transportation_services"
-  | "marketing_agencies"
-  | "marketing_and_advertising"
-  | "marketing_and_sales_software"
-  | "media_and_publishing_companies"
-  | "mental_health_and_behavioral"
-  | "miscellaneous"
-  | "music_and_performing_arts"
-  | "news_and_politics"
-  | "nonprofit_and_charity"
-  | "office_and_business_supplies"
-  | "outdoor_and_sports"
-  | "performance_and_show_events"
-  | "personal_development"
-  | "personal_finance"
-  | "personal_services"
-  | "pet_services"
-  | "pets_and_animals"
-  | "primary_and_general_care"
-  | "product_marketplaces"
-  | "productivity_and_business_ops"
-  | "professional_gigs"
-  | "professional_services"
-  | "professional_services_storefront"
-  | "publishing_and_info_products"
-  | "real_estate"
-  | "real_estate_software"
-  | "recruiting_and_staffing"
-  | "rehabilitation_and_therapy"
-  | "religion_and_faith"
-  | "rental_marketplaces"
-  | "restaurants"
-  | "retail"
-  | "sales_agencies"
-  | "sales_and_revenue"
-  | "security_and_investigations"
-  | "security_and_privacy_software"
-  | "service_marketplaces"
-  | "sleep_and_chronic_conditions"
-  | "social_and_networking_events"
-  | "social_entertainment_events"
-  | "specialized_gigs"
-  | "specialty_medical_care"
-  | "spirituality_and_mindfulness"
-  | "spirituality_and_personal_growth"
-  | "sports_and_fitness_events"
-  | "sports_betting_and_gambling"
-  | "sports_betting_groups"
-  | "supplements_and_nutrition"
-  | "sustainability_and_eco_products"
-  | "task_and_errands"
-  | "tech_and_ai"
-  | "tech_and_dev_groups"
-  | "tech_and_development"
-  | "trading_and_finance_software"
-  | "trading_and_investing"
-  | "trading_and_investing_groups"
-  | "transportation"
-  | "veterinary"
-  | "video_games_and_esports"
-  | "weight_and_metabolic_health"
-  | "wellness_and_alternative"
-  | "womens_and_mens_health";
-export const UpdateAccountRequestIndustryGroup = S.String;
-
-/** Specific industry vertical for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-export type UpdateAccountRequestIndustryType =
-  | "trading"
-  | "sports_betting"
-  | "reselling"
-  | "fitness"
-  | "amazon_fba"
-  | "real_estate"
-  | "kindle_book_publishing"
-  | "dating"
-  | "agencies"
-  | "health_and_wellness"
-  | "social_media"
-  | "sales"
-  | "business"
-  | "ecommerce"
-  | "video_games"
-  | "home_services"
-  | "ai"
-  | "public_speaking"
-  | "personal_finance"
-  | "careers"
-  | "travel"
-  | "clipping"
-  | "spirituality"
-  | "vas"
-  | "personal_development"
-  | "software"
-  | "other"
-  | "marketing_agency"
-  | "sales_agency"
-  | "ai_agency"
-  | "design_agency"
-  | "coaching_agency"
-  | "development_agency"
-  | "recruiting_agency"
-  | "customer_support_agency"
-  | "clipping_agency"
-  | "clothing"
-  | "supplements"
-  | "beauty_and_personal_care"
-  | "fitness_gear"
-  | "accessories"
-  | "home_goods"
-  | "electronics_and_gadgets"
-  | "food_and_beverages"
-  | "gym"
-  | "restaurant"
-  | "retail_store"
-  | "coffee_shop"
-  | "salon_spa"
-  | "medical_dentist_office"
-  | "hotel_lodging"
-  | "auto_repair_shop"
-  | "masterminds"
-  | "webinars"
-  | "bootcamps"
-  | "convention"
-  | "concerts"
-  | "meetups"
-  | "parties"
-  | "forex_trading"
-  | "stock_trading"
-  | "options_trading"
-  | "crypto_trading"
-  | "futures_trading"
-  | "day_trading"
-  | "swing_trading"
-  | "algorithmic_trading"
-  | "prop_firm_trading"
-  | "value_investing"
-  | "real_estate_investing"
-  | "alternative_investments"
-  | "penny_stock_trading"
-  | "dividend_investing"
-  | "index_fund_investing"
-  | "gold_precious_metals"
-  | "venture_capital_education"
-  | "private_equity_education"
-  | "technical_analysis"
-  | "forex_scalping"
-  | "ict_smc_trading"
-  | "personalized_investment_advice"
-  | "forex_signals_group"
-  | "stock_signals_group"
-  | "crypto_signals_group"
-  | "options_alerts_group"
-  | "futures_signals_group"
-  | "trading_education_group"
-  | "investing_community"
-  | "prediction_markets_group"
-  | "nft_alpha_group"
-  | "penny_stock_group"
-  | "dividend_investing_group"
-  | "real_estate_investing_group"
-  | "prop_firm_group"
-  | "forex_trading_bot"
-  | "stock_trading_platform"
-  | "crypto_trading_bot"
-  | "futures_trading_bot"
-  | "options_flow_tool"
-  | "portfolio_tracker"
-  | "financial_modeling_software"
-  | "accounting_software"
-  | "invoicing_software"
-  | "tax_software"
-  | "risk_management_software"
-  | "prop_trading_platform"
-  | "backtesting_software"
-  | "trading_indicators"
-  | "market_data_feed"
-  | "stock_research_tool"
-  | "banking_software"
-  | "lending_platform"
-  | "insurance_software"
-  | "bnpl_service"
-  | "check_cashing_service"
-  | "cloud_mining_schemes"
-  | "consumer_lending"
-  | "credit_repair_service"
-  | "crypto_exchange_brokerage"
-  | "crypto_trading_tools_software"
-  | "debt_collection_agency"
-  | "debt_relief_settlement"
-  | "escrow_service"
-  | "foreign_exchange_service"
-  | "non_custodial_wallet_tools"
-  | "payment_facilitation"
-  | "prediction_market_exchange"
-  | "stablecoin_issuance"
-  | "token_sales_ico"
-  | "tokenized_rwa"
-  | "yield_staking_products"
-  | "sports_betting_picks"
-  | "fantasy_sports"
-  | "horse_racing"
-  | "poker_coaching"
-  | "esports_betting"
-  | "sports_analytics"
-  | "nfl_betting"
-  | "nba_betting"
-  | "mlb_betting"
-  | "soccer_betting"
-  | "mma_ufc_betting"
-  | "sports_picks_group"
-  | "dfs_group"
-  | "horse_racing_group"
-  | "esports_picks_group"
-  | "nfl_picks_group"
-  | "nba_picks_group"
-  | "soccer_picks_group"
-  | "mlb_picks_group"
-  | "mma_picks_group"
-  | "prop_bets_group"
-  | "fantasy_sports_free_to_play"
-  | "licensed_gambling_operations"
-  | "unlicensed_gambling"
-  | "bodybuilding_coaching"
-  | "strength_training"
-  | "weight_loss_coaching"
-  | "athletic_performance"
-  | "yoga_instruction"
-  | "martial_arts_instruction"
-  | "running_coaching"
-  | "calisthenics"
-  | "flexibility_mobility"
-  | "nutrition_coaching"
-  | "swimming_coaching"
-  | "cycling_coaching"
-  | "boxing_coaching"
-  | "mma_coaching"
-  | "jiu_jitsu_coaching"
-  | "wrestling_coaching"
-  | "gymnastics_coaching"
-  | "pilates_instruction"
-  | "sports_nutrition"
-  | "body_recomposition"
-  | "golf_coaching"
-  | "tennis_coaching"
-  | "basketball_training"
-  | "soccer_training"
-  | "racket_sports_coaching"
-  | "fitness_accountability"
-  | "nutrition_community"
-  | "weight_loss_group"
-  | "bodybuilding_community"
-  | "running_community"
-  | "martial_arts_community"
-  | "mental_health_group"
-  | "biohacking_community"
-  | "addiction_support_group"
-  | "yoga_community"
-  | "crossfit_community"
-  | "longevity_community"
-  | "womens_fitness_community"
-  | "postpartum_fitness_group"
-  | "chronic_illness_support"
-  | "skincare_community"
-  | "mental_health_coaching"
-  | "life_coaching"
-  | "biohacking"
-  | "holistic_health"
-  | "addiction_recovery_coaching"
-  | "breathwork"
-  | "meditation_mindfulness"
-  | "gut_health_coaching"
-  | "longevity_coaching"
-  | "womens_health_coaching"
-  | "mens_health_coaching"
-  | "fertility_wellness"
-  | "stress_management"
-  | "grief_coaching"
-  | "trauma_recovery_coaching"
-  | "adhd_coaching"
-  | "biomarker_health_coaching"
-  | "telehealth_platform"
-  | "ehr_software"
-  | "practice_management"
-  | "mental_health_app"
-  | "fitness_app"
-  | "nutrition_tracking_app"
-  | "wellness_app"
-  | "patient_engagement"
-  | "medical_billing_software"
-  | "pharmacy_management"
-  | "lab_management"
-  | "clinical_trial_software"
-  | "dental_software"
-  | "veterinary_software"
-  | "health_data_platform"
-  | "fitness_newsletter"
-  | "mental_health_newsletter"
-  | "longevity_newsletter"
-  | "medical_newsletter"
-  | "biohacking_newsletter"
-  | "womens_health_newsletter"
-  | "mens_health_newsletter"
-  | "pharma_biotech_newsletter"
-  | "ecommerce_education"
-  | "amazon_fba_coaching"
-  | "dropshipping_coaching"
-  | "print_on_demand_coaching"
-  | "retail_arbitrage"
-  | "wholesale_coaching"
-  | "startup_coaching"
-  | "business_strategy"
-  | "agency_building"
-  | "smma_coaching"
-  | "consulting_business"
-  | "saas_entrepreneurship"
-  | "local_business_coaching"
-  | "cleaning_business_coaching"
-  | "trucking_business_coaching"
-  | "vending_machine_business"
-  | "atm_business_coaching"
-  | "car_wash_business"
-  | "airbnb_business_coaching"
-  | "private_label_coaching"
-  | "etsy_coaching"
-  | "merch_business_coaching"
-  | "licensing_business"
-  | "business_acquisition"
-  | "women_entrepreneurship"
-  | "affiliate_marketing_education"
-  | "coaching_business_coaching"
-  | "ecommerce_community"
-  | "agency_community"
-  | "saas_community"
-  | "saas_marketing_community"
-  | "real_estate_community"
-  | "sales_community"
-  | "affiliate_community"
-  | "reselling_community"
-  | "amazon_seller_community"
-  | "dropshipping_community"
-  | "freelancer_community"
-  | "startup_founder_community"
-  | "ceo_executive_community"
-  | "women_business_community"
-  | "marketing_community"
-  | "ai_business_community"
-  | "content_business_community"
-  | "local_business_community"
-  | "private_equity_community"
-  | "wholesaling_community"
-  | "coaching_business_community"
-  | "make_money_online_community"
-  | "startup_newsletter"
-  | "ecommerce_newsletter"
-  | "marketing_newsletter"
-  | "sales_newsletter"
-  | "small_business_newsletter"
-  | "leadership_newsletter"
-  | "agency_newsletter"
-  | "saas_newsletter"
-  | "hr_people_newsletter"
-  | "legal_business_newsletter"
-  | "real_estate_business_newsletter"
-  | "solopreneur_newsletter"
-  | "high_ticket_sales"
-  | "b2b_sales_coaching"
-  | "door_to_door_sales"
-  | "sales_funnel_coaching"
-  | "appointment_setting_coaching"
-  | "insurance_sales_coaching"
-  | "car_sales_coaching"
-  | "retail_sales_coaching"
-  | "solar_sales_coaching"
-  | "lead_generation_agency"
-  | "cold_email_agency"
-  | "cold_calling_agency"
-  | "sales_outsourcing"
-  | "crm_implementation"
-  | "appointment_setting_agency"
-  | "sales_training_agency"
-  | "revenue_operations_agency"
-  | "inbound_teleservices"
-  | "outbound_telemarketing"
-  | "facebook_ads"
-  | "google_ads"
-  | "tiktok_marketing"
-  | "youtube_marketing"
-  | "instagram_growth"
-  | "seo_coaching"
-  | "email_marketing_coaching"
-  | "copywriting_coaching"
-  | "affiliate_marketing"
-  | "local_seo"
-  | "ai_marketing"
-  | "webinar_marketing"
-  | "event_marketing"
-  | "saas_marketing_coaching"
-  | "digital_marketing"
-  | "smma"
-  | "performance_marketing_agency"
-  | "seo_agency"
-  | "content_marketing_agency"
-  | "email_marketing_agency"
-  | "influencer_marketing_agency"
-  | "pr_agency"
-  | "branding_agency"
-  | "video_marketing_agency"
-  | "amazon_marketing_agency"
-  | "podcast_marketing_agency"
-  | "tiktok_agency"
-  | "linkedin_agency"
-  | "local_marketing_agency"
-  | "dental_marketing_agency"
-  | "real_estate_marketing_agency"
-  | "restaurant_marketing_agency"
-  | "ecommerce_marketing_agency"
-  | "b2b_marketing_agency"
-  | "growth_marketing_agency"
-  | "affiliate_management_agency"
-  | "conversion_optimization_agency"
-  | "event_marketing_agency"
-  | "click_farm_service"
-  | "data_scraping_service"
-  | "lead_list_sales"
-  | "social_media_bot_farm"
-  | "crm_software"
-  | "email_marketing_software"
-  | "sms_marketing_software"
-  | "seo_tool"
-  | "landing_page_builder"
-  | "ad_management_tool"
-  | "affiliate_tracking"
-  | "review_management"
-  | "analytics_dashboard"
-  | "lead_gen_software"
-  | "link_in_bio_tool"
-  | "influencer_platform"
-  | "webinar_platform"
-  | "ab_testing_tool"
-  | "chatbot_marketing"
-  | "video_sales_tool"
-  | "proposal_software"
-  | "competitive_intelligence"
-  | "social_listening_tool"
-  | "whatsapp_marketing_tool"
-  | "standalone_tipping"
-  | "video_editing_education"
-  | "photography_coaching"
-  | "music_production"
-  | "ui_ux_design_education"
-  | "clipping_education"
-  | "ugc_creation"
-  | "3d_modeling_education"
-  | "dj_education"
-  | "youtube_automation"
-  | "blog_monetization"
-  | "wedding_photography_education"
-  | "calligraphy_lettering"
-  | "illustration_education"
-  | "fashion_design_education"
-  | "interior_design_education"
-  | "influencer_education"
-  | "ai_content_creator_education"
-  | "ai_nsfw_content_generation_education"
-  | "web_design_agency"
-  | "graphic_design_agency"
-  | "ui_ux_agency"
-  | "motion_design_agency"
-  | "product_design_agency"
-  | "logo_design_agency"
-  | "presentation_design_agency"
-  | "3d_visualization_agency"
-  | "fashion_design_agency"
-  | "video_clipping_agency"
-  | "video_production_agency"
-  | "ugc_agency"
-  | "content_writing_agency"
-  | "translation_agency"
-  | "social_media_management"
-  | "ghostwriting_agency"
-  | "podcast_editing_agency"
-  | "thumbnail_design_agency"
-  | "scriptwriting_agency"
-  | "seo_content_agency"
-  | "technical_writing_agency"
-  | "photography_service"
-  | "videography_service"
-  | "music_production_service"
-  | "voice_over_service"
-  | "event_photography"
-  | "drone_services"
-  | "commercial_photography"
-  | "portrait_photography_service"
-  | "real_estate_photography"
-  | "food_photography_service"
-  | "live_event_production"
-  | "podcast_production_service"
-  | "freelance_design_gig"
-  | "freelance_writing_gig"
-  | "freelance_dev_gig"
-  | "music_performance_gig"
-  | "event_staffing_gig"
-  | "model_talent_gig"
-  | "photography_gig"
-  | "videography_gig"
-  | "voiceover_gig"
-  | "illustration_gig"
-  | "social_media_gig"
-  | "dj_gig"
-  | "face_painting_gig"
-  | "clipping_gig"
-  | "content_creator_community"
-  | "video_editing_community"
-  | "music_producer_community"
-  | "photography_community"
-  | "writing_community"
-  | "design_community"
-  | "youtube_creator_community"
-  | "tiktok_creator_community"
-  | "podcast_community"
-  | "filmmaker_community"
-  | "clipping_community"
-  | "youtube_automation_community"
-  | "pirated_digital_content"
-  | "web_development_education"
-  | "ai_ml_education"
-  | "data_science_education"
-  | "cybersecurity_education"
-  | "cloud_computing_education"
-  | "blockchain_education"
-  | "no_code_education"
-  | "automation_education"
-  | "game_development_education"
-  | "prompt_engineering"
-  | "python_programming"
-  | "javascript_programming"
-  | "react_development"
-  | "database_engineering"
-  | "aws_certification"
-  | "data_engineering"
-  | "robotics_education"
-  | "vr_ar_development"
-  | "linux_sysadmin"
-  | "wordpress_development"
-  | "ai_agent_building"
-  | "web_development_agency"
-  | "mobile_app_agency"
-  | "saas_development_agency"
-  | "ecommerce_development"
-  | "blockchain_development_agency"
-  | "game_development_agency"
-  | "devops_agency"
-  | "ai_development_agency"
-  | "wordpress_agency"
-  | "shopify_agency"
-  | "api_integration_agency"
-  | "cybersecurity_agency"
-  | "data_engineering_agency"
-  | "vr_ar_development_agency"
-  | "hacking_tools_malware"
-  | "stalkerware_monitoring"
-  | "developer_community"
-  | "ai_community"
-  | "cybersecurity_community"
-  | "no_code_community"
-  | "indie_hacker_community"
-  | "devops_community"
-  | "data_science_community"
-  | "product_community"
-  | "open_source_community"
-  | "api_management"
-  | "hosting_platform"
-  | "database_tool"
-  | "devops_tool"
-  | "monitoring_tool"
-  | "testing_tool"
-  | "code_editor"
-  | "no_code_builder"
-  | "cdn_platform"
-  | "error_tracking"
-  | "documentation_tool"
-  | "webhook_tool"
-  | "3d_weapon_files"
-  | "background_check_services"
-  | "document_falsification"
-  | "fake_id_services"
-  | "fake_reference_services"
-  | "real_estate_wholesaling"
-  | "house_flipping"
-  | "property_development"
-  | "rental_property"
-  | "airbnb_str"
-  | "commercial_real_estate"
-  | "land_investing"
-  | "section_8_housing"
-  | "mobile_home_investing"
-  | "multifamily_investing"
-  | "self_storage_investing"
-  | "property_management_education"
-  | "vacation_rental_management"
-  | "real_estate_crm"
-  | "property_management_software"
-  | "deal_analysis_tool"
-  | "mls_search_tool"
-  | "virtual_tour_software"
-  | "real_estate_marketing_software"
-  | "construction_management"
-  | "home_valuation_tool"
-  | "credit_repair_education"
-  | "budgeting_coaching"
-  | "tax_strategy_education"
-  | "wealth_building"
-  | "student_loan_strategy"
-  | "credit_card_optimization"
-  | "career_coaching"
-  | "executive_coaching"
-  | "management_coaching"
-  | "tech_career_coaching"
-  | "medical_career_coaching"
-  | "trade_skills_education"
-  | "va_training"
-  | "bookkeeping_education"
-  | "data_career_coaching"
-  | "cybersecurity_career"
-  | "consulting_career"
-  | "investment_banking_career"
-  | "law_career_coaching"
-  | "nursing_career_coaching"
-  | "teaching_career_coaching"
-  | "personal_branding_career"
-  | "mens_dating_coaching"
-  | "womens_dating_coaching"
-  | "relationship_coaching"
-  | "marriage_coaching"
-  | "communication_coaching"
-  | "masculinity_coaching"
-  | "femininity_coaching"
-  | "breakup_recovery"
-  | "manifestation_coaching"
-  | "astrology_coaching"
-  | "energy_healing"
-  | "spiritual_coaching"
-  | "faith_based_coaching"
-  | "psychic_development"
-  | "numerology_coaching"
-  | "chakra_healing"
-  | "shamanic_healing"
-  | "biblical_coaching"
-  | "islamic_coaching"
-  | "productivity_coaching"
-  | "public_speaking_coaching"
-  | "mindset_coaching"
-  | "stoicism_philosophy"
-  | "mens_self_improvement"
-  | "womens_self_improvement"
-  | "leadership_development"
-  | "anger_management"
-  | "neurolinguistic_programming"
-  | "appearance_and_grooming_coaching"
-  | "amazon_kdp"
-  | "self_publishing"
-  | "audiobook_publishing"
-  | "course_creation"
-  | "digital_product_creation"
-  | "ghostwriting_business"
-  | "template_creation"
-  | "ai_book_publishing"
-  | "language_learning"
-  | "tutoring"
-  | "college_admissions_coaching"
-  | "cpa_exam_prep"
-  | "bar_exam_prep"
-  | "real_estate_exam_prep"
-  | "medical_board_prep"
-  | "pmp_certification_prep"
-  | "aws_certification_prep"
-  | "comptia_certification"
-  | "ap_exam_prep"
-  | "graduate_school_prep"
-  | "scholarship_coaching"
-  | "homeschool_education"
-  | "stem_education"
-  | "financial_certification"
-  | "coding_bootcamp_prep"
-  | "cooking_culinary"
-  | "travel_coaching"
-  | "parenting_coaching"
-  | "pet_training"
-  | "gardening_education"
-  | "diy_crafts"
-  | "survival_prepping"
-  | "baking_pastry"
-  | "wine_sommelier"
-  | "beer_brewing"
-  | "mixology_bartending"
-  | "woodworking"
-  | "pottery_ceramics"
-  | "knitting_crocheting"
-  | "jewelry_making"
-  | "aquarium_fishkeeping"
-  | "bird_watching"
-  | "astronomy_education"
-  | "magic_illusion"
-  | "car_restoration"
-  | "motorcycle_riding"
-  | "sailing_boating"
-  | "scuba_diving"
-  | "rock_climbing"
-  | "skiing_snowboarding"
-  | "surfing_education"
-  | "homesteading"
-  | "tiny_house_living"
-  | "van_life"
-  | "fashion_styling"
-  | "floral_design"
-  | "travel_planning_service"
-  | "collectibles_coaching"
-  | "car_enthusiast_community"
-  | "sneakerhead_community"
-  | "watch_collector_community"
-  | "wine_enthusiast_community"
-  | "cigar_community"
-  | "cooking_community"
-  | "gardening_community"
-  | "fishing_community"
-  | "hunting_community"
-  | "diy_maker_community"
-  | "golf_community"
-  | "collectibles_community"
-  | "sweepstakes_raffles"
-  | "event_ticket_community"
-  | "esports_coaching"
-  | "game_specific_coaching"
-  | "gaming_community"
-  | "game_account_selling"
-  | "unauthorized_ingame_currency"
-  | "legal_education"
-  | "music_theory"
-  | "music_business"
-  | "acting_coaching"
-  | "dance_instruction"
-  | "voice_acting"
-  | "english_coaching"
-  | "spanish_coaching"
-  | "mandarin_coaching"
-  | "french_coaching"
-  | "german_coaching"
-  | "japanese_coaching"
-  | "korean_coaching"
-  | "arabic_coaching"
-  | "sign_language_education"
-  | "accent_reduction"
-  | "business_english"
-  | "ai_chatbot_agency"
-  | "ai_automation_agency"
-  | "ai_consulting"
-  | "workflow_automation_agency"
-  | "data_analytics_agency"
-  | "ai_voice_agent_agency"
-  | "ai_content_agency"
-  | "machine_learning_agency"
-  | "computer_vision_agency"
-  | "tech_recruiting_agency"
-  | "executive_recruiting"
-  | "staffing_agency"
-  | "remote_staffing"
-  | "healthcare_recruiting"
-  | "va_placement_agency"
-  | "sales_recruiting"
-  | "creative_recruiting"
-  | "finance_recruiting"
-  | "legal_recruiting"
-  | "construction_staffing"
-  | "hospitality_staffing"
-  | "customer_support_outsourcing"
-  | "live_chat_agency"
-  | "technical_support_agency"
-  | "call_center_agency"
-  | "multilingual_support_agency"
-  | "community_management_agency"
-  | "management_consulting"
-  | "financial_consulting"
-  | "hr_consulting"
-  | "operations_consulting"
-  | "it_consulting"
-  | "sustainability_consulting"
-  | "legal_consulting"
-  | "compliance_consulting"
-  | "supply_chain_consulting"
-  | "change_management_consulting"
-  | "digital_transformation_consulting"
-  | "healthcare_consulting"
-  | "real_estate_consulting"
-  | "franchise_consulting"
-  | "export_trade_consulting"
-  | "nonprofit_consulting"
-  | "education_consulting"
-  | "cannabis_consulting"
-  | "restaurant_consulting"
-  | "m_and_a_consulting"
-  | "pricing_strategy_consulting"
-  | "brand_strategy_consulting"
-  | "saas_marketing_consulting"
-  | "done_for_you_services"
-  | "prop_firm_passing_service"
-  | "trading_account_management"
-  | "done_for_you_trading"
-  | "accounting_bookkeeping"
-  | "tax_preparation"
-  | "legal_services"
-  | "notary_services"
-  | "insurance_brokerage"
-  | "financial_planning_service"
-  | "real_estate_services"
-  | "property_management"
-  | "mortgage_brokerage"
-  | "immigration_services"
-  | "patent_trademark_services"
-  | "business_formation_services"
-  | "shell_company_formation"
-  | "payroll_services"
-  | "audit_services"
-  | "forensic_accounting"
-  | "actuarial_services"
-  | "appraisal_services"
-  | "mediation_arbitration"
-  | "bail_bond_services"
-  | "crowdfunding_platform"
-  | "essay_mill_paper_mill"
-  | "government_service_facilitation"
-  | "immigration_services_unlicensed"
-  | "licensed_legal_services"
-  | "personalized_tax_services"
-  | "private_investigation"
-  | "repossession_services"
-  | "unlicensed_legal_services"
-  | "record_label"
-  | "book_publishing_house"
-  | "news_media_outlet"
-  | "radio_broadcasting"
-  | "tv_production_company"
-  | "film_studio"
-  | "magazine_publisher"
-  | "music_licensing_agency"
-  | "talent_management_agency"
-  | "advertising_network"
-  | "ad_tech_platform"
-  | "cleaning_service"
-  | "landscaping_service"
-  | "plumbing_service"
-  | "electrical_service"
-  | "hvac_service"
-  | "roofing_service"
-  | "painting_service"
-  | "moving_service"
-  | "handyman_service"
-  | "pest_control"
-  | "pool_service"
-  | "solar_installation"
-  | "home_renovation"
-  | "pressure_washing"
-  | "junk_removal"
-  | "garage_door_service"
-  | "fencing_service"
-  | "concrete_masonry"
-  | "tree_service"
-  | "window_cleaning"
-  | "gutter_service"
-  | "flooring_service"
-  | "cabinet_countertop"
-  | "home_inspection"
-  | "septic_service"
-  | "waterproofing_service"
-  | "insulation_service"
-  | "chimney_service"
-  | "locksmith_service"
-  | "glass_window_service"
-  | "epoxy_coating"
-  | "private_security_guard_service"
-  | "armored_car_transport"
-  | "executive_protection_bodyguard"
-  | "event_security_service"
-  | "alarm_system_installation"
-  | "cctv_installation"
-  | "private_investigation_agency"
-  | "background_check_provider"
-  | "locksmith_commercial"
-  | "bounty_hunter_bail_enforcement"
-  | "personal_styling"
-  | "personal_chef"
-  | "personal_assistant_service"
-  | "tutoring_service"
-  | "pet_services"
-  | "wedding_planning"
-  | "concierge_service"
-  | "personal_training_service"
-  | "nanny_service"
-  | "elder_care_service"
-  | "errand_service"
-  | "life_organization"
-  | "relocation_service"
-  | "adult_dating_services"
-  | "escort_services"
-  | "hotel_accommodation_bookings"
-  | "mail_order_spouse"
-  | "psychic_fortune_telling"
-  | "timeshare_sales"
-  | "freight_brokerage"
-  | "courier_service"
-  | "warehousing_service"
-  | "last_mile_delivery"
-  | "auto_transport"
-  | "international_shipping"
-  | "cold_chain_logistics"
-  | "commercial_airline_tickets"
-  | "cruise_line_bookings"
-  | "contract_manufacturing"
-  | "cnc_machining_service"
-  | "3d_printing_service_commercial"
-  | "plastic_injection_molding"
-  | "metal_fabrication"
-  | "pcba_assembly"
-  | "chemical_manufacturing"
-  | "textile_manufacturing"
-  | "food_processing_facility"
-  | "packaging_manufacturing"
-  | "industrial_automation_integrator"
-  | "mining_and_extraction"
-  | "oil_and_gas_services"
-  | "renewable_energy_generation"
-  | "waste_management_recycling"
-  | "hazardous_waste_disposal"
-  | "aerospace_defense_contracting"
-  | "personal_training_studio"
-  | "nutrition_consulting"
-  | "mental_health_counseling"
-  | "physical_therapy_service"
-  | "occupational_therapy_service"
-  | "speech_therapy_service"
-  | "chiropractic_service"
-  | "acupuncture_service"
-  | "massage_therapy_service"
-  | "midwifery_doula"
-  | "lactation_consulting"
-  | "dietitian_service"
-  | "addiction_recovery_services"
-  | "dtc_lab_testing"
-  | "iv_therapy_infusion"
-  | "medspa_aesthetic_services"
-  | "prescription_delivery_services"
-  | "registered_dietitian_services"
-  | "unlicensed_therapy_counseling"
-  | "streetwear"
-  | "athleisure"
-  | "luxury_fashion"
-  | "kids_clothing"
-  | "custom_apparel"
-  | "workwear"
-  | "swimwear"
-  | "lingerie_intimates"
-  | "vintage_clothing"
-  | "plus_size_fashion"
-  | "maternity_clothing"
-  | "sleepwear_loungewear"
-  | "denim_brand"
-  | "outerwear_jackets"
-  | "socks_hosiery"
-  | "costumes_cosplay"
-  | "scrubs_medical_apparel"
-  | "dance_performance_wear"
-  | "hunting_camo_apparel"
-  | "casual_everyday_clothing"
-  | "protein_supplements"
-  | "vitamins_minerals"
-  | "pre_workout"
-  | "nootropics"
-  | "herbal_supplements"
-  | "weight_management_supplements"
-  | "gut_health"
-  | "cbd_products"
-  | "mushroom_supplements"
-  | "collagen_supplements"
-  | "testosterone_boosters"
-  | "sleep_supplements"
-  | "immune_support"
-  | "joint_bone_health"
-  | "greens_powder"
-  | "creatine_supplements"
-  | "electrolyte_hydration"
-  | "prenatal_supplements"
-  | "kids_supplements"
-  | "pet_supplements"
-  | "ayurvedic_supplements"
-  | "keto_supplements"
-  | "cannabis_thc_products"
-  | "cbd_hemp_products_compliant"
-  | "delta8_thc_products"
-  | "dietary_supplements"
-  | "drug_precursor_chemicals"
-  | "illegal_drugs"
-  | "kratom_kava_products"
-  | "medical_treatment_claims_product"
-  | "nutraceutical_products"
-  | "otc_medication_sales"
-  | "performance_enhancing_drugs"
-  | "research_chemicals_dangerous"
-  | "research_peptides"
-  | "sexual_enhancement_products"
-  | "tobacco_products"
-  | "unlicensed_rx_sales"
-  | "skincare"
-  | "haircare"
-  | "cosmetics_makeup"
-  | "mens_grooming"
-  | "fragrance"
-  | "oral_care"
-  | "sunscreen_spf"
-  | "hair_growth_products"
-  | "body_care"
-  | "deodorant"
-  | "lip_care"
-  | "acne_treatment"
-  | "men_skincare"
-  | "baby_skincare"
-  | "tattoo_aftercare"
-  | "intimate_care"
-  | "home_gym_equipment"
-  | "yoga_equipment"
-  | "combat_sports_gear"
-  | "outdoor_fitness_gear"
-  | "wearable_fitness"
-  | "recovery_equipment"
-  | "weightlifting_equipment"
-  | "cardio_equipment"
-  | "gymnastics_equipment"
-  | "swimming_gear"
-  | "jump_rope_equipment"
-  | "grip_strength_tools"
-  | "sauna_cold_plunge"
-  | "posture_correctors"
-  | "jewelry"
-  | "sunglasses_eyewear"
-  | "bags_wallets"
-  | "hats_headwear"
-  | "phone_accessories"
-  | "travel_accessories"
-  | "scarves_wraps"
-  | "belts"
-  | "hair_accessories"
-  | "tech_accessories"
-  | "keychains_charms"
-  | "custom_engraved_accessories"
-  | "cannabis_accessories_non_drug"
-  | "drug_paraphernalia"
-  | "high_value_goods_over_500"
-  | "precious_metals_stones"
-  | "replica_counterfeit_goods"
-  | "home_decor"
-  | "candles_scents"
-  | "kitchenware"
-  | "bedding_linens"
-  | "smart_home"
-  | "cleaning_products"
-  | "outdoor_furniture"
-  | "organization_storage"
-  | "wall_art_prints"
-  | "rugs_carpets"
-  | "lighting_fixtures"
-  | "planters_garden_decor"
-  | "bathroom_accessories"
-  | "luxury_home_goods"
-  | "seasonal_holiday_decor"
-  | "pet_home_products"
-  | "home_fragrance_diffusers"
-  | "hazardous_chemicals_b2c"
-  | "pre_orders_delayed_delivery"
-  | "audio_equipment"
-  | "camera_equipment"
-  | "gaming_hardware"
-  | "drones_robotics"
-  | "ev_accessories"
-  | "charging_power"
-  | "smart_wearables"
-  | "home_security_devices"
-  | "3d_printers"
-  | "projectors_displays"
-  | "streaming_devices"
-  | "vr_headsets"
-  | "e_readers"
-  | "portable_tech"
-  | "hardware_wallets"
-  | "regulated_medical_devices"
-  | "signal_jamming_devices"
-  | "spy_cameras_hidden_recording"
-  | "specialty_coffee_tea"
-  | "health_food"
-  | "snacks_treats"
-  | "sauces_condiments"
-  | "alcohol_spirits"
-  | "meal_kits"
-  | "baked_goods"
-  | "beverages"
-  | "pet_food_treats"
-  | "protein_bars_snacks"
-  | "jerky_meat_snacks"
-  | "chocolate_confections"
-  | "honey_sweeteners"
-  | "olive_oil_vinegar"
-  | "hot_sauce"
-  | "dried_fruit_nuts"
-  | "baby_food"
-  | "plant_based_food"
-  | "gluten_free_food"
-  | "keto_food_products"
-  | "subscription_food_box"
-  | "kombucha_fermented"
-  | "alcohol_sales"
-  | "baby_products"
-  | "kids_toys"
-  | "kids_educational"
-  | "baby_clothing_accessories"
-  | "nursery_decor"
-  | "kids_outdoor_play"
-  | "kids_books"
-  | "baby_safety_products"
-  | "kids_arts_crafts"
-  | "camping_hiking"
-  | "fishing_gear"
-  | "hunting_gear"
-  | "cycling_gear"
-  | "water_sports_gear"
-  | "golf_equipment"
-  | "snow_sports_gear"
-  | "climbing_gear"
-  | "archery_equipment"
-  | "skateboarding_gear"
-  | "pickleball_equipment"
-  | "tennis_equipment"
-  | "equestrian_gear"
-  | "tactical_gear"
-  | "overlanding_gear"
-  | "explosives_fireworks"
-  | "firearms_sales"
-  | "self_defense_products"
-  | "weapon_components"
-  | "craft_kits"
-  | "sewing_textiles"
-  | "stationery"
-  | "scrapbooking_supplies"
-  | "beading_jewelry_supplies"
-  | "pottery_supplies"
-  | "printmaking_supplies"
-  | "car_accessories"
-  | "detailing_products"
-  | "motorcycle_gear"
-  | "truck_accessories"
-  | "off_road_parts"
-  | "car_audio_electronics"
-  | "performance_parts"
-  | "car_care_products"
-  | "ev_charging_accessories"
-  | "auto_repair_service"
-  | "auto_body_shop"
-  | "car_dealership"
-  | "car_wash"
-  | "tire_shop"
-  | "oil_change_shop"
-  | "auto_parts_store"
-  | "motorcycle_shop"
-  | "ev_charging_station"
-  | "transmission_shop"
-  | "muffler_exhaust_shop"
-  | "auto_glass_shop"
-  | "auto_upholstery_shop"
-  | "car_audio_shop"
-  | "smog_emissions_shop"
-  | "truck_repair_shop"
-  | "rv_repair_shop"
-  | "boat_repair_shop"
-  | "used_car_lot"
-  | "auto_auction"
-  | "dog_products"
-  | "cat_products"
-  | "aquarium_supplies"
-  | "bird_supplies"
-  | "reptile_supplies"
-  | "horse_supplies"
-  | "pet_apparel"
-  | "pet_tech"
-  | "pet_grooming_products"
-  | "hand_tools"
-  | "power_tools_and_accessories"
-  | "hardware_and_fasteners"
-  | "workshop_equipment_and_storage"
-  | "safety_and_work_gear"
-  | "painting_and_building_supplies"
-  | "office_supplies"
-  | "desk_accessories"
-  | "printing_supplies"
-  | "shipping_packaging"
-  | "reusable_products"
-  | "solar_powered_products"
-  | "christian_books_bibles"
-  | "christian_apparel"
-  | "christian_jewelry"
-  | "christian_home_decor"
-  | "jewish_judaica"
-  | "jewish_books_torah"
-  | "jewish_apparel"
-  | "islamic_books_quran"
-  | "islamic_apparel"
-  | "islamic_prayer_goods"
-  | "hindu_puja_supplies"
-  | "hindu_books_texts"
-  | "buddhist_meditation_goods"
-  | "buddhist_books_texts"
-  | "sikh_religious_goods"
-  | "other_religious_products"
-  | "handmade_goods_marketplace"
-  | "vintage_resale_marketplace"
-  | "electronics_marketplace"
-  | "auto_parts_marketplace"
-  | "luxury_goods_marketplace"
-  | "collectibles_marketplace"
-  | "wholesale_marketplace"
-  | "local_goods_marketplace"
-  | "sneaker_marketplace"
-  | "book_marketplace"
-  | "furniture_marketplace"
-  | "musical_instrument_marketplace"
-  | "art_marketplace"
-  | "ticket_marketplace"
-  | "industrial_equipment_marketplace"
-  | "craft_supply_marketplace"
-  | "baby_kids_marketplace"
-  | "outdoor_gear_marketplace"
-  | "pet_marketplace"
-  | "sustainable_goods_marketplace"
-  | "cultural_artifacts_looted"
-  | "dropshipping_operations"
-  | "endangered_animal_products"
-  | "human_body_parts_tissue"
-  | "nft_marketplace"
-  | "penny_auction"
-  | "primary_event_ticketing"
-  | "freelancer_marketplace"
-  | "home_services_marketplace"
-  | "tutoring_marketplace"
-  | "legal_services_marketplace"
-  | "healthcare_marketplace"
-  | "wedding_services_marketplace"
-  | "creative_and_content_creation_marketplace"
-  | "beauty_services_marketplace"
-  | "fitness_trainer_marketplace"
-  | "pet_services_marketplace"
-  | "childcare_marketplace"
-  | "elder_care_marketplace"
-  | "translation_marketplace"
-  | "coaching_marketplace"
-  | "therapy_marketplace"
-  | "photography_marketplace"
-  | "dj_entertainment_marketplace"
-  | "auto_services_marketplace"
-  | "freelance_marketplace_operator"
-  | "equipment_rental_marketplace"
-  | "vehicle_rental_marketplace"
-  | "space_rental_marketplace"
-  | "vacation_rental_marketplace"
-  | "clothing_rental_marketplace"
-  | "camera_gear_rental"
-  | "rv_camper_rental"
-  | "boat_rental_marketplace"
-  | "storage_rental_marketplace"
-  | "office_coworking_rental"
-  | "parking_rental_marketplace"
-  | "restaurant_marketplace"
-  | "grocery_marketplace"
-  | "catering_marketplace"
-  | "homemade_food_marketplace"
-  | "meal_prep_marketplace"
-  | "bakery_marketplace"
-  | "farm_produce_marketplace"
-  | "chef_booking_marketplace"
-  | "course_marketplace"
-  | "template_marketplace"
-  | "stock_media_marketplace"
-  | "music_beats_marketplace"
-  | "ebook_marketplace"
-  | "plugin_theme_marketplace"
-  | "3d_model_marketplace"
-  | "prompt_marketplace"
-  | "code_snippet_marketplace"
-  | "affiliate_marketing_platform"
-  | "game_cheats_hacks"
-  | "weapon_blueprint_distribution"
-  | "saas_marketplace"
-  | "agency_marketplace"
-  | "manufacturing_marketplace"
-  | "logistics_marketplace"
-  | "commercial_real_estate_marketplace"
-  | "business_for_sale_marketplace"
-  | "food_delivery"
-  | "grocery_delivery"
-  | "package_delivery"
-  | "moving_labor"
-  | "alcohol_delivery"
-  | "pharmacy_delivery"
-  | "flower_delivery_gig"
-  | "furniture_delivery_gig"
-  | "catering_delivery"
-  | "rideshare"
-  | "chauffeur_service"
-  | "bike_scooter_rental"
-  | "boat_charter_gig"
-  | "moving_truck_rental_gig"
-  | "assembly_installation"
-  | "waiting_line_service"
-  | "personal_shopping"
-  | "grocery_shopping_gig"
-  | "gift_wrapping_gig"
-  | "notary_gig"
-  | "laundry_gig"
-  | "car_wash_gig"
-  | "cleaning_gig"
-  | "lawn_care_gig"
-  | "handyman_gig"
-  | "pet_care_gig"
-  | "childcare_gig"
-  | "elder_care_gig"
-  | "painting_gig"
-  | "snow_removal_gig"
-  | "pool_cleaning_gig"
-  | "organizing_gig"
-  | "pressure_washing_gig"
-  | "junk_removal_gig"
-  | "consulting_gig"
-  | "accounting_gig"
-  | "legal_gig"
-  | "healthcare_gig"
-  | "teaching_gig"
-  | "translation_gig"
-  | "data_entry_gig"
-  | "research_gig"
-  | "virtual_assistant_gig"
-  | "sales_gig"
-  | "recruiting_gig"
-  | "mystery_shopping"
-  | "focus_group_gig"
-  | "product_testing_gig"
-  | "drone_pilot_gig"
-  | "fitness_instruction_gig"
-  | "tour_guide_gig"
-  | "dating_community"
-  | "personal_development_community"
-  | "spirituality_community"
-  | "parenting_community"
-  | "travel_community"
-  | "networking_community"
-  | "faith_community"
-  | "mens_community"
-  | "womens_community"
-  | "expat_community"
-  | "adult_community_nsfw"
-  | "hate_violence_communities"
-  | "personal_fundraising"
-  | "political_fundraising"
-  | "political_organizations"
-  | "pornographic_content"
-  | "registered_501c3"
-  | "religious_organization"
-  | "unregistered_charities"
-  | "ai_outreach_tool"
-  | "ai_chatbot_software"
-  | "ai_writing_tool"
-  | "ai_image_generator"
-  | "ai_video_tool"
-  | "ai_voice_tool"
-  | "ai_data_analysis"
-  | "ai_code_assistant"
-  | "ai_meeting_assistant"
-  | "workflow_automation_software"
-  | "ai_sales_tool"
-  | "ai_customer_support"
-  | "ai_recruiting_tool"
-  | "ai_translation_tool"
-  | "ai_music_tool"
-  | "ai_presentation_tool"
-  | "ai_research_tool"
-  | "ai_seo_tool"
-  | "ai_social_media_tool"
-  | "ai_phone_agent"
-  | "ai_legal_tool"
-  | "ai_healthcare_tool"
-  | "llm_api_platform"
-  | "ai_agent_platform"
-  | "generative_ai_platform"
-  | "celebrity_impersonation"
-  | "deepfake_service"
-  | "ai_nsfw_content_generator"
-  | "ecommerce_platform"
-  | "product_research_tool"
-  | "price_tracker"
-  | "shipping_software"
-  | "print_on_demand_software"
-  | "marketplace_seller_tool"
-  | "resale_arbitrage_tool"
-  | "reseller_management_tool"
-  | "product_review_software"
-  | "returns_management"
-  | "product_feed_management"
-  | "checkout_optimization"
-  | "wholesale_ordering"
-  | "project_management_software"
-  | "team_communication"
-  | "video_conferencing"
-  | "document_collaboration"
-  | "time_tracking_software"
-  | "scheduling_software"
-  | "hr_software"
-  | "knowledge_base_software"
-  | "form_survey_builder"
-  | "note_taking_app"
-  | "task_management"
-  | "contract_management"
-  | "expense_management"
-  | "okr_goal_tracking"
-  | "employee_engagement"
-  | "onboarding_software"
-  | "applicant_tracking"
-  | "asset_management"
-  | "facility_management"
-  | "visitor_management"
-  | "community_platform"
-  | "event_management_software"
-  | "webinar_software"
-  | "school_management"
-  | "newsletter_platform"
-  | "podcast_hosting"
-  | "forum_software"
-  | "virtual_classroom"
-  | "restaurant_pos"
-  | "salon_software"
-  | "gym_management_software"
-  | "auto_shop_software"
-  | "legal_practice_software"
-  | "church_management"
-  | "nonprofit_software"
-  | "logistics_software"
-  | "agriculture_software"
-  | "field_service_software"
-  | "marina_management"
-  | "hotel_pms"
-  | "childcare_management"
-  | "cleaning_business_software"
-  | "roofing_software"
-  | "landscaping_software"
-  | "pest_control_software"
-  | "tattoo_studio_software"
-  | "cannabis_software"
-  | "password_manager"
-  | "cybersecurity_software"
-  | "identity_verification"
-  | "backup_recovery"
-  | "endpoint_protection"
-  | "email_security"
-  | "access_management"
-  | "compliance_software"
-  | "data_privacy_tool"
-  | "vpn_services"
-  | "people_search_tool"
-  | "game_mod_tool"
-  | "streaming_tool"
-  | "game_server_hosting"
-  | "music_software"
-  | "video_editing_software"
-  | "photo_editing_software"
-  | "animation_software"
-  | "audio_editing_software"
-  | "screen_recording_software"
-  | "sports_betting_tool"
-  | "fantasy_sports_paid_entry"
-  | "iptv_pirated_streaming"
-  | "loot_boxes_gacha"
-  | "skill_contests_free_entry"
-  | "skill_contests_paid_entry"
-  | "only_fans_management_software"
-  | "pornography_platform"
-  | "business_phone_system"
-  | "customer_messaging"
-  | "digital_key_reselling"
-  | "streaming_account_reselling"
-  | "subscription_account_sharing"
-  | "account_generation_tool"
-  | "primary_care_telehealth"
-  | "urgent_care_telehealth"
-  | "pediatric_telehealth"
-  | "geriatric_telehealth"
-  | "family_medicine_telehealth"
-  | "internal_medicine_telehealth"
-  | "preventive_care_telehealth"
-  | "licensed_online_pharmacy"
-  | "telemedicine_practitioner_services"
-  | "dermatology_telehealth"
-  | "acne_telehealth"
-  | "psoriasis_eczema_telehealth"
-  | "skin_cancer_screening_tele"
-  | "cosmetic_dermatology_tele"
-  | "therapy_telehealth"
-  | "psychiatry_telehealth"
-  | "addiction_telehealth"
-  | "couples_therapy_telehealth"
-  | "child_psychology_telehealth"
-  | "eating_disorder_telehealth"
-  | "ptsd_trauma_telehealth"
-  | "adhd_telehealth"
-  | "anxiety_depression_telehealth"
-  | "ocd_telehealth"
-  | "grief_counseling_telehealth"
-  | "anger_management_telehealth"
-  | "family_therapy_telehealth"
-  | "group_therapy_telehealth"
-  | "licensed_psychedelic_therapy"
-  | "womens_health_telehealth"
-  | "mens_health_telehealth"
-  | "sexual_health_telehealth"
-  | "fertility_telehealth"
-  | "hormone_therapy_telehealth"
-  | "menopause_telehealth"
-  | "prenatal_telehealth"
-  | "postpartum_telehealth"
-  | "erectile_dysfunction_tele"
-  | "hair_loss_telehealth"
-  | "birth_control_telehealth"
-  | "sti_testing_telehealth"
-  | "dental_telehealth"
-  | "orthodontics_telehealth"
-  | "optometry_telehealth"
-  | "oral_surgery_consultation"
-  | "vision_therapy_telehealth"
-  | "cardiology_telehealth"
-  | "endocrinology_telehealth"
-  | "neurology_telehealth"
-  | "orthopedic_telehealth"
-  | "allergy_telehealth"
-  | "ent_telehealth"
-  | "rheumatology_telehealth"
-  | "gastroenterology_telehealth"
-  | "infectious_disease_telehealth"
-  | "pulmonology_telehealth"
-  | "nephrology_telehealth"
-  | "oncology_telehealth"
-  | "hematology_telehealth"
-  | "urology_telehealth"
-  | "weight_management_telehealth"
-  | "glp1_weight_loss_tele"
-  | "diabetes_management_tele"
-  | "metabolic_health_tele"
-  | "bariatric_telehealth"
-  | "physical_therapy_telehealth"
-  | "occupational_therapy_tele"
-  | "speech_therapy_telehealth"
-  | "pain_management_telehealth"
-  | "cardiac_rehab_telehealth"
-  | "pelvic_floor_telehealth"
-  | "vestibular_telehealth"
-  | "sleep_medicine_telehealth"
-  | "chronic_disease_management"
-  | "chronic_pain_telehealth"
-  | "migraine_telehealth"
-  | "asthma_copd_telehealth"
-  | "nutrition_telehealth"
-  | "naturopathic_telehealth"
-  | "functional_medicine_telehealth"
-  | "acupuncture_telehealth"
-  | "health_coaching_telehealth"
-  | "integrative_medicine_tele"
-  | "ayurvedic_telehealth"
-  | "genetic_counseling_telehealth"
-  | "pharmacogenomics_tele"
-  | "rare_disease_telehealth"
-  | "second_opinion_telehealth"
-  | "vet_telehealth"
-  | "pet_behavior_telehealth"
-  | "exotic_pet_telehealth"
-  | "equine_telehealth"
-  | "veterinary_services"
-  | "class_action_settlement"
-  | "mastermind_event"
-  | "webinar_event"
-  | "virtual_summit"
-  | "bootcamp_event"
-  | "workshop_seminar"
-  | "hackathon"
-  | "corporate_training_event"
-  | "training_certification_event"
-  | "convention_expo"
-  | "conference_summit"
-  | "industry_awards_event"
-  | "product_launch_event"
-  | "investor_demo_day"
-  | "panel_discussion_event"
-  | "pitch_competition"
-  | "meetup_event"
-  | "dinner_event"
-  | "alumni_event"
-  | "community_gathering"
-  | "singles_event"
-  | "professional_happy_hour"
-  | "women_networking_event"
-  | "founders_dinner"
-  | "industry_mixer"
-  | "concert_event"
-  | "comedy_show"
-  | "theater_performance"
-  | "film_screening"
-  | "music_festival"
-  | "cultural_festival"
-  | "fashion_show"
-  | "drag_show"
-  | "magic_show"
-  | "dance_performance"
-  | "poetry_spoken_word"
-  | "art_exhibition"
-  | "party_event"
-  | "trivia_night"
-  | "wine_tasting_event"
-  | "beer_festival"
-  | "car_show"
-  | "food_festival"
-  | "fitness_challenge_event"
-  | "marathon_race"
-  | "tournament_event"
-  | "fight_event"
-  | "yoga_retreat_event"
-  | "outdoor_adventure_event"
-  | "esports_tournament"
-  | "obstacle_course_race"
-  | "cycling_event"
-  | "swim_meet"
-  | "golf_tournament"
-  | "pickleball_tournament"
-  | "crossfit_competition"
-  | "martial_arts_tournament"
-  | "surfing_competition"
-  | "wellness_retreat"
-  | "spiritual_retreat"
-  | "couples_retreat"
-  | "plant_medicine_retreat"
-  | "luxury_experience_event"
-  | "detox_retreat"
-  | "silent_retreat"
-  | "creative_retreat"
-  | "leadership_retreat"
-  | "mens_retreat"
-  | "womens_retreat"
-  | "digital_detox_retreat"
-  | "fundraiser_event"
-  | "awareness_event"
-  | "volunteer_event"
-  | "charity_auction"
-  | "benefit_concert"
-  | "charity_run_walk"
-  | "environmental_cleanup"
-  | "family_festival"
-  | "kids_event"
-  | "holiday_event"
-  | "farmers_market_event"
-  | "block_party"
-  | "graduation_ceremony"
-  | "memorial_event"
-  | "stock_market_newsletter"
-  | "crypto_newsletter"
-  | "personal_finance_newsletter"
-  | "real_estate_newsletter"
-  | "fintech_newsletter"
-  | "venture_capital_newsletter"
-  | "options_trading_newsletter"
-  | "forex_newsletter"
-  | "macro_economics_newsletter"
-  | "alternative_investing_newsletter"
-  | "tax_strategy_newsletter"
-  | "ai_newsletter"
-  | "tech_industry_newsletter"
-  | "cybersecurity_newsletter"
-  | "developer_newsletter"
-  | "product_newsletter"
-  | "devops_newsletter"
-  | "open_source_newsletter"
-  | "robotics_newsletter"
-  | "climate_tech_newsletter"
-  | "travel_newsletter"
-  | "fashion_newsletter"
-  | "parenting_newsletter"
-  | "sports_newsletter"
-  | "gaming_newsletter"
-  | "music_entertainment_newsletter"
-  | "book_reading_newsletter"
-  | "dating_relationships_newsletter"
-  | "home_design_newsletter"
-  | "pet_newsletter"
-  | "wine_spirits_newsletter"
-  | "automotive_newsletter"
-  | "political_newsletter"
-  | "geopolitics_newsletter"
-  | "media_journalism_newsletter"
-  | "defense_security_newsletter"
-  | "legal_policy_newsletter"
-  | "design_newsletter"
-  | "education_newsletter"
-  | "science_newsletter"
-  | "philosophy_newsletter"
-  | "sustainability_newsletter"
-  | "architecture_newsletter"
-  | "history_newsletter"
-  | "psychology_newsletter"
-  | "career_newsletter"
-  | "spirituality_newsletter"
-  | "self_improvement_newsletter"
-  | "productivity_newsletter"
-  | "faith_newsletter"
-  | "gym_facility"
-  | "crossfit_box"
-  | "yoga_studio"
-  | "pilates_studio"
-  | "martial_arts_gym"
-  | "boxing_gym"
-  | "climbing_gym"
-  | "dance_studio"
-  | "swimming_pool"
-  | "sports_facility"
-  | "golf_course"
-  | "bowling_alley"
-  | "skating_rink"
-  | "trampoline_park"
-  | "tennis_club"
-  | "pickleball_facility"
-  | "gymnastics_center"
-  | "spin_studio"
-  | "barre_studio"
-  | "personal_training_studio_bm"
-  | "recovery_studio"
-  | "indoor_soccer"
-  | "batting_cage"
-  | "shooting_range"
-  | "archery_range"
-  | "equestrian_center"
-  | "fine_dining"
-  | "fast_casual_restaurant"
-  | "steakhouse"
-  | "seafood_restaurant"
-  | "pizza_shop"
-  | "sushi_restaurant"
-  | "deli_sandwich_shop"
-  | "bbq_restaurant"
-  | "mexican_restaurant"
-  | "italian_restaurant"
-  | "chinese_restaurant"
-  | "indian_restaurant"
-  | "thai_restaurant"
-  | "korean_restaurant"
-  | "mediterranean_restaurant"
-  | "vegan_vegetarian_restaurant"
-  | "brunch_restaurant"
-  | "ramen_noodle_shop"
-  | "poke_bowl_shop"
-  | "ethnic_restaurant"
-  | "coffee_shop_cafe"
-  | "bakery"
-  | "juice_smoothie_bar"
-  | "ice_cream_shop"
-  | "donut_shop"
-  | "bubble_tea_shop"
-  | "food_truck"
-  | "fast_food"
-  | "ghost_kitchen"
-  | "food_hall_vendor"
-  | "catering_kitchen"
-  | "butcher_shop"
-  | "cheese_shop"
-  | "farmers_market_stall"
-  | "bar_lounge"
-  | "brewery_taproom"
-  | "winery_tasting"
-  | "wine_bar"
-  | "cocktail_bar"
-  | "sports_bar"
-  | "hookah_lounge"
-  | "distillery"
-  | "commercial_farming"
-  | "livestock_ranching"
-  | "hydroponic_vertical_farming"
-  | "forestry_logging"
-  | "aquaculture_fisheries"
-  | "vineyard_winery_production"
-  | "cannabis_cultivation"
-  | "hemp_farming"
-  | "grain_production"
-  | "agricultural_cooperative"
-  | "fertilizer_pesticide_sales"
-  | "farm_equipment_sales"
-  | "boutique_store"
-  | "clothing_store"
-  | "shoe_store"
-  | "jewelry_store"
-  | "electronics_store"
-  | "bookstore"
-  | "pet_store"
-  | "toy_store"
-  | "sporting_goods_store"
-  | "thrift_store"
-  | "smoke_shop"
-  | "cannabis_dispensary"
-  | "convenience_store"
-  | "grocery_store"
-  | "liquor_store"
-  | "florist"
-  | "gift_shop"
-  | "furniture_store"
-  | "home_improvement_store"
-  | "art_gallery_retail"
-  | "music_instrument_store"
-  | "outdoor_recreation_store"
-  | "phone_repair_store"
-  | "watch_store"
-  | "bridal_shop"
-  | "maternity_store"
-  | "kids_store"
-  | "sneaker_store"
-  | "vintage_store"
-  | "comic_book_store"
-  | "record_store"
-  | "craft_supply_store"
-  | "fabric_store"
-  | "health_food_store"
-  | "vitamin_supplement_store"
-  | "optical_store"
-  | "mattress_store"
-  | "appliance_store"
-  | "kitchen_bath_store"
-  | "tile_flooring_store"
-  | "paint_store"
-  | "garden_center"
-  | "gun_store"
-  | "pawn_shop"
-  | "dollar_store"
-  | "hair_salon"
-  | "nail_salon"
-  | "day_spa"
-  | "med_spa"
-  | "massage_studio"
-  | "tattoo_parlor"
-  | "tanning_salon"
-  | "beauty_supply_store"
-  | "lash_brow_studio"
-  | "waxing_studio"
-  | "sauna_bathhouse"
-  | "cryotherapy_studio"
-  | "float_sensory_studio"
-  | "iv_therapy_lounge"
-  | "teeth_whitening_studio"
-  | "microblading_studio"
-  | "spray_tan_studio"
-  | "blowout_bar"
-  | "mens_barbershop"
-  | "kids_salon"
-  | "medical_office"
-  | "dental_office"
-  | "chiropractic_office"
-  | "physical_therapy_clinic"
-  | "optometry_office"
-  | "dermatology_clinic"
-  | "urgent_care_clinic"
-  | "pharmacy"
-  | "veterinary_clinic"
-  | "mental_health_clinic"
-  | "fertility_clinic"
-  | "acupuncture_clinic"
-  | "hearing_aid_center"
-  | "orthopedic_clinic"
-  | "pediatric_clinic"
-  | "cosmetic_surgery_center"
-  | "allergy_clinic"
-  | "pain_management_clinic"
-  | "dialysis_center"
-  | "imaging_center"
-  | "lab_testing_center"
-  | "sleep_clinic"
-  | "weight_loss_clinic"
-  | "hormone_therapy_clinic"
-  | "addiction_treatment_center"
-  | "rehabilitation_center"
-  | "occupational_therapy_clinic"
-  | "speech_therapy_clinic"
-  | "wound_care_center"
-  | "funeral_home_mortuary"
-  | "crematory_service"
-  | "cemetery_memorial_park"
-  | "casket_urn_retailer"
-  | "pet_cremation_service"
-  | "biohazard_cleanup"
-  | "estate_liquidation"
-  | "hotel"
-  | "motel"
-  | "boutique_hotel"
-  | "bed_and_breakfast"
-  | "hostel"
-  | "resort"
-  | "campground_rv"
-  | "vacation_rental_property"
-  | "extended_stay"
-  | "glamping_site"
-  | "cabin_rental"
-  | "eco_lodge"
-  | "retreat_center"
-  | "tutoring_center"
-  | "daycare_center"
-  | "preschool"
-  | "learning_center"
-  | "music_school"
-  | "art_school"
-  | "driving_school"
-  | "language_school"
-  | "trade_school"
-  | "coding_bootcamp_location"
-  | "montessori_school"
-  | "after_school_program"
-  | "swim_school"
-  | "cooking_school"
-  | "test_prep_center"
-  | "special_needs_center"
-  | "adult_education_center"
-  | "flight_school"
-  | "cosmetology_school"
-  | "movie_theater"
-  | "escape_room"
-  | "arcade"
-  | "mini_golf"
-  | "laser_tag"
-  | "go_kart"
-  | "amusement_park"
-  | "museum"
-  | "zoo_aquarium"
-  | "theater_venue"
-  | "nightclub"
-  | "karaoke_bar"
-  | "comedy_club"
-  | "live_music_venue"
-  | "axe_throwing"
-  | "virtual_reality_arcade"
-  | "board_game_cafe"
-  | "cat_cafe"
-  | "haunted_house"
-  | "water_park"
-  | "indoor_playground"
-  | "concert_venue"
-  | "drive_in_theater"
-  | "billiards_hall"
-  | "dart_bar"
-  | "indoor_skydiving"
-  | "law_office"
-  | "real_estate_office"
-  | "insurance_office"
-  | "accounting_office"
-  | "bank_credit_union"
-  | "printing_shop"
-  | "shipping_center"
-  | "dry_cleaner"
-  | "laundromat"
-  | "storage_facility"
-  | "coworking_space"
-  | "check_cashing"
-  | "title_company"
-  | "travel_agency_storefront"
-  | "staffing_office"
-  | "financial_advisor_office"
-  | "immigration_office"
-  | "bail_bonds_office"
-  | "pet_grooming"
-  | "dog_daycare"
-  | "pet_boarding"
-  | "dog_training_facility"
-  | "pet_spa"
-  | "aquatic_pet_store"
-  | "pet_bakery"
-  | "pet_photography_studio"
-  | "plumbing_showroom"
-  | "hvac_showroom"
-  | "solar_showroom"
-  | "kitchen_design_showroom"
-  | "bath_design_showroom"
-  | "window_door_showroom"
-  | "pool_spa_showroom"
-  | "fireplace_showroom"
-  | "countertop_showroom"
-  | "nonprofit_organization"
-  | "charity_foundation"
-  | "political_campaign"
-  | "community_organization"
-  | "environmental_nonprofit"
-  | "education_nonprofit"
-  | "health_nonprofit"
-  | "animal_welfare_nonprofit"
-  | "arts_culture_nonprofit"
-  | "social_justice_nonprofit"
-  | "veterans_nonprofit"
-  | "youth_nonprofit"
-  | "disaster_relief_nonprofit"
-  | "food_bank"
-  | "housing_nonprofit"
-  | "government_agency"
-  | "public_utility"
-  | "public_library"
-  | "public_school"
-  | "municipal_service"
-  | "military_installation"
-  | "embassy_consulate"
-  | "niche_service"
-  | "niche_product"
-  | "hybrid_business"
-  | "other_general"
-  | "holding_company"
-  | "family_office"
-  | "cooperative"
-  | "social_enterprise"
-  | "incubator_accelerator"
-  | "coworking_community"
-  | "media_company"
-  | "research_lab";
-export const UpdateAccountRequestIndustryType = S.String;
 
 /** Account logo, used as the profile picture when creating a Whop-managed Facebook page. Image files up to 5 MB. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
 export type UpdateAccountRequestLogo = UpdateAccountRequestBannerImage;
@@ -6196,6 +3001,18 @@ export const UpdateAccountRequestOpengraphImage = UpdateAccountRequestBannerImag
 /** The account Open Graph image variant. */
 export type UpdateAccountRequestOpengraphImageVariant = "white" | "black" | "orange";
 export const UpdateAccountRequestOpengraphImageVariant = S.String;
+
+/** The account's privacy policy document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+export type UpdateAccountRequestPrivacyPolicy = UpdateAccountRequestBannerImage;
+export const UpdateAccountRequestPrivacyPolicy = UpdateAccountRequestBannerImage;
+
+/** The account's return and refund policy document. Attached to new disputes as the refund policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+export type UpdateAccountRequestReturnPolicy = UpdateAccountRequestBannerImage;
+export const UpdateAccountRequestReturnPolicy = UpdateAccountRequestBannerImage;
+
+/** The account's shipping policy document. Sent with physical-goods dispute evidence. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+export type UpdateAccountRequestShippingPolicy = UpdateAccountRequestBannerImage;
+export const UpdateAccountRequestShippingPolicy = UpdateAccountRequestBannerImage;
 
 export type UpdateAccountRequestSocialLinksItemMap = { [key: string]: unknown | undefined };
 export const UpdateAccountRequestSocialLinksItemMap = /*@__PURE__*/ S.Record(
@@ -6477,8 +3294,15 @@ export const UpdateAccountRequestTaxRemittedBy = S.String;
 export type UpdateAccountRequestTaxType = "inclusive" | "exclusive";
 export const UpdateAccountRequestTaxType = S.String;
 
-/** Account-level 3D Secure behavior. Set `mandate_challenge` to require cardholder verification on supported card payments, or `null` to use the standard checkout flow. */
-export type UpdateAccountRequestThreeDsLevel = "mandate_challenge";
+/** The account's terms of service document. Attached to new disputes as the cancellation policy evidence when no cancellation policy is set. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+export type UpdateAccountRequestTermsOfService = UpdateAccountRequestBannerImage;
+export const UpdateAccountRequestTermsOfService = UpdateAccountRequestBannerImage;
+
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` uses the standard checkout flow. */
+export type UpdateAccountRequestThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const UpdateAccountRequestThreeDsLevel = S.String;
 
 export interface UpdateAccountRequest {
@@ -6495,21 +3319,27 @@ export interface UpdateAccountRequest {
   /** The legal business name used with the account's tax address. */
   business_name?: string | null;
   /** High-level business category for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  business_type?: UpdateAccountRequestBusinessType | (string & {}) | null;
+  business_type?: string | null;
+  /** The account's cancellation policy document. Attached to new disputes as the cancellation policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+  cancellation_policy?: UpdateAccountRequestBannerImage | null;
   /** Whether checkout shows a VAT/tax ID field for buyers to optionally enter. Does not require a VAT ID to purchase. */
   collect_vat_id?: boolean;
   /** Country where the account is located. */
   country?: string | null;
   /** Account promotional description. When creating a Whop-managed Facebook page, it is truncated to 155 characters and used as the About text. */
   description?: string | null;
+  /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts into the success fee charged on disputes it wins. Requires payment:dispute. Omit to preserve the existing setting or creation default. */
+  dispute_fighter_enabled?: boolean;
+  /** The account's end-user license agreement document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+  eula?: UpdateAccountRequestBannerImage | null;
   /** The ID of the product to feature for affiliates. Pass `null` to clear. */
   featured_affiliate_product_id?: string | null;
   /** Public account home page preferences. */
   home_preferences?: UpdateAccountRequestHomePreferencesList;
   /** Account industry group. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_group?: UpdateAccountRequestIndustryGroup | (string & {}) | null;
+  industry_group?: string | null;
   /** Specific industry vertical for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_type?: UpdateAccountRequestIndustryType | (string & {}) | null;
+  industry_type?: string | null;
   /** Prefix used for account invoices. */
   invoice_prefix?: string | null;
   /** Account logo, used as the profile picture when creating a Whop-managed Facebook page. Image files up to 5 MB. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
@@ -6522,18 +3352,26 @@ export interface UpdateAccountRequest {
   opengraph_image?: UpdateAccountRequestBannerImage | null;
   /** The account Open Graph image variant. */
   opengraph_image_variant?: UpdateAccountRequestOpengraphImageVariant | (string & {}) | null;
+  /** Whether payment orchestration is enabled for this account. Requires payout:account:update. Omit to preserve the existing setting or creation default. */
+  orchestration_enabled?: boolean;
   /** The description of the business type when business_type is other. */
   other_business_description?: string | null;
   /** The description of the industry type when industry_type is other. */
   other_industry_description?: string | null;
+  /** The account's privacy policy document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+  privacy_policy?: UpdateAccountRequestBannerImage | null;
   /** ID of the tax classification code applied by default to the account's products. See the available [product categories](https://docs.numeral.com/essentials/product-categories). */
   product_tax_code_id?: string | null;
   /** Whether the account requires authorized users to have two-factor authentication enabled. */
   require_2fa?: boolean;
+  /** The account's return and refund policy document. Attached to new disputes as the refund policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+  return_policy?: UpdateAccountRequestBannerImage | null;
   /** The unique URL slug for the account. */
   route?: string | null;
   /** Whether Whop sends transactional emails to customers on behalf of this account. */
   send_customer_emails?: boolean;
+  /** The account's shipping policy document. Sent with physical-goods dispute evidence. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+  shipping_policy?: UpdateAccountRequestBannerImage | null;
   /** Whether the account appears in joined whops on other accounts. */
   show_joined_whops?: boolean;
   /** Whether reviews are displayed on direct-to-consumer product pages. */
@@ -6554,12 +3392,16 @@ export interface UpdateAccountRequest {
   tax_remitted_by?: UpdateAccountRequestTaxRemittedBy | (string & {});
   /** Determines whether tax is included in the listed price or added at checkout. */
   tax_type?: UpdateAccountRequestTaxType | (string & {});
-  /** Account-level 3D Secure behavior. Set `mandate_challenge` to require cardholder verification on supported card payments, or `null` to use the standard checkout flow. */
+  /** The account's terms of service document. Attached to new disputes as the cancellation policy evidence when no cancellation policy is set. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
+  terms_of_service?: UpdateAccountRequestBannerImage | null;
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` uses the standard checkout flow. */
   three_ds_level?: UpdateAccountRequestThreeDsLevel | (string & {}) | null;
   /** The display name of the account. */
   title?: string | null;
   /** Whether the account uses its logo as the fallback Open Graph image. */
   use_logo_as_opengraph_image_fallback?: boolean;
+  /** The account's business website, as an `http` or `https` URL of at most 255 characters. Also added to the account's `social_links` as a `website` entry. Pass `null` to clear the website; existing social links are left unchanged. */
+  website?: string | null;
 }
 export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6569,26 +3411,33 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     banner_image: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     business_address: S.optional(UpdateAccountRequestBusinessAddress),
     business_name: S.optional(S.NullOr(S.String)),
-    business_type: S.optional(S.NullOr(UpdateAccountRequestBusinessType)),
+    business_type: S.optional(S.NullOr(S.String)),
+    cancellation_policy: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     collect_vat_id: S.optional(S.Boolean),
     country: S.optional(S.NullOr(S.String)),
     description: S.optional(S.NullOr(S.String)),
+    dispute_fighter_enabled: S.optional(S.Boolean),
+    eula: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     featured_affiliate_product_id: S.optional(S.NullOr(S.String)),
     home_preferences: S.optional(UpdateAccountRequestHomePreferencesList),
-    industry_group: S.optional(S.NullOr(UpdateAccountRequestIndustryGroup)),
-    industry_type: S.optional(S.NullOr(UpdateAccountRequestIndustryType)),
+    industry_group: S.optional(S.NullOr(S.String)),
+    industry_type: S.optional(S.NullOr(S.String)),
     invoice_prefix: S.optional(S.NullOr(S.String)),
     logo: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     metadata: S.optional(UpdateAccountRequestMetadataMap),
     onboarding_type: S.optional(S.NullOr(UpdateAccountRequestOnboardingType)),
     opengraph_image: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     opengraph_image_variant: S.optional(S.NullOr(UpdateAccountRequestOpengraphImageVariant)),
+    orchestration_enabled: S.optional(S.Boolean),
     other_business_description: S.optional(S.NullOr(S.String)),
     other_industry_description: S.optional(S.NullOr(S.String)),
+    privacy_policy: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     product_tax_code_id: S.optional(S.NullOr(S.String)),
     require_2fa: S.optional(S.Boolean),
+    return_policy: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     route: S.optional(S.NullOr(S.String)),
     send_customer_emails: S.optional(S.Boolean),
+    shipping_policy: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     show_joined_whops: S.optional(S.Boolean),
     show_reviews_dtc: S.optional(S.Boolean),
     show_user_directory: S.optional(S.Boolean),
@@ -6599,11 +3448,1219 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
     tax_identifiers: S.optional(UpdateAccountRequestTaxIdentifiersList),
     tax_remitted_by: S.optional(UpdateAccountRequestTaxRemittedBy),
     tax_type: S.optional(UpdateAccountRequestTaxType),
+    terms_of_service: S.optional(S.NullOr(UpdateAccountRequestBannerImage)),
     three_ds_level: S.optional(S.NullOr(UpdateAccountRequestThreeDsLevel)),
     title: S.optional(S.NullOr(S.String)),
     use_logo_as_opengraph_image_fallback: S.optional(S.Boolean),
+    website: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{id}", code: 200 })),
 ).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
+
+export interface UpdateAccountFeesRequestBankDepositRegionsValue {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+}
+export const UpdateAccountFeesRequestBankDepositRegionsValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestBankDepositRegionsValue",
+}) as any as S.Schema<UpdateAccountFeesRequestBankDepositRegionsValue>;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestBankDepositRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestBankDepositRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestBankDepositRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestBankDeposit {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestBankDepositRegionsMap;
+}
+export const UpdateAccountFeesRequestBankDeposit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestBankDepositRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestBankDeposit",
+}) as any as S.Schema<UpdateAccountFeesRequestBankDeposit>;
+
+export type UpdateAccountFeesRequestBillingRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestBillingRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestBillingRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestBillingRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestBillingRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestBilling {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestBillingRegionsMap;
+}
+export const UpdateAccountFeesRequestBilling = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestBillingRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestBilling",
+}) as any as S.Schema<UpdateAccountFeesRequestBilling>;
+
+export type UpdateAccountFeesRequestBuyerRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestBuyerRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestBuyerRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestBuyerRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestBuyerRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestBuyer {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestBuyerRegionsMap;
+}
+export const UpdateAccountFeesRequestBuyer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestBuyerRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestBuyer",
+}) as any as S.Schema<UpdateAccountFeesRequestBuyer>;
+
+export type UpdateAccountFeesRequestCardProcessingRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestCardProcessingRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestCardProcessingRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestCardProcessingRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestCardProcessingRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestCardProcessing {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestCardProcessingRegionsMap;
+}
+export const UpdateAccountFeesRequestCardProcessing = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestCardProcessingRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestCardProcessing",
+}) as any as S.Schema<UpdateAccountFeesRequestCardProcessing>;
+
+/** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
+export interface UpdateAccountFeesRequestChildMarkupsCardSpend {
+  /** The amount the platform adds per event, in US dollars. */
+  fixed?: number;
+  /** The percentage of the transaction the platform adds, where `2` means 2%. */
+  percentage?: number;
+}
+export const UpdateAccountFeesRequestChildMarkupsCardSpend = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.Number),
+    percentage: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestChildMarkupsCardSpend",
+}) as any as S.Schema<UpdateAccountFeesRequestChildMarkupsCardSpend>;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestChildMarkupsCryptoSwaps =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestChildMarkupsCryptoSwaps =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestChildMarkupsDepositsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestChildMarkupsDepositsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** Markups on deposits, keyed by rail: `bank` or `crypto`. */
+export type UpdateAccountFeesRequestChildMarkupsDepositsMap = {
+  [key: string]: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
+};
+export const UpdateAccountFeesRequestChildMarkupsDepositsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend),
+) as any as S.Schema<UpdateAccountFeesRequestChildMarkupsDepositsMap>;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestChildMarkupsPayments =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestChildMarkupsPayments =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestChildMarkupsPayoutsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestChildMarkupsPayoutsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** Markups on withdrawals, keyed by payout method. */
+export type UpdateAccountFeesRequestChildMarkupsPayoutsMap = {
+  [key: string]: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
+};
+export const UpdateAccountFeesRequestChildMarkupsPayoutsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend),
+) as any as S.Schema<UpdateAccountFeesRequestChildMarkupsPayoutsMap>;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestChildMarkupsTransfers =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestChildMarkupsTransfers =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** Default markups for connected accounts. Available on accounts without a parent, even before any accounts connect. */
+export interface UpdateAccountFeesRequestChildMarkups {
+  /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
+  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  /** Markups on deposits, keyed by rail: `bank` or `crypto`. */
+  deposits?: UpdateAccountFeesRequestChildMarkupsDepositsMap;
+  /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  /** Markups on withdrawals, keyed by payout method. */
+  payouts?: UpdateAccountFeesRequestChildMarkupsPayoutsMap;
+  /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+}
+export const UpdateAccountFeesRequestChildMarkups = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    card_spend: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+    crypto_swaps: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+    deposits: S.optional(UpdateAccountFeesRequestChildMarkupsDepositsMap),
+    payments: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+    payouts: S.optional(UpdateAccountFeesRequestChildMarkupsPayoutsMap),
+    transfers: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestChildMarkups",
+}) as any as S.Schema<UpdateAccountFeesRequestChildMarkups>;
+
+/** Changes to the payout fees this account covers for connected accounts. Send either all or individual category keys. Omitted categories stay unchanged; category changes have no effect while all is true. */
+export interface UpdateAccountFeesRequestCoveredPayoutFees {
+  all?: boolean;
+  bank_wire?: boolean;
+  crypto?: boolean;
+  digital_wallet?: boolean;
+  next_day_bank?: boolean;
+  rtp?: boolean;
+}
+export const UpdateAccountFeesRequestCoveredPayoutFees = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all: S.optional(S.Boolean),
+    bank_wire: S.optional(S.Boolean),
+    crypto: S.optional(S.Boolean),
+    digital_wallet: S.optional(S.Boolean),
+    next_day_bank: S.optional(S.Boolean),
+    rtp: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestCoveredPayoutFees",
+}) as any as S.Schema<UpdateAccountFeesRequestCoveredPayoutFees>;
+
+export type UpdateAccountFeesRequestCrossBorderRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestCrossBorderRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestCrossBorderRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestCrossBorderRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestCrossBorderRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestCrossBorder {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestCrossBorderRegionsMap;
+}
+export const UpdateAccountFeesRequestCrossBorder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestCrossBorderRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestCrossBorder",
+}) as any as S.Schema<UpdateAccountFeesRequestCrossBorder>;
+
+export type UpdateAccountFeesRequestDisputeRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestDisputeRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestDisputeRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestDisputeRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestDisputeRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestDispute {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestDisputeRegionsMap;
+}
+export const UpdateAccountFeesRequestDispute = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestDisputeRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestDispute",
+}) as any as S.Schema<UpdateAccountFeesRequestDispute>;
+
+export type UpdateAccountFeesRequestDisputeAlertRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestDisputeAlertRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestDisputeAlertRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestDisputeAlertRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestDisputeAlert {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestDisputeAlertRegionsMap;
+}
+export const UpdateAccountFeesRequestDisputeAlert = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestDisputeAlertRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestDisputeAlert",
+}) as any as S.Schema<UpdateAccountFeesRequestDisputeAlert>;
+
+export type UpdateAccountFeesRequestDisputeAlertCdrnRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestDisputeAlertCdrnRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestDisputeAlertCdrn {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap;
+}
+export const UpdateAccountFeesRequestDisputeAlertCdrn = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestDisputeAlertCdrn",
+}) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertCdrn>;
+
+export type UpdateAccountFeesRequestDisputeAlertEthocaRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestDisputeAlertEthocaRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestDisputeAlertEthoca {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap;
+}
+export const UpdateAccountFeesRequestDisputeAlertEthoca = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestDisputeAlertEthoca",
+}) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertEthoca>;
+
+export type UpdateAccountFeesRequestDisputeAlertRdrRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestDisputeAlertRdrRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestDisputeAlertRdrRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestDisputeAlertRdrRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertRdrRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestDisputeAlertRdr {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestDisputeAlertRdrRegionsMap;
+}
+export const UpdateAccountFeesRequestDisputeAlertRdr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestDisputeAlertRdrRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestDisputeAlertRdr",
+}) as any as S.Schema<UpdateAccountFeesRequestDisputeAlertRdr>;
+
+export type UpdateAccountFeesRequestDisputeRepresentmentRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestDisputeRepresentmentRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestDisputeRepresentmentRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestDisputeRepresentmentRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestDisputeRepresentmentRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestDisputeRepresentment {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestDisputeRepresentmentRegionsMap;
+}
+export const UpdateAccountFeesRequestDisputeRepresentment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestDisputeRepresentmentRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestDisputeRepresentment",
+}) as any as S.Schema<UpdateAccountFeesRequestDisputeRepresentment>;
+
+export type UpdateAccountFeesRequestForeignExchangeRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestForeignExchangeRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestForeignExchangeRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestForeignExchangeRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestForeignExchangeRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestForeignExchange {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestForeignExchangeRegionsMap;
+}
+export const UpdateAccountFeesRequestForeignExchange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestForeignExchangeRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestForeignExchange",
+}) as any as S.Schema<UpdateAccountFeesRequestForeignExchange>;
+
+export type UpdateAccountFeesRequestFraudScreeningRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestFraudScreeningRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestFraudScreeningRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestFraudScreeningRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestFraudScreeningRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestFraudScreening {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestFraudScreeningRegionsMap;
+}
+export const UpdateAccountFeesRequestFraudScreening = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestFraudScreeningRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestFraudScreening",
+}) as any as S.Schema<UpdateAccountFeesRequestFraudScreening>;
+
+export type UpdateAccountFeesRequestHighRiskRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestHighRiskRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestHighRiskRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestHighRiskRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestHighRiskRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestHighRisk {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestHighRiskRegionsMap;
+}
+export const UpdateAccountFeesRequestHighRisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestHighRiskRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestHighRisk",
+}) as any as S.Schema<UpdateAccountFeesRequestHighRisk>;
+
+export type UpdateAccountFeesRequestMarketplaceRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestMarketplaceRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestMarketplaceRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestMarketplaceRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestMarketplaceRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestMarketplace {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestMarketplaceRegionsMap;
+}
+export const UpdateAccountFeesRequestMarketplace = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestMarketplaceRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestMarketplace",
+}) as any as S.Schema<UpdateAccountFeesRequestMarketplace>;
+
+/** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
+export type UpdateAccountFeesRequestMarkupsCardSpend =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestMarkupsCardSpend =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestMarkupsCryptoSwaps =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestMarkupsCryptoSwaps =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestMarkupsDepositsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestMarkupsDepositsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** Markups on deposits, keyed by rail: `bank` or `crypto`. */
+export type UpdateAccountFeesRequestMarkupsDepositsMap = {
+  [key: string]: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
+};
+export const UpdateAccountFeesRequestMarkupsDepositsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend),
+) as any as S.Schema<UpdateAccountFeesRequestMarkupsDepositsMap>;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestMarkupsPayments = UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestMarkupsPayments =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestMarkupsPayoutsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestMarkupsPayoutsValue =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** Markups on withdrawals, keyed by payout method. */
+export type UpdateAccountFeesRequestMarkupsPayoutsMap = {
+  [key: string]: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
+};
+export const UpdateAccountFeesRequestMarkupsPayoutsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend),
+) as any as S.Schema<UpdateAccountFeesRequestMarkupsPayoutsMap>;
+
+/** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+export type UpdateAccountFeesRequestMarkupsTransfers =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+export const UpdateAccountFeesRequestMarkupsTransfers =
+  UpdateAccountFeesRequestChildMarkupsCardSpend;
+
+/** Markups on this connected account, set by the platform it is connected to. */
+export interface UpdateAccountFeesRequestMarkups {
+  /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
+  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  /** Markups on deposits, keyed by rail: `bank` or `crypto`. */
+  deposits?: UpdateAccountFeesRequestMarkupsDepositsMap;
+  /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  /** Markups on withdrawals, keyed by payout method. */
+  payouts?: UpdateAccountFeesRequestMarkupsPayoutsMap;
+  /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
+  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+}
+export const UpdateAccountFeesRequestMarkups = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    card_spend: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+    crypto_swaps: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+    deposits: S.optional(UpdateAccountFeesRequestMarkupsDepositsMap),
+    payments: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+    payouts: S.optional(UpdateAccountFeesRequestMarkupsPayoutsMap),
+    transfers: S.optional(S.NullOr(UpdateAccountFeesRequestChildMarkupsCardSpend)),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestMarkups",
+}) as any as S.Schema<UpdateAccountFeesRequestMarkups>;
+
+export type UpdateAccountFeesRequestOrchestrationRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestOrchestrationRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestOrchestrationRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestOrchestrationRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestOrchestrationRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestOrchestration {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestOrchestrationRegionsMap;
+}
+export const UpdateAccountFeesRequestOrchestration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestOrchestrationRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestOrchestration",
+}) as any as S.Schema<UpdateAccountFeesRequestOrchestration>;
+
+export type UpdateAccountFeesRequestPaymentMethodsValueRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestPaymentMethodsValueRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestPaymentMethodsValueRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestPaymentMethodsValueRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPaymentMethodsValueRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestPaymentMethodsValue {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestPaymentMethodsValueRegionsMap;
+}
+export const UpdateAccountFeesRequestPaymentMethodsValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestPaymentMethodsValueRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestPaymentMethodsValue",
+}) as any as S.Schema<UpdateAccountFeesRequestPaymentMethodsValue>;
+
+/** Changes to non-card payment method fees, keyed by payment method type. */
+export type UpdateAccountFeesRequestPaymentMethodsMap = {
+  [key: string]: UpdateAccountFeesRequestPaymentMethodsValue | undefined;
+};
+export const UpdateAccountFeesRequestPaymentMethodsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestPaymentMethodsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPaymentMethodsMap>;
+
+export type UpdateAccountFeesRequestPayoutsValueRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestPayoutsValueRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestPayoutsValueRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestPayoutsValueRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPayoutsValueRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestPayoutsValue {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestPayoutsValueRegionsMap;
+}
+export const UpdateAccountFeesRequestPayoutsValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestPayoutsValueRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestPayoutsValue",
+}) as any as S.Schema<UpdateAccountFeesRequestPayoutsValue>;
+
+/** Changes to withdrawal fees, keyed by payout method. */
+export type UpdateAccountFeesRequestPayoutsMap = {
+  [key: string]: UpdateAccountFeesRequestPayoutsValue | undefined;
+};
+export const UpdateAccountFeesRequestPayoutsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestPayoutsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPayoutsMap>;
+
+export type UpdateAccountFeesRequestPendingAutoTopupRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestPendingAutoTopupRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestPendingAutoTopupRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestPendingAutoTopupRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPendingAutoTopupRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestPendingAutoTopup {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestPendingAutoTopupRegionsMap;
+}
+export const UpdateAccountFeesRequestPendingAutoTopup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestPendingAutoTopupRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestPendingAutoTopup",
+}) as any as S.Schema<UpdateAccountFeesRequestPendingAutoTopup>;
+
+export type UpdateAccountFeesRequestPlatformProcessingRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestPlatformProcessingRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestPlatformProcessingRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestPlatformProcessingRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPlatformProcessingRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestPlatformProcessing {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestPlatformProcessingRegionsMap;
+}
+export const UpdateAccountFeesRequestPlatformProcessing = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestPlatformProcessingRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestPlatformProcessing",
+}) as any as S.Schema<UpdateAccountFeesRequestPlatformProcessing>;
+
+export type UpdateAccountFeesRequestPoolPayoutRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestPoolPayoutRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestPoolPayoutRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestPoolPayoutRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestPoolPayoutRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestPoolPayout {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestPoolPayoutRegionsMap;
+}
+export const UpdateAccountFeesRequestPoolPayout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestPoolPayoutRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestPoolPayout",
+}) as any as S.Schema<UpdateAccountFeesRequestPoolPayout>;
+
+export type UpdateAccountFeesRequestRevshareRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestRevshareRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestRevshareRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestRevshareRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestRevshareRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestRevshare {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestRevshareRegionsMap;
+}
+export const UpdateAccountFeesRequestRevshare = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestRevshareRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestRevshare",
+}) as any as S.Schema<UpdateAccountFeesRequestRevshare>;
+
+export type UpdateAccountFeesRequestTaxCalculationRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestTaxCalculationRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestTaxCalculationRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestTaxCalculationRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestTaxCalculationRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestTaxCalculation {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestTaxCalculationRegionsMap;
+}
+export const UpdateAccountFeesRequestTaxCalculation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestTaxCalculationRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestTaxCalculation",
+}) as any as S.Schema<UpdateAccountFeesRequestTaxCalculation>;
+
+export type UpdateAccountFeesRequestTaxServiceRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestTaxServiceRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestTaxServiceRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestTaxServiceRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestTaxServiceRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestTaxService {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestTaxServiceRegionsMap;
+}
+export const UpdateAccountFeesRequestTaxService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestTaxServiceRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestTaxService",
+}) as any as S.Schema<UpdateAccountFeesRequestTaxService>;
+
+export type UpdateAccountFeesRequestThreeDsRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestThreeDsRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestThreeDsRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestThreeDsRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestThreeDsRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestThreeDs {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestThreeDsRegionsMap;
+}
+export const UpdateAccountFeesRequestThreeDs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestThreeDsRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestThreeDs",
+}) as any as S.Schema<UpdateAccountFeesRequestThreeDs>;
+
+export type UpdateAccountFeesRequestTransfersRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+export const UpdateAccountFeesRequestTransfersRegionsValue =
+  UpdateAccountFeesRequestBankDepositRegionsValue;
+
+/** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+export type UpdateAccountFeesRequestTransfersRegionsMap = {
+  [key: string]: UpdateAccountFeesRequestBankDepositRegionsValue | undefined;
+};
+export const UpdateAccountFeesRequestTransfersRegionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountFeesRequestBankDepositRegionsValue,
+) as any as S.Schema<UpdateAccountFeesRequestTransfersRegionsMap>;
+
+/** The fields of a fee the caller may change. Only the keys sent are replaced. */
+export interface UpdateAccountFeesRequestTransfers {
+  /** The new amount per event in US dollars. `null` clears the custom amount. */
+  fixed?: number | null;
+  /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
+  percentage?: number | null;
+  /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
+  regions?: UpdateAccountFeesRequestTransfersRegionsMap;
+}
+export const UpdateAccountFeesRequestTransfers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(S.NullOr(S.Number)),
+    percentage: S.optional(S.NullOr(S.Number)),
+    regions: S.optional(UpdateAccountFeesRequestTransfersRegionsMap),
+  }),
+).annotate({
+  identifier: "UpdateAccountFeesRequestTransfers",
+}) as any as S.Schema<UpdateAccountFeesRequestTransfers>;
+
+export interface UpdateAccountFeesRequest {
+  /** Account ID, prefixed `biz_`. */
+  account_id: string;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  bank_deposit?: UpdateAccountFeesRequestBankDeposit;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  billing?: UpdateAccountFeesRequestBilling;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  buyer?: UpdateAccountFeesRequestBuyer;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  card_processing?: UpdateAccountFeesRequestCardProcessing;
+  /** Default markups for connected accounts. Available on accounts without a parent, even before any accounts connect. */
+  child_markups?: UpdateAccountFeesRequestChildMarkups;
+  /** Changes to the payout fees this account covers for connected accounts. Send either all or individual category keys. Omitted categories stay unchanged; category changes have no effect while all is true. */
+  covered_payout_fees?: UpdateAccountFeesRequestCoveredPayoutFees;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  cross_border?: UpdateAccountFeesRequestCrossBorder;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  dispute?: UpdateAccountFeesRequestDispute;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  dispute_alert?: UpdateAccountFeesRequestDisputeAlert;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  dispute_alert_cdrn?: UpdateAccountFeesRequestDisputeAlertCdrn;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  dispute_alert_ethoca?: UpdateAccountFeesRequestDisputeAlertEthoca;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  dispute_alert_rdr?: UpdateAccountFeesRequestDisputeAlertRdr;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  dispute_representment?: UpdateAccountFeesRequestDisputeRepresentment;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  foreign_exchange?: UpdateAccountFeesRequestForeignExchange;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  fraud_screening?: UpdateAccountFeesRequestFraudScreening;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  high_risk?: UpdateAccountFeesRequestHighRisk;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  marketplace?: UpdateAccountFeesRequestMarketplace;
+  /** Markups on this connected account, set by the platform it is connected to. */
+  markups?: UpdateAccountFeesRequestMarkups;
+  /** Why the fees are changing, recorded with the change. Required when a Whop Verified Partner edits the fee schedule; ignored for markups. */
+  notes?: string;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  orchestration?: UpdateAccountFeesRequestOrchestration;
+  /** Changes to non-card payment method fees, keyed by payment method type. */
+  payment_methods?: UpdateAccountFeesRequestPaymentMethodsMap;
+  /** Changes to withdrawal fees, keyed by payout method. */
+  payouts?: UpdateAccountFeesRequestPayoutsMap;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  pending_auto_topup?: UpdateAccountFeesRequestPendingAutoTopup;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  platform_processing?: UpdateAccountFeesRequestPlatformProcessing;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  pool_payout?: UpdateAccountFeesRequestPoolPayout;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  revshare?: UpdateAccountFeesRequestRevshare;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  tax_calculation?: UpdateAccountFeesRequestTaxCalculation;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  tax_service?: UpdateAccountFeesRequestTaxService;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  three_ds?: UpdateAccountFeesRequestThreeDs;
+  /** The fields of a fee the caller may change. Only the keys sent are replaced. */
+  transfers?: UpdateAccountFeesRequestTransfers;
+}
+export const UpdateAccountFeesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String.pipe(T.Label()),
+    bank_deposit: S.optional(UpdateAccountFeesRequestBankDeposit),
+    billing: S.optional(UpdateAccountFeesRequestBilling),
+    buyer: S.optional(UpdateAccountFeesRequestBuyer),
+    card_processing: S.optional(UpdateAccountFeesRequestCardProcessing),
+    child_markups: S.optional(UpdateAccountFeesRequestChildMarkups),
+    covered_payout_fees: S.optional(UpdateAccountFeesRequestCoveredPayoutFees),
+    cross_border: S.optional(UpdateAccountFeesRequestCrossBorder),
+    dispute: S.optional(UpdateAccountFeesRequestDispute),
+    dispute_alert: S.optional(UpdateAccountFeesRequestDisputeAlert),
+    dispute_alert_cdrn: S.optional(UpdateAccountFeesRequestDisputeAlertCdrn),
+    dispute_alert_ethoca: S.optional(UpdateAccountFeesRequestDisputeAlertEthoca),
+    dispute_alert_rdr: S.optional(UpdateAccountFeesRequestDisputeAlertRdr),
+    dispute_representment: S.optional(UpdateAccountFeesRequestDisputeRepresentment),
+    foreign_exchange: S.optional(UpdateAccountFeesRequestForeignExchange),
+    fraud_screening: S.optional(UpdateAccountFeesRequestFraudScreening),
+    high_risk: S.optional(UpdateAccountFeesRequestHighRisk),
+    marketplace: S.optional(UpdateAccountFeesRequestMarketplace),
+    markups: S.optional(UpdateAccountFeesRequestMarkups),
+    notes: S.optional(S.String),
+    orchestration: S.optional(UpdateAccountFeesRequestOrchestration),
+    payment_methods: S.optional(UpdateAccountFeesRequestPaymentMethodsMap),
+    payouts: S.optional(UpdateAccountFeesRequestPayoutsMap),
+    pending_auto_topup: S.optional(UpdateAccountFeesRequestPendingAutoTopup),
+    platform_processing: S.optional(UpdateAccountFeesRequestPlatformProcessing),
+    pool_payout: S.optional(UpdateAccountFeesRequestPoolPayout),
+    revshare: S.optional(UpdateAccountFeesRequestRevshare),
+    tax_calculation: S.optional(UpdateAccountFeesRequestTaxCalculation),
+    tax_service: S.optional(UpdateAccountFeesRequestTaxService),
+    three_ds: S.optional(UpdateAccountFeesRequestThreeDs),
+    transfers: S.optional(UpdateAccountFeesRequestTransfers),
+  }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/fees", code: 200 })),
+).annotate({ identifier: "UpdateAccountFeesRequest" }) as any as S.Schema<UpdateAccountFeesRequest>;
+
+/** Must be `pending_information`. */
+export type UpdateAccountPreferencesRequestAdsCertificationsValueStatus = "pending_information";
+export const UpdateAccountPreferencesRequestAdsCertificationsValueStatus = S.String;
+
+export interface UpdateAccountPreferencesRequestAdsCertificationsValue {
+  /** Must be `pending_information`. */
+  status: UpdateAccountPreferencesRequestAdsCertificationsValueStatus | (string & {});
+}
+export const UpdateAccountPreferencesRequestAdsCertificationsValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: UpdateAccountPreferencesRequestAdsCertificationsValueStatus,
+  }),
+).annotate({
+  identifier: "UpdateAccountPreferencesRequestAdsCertificationsValue",
+}) as any as S.Schema<UpdateAccountPreferencesRequestAdsCertificationsValue>;
+
+/** Opens an advertising certification application. Keyed by certification type (`prescription_drug_ads`); set the entry's `status` to `pending_information` to start, then answer the requested fields via `PATCH /verifications/{id}`. Only one application per type can be open at a time; every other status is set by Whop's review. Requires the `ad_campaign:create` scope on your API key. */
+export type UpdateAccountPreferencesRequestAdsCertificationsMap = {
+  [key: string]: UpdateAccountPreferencesRequestAdsCertificationsValue | undefined;
+};
+export const UpdateAccountPreferencesRequestAdsCertificationsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateAccountPreferencesRequestAdsCertificationsValue,
+) as any as S.Schema<UpdateAccountPreferencesRequestAdsCertificationsMap>;
 
 /** The funding source kind. */
 export type UpdateAccountPreferencesRequestAdsPaymentMethodsBackupType =
@@ -6648,7 +4705,7 @@ export const UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary = /*@__PURE
   identifier: "UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary",
 }) as any as S.Schema<UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary>;
 
-/** How the account pays for Whop Ads spend. `primary` is charged first; `backup` covers the charge when the primary fails. */
+/** How the account pays for Whop Ads spend. Requires `primary`; `backup` is optional and covers the charge when the primary fails. Requires the `ad_campaign:create` scope on your API key. Configuring a `card` requires a user token; account API keys can configure only `platform_balance` sources. */
 export interface UpdateAccountPreferencesRequestAdsPaymentMethods {
   /** Optional second method charged if the primary fails. Any pairing is allowed (two cards, card+balance, balance+card); omit it to run on a single method. Must differ from the primary. */
   backup?: UpdateAccountPreferencesRequestAdsPaymentMethodsBackup;
@@ -6663,39 +4720,66 @@ export const UpdateAccountPreferencesRequestAdsPaymentMethods = /*@__PURE__*/ S.
   identifier: "UpdateAccountPreferencesRequestAdsPaymentMethods",
 }) as any as S.Schema<UpdateAccountPreferencesRequestAdsPaymentMethods>;
 
-/** Connects or disconnects the Triple Whale integration. Requires a connected Shopify store, since Triple Whale keys spend records by Shopify shop. */
+/** Connects or disconnects the Triple Whale integration, or changes the shop it reports to. Requires the `ad_campaign:create` scope on your API key. Connecting requires a shop domain to report spend against — either an explicit `shop_domain` (required for any merchant without a connected Shopify store, e.g. WooCommerce, a custom checkout, or a white-label platform's merchant) or a Shopify store connected on the Fulfillment page. */
 export interface UpdateAccountPreferencesRequestAdsTripleWhaleIntegration {
-  /** A Triple Whale Data-In API key with the `Data-In Write: Ads` scope, validated against Triple Whale before it is stored. Pass `null` to disconnect. Connecting for the first time backfills the account's existing ad spend. */
-  api_key: string | Redacted.Redacted<string> | null;
+  /** A Triple Whale Data-In API key with the `Ads: Write` scope, validated against Triple Whale before it is stored. Pass `null` to disconnect. Connecting for the first time backfills the account's existing ad spend. Required unless you are only changing `shop_domain` on an already connected integration, in which case the stored key is reused. */
+  api_key?: string | Redacted.Redacted<string> | null;
+  /** The exact shop domain configured in Triple Whale's Settings → Store (for Shopify this is the `.myshopify.com` domain; for a custom sales platform it's whatever domain Triple Whale assigned when the shop was set up there). A leading `https://` and trailing `/` are stripped, and what remains must be a bare hostname with no path or spaces. Validated against Triple Whale — the API key must have access to it — before it is stored. Changing it on a connected integration backfills the account's ad spend onto the new shop. Omit to fall back to a connected Shopify store's domain; there is no way to clear a stored value, only to overwrite it with a new domain. */
+  shop_domain?: string;
 }
 export const UpdateAccountPreferencesRequestAdsTripleWhaleIntegration = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      api_key: S.NullOr(S.String).pipe(T.SensitiveValue({})),
+      api_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+      shop_domain: S.optional(S.String),
     }),
 ).annotate({
   identifier: "UpdateAccountPreferencesRequestAdsTripleWhaleIntegration",
 }) as any as S.Schema<UpdateAccountPreferencesRequestAdsTripleWhaleIntegration>;
 
+/** Turns on Economic Intelligence for the duration with this `key` in `economic_intelligence_offers`, at that duration's fee. It can't be changed or turned off until `economic_intelligence_ends_at`, and it can only be turned on once the account is off the Economic Intelligence waitlist. Requires the `company:update` scope on your API key. */
+export type UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey =
+  | "7_days"
+  | "1_day"
+  | "1_hour";
+export const UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey = S.String;
+
+/** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. Requires company:manage_checkout permission. */
+export type UpdateAccountPreferencesRequestSubscriptionFailureBehavior = "cancel" | "none";
+export const UpdateAccountPreferencesRequestSubscriptionFailureBehavior = S.String;
+
 export interface UpdateAccountPreferencesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
-  /** How the account pays for Whop Ads spend. `primary` is charged first; `backup` covers the charge when the primary fails. */
+  /** Opens an advertising certification application. Keyed by certification type (`prescription_drug_ads`); set the entry's `status` to `pending_information` to start, then answer the requested fields via `PATCH /verifications/{id}`. Only one application per type can be open at a time; every other status is set by Whop's review. Requires the `ad_campaign:create` scope on your API key. */
+  ads_certifications?: UpdateAccountPreferencesRequestAdsCertificationsMap;
+  /** How the account pays for Whop Ads spend. Requires `primary`; `backup` is optional and covers the charge when the primary fails. Requires the `ad_campaign:create` scope on your API key. Configuring a `card` requires a user token; account API keys can configure only `platform_balance` sources. */
   ads_payment_methods?: UpdateAccountPreferencesRequestAdsPaymentMethods;
-  /** Lowercase ISO currency code, such as `usd` or `eur`, used to display ad spend and stats. Defaults to `usd`. */
+  /** Lowercase ISO currency code, such as `usd` or `eur`, used to display ad spend and stats. Defaults to `usd`. Requires the `ad_campaign:create` scope on your API key. */
   ads_reporting_currency?: string;
-  /** IANA timezone (e.g. `America/New_York`) used to interpret campaign start/end times and to bucket reports. Cannot be cleared once set — pass a new value to change it. */
+  /** IANA timezone (e.g. `America/New_York`) used to interpret campaign start/end times and to bucket reports. Cannot be cleared once set — pass a new value to change it. Requires the `ad_campaign:create` scope on your API key. */
   ads_scheduling_timezone?: string;
-  /** Connects or disconnects the Triple Whale integration. Requires a connected Shopify store, since Triple Whale keys spend records by Shopify shop. */
+  /** Connects or disconnects the Triple Whale integration, or changes the shop it reports to. Requires the `ad_campaign:create` scope on your API key. Connecting requires a shop domain to report spend against — either an explicit `shop_domain` (required for any merchant without a connected Shopify store, e.g. WooCommerce, a custom checkout, or a white-label platform's merchant) or a Shopify store connected on the Fulfillment page. */
   ads_triple_whale_integration?: UpdateAccountPreferencesRequestAdsTripleWhaleIntegration;
-  /** Whether incoming funds are automatically moved to the account's cards balance. Requires a cards balance on the account. */
+  /** Whether incoming funds are automatically moved to the account's cards balance. Requires a cards balance on the account and the `payout:account:update` scope on your API key. */
   cards_auto_top_up?: boolean;
-  /** Whether Whop assembles and files the evidence response when this account's payments are disputed. Off by default; enabling it also opts the account into the success fee charged only on disputes it wins. */
+  /** Whether Whop Card notifications reach this account's team. Set it to `false` to stop every card email and push notification for the account — application status, verification and action-required alerts, card-ready alerts, declines, large charges, and cashback summaries. Cardholder onboarding invitations still send, because they carry the only link an invited cardholder can onboard with. Requesting a card is rejected while notifications are off, since the request reaches nobody. Cards on personal accounts are unaffected. Requires a cards balance on the account and the `payout:account:update` scope on your API key. */
+  cards_notifications?: boolean;
+  /** Whether Whop assembles and files the evidence response when this account's payments are disputed. Off by default; enabling it also opts the account into the success fee charged only on disputes it wins. Requires the `payment:dispute` scope on your API key. */
   dispute_fighter_enabled?: boolean;
+  /** Turns on Economic Intelligence for the duration with this `key` in `economic_intelligence_offers`, at that duration's fee. It can't be changed or turned off until `economic_intelligence_ends_at`, and it can only be turned on once the account is off the Economic Intelligence waitlist. Requires the `company:update` scope on your API key. */
+  economic_intelligence_duration_key?:
+    | UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey
+    | (string & {});
+  /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. Requires company:manage_checkout permission. */
+  subscription_failure_behavior?:
+    | UpdateAccountPreferencesRequestSubscriptionFailureBehavior
+    | (string & {});
 }
 export const UpdateAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.String.pipe(T.Label()),
+    ads_certifications: S.optional(UpdateAccountPreferencesRequestAdsCertificationsMap),
     ads_payment_methods: S.optional(UpdateAccountPreferencesRequestAdsPaymentMethods),
     ads_reporting_currency: S.optional(S.String),
     ads_scheduling_timezone: S.optional(S.String),
@@ -6703,7 +4787,14 @@ export const UpdateAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
       UpdateAccountPreferencesRequestAdsTripleWhaleIntegration,
     ),
     cards_auto_top_up: S.optional(S.Boolean),
+    cards_notifications: S.optional(S.Boolean),
     dispute_fighter_enabled: S.optional(S.Boolean),
+    economic_intelligence_duration_key: S.optional(
+      UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey,
+    ),
+    subscription_failure_behavior: S.optional(
+      UpdateAccountPreferencesRequestSubscriptionFailureBehavior,
+    ),
   }).pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/preferences", code: 200 })),
 ).annotate({
   identifier: "UpdateAccountPreferencesRequest",
@@ -6737,6 +4828,85 @@ export const UpdateAccountPreferencesResponseAdsAgreement = /*@__PURE__*/ S.susp
 ).annotate({
   identifier: "UpdateAccountPreferencesResponseAdsAgreement",
 }) as any as S.Schema<UpdateAccountPreferencesResponseAdsAgreement>;
+
+/** Countries every approved application of this type covers, as ISO 3166-1 alpha-2 codes. Ads targeting only these countries are exempt from the category's restrictions. */
+export type UpdateAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList =
+  Array<string>;
+export const UpdateAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList>;
+
+/** The kind of business on the latest application. `null` until the account applies. */
+export type UpdateAccountPreferencesResponseAdsCertificationsItemBusinessType =
+  | "online_pharmacy"
+  | "pharmaceutical_manufacturer"
+  | "telehealth_provider";
+export const UpdateAccountPreferencesResponseAdsCertificationsItemBusinessType = S.String;
+
+/** The certification this entry describes. */
+export type UpdateAccountPreferencesResponseAdsCertificationsItemCertificationType =
+  "prescription_drug_ads";
+export const UpdateAccountPreferencesResponseAdsCertificationsItemCertificationType = S.String;
+
+/** Countries the latest application covers, as ISO 3166-1 alpha-2 codes. */
+export type UpdateAccountPreferencesResponseAdsCertificationsItemCountriesList = Array<string>;
+export const UpdateAccountPreferencesResponseAdsCertificationsItemCountriesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateAccountPreferencesResponseAdsCertificationsItemCountriesList>;
+
+/** `not_started` until the account applies; `pending_information` while an application waits for answers; `in_review` once submitted; then `approved` or `denied`. */
+export type UpdateAccountPreferencesResponseAdsCertificationsItemStatus =
+  | "not_started"
+  | "pending_information"
+  | "in_review"
+  | "approved"
+  | "denied";
+export const UpdateAccountPreferencesResponseAdsCertificationsItemStatus = S.String;
+
+export interface UpdateAccountPreferencesResponseAdsCertificationsItem {
+  /** Countries every approved application of this type covers, as ISO 3166-1 alpha-2 codes. Ads targeting only these countries are exempt from the category's restrictions. */
+  approved_countries: UpdateAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList;
+  /** The business name on the latest application. */
+  business_name: string | null;
+  /** The kind of business on the latest application. `null` until the account applies. */
+  business_type: UpdateAccountPreferencesResponseAdsCertificationsItemBusinessType | null;
+  /** The certification this entry describes. */
+  certification_type: UpdateAccountPreferencesResponseAdsCertificationsItemCertificationType;
+  /** Countries the latest application covers, as ISO 3166-1 alpha-2 codes. */
+  countries: UpdateAccountPreferencesResponseAdsCertificationsItemCountriesList;
+  /** Why the latest application was denied. `null` unless `status` is `denied`. */
+  denial_reason: string | null;
+  /** The latest application's request ID, prefixed `inrq_`. `null` until the account applies. */
+  request_id: string | null;
+  /** `not_started` until the account applies; `pending_information` while an application waits for answers; `in_review` once submitted; then `approved` or `denied`. */
+  status: UpdateAccountPreferencesResponseAdsCertificationsItemStatus;
+  /** The website on the latest application. */
+  url: string | null;
+}
+export const UpdateAccountPreferencesResponseAdsCertificationsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approved_countries: UpdateAccountPreferencesResponseAdsCertificationsItemApprovedCountriesList,
+    business_name: S.NullOr(S.String),
+    business_type: S.NullOr(UpdateAccountPreferencesResponseAdsCertificationsItemBusinessType),
+    certification_type: UpdateAccountPreferencesResponseAdsCertificationsItemCertificationType,
+    countries: UpdateAccountPreferencesResponseAdsCertificationsItemCountriesList,
+    denial_reason: S.NullOr(S.String),
+    request_id: S.NullOr(S.String),
+    status: UpdateAccountPreferencesResponseAdsCertificationsItemStatus,
+    url: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "UpdateAccountPreferencesResponseAdsCertificationsItem",
+}) as any as S.Schema<UpdateAccountPreferencesResponseAdsCertificationsItem>;
+
+/** The account's advertising certifications, one entry per certification type Whop offers. Start an application by setting a type's `status` to `pending_information` via `PATCH`, then answer the fields it requests via `GET`/`PATCH /verifications/{id}`. */
+export type UpdateAccountPreferencesResponseAdsCertificationsList =
+  Array<UpdateAccountPreferencesResponseAdsCertificationsItem>;
+export const UpdateAccountPreferencesResponseAdsCertificationsList = /*@__PURE__*/ S.Array(
+  UpdateAccountPreferencesResponseAdsCertificationsItem,
+) as any as S.Schema<UpdateAccountPreferencesResponseAdsCertificationsList>;
 
 /** The funding source kind: a Whop balance or a saved card. */
 export type UpdateAccountPreferencesResponseAdsPaymentMethodsBackupType =
@@ -6831,20 +5001,20 @@ export const UpdateAccountPreferencesResponseAdsPaymentMethods = /*@__PURE__*/ S
   identifier: "UpdateAccountPreferencesResponseAdsPaymentMethods",
 }) as any as S.Schema<UpdateAccountPreferencesResponseAdsPaymentMethods>;
 
-/** Where the integration stands. `requires_shopify_store` means no Shopify store is connected — Triple Whale keys records by Shopify shop, so no spend is reported until one is. */
+/** Where the integration stands. `requires_shop_domain` means no shop domain is configured — set `shop_domain` explicitly, or connect a Shopify store, before spend can be reported. */
 export type UpdateAccountPreferencesResponseAdsTripleWhaleIntegrationStatus =
   | "connected"
   | "not_connected"
-  | "requires_shopify_store";
+  | "requires_shop_domain";
 export const UpdateAccountPreferencesResponseAdsTripleWhaleIntegrationStatus = S.String;
 
-/** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. */
+/** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. Available to any Triple Whale customer — Shopify, WooCommerce, a custom checkout, or no connected store — by setting `shop_domain` explicitly; Shopify merchants may instead rely on a connected store's domain. Requires the `ad_campaign:create` scope. Once connected, ad click-through URLs Whop serves carry `tw_source=whop` and `tw_adid=<ad id>` query parameters so Triple Whale's pixel attributes conversions back to the originating ad — no destination URL changes are needed. */
 export interface UpdateAccountPreferencesResponseAdsTripleWhaleIntegration {
   /** The leading characters of the stored Data-In API key, followed by asterisks. The full key is never returned. `null` when no key is stored. */
   masked_api_key: string | null;
-  /** The connected Shopify store domain spend is reported for, such as `acme.myshopify.com`. `null` when no store is connected. */
+  /** The shop domain spend is reported for, such as `acme.myshopify.com` or a custom domain for a non-Shopify store. This is the explicit `shop_domain` if one was set, otherwise a connected Shopify store's domain. `null` when neither is present. */
   shop_domain: string | null;
-  /** Where the integration stands. `requires_shopify_store` means no Shopify store is connected — Triple Whale keys records by Shopify shop, so no spend is reported until one is. */
+  /** Where the integration stands. `requires_shop_domain` means no shop domain is configured — set `shop_domain` explicitly, or connect a Shopify store, before spend can be reported. */
   status: UpdateAccountPreferencesResponseAdsTripleWhaleIntegrationStatus;
 }
 export const UpdateAccountPreferencesResponseAdsTripleWhaleIntegration = /*@__PURE__*/ S.suspend(
@@ -6858,31 +5028,103 @@ export const UpdateAccountPreferencesResponseAdsTripleWhaleIntegration = /*@__PU
   identifier: "UpdateAccountPreferencesResponseAdsTripleWhaleIntegration",
 }) as any as S.Schema<UpdateAccountPreferencesResponseAdsTripleWhaleIntegration>;
 
+/** The unit of time the duration is in (hours or days) */
+export type UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit =
+  | "hours"
+  | "days";
+export const UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit = S.String;
+
+/** The unique identifier for this duration. Pass this value as `economic_intelligence_duration_key` to turn it on. */
+export type UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemKey =
+  | "7_days"
+  | "1_day"
+  | "1_hour";
+export const UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemKey = S.String;
+
+export interface UpdateAccountPreferencesResponseEconomicIntelligenceOffersItem {
+  /** What period of time Economic Intelligence stays on. */
+  duration: number;
+  /** The unit of time the duration is in (hours or days) */
+  duration_unit: UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit;
+  /** Percentage of volume charged while Economic Intelligence is on, such as `1.5` for 1.5%. */
+  fee_percentage: number;
+  /** The unique identifier for this duration. Pass this value as `economic_intelligence_duration_key` to turn it on. */
+  key: UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemKey;
+  /** Whether Whop recommends this duration. Exactly one offer is recommended. */
+  recommended: boolean;
+}
+export const UpdateAccountPreferencesResponseEconomicIntelligenceOffersItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      duration: S.Number,
+      duration_unit: UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemDurationUnit,
+      fee_percentage: S.Number,
+      key: UpdateAccountPreferencesResponseEconomicIntelligenceOffersItemKey,
+      recommended: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "UpdateAccountPreferencesResponseEconomicIntelligenceOffersItem",
+  }) as any as S.Schema<UpdateAccountPreferencesResponseEconomicIntelligenceOffersItem>;
+
+/** Durations the account can choose from to turn on Economic Intelligence, each with its fee. `null` while Economic Intelligence is on or the account is still on the Economic Intelligence waitlist. */
+export type UpdateAccountPreferencesResponseEconomicIntelligenceOffersList =
+  Array<UpdateAccountPreferencesResponseEconomicIntelligenceOffersItem>;
+export const UpdateAccountPreferencesResponseEconomicIntelligenceOffersList = /*@__PURE__*/ S.Array(
+  UpdateAccountPreferencesResponseEconomicIntelligenceOffersItem,
+) as any as S.Schema<UpdateAccountPreferencesResponseEconomicIntelligenceOffersList>;
+
+/** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. */
+export type UpdateAccountPreferencesResponseSubscriptionFailureBehavior = "cancel" | "none";
+export const UpdateAccountPreferencesResponseSubscriptionFailureBehavior = S.String;
+
 export interface UpdateAccountPreferencesResponse {
   /** The account's Whop Ads services and payment authorization agreement. While `pending_signature`, campaign launch is blocked; sign by answering `requested_information` via `PATCH /verifications/{id}`. */
   ads_agreement: UpdateAccountPreferencesResponseAdsAgreement;
+  /** The account's advertising certifications, one entry per certification type Whop offers. Start an application by setting a type's `status` to `pending_information` via `PATCH`, then answer the fields it requests via `GET`/`PATCH /verifications/{id}`. */
+  ads_certifications: UpdateAccountPreferencesResponseAdsCertificationsList;
   /** How the account pays for Whop Ads spend. `primary` is charged first; `backup` covers the charge when the primary fails. `null` until ads billing has been configured. */
   ads_payment_methods: UpdateAccountPreferencesResponseAdsPaymentMethods | null;
   /** Lowercase ISO currency code, such as `usd` or `eur`, used to display ad spend and stats. Defaults to `usd`. */
   ads_reporting_currency: string;
   /** IANA timezone (e.g. `America/New_York`) used to interpret campaign start/end times and to bucket reports. Defaults to `America/New_York` until explicitly overridden. */
   ads_scheduling_timezone: string;
-  /** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. */
+  /** The account's Triple Whale integration, which pushes Whop ad spend to Triple Whale's Data-In API so it reports as a `whop` channel. Available to any Triple Whale customer — Shopify, WooCommerce, a custom checkout, or no connected store — by setting `shop_domain` explicitly; Shopify merchants may instead rely on a connected store's domain. Requires the `ad_campaign:create` scope. Once connected, ad click-through URLs Whop serves carry `tw_source=whop` and `tw_adid=<ad id>` query parameters so Triple Whale's pixel attributes conversions back to the originating ad — no destination URL changes are needed. */
   ads_triple_whale_integration: UpdateAccountPreferencesResponseAdsTripleWhaleIntegration;
   /** Whether incoming funds are automatically moved to the account's cards balance. `false` when the account has no cards balance. */
   cards_auto_top_up: boolean;
+  /** Whether Whop Card notifications reach this account's team. `true` by default, including when the account has no cards balance. Set it to `false` to stop every card email and push notification for the account — application status, verification and action-required alerts, card-ready alerts, declines, large charges, and cashback summaries. Cardholder onboarding invitations still send, because they carry the only link an invited cardholder can onboard with. Requesting a card is rejected while notifications are off, since the request reaches nobody. Cards on personal accounts are unaffected. */
+  cards_notifications: boolean;
   /** Whether Whop assembles and files the evidence response when this account's payments are disputed. Off by default; enabling it also opts the account into the success fee charged only on disputes it wins. */
   dispute_fighter_enabled: boolean;
+  /** Whether Economic Intelligence is on for the account. It turns off automatically at `economic_intelligence_ends_at`. */
+  economic_intelligence: boolean;
+  /** When the account's committed Economic Intelligence period ends, as an ISO 8601 timestamp. Economic Intelligence can't be turned off before then. `null` when Economic Intelligence is off or has no end date. */
+  economic_intelligence_ends_at: string | null;
+  /** Percentage of volume charged while Economic Intelligence is on, such as `1.5` for 1.5%. `null` when Economic Intelligence is off. */
+  economic_intelligence_fee_percentage: number | null;
+  /** Durations the account can choose from to turn on Economic Intelligence, each with its fee. `null` while Economic Intelligence is on or the account is still on the Economic Intelligence waitlist. */
+  economic_intelligence_offers: UpdateAccountPreferencesResponseEconomicIntelligenceOffersList | null;
+  /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. */
+  subscription_failure_behavior: UpdateAccountPreferencesResponseSubscriptionFailureBehavior;
 }
 export const UpdateAccountPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ads_agreement: UpdateAccountPreferencesResponseAdsAgreement,
+    ads_certifications: UpdateAccountPreferencesResponseAdsCertificationsList,
     ads_payment_methods: S.NullOr(UpdateAccountPreferencesResponseAdsPaymentMethods),
     ads_reporting_currency: S.String,
     ads_scheduling_timezone: S.String,
     ads_triple_whale_integration: UpdateAccountPreferencesResponseAdsTripleWhaleIntegration,
     cards_auto_top_up: S.Boolean,
+    cards_notifications: S.Boolean,
     dispute_fighter_enabled: S.Boolean,
+    economic_intelligence: S.Boolean,
+    economic_intelligence_ends_at: S.NullOr(S.String),
+    economic_intelligence_fee_percentage: S.NullOr(S.Number),
+    economic_intelligence_offers: S.NullOr(
+      UpdateAccountPreferencesResponseEconomicIntelligenceOffersList,
+    ),
+    subscription_failure_behavior: UpdateAccountPreferencesResponseSubscriptionFailureBehavior,
   }),
 ).annotate({
   identifier: "UpdateAccountPreferencesResponse",
@@ -6899,6 +5141,21 @@ export const createAccount: API.OperationMethod<
   input: CreateAccountRequest,
   output: Account,
   errors: [BadRequest, Forbidden, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteAccountError = BadRequest | Forbidden | NotFound | WhopOpError;
+/** Delete a Connected Account Deletes a connected account directly owned by the authenticated platform account. The account must have no settled, pending, or reserved balance in any currency and no active, trialing, or past-due memberships. The account stops resolving immediately, and its products, plans, and team access are removed in the background; payment history is retained. Deletion cannot be undone through the API. This cannot delete the platform account itself or an account owned by another platform. */
+export const deleteAccount: API.OperationMethod<
+  DeleteAccountRequest,
+  DeleteAccountResponse,
+  DeleteAccountError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAccountRequest,
+  output: DeleteAccountResponse,
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));
@@ -6929,6 +5186,21 @@ export const getAccount: API.OperationMethod<
   input: GetAccountRequest,
   output: Account,
   errors: [Forbidden, NotFound],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAccountFeesError = NotFound | WhopOpError;
+/** Retrieve Account Fees Retrieves the account's fees: a singleton document keyed by fee, with any markups its platform adds. `adjustable` on each fee says what the caller may change. */
+export const getAccountFees: API.OperationMethod<
+  GetAccountFeesRequest,
+  AccountFees,
+  GetAccountFeesError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAccountFeesRequest,
+  output: AccountFees,
+  errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));
@@ -6964,7 +5236,7 @@ export const listAccountReserves: API.OperationMethod<
 }));
 
 export type ListAccountsError = BadRequest | Forbidden | WhopOpError;
-/** List Accounts Lists accounts visible to the credential. User tokens return the user's business accounts; Account API keys return the requesting account and its connected accounts. Pass `parent_account_id` to return only that parent account's connected accounts. */
+/** List Accounts Lists accounts visible to the credential. User tokens return the user's business accounts; Account API keys return the requesting account and its connected accounts. Pass `parent_account_id` to return only that parent account's connected accounts. Includes each account's `cards` application summary when the caller has `company:balance:read` access to that account. */
 export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   ListAccountsResponse,
@@ -6989,6 +5261,41 @@ export const listAccounts: API.PaginatedOperationMethod<
   }),
   paginateRelay,
 ) as any;
+
+export type RetryAccountAdsPaymentError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | WhopOpError;
+/** Retry Failed Ads Payments Queues one background retry of the account's failed ads payments across its campaigns, using the account's configured ads payment methods. A queued response does not mean payment succeeded. Read campaign delivery_status and issues for the outcome. Successful settlement clears the payment block without changing configured active or paused status; legacy payment_failed status becomes paused. Another request while the account retry is queued or running returns an error asking you to wait. */
+export const retryAccountAdsPayment: API.OperationMethod<
+  RetryAccountAdsPaymentRequest,
+  RetryAccountAdsPaymentResponse,
+  RetryAccountAdsPaymentError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RetryAccountAdsPaymentRequest,
+  output: RetryAccountAdsPaymentResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SuspendAccountError = Forbidden | NotFound | Conflict | WhopOpError;
+/** Suspend a Connected Account Suspends a connected account directly owned by the authenticated platform account. This cannot suspend the platform account itself or an account owned by another platform. */
+export const suspendAccount: API.OperationMethod<
+  SuspendAccountRequest,
+  Account,
+  SuspendAccountError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SuspendAccountRequest,
+  output: Account,
+  errors: [Forbidden, NotFound, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
 
 export type TransferAccountOwnershipError = Forbidden | Conflict | WhopOpError;
 /** Transfer Account Ownership Transfers ownership of the account to another user, identified by user ID or email address. If the recipient already holds the owner role, ownership moves immediately; otherwise they get an invite and ownership moves when they accept. */
@@ -7020,8 +5327,28 @@ export const updateAccount: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateAccountPreferencesError = BadRequest | Forbidden | NotFound | WhopOpError;
-/** Update Account Preferences Updates the account's preferences. Each top-level key present in the body is replaced as a whole; omitted keys are left untouched. `ads_triple_whale_integration` takes the Data-In API key to connect with, or `null` to disconnect. `ads_payment_methods` always requires a `primary` entry. `backup` is optional and any pairing is allowed — two cards, `card`+`platform_balance`, or a single method — so a card-only advertiser can fund ads without a platform balance. The `primary` and `backup` must be different sources. A `platform_balance` entry may omit `id` to use the account's default Whop balance. Configuring a `card` requires a user token; account API keys can set up platform-balance billing only. */
+export type UpdateAccountFeesError = BadRequest | Forbidden | WhopOpError;
+/** Update Account Fees Updates the account's fees. Each key present in the body is replaced; omitted keys are left untouched. Only fees the document reports as `adjustable` can be changed. */
+export const updateAccountFees: API.OperationMethod<
+  UpdateAccountFeesRequest,
+  AccountFees,
+  UpdateAccountFeesError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAccountFeesRequest,
+  output: AccountFees,
+  errors: [BadRequest, Forbidden],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAccountPreferencesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | WhopOpError;
+/** Update Account Preferences Updates the account's preferences. Each top-level key present in the body is replaced as a whole; omitted keys are left untouched. Required scopes depend on the preferences being updated: When updating preferences from multiple rows, all corresponding scopes are required for the account. */
 export const updateAccountPreferences: API.OperationMethod<
   UpdateAccountPreferencesRequest,
   UpdateAccountPreferencesResponse,
@@ -7030,7 +5357,7 @@ export const updateAccountPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountPreferencesRequest,
   output: UpdateAccountPreferencesResponse,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));

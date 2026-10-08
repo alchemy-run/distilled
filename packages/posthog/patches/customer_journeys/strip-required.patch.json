@@ -1,0 +1,53 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#PaginatedCustomerJourneyList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#PaginatedCustomerJourneyList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourney/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourney/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourney/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourney/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourney/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourney/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourneysCreateRequest/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourneysCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourneysUpdateRequest/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.customer_journeys#CustomerJourneysUpdateRequest/members/name/traits"
+    }
+  ]
+}

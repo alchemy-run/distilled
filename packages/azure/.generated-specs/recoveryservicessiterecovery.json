@@ -2391,9 +2391,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#RecoveryPlanPropertiesProviderSpecificDetailsList",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The provider id and provider specific details."
+            "smithy.api#documentation": "The provider id and provider specific details. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: \"A2A\", ... }]`)."
           }
         }
       },
@@ -2501,9 +2501,9 @@
           }
         },
         "customDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#RecoveryPlanActionDetails",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The custom details.",
+            "smithy.api#documentation": "The custom details. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`).",
             "smithy.api#required": {}
           }
         }
@@ -3942,9 +3942,9 @@
           }
         },
         "providerSpecificInput": {
-          "target": "com.azure.recoveryservicessiterecovery#CreateRecoveryPlanInputPropertiesProviderSpecificInputList",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The provider specific input."
+            "smithy.api#documentation": "The provider specific input. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: \"A2A\", ... }]`)."
           }
         }
       },
@@ -4811,9 +4811,9 @@
           }
         },
         "fabricSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#ProtectionContainerFabricSpecificDetails",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric specific details."
+            "smithy.api#documentation": "Fabric specific details. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -4976,9 +4976,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#ProtectionContainerMappingProviderSpecificDetails",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Provider specific provider details."
+            "smithy.api#documentation": "Provider specific provider details. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         },
         "health": {
@@ -5343,9 +5343,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#ReplicationClusterProviderSpecificSettings",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The Replication cluster provider custom settings."
+            "smithy.api#documentation": "The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         },
         "sharedDiskProperties": {
@@ -5851,9 +5851,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#ReplicationProviderSpecificSettings",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The Replication provider custom settings."
+            "smithy.api#documentation": "The Replication provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         },
         "recoveryContainerId": {
@@ -6084,9 +6084,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#PolicyProviderSpecificDetails",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The ReplicationChannelSetting."
+            "smithy.api#documentation": "The ReplicationChannelSetting. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -6159,9 +6159,9 @@
       "type": "structure",
       "members": {
         "replicationProviderSettings": {
-          "target": "com.azure.recoveryservicessiterecovery#PolicyProviderSpecificInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The ReplicationProviderSettings."
+            "smithy.api#documentation": "The ReplicationProviderSettings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -6297,9 +6297,9 @@
       "type": "structure",
       "members": {
         "providerSpecificInput": {
-          "target": "com.azure.recoveryservicessiterecovery#PolicyProviderSpecificInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The ReplicationProviderSettings."
+            "smithy.api#documentation": "The ReplicationProviderSettings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -6881,9 +6881,9 @@
           }
         },
         "fabricSpecificSettings": {
-          "target": "com.azure.recoveryservicessiterecovery#NetworkMappingFabricSpecificSettings",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The fabric specific settings."
+            "smithy.api#documentation": "The fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -10825,9 +10825,9 @@
       "type": "structure",
       "members": {
         "providerSpecificInput": {
-          "target": "com.azure.recoveryservicessiterecovery#ReplicationProviderContainerUnmappingInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Provider specific input for unpairing."
+            "smithy.api#documentation": "Provider specific input for unpairing. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -11053,9 +11053,9 @@
       "type": "structure",
       "members": {
         "providerSpecificInput": {
-          "target": "com.azure.recoveryservicessiterecovery#ReplicationProviderSpecificUpdateContainerMappingInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Provider specific input for updating protection container mapping."
+            "smithy.api#documentation": "Provider specific input for updating protection container mapping. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -11219,9 +11219,9 @@
           }
         },
         "providerSpecificInput": {
-          "target": "com.azure.recoveryservicessiterecovery#ReplicationProviderSpecificContainerMappingInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Provider specific input for pairing."
+            "smithy.api#documentation": "Provider specific input for pairing. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -13071,9 +13071,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#ReplicationClusterProviderSpecificSettings",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The Replication cluster provider custom settings."
+            "smithy.api#documentation": "The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         },
         "sharedDiskProperties": {
@@ -15030,9 +15030,9 @@
           }
         },
         "replicationProviderInput": {
-          "target": "com.azure.recoveryservicessiterecovery#DisableProtectionProviderSpecificInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Replication provider specific input."
+            "smithy.api#documentation": "Replication provider specific input. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -16664,9 +16664,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#UpdateReplicationProtectedItemProviderInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The provider specific input to update replication protected item."
+            "smithy.api#documentation": "The provider specific input to update replication protected item. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -17019,9 +17019,9 @@
           }
         },
         "providerSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#EnableProtectionProviderSpecificInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null."
+            "smithy.api#documentation": "The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -19759,9 +19759,9 @@
       "type": "structure",
       "members": {
         "providerSpecificInput": {
-          "target": "com.azure.recoveryservicessiterecovery#CreateProtectionContainerInputPropertiesProviderSpecificInputList",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Provider specific inputs for container creation."
+            "smithy.api#documentation": "Provider specific inputs for container creation. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: \"A2A\", ... }]`)."
           }
         }
       },
@@ -20179,9 +20179,9 @@
           }
         },
         "fabricSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#FabricSpecificUpdateNetworkMappingInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabrics specific input network Id."
+            "smithy.api#documentation": "Fabrics specific input network Id. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -20347,9 +20347,9 @@
           }
         },
         "fabricSpecificDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#FabricSpecificCreateNetworkMappingInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric specific input properties."
+            "smithy.api#documentation": "Fabric specific input properties. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },
@@ -21101,9 +21101,9 @@
           }
         },
         "customDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#FabricSpecificDetails",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric specific settings."
+            "smithy.api#documentation": "Fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         },
         "healthErrorDetails": {
@@ -21841,9 +21841,9 @@
       "type": "structure",
       "members": {
         "customDetails": {
-          "target": "com.azure.recoveryservicessiterecovery#FabricSpecificCreationInput",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric provider specific creation input."
+            "smithy.api#documentation": "Fabric provider specific creation input. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
           }
         }
       },

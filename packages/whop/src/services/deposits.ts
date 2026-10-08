@@ -26,76 +26,21 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
-/** Destination wallet network. */
-export type CreateDepositRequestDestinationCase1Network =
-  | "ethereum"
-  | "polygon"
-  | "base"
-  | "solana";
-export const CreateDepositRequestDestinationCase1Network = S.String;
-
-export interface CreateDepositRequestDestinationCase1 {
-  /** Destination account ID. */
-  account_id?: string;
-  /** Destination wallet address. */
-  address?: string;
-  /** Destination wallet network. */
-  network?: CreateDepositRequestDestinationCase1Network | (string & {});
-}
-export const CreateDepositRequestDestinationCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    account_id: S.optional(S.String),
-    address: S.optional(S.String),
-    network: S.optional(CreateDepositRequestDestinationCase1Network),
-  }),
-).annotate({
-  identifier: "CreateDepositRequestDestinationCase1",
-}) as any as S.Schema<CreateDepositRequestDestinationCase1>;
-
-/** Destination account ID or wallet address. Object form is supported for compatibility. Any business resolves by its account ID without authentication; a user account resolves only for that same authenticated user. */
-export type CreateDepositRequestDestination = string | CreateDepositRequestDestinationCase1;
-export const CreateDepositRequestDestination =
-  S.Unknown as any as S.Schema<CreateDepositRequestDestination>;
-
-/** Metadata to include with the deposit response. */
-export type CreateDepositRequestMetadataMap = { [key: string]: unknown | undefined };
-export const CreateDepositRequestMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<CreateDepositRequestMetadataMap>;
-
-/** Destination network override. Defaults to the destination wallet's own network. */
-export type CreateDepositRequestNetwork = "ethereum" | "polygon" | "base" | "solana";
-export const CreateDepositRequestNetwork = S.String;
-
 export interface CreateDepositRequest {
-  /** Amount to prefill on hosted deposit page. */
+  /** Amount to prefill on hosted deposit page. Crypto deposits require a $10 minimum. */
   amount?: number;
-  /** Destination account ID or wallet address. Object form is supported for compatibility. Any business resolves by its account ID without authentication; a user account resolves only for that same authenticated user. */
-  destination: CreateDepositRequestDestination;
-  /** Metadata to include with the deposit response. */
-  metadata?: CreateDepositRequestMetadataMap;
-  /** Destination network override. Defaults to the destination wallet's own network. */
-  network?: CreateDepositRequestNetwork | (string & {}) | null;
+  /** Account ID to fund, `biz_` or `user_`. Any business resolves without authentication; a user account resolves only for that same authenticated user. */
+  destination: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
 }
 export const CreateDepositRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     amount: S.optional(S.Number),
-    destination: CreateDepositRequestDestination,
-    metadata: S.optional(CreateDepositRequestMetadataMap),
-    network: S.optional(S.NullOr(CreateDepositRequestNetwork)),
+    destination: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/deposits", code: 200 })),
 ).annotate({ identifier: "CreateDepositRequest" }) as any as S.Schema<CreateDepositRequest>;
-
-/** Metadata from the request. */
-export type CreateDepositResponseMetadataMap = { [key: string]: unknown | undefined };
-export const CreateDepositResponseMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<CreateDepositResponseMetadataMap>;
 
 export type CreateDepositResponseMethodsBankCurrenciesItemRailsItem =
   | "ach"
@@ -172,6 +117,7 @@ export const CreateDepositResponseMethodsBank = /*@__PURE__*/ S.suspend(() =>
 export type CreateDepositResponseMethodsCryptoItemName =
   | "Ethereum"
   | "Solana"
+  | "Bitcoin"
   | "Base"
   | "BNB Smart Chain"
   | "Hyperliquid"
@@ -186,6 +132,7 @@ export const CreateDepositResponseMethodsCryptoItemName = S.String;
 export type CreateDepositResponseMethodsCryptoItemSupportedCurrenciesItemName =
   | "ARB"
   | "BNB"
+  | "BTC"
   | "ETH"
   | "EURC"
   | "HYPE"
@@ -249,7 +196,7 @@ export const CreateDepositResponseMethodsCryptoItem = /*@__PURE__*/ S.suspend(()
   identifier: "CreateDepositResponseMethodsCryptoItem",
 }) as any as S.Schema<CreateDepositResponseMethodsCryptoItem>;
 
-/** Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network. */
+/** Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network. Crypto deposits require a $10 minimum. */
 export type CreateDepositResponseMethodsCryptoList = Array<CreateDepositResponseMethodsCryptoItem>;
 export const CreateDepositResponseMethodsCryptoList = /*@__PURE__*/ S.Array(
   CreateDepositResponseMethodsCryptoItem,
@@ -259,7 +206,7 @@ export const CreateDepositResponseMethodsCryptoList = /*@__PURE__*/ S.Array(
 export interface CreateDepositResponseMethods {
   /** Bank deposit details. Only present when bank deposits are active for the destination account. */
   bank: CreateDepositResponseMethodsBank | null;
-  /** Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network. */
+  /** Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network. Crypto deposits require a $10 minimum. */
   crypto: CreateDepositResponseMethodsCryptoList;
 }
 export const CreateDepositResponseMethods = /*@__PURE__*/ S.suspend(() =>
@@ -275,14 +222,12 @@ export type CreateDepositResponseObject = "deposit";
 export const CreateDepositResponseObject = S.String;
 
 export interface CreateDepositResponse {
-  /** Account ID of the destination owner. Null for raw wallet address destinations. */
+  /** Account ID of the destination owner. */
   account_id: string | null;
   /** Requested deposit amount. */
   amount?: string;
   /** URL of the hosted deposit page. Only present for business destinations. */
   hosted_url: string | null;
-  /** Metadata from the request. */
-  metadata: CreateDepositResponseMetadataMap;
   /** Available deposit methods for destination. */
   methods: CreateDepositResponseMethods;
   object: CreateDepositResponseObject;
@@ -292,14 +237,13 @@ export const CreateDepositResponse = /*@__PURE__*/ S.suspend(() =>
     account_id: S.NullOr(S.String),
     amount: S.optional(S.String),
     hosted_url: S.NullOr(S.String),
-    metadata: CreateDepositResponseMetadataMap,
     methods: CreateDepositResponseMethods,
     object: CreateDepositResponseObject,
   }),
 ).annotate({ identifier: "CreateDepositResponse" }) as any as S.Schema<CreateDepositResponse>;
 
 export type CreateDepositError = BadRequest | Conflict | WhopOpError;
-/** Create Deposit Retrieve the deposit methods for an account, including crypto and bank transfer. */
+/** Create Deposit Retrieve the deposit methods for an account, including crypto and bank transfer. Bitcoin deposits are converted by Relay directly to USDT on Plasma in the destination account's wallet. Crypto deposits require a $10 minimum. */
 export const createDeposit: API.OperationMethod<
   CreateDepositRequest,
   CreateDepositResponse,

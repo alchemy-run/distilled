@@ -1,0 +1,140 @@
+{
+  "description": "From signals-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"signals\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsProcessingList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#BadRequest"
+        },
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsProcessingPauseUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#BadRequest"
+        },
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsProcessingPauseDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsSourceConfigsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#BadRequest"
+        },
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsSourceConfigsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#BadRequest"
+        },
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsSourceConfigsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsSourceConfigsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#BadRequest"
+        },
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsSourceConfigsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#BadRequest"
+        },
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.signals#SignalsSourceConfigsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.signals#Forbidden"
+        },
+        {
+          "target": "com.posthog.signals#NotFound"
+        }
+      ]
+    }
+  ]
+}

@@ -169,28 +169,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of card transactions to return."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns card transactions after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of card transactions to return, counting back from the end."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns card transactions before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -981,7 +981,7 @@
         "assigned_user_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts."
+            "smithy.api#documentation": "The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts, and whenever a company API key files an account's first card application."
           }
         },
         "name": {
@@ -1402,7 +1402,7 @@
           "uri": "/cards",
           "code": 200
         },
-        "smithy.api#documentation": "Create Card\n\nIssue a virtual card, or apply for card issuing."
+        "smithy.api#documentation": "Create Card\n\nIssue a virtual card, or apply for card issuing. An account with no application files one here and gets back a `202`; call again to issue the card once it is approved."
       }
     },
     "com.whop.cards#GetCardRequest": {
@@ -1845,13 +1845,44 @@
         "region": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Billing region or state.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Billing region or state. Required when updating an issued card's billing address."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "New billing address. Requires line1, city, region, postal_code, and country_code. On an invited card, passing billing alone (as the invited user) completes onboarding and starts card provisioning."
+        "smithy.api#documentation": "The billing address. On an issued card this replaces the card's billing address and region is also required. On an invited card, sending it as the invited user completes onboarding and starts card provisioning."
+      }
+    },
+    "com.whop.cards#UpdateCardRequestCardholder": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address for the invited cardholder."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal first name of the invited cardholder."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal last name of the invited cardholder."
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number for the invited cardholder."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not."
       }
     },
     "com.whop.cards#UpdateCardRequestSpendLimitFrequency": {
@@ -1906,13 +1937,19 @@
         "billing": {
           "target": "com.whop.cards#UpdateCardRequestBilling",
           "traits": {
-            "smithy.api#documentation": "New billing address. Requires line1, city, region, postal_code, and country_code. On an invited card, passing billing alone (as the invited user) completes onboarding and starts card provisioning."
+            "smithy.api#documentation": "The billing address. On an issued card this replaces the card's billing address and region is also required. On an invited card, sending it as the invited user completes onboarding and starts card provisioning."
           }
         },
         "canceled": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Pass `true` to permanently cancel the card. A canceled card cannot be uncanceled. Cannot be combined with other fields."
+          }
+        },
+        "cardholder": {
+          "target": "com.whop.cards#UpdateCardRequestCardholder",
+          "traits": {
+            "smithy.api#documentation": "Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not."
           }
         },
         "frozen": {

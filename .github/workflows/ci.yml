@@ -149,3 +149,6 @@ jobs:
 
       - name: Check formatting
         run: pnpm format:check
+
+      - name: Check package versions
+        run: pnpm validate:publish-packages

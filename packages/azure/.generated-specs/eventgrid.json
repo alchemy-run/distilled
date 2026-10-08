@@ -11671,6 +11671,12 @@
             "smithy.api#documentation": "Type of the custom mapping",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Mapping-type-specific properties (polymorphic on `inputSchemaMappingType`), e.g. JSON field mappings for `Json`."
+          }
         }
       },
       "traits": {
@@ -16770,6 +16776,12 @@
             "smithy.api#documentation": "Type of the endpoint for the dead letter destination",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Endpoint-type-specific dead-letter properties (polymorphic on `endpointType`), e.g. `{ resourceId, blobContainerName }` for StorageBlob."
+          }
         }
       },
       "traits": {
@@ -16953,6 +16965,18 @@
           "traits": {
             "smithy.api#documentation": "The field/property in the event based on which you want to filter."
           }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Single comparison value for NumberGreaterThan/NumberLessThan/BoolEquals-style operators (polymorphic on `operatorType`)."
+          }
+        },
+        "values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Comparison values for NumberIn/StringIn/StringContains/NumberInRange-style operators (polymorphic on `operatorType`)."
+          }
         }
       },
       "traits": {
@@ -17118,6 +17142,12 @@
           "traits": {
             "smithy.api#documentation": "Type of the endpoint for the event subscription destination.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Endpoint-type-specific destination properties (polymorphic on `endpointType`), e.g. `{ resourceId, queueName }` for StorageQueue."
           }
         }
       },
@@ -23676,6 +23706,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The field/property in the event based on which you want to filter."
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Single comparison value (polymorphic on `operatorType`)."
+          }
+        },
+        "values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Comparison values (polymorphic on `operatorType`)."
           }
         }
       },

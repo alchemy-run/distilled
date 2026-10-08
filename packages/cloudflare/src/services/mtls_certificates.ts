@@ -41,6 +41,15 @@ export class CertificateAlreadyExists
     [{ code: 1471, message: { includes: "already exists" } }],
   ) {}
 
+export class CertificateInUse
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CertificateInUse>()("CertificateInUse", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "cannot be deleted while in use" } }],
+  ) {}
+
 export class CertificateNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CertificateNotFound>()("CertificateNotFound", {
@@ -411,6 +420,7 @@ export const createMtlsCertificate: API.OperationMethod<
 export type DeleteMtlsCertificateError =
   | CertificateNotFound
   | CertificateAlreadyDeleted
+  | CertificateInUse
   | CloudflareOpError;
 /** Deletes the mTLS certificate unless the certificate is in use by one or more Cloudflare services. */
 export const deleteMtlsCertificate: API.OperationMethod<
@@ -421,7 +431,13 @@ export const deleteMtlsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMtlsCertificateRequest,
   output: DeleteMtlsCertificateResponse,
-  errors: [CertificateNotFound, CertificateAlreadyDeleted, CloudflareRateLimited, CloudflareError],
+  errors: [
+    CertificateNotFound,
+    CertificateAlreadyDeleted,
+    CertificateInUse,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

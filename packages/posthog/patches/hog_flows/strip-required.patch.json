@@ -1,0 +1,317 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#PaginatedHogFlowMinimalList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#PaginatedHogFlowMinimalList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/description/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/version/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/origin_product/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/trigger/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/trigger_masking/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/conversion/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/exit_condition/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/email_sending_rate_limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/edges/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/actions/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/draft/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/abort_action/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/variables/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/billable_action_types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/last_run/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/pending_suggestions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMinimal/members/suggestions_enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowMasking/members/hash/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowAction/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowAction/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowAction/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowAction/members/config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsCreateRequest/members/actions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/version/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/trigger/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/actions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/abort_action/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/billable_action_types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/schedules/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/draft/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/draft_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/action_redirects/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/email_sending_paused_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/email_sending_paused_reason/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/email_sending_paused_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/email_sending_pause_requires_support/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/email_sending_resumed_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlow/members/last_run/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/rrule/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/starts_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/next_run_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowSchedule/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowInput/members/actions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#AppMetricsResponse/members/labels/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#AppMetricsResponse/members/series/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#AppMetricSeries/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#AppMetricSeries/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#AppMetricsTotalsResponse/members/totals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsSchedulesCreateRequest/members/rrule/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsSchedulesCreateRequest/members/starts_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsBulkDeleteCreateRequest/members/actions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsUserBlastRadiusCreateRequest/members/filters/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#BlastRadius/members/affected/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#BlastRadius/members/total/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#BlastRadius/members/limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#BlastRadius/members/dedupe_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_flows#BlastRadius/members/confirm_token/traits/smithy.api#required"
+    }
+  ]
+}

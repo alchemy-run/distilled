@@ -1388,7 +1388,14 @@
     },
     "com.azure.networkfunction#ResourceReferenceInput": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID."
+          }
+        }
+      },
       "traits": {
         "smithy.api#documentation": "Resource reference properties."
       }

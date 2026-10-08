@@ -102,6 +102,15 @@ export class ClientVpnEndpointAssociationExists
     "ClientVpnEndpointAssociationExists",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
+export class ClientVpnEndpointCreationInProgress
+  extends /*@__PURE__*/ S.TaggedError<ClientVpnEndpointCreationInProgress>()(
+    "ClientVpnEndpointCreationInProgress",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "OperationNotPermitted",
+      message: { includes: "another endpoint is being created" },
+    }),
+  ) {}
 export class ClientVpnEndpointLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<ClientVpnEndpointLimitExceeded>()(
     "ClientVpnEndpointLimitExceeded",
@@ -61524,6 +61533,7 @@ export type CreateClientVpnEndpointError =
   | InvalidVpcIDNotFound
   | ClientVpnEndpointLimitExceeded
   | UnauthorizedOperation
+  | ClientVpnEndpointCreationInProgress
   | CommonErrors;
 /**
  * Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to
@@ -61545,6 +61555,7 @@ export const createClientVpnEndpoint: API.OperationMethod<
     InvalidVpcIDNotFound,
     ClientVpnEndpointLimitExceeded,
     UnauthorizedOperation,
+    ClientVpnEndpointCreationInProgress,
   ],
   protocol: AwsProtocol,
   retry: Retry,

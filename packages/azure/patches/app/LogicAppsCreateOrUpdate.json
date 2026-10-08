@@ -23,7 +23,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.app#GetLogicAppResponse/members/properties",
+      "path": "/shapes/com.azure.app#LogicAppsGetResponse/members/properties",
       "value": {
         "target": "smithy.api#Document",
         "traits": {

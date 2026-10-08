@@ -111,12 +111,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "view": {
           "target": "com.whop.support_channels#SupportChannelView",
           "traits": {
@@ -140,6 +134,12 @@
           "traits": {
             "smithy.api#httpQuery": "order"
           }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
+          }
         }
       },
       "traits": {
@@ -149,10 +149,18 @@
     "com.whop.support_channels#SupportChannelListItem": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "company_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the company associated with this channel. Null if this is not a support or company-scoped conversation.",
+            "smithy.api#documentation": "The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -342,7 +350,7 @@
     "com.whop.support_channels#CreateSupportChannelRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the company to create the support channel in.",
@@ -378,10 +386,18 @@
     "com.whop.support_channels#SupportChannel": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "company_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the company associated with this channel. Null if this is not a support or company-scoped conversation.",
+            "smithy.api#documentation": "The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }

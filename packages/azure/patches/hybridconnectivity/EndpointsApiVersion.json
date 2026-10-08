@@ -3,12 +3,12 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#GetEndpoint/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#GetEndpoint/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
@@ -23,112 +23,112 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#UpdateEndpoint/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#UpdateEndpoint/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#DeleteEndpoint/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#DeleteEndpoint/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsList2/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsList2/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpointCredentials/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsListCredentials/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpointCredentials/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsListCredentials/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpointIngressGatewayCredentials/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsListIngressGatewayCredentials/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpointIngressGatewayCredentials/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsListIngressGatewayCredentials/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpointManagedProxyDetails/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsListManagedProxyDetails/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListEndpointManagedProxyDetails/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#EndpointsListManagedProxyDetails/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#GetServiceConfiguration/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#GetServiceConfiguration/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#CreateServiceConfigurationOrupdate/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsCreateOrupdate/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#CreateServiceConfigurationOrupdate/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsCreateOrupdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#UpdateServiceConfiguration/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#UpdateServiceConfiguration/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#DeleteServiceConfiguration/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#DeleteServiceConfiguration/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListServiceConfigurationByEndpointResource/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsListByEndpointResource/traits/smithy.api#http/apiVersion",
       "value": "2024-12-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridconnectivity#ListServiceConfigurationByEndpointResource/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridconnectivity#ServiceConfigurationsListByEndpointResource/traits/com.distilled.openapi#apiVersion",
       "value": "2024-12-01"
     }
   ]

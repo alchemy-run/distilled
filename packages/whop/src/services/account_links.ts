@@ -50,7 +50,7 @@ export const AccountLinkUseCases = S.String;
 
 export interface CreateAccountLinkRequest {
   /** The unique identifier of the company to generate the link for, starting with 'biz_'. Must be a sub-merchant of the API key's company. */
-  company_id: string;
+  account_id: string;
   /** The URL to redirect the user to if the session expires and needs to be re-authenticated, such as 'https://example.com/refresh'. */
   refresh_url: string;
   /** The URL to redirect the user to when they want to return to your site, such as 'https://example.com/return'. */
@@ -60,7 +60,7 @@ export interface CreateAccountLinkRequest {
 }
 export const CreateAccountLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.String,
+    account_id: S.String,
     refresh_url: S.String,
     return_url: S.String,
     use_case: AccountLinkUseCases,

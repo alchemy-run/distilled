@@ -1,0 +1,225 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#PaginatedTicketList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#PaginatedTicketList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/ticket_number/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/channel_source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/channel_detail/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/assignee/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/identity_verified/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/ai_triage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/message_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/last_message_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/last_message_text/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/unread_team_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/unread_customer_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/session_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/session_context/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/slack_channel_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/slack_thread_ts/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/slack_team_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/email_subject/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/email_from/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/email_to/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/cc_participants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/github_repo/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/github_issue_number/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/zendesk_ticket_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/organization_id_source/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/person/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#Ticket/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketAssignment/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketAssignment/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketAssignment/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketAssignment/members/role/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketPerson/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketPerson/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketPerson/members/distinct_ids/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketPerson/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketPerson/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketPerson/members/is_identified/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#PaginatedTicketViewList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#PaginatedTicketViewList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketView/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketView/members/short_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketView/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketView/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketView/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#ConversationsViewsCreateRequest/members/name/traits/smithy.api#required"
+    }
+  ]
+}

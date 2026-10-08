@@ -65,6 +65,17 @@ const RailwayInternalErrorSpec: ErrorSpec<RailwayInternalError> = errorSpec(
   { global: true },
 );
 
+/** The login session does not exist: it was cancelled, consumed, or expired. Stop polling and start a new session. */
+export class RailwayLoginSessionNotFound extends S.TaggedError<RailwayLoginSessionNotFound>()(
+  "RailwayLoginSessionNotFound",
+  errorFields,
+).pipe(Category.withNotFoundError) {}
+const RailwayLoginSessionNotFoundSpec: ErrorSpec<RailwayLoginSessionNotFound> = errorSpec(
+  RailwayLoginSessionNotFound,
+  "RailwayLoginSessionNotFound",
+  [{ code: "BAD_USER_INPUT", messageIncludes: "does not exist" }],
+);
+
 /** The selected resource or a required dependency was not found. */
 export class RailwayNotFound extends S.TaggedError<RailwayNotFound>()(
   "RailwayNotFound",
@@ -293,6 +304,7 @@ export type RailwayError =
   | RailwayCustomDomainCreateFailed
   | RailwayForbidden
   | RailwayInternalError
+  | RailwayLoginSessionNotFound
   | RailwayNotFound
   | RailwayOperationInProgress
   | RailwayPlanLimitExceeded
@@ -13002,8 +13014,9 @@ export const Railway = {
     ]),
   loginSessionConsume: (args: {
     readonly code: string;
-  }): Query<string | null, RailwayNotFound | RailwayGlobalError> =>
+  }): Query<string | null, RailwayLoginSessionNotFound | RailwayNotFound | RailwayGlobalError> =>
     rootLeaf("mutation", "loginSessionConsume", false, args, { code: "String!" }, [
+      RailwayLoginSessionNotFoundSpec,
       RailwayNotFoundSpec,
       ...globalErrors,
     ]),

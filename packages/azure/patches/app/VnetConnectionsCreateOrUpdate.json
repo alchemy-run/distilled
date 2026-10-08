@@ -24,7 +24,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.app#GetVnetConnectionResponse/members/location",
+      "path": "/shapes/com.azure.app#VnetConnectionsGetResponse/members/location",
       "value": {
         "target": "smithy.api#String",
         "traits": {

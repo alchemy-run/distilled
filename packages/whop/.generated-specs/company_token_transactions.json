@@ -71,13 +71,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id",
-            "smithy.api#required": {}
-          }
-        },
         "user_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -88,6 +81,13 @@
           "target": "com.whop.company_token_transactions#CompanyTokenTransactionTypes",
           "traits": {
             "smithy.api#httpQuery": "transaction_type"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {}
           }
         }
       },
@@ -361,17 +361,17 @@
     "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase0": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
         "amount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The positive number of tokens to transact. For example, 100.0 for 100 tokens.",
-            "smithy.api#required": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
             "smithy.api#required": {}
           }
         },
@@ -417,17 +417,17 @@
     "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase1": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
         "amount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The positive number of tokens to transact. For example, 100.0 for 100 tokens.",
-            "smithy.api#required": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
             "smithy.api#required": {}
           }
         },
@@ -466,17 +466,17 @@
     "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase2": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
         "amount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The positive number of tokens to transact. For example, 100.0 for 100 tokens.",
-            "smithy.api#required": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
             "smithy.api#required": {}
           }
         },

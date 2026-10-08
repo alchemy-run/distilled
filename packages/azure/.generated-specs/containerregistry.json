@@ -10429,6 +10429,72 @@
           "traits": {
             "smithy.api#documentation": "The token (git PAT or SAS token of storage account blob) associated with the context for a step."
           }
+        },
+        "dockerFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker step: Docker file path relative to the source context."
+          }
+        },
+        "imageNames": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Docker step: fully qualified image names including the repository and tag."
+          }
+        },
+        "isPushEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Docker step: whether the image built should be pushed to the registry."
+          }
+        },
+        "noCache": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Docker step: whether the image cache is disabled."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker step: the name of the target build stage."
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Docker step: build arguments ({ name, value, isSecret }[])."
+          }
+        },
+        "taskFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FileTask step: task template/definition file path relative to the source context."
+          }
+        },
+        "valuesFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FileTask step: task values/parameters file path relative to the source context."
+          }
+        },
+        "encodedTaskContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EncodedTask step: base64 encoded value of the template/definition file content."
+          }
+        },
+        "encodedValuesContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EncodedTask step: base64 encoded value of the parameters/values file content."
+          }
+        },
+        "values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "FileTask/EncodedTask step: values to override ({ name, value, isSecret }[])."
+          }
         }
       },
       "traits": {
@@ -11464,6 +11530,72 @@
           "traits": {
             "smithy.api#documentation": "The token (git PAT or SAS token of storage account blob) associated with the context for a step."
           }
+        },
+        "dockerFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker step: Docker file path relative to the source context."
+          }
+        },
+        "imageNames": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Docker step: fully qualified image names including the repository and tag."
+          }
+        },
+        "isPushEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Docker step: whether the image built should be pushed to the registry."
+          }
+        },
+        "noCache": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Docker step: whether the image cache is disabled."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker step: the name of the target build stage."
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Docker step: build arguments ({ name, value, isSecret }[])."
+          }
+        },
+        "taskFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FileTask step: task template/definition file path relative to the source context."
+          }
+        },
+        "valuesFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FileTask step: task values/parameters file path relative to the source context."
+          }
+        },
+        "encodedTaskContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EncodedTask step: base64 encoded value of the template/definition file content."
+          }
+        },
+        "encodedValuesContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EncodedTask step: base64 encoded value of the parameters/values file content."
+          }
+        },
+        "values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "FileTask/EncodedTask step: values to override ({ name, value, isSecret }[])."
+          }
         }
       },
       "traits": {
@@ -11833,6 +11965,72 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The token (git PAT or SAS token of storage account blob) associated with the context for a step."
+          }
+        },
+        "dockerFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker step: Docker file path relative to the source context."
+          }
+        },
+        "imageNames": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Docker step: fully qualified image names including the repository and tag."
+          }
+        },
+        "isPushEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Docker step: whether the image built should be pushed to the registry."
+          }
+        },
+        "noCache": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Docker step: whether the image cache is disabled."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker step: the name of the target build stage."
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Docker step: build arguments ({ name, value, isSecret }[])."
+          }
+        },
+        "taskFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FileTask step: task template/definition file path relative to the source context."
+          }
+        },
+        "valuesFilePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "FileTask step: task values/parameters file path relative to the source context."
+          }
+        },
+        "encodedTaskContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EncodedTask step: base64 encoded value of the template/definition file content."
+          }
+        },
+        "encodedValuesContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EncodedTask step: base64 encoded value of the parameters/values file content."
+          }
+        },
+        "values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "FileTask/EncodedTask step: values to override ({ name, value, isSecret }[])."
           }
         }
       },

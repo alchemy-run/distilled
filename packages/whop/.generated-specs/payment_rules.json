@@ -1,0 +1,1764 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.payment_rules#ListPaymentRulesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRulesRequestAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ENFORCE_3DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enforce_3ds"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRulesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRulesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRulesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only return rules belonging to this account. Defaults to the account the request is acting for."
+          }
+        },
+        "status": {
+          "target": "com.whop.payment_rules#ListPaymentRulesRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return rules with this status."
+          }
+        },
+        "action": {
+          "target": "com.whop.payment_rules#ListPaymentRulesRequestAction",
+          "traits": {
+            "smithy.api#httpQuery": "action",
+            "smithy.api#documentation": "Only return rules that take this action."
+          }
+        },
+        "order": {
+          "target": "com.whop.payment_rules#ListPaymentRulesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.payment_rules#ListPaymentRulesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of results to return from the start of the range."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of results to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#PaymentRule": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.whop.payment_rules#PaymentRuleAction",
+          "traits": {
+            "smithy.api#documentation": "What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.whop.payment_rules#PaymentRuleConditions",
+          "traits": {
+            "smithy.api#documentation": "The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the rule was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the rule was deleted, as an ISO 8601 timestamp. `null` unless `status` is `deleted`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payment rule ID, prefixed `prule_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A name for this rule. Up to 255 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payment_rules#PaymentRuleStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the rule is applied to payments. A `deleted` rule is kept so the payments it already decided still name it.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the rule was last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ENFORCE_3DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enforce_3ds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply."
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleConditions": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionsAllList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleCondition": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionField",
+          "traits": {
+            "smithy.api#documentation": "The payment attribute this condition reads.",
+            "smithy.api#required": {}
+          }
+        },
+        "operator": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionOperator",
+          "traits": {
+            "smithy.api#documentation": "How the payment attribute is compared to the value.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionValue",
+          "traits": {
+            "smithy.api#documentation": "The value to compare against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleConditionField": {
+      "type": "enum",
+      "members": {
+        "RISK_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "risk_score"
+          }
+        },
+        "AMOUNT_IN_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount_in_usd"
+          }
+        },
+        "CARD_COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_country"
+          }
+        },
+        "CARD_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_bin"
+          }
+        },
+        "CUSTOMER_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_email"
+          }
+        },
+        "IP_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_address"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payment attribute this condition reads."
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleConditionOperator": {
+      "type": "enum",
+      "members": {
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "NOT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_in"
+          }
+        },
+        "STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_with"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contains"
+          }
+        },
+        "ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_with"
+          }
+        },
+        "IN_CIDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_cidr"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payment attribute is compared to the value."
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleConditionValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        },
+        "Case2": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionValueCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The value to compare against. A number for `risk_score`, a string for the other fields, and an array of strings for the `in` and `not_in` operators."
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleConditionValueCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleConditionsAllList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#PaymentRuleCondition"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the rule is applied to payments. A `deleted` rule is kept so the payments it already decided still name it."
+      }
+    },
+    "com.whop.payment_rules#ListPaymentRulesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRulesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRulesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payment_rules#ListPaymentRulesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payment_rules#ListPaymentRulesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_rules#ListPaymentRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#ListPaymentRulesRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#ListPaymentRulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_rules#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "List payment rules",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ENFORCE_3DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enforce_3ds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply."
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllItemField": {
+      "type": "enum",
+      "members": {
+        "RISK_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "risk_score"
+          }
+        },
+        "AMOUNT_IN_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount_in_usd"
+          }
+        },
+        "CARD_COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_country"
+          }
+        },
+        "CARD_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_bin"
+          }
+        },
+        "CUSTOMER_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_email"
+          }
+        },
+        "IP_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_address"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payment attribute this condition reads."
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllItemOperator": {
+      "type": "enum",
+      "members": {
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "NOT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_in"
+          }
+        },
+        "STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_with"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contains"
+          }
+        },
+        "ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_with"
+          }
+        },
+        "IN_CIDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_cidr"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payment attribute is compared to the value."
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllItem": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllItemField",
+          "traits": {
+            "smithy.api#documentation": "The payment attribute this condition reads.",
+            "smithy.api#required": {}
+          }
+        },
+        "operator": {
+          "target": "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllItemOperator",
+          "traits": {
+            "smithy.api#documentation": "How the payment attribute is compared to the value.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionValue",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllItem"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestConditions": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "com.whop.payment_rules#CreatePaymentRuleRequestConditionsAllList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized."
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value."
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to create the rule on. Defaults to the account the request is acting for."
+          }
+        },
+        "action": {
+          "target": "com.whop.payment_rules#CreatePaymentRuleRequestAction",
+          "traits": {
+            "smithy.api#documentation": "What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.whop.payment_rules#CreatePaymentRuleRequestConditions",
+          "traits": {
+            "smithy.api#documentation": "The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payment_rules#CreatePaymentRuleRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A name for this rule. Up to 255 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#CreatePaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#CreatePaymentRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_rules#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_rules#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payment_rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a payment rule"
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleField": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "com.whop.payment_rules#PaymentRuleFieldField",
+          "traits": {
+            "smithy.api#documentation": "The payment attribute this condition reads.",
+            "smithy.api#required": {}
+          }
+        },
+        "maximum": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The largest value this field accepts, or `null` when the field is not numeric.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The smallest value this field accepts, or `null` when the field is not numeric.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operators": {
+          "target": "com.whop.payment_rules#PaymentRuleFieldOperatorsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.whop.payment_rules#PaymentRuleFieldOptionsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.payment_rules#PaymentRuleFieldType",
+          "traits": {
+            "smithy.api#documentation": "The type of value this field compares against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleFieldField": {
+      "type": "enum",
+      "members": {
+        "RISK_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "risk_score"
+          }
+        },
+        "AMOUNT_IN_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount_in_usd"
+          }
+        },
+        "CARD_COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_country"
+          }
+        },
+        "CARD_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_bin"
+          }
+        },
+        "CUSTOMER_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_email"
+          }
+        },
+        "IP_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_address"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payment attribute this condition reads."
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleFieldOperatorsItem": {
+      "type": "enum",
+      "members": {
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "NOT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_in"
+          }
+        },
+        "STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_with"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contains"
+          }
+        },
+        "ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_with"
+          }
+        },
+        "IN_CIDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_cidr"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The operators this field accepts. Any other operator is rejected."
+      }
+    },
+    "com.whop.payment_rules#PaymentRuleFieldOperatorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#PaymentRuleFieldOperatorsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleFieldOption": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name to display for this value.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value to send in a condition.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleFieldOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#PaymentRuleFieldOption"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#PaymentRuleFieldType": {
+      "type": "enum",
+      "members": {
+        "INTEGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integer"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of value this field compares against."
+      }
+    },
+    "com.whop.payment_rules#ListPaymentRuleFieldsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#PaymentRuleField"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRuleFieldsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ListPaymentRuleFieldsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payment_rules#ListPaymentRuleFieldsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payment_rules#ListPaymentRuleFieldsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_rules#ListPaymentRuleFields": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#ListPaymentRuleFieldsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_rules/fields",
+          "code": 200
+        },
+        "smithy.api#documentation": "List fields\n\nSmall and returned in full on one page."
+      }
+    },
+    "com.whop.payment_rules#GetPaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The payment rule ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#GetPaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#GetPaymentRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_rules#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_rules/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a payment rule"
+      }
+    },
+    "com.whop.payment_rules#UpdatePaymentRuleRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value."
+      }
+    },
+    "com.whop.payment_rules#UpdatePaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The payment rule ID."
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payment_rules#UpdatePaymentRuleRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A name for this rule. Up to 255 characters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#UpdatePaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#UpdatePaymentRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/payment_rules/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a payment rule\n\nChanges the rule's name or metadata, keeping its ID and everything recorded against it. What the rule *does* is fixed once created, so the payments it decided keep naming the rule that decided them; use replace to change that."
+      }
+    },
+    "com.whop.payment_rules#DeletePaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The payment rule ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#DeletePaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#DeletePaymentRuleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/payment_rules/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a payment rule\n\nThe rule stops applying to new payments and is kept, so the payments it already decided still name it."
+      }
+    },
+    "com.whop.payment_rules#ActivatePaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The payment rule ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#ActivatePaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#ActivatePaymentRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payment_rules/{id}/activate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate a payment rule"
+      }
+    },
+    "com.whop.payment_rules#DeactivatePaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The payment rule ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#DeactivatePaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#DeactivatePaymentRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payment_rules/{id}/deactivate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deactivate a payment rule\n\nThe rule stops applying to new payments. It keeps its ID and can be activated again."
+      }
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequestAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ENFORCE_3DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enforce_3ds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply."
+      }
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllItemField": {
+      "type": "enum",
+      "members": {
+        "RISK_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "risk_score"
+          }
+        },
+        "AMOUNT_IN_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount_in_usd"
+          }
+        },
+        "CARD_COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_country"
+          }
+        },
+        "CARD_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_bin"
+          }
+        },
+        "CUSTOMER_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_email"
+          }
+        },
+        "IP_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_address"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payment attribute this condition reads."
+      }
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllItemOperator": {
+      "type": "enum",
+      "members": {
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "NOT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_in"
+          }
+        },
+        "STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_with"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contains"
+          }
+        },
+        "ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_with"
+          }
+        },
+        "IN_CIDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_cidr"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payment attribute is compared to the value."
+      }
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllItem": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllItemField",
+          "traits": {
+            "smithy.api#documentation": "The payment attribute this condition reads.",
+            "smithy.api#required": {}
+          }
+        },
+        "operator": {
+          "target": "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllItemOperator",
+          "traits": {
+            "smithy.api#documentation": "How the payment attribute is compared to the value.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.whop.payment_rules#PaymentRuleConditionValue",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllItem"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequestConditions": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "com.whop.payment_rules#ReplacePaymentRuleRequestConditionsAllList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized."
+      }
+    },
+    "com.whop.payment_rules#ReplacePaymentRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The payment rule ID."
+          }
+        },
+        "action": {
+          "target": "com.whop.payment_rules#ReplacePaymentRuleRequestAction",
+          "traits": {
+            "smithy.api#documentation": "What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.whop.payment_rules#ReplacePaymentRuleRequestConditions",
+          "traits": {
+            "smithy.api#documentation": "The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_rules#ReplacePaymentRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_rules#ReplacePaymentRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_rules#PaymentRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payment_rules/{id}/replace",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a payment rule\n\nDeletes this rule and creates its successor in one step. The successor carries a new ID and the metadata of the rule it replaced,."
+      }
+    },
+    "com.whop.payment_rules#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.payment_rules#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.payment_rules#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.payment_rules#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.payment_rules#PaymentRules": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.payment_rules#ListPaymentRules"
+        },
+        {
+          "target": "com.whop.payment_rules#CreatePaymentRule"
+        },
+        {
+          "target": "com.whop.payment_rules#ListPaymentRuleFields"
+        },
+        {
+          "target": "com.whop.payment_rules#GetPaymentRule"
+        },
+        {
+          "target": "com.whop.payment_rules#UpdatePaymentRule"
+        },
+        {
+          "target": "com.whop.payment_rules#DeletePaymentRule"
+        },
+        {
+          "target": "com.whop.payment_rules#ActivatePaymentRule"
+        },
+        {
+          "target": "com.whop.payment_rules#DeactivatePaymentRule"
+        },
+        {
+          "target": "com.whop.payment_rules#ReplacePaymentRule"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

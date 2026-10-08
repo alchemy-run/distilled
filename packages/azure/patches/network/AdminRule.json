@@ -85,7 +85,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.network#GetAdminRuleResponse/members/properties",
+      "path": "/shapes/com.azure.network#AdminRulesGetResponse/members/properties",
       "value": {
         "target": "com.azure.network#AdminRulePropertiesFormat"
       }

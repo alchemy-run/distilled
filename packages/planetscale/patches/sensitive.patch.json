@@ -3,8 +3,8 @@
   "patches": [
     {
       "op": "add",
-      "path": "/definitions/ServiceToken/properties/token/x-sensitive",
-      "value": true
+      "path": "/shapes/com.planetscale.api#ServiceToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
     }
   ]
 }
