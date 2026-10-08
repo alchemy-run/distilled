@@ -21,9 +21,9 @@ import { join } from "node:path";
  *
  * A package is audited by running its `convert` on scratch copies
  * (`packages/.audit-<pkg>-<n>`), which needs its spec mirror (`specs:fetch`);
- * without it the package is reported as skipped. Files that only patch the
- * Smithy model are judged in memory after one convert; files that patch the
- * spec cost one convert each. `--jobs` sets how many copies convert at once
+ * without it the package is reported as skipped. Patches are Smithy ops
+ * applied in finalizeConvert, so each file is judged in memory after one
+ * convert; Railway's GraphQL patches cost one convert each. `--jobs` sets how many copies convert at once
  * (default: from cores and free memory).
  *
  * `--ops` repeats the experiment for every op inside each needed file, so a

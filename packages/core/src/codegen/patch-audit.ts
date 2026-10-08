@@ -13,11 +13,12 @@
  * of the package (`packages/.audit-<pkg>-<n>`), so the spec mirror must be
  * fetched. A file whose ops all target the Smithy model is judged in
  * memory by `finalizeConvert` ({@link PATCH_AUDIT_ENV}): one convert, then
- * only the finalize steps re-run per file. Any other file (it edits the
- * spec before conversion) costs one convert per file
+ * only the finalize steps re-run per file. A file finalizeConvert does not
+ * apply (Railway's GraphQL patches) costs one convert per file
  * ({@link SKIP_PATCHES_ENV}). Up to `jobs` copies run at once.
  *
- * The package itself is never written: `.generated-specs` stays as committed.
+ * The package itself is never written: its `.generated-*` dirs stay as
+ * committed.
  *
  * Every verdict is one-at-a-time: two patches that add the same thing each
  * look unused alone, and only the second deletion changes the model.
@@ -139,7 +140,7 @@ export const listPatchFiles = (patchesDir: string): { files: PatchFileInfo[]; ot
  * and `node_modules` resolve the same; the dot keeps it out of the pnpm
  * workspace). `scripts/` and `package.json` are copied — Node resolves a
  * symlinked script to its real path, which would make the copy's convert
- * write to the real package — `.generated-specs` starts empty, and
+ * write to the real package — `.generated-*` dirs start empty, and
  * everything else is a symlink.
  */
 const scratchCopy = (pkgDir: string, index: number): string => {
@@ -149,12 +150,27 @@ const scratchCopy = (pkgDir: string, index: number): string => {
   for (const entry of readdirSync(pkgDir, { withFileTypes: true })) {
     const from = join(pkgDir, entry.name);
     const to = join(dir, entry.name);
-    if (entry.name === ".generated-specs") mkdirSync(to);
+    // Every convert output dir (`.generated-specs`, Railway's
+    // `.generated-graphql`) starts empty, so convert never writes through a
+    // symlink into the package.
+    if (entry.name.startsWith(".generated")) mkdirSync(to);
     else if (entry.name === "scripts" || entry.name === "package.json") {
       cpSync(from, to, { recursive: true });
     } else symlinkSync(from, to);
   }
   return dir;
+};
+
+/** Every model convert wrote in a copy, keyed `<.generated-* dir>/<path>`. */
+const outputs = (copy: string): Models => {
+  const out: Models = new Map();
+  for (const entry of readdirSync(copy, { withFileTypes: true })) {
+    if (!entry.isDirectory() || !entry.name.startsWith(".generated")) continue;
+    const dir = join(copy, entry.name);
+    for (const f of walkJson(dir))
+      out.set(`${entry.name}/${relative(dir, f)}`, readFileSync(f, "utf8"));
+  }
+  return out;
 };
 
 interface ConvertResult {
@@ -353,21 +369,14 @@ const auditConvertStage = async (
     //    a copy just wrote.
     const perFile = files.filter((f) => !verdicts.has(f.key));
     if (perFile.length > 0) {
-      const outDir = join(copies[0]!, ".generated-specs");
-      const baseline: Models = new Map(
-        walkJson(outDir).map((f) => [relative(outDir, f), readFileSync(f, "utf8")]),
-      );
+      const baseline = outputs(copies[0]!);
       const judge = async (skip: string, copy: string): Promise<Verdict> => {
         const result = await runConvert(command, copy, {
           ...process.env,
           [SKIP_PATCHES_ENV]: skip,
         });
         if (!result.ok) return { kind: "depended", error: result.error };
-        const out = join(copy, ".generated-specs");
-        const models: Models = new Map(
-          walkJson(out).map((f) => [relative(out, f), readFileSync(f, "utf8")]),
-        );
-        const diff = diffModels(baseline, models);
+        const diff = diffModels(baseline, outputs(copy));
         return diff.length === 0 ? { kind: "unused" } : { kind: "needed", diff };
       };
       await withCopies(copies, perFile, async (file, copy) => {

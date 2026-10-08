@@ -22,8 +22,10 @@ afterEach(() => {
 const PATCHES_TS = join(import.meta.dirname, "patches.ts");
 
 /**
- * A convert-stage package: `spec.json` lists field names, spec ops edit it,
- * and every field becomes a member of `x#Thing`. Smithy ops apply in
+ * A package: `spec.json` lists field names, and every field becomes a
+ * member of `x#Thing`. `patches/spec/` edit the spec in the convert script
+ * itself (the way Railway patches its GraphQL schema, out of
+ * finalizeConvert's reach); `patches/svc/` are Smithy ops applied in
  * finalizeConvert, whose transform drops a member named `dropped`.
  */
 const convertFixture = (patches: Record<string, unknown[]>): string => {
@@ -44,7 +46,7 @@ import { join } from "node:path";
 import { applyRfc6902Files, finalizeConvert, isSmithyPatchPath, listRfc6902PatchFiles } from ${JSON.stringify(PATCHES_TS)};
 const root = join(import.meta.dirname, "..");
 const spec = JSON.parse(readFileSync(join(root, "spec.json"), "utf8"));
-const files = await listRfc6902PatchFiles(join(root, "patches", "svc"));
+const files = await listRfc6902PatchFiles(join(root, "patches", "spec"));
 const applied = await applyRfc6902Files(spec, files, { include: (op) => !isSmithyPatchPath(op.path) });
 if (applied.errors.length) throw new Error(applied.errors.join("\\n"));
 const members = Object.fromEntries(Object.keys(spec.fields).map((k) => [k, { target: "smithy.api#String" }]));
@@ -57,9 +59,11 @@ await finalizeConvert({
 });
 `,
   );
-  mkdirSync(join(root, "patches", "svc"), { recursive: true });
-  for (const [name, ops] of Object.entries(patches)) {
-    writeFileSync(join(root, "patches", "svc", name), JSON.stringify({ patches: ops }));
+  for (const [key, ops] of Object.entries(patches)) {
+    const dir = key.startsWith("spec/") ? "spec" : "svc";
+    mkdirSync(join(root, "patches", dir), { recursive: true });
+    const name = key.replace(/^spec\//, "");
+    writeFileSync(join(root, "patches", dir, name), JSON.stringify({ patches: ops }));
   }
   mkdirSync(join(root, ".generated-specs"));
   writeFileSync(join(root, ".generated-specs", "svc.json"), "committed\n");
@@ -74,9 +78,9 @@ const addMember = (name: string) => ({
 });
 
 describe("convert-stage patch audit", () => {
-  test("judges Smithy-only files in memory and spec files by convert", async () => {
+  test("judges Smithy files in memory and the rest by convert", async () => {
     const root = convertFixture({
-      "1-spec.json": [addField("s")],
+      "spec/1-spec.json": [addField("s")],
       "2-member.json": [addMember("b")],
       "3-noop.json": [{ op: "replace", path: "/shapes/x#Thing/type", value: "structure" }],
       "4-dropped.json": [addMember("dropped")],
@@ -85,7 +89,7 @@ describe("convert-stage patch audit", () => {
     const result = await auditPackage(root, { jobs: 2 });
     if (result.kind !== "audited") throw new Error(result.reason);
     expect(Object.fromEntries(result.files.map((f) => [f.file.key, f.verdict]))).toEqual({
-      "svc/1-spec.json": { kind: "needed", diff: ["+ Thing/members/s"] },
+      "spec/1-spec.json": { kind: "needed", diff: ["+ Thing/members/s"] },
       "svc/2-member.json": { kind: "depended", error: expect.stringMatching(/members\/b/) },
       "svc/3-noop.json": { kind: "unused" },
       // The transform removes it again, so it changes nothing.
@@ -128,7 +132,10 @@ describe("convert-stage patch audit", () => {
   });
 
   test("leaves the package as it was and removes its scratch copies", async () => {
-    const root = convertFixture({ "member.json": [addMember("b")], "spec.json": [addField("s")] });
+    const root = convertFixture({
+      "member.json": [addMember("b")],
+      "spec/s.json": [addField("s")],
+    });
     const result = await auditPackage(root, { jobs: 2 });
     expect(result.kind).toBe("audited");
     expect(readFileSync(join(root, ".generated-specs", "svc.json"), "utf8")).toBe("committed\n");

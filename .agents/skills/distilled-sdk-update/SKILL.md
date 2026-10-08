@@ -61,23 +61,16 @@ generated diff instead (`distilled-sdk-patch`, step 5).
 
 The audit (`@distilled.cloud/core/codegen/patch-audit`) builds the model
 once with every patch, then once per patch with that patch left out, and
-diffs the result. How it builds the model depends on the package's patch
-stage (`distilled.patches` in package.json, see the `distilled-sdk-patch`
-skill):
-
-- **convert** — runs `convert` on scratch copies of the package
-  (`packages/.audit-<pkg>-<n>`, removed on exit; the package itself is
-  never written), so the spec mirror must be fetched (step 1); without it
-  the package is reported as skipped. A file whose ops all target the
-  Smithy model (`/shapes`, `/metadata`) is judged in memory: one convert,
-  then only `finalizeConvert` re-runs per file. All of `cloudflare` (about
-  2,850 files) takes under two minutes and `gcp` seconds. A file that
-  patches the spec (`/paths`, `/components`) costs one convert each
-  (`DISTILLED_SKIP_PATCHES`), spread over `--jobs` copies.
-- **generate** — applies `patches/<model>/` to the committed
-  `.generated-specs` in memory. No mirror, seconds per package, and CI
-  runs it on every PR (`packages/core/src/sdks.test.ts`), so a patch the
-  model no longer needs fails the PR that made it dead.
+diffs the result. It runs `convert` on scratch copies of the package
+(`packages/.audit-<pkg>-<n>`, removed on exit; the package itself is never
+written), so the spec mirror must be fetched (step 1); without it the
+package is reported as skipped. Patches are Smithy ops applied in
+`finalizeConvert`, so each file is judged in memory: one convert, then only
+the finalize steps re-run per file. All of `cloudflare` (about 2,850 files)
+takes under two minutes, `posthog` and `azure` well under a minute, most
+packages seconds. Railway's GraphQL patches apply outside
+`finalizeConvert` and cost one convert each (`DISTILLED_SKIP_PATCHES`),
+spread over `--jobs` copies.
 
 | Verdict | Meaning | Do |
 | --- | --- | --- |
