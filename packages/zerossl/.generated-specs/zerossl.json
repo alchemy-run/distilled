@@ -1,0 +1,3885 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "zerossl": {
+      "repository": "zerossl/documentation",
+      "commit": "546b3a5eb16f32366a5c7169141bc96085d12e57"
+    },
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.zerossl.api#CreateCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this parameter to specify one or multiple comma-separated domains (or IP addresses) to be secured by your certificate. The first element of the list should be identical to the CN (common name) specified within your CSR.",
+            "smithy.api#required": {}
+          }
+        },
+        "certificate_csr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this parameter to specify a *certificate signing request (CSR)* for your certificate. The CSR has to be *2048-bit or 4096-bit encrypted*, otherwise it is rejected or might cause other issues. The CSRs' CN (common name) should be identical to the first element in your `certificate_domains` parameter. *It is highly recommended to use a fresh, unique and correct CSR for each and every certificate* (for security reasons and in order to avoid any problems with the certificate). Valid examples for the CSRs' CN (common name): `example.com`, `127.0.0.1`.",
+            "smithy.api#required": {}
+          }
+        },
+        "certificate_validity_days": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For creating 1-year certificates specify `365` here, the default is `90`. Other values are currently not supported."
+          }
+        },
+        "strict_domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set this parameter to `1` in order to create a certificate exactly for the domains passed in the `certificate_domains` parameter. This means the certificates' *Subject Alternative Names (SAN)* will not include any alternative DNS entries. In practice this mostly affects *www./non-www.* variants: While most users prefer to cover and validate both variants by default, you might want to create a certificate which covers exactly one of those variants."
+          }
+        },
+        "replacement_for_certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate hash of the certificate to be replaced. The certificate to be replaced must be in status `issued` or `expiring_soon`. You can only create one replacement certificate for an existing certificate. This parameter is entirely optional and not yet widely adapted. In the future it might be used in the UI."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#CreateCertificateResponseValidationEmailValidationValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#CreateCertificateResponseValidationEmailValidationMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#CreateCertificateResponseValidationEmailValidationValueList"
+      }
+    },
+    "com.zerossl.api#CreateCertificateResponseValidationOtherMethodsValueFileValidationContentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#CreateCertificateResponseValidationOtherMethodsValue": {
+      "type": "structure",
+      "members": {
+        "file_validation_url_http": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the URL (http format) your verification file must be uploaded to as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_validation_url_https": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the URL (https format) your verification file must be uploaded to as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_validation_content": {
+          "target": "com.zerossl.api#CreateCertificateResponseValidationOtherMethodsValueFileValidationContentList",
+          "traits": {
+            "smithy.api#documentation": "Returns the content your verification file must contain, consisting of three lines of plain-text.",
+            "smithy.api#required": {}
+          }
+        },
+        "cname_validation_p1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the host-part (Name) of the CNAME-record that must be created as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "cname_validation_p2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the value-part (Point To) of the CNAME-record that must be created as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#CreateCertificateResponseValidationOtherMethodsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#CreateCertificateResponseValidationOtherMethodsValue"
+      }
+    },
+    "com.zerossl.api#CreateCertificateResponseValidation": {
+      "type": "structure",
+      "members": {
+        "email_validation": {
+          "target": "com.zerossl.api#CreateCertificateResponseValidationEmailValidationMap",
+          "traits": {
+            "smithy.api#documentation": "Returns an array of eligible domain verification emails.",
+            "smithy.api#required": {}
+          }
+        },
+        "other_methods": {
+          "target": "com.zerossl.api#CreateCertificateResponseValidationOtherMethodsMap",
+          "traits": {
+            "smithy.api#documentation": "Returns a series of sub-objects (one for each domain in your certificate) containing alternative verification methods.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#CreateCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the internal certificate ID, also referred to as certificate hash.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns a numeric ID to identify the certificate type. Possible values: `1` (90-day), `2` (90-day wildcard), `3` (90-day multi-domain), `4` (1-year), `5` (1-year wilcard), `6` (1-year multi-domain)",
+            "smithy.api#required": {}
+          }
+        },
+        "common_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the common name (e.g. `domain.com`) of your certificate.",
+            "smithy.api#required": {}
+          }
+        },
+        "additional_domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns any additional domains (SANs) in your certificate.",
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the exact time (UTC) your certificate was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the exact time (UTC) your certificate will expire.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the current certificate status. Possible values: `draft`, `pending_validation`, `issued`, `cancelled`, `revoked`, `expired`",
+            "smithy.api#required": {}
+          }
+        },
+        "validation_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns `null` if domain verification has not been initiated, or the selected verification type. Possible values: `EMAIL` (email verification), `CNAME_CSR_HASH` (CNAME verification), `HTTP_CSR_HASH` (HTTP file upload), `HTTPS_CSR_HASH` (HTTPS file upload)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validation_emails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns one or a comma-separated list of selected verification emails if email verification is chosen for this certificate.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replacement_for": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the ID (certificate hash) of the existing certificate this certificate is replacing as part of a renewal.",
+            "smithy.api#required": {}
+          }
+        },
+        "fingerprint_sha1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "brand_validation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signature_algorithm_properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validation": {
+          "target": "com.zerossl.api#CreateCertificateResponseValidation",
+          "traits": {
+            "smithy.api#documentation": "Returns a series of sub-objects related to domain verification.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#CreateCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#CreateCertificateRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#CreateCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/certificates",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Certificate\n\nTo create a new SSL certificate using the ZeroSSL API you will need to make an HTTPS POST request to the API's `certificates` endpoint. Below you will find the API request URL you will need to make your request to as well as all required and optional request parameters."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#CannotIssueCertificateUnpaidUpgradeInvoices"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCertificateType"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateType"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCertificateValidity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCertificateDomain"
+        },
+        {
+          "target": "com.zerossl.api#WildcardDomainsNotAllowedInMultidomainCertificate"
+        },
+        {
+          "target": "com.zerossl.api#InvalidDomainsInMultidomainRequest"
+        },
+        {
+          "target": "com.zerossl.api#DuplicateDomainsInArray"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateDomains"
+        },
+        {
+          "target": "com.zerossl.api#CannotReplaceCertificateOtherReplacementInDraft"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDeniedOnOriginalCertificate"
+        },
+        {
+          "target": "com.zerossl.api#OriginalCertificateNotActive"
+        },
+        {
+          "target": "com.zerossl.api#CannotFindOriginalCertificate"
+        },
+        {
+          "target": "com.zerossl.api#CertificateLimitReached"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCertificateCsr"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCertificateCsrForNonWildcard"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCertificateCsrForWildcard"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateCsr"
+        },
+        {
+          "target": "com.zerossl.api#InternalErrorFailedProcessingCsr"
+        },
+        {
+          "target": "com.zerossl.api#InternalErrorFailedCreatingCertificate"
+        },
+        {
+          "target": "com.zerossl.api#CsrCnIsInvalid"
+        },
+        {
+          "target": "com.zerossl.api#DuplicateCertificatesFound"
+        },
+        {
+          "target": "com.zerossl.api#CertificateCreationLockedUnpaidInvoices"
+        },
+        {
+          "target": "com.zerossl.api#InvalidSan"
+        }
+      ]
+    },
+    "com.zerossl.api#VerifyDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify your certificate ID / hash."
+          }
+        },
+        "validation_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this parameter to specify the verification method to use for this certificate. Possible values: `EMAIL` (email verification), `CNAME_CSR_HASH` (CNAME verification), `HTTP_CSR_HASH` (HTTP file upload), `HTTPS_CSR_HASH` (HTTPS file upload)",
+            "smithy.api#required": {}
+          }
+        },
+        "validation_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If your selected verification method is **email verification**, use this parameter to specify one or multiple comma-seperated verification email addresses. You need to specify one verification email address per domain."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#VerifyDomainsResponseErrorDetailsValueValue": {
+      "type": "structure",
+      "members": {
+        "cname_found": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` or `0` depending on whether your CNAME-record was found.",
+            "smithy.api#required": {}
+          }
+        },
+        "record_correct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` or `0` depending on whether the CNAME-record found is correct.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the host-part (Name) of the required CNAME-record.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_record": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the value-part (Point To) of the required CNAME-record.",
+            "smithy.api#required": {}
+          }
+        },
+        "actual_record": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the value-part of the CNAME record found for the given domain.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#VerifyDomainsResponseErrorDetailsValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#VerifyDomainsResponseErrorDetailsValueValue"
+      }
+    },
+    "com.zerossl.api#VerifyDomainsResponseErrorDetailsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#VerifyDomainsResponseErrorDetailsValueMap"
+      }
+    },
+    "com.zerossl.api#VerifyDomainsResponseError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns a numeric error code uniquely associated with the specific error.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns a text-based error key uniquely associated with the specific error.",
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "com.zerossl.api#VerifyDomainsResponseErrorDetailsMap",
+          "traits": {
+            "smithy.api#documentation": "Returns an object containing error details for each domain (or a pair of www and non-www domains).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#VerifyDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "com.zerossl.api#VerifyDomainsResponseError",
+          "traits": {
+            "smithy.api#documentation": "Returns a sub-object containing error details.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#VerifyDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#VerifyDomainsRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#VerifyDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/certificates/{id}/challenges",
+          "code": 200
+        },
+        "smithy.api#documentation": "Verify Domains\n\nIn order for your certificate to be issued, all domains included in your certificate will need to be verified. There are four methods that can be used to verify domains: email verification, verification via DNS (CNAME), verification via HTTP file upload and verification via HTTPS file upload. To initiate domain verification, you will need to make a request to the endpoint below carrying your API access key as well as some HTTPS POST request parameters. Please note that `{id}` must be replaced with your certificate ID (hash)."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#FailedShowingCertificate"
+        },
+        {
+          "target": "com.zerossl.api#FailedValidatingCertificate"
+        },
+        {
+          "target": "com.zerossl.api#MissingValidationEmails"
+        },
+        {
+          "target": "com.zerossl.api#MissingValidationEmail"
+        },
+        {
+          "target": "com.zerossl.api#InternalErrorWhileValdatingDomainControl"
+        },
+        {
+          "target": "com.zerossl.api#InvalidValidationMethod"
+        },
+        {
+          "target": "com.zerossl.api#MissingValidationMethod"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectCertificateValidationType"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotEligible"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotReadyToValidate"
+        },
+        {
+          "target": "com.zerossl.api#InvalidCaaRecordsDetected"
+        },
+        {
+          "target": "com.zerossl.api#CaaRecordCheckFailed"
+        },
+        {
+          "target": "com.zerossl.api#ReplacementNeedsSameCommonName"
+        },
+        {
+          "target": "com.zerossl.api#Ipv6IsNotYetSupported"
+        },
+        {
+          "target": "com.zerossl.api#CertificateRestrictedTopLevelDomain"
+        },
+        {
+          "target": "com.zerossl.api#CertificatePremiumNotAllowed"
+        },
+        {
+          "target": "com.zerossl.api#CertificateUnsupportedTopLevelDomain"
+        }
+      ]
+    },
+    "com.zerossl.api#DownloadCertificateInlineRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify your certificate ID / hash."
+          }
+        },
+        "include_cross_signed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "include_cross_signed",
+            "smithy.api#documentation": "Set this parameter to `1` to include the cross signed certificate in the response [(further information)](https://help.zerossl.com/hc/en-us/articles/360060198034-Legacy-Client-Compatibility-Cross-Signed-Root-Certificates)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#DownloadCertificateInlineResponse": {
+      "type": "structure",
+      "members": {
+        "certificate.crt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns your primary certificate file.",
+            "smithy.api#required": {}
+          }
+        },
+        "ca_bundle.crt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns your certificate bundle file.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#DownloadCertificateInline": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#DownloadCertificateInlineRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#DownloadCertificateInlineResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/certificates/{id}/download/return",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download Certificate (inline)\n\nTo download a certificate inline as JSON objects using the ZeroSSL API, you can use the `download` endpoint below and pass the given certificate ID (hash) to the API to the URL inside the `{id}` parameter, as shown below."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotIssued"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotDownloadable"
+        }
+      ]
+    },
+    "com.zerossl.api#GetCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify your certificate ID / hash."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetCertificateResponseValidationEmailValidationValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#GetCertificateResponseValidationEmailValidationMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#GetCertificateResponseValidationEmailValidationValueList"
+      }
+    },
+    "com.zerossl.api#GetCertificateResponseValidationOtherMethodsValueFileValidationContentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#GetCertificateResponseValidationOtherMethodsValue": {
+      "type": "structure",
+      "members": {
+        "file_validation_url_http": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the URL (http format) your verification file must be uploaded to as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_validation_url_https": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the URL (https format) your verification file must be uploaded to as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_validation_content": {
+          "target": "com.zerossl.api#GetCertificateResponseValidationOtherMethodsValueFileValidationContentList",
+          "traits": {
+            "smithy.api#documentation": "Returns the content your verification file must contain, consisting of three lines of plain-text.",
+            "smithy.api#required": {}
+          }
+        },
+        "cname_validation_p1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the host-part (Name) of the CNAME-record that must be created as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "cname_validation_p2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the value-part (Point To) of the CNAME-record that must be created as part of domain verification.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetCertificateResponseValidationOtherMethodsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#GetCertificateResponseValidationOtherMethodsValue"
+      }
+    },
+    "com.zerossl.api#GetCertificateResponseValidation": {
+      "type": "structure",
+      "members": {
+        "email_validation": {
+          "target": "com.zerossl.api#GetCertificateResponseValidationEmailValidationMap",
+          "traits": {
+            "smithy.api#documentation": "Returns an array of eligible domain verification emails.",
+            "smithy.api#required": {}
+          }
+        },
+        "other_methods": {
+          "target": "com.zerossl.api#GetCertificateResponseValidationOtherMethodsMap",
+          "traits": {
+            "smithy.api#documentation": "Returns a series of sub-objects (one for each domain in your certificate) containing alternative verification methods.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the internal certificate ID, also referred to as certificate hash.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns a numeric ID to identify the certificate type. Possible values: `1` (90-day), `2` (90-day wildcard), `3` (90-day multi-domain), `4` (1-year), `5` (1-year wildcard), `6` (1-year multi-domain)",
+            "smithy.api#required": {}
+          }
+        },
+        "common_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the common name (e.g. `domain.com`) of your certificate.",
+            "smithy.api#required": {}
+          }
+        },
+        "additional_domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns any additional domains (SANs) in your certificate.",
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the exact time (UTC) your certificate was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the exact time (UTC) your certificate will expire.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the current certificate status. Possible values: `draft`, `pending_validation`, `issued`, `revoked`, `cancelled`, `expired`",
+            "smithy.api#required": {}
+          }
+        },
+        "validation_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns `null` if domain verification has not been initiated, or the selected verification type. Possible values: `EMAIL` (email verification), `CNAME_CSR_HASH` (CNAME verification), `HTTP_CSR_HASH` (HTTP file upload), `HTTPS_CSR_HASH` (HTTPS file upload)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validation_emails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns one or a comma-separated list of selected verification emails if email verification is chosen for this certificate.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replacement_for": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the ID (certificate hash) of the existing certificate this certificate is replacing as part of a renewal.",
+            "smithy.api#required": {}
+          }
+        },
+        "fingerprint_sha1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SHA-1 fingerprint of the certificate (if issued). [Note: Added in autumn 2022, is `null` for older certificates.]",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "brand_validation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Usually `null` or `false` - only true for very few certificates where the domain has to be manually reviewed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signature_algorithm_properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Signature algorithm and key size for your certificate. Syntax: `[OpenSSL parsed signature algorithm]:[key size]`. Examples: `sha384WithRSAEncryption:2048`, `ecdsa-with-SHA384:256`. We get that information by best effort: It is `null` until a certificate has been issued and its signature algorithm properties have been determined. It can also be `null` for certificates being issued before December 2025, although we try to catch up. Furthermore, it can be `null` in case we are unable to retrieve the required information (can also be `unknown` or similar).",
+            "smithy.api#required": {}
+          }
+        },
+        "validation": {
+          "target": "com.zerossl.api#GetCertificateResponseValidation",
+          "traits": {
+            "smithy.api#documentation": "Returns a series of sub-objects related to domain verification.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#GetCertificateRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#GetCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/certificates/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Certificate\n\nTo retrieve information about an existing certificate using the ZeroSSL API you will need to make an HTTPS GET request to the API's `certificates` and pass the given certificate ID (hash) to the URL inside the `{id}` parameter, as shown below."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        }
+      ]
+    },
+    "com.zerossl.api#ListCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "certificate_status",
+            "smithy.api#documentation": "Use this parameter to specify one or multiple comma-separated certificate status values. Possible values: `draft`, `pending_validation`, `issued`, `cancelled`, `revoked`, `expired`. You can also send the special status `expiring_soon`. In this case all issued certificates are included, which expire within the next 30 days and should be renewed (in paid ZeroSSL accounts those are not credited anymore)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItemValidationEmailValidationValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItemValidationEmailValidationMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#ListCertificatesResponseResultsItemValidationEmailValidationValueList"
+      }
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItemValidationOtherMethodsValueFileValidationContentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItemValidationOtherMethodsValue": {
+      "type": "structure",
+      "members": {
+        "file_validation_url_http": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "file_validation_url_https": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "file_validation_content": {
+          "target": "com.zerossl.api#ListCertificatesResponseResultsItemValidationOtherMethodsValueFileValidationContentList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cname_validation_p1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cname_validation_p2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItemValidationOtherMethodsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#ListCertificatesResponseResultsItemValidationOtherMethodsValue"
+      }
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItemValidation": {
+      "type": "structure",
+      "members": {
+        "email_validation": {
+          "target": "com.zerossl.api#ListCertificatesResponseResultsItemValidationEmailValidationMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "other_methods": {
+          "target": "com.zerossl.api#ListCertificatesResponseResultsItemValidationOtherMethodsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "common_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validation_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validation_emails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replacement_for": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fingerprint_sha1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "brand_validation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signature_algorithm_properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validation": {
+          "target": "com.zerossl.api#ListCertificatesResponseResultsItemValidation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ListCertificatesResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.zerossl.api#ListCertificatesResponseResultsItem"
+      }
+    },
+    "com.zerossl.api#ListCertificatesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns the total number of results found for your query.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns the number of results shown on the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns the current page number.",
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns the specified pagination page limit.",
+            "smithy.api#required": {}
+          }
+        },
+        "acmeUsageLevel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isAcmeLocked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.zerossl.api#ListCertificatesResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Returns an array of certificates. For detailed information about certificate response objects, please refer to the [Get Certificate](/documentation/docs/api/get-certificate) section.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ListCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#ListCertificatesRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#ListCertificatesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/certificates",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Certificates\n\nTo retrieve information about an existing certificate using the ZeroSSL API you will need to make an HTTPS GET request to the API's `certificates`. You can use a series of GET parameters to specify certificate status, search and configure pagination."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        }
+      ]
+    },
+    "com.zerossl.api#GetVerificationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify your certificate ID / hash."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetVerificationStatusResponseDetailsValue": {
+      "type": "structure",
+      "members": {
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the verification email selected for the given domain.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the current verification status of the given domain.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetVerificationStatusResponseDetailsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.zerossl.api#GetVerificationStatusResponseDetailsValue"
+      }
+    },
+    "com.zerossl.api#GetVerificationStatusResponse": {
+      "type": "structure",
+      "members": {
+        "validation_completed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` or `0` depending on whether domain verification has been completed.",
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "com.zerossl.api#GetVerificationStatusResponseDetailsMap",
+          "traits": {
+            "smithy.api#documentation": "Returns a sub-object for each domain (or a pair of www and non-www domains) containing verification information.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GetVerificationStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#GetVerificationStatusRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#GetVerificationStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/certificates/{id}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Domain Verification Status\n\nTo retrieve information about the domain verification status for a specific certificate using the ZeroSSL API, simply make an HTTPS GET request to the API endpoint below, specifying your certificate using its ID (hash) inside the URL's `{id}` parameter, as shown below. Only for Email Verification Please note that the verification status endpoint is only useful if Email Verification is your selected domain verification method. Other verification methods (CNAME and File Upload) usually provide instant verification results using the [Verify Domains endpoint](/documentation/docs/api/verify-domains)."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#FailedGettingValidationStatus"
+        }
+      ]
+    },
+    "com.zerossl.api#ResendVerificationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify your certificate ID / hash."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ResendVerificationResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` to indicate that your API request was successful.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ResendVerification": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#ResendVerificationRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#ResendVerificationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/certificates/{id}/challenges/email",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resend Verification Email\n\nTo resend all verification emails for a specific certificate using the ZeroSSL API, simply make an HTTPS GET request to the API endpoint below, specifying your certificate using its ID (hash) inside the URL's `{id}` parameter, as shown below. Only for Email Verification Please note that this API endpoint can only be used if Email Verification is your selected domain verification method."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#FailedResendingEmail"
+        }
+      ]
+    },
+    "com.zerossl.api#CancelCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify your certificate ID (hash)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#CancelCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` to indicate that your API request was successful.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#CancelCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#CancelCertificateRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#CancelCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/certificates/{id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel Certificate\n\nTo cancel an existing certificate using the ZeroSSL API you will need to make an HTTPS POST request to the API endpoint below and specify your certificate using its ID (hash) inside the URL's `{id}` parameter, as shown below."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#CertificateCannotBeCancelled"
+        },
+        {
+          "target": "com.zerossl.api#FailedCancellingCertificate"
+        }
+      ]
+    },
+    "com.zerossl.api#RevokeCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Use this parameter to specify the certificate ID (hash) of the certificate to be revoked."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One of: * `Unspecified`: Default * `keyCompromise`: Compromised private key * `affiliationChanged`: Subjects' name or identity information has changed * `Superseded`: Certificate has been replaced * `cessationOfOperation`: Authorized domain names are no longer owned"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#RevokeCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` to indicate that your API request was successful.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#RevokeCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#RevokeCertificateRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#RevokeCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/certificates/{id}/revoke",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke Certificate\n\nTo revoke an issued certificate using the ZeroSSL API you will need to make an HTTPS POST request to the API endpoint below and specify your certificate using its ID (hash) inside the URL's `{id}` parameter, as shown below. Possible reasons why you might want to revoke an issued certificate: * There is any risk that its private key might have been compromised (urgent) * The domain it was issued for is no longer operational * The contents of the certificate are wrong Warning Make sure to use this endpoint with care and do only revoke certificates you really want to revoke. Only certificates with status `issued` can be revoked. If a certificate has already been successfully revoked you will get a success response nevertheless."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        },
+        {
+          "target": "com.zerossl.api#RevocationFailed"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotInRevocableState"
+        },
+        {
+          "target": "com.zerossl.api#CertificateRevocationTemporarilyBlocked"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotRevocableBeingIssued"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotRevocableAlreadyReplaced"
+        }
+      ]
+    },
+    "com.zerossl.api#ValidateCsrRequest": {
+      "type": "structure",
+      "members": {
+        "csr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The CSR you want to validate.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ValidateCsrResponseCsrResponseList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.zerossl.api#ValidateCsrResponse": {
+      "type": "structure",
+      "members": {
+        "valid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Returns `true` to indicate your CSR is valid, false otherwise.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns `null` in case the CSR was successfully validated, error code and description otherwise.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "csrResponse": {
+          "target": "com.zerossl.api#ValidateCsrResponseCsrResponseList",
+          "traits": {
+            "smithy.api#documentation": "Returns an array containing the key size and signature algorithm in case the CSR was successfully validated, `null` otherwise.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#ValidateCsr": {
+      "type": "operation",
+      "input": {
+        "target": "com.zerossl.api#ValidateCsrRequest"
+      },
+      "output": {
+        "target": "com.zerossl.api#ValidateCsrResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/validation/csr",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validate certificate signing request (CSR)\n\nYou might want to validate a certificate signing request (CSR) e.g. before using it in a certificate creation request."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#InactiveUser"
+        },
+        {
+          "target": "com.zerossl.api#InvalidApiFunction"
+        },
+        {
+          "target": "com.zerossl.api#RouteNotFound"
+        },
+        {
+          "target": "com.zerossl.api#InvalidRequestBody"
+        },
+        {
+          "target": "com.zerossl.api#InternalServerError"
+        },
+        {
+          "target": "com.zerossl.api#Conflict"
+        },
+        {
+          "target": "com.zerossl.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequest"
+        },
+        {
+          "target": "com.zerossl.api#InvalidJsonRequestParam"
+        },
+        {
+          "target": "com.zerossl.api#IncorrectRequestType"
+        },
+        {
+          "target": "com.zerossl.api#PermissionDenied"
+        },
+        {
+          "target": "com.zerossl.api#MissingCertificateHash"
+        },
+        {
+          "target": "com.zerossl.api#CertificateNotFound"
+        }
+      ]
+    },
+    "com.zerossl.api#EabCredentials": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Returns `1` to indicate that your API request was successful.",
+            "smithy.api#required": {}
+          }
+        },
+        "eab_kid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns your EAB KID value.",
+            "smithy.api#required": {}
+          }
+        },
+        "eab_hmac_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns your EAB HMAC key value.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GenerateEabCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.zerossl.api#EabCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/acme/eab-credentials",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate ACME EAB Credentials via API\n\nTo generate a set of ACME EAB credentials using the ZeroSSL API you will need to make an HTTPS POST request to the API endpoint below."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#FailedCreatingEabAccount"
+        },
+        {
+          "target": "com.zerossl.api#FailedSavingEabAccount"
+        },
+        {
+          "target": "com.zerossl.api#TooManyEabCredentialsCreatedToday"
+        },
+        {
+          "target": "com.zerossl.api#TooManyEabCredentialsCreatedForUser"
+        },
+        {
+          "target": "com.zerossl.api#CaddyLegacyUserRemoved"
+        },
+        {
+          "target": "com.zerossl.api#RateLimitExceeded"
+        }
+      ]
+    },
+    "com.zerossl.api#InvalidAccessKey": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has provided an invalid API access key (`invalid_access_key`, code 101).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_access_key"
+          },
+          {
+            "code": 101
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InactiveUser": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You can not authenticate because your account is not active (`inactive_user`, code 102).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "inactive_user"
+          },
+          {
+            "code": 102
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidApiFunction": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has provided an invalid API function (`invalid_api_function`, code 103).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_api_function"
+          },
+          {
+            "code": 103
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#RouteNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "This route does not exist. Check the spelling in your request URL and also the HTTP method you are using (some endpoints can only be called using a POST request for instance) (`route_not_found`, code 104).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "route_not_found"
+          },
+          {
+            "code": 104
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidRequestBody": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The body of your request was wrong. Please check your request arguments (`invalid_request_body`, code 110).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_request_body"
+          },
+          {
+            "code": 110
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InternalServerError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Something went wrong. If the problem persists, please contact our support team ([support@zerossl.com](mailto:support@zerossl.com)) (`internal_server_error`, code 111).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "internal_server_error"
+          },
+          {
+            "code": 111
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#Conflict": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The target resource can not be modified (`conflict`, code 112).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "conflict"
+          },
+          {
+            "code": 112
+          },
+          {
+            "code": 114
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#UnprocessableEntity": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The syntax of your request was correct, but your request can not be processed (`unprocessable_entity`, code 113).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "unprocessable_entity"
+          },
+          {
+            "code": 113
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidJsonRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You have sent a JSON request, but it can not be decoded as JSON. Please check your input (`invalid_json_request`, code 115).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_json_request"
+          },
+          {
+            "code": 115
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidJsonRequestParam": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You have sent an illegal parameter in your JSON request. Multidimensional arrays, objects and resources are not allowed (`invalid_json_request_param`, code 116).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_json_request_param"
+          },
+          {
+            "code": 116
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#IncorrectRequestType": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has made a non-supported API request (`incorrect_request_type`, code 2800).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "incorrect_request_type"
+          },
+          {
+            "code": 2800
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#PermissionDenied": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User does not have the permissions to access this resource (`permission_denied`, code 2801).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "permission_denied"
+          },
+          {
+            "code": 2801
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingCertificateHash": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a certificate ID (hash) (`missing_certificate_hash`, code 2802).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_certificate_hash"
+          },
+          {
+            "code": 2802
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The given certificate ID (hash) could not be found (`certificate_not_found`, code 2803).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_found"
+          },
+          {
+            "code": 2803
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CannotIssueCertificateUnpaidUpgradeInvoices": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The current certificate cannot be issued due to unpaid invoices on a user account (`cannot_issue_certificate_unpaid_upgrade_invoices`, code 2804).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "cannot_issue_certificate_unpaid_upgrade_invoices"
+          },
+          {
+            "code": 2804
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCertificateType": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has provided an invalid certificate type (`invalid_certificate_type`, code 2805).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_certificate_type"
+          },
+          {
+            "code": 2805
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingCertificateType": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a valid certificate type (`missing_certificate_type`, code 2806).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_certificate_type"
+          },
+          {
+            "code": 2806
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCertificateValidity": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a valid certificate validity (`invalid_certificate_validity`, code 2807).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_certificate_validity"
+          },
+          {
+            "code": 2807
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCertificateDomain": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided one or more invalid certificate domains (`invalid_certificate_domain`, code 2808).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_certificate_domain"
+          },
+          {
+            "code": 2808
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#WildcardDomainsNotAllowedInMultidomainCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Wildcards cannot be included in multi-domain certificates (`wildcard_domains_not_allowed_in_multidomain_certificate`, code 2809).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "wildcard_domains_not_allowed_in_multidomain_certificate"
+          },
+          {
+            "code": 2809
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidDomainsInMultidomainRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided one or more invalid domains in multi-domain request (`invalid_domains_in_multidomain_request`, code 2810).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_domains_in_multidomain_request"
+          },
+          {
+            "code": 2810
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#DuplicateDomainsInArray": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided one or more duplicate domains (`duplicate_domains_in_array`, code 2811).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "duplicate_domains_in_array"
+          },
+          {
+            "code": 2811
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingCertificateDomains": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided any certificate domains (`missing_certificate_domains`, code 2812).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_certificate_domains"
+          },
+          {
+            "code": 2812
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CannotReplaceCertificateOtherReplacementInDraft": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Only issued certificates can be renewed or replaced by a new certificate (`cannot_replace_certificate_other_replacement_in_draft`, code 2813).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "cannot_replace_certificate_other_replacement_in_draft"
+          },
+          {
+            "code": 2813
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#PermissionDeniedOnOriginalCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User does not have the permissions to access certificate to renew (`permission_denied_on_original_certificate`, code 2814).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "permission_denied_on_original_certificate"
+          },
+          {
+            "code": 2814
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#OriginalCertificateNotActive": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Only issued certificates can be renewed or replaced by a new certificate (`original_certificate_not_active`, code 2815).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "original_certificate_not_active"
+          },
+          {
+            "code": 2815
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CannotFindOriginalCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Certificate to renew was not found (`cannot_find_original_certificate`, code 2816).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "cannot_find_original_certificate"
+          },
+          {
+            "code": 2816
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateLimitReached": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Limit of certificates on user account was reached (`certificate_limit_reached`, code 2817).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_limit_reached"
+          },
+          {
+            "code": 2817
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCertificateCsr": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a valid CSR value (`invalid_certificate_csr`, code 2818).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_certificate_csr"
+          },
+          {
+            "code": 2818
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCertificateCsrForNonWildcard": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You provided a CSR where the common name is a wildcard, but your certificate is not a wildcard. This will not work. It is recommended to leave the CSR common name completely empty, it is deprecated anyway (`invalid_certificate_csr_for_non_wildcard`, code 28181).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_certificate_csr_for_non_wildcard"
+          },
+          {
+            "code": 28181
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCertificateCsrForWildcard": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You provided a CSR where the common name is not a wildcard, but your certificate is a wildcard. This will not work. It is recommended to leave the CSR common name completely empty, it is deprecated anyway (`invalid_certificate_csr_for_wildcard`, code 28182).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_certificate_csr_for_wildcard"
+          },
+          {
+            "code": 28182
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingCertificateCsr": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a CSR value (`missing_certificate_csr`, code 2819).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_certificate_csr"
+          },
+          {
+            "code": 2819
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InternalErrorFailedProcessingCsr": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Internal error processing CSR. Please contact support if this error occurs (`internal_error_failed_processing_csr`, code 2820).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "internal_error_failed_processing_csr"
+          },
+          {
+            "code": 2820
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InternalErrorFailedCreatingCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Internal error generating certificate. Please contact support if this error occurs (`internal_error_failed_creating_certificate`, code 2821).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "internal_error_failed_creating_certificate"
+          },
+          {
+            "code": 2821
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CsrCnIsInvalid": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The CN (= common name) in the CSR has an invalid value. Most probably it is not a valid internet address (domain or IP without protocol). Valid examples: `example.com`, `127.0.0.1`. Please note that the CSRs' CN (common name) should be exactly the first of your `certificate_domains` parameter. It is recommended to use a fresh, unique and correct CSR for all certificates (`csr_cn_is_invalid`, code 2836).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "csr_cn_is_invalid"
+          },
+          {
+            "code": 2836
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#DuplicateCertificatesFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Domain can no longer be protected using Free Plan, upgrade to Basic Plan required (`duplicate_certificates_found`, code 2839).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "duplicate_certificates_found"
+          },
+          {
+            "code": 2839
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateCreationLockedUnpaidInvoices": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Your account has been temporarily suspended due to unpaid invoices. Please pay your open invoices in order to unlock this endpoint (`certificate_creation_locked_unpaid_invoices`, code 2841).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_creation_locked_unpaid_invoices"
+          },
+          {
+            "code": 2841
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidSan": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Your SAN is being rejected. Most probably you have too many subject alternative names for your certificate or they have too many characters overall (`invalid_san`, code 2880).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_san"
+          },
+          {
+            "code": 2880
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedShowingCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The requested certificate could not be retrieved (`failed_showing_certificate`, code 2822).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_showing_certificate"
+          },
+          {
+            "code": 2822
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedValidatingCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Domain verification failed and must be retried. Possible reasons for this are: * You are using a [restricted TLD](https://help.zerossl.com/hc/en-us/articles/360060119833-Restricted-Countries) * Your domain name is too long (~ 62 characters maximum) * Your custom CSR is using a key which is believed to be compromised Please also make sure you know about [common verification problems](https://help.zerossl.com/hc/en-us/articles/360058294194--I-have-troubles-during-certificate-verification) (`failed_validating_certificate`, code 2823).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_validating_certificate"
+          },
+          {
+            "code": 2823
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingValidationEmails": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a validation email for each domain in certificate (`missing_validation_emails`, code 2824).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_validation_emails"
+          },
+          {
+            "code": 2824
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingValidationEmail": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a validation email for each domain in certificate (`missing_validation_email`, code 2825).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_validation_email"
+          },
+          {
+            "code": 2825
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InternalErrorWhileValdatingDomainControl": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Internal error verifying domains. Please contact support if this error occurs (`internal_error_while_valdating_domain_control`, code 2826).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "internal_error_while_valdating_domain_control"
+          },
+          {
+            "code": 2826
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidValidationMethod": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has provided an in invalid domain verification method (`invalid_validation_method`, code 2827).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_validation_method"
+          },
+          {
+            "code": 2827
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingValidationMethod": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has not provided a domain verification method (`missing_validation_method`, code 2828).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_validation_method"
+          },
+          {
+            "code": 2828
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#IncorrectCertificateValidationType": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "User has provided an in invalid domain verification method or value (`incorrect_certificate_validation_type`, code 2829).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "incorrect_certificate_validation_type"
+          },
+          {
+            "code": 2829
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotEligible": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The given certificate is not eligible for domain verification (`certificate_not_eligible`, code 2830).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_eligible"
+          },
+          {
+            "code": 2830
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotReadyToValidate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The given certificate is not ready for domain verification (`certificate_not_ready_to_validate`, code 2831).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_ready_to_validate"
+          },
+          {
+            "code": 2831
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidCaaRecordsDetected": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Invalid CAA records detected for some domains. Array of affected domains can be found in `details` object. [Learn more](/hc/en-us) about CAA records (`invalid_caa_records_detected`, code 2840).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_caa_records_detected"
+          },
+          {
+            "code": 2840
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CaaRecordCheckFailed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "An internal error occurred checking your CAA records. If the problem persists please contact our support team ([support@zerossl.com](mailto:support@zerossl.com)) (`caa_record_check_failed`, code 2841).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "caa_record_check_failed"
+          },
+          {
+            "code": 2841
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#ReplacementNeedsSameCommonName": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "A replacement certificate needs the same common name as its replacement (`replacement_needs_same_common_name`, code 2842).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "replacement_needs_same_common_name"
+          },
+          {
+            "code": 2842
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#Ipv6IsNotYetSupported": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "We are working on providing IPv6 certificates. The feature is not yet available (`ipv6_is_not_yet_supported`, code 2843).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "ipv6_is_not_yet_supported"
+          },
+          {
+            "code": 2843
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateRestrictedTopLevelDomain": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "We are not able to issue certificates for this Top-Level-Domain at the moment. [Learn more](https://help.zerossl.com/hc/en-us/articles/360060119833-Restricted-Countries) (`certificate_restricted_top_level_domain`, code 2874).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_restricted_top_level_domain"
+          },
+          {
+            "code": 2874
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificatePremiumNotAllowed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You are not allowed to issue premium certificates, most probably due to unpaid invoices or upgrades / downgrades. In case you think this is a mistake, please contact the ZeroSSL support team (`certificate_premium_not_allowed`, code 2875).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_premium_not_allowed"
+          },
+          {
+            "code": 2875
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateUnsupportedTopLevelDomain": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Certain TLDs are reserved for special purposes and we are not allowed to issue certificates for those. Those TLDs include `.local`, `.localhost`, `.example`, `.invalid` and `.test` as well as some others. You think there is a mistake on our side and issuing certs for this top level domain should be allowed? Please contact our support team and describe the issue! (`certificate_unsupported_top_level_domain`, code 2877).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_unsupported_top_level_domain"
+          },
+          {
+            "code": 2877
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotIssued": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The given certificate has not been issued yet (`certificate_not_issued`, code 2832).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_issued"
+          },
+          {
+            "code": 2832
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotDownloadable": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The certificate can currently not be downloaded (`certificate_not_downloadable`, code 2860).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_downloadable"
+          },
+          {
+            "code": 2860
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#RevocationFailed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The certificate can not be revoked currently, please try again later. If the problem persists - especially in urgent cases like key compromise - please contact our support team ([support@zerossl.com](mailto:support@zerossl.com)) (`revocation_failed`, code 2906).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "revocation_failed"
+          },
+          {
+            "code": 2906
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotInRevocableState": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The certificate is not in a revocable state. Either the state has transitioned in the background, you are trying to revoke a certificate which can not be revoked due to its status or some process is going on in the background. If you think this is a mistake at our side please contact our support team ([support@zerossl.com](mailto:support@zerossl.com)) (`certificate_not_in_revocable_state`, code 2907).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_in_revocable_state"
+          },
+          {
+            "code": 2907
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateRevocationTemporarilyBlocked": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Due customer protection mechanisms, your certificate can not be revoked at the moment. **Try again some hours later**. We temporarily disable revocation functionality, if high numbers of certificates are revoked. This was implemented as a preventive measure to limit possible loss in case of whatever related incident. Help and further information: ([support@zerossl.com](mailto:support@zerossl.com)) (`certificate_revocation_temporarily_blocked`, code 2908).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_revocation_temporarily_blocked"
+          },
+          {
+            "code": 2908
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotRevocableBeingIssued": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The certificate can not be revoked / cancelled because it is currently being issued. If this was a mistake, you may revoke it after issuance (most probably in 1-2 minutes) (`certificate_not_revocable_being_issued`, code 2909).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_revocable_being_issued"
+          },
+          {
+            "code": 2909
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateNotRevocableAlreadyReplaced": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The certificate has already been replaced by a new one. Does not apply for certificates where you have used the standard \"renew\" functionality of ZeroSSL, can only happen for special cases (`certificate_not_revocable_already_replaced`, code 2910).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_not_revocable_already_replaced"
+          },
+          {
+            "code": 2910
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CertificateCannotBeCancelled": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The given certificate cannot be cancelled due to its status (`certificate_cannot_be_cancelled`, code 2833).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "certificate_cannot_be_cancelled"
+          },
+          {
+            "code": 2833
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedCancellingCertificate": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Internal error cancelling certificate. Try again or contact support (`failed_cancelling_certificate`, code 2834).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_cancelling_certificate"
+          },
+          {
+            "code": 2834
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedResendingEmail": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Internal error resending verification email. Try again or contact support (`failed_resending_email`, code 2837).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_resending_email"
+          },
+          {
+            "code": 2837
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedGettingValidationStatus": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Error retrieving domain verification status. Try again and make sure Email Verification is selected (`failed_getting_validation_status`, code 2838).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_getting_validation_status"
+          },
+          {
+            "code": 2838
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#UserEmailAlreadyVerified": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "This email has already been verified. If this is your email, and you think this is a mistake, please contact our support team (`user_email_already_verified`, code 2950).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "user_email_already_verified"
+          },
+          {
+            "code": 2950
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#UserEmailVerifyTryLater": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "There are too many email verification requests at the moment and a maximum limit has been hit. Please try again later (`user_email_verify_try_later`, code 2951).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "user_email_verify_try_later"
+          },
+          {
+            "code": 2951
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#VerificationEmailMissing": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The email you want to verify is missing in the request (`verification_email_missing`, code 2952).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "verification_email_missing"
+          },
+          {
+            "code": 2952
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#VerificationEmailMissmatch": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The verification emails do not match (`verification_email_missmatch`, code 2953).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "verification_email_missmatch"
+          },
+          {
+            "code": 2953
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#VerificationTokenMissing": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The verification token is missing in your email verification attempt (`verification_token_missing`, code 2954).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "verification_token_missing"
+          },
+          {
+            "code": 2954
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#VerificationTokenInvalid": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The email verification token is invalid (`verification_token_invalid`, code 2955).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "verification_token_invalid"
+          },
+          {
+            "code": 2955
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#VerificationTokenExpired": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The verification token is expired. Create a new token and finish the verification in time in order to resolve the issue (`verification_token_expired`, code 2956).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "verification_token_expired"
+          },
+          {
+            "code": 2956
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#MissingEmailInEmailChangeRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The email is missing in the email change request (`missing_email_in_email_change_request`, code 2957).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "missing_email_in_email_change_request"
+          },
+          {
+            "code": 2957
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#InvalidEmailInEmailChangeRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The email you have submitted in the email change request is invalid (`invalid_email_in_email_change_request`, code 2958).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_email_in_email_change_request"
+          },
+          {
+            "code": 2958
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#EmailAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "That email is already registered in our system. An email must be unique in our system. The email must be unused also in our ACME service. If you think there is an issue in that regard, please contact our support team ([support@zerossl.com](mailto:support@zerossl.com)) (`email_already_exists`, code 2987).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "email_already_exists"
+          },
+          {
+            "code": 2987
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#NewEmailMatchesOldEmail": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Your new email seems to match or old email. If you want to verify your email you are calling the wrong endpoint (`new_email_matches_old_email`, code 2988).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "new_email_matches_old_email"
+          },
+          {
+            "code": 2988
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedToSendVerificationEmail": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Due to an internal error we have not been able to send the verification email. Please try again later or contact us if you need further assistance (`failed_to_send_verification_email`, code 2993).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_to_send_verification_email"
+          },
+          {
+            "code": 2993
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedCreatingEabAccount": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Your EAB credentials can not be created currently. This is usually due to maintenance or temporary downtimes, please try again later (`failed_creating_eab_account`, code 2902).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_creating_eab_account"
+          },
+          {
+            "code": 2902
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#FailedSavingEabAccount": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Your EAB credentials could not be saved. This should occur very rarely, please try again (`failed_saving_eab_account`, code 2903).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_saving_eab_account"
+          },
+          {
+            "code": 2903
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#TooManyEabCredentialsCreatedToday": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You have created too many EAB credentials today. EAB credentials can be re-used, we do not know any meaningful scenario where you might need those amount of credentials. Please check your implementation (in case of troubles please contact: [support@zerossl.com](mailto: support@zerossl.com)) (`too_many_eab_credentials_created_today`, code 2904).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "too_many_eab_credentials_created_today"
+          },
+          {
+            "code": 2904
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#TooManyEabCredentialsCreatedForUser": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "You have created too many EAB credentials with this user. EAB credentials can be re-used, we do not know any meaningful scenario where you might need those amount of credentials. Please check your implementation (in case of troubles please contact: [support@zerossl.com](mailto: support@zerossl.com)) (`too_many_eab_credentials_created_for_user`, code 2905).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "too_many_eab_credentials_created_for_user"
+          },
+          {
+            "code": 2905
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#CaddyLegacyUserRemoved": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The Caddyserver legacy user was removed. You can use the Caddyserver with ZeroSSL in various other ways such as the API, with a ZeroSSL user account or by at least providing your email address. More information: [https://github.com/caddyserver/caddy/releases/tag/v2.8.0](https://github.com/caddyserver/caddy/releases/tag/v2.8.0). Be free to contact our support team in case you have any further questions (`caddy_legacy_user_removed`, code 2977).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "caddy_legacy_user_removed"
+          },
+          {
+            "code": 2977
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#ZeroSsl": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.zerossl.api#CreateCertificate"
+        },
+        {
+          "target": "com.zerossl.api#VerifyDomains"
+        },
+        {
+          "target": "com.zerossl.api#DownloadCertificateInline"
+        },
+        {
+          "target": "com.zerossl.api#GetCertificate"
+        },
+        {
+          "target": "com.zerossl.api#ListCertificates"
+        },
+        {
+          "target": "com.zerossl.api#GetVerificationStatus"
+        },
+        {
+          "target": "com.zerossl.api#ResendVerification"
+        },
+        {
+          "target": "com.zerossl.api#CancelCertificate"
+        },
+        {
+          "target": "com.zerossl.api#RevokeCertificate"
+        },
+        {
+          "target": "com.zerossl.api#ValidateCsr"
+        },
+        {
+          "target": "com.zerossl.api#GenerateEabCredentials"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "ZeroSSL REST API",
+        "smithy.api#documentation": "Converted from the ZeroSSL API reference (github.com/zerossl/documentation). Auth is the account's access key, sent in the `Authorization: ApiKey` header by the protocol (never modeled as an input). Failures come back as `{ success: false, error: { code, type, info } }`, usually with HTTP 200 — the protocol treats `success: false` as an error and matches on `error.type`."
+      }
+    },
+    "com.zerossl.api#RateLimitExceeded": {
+      "type": "structure",
+      "members": {
+        "retryAfter": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retry-After header parsed as an Effect Duration by the protocol."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#retryable": {
+          "throttling": true
+        },
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "includes": "rate_limit"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
