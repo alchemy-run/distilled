@@ -123,13 +123,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id",
-            "smithy.api#required": {}
-          }
-        },
         "direction": {
           "target": "com.whop.affiliates#Direction",
           "traits": {
@@ -152,6 +145,13 @@
           "target": "com.whop.affiliates#Status",
           "traits": {
             "smithy.api#httpQuery": "status"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {}
           }
         }
       },
@@ -430,7 +430,7 @@
     "com.whop.affiliates#CreateAffiliateRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the company to create the affiliate for.",

@@ -1,0 +1,253 @@
+{
+  "description": "From hog-functions-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"hog_functions\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsEnableBackfillsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsInvocationsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsLogsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsMetricsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsIconRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsIconsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsRearrangePartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#Forbidden",
+      "before": "com.posthog.hog_functions#HogFunctions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#NotFound",
+      "before": "com.posthog.hog_functions#HogFunctions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

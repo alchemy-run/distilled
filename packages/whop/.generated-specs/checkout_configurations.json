@@ -98,14 +98,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of checkout configurations to return."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor for the next page of results."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         }
       },
@@ -270,15 +270,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
       }
     },
     "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanVisibility": {
@@ -384,7 +390,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -418,15 +424,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy."
       }
     },
     "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItem": {
@@ -519,7 +531,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -642,22 +654,804 @@
         "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later. Defaults to `payment`."
       }
     },
+    "com.whop.checkout_configurations#PaymentMethodTypes": {
+      "type": "enum",
+      "members": {
+        "ACSS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acss_debit"
+          }
+        },
+        "ADDI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "addi"
+          }
+        },
+        "AFFIRM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affirm"
+          }
+        },
+        "AFTERPAY_CLEARPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afterpay_clearpay"
+          }
+        },
+        "ALIPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALIPAYHK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipayhk"
+          }
+        },
+        "ALMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alma"
+          }
+        },
+        "AMAZON_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amazon_pay"
+          }
+        },
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        },
+        "APPLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_pay"
+          }
+        },
+        "AU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_bank_transfer"
+          }
+        },
+        "AU_BECS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_becs_debit"
+          }
+        },
+        "BACS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bacs_debit"
+          }
+        },
+        "BANCOLOMBIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancolombia"
+          }
+        },
+        "BANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancontact"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "BILLIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billie"
+          }
+        },
+        "BLIK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blik"
+          }
+        },
+        "BOLETO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boleto"
+          }
+        },
+        "BRE_B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bre_b"
+          }
+        },
+        "CA_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bank_transfer"
+          }
+        },
+        "CAPCHASE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "capchase_pay"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CARD_INSTALLMENTS_THREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_three"
+          }
+        },
+        "CARD_INSTALLMENTS_SIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_six"
+          }
+        },
+        "CARD_INSTALLMENTS_TWELVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_twelve"
+          }
+        },
+        "CASHAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashapp"
+          }
+        },
+        "CLARITYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claritypay"
+          }
+        },
+        "COINBASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinbase"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "CUSTOMER_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_balance"
+          }
+        },
+        "DEMO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "demo_pay"
+          }
+        },
+        "EFECTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "efecty"
+          }
+        },
+        "EPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eps"
+          }
+        },
+        "EU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_bank_transfer"
+          }
+        },
+        "FPX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fpx"
+          }
+        },
+        "FLEX_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flex_pay"
+          }
+        },
+        "GB_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GCASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcash"
+          }
+        },
+        "GIROPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "giropay"
+          }
+        },
+        "GOOGLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google_pay"
+          }
+        },
+        "GOPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gopay"
+          }
+        },
+        "GRABPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grabpay"
+          }
+        },
+        "ID_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_bank_transfer"
+          }
+        },
+        "IDEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ideal"
+          }
+        },
+        "INTERAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interac"
+          }
+        },
+        "KAKAO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kakao_pay"
+          }
+        },
+        "KLARNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna"
+          }
+        },
+        "KLARNA_PAY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna_pay_now"
+          }
+        },
+        "KONBINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "konbini"
+          }
+        },
+        "KR_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_card"
+          }
+        },
+        "KR_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_market"
+          }
+        },
+        "KRIYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kriya"
+          }
+        },
+        "KUESKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kueski"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "MB_WAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_way"
+          }
+        },
+        "M_PESA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "m_pesa"
+          }
+        },
+        "MERCADO_PAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago"
+          }
+        },
+        "MERCADO_PAGO_AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_ar"
+          }
+        },
+        "MERCADO_PAGO_MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_mx"
+          }
+        },
+        "MOBILEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobilepay"
+          }
+        },
+        "MODO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modo"
+          }
+        },
+        "MONDU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mondu"
+          }
+        },
+        "MULTIBANCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multibanco"
+          }
+        },
+        "NAVER_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "naver_pay"
+          }
+        },
+        "NEQUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nequi"
+          }
+        },
+        "NETBANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "netbanking"
+          }
+        },
+        "NG_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank"
+          }
+        },
+        "NG_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank_transfer"
+          }
+        },
+        "NG_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_card"
+          }
+        },
+        "NG_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_market"
+          }
+        },
+        "NG_USSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_ussd"
+          }
+        },
+        "NG_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_wallet"
+          }
+        },
+        "NUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nupay"
+          }
+        },
+        "NZ_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "ONEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney"
+          }
+        },
+        "ONEY_3X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_3x"
+          }
+        },
+        "ONEY_4X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_4x"
+          }
+        },
+        "OPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opay"
+          }
+        },
+        "OXXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oxxo"
+          }
+        },
+        "P24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p24"
+          }
+        },
+        "PAGO_EFECTIVO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pago_efectivo"
+          }
+        },
+        "PSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pse"
+          }
+        },
+        "PAY_BY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pay_by_bank"
+          }
+        },
+        "PAYCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payco"
+          }
+        },
+        "PAYNOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paynow"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "PAYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypay"
+          }
+        },
+        "PAYTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payto"
+          }
+        },
+        "PIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pix"
+          }
+        },
+        "PLATFORM_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance"
+          }
+        },
+        "PROMPTPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promptpay"
+          }
+        },
+        "QRIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qris"
+          }
+        },
+        "RAPIPAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapipago"
+          }
+        },
+        "RECHNUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rechnung"
+          }
+        },
+        "REVOLUT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revolut_pay"
+          }
+        },
+        "SAMSUNG_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samsung_pay"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
+          }
+        },
+        "SCALAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scalapay"
+          }
+        },
+        "SENCILLITO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sencillito"
+          }
+        },
+        "SEPA_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa_debit"
+          }
+        },
+        "SEQURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sequra"
+          }
+        },
+        "SERVIPAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "servipag"
+          }
+        },
+        "SEZZLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sezzle"
+          }
+        },
+        "SHOP_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_pay"
+          }
+        },
+        "SHOPEEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shopeepay"
+          }
+        },
+        "SOFORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sofort"
+          }
+        },
+        "SOUTH_KOREA_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "south_korea_market"
+          }
+        },
+        "SPEI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spei"
+          }
+        },
+        "SPLITIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "splitit"
+          }
+        },
+        "SUNBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sunbit"
+          }
+        },
+        "SWISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swish"
+          }
+        },
+        "TABBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabby"
+          }
+        },
+        "TAMARA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TOUCH_N_GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "touch_n_go"
+          }
+        },
+        "TWINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twint"
+          }
+        },
+        "UPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upi"
+          }
+        },
+        "US_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_account"
+          }
+        },
+        "US_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_transfer"
+          }
+        },
+        "VENMO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
+          }
+        },
+        "VIPPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vipps"
+          }
+        },
+        "WEBPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webpay"
+          }
+        },
+        "WECHAT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wechat_pay"
+          }
+        },
+        "YAPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yape"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COINFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinflow"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different types of payment methods that can be used."
+      }
+    },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.checkout_configurations#PaymentMethodTypes"
       },
       "traits": {
-        "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+        "smithy.api#documentation": "Payment method types explicitly disabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.checkout_configurations#PaymentMethodTypes"
       },
       "traits": {
-        "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+        "smithy.api#documentation": "Payment method types explicitly enabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfiguration": {
@@ -666,13 +1460,13 @@
         "disabled": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList",
           "traits": {
-            "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+            "smithy.api#documentation": "Payment method types explicitly disabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
           }
         },
         "enabled": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList",
           "traits": {
-            "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+            "smithy.api#documentation": "Payment method types explicitly enabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
           }
         },
         "include_platform_defaults": {
@@ -689,19 +1483,19 @@
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.checkout_configurations#PaymentMethodTypes"
       },
       "traits": {
-        "smithy.api#documentation": "Payment methods explicitly disabled for this plan."
+        "smithy.api#documentation": "Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.checkout_configurations#PaymentMethodTypes"
       },
       "traits": {
-        "smithy.api#documentation": "Payment methods explicitly enabled for this plan."
+        "smithy.api#documentation": "Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration": {
@@ -710,13 +1504,13 @@
         "disabled": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList",
           "traits": {
-            "smithy.api#documentation": "Payment methods explicitly disabled for this plan."
+            "smithy.api#documentation": "Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
           }
         },
         "enabled": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList",
           "traits": {
-            "smithy.api#documentation": "Payment methods explicitly enabled for this plan."
+            "smithy.api#documentation": "Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
           }
         },
         "include_platform_defaults": {
@@ -779,15 +1573,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for the inline plan, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanVisibility": {
@@ -933,7 +1733,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for the inline plan, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -979,15 +1779,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this checkout."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationRequest": {
@@ -1057,7 +1863,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this checkout.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1230,15 +2036,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanVisibility": {
@@ -1344,7 +2156,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1378,15 +2190,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy."
       }
     },
     "com.whop.checkout_configurations#CreateCheckoutConfigurationResponse": {
@@ -1479,7 +2297,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1690,15 +2508,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
       }
     },
     "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanVisibility": {
@@ -1804,7 +2628,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1838,15 +2662,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy."
       }
     },
     "com.whop.checkout_configurations#GetCheckoutConfigurationResponse": {
@@ -1939,7 +2769,7 @@
         "three_ds_level": {
           "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponseThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy.",
             "com.distilled.openapi#nullable": {}
           }
         },

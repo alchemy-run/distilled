@@ -146,6 +146,8 @@ export interface CreateVerificationRequestBodyCase0 {
   share_token?: string;
   /** The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada. */
   tax_identification_number?: string;
+  /** ID of an `approved` verification to reuse on this account instead of verifying the person again, for example `idpf_XXXXXXXX`. The verification becomes this account's current one for its kind — replacing whichever verification of that kind the account already has, and carrying its payout account across — and the response is that same verification, unchanged. Only the signed-in Whop user who started the original verification can reuse it: API keys, OAuth tokens, and onboarding links are refused. `kind` is the only other field it accepts, and must match the reused verification. An account whose verification was denied or is still under review cannot reuse one. */
+  verification_id?: string;
 }
 export const CreateVerificationRequestBodyCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -164,6 +166,7 @@ export const CreateVerificationRequestBodyCase0 = /*@__PURE__*/ S.suspend(() =>
     phone: S.optional(S.String),
     share_token: S.optional(S.String),
     tax_identification_number: S.optional(S.String),
+    verification_id: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateVerificationRequestBodyCase0",
@@ -205,6 +208,8 @@ export interface CreateVerificationRequestBodyCase1 {
   share_token?: string;
   /** The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada. */
   tax_identification_number?: string;
+  /** ID of an `approved` verification to reuse on this account instead of verifying the person again, for example `idpf_XXXXXXXX`. The verification becomes this account's current one for its kind — replacing whichever verification of that kind the account already has, and carrying its payout account across — and the response is that same verification, unchanged. Only the signed-in Whop user who started the original verification can reuse it: API keys, OAuth tokens, and onboarding links are refused. `kind` is the only other field it accepts, and must match the reused verification. An account whose verification was denied or is still under review cannot reuse one. */
+  verification_id?: string;
 }
 export const CreateVerificationRequestBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -221,6 +226,7 @@ export const CreateVerificationRequestBodyCase1 = /*@__PURE__*/ S.suspend(() =>
     place_of_incorporation: S.optional(S.String),
     share_token: S.optional(S.String),
     tax_identification_number: S.optional(S.String),
+    verification_id: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateVerificationRequestBodyCase1",
@@ -233,15 +239,18 @@ export const CreateVerificationRequestBody =
   S.Unknown as any as S.Schema<CreateVerificationRequestBody>;
 
 export interface CreateVerificationRequest {
-  /** Account or user ID whose identity you want to verify. Use a `biz_` account ID for account verifications, or the caller's `user_` ID for personal verification. */
-  account_id: string;
+  /** Business account whose identity you want to verify, prefixed `biz_`. Provide this or `user_id`. */
+  account_id?: string;
+  /** The caller's own user ID, prefixed `user_`, for a personal verification. Provide this or `account_id`. */
+  user_id?: string;
   body?: CreateVerificationRequestBody;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
 }
 export const CreateVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    account_id: S.String.pipe(T.Query()),
+    account_id: S.optional(S.String.pipe(T.Query())),
+    user_id: S.optional(S.String.pipe(T.Query())),
     body: S.optional(CreateVerificationRequestBody.pipe(T.HttpBody())),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/verifications", code: 200 })),
@@ -279,6 +288,13 @@ export const CreateVerificationResponseAddress = /*@__PURE__*/ S.suspend(() =>
 export type CreateVerificationResponseKind = "individual" | "business";
 export const CreateVerificationResponseKind = S.String;
 
+/** Selected option values that make the follow-up prompt visible. */
+export type CreateVerificationResponseRequestedInformationItemDetailsVisibleForList = Array<string>;
+export const CreateVerificationResponseRequestedInformationItemDetailsVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateVerificationResponseRequestedInformationItemDetailsVisibleForList>;
+
 export interface CreateVerificationResponseRequestedInformationItemErrorsItem {
   /** Stable error code. */
   code?: string;
@@ -308,7 +324,118 @@ export const CreateVerificationResponseRequestedInformationItemOptionsList = /*@
   S.String,
 ) as any as S.Schema<CreateVerificationResponseRequestedInformationItemOptionsList>;
 
+/** Optional native input format for a text response. */
+export type CreateVerificationResponseRequestedInformationItemResponseType =
+  | "yes_no"
+  | "yes_no_na"
+  | "date"
+  | "url"
+  | "number"
+  | "tel";
+export const CreateVerificationResponseRequestedInformationItemResponseType = S.String;
+
+/** Whether a question with `options` accepts one value or multiple values. */
+export type CreateVerificationResponseRequestedInformationItemSelectionMode = "single" | "multiple";
+export const CreateVerificationResponseRequestedInformationItemSelectionMode = S.String;
+
+export interface FileMultipartUrl {
+  /** The 1-based index of this part within the multipart upload. */
+  part_number: number;
+  /** The presigned URL to PUT this part's bytes to. */
+  url: string;
+}
+export const FileMultipartUrl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    part_number: S.Number,
+    url: S.String,
+  }),
+).annotate({ identifier: "FileMultipartUrl" }) as any as S.Schema<FileMultipartUrl>;
+
+export type FileMultipartUploadUrlsList = Array<FileMultipartUrl>;
+export const FileMultipartUploadUrlsList = /*@__PURE__*/ S.Array(
+  FileMultipartUrl,
+) as any as S.Schema<FileMultipartUploadUrlsList>;
+
+/** Where the file is in its upload lifecycle. */
+export type FileUploadStatus = "pending" | "processing" | "ready" | "failed";
+export const FileUploadStatus = S.String;
+
+/** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
+export type FileVisibility = "public" | "private";
+export const FileVisibility = S.String;
+
+export interface File {
+  /** The file's MIME type, e.g. `application/pdf`. */
+  content_type: string | null;
+  /** When the file was created, as an ISO 8601 timestamp. */
+  created_at: string;
+  /** The original filename, including its extension. */
+  filename: string | null;
+  /** The file's ID, prefixed `file_`. */
+  id: string;
+  /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
+  multipart_chunk_size?: number | null;
+  /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
+  multipart_upload_id?: string | null;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  /** The type of this object, always `file`. */
+  object: string;
+  /** The file size in bytes. `null` until the upload has finished. */
+  size: number | null;
+  /** Headers to send with the upload PUT. Present only on create. */
+  upload_headers?: unknown;
+  /** Where the file is in its upload lifecycle. */
+  upload_status: FileUploadStatus;
+  /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
+  upload_url?: string | null;
+  /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
+  url: string | null;
+  /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
+  visibility: FileVisibility;
+}
+export const File = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content_type: S.NullOr(S.String),
+    created_at: S.String,
+    filename: S.NullOr(S.String),
+    id: S.String,
+    multipart_chunk_size: S.optional(S.NullOr(S.Number)),
+    multipart_upload_id: S.optional(S.NullOr(S.String)),
+    multipart_upload_urls: S.optional(S.NullOr(FileMultipartUploadUrlsList)),
+    object: S.String,
+    size: S.NullOr(S.Number),
+    upload_headers: S.optional(S.Unknown),
+    upload_status: FileUploadStatus,
+    upload_url: S.optional(S.NullOr(S.String)),
+    url: S.NullOr(S.String),
+    visibility: FileVisibility,
+  }),
+).annotate({ identifier: "File" }) as any as S.Schema<File>;
+
+/** Documents supplied with the requirement for context. */
+export type CreateVerificationResponseRequestedInformationItemSupportingDocumentsList = Array<File>;
+export const CreateVerificationResponseRequestedInformationItemSupportingDocumentsList =
+  /*@__PURE__*/ S.Array(
+    File,
+  ) as any as S.Schema<CreateVerificationResponseRequestedInformationItemSupportingDocumentsList>;
+
+/** Selected option values that make the supporting-file input visible. */
+export type CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList =
+  Array<string>;
+export const CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList>;
+
 export interface CreateVerificationResponseRequestedInformationItem {
+  /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
+  action_url?: string;
+  /** Follow-up prompt shown with this requirement. */
+  details_label?: string;
+  /** Whether the follow-up response is required when visible. */
+  details_required?: boolean;
+  /** Selected option values that make the follow-up prompt visible. */
+  details_visible_for?: CreateVerificationResponseRequestedInformationItemDetailsVisibleForList;
   /** Present after a rejected submission. */
   errors?: CreateVerificationResponseRequestedInformationItemErrorsList;
   /** Requested information item ID, prefixed `inrqi_`. */
@@ -321,17 +448,45 @@ export interface CreateVerificationResponseRequestedInformationItem {
   options?: CreateVerificationResponseRequestedInformationItemOptionsList;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
-  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`). */
+  /** Optional native input format for a text response. */
+  response_type?: CreateVerificationResponseRequestedInformationItemResponseType;
+  /** Whether a question with `options` accepts one value or multiple values. */
+  selection_mode?: CreateVerificationResponseRequestedInformationItemSelectionMode;
+  /** Documents supplied with the requirement for context. */
+  supporting_documents?: CreateVerificationResponseRequestedInformationItemSupportingDocumentsList;
+  /** Whether a written explanation may replace required supporting files. */
+  supporting_files_explanation_allowed?: boolean;
+  /** Whether this requirement also needs supporting files. */
+  supporting_files_required?: boolean;
+  /** Selected option values that make the supporting-file input visible. */
+  supporting_files_visible_for?: CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList;
+  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
 export const CreateVerificationResponseRequestedInformationItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action_url: S.optional(S.String),
+    details_label: S.optional(S.String),
+    details_required: S.optional(S.Boolean),
+    details_visible_for: S.optional(
+      CreateVerificationResponseRequestedInformationItemDetailsVisibleForList,
+    ),
     errors: S.optional(CreateVerificationResponseRequestedInformationItemErrorsList),
     id: S.String,
     label: S.String,
     optional: S.optional(S.Boolean),
     options: S.optional(CreateVerificationResponseRequestedInformationItemOptionsList),
     requirement: S.String,
+    response_type: S.optional(CreateVerificationResponseRequestedInformationItemResponseType),
+    selection_mode: S.optional(CreateVerificationResponseRequestedInformationItemSelectionMode),
+    supporting_documents: S.optional(
+      CreateVerificationResponseRequestedInformationItemSupportingDocumentsList,
+    ),
+    supporting_files_explanation_allowed: S.optional(S.Boolean),
+    supporting_files_required: S.optional(S.Boolean),
+    supporting_files_visible_for: S.optional(
+      CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList,
+    ),
     type: S.String,
   }),
 ).annotate({
@@ -459,6 +614,13 @@ export const GetVerificationResponseAddress = CreateVerificationResponseAddress;
 export type GetVerificationResponseKind = "individual" | "business";
 export const GetVerificationResponseKind = S.String;
 
+/** Selected option values that make the follow-up prompt visible. */
+export type GetVerificationResponseRequestedInformationItemDetailsVisibleForList = Array<string>;
+export const GetVerificationResponseRequestedInformationItemDetailsVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetVerificationResponseRequestedInformationItemDetailsVisibleForList>;
+
 export type GetVerificationResponseRequestedInformationItemErrorsItem =
   CreateVerificationResponseRequestedInformationItemErrorsItem;
 export const GetVerificationResponseRequestedInformationItemErrorsItem =
@@ -477,7 +639,44 @@ export const GetVerificationResponseRequestedInformationItemOptionsList = /*@__P
   S.String,
 ) as any as S.Schema<GetVerificationResponseRequestedInformationItemOptionsList>;
 
+/** Optional native input format for a text response. */
+export type GetVerificationResponseRequestedInformationItemResponseType =
+  | "yes_no"
+  | "yes_no_na"
+  | "date"
+  | "url"
+  | "number"
+  | "tel";
+export const GetVerificationResponseRequestedInformationItemResponseType = S.String;
+
+/** Whether a question with `options` accepts one value or multiple values. */
+export type GetVerificationResponseRequestedInformationItemSelectionMode = "single" | "multiple";
+export const GetVerificationResponseRequestedInformationItemSelectionMode = S.String;
+
+/** Documents supplied with the requirement for context. */
+export type GetVerificationResponseRequestedInformationItemSupportingDocumentsList = Array<File>;
+export const GetVerificationResponseRequestedInformationItemSupportingDocumentsList =
+  /*@__PURE__*/ S.Array(
+    File,
+  ) as any as S.Schema<GetVerificationResponseRequestedInformationItemSupportingDocumentsList>;
+
+/** Selected option values that make the supporting-file input visible. */
+export type GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList =
+  Array<string>;
+export const GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList>;
+
 export interface GetVerificationResponseRequestedInformationItem {
+  /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
+  action_url?: string;
+  /** Follow-up prompt shown with this requirement. */
+  details_label?: string;
+  /** Whether the follow-up response is required when visible. */
+  details_required?: boolean;
+  /** Selected option values that make the follow-up prompt visible. */
+  details_visible_for?: GetVerificationResponseRequestedInformationItemDetailsVisibleForList;
   /** Present after a rejected submission. */
   errors?: GetVerificationResponseRequestedInformationItemErrorsList;
   /** Requested information item ID, prefixed `inrqi_`. */
@@ -490,17 +689,45 @@ export interface GetVerificationResponseRequestedInformationItem {
   options?: GetVerificationResponseRequestedInformationItemOptionsList;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
-  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`). */
+  /** Optional native input format for a text response. */
+  response_type?: GetVerificationResponseRequestedInformationItemResponseType;
+  /** Whether a question with `options` accepts one value or multiple values. */
+  selection_mode?: GetVerificationResponseRequestedInformationItemSelectionMode;
+  /** Documents supplied with the requirement for context. */
+  supporting_documents?: GetVerificationResponseRequestedInformationItemSupportingDocumentsList;
+  /** Whether a written explanation may replace required supporting files. */
+  supporting_files_explanation_allowed?: boolean;
+  /** Whether this requirement also needs supporting files. */
+  supporting_files_required?: boolean;
+  /** Selected option values that make the supporting-file input visible. */
+  supporting_files_visible_for?: GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList;
+  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
 export const GetVerificationResponseRequestedInformationItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action_url: S.optional(S.String),
+    details_label: S.optional(S.String),
+    details_required: S.optional(S.Boolean),
+    details_visible_for: S.optional(
+      GetVerificationResponseRequestedInformationItemDetailsVisibleForList,
+    ),
     errors: S.optional(GetVerificationResponseRequestedInformationItemErrorsList),
     id: S.String,
     label: S.String,
     optional: S.optional(S.Boolean),
     options: S.optional(GetVerificationResponseRequestedInformationItemOptionsList),
     requirement: S.String,
+    response_type: S.optional(GetVerificationResponseRequestedInformationItemResponseType),
+    selection_mode: S.optional(GetVerificationResponseRequestedInformationItemSelectionMode),
+    supporting_documents: S.optional(
+      GetVerificationResponseRequestedInformationItemSupportingDocumentsList,
+    ),
+    supporting_files_explanation_allowed: S.optional(S.Boolean),
+    supporting_files_required: S.optional(S.Boolean),
+    supporting_files_visible_for: S.optional(
+      GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList,
+    ),
     type: S.String,
   }),
 ).annotate({
@@ -616,8 +843,10 @@ export type ListVerificationsRequestDirection = "asc" | "desc";
 export const ListVerificationsRequestDirection = S.String;
 
 export interface ListVerificationsRequest {
-  /** Account or user ID whose verifications you want to list. Use a `biz_` account ID, or the caller's `user_` ID for personal verifications. */
-  account_id: string;
+  /** Business account whose verifications you want to list, prefixed `biz_`. Provide this or `user_id`. */
+  account_id?: string;
+  /** The caller's own user ID, prefixed `user_`, to list personal verifications. Provide this or `account_id`. */
+  user_id?: string;
   /** Field used to sort returned verifications. */
   order?: ListVerificationsRequestOrder | (string & {});
   /** Sort direction for returned verifications. */
@@ -625,7 +854,8 @@ export interface ListVerificationsRequest {
 }
 export const ListVerificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    account_id: S.String.pipe(T.Query()),
+    account_id: S.optional(S.String.pipe(T.Query())),
+    user_id: S.optional(S.String.pipe(T.Query())),
     order: S.optional(ListVerificationsRequestOrder.pipe(T.Query())),
     direction: S.optional(ListVerificationsRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/verifications", code: 200 })),
@@ -637,6 +867,14 @@ export const ListVerificationsResponseDataItemAddress = CreateVerificationRespon
 
 export type ListVerificationsResponseDataItemKind = "individual" | "business";
 export const ListVerificationsResponseDataItemKind = S.String;
+
+/** Selected option values that make the follow-up prompt visible. */
+export type ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList =
+  Array<string>;
+export const ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList>;
 
 export type ListVerificationsResponseDataItemRequestedInformationItemErrorsItem =
   CreateVerificationResponseRequestedInformationItemErrorsItem;
@@ -658,7 +896,47 @@ export const ListVerificationsResponseDataItemRequestedInformationItemOptionsLis
     S.String,
   ) as any as S.Schema<ListVerificationsResponseDataItemRequestedInformationItemOptionsList>;
 
+/** Optional native input format for a text response. */
+export type ListVerificationsResponseDataItemRequestedInformationItemResponseType =
+  | "yes_no"
+  | "yes_no_na"
+  | "date"
+  | "url"
+  | "number"
+  | "tel";
+export const ListVerificationsResponseDataItemRequestedInformationItemResponseType = S.String;
+
+/** Whether a question with `options` accepts one value or multiple values. */
+export type ListVerificationsResponseDataItemRequestedInformationItemSelectionMode =
+  | "single"
+  | "multiple";
+export const ListVerificationsResponseDataItemRequestedInformationItemSelectionMode = S.String;
+
+/** Documents supplied with the requirement for context. */
+export type ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList =
+  Array<File>;
+export const ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList =
+  /*@__PURE__*/ S.Array(
+    File,
+  ) as any as S.Schema<ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList>;
+
+/** Selected option values that make the supporting-file input visible. */
+export type ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList =
+  Array<string>;
+export const ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList>;
+
 export interface ListVerificationsResponseDataItemRequestedInformationItem {
+  /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
+  action_url?: string;
+  /** Follow-up prompt shown with this requirement. */
+  details_label?: string;
+  /** Whether the follow-up response is required when visible. */
+  details_required?: boolean;
+  /** Selected option values that make the follow-up prompt visible. */
+  details_visible_for?: ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList;
   /** Present after a rejected submission. */
   errors?: ListVerificationsResponseDataItemRequestedInformationItemErrorsList;
   /** Requested information item ID, prefixed `inrqi_`. */
@@ -671,18 +949,50 @@ export interface ListVerificationsResponseDataItemRequestedInformationItem {
   options?: ListVerificationsResponseDataItemRequestedInformationItemOptionsList;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
-  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`). */
+  /** Optional native input format for a text response. */
+  response_type?: ListVerificationsResponseDataItemRequestedInformationItemResponseType;
+  /** Whether a question with `options` accepts one value or multiple values. */
+  selection_mode?: ListVerificationsResponseDataItemRequestedInformationItemSelectionMode;
+  /** Documents supplied with the requirement for context. */
+  supporting_documents?: ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList;
+  /** Whether a written explanation may replace required supporting files. */
+  supporting_files_explanation_allowed?: boolean;
+  /** Whether this requirement also needs supporting files. */
+  supporting_files_required?: boolean;
+  /** Selected option values that make the supporting-file input visible. */
+  supporting_files_visible_for?: ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList;
+  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
 export const ListVerificationsResponseDataItemRequestedInformationItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      action_url: S.optional(S.String),
+      details_label: S.optional(S.String),
+      details_required: S.optional(S.Boolean),
+      details_visible_for: S.optional(
+        ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList,
+      ),
       errors: S.optional(ListVerificationsResponseDataItemRequestedInformationItemErrorsList),
       id: S.String,
       label: S.String,
       optional: S.optional(S.Boolean),
       options: S.optional(ListVerificationsResponseDataItemRequestedInformationItemOptionsList),
       requirement: S.String,
+      response_type: S.optional(
+        ListVerificationsResponseDataItemRequestedInformationItemResponseType,
+      ),
+      selection_mode: S.optional(
+        ListVerificationsResponseDataItemRequestedInformationItemSelectionMode,
+      ),
+      supporting_documents: S.optional(
+        ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList,
+      ),
+      supporting_files_explanation_allowed: S.optional(S.Boolean),
+      supporting_files_required: S.optional(S.Boolean),
+      supporting_files_visible_for: S.optional(
+        ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList,
+      ),
       type: S.String,
     }),
 ).annotate({
@@ -855,7 +1165,7 @@ export const UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments
     identifier: "UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments",
   }) as any as S.Schema<UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments>;
 
-/** Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
+/** Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
 export type UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList = Array<string>;
 export const UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList =
   /*@__PURE__*/ S.Array(
@@ -868,29 +1178,45 @@ export type UpdateVerificationRequestBodyCase0RequestedInformationItemValueType 
   | "vault_token";
 export const UpdateVerificationRequestBodyCase0RequestedInformationItemValueType = S.String;
 
+/** Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item. */
+export type UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList = Array<string>;
+export const UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList>;
+
 export interface UpdateVerificationRequestBodyCase0RequestedInformationItem {
   /** Answer for `address` items. */
   address?: CreateVerificationRequestBodyCase0Address;
+  /** Identity number for an `id_document` answer. */
+  document_number?: string;
   /** Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading — `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
   documents?: UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments;
-  /** Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
+  /** Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
   files?: UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList;
   /** Item ID from `requested_information`. */
   id: string;
-  /** Answer for `text`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`. */
+  /** Two-letter ISO 3166-1 issuing country for an `id_document` answer. */
+  issuing_country?: string;
+  /** Answer for `text`, `text_with_files`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`. */
   value?: string;
   /** Whether `value` is raw input or a vault token. */
   value_type?: UpdateVerificationRequestBodyCase0RequestedInformationItemValueType | (string & {});
+  /** Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item. */
+  values?: UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList;
 }
 export const UpdateVerificationRequestBodyCase0RequestedInformationItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       address: S.optional(CreateVerificationRequestBodyCase0Address),
+      document_number: S.optional(S.String),
       documents: S.optional(UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments),
       files: S.optional(UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList),
       id: S.String,
+      issuing_country: S.optional(S.String),
       value: S.optional(S.String),
       value_type: S.optional(UpdateVerificationRequestBodyCase0RequestedInformationItemValueType),
+      values: S.optional(UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList),
     }),
 ).annotate({
   identifier: "UpdateVerificationRequestBodyCase0RequestedInformationItem",
@@ -959,7 +1285,7 @@ export type UpdateVerificationRequestBodyCase1RequestedInformationItemDocuments 
 export const UpdateVerificationRequestBodyCase1RequestedInformationItemDocuments =
   UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments;
 
-/** Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
+/** Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
 export type UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList = Array<string>;
 export const UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList =
   /*@__PURE__*/ S.Array(
@@ -972,29 +1298,45 @@ export type UpdateVerificationRequestBodyCase1RequestedInformationItemValueType 
   | "vault_token";
 export const UpdateVerificationRequestBodyCase1RequestedInformationItemValueType = S.String;
 
+/** Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item. */
+export type UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList = Array<string>;
+export const UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList>;
+
 export interface UpdateVerificationRequestBodyCase1RequestedInformationItem {
   /** Answer for `address` items. */
   address?: CreateVerificationRequestBodyCase0Address;
+  /** Identity number for an `id_document` answer. */
+  document_number?: string;
   /** Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading — `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
   documents?: UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments;
-  /** Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
+  /** Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
   files?: UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList;
   /** Item ID from `requested_information`. */
   id: string;
-  /** Answer for `text`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`. */
+  /** Two-letter ISO 3166-1 issuing country for an `id_document` answer. */
+  issuing_country?: string;
+  /** Answer for `text`, `text_with_files`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`. */
   value?: string;
   /** Whether `value` is raw input or a vault token. */
   value_type?: UpdateVerificationRequestBodyCase1RequestedInformationItemValueType | (string & {});
+  /** Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item. */
+  values?: UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList;
 }
 export const UpdateVerificationRequestBodyCase1RequestedInformationItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       address: S.optional(CreateVerificationRequestBodyCase0Address),
+      document_number: S.optional(S.String),
       documents: S.optional(UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments),
       files: S.optional(UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList),
       id: S.String,
+      issuing_country: S.optional(S.String),
       value: S.optional(S.String),
       value_type: S.optional(UpdateVerificationRequestBodyCase1RequestedInformationItemValueType),
+      values: S.optional(UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList),
     }),
 ).annotate({
   identifier: "UpdateVerificationRequestBodyCase1RequestedInformationItem",
@@ -1074,6 +1416,13 @@ export const UpdateVerificationResponseAddress = CreateVerificationResponseAddre
 export type UpdateVerificationResponseKind = "individual" | "business";
 export const UpdateVerificationResponseKind = S.String;
 
+/** Selected option values that make the follow-up prompt visible. */
+export type UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList = Array<string>;
+export const UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList>;
+
 export type UpdateVerificationResponseRequestedInformationItemErrorsItem =
   CreateVerificationResponseRequestedInformationItemErrorsItem;
 export const UpdateVerificationResponseRequestedInformationItemErrorsItem =
@@ -1092,7 +1441,44 @@ export const UpdateVerificationResponseRequestedInformationItemOptionsList = /*@
   S.String,
 ) as any as S.Schema<UpdateVerificationResponseRequestedInformationItemOptionsList>;
 
+/** Optional native input format for a text response. */
+export type UpdateVerificationResponseRequestedInformationItemResponseType =
+  | "yes_no"
+  | "yes_no_na"
+  | "date"
+  | "url"
+  | "number"
+  | "tel";
+export const UpdateVerificationResponseRequestedInformationItemResponseType = S.String;
+
+/** Whether a question with `options` accepts one value or multiple values. */
+export type UpdateVerificationResponseRequestedInformationItemSelectionMode = "single" | "multiple";
+export const UpdateVerificationResponseRequestedInformationItemSelectionMode = S.String;
+
+/** Documents supplied with the requirement for context. */
+export type UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList = Array<File>;
+export const UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList =
+  /*@__PURE__*/ S.Array(
+    File,
+  ) as any as S.Schema<UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList>;
+
+/** Selected option values that make the supporting-file input visible. */
+export type UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList =
+  Array<string>;
+export const UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList>;
+
 export interface UpdateVerificationResponseRequestedInformationItem {
+  /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
+  action_url?: string;
+  /** Follow-up prompt shown with this requirement. */
+  details_label?: string;
+  /** Whether the follow-up response is required when visible. */
+  details_required?: boolean;
+  /** Selected option values that make the follow-up prompt visible. */
+  details_visible_for?: UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList;
   /** Present after a rejected submission. */
   errors?: UpdateVerificationResponseRequestedInformationItemErrorsList;
   /** Requested information item ID, prefixed `inrqi_`. */
@@ -1105,17 +1491,45 @@ export interface UpdateVerificationResponseRequestedInformationItem {
   options?: UpdateVerificationResponseRequestedInformationItemOptionsList;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
-  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`). */
+  /** Optional native input format for a text response. */
+  response_type?: UpdateVerificationResponseRequestedInformationItemResponseType;
+  /** Whether a question with `options` accepts one value or multiple values. */
+  selection_mode?: UpdateVerificationResponseRequestedInformationItemSelectionMode;
+  /** Documents supplied with the requirement for context. */
+  supporting_documents?: UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList;
+  /** Whether a written explanation may replace required supporting files. */
+  supporting_files_explanation_allowed?: boolean;
+  /** Whether this requirement also needs supporting files. */
+  supporting_files_required?: boolean;
+  /** Selected option values that make the supporting-file input visible. */
+  supporting_files_visible_for?: UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList;
+  /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
 export const UpdateVerificationResponseRequestedInformationItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action_url: S.optional(S.String),
+    details_label: S.optional(S.String),
+    details_required: S.optional(S.Boolean),
+    details_visible_for: S.optional(
+      UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList,
+    ),
     errors: S.optional(UpdateVerificationResponseRequestedInformationItemErrorsList),
     id: S.String,
     label: S.String,
     optional: S.optional(S.Boolean),
     options: S.optional(UpdateVerificationResponseRequestedInformationItemOptionsList),
     requirement: S.String,
+    response_type: S.optional(UpdateVerificationResponseRequestedInformationItemResponseType),
+    selection_mode: S.optional(UpdateVerificationResponseRequestedInformationItemSelectionMode),
+    supporting_documents: S.optional(
+      UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList,
+    ),
+    supporting_files_explanation_allowed: S.optional(S.Boolean),
+    supporting_files_required: S.optional(S.Boolean),
+    supporting_files_visible_for: S.optional(
+      UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList,
+    ),
     type: S.String,
   }),
 ).annotate({
@@ -1227,7 +1641,7 @@ export const UpdateVerificationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVerificationResponse>;
 
 export type CreateVerificationError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
-/** Create Verification Starts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request — no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. If the account already has an `approved` verification the request is rejected; unlink it first to start a new one. */
+/** Create Verification Starts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request — no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. Send `verification_id` to reuse a verification the signed-in user already completed on Whop. Every mode except `verification_id` is rejected once the account has an `approved` verification — unlink it first to start a new one — while `verification_id` replaces whichever verification of that kind the account currently has. */
 export const createVerification: API.OperationMethod<
   CreateVerificationRequest,
   CreateVerificationResponse,

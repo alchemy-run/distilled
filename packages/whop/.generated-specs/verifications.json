@@ -61,8 +61,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "account_id",
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Account or user ID whose verifications you want to list. Use a `biz_` account ID, or the caller's `user_` ID for personal verifications."
+            "smithy.api#documentation": "Business account whose verifications you want to list, prefixed `biz_`. Provide this or `user_id`."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The caller's own user ID, prefixed `user_`, to list personal verifications. Provide this or `account_id`."
           }
         },
         "order": {
@@ -150,6 +156,15 @@
       },
       "traits": {}
     },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+      }
+    },
     "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemErrorsItem": {
       "type": "structure",
       "members": {
@@ -186,9 +201,300 @@
         "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
       }
     },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemResponseType": {
+      "type": "enum",
+      "members": {
+        "YES_NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no"
+          }
+        },
+        "YES_NO_NA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no_na"
+          }
+        },
+        "DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "TEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tel"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional native input format for a text response."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+      }
+    },
+    "com.whop.verifications#File": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file's MIME type, e.g. `application/pdf`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the file was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename, including its extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file's ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "multipart_chunk_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The byte size each part (except the last) must be. Present only on create, and only for multipart uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multipart_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multipart_upload_urls": {
+          "target": "com.whop.verifications#FileMultipartUploadUrlsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of this object, always `file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The file size in bytes. `null` until the upload has finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "upload_headers": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Headers to send with the upload PUT. Present only on create."
+          }
+        },
+        "upload_status": {
+          "target": "com.whop.verifications#FileUploadStatus",
+          "traits": {
+            "smithy.api#documentation": "Where the file is in its upload lifecycle.",
+            "smithy.api#required": {}
+          }
+        },
+        "upload_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.verifications#FileVisibility",
+          "traits": {
+            "smithy.api#documentation": "`public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#FileMultipartUrl": {
+      "type": "structure",
+      "members": {
+        "part_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The 1-based index of this part within the multipart upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The presigned URL to PUT this part's bytes to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#FileMultipartUploadUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#FileMultipartUrl"
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#FileUploadStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the file is in its upload lifecycle."
+      }
+    },
+    "com.whop.verifications#FileVisibility": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#File"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents supplied with the requirement for context."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+      }
+    },
     "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItem": {
       "type": "structure",
       "members": {
+        "action_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available."
+          }
+        },
+        "details_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Follow-up prompt shown with this requirement."
+          }
+        },
+        "details_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the follow-up response is required when visible."
+          }
+        },
+        "details_visible_for": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+          }
+        },
         "errors": {
           "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemErrorsList",
           "traits": {
@@ -228,10 +534,46 @@
             "smithy.api#required": {}
           }
         },
+        "response_type": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemResponseType",
+          "traits": {
+            "smithy.api#documentation": "Optional native input format for a text response."
+          }
+        },
+        "selection_mode": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+          }
+        },
+        "supporting_documents": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents supplied with the requirement for context."
+          }
+        },
+        "supporting_files_explanation_allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a written explanation may replace required supporting files."
+          }
+        },
+        "supporting_files_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this requirement also needs supporting files."
+          }
+        },
+        "supporting_files_visible_for": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+          }
+        },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion).",
             "smithy.api#required": {}
           }
         }
@@ -741,6 +1083,12 @@
           "traits": {
             "smithy.api#documentation": "The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada."
           }
+        },
+        "verification_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of an `approved` verification to reuse on this account instead of verifying the person again, for example `idpf_XXXXXXXX`. The verification becomes this account's current one for its kind — replacing whichever verification of that kind the account already has, and carrying its payout account across — and the response is that same verification, unchanged. Only the signed-in Whop user who started the original verification can reuse it: API keys, OAuth tokens, and onboarding links are refused. `kind` is the only other field it accepts, and must match the reused verification. An account whose verification was denied or is still under review cannot reuse one."
+          }
         }
       },
       "traits": {
@@ -890,6 +1238,12 @@
           "traits": {
             "smithy.api#documentation": "The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada."
           }
+        },
+        "verification_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of an `approved` verification to reuse on this account instead of verifying the person again, for example `idpf_XXXXXXXX`. The verification becomes this account's current one for its kind — replacing whichever verification of that kind the account already has, and carrying its payout account across — and the response is that same verification, unchanged. Only the signed-in Whop user who started the original verification can reuse it: API keys, OAuth tokens, and onboarding links are refused. `kind` is the only other field it accepts, and must match the reused verification. An account whose verification was denied or is still under review cannot reuse one."
+          }
         }
       },
       "traits": {
@@ -915,8 +1269,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "account_id",
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Account or user ID whose identity you want to verify. Use a `biz_` account ID for account verifications, or the caller's `user_` ID for personal verification."
+            "smithy.api#documentation": "Business account whose identity you want to verify, prefixed `biz_`. Provide this or `user_id`."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The caller's own user ID, prefixed `user_`, for a personal verification. Provide this or `account_id`."
           }
         },
         "body": {
@@ -1003,6 +1363,15 @@
       },
       "traits": {}
     },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemDetailsVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+      }
+    },
     "com.whop.verifications#CreateVerificationResponseRequestedInformationItemErrorsItem": {
       "type": "structure",
       "members": {
@@ -1039,9 +1408,115 @@
         "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
       }
     },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemResponseType": {
+      "type": "enum",
+      "members": {
+        "YES_NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no"
+          }
+        },
+        "YES_NO_NA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no_na"
+          }
+        },
+        "DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "TEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tel"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional native input format for a text response."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemSupportingDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#File"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents supplied with the requirement for context."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+      }
+    },
     "com.whop.verifications#CreateVerificationResponseRequestedInformationItem": {
       "type": "structure",
       "members": {
+        "action_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available."
+          }
+        },
+        "details_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Follow-up prompt shown with this requirement."
+          }
+        },
+        "details_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the follow-up response is required when visible."
+          }
+        },
+        "details_visible_for": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemDetailsVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+          }
+        },
         "errors": {
           "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemErrorsList",
           "traits": {
@@ -1081,10 +1556,46 @@
             "smithy.api#required": {}
           }
         },
+        "response_type": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemResponseType",
+          "traits": {
+            "smithy.api#documentation": "Optional native input format for a text response."
+          }
+        },
+        "selection_mode": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+          }
+        },
+        "supporting_documents": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemSupportingDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents supplied with the requirement for context."
+          }
+        },
+        "supporting_files_explanation_allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a written explanation may replace required supporting files."
+          }
+        },
+        "supporting_files_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this requirement also needs supporting files."
+          }
+        },
+        "supporting_files_visible_for": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+          }
+        },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion).",
             "smithy.api#required": {}
           }
         }
@@ -1347,7 +1858,7 @@
           "uri": "/verifications",
           "code": 200
         },
-        "smithy.api#documentation": "Create Verification\n\nStarts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request — no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. If the account already has an `approved` verification the request is rejected; unlink it first to start a new one."
+        "smithy.api#documentation": "Create Verification\n\nStarts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request — no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. Send `verification_id` to reuse a verification the signed-in user already completed on Whop. Every mode except `verification_id` is rejected once the account has an `approved` verification — unlink it first to start a new one — while `verification_id` replaces whichever verification of that kind the account currently has."
       }
     },
     "com.whop.verifications#GetVerificationRequest": {
@@ -1432,6 +1943,15 @@
       },
       "traits": {}
     },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemDetailsVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+      }
+    },
     "com.whop.verifications#GetVerificationResponseRequestedInformationItemErrorsItem": {
       "type": "structure",
       "members": {
@@ -1468,9 +1988,115 @@
         "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
       }
     },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemResponseType": {
+      "type": "enum",
+      "members": {
+        "YES_NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no"
+          }
+        },
+        "YES_NO_NA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no_na"
+          }
+        },
+        "DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "TEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tel"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional native input format for a text response."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemSupportingDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#File"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents supplied with the requirement for context."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+      }
+    },
     "com.whop.verifications#GetVerificationResponseRequestedInformationItem": {
       "type": "structure",
       "members": {
+        "action_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available."
+          }
+        },
+        "details_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Follow-up prompt shown with this requirement."
+          }
+        },
+        "details_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the follow-up response is required when visible."
+          }
+        },
+        "details_visible_for": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemDetailsVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+          }
+        },
         "errors": {
           "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemErrorsList",
           "traits": {
@@ -1510,10 +2136,46 @@
             "smithy.api#required": {}
           }
         },
+        "response_type": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemResponseType",
+          "traits": {
+            "smithy.api#documentation": "Optional native input format for a text response."
+          }
+        },
+        "selection_mode": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+          }
+        },
+        "supporting_documents": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemSupportingDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents supplied with the requirement for context."
+          }
+        },
+        "supporting_files_explanation_allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a written explanation may replace required supporting files."
+          }
+        },
+        "supporting_files_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this requirement also needs supporting files."
+          }
+        },
+        "supporting_files_visible_for": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+          }
+        },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion).",
             "smithy.api#required": {}
           }
         }
@@ -1924,7 +2586,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+        "smithy.api#documentation": "Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
       }
     },
     "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemValueType": {
@@ -1947,6 +2609,15 @@
         "smithy.api#documentation": "Whether `value` is raw input or a vault token."
       }
     },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item."
+      }
+    },
     "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItem": {
       "type": "structure",
       "members": {
@@ -1954,6 +2625,12 @@
           "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemAddress",
           "traits": {
             "smithy.api#documentation": "Answer for `address` items."
+          }
+        },
+        "document_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identity number for an `id_document` answer."
           }
         },
         "documents": {
@@ -1965,7 +2642,7 @@
         "files": {
           "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList",
           "traits": {
-            "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+            "smithy.api#documentation": "Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
           }
         },
         "id": {
@@ -1975,16 +2652,28 @@
             "smithy.api#required": {}
           }
         },
+        "issuing_country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 issuing country for an `id_document` answer."
+          }
+        },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Answer for `text`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`."
+            "smithy.api#documentation": "Answer for `text`, `text_with_files`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`."
           }
         },
         "value_type": {
           "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemValueType",
           "traits": {
             "smithy.api#documentation": "Whether `value` is raw input or a vault token."
+          }
+        },
+        "values": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item."
           }
         }
       },
@@ -2215,7 +2904,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+        "smithy.api#documentation": "Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
       }
     },
     "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemValueType": {
@@ -2238,6 +2927,15 @@
         "smithy.api#documentation": "Whether `value` is raw input or a vault token."
       }
     },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item."
+      }
+    },
     "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItem": {
       "type": "structure",
       "members": {
@@ -2245,6 +2943,12 @@
           "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemAddress",
           "traits": {
             "smithy.api#documentation": "Answer for `address` items."
+          }
+        },
+        "document_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identity number for an `id_document` answer."
           }
         },
         "documents": {
@@ -2256,7 +2960,7 @@
         "files": {
           "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList",
           "traits": {
-            "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+            "smithy.api#documentation": "Answer for a `files` item, or optional supporting documents for `text_with_files` — a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
           }
         },
         "id": {
@@ -2266,16 +2970,28 @@
             "smithy.api#required": {}
           }
         },
+        "issuing_country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 issuing country for an `id_document` answer."
+          }
+        },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Answer for `text`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`."
+            "smithy.api#documentation": "Answer for `text`, `text_with_files`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`."
           }
         },
         "value_type": {
           "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemValueType",
           "traits": {
             "smithy.api#documentation": "Whether `value` is raw input or a vault token."
+          }
+        },
+        "values": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item."
           }
         }
       },
@@ -2459,6 +3175,15 @@
       },
       "traits": {}
     },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+      }
+    },
     "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemErrorsItem": {
       "type": "structure",
       "members": {
@@ -2495,9 +3220,115 @@
         "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
       }
     },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemResponseType": {
+      "type": "enum",
+      "members": {
+        "YES_NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no"
+          }
+        },
+        "YES_NO_NA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes_no_na"
+          }
+        },
+        "DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        },
+        "NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "number"
+          }
+        },
+        "TEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tel"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional native input format for a text response."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#File"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents supplied with the requirement for context."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+      }
+    },
     "com.whop.verifications#UpdateVerificationResponseRequestedInformationItem": {
       "type": "structure",
       "members": {
+        "action_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available."
+          }
+        },
+        "details_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Follow-up prompt shown with this requirement."
+          }
+        },
+        "details_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the follow-up response is required when visible."
+          }
+        },
+        "details_visible_for": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the follow-up prompt visible."
+          }
+        },
         "errors": {
           "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemErrorsList",
           "traits": {
@@ -2537,10 +3368,46 @@
             "smithy.api#required": {}
           }
         },
+        "response_type": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemResponseType",
+          "traits": {
+            "smithy.api#documentation": "Optional native input format for a text response."
+          }
+        },
+        "selection_mode": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Whether a question with `options` accepts one value or multiple values."
+          }
+        },
+        "supporting_documents": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents supplied with the requirement for context."
+          }
+        },
+        "supporting_files_explanation_allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a written explanation may replace required supporting files."
+          }
+        },
+        "supporting_files_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this requirement also needs supporting files."
+          }
+        },
+        "supporting_files_visible_for": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList",
+          "traits": {
+            "smithy.api#documentation": "Selected option values that make the supporting-file input visible."
+          }
+        },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion).",
             "smithy.api#required": {}
           }
         }

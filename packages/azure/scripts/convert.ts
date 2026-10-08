@@ -43,6 +43,10 @@ import {
   type SmithyModel,
 } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import {
+  RENAME_METADATA_KEY,
+  renameShapes,
+} from "@distilled.cloud/core/codegen/rewrite-operation-ids";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
@@ -564,6 +568,11 @@ interface MergedService {
   /** Operation shape ids, in merge order. */
   ops: string[];
   skippedOps: number;
+  /**
+   * Merged shape id → the upstream id it came from (its spec's
+   * deferred-naming map), so the written model can carry upstream names.
+   */
+  upstream: Map<string, string>;
 }
 
 /**
@@ -574,7 +583,11 @@ interface MergedService {
  * processed wins. Non-operation shapes that collide are structurally
  * deduplicated when graph-equal, renamed (`Name_2`, `Name_3`, …) otherwise.
  */
-function mergeSpecModel(merged: MergedService, model: SmithyModel): void {
+function mergeSpecModel(
+  merged: MergedService,
+  model: SmithyModel,
+  upstreamOf: ReadonlyMap<string, string>,
+): void {
   const shapes = model.shapes;
 
   // The converter's per-spec service shape is dropped; the merged service
@@ -664,9 +677,44 @@ function mergeSpecModel(merged: MergedService, model: SmithyModel): void {
     const target = renameMap.get(id) ?? id;
     if (merged.shapes[target]) continue; // deduplicated
     merged.shapes[target] = rewrite(shapes[id]);
+    merged.upstream.set(target, upstreamOf.get(id) ?? id);
     merged.taken.add(local(target));
     if (shapes[id].type === "operation") merged.ops.push(target);
   }
+}
+
+/**
+ * The merged model under upstream names, its final names deferred to
+ * finalizeConvert (`metadata[RENAME_METADATA_KEY]`) so patches target the
+ * names the specs give. A shape keeps its final name when its upstream one
+ * is taken in the merged model. Throws unless renaming the result gives
+ * back exactly `model`.
+ */
+function withUpstreamNames(model: SmithyModel, upstream: ReadonlyMap<string, string>): SmithyModel {
+  const ids = Object.keys(model.shapes);
+  const taken = new Set(ids.filter((id) => (upstream.get(id) ?? id) === id));
+  const toUpstream = new Map<string, string>();
+  for (const id of ids) {
+    const want = upstream.get(id) ?? id;
+    if (want === id) continue;
+    if (taken.has(want)) {
+      taken.add(id);
+      continue;
+    }
+    taken.add(want);
+    toUpstream.set(id, want);
+  }
+  const out: SmithyModel = structuredClone(model);
+  renameShapes(out, toUpstream);
+  const deferred = Object.fromEntries([...toUpstream].map(([to, from]) => [from, to]));
+  if (toUpstream.size > 0) out.metadata = { ...out.metadata, [RENAME_METADATA_KEY]: deferred };
+  const check = structuredClone(out);
+  delete check.metadata[RENAME_METADATA_KEY];
+  renameShapes(check, new Map(Object.entries(deferred)));
+  if (JSON.stringify(check) !== JSON.stringify(model)) {
+    throw new Error("upstream-named merged model does not rename back to the merged model");
+  }
+  return out;
 }
 
 /**
@@ -726,6 +774,7 @@ async function main() {
       taken: new Set(),
       ops: [],
       skippedOps: 0,
+      upstream: new Map(),
     };
 
     for (const spec of serviceSpecs) {
@@ -774,7 +823,10 @@ async function main() {
         // weren't caught during the first resolve pass
         collectMissingDefinitions(resolved, specDir, resolved);
 
+        // Merging resolves collisions by final name (v0 semantics), so name
+        // first and keep the way back to the upstream names.
         const model = convertOpenApiToSmithy(resolved, {
+          deferNaming: true,
           namespace: ns,
           serviceName: pascal(service),
           // v0 parity: includeOperationErrors=false — no per-op error
@@ -786,8 +838,12 @@ async function main() {
           // param from the user-facing input schema.
           apiVersion: spec.apiVersion,
         });
+        const rename: Record<string, string> = model.metadata?.[RENAME_METADATA_KEY] ?? {};
+        delete model.metadata?.[RENAME_METADATA_KEY];
+        renameShapes(model, new Map(Object.entries(rename)));
+        const upstreamOf = new Map(Object.entries(rename).map(([from, to]) => [to, from]));
         foldApiVersion(model);
-        mergeSpecModel(merged, model);
+        mergeSpecModel(merged, model, upstreamOf);
 
         specSuccessCount++;
       } catch (error: any) {
@@ -826,9 +882,10 @@ async function main() {
       },
       shapes: merged.shapes,
     };
+    const upstreamModel = withUpstreamNames(model, merged.upstream);
 
     const outPath = path.join(outDir, `${sanitizeNsSegment(service)}.json`);
-    fs.writeFileSync(outPath, JSON.stringify(model, null, 2) + "\n");
+    fs.writeFileSync(outPath, JSON.stringify(upstreamModel, null, 2) + "\n");
     serviceCount++;
     totalOps += merged.ops.length;
     totalSkipped += merged.skippedOps;
@@ -848,9 +905,9 @@ async function main() {
   console.log(`  Colliding operations skipped (first spec wins): ${totalSkipped}`);
   console.log(`  Elapsed: ${((Date.now() - started) / 1000).toFixed(1)}s`);
   console.log(`  Output: ${outDir}`);
-  // Patches are generate-stage (package.json `distilled.patches`), so
-  // .generated-specs stays the unpatched convert output.
-  await finalizeConvert({ root: rootDir, patchesDir: false });
+  // patches/<service>/*.json are Smithy ops on upstream names; finalize
+  // applies them, then the deferred verbNoun names.
+  await finalizeConvert({ root: rootDir });
 }
 
 main();

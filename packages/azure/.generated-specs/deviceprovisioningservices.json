@@ -1923,6 +1923,14 @@
             "smithy.api#httpQuery": "certificate.nonce",
             "smithy.api#documentation": "Random number generated to indicate Proof of Possession."
           }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ETag of the certificate. A value of \"*\" applies to any version."
+          }
         }
       },
       "traits": {
@@ -2049,6 +2057,13 @@
           "target": "com.azure.deviceprovisioningservices#CertificatePropertiesInput",
           "traits": {
             "smithy.api#documentation": "properties of a certificate"
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate."
           }
         }
       },

@@ -81,6 +81,13 @@ describe("finalizeConvert", () => {
     ]);
   });
 
+  test("rejects a patch that edits the spec", async () => {
+    const root = scaffold({
+      patches: [{ op: "add", path: "/paths/~1apps/get/responses/404", value: {} }],
+    });
+    await expect(finalizeConvert({ root })).rejects.toThrow(/target the Smithy model/);
+  });
+
   test("fails on a stale patch pointer by default", async () => {
     const root = scaffold({
       patches: [{ op: "remove", path: "/shapes/ns#Missing" }],

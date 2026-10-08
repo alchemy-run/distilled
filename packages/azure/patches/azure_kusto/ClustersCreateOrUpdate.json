@@ -11,11 +11,11 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.azure.azure_kusto#UpdateClusterResponse/members/location/traits/smithy.api#required"
+      "path": "/shapes/com.azure.azure_kusto#ClustersUpdateResponse/members/location/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/shapes/com.azure.azure_kusto#UpdateClusterResponse/members/sku/traits/smithy.api#required"
+      "path": "/shapes/com.azure.azure_kusto#ClustersUpdateResponse/members/sku/traits/smithy.api#required"
     }
   ]
 }

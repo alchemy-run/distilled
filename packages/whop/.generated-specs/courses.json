@@ -51,10 +51,10 @@
             "smithy.api#httpQuery": "experience_id"
           }
         },
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "company_id"
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },

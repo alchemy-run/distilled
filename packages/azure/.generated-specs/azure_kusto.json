@@ -6494,8 +6494,13 @@
         "kind": {
           "target": "com.azure.azure_kusto#DataConnectionKind",
           "traits": {
-            "smithy.api#documentation": "Kind of the endpoint for the data connection",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Kind of the endpoint for the data connection"
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#DataConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The data connection properties."
           }
         }
       },
@@ -6602,6 +6607,12 @@
             "smithy.api#documentation": "Kind of the endpoint for the data connection",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#DataConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The data connection properties."
+          }
         }
       },
       "traits": {
@@ -6663,8 +6674,13 @@
         "kind": {
           "target": "com.azure.azure_kusto#DataConnectionKind",
           "traits": {
-            "smithy.api#documentation": "Kind of the endpoint for the data connection",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Kind of the endpoint for the data connection"
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#DataConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The data connection properties."
           }
         }
       },
@@ -6726,6 +6742,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of the endpoint for the data connection",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#DataConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The data connection properties."
           }
         }
       },
@@ -6790,6 +6812,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of the endpoint for the data connection",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#DataConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The data connection properties."
           }
         }
       },
@@ -7469,8 +7497,13 @@
         "kind": {
           "target": "com.azure.azure_kusto#Kind",
           "traits": {
-            "smithy.api#documentation": "Kind of the database",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Kind of the database"
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+          "traits": {
+            "smithy.api#documentation": "The database properties."
           }
         }
       },
@@ -7552,6 +7585,12 @@
             "smithy.api#documentation": "Kind of the database",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+          "traits": {
+            "smithy.api#documentation": "The database properties."
+          }
         }
       },
       "traits": {
@@ -7631,8 +7670,13 @@
         "kind": {
           "target": "com.azure.azure_kusto#Kind",
           "traits": {
-            "smithy.api#documentation": "Kind of the database",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Kind of the database"
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+          "traits": {
+            "smithy.api#documentation": "The database properties."
           }
         }
       },
@@ -7693,6 +7737,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of the database",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+          "traits": {
+            "smithy.api#documentation": "The database properties."
           }
         }
       },
@@ -7775,6 +7825,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of the database",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+          "traits": {
+            "smithy.api#documentation": "The database properties."
           }
         }
       },
@@ -9024,8 +9080,7 @@
         "location": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The geo-location where the resource lives",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The geo-location where the resource lives"
           }
         },
         "properties": {
@@ -9037,8 +9092,7 @@
         "sku": {
           "target": "com.azure.azure_kusto#AzureSku",
           "traits": {
-            "smithy.api#documentation": "The SKU of the cluster.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The SKU of the cluster."
           }
         },
         "zones": {
@@ -10228,8 +10282,7 @@
         "location": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The geo-location where the resource lives",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The geo-location where the resource lives"
           }
         },
         "properties": {
@@ -10241,8 +10294,7 @@
         "sku": {
           "target": "com.azure.azure_kusto#AzureSku",
           "traits": {
-            "smithy.api#documentation": "The SKU of the cluster.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The SKU of the cluster."
           }
         },
         "zones": {
@@ -11635,6 +11687,196 @@
       "traits": {
         "smithy.api#title": "Azure AzureKusto",
         "smithy.api#documentation": "Azure AzureKusto API — merged from the azure-kusto resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.azure_kusto#ReadWriteDatabaseProperties": {
+      "type": "structure",
+      "members": {
+        "provisioningState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provisioned state of the resource."
+          }
+        },
+        "softDeletePeriod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the data should be kept before it stops being accessible to queries (ISO-8601 duration)."
+          }
+        },
+        "hotCachePeriod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the data should be kept in cache for fast queries (ISO-8601 duration)."
+          }
+        },
+        "statistics": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The statistics of the database."
+          }
+        },
+        "isFollowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the database is followed."
+          }
+        },
+        "keyVaultProperties": {
+          "target": "com.azure.azure_kusto#KeyVaultProperties",
+          "traits": {
+            "smithy.api#documentation": "KeyVault properties for the database encryption."
+          }
+        },
+        "suspensionDetails": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The database suspension details."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a ReadWrite database (the `kind: ReadWrite` variant of the polymorphic Database; ReadOnlyFollowing databases return a superset)."
+      }
+    },
+    "com.azure.azure_kusto#DataConnectionPropertiesEventSystemPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.azure_kusto#DataConnectionProperties": {
+      "type": "structure",
+      "members": {
+        "eventHubResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the event hub (EventHub, EventGrid kinds)."
+          }
+        },
+        "consumerGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event hub / IoT hub consumer group."
+          }
+        },
+        "tableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The table where the data should be ingested."
+          }
+        },
+        "mappingRuleName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mapping rule to be used to ingest the data."
+          }
+        },
+        "dataFormat": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data format of the message."
+          }
+        },
+        "eventSystemProperties": {
+          "target": "com.azure.azure_kusto#DataConnectionPropertiesEventSystemPropertiesList",
+          "traits": {
+            "smithy.api#documentation": "System properties of the event hub / IoT hub."
+          }
+        },
+        "compression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event hub messages compression type (`None` | `GZip`)."
+          }
+        },
+        "provisioningState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provisioned state of the resource."
+          }
+        },
+        "managedIdentityResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of a managed identity used to access the source."
+          }
+        },
+        "managedIdentityObjectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The object ID of the managed identity."
+          }
+        },
+        "databaseRouting": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Single or multi database routing (`Single` | `Multi`)."
+          }
+        },
+        "retrievalStartDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Retrieve events created after this date (ISO-8601)."
+          }
+        },
+        "storageAccountResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The storage account resource ID (EventGrid kind)."
+          }
+        },
+        "eventGridResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Event Grid subscription resource ID (EventGrid kind)."
+          }
+        },
+        "ignoreFirstRecord": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Ignore the first record of every file (EventGrid kind)."
+          }
+        },
+        "blobStorageEventType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The blob storage event type to process (EventGrid kind)."
+          }
+        },
+        "iotHubResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IoT hub resource ID (IotHub kind)."
+          }
+        },
+        "sharedAccessPolicyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IoT hub shared access policy name (IotHub kind)."
+          }
+        },
+        "cosmosDbAccountResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Cosmos DB account resource ID (CosmosDb kind)."
+          }
+        },
+        "cosmosDbDatabase": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Cosmos DB database name (CosmosDb kind)."
+          }
+        },
+        "cosmosDbContainer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Cosmos DB container name (CosmosDb kind)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Union of the data connection `properties` across kinds (EventHub, EventGrid, IotHub, CosmosDb)."
       }
     }
   }

@@ -101,6 +101,12 @@
             "smithy.api#enumValue": "clicks"
           }
         },
+        "LINK_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_clicks"
+          }
+        },
         "UNIQUE_CLICKS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -300,28 +306,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of ads to return."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of ads to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -621,6 +627,13 @@
             "smithy.api#required": {}
           }
         },
+        "link_clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad.",
+            "smithy.api#required": {}
+          }
+        },
         "messaging_config": {
           "target": "com.whop.ads#AdMessagingConfig",
           "traits": {
@@ -632,6 +645,20 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true."
+          }
+        },
+        "music": {
+          "target": "com.whop.ads#AdMusic",
+          "traits": {
+            "smithy.api#documentation": "The advertiser-uploaded MP3 a TikTok carousel ad plays. TikTok-only; `null` elsewhere and for non-carousel ads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.ads#AdPlatform",
+          "traits": {
+            "smithy.api#documentation": "The ad platform this ad runs on.",
+            "smithy.api#required": {}
           }
         },
         "post_id": {
@@ -780,6 +807,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "translations": {
+          "target": "com.whop.ads#AdTranslations",
+          "traits": {
+            "smithy.api#documentation": "The languages a Meta ad runs in besides its own. Each viewer sees the version for their language, or the ad's own copy. `null` when the ad runs in one language.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "unique_click_through_rate": {
           "target": "smithy.api#Double",
           "traits": {
@@ -813,7 +847,7 @@
         "url_parameters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Every query parameter appended to the URL, keyed by parameter name — including any you sent on `url` itself. Whop adds its own click-attribution parameters on top; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid).",
+            "smithy.api#documentation": "Every query parameter appended to the URL, keyed by parameter name — including any you sent on `url` itself. Whop adds its own click-attribution parameters on top; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network — Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid.",
             "smithy.api#required": {}
           }
         },
@@ -1067,6 +1101,14 @@
             "smithy.api#required": {}
           }
         },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this image or video is shown for, such as `es`. On an ad with translations, the ad's own creative carries `translations.source_language`. It's `null` on an ad without translations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "media_type": {
           "target": "smithy.api#String",
           "traits": {
@@ -1156,6 +1198,12 @@
     "com.whop.ads#AdDeliveryStatus": {
       "type": "enum",
       "members": {
+        "IN_APPEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_appeal"
+          }
+        },
         "REJECTED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1233,17 +1281,38 @@
         "smithy.api#documentation": "Whether the ad is delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned."
       }
     },
+    "com.whop.ads#AdText": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. On an ad with translations, the ad's own copy carries `translations.source_language`. It's `null` on an ad without translations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.whop.ads#AdDescriptionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#AdText"
       },
       "traits": {}
     },
     "com.whop.ads#AdHeadlinesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#AdText"
       },
       "traits": {}
     },
@@ -1392,10 +1461,26 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "button_type": {
+          "target": "com.whop.ads#AdLeadFormCompletionButtonType",
+          "traits": {
+            "smithy.api#documentation": "What the follow-up button does. `null` on forms saved before the button was configurable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "description": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Body text under the headline.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File the follow-up button opens. Set when `button_type` is `download`.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1408,16 +1493,50 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number the follow-up button calls. Set when `button_type` is `call`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Website the follow-up button opens. `null` when the screen has no button.",
+            "smithy.api#documentation": "Website the follow-up button opens. Set when `button_type` is `website`.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         }
       },
       "traits": {}
+    },
+    "com.whop.ads#AdLeadFormCompletionButtonType": {
+      "type": "enum",
+      "members": {
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call"
+          }
+        },
+        "DOWNLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the follow-up button does. `null` on forms saved before the button was configurable."
+      }
     },
     "com.whop.ads#AdLeadFormDisclaimer": {
       "type": "structure",
@@ -1695,6 +1814,61 @@
       },
       "traits": {}
     },
+    "com.whop.ads#AdMusic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The music attachment's file id.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The uploaded file's name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CDN url of the MP3.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        },
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad platform this ad runs on."
+      }
+    },
     "com.whop.ads#AdPostSource": {
       "type": "enum",
       "members": {
@@ -1718,7 +1892,7 @@
     "com.whop.ads#AdPrimaryTextsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#AdText"
       },
       "traits": {}
     },
@@ -1828,6 +2002,32 @@
       "traits": {
         "smithy.api#documentation": "Whether the ad is enabled. `active` and `paused` are set by you; `in_review` and `rejected` come from ad review."
       }
+    },
+    "com.whop.ads#AdTranslations": {
+      "type": "structure",
+      "members": {
+        "automatic_languages": {
+          "target": "com.whop.ads#AdTranslationsAutomaticLanguagesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language the ad's own copy is written in, such as `en`. Viewers whose language has no version of its own see the ad's own copy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdTranslationsAutomaticLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
     },
     "com.whop.ads#ListAdsResponseDataList": {
       "type": "list",
@@ -2119,6 +2319,12 @@
           "traits": {
             "smithy.api#documentation": "Uploaded file ID, prefixed `file_`."
           }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this image or video is shown for, such as `es`. Required on every entry of an ad with `translations`, where the ad's own creative uses `translations.source_language`. Another language's creative is the same type as the ad's own, with no format. Leave it out on an ad without translations."
+          }
         }
       },
       "traits": {}
@@ -2129,26 +2335,90 @@
         "target": "com.whop.ads#CreateAdRequestCreativesItem"
       },
       "traits": {
-        "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Two or more entries with no format become a carousel (2-10 attachments), in order, sharing the ad's copy."
+        "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Entries with no format become a carousel's ordered cards, sharing the ad's copy — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel."
       }
+    },
+    "com.whop.ads#CreateAdRequestDescriptionsItem": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.whop.ads#CreateAdRequestDescriptionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#CreateAdRequestDescriptionsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The description variants shown on the ad."
+        "smithy.api#documentation": "The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
       }
+    },
+    "com.whop.ads#CreateAdRequestHeadlinesItem": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.whop.ads#CreateAdRequestHeadlinesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#CreateAdRequestHeadlinesItem"
       },
       "traits": {
-        "smithy.api#documentation": "The headline variants shown on the ad."
+        "smithy.api#documentation": "The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
       }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormCompletionButtonType": {
+      "type": "enum",
+      "members": {
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call"
+          }
+        },
+        "DOWNLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.whop.ads#CreateAdRequestLeadFormCompletion": {
       "type": "structure",
@@ -2156,10 +2426,19 @@
         "button_text": {
           "target": "smithy.api#String"
         },
+        "button_type": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormCompletionButtonType"
+        },
         "description": {
           "target": "smithy.api#String"
         },
+        "file_url": {
+          "target": "smithy.api#String"
+        },
         "headline": {
+          "target": "smithy.api#String"
+        },
+        "phone_number": {
           "target": "smithy.api#String"
         },
         "url": {
@@ -2167,7 +2446,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+        "smithy.api#documentation": "Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download."
       }
     },
     "com.whop.ads#CreateAdRequestLeadFormDisclaimerCheckboxesItem": {
@@ -2510,7 +2789,7 @@
         "completion": {
           "target": "com.whop.ads#CreateAdRequestLeadFormCompletion",
           "traits": {
-            "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+            "smithy.api#documentation": "Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download."
           }
         },
         "disclaimer": {
@@ -2574,6 +2853,21 @@
         "smithy.api#documentation": "Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword)."
       }
     },
+    "com.whop.ads#CreateAdRequestMusic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded MP3 file ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Required for TikTok carousels (image creatives); TikTok-only."
+      }
+    },
     "com.whop.ads#CreateAdRequestPostSource": {
       "type": "enum",
       "members": {
@@ -2594,13 +2888,33 @@
         "smithy.api#documentation": "Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted."
       }
     },
+    "com.whop.ads#CreateAdRequestPrimaryTextsItem": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.whop.ads#CreateAdRequestPrimaryTextsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#CreateAdRequestPrimaryTextsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The primary text variants shown in the ad body."
+        "smithy.api#documentation": "The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`."
       }
     },
     "com.whop.ads#CreateAdRequestSocialAccountsItem": {
@@ -2622,6 +2936,36 @@
       },
       "traits": {
         "smithy.api#documentation": "The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile."
+      }
+    },
+    "com.whop.ads#CreateAdRequestTranslationsAutomaticLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`."
+      }
+    },
+    "com.whop.ads#CreateAdRequestTranslations": {
+      "type": "structure",
+      "members": {
+        "automatic_languages": {
+          "target": "com.whop.ads#CreateAdRequestTranslationsAutomaticLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`."
+          }
+        },
+        "source_language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code the ad's own copy is written in, such as `en`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only."
       }
     },
     "com.whop.ads#CreateAdRequest": {
@@ -2648,13 +2992,13 @@
         "creatives": {
           "target": "com.whop.ads#CreateAdRequestCreativesList",
           "traits": {
-            "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Two or more entries with no format become a carousel (2-10 attachments), in order, sharing the ad's copy."
+            "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Entries with no format become a carousel's ordered cards, sharing the ad's copy — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel."
           }
         },
         "descriptions": {
           "target": "com.whop.ads#CreateAdRequestDescriptionsList",
           "traits": {
-            "smithy.api#documentation": "The description variants shown on the ad."
+            "smithy.api#documentation": "The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
           }
         },
         "existing_post_id": {
@@ -2666,7 +3010,7 @@
         "headlines": {
           "target": "com.whop.ads#CreateAdRequestHeadlinesList",
           "traits": {
-            "smithy.api#documentation": "The headline variants shown on the ad."
+            "smithy.api#documentation": "The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
           }
         },
         "lead_form": {
@@ -2693,6 +3037,13 @@
             "smithy.api#documentation": "Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true."
           }
         },
+        "music": {
+          "target": "com.whop.ads#CreateAdRequestMusic",
+          "traits": {
+            "smithy.api#documentation": "The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Required for TikTok carousels (image creatives); TikTok-only.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "post_source": {
           "target": "com.whop.ads#CreateAdRequestPostSource",
           "traits": {
@@ -2702,7 +3053,7 @@
         "primary_texts": {
           "target": "com.whop.ads#CreateAdRequestPrimaryTextsList",
           "traits": {
-            "smithy.api#documentation": "The primary text variants shown in the ad body."
+            "smithy.api#documentation": "The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`."
           }
         },
         "social_accounts": {
@@ -2717,6 +3068,13 @@
             "smithy.api#documentation": "The display name of the ad."
           }
         },
+        "translations": {
+          "target": "com.whop.ads#CreateAdRequestTranslations",
+          "traits": {
+            "smithy.api#documentation": "Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "url": {
           "target": "smithy.api#String",
           "traits": {
@@ -2726,7 +3084,7 @@
         "url_parameters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid)."
+            "smithy.api#documentation": "Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network — Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid."
           }
         },
         "idempotency_key": {
@@ -2766,7 +3124,7 @@
           "uri": "/ads",
           "code": 200
         },
-        "smithy.api#documentation": "Create an Ad\n\nCreates an ad in an ad group."
+        "smithy.api#documentation": "Create an Ad\n\nCreates an ad in an ad group. Any campaign status other than `draft` launches the campaign, which requires an ads payment method on the account."
       }
     },
     "com.whop.ads#GetAdRequestAttributionModel": {
@@ -3054,6 +3412,12 @@
           "traits": {
             "smithy.api#documentation": "Uploaded file ID, prefixed `file_`."
           }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this image or video is shown for, such as `es`. Required on every entry of an ad with `translations`, where the ad's own creative uses `translations.source_language`. Another language's creative is the same type as the ad's own, with no format. Leave it out on an ad without translations."
+          }
         }
       },
       "traits": {}
@@ -3064,26 +3428,90 @@
         "target": "com.whop.ads#UpdateAdRequestCreativesItem"
       },
       "traits": {
-        "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Two or more entries with no format replace it with a carousel (2-10 attachments), in order, sharing the ad's copy."
+        "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Entries with no format replace it with a carousel's ordered cards — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel."
       }
+    },
+    "com.whop.ads#UpdateAdRequestDescriptionsItem": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.whop.ads#UpdateAdRequestDescriptionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#UpdateAdRequestDescriptionsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The description variants shown on the ad."
+        "smithy.api#documentation": "The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
       }
+    },
+    "com.whop.ads#UpdateAdRequestHeadlinesItem": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.whop.ads#UpdateAdRequestHeadlinesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#UpdateAdRequestHeadlinesItem"
       },
       "traits": {
-        "smithy.api#documentation": "The headline variants shown on the ad."
+        "smithy.api#documentation": "The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
       }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormCompletionButtonType": {
+      "type": "enum",
+      "members": {
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call"
+          }
+        },
+        "DOWNLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.whop.ads#UpdateAdRequestLeadFormCompletion": {
       "type": "structure",
@@ -3091,10 +3519,19 @@
         "button_text": {
           "target": "smithy.api#String"
         },
+        "button_type": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormCompletionButtonType"
+        },
         "description": {
           "target": "smithy.api#String"
         },
+        "file_url": {
+          "target": "smithy.api#String"
+        },
         "headline": {
+          "target": "smithy.api#String"
+        },
+        "phone_number": {
           "target": "smithy.api#String"
         },
         "url": {
@@ -3102,7 +3539,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+        "smithy.api#documentation": "Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download."
       }
     },
     "com.whop.ads#UpdateAdRequestLeadFormDisclaimerCheckboxesItem": {
@@ -3445,7 +3882,7 @@
         "completion": {
           "target": "com.whop.ads#UpdateAdRequestLeadFormCompletion",
           "traits": {
-            "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+            "smithy.api#documentation": "Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download."
           }
         },
         "disclaimer": {
@@ -3509,6 +3946,21 @@
         "smithy.api#documentation": "Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword)."
       }
     },
+    "com.whop.ads#UpdateAdRequestMusic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded MP3 file ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Omitted leaves the ad's music untouched. Null removes it before launch; a submitted carousel takes a replacement track instead. TikTok-only."
+      }
+    },
     "com.whop.ads#UpdateAdRequestPostSource": {
       "type": "enum",
       "members": {
@@ -3529,13 +3981,33 @@
         "smithy.api#documentation": "Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted."
       }
     },
+    "com.whop.ads#UpdateAdRequestPrimaryTextsItem": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text shown to viewers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.whop.ads#UpdateAdRequestPrimaryTextsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.ads#UpdateAdRequestPrimaryTextsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The primary text variants shown in the ad body."
+        "smithy.api#documentation": "The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`."
       }
     },
     "com.whop.ads#UpdateAdRequestSocialAccountsItem": {
@@ -3559,6 +4031,36 @@
         "smithy.api#documentation": "The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile."
       }
     },
+    "com.whop.ads#UpdateAdRequestTranslationsAutomaticLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestTranslations": {
+      "type": "structure",
+      "members": {
+        "automatic_languages": {
+          "target": "com.whop.ads#UpdateAdRequestTranslationsAutomaticLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`."
+          }
+        },
+        "source_language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code the ad's own copy is written in, such as `en`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only."
+      }
+    },
     "com.whop.ads#UpdateAdRequest": {
       "type": "structure",
       "members": {
@@ -3579,13 +4081,13 @@
         "creatives": {
           "target": "com.whop.ads#UpdateAdRequestCreativesList",
           "traits": {
-            "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Two or more entries with no format replace it with a carousel (2-10 attachments), in order, sharing the ad's copy."
+            "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Entries with no format replace it with a carousel's ordered cards — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel."
           }
         },
         "descriptions": {
           "target": "com.whop.ads#UpdateAdRequestDescriptionsList",
           "traits": {
-            "smithy.api#documentation": "The description variants shown on the ad."
+            "smithy.api#documentation": "The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
           }
         },
         "existing_post_id": {
@@ -3597,7 +4099,7 @@
         "headlines": {
           "target": "com.whop.ads#UpdateAdRequestHeadlinesList",
           "traits": {
-            "smithy.api#documentation": "The headline variants shown on the ad."
+            "smithy.api#documentation": "The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`."
           }
         },
         "lead_form": {
@@ -3624,6 +4126,13 @@
             "smithy.api#documentation": "Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true."
           }
         },
+        "music": {
+          "target": "com.whop.ads#UpdateAdRequestMusic",
+          "traits": {
+            "smithy.api#documentation": "The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Omitted leaves the ad's music untouched. Null removes it before launch; a submitted carousel takes a replacement track instead. TikTok-only.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "post_source": {
           "target": "com.whop.ads#UpdateAdRequestPostSource",
           "traits": {
@@ -3633,7 +4142,7 @@
         "primary_texts": {
           "target": "com.whop.ads#UpdateAdRequestPrimaryTextsList",
           "traits": {
-            "smithy.api#documentation": "The primary text variants shown in the ad body."
+            "smithy.api#documentation": "The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`."
           }
         },
         "social_accounts": {
@@ -3648,6 +4157,13 @@
             "smithy.api#documentation": "The display name of the ad."
           }
         },
+        "translations": {
+          "target": "com.whop.ads#UpdateAdRequestTranslations",
+          "traits": {
+            "smithy.api#documentation": "Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "url": {
           "target": "smithy.api#String",
           "traits": {
@@ -3657,7 +4173,7 @@
         "url_parameters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid)."
+            "smithy.api#documentation": "Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network — Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid."
           }
         }
       },

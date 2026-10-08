@@ -2,21 +2,16 @@
   "description": "Fix ClusterSizeSku: storage, provider and default_vtgate_rate are x-nullable upstream but still listed as required",
   "patches": [
     {
-      "op": "replace",
-      "path": "/definitions/ClusterSizeSku/required",
-      "value": [
-        "name",
-        "display_name",
-        "cpu",
-        "ram",
-        "metal",
-        "external",
-        "enabled",
-        "default_vtgate",
-        "sort_order",
-        "development",
-        "production"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#ClusterSizeSku/members/storage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#ClusterSizeSku/members/provider/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#ClusterSizeSku/members/default_vtgate_rate/traits/smithy.api#required"
     }
   ]
 }

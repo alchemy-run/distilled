@@ -277,8 +277,12 @@ export const GetUserRequestInterval = S.String;
 export interface GetUserRequest {
   /** User ID (prefixed `user_`), username, or `me` for the authenticated user. */
   id: string;
+  /** Also retrieve live trading state under `trading`. Only honored on the self view (me) with crypto_wallet:trade:read, crypto_wallet:trade, or crypto_wallet:manage permission and an Ethereum wallet. Provider failures return 503. */
+  include_trading?: boolean;
   /** When set, returns the user's account-specific profile overrides for this account. */
   account_id?: string;
+  /** Compute live wallet and owned-account balances on the self view (default true). Set false for identity-only reads. Ignored when the id is not `me` or the caller lacks balance-read scope. */
+  include_balance?: boolean;
   /** Also compute your balance history (opt-in; runs a heavier query). Only applies when the id is `me`; ignored for callers without balance-read scope. */
   include_balance_history?: boolean;
   /** Balance-history window start, ISO 8601 date or datetime. Defaults to 30 days ago. Only used with `include_balance_history`. */
@@ -293,7 +297,9 @@ export interface GetUserRequest {
 export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
+    include_trading: S.optional(S.Boolean.pipe(T.Query())),
     account_id: S.optional(S.String.pipe(T.Query())),
+    include_balance: S.optional(S.Boolean.pipe(T.Query())),
     include_balance_history: S.optional(S.Boolean.pipe(T.Query())),
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
@@ -535,6 +541,8 @@ export interface UserEarnings {
   first_earned_at: string | null;
   /** Gross income from accounts the user owns or is owner-authorized on. */
   owned_accounts: UserEarningsAmount;
+  /** Partner commissions posted to the user's wallet. Pending Partner payouts are excluded until they post; later reversals do not reduce gross income. */
+  partners: UserEarningsAmount;
   /** Gross income from the user's personal wallet. */
   personal: UserEarningsAmount;
   /** Gross income from the user's personal wallet plus accounts they own or are owner-authorized on. */
@@ -544,6 +552,7 @@ export const UserEarnings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     first_earned_at: S.NullOr(S.String),
     owned_accounts: UserEarningsAmount,
+    partners: UserEarningsAmount,
     personal: UserEarningsAmount,
     total: UserEarningsAmount,
   }),
@@ -567,7 +576,9 @@ export type SocialAccountParentPlatform =
   | "tiktok"
   | "facebook"
   | "discord"
-  | "telegram";
+  | "telegram"
+  | "linkedin"
+  | "snapchat";
 export const SocialAccountParentPlatform = S.String;
 
 export interface SocialAccountParent {
@@ -606,7 +617,9 @@ export type SocialAccountPlatform =
   | "tiktok"
   | "facebook"
   | "discord"
-  | "telegram";
+  | "telegram"
+  | "linkedin"
+  | "snapchat";
 export const SocialAccountPlatform = S.String;
 
 export type SocialAccountScopesList = Array<string>;
@@ -630,9 +643,9 @@ export interface SocialAccount {
   /** The URL where the profile picture of the social account can be accessed. */
   profile_picture_url: string | null;
   scopes: SocialAccountScopesList;
-  /** The URL where the social account can be accessed on the platform. Null while a Whop-owned page is still being provisioned. */
+  /** The URL where the social account can be accessed on the platform. Null while a Whop-owned account is still being provisioned. */
   url: string | null;
-  /** The username of the social account on the platform. Null while a Whop-owned page is still being provisioned. */
+  /** The username of the social account on the platform. Null while a Whop-owned account is still being provisioned. */
   username: string | null;
   /** Whether the social account is verified on the platform. */
   verified: boolean;
@@ -677,8 +690,322 @@ export const UserStaffAccess = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserStaffAccess" }) as any as S.Schema<UserStaffAccess>;
 
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+export interface TradingMarginSummary {
+  /** Total account value in USD, including unrealized profit and loss. */
+  account_value: Money;
+  /** Margin allocated across open positions, in USD. */
+  total_margin_used: Money;
+  /** Combined notional value of open positions, in USD. */
+  total_position_notional: Money;
+  /** Raw USD balance as Hyperliquid reports it, excluding position value. */
+  total_raw_usd: Money;
+  /** USD that can be withdrawn now without closing positions. */
+  withdrawable: Money;
+}
+export const TradingMarginSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_value: Money,
+    total_margin_used: Money,
+    total_position_notional: Money,
+    total_raw_usd: Money,
+    withdrawable: Money,
+  }),
+).annotate({ identifier: "TradingMarginSummary" }) as any as S.Schema<TradingMarginSummary>;
+
+/** The live update stream this subscription opens. */
+export type TradingWebsocketSubscriptionChannel =
+  | "clearinghouse_state"
+  | "open_orders"
+  | "order_updates"
+  | "user_fills"
+  | "user_events";
+export const TradingWebsocketSubscriptionChannel = S.String;
+
+export interface TradingWebsocketSubscription {
+  /** The live update stream this subscription opens. */
+  channel: TradingWebsocketSubscriptionChannel;
+  /** JSON subscription message to send unchanged over the Hyperliquid WebSocket. */
+  message: string;
+}
+export const TradingWebsocketSubscription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: TradingWebsocketSubscriptionChannel,
+    message: S.String,
+  }),
+).annotate({
+  identifier: "TradingWebsocketSubscription",
+}) as any as S.Schema<TradingWebsocketSubscription>;
+
+export type TradingHyperliquidAccountWebsocketSubscriptionsList =
+  Array<TradingWebsocketSubscription>;
+export const TradingHyperliquidAccountWebsocketSubscriptionsList = /*@__PURE__*/ S.Array(
+  TradingWebsocketSubscription,
+) as any as S.Schema<TradingHyperliquidAccountWebsocketSubscriptionsList>;
+
+export interface TradingHyperliquidAccount {
+  /** Lowercase wallet address that holds the Hyperliquid account. */
+  address: string;
+  /** Builder fee Whop charges on orders, in basis points as a decimal string, or `null` when no fee is configured. */
+  builder_fee_bps: string | null;
+  /** Account value, margin, and withdrawable balance, all in USD. */
+  margin_summary: TradingMarginSummary;
+  websocket_subscriptions: TradingHyperliquidAccountWebsocketSubscriptionsList;
+  /** Hyperliquid WebSocket URL to connect to directly for live updates. */
+  websocket_url: string;
+}
+export const TradingHyperliquidAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    address: S.String,
+    builder_fee_bps: S.NullOr(S.String),
+    margin_summary: TradingMarginSummary,
+    websocket_subscriptions: TradingHyperliquidAccountWebsocketSubscriptionsList,
+    websocket_url: S.String,
+  }),
+).annotate({
+  identifier: "TradingHyperliquidAccount",
+}) as any as S.Schema<TradingHyperliquidAccount>;
+
+export type TradingAccountObject = "trading_account";
+export const TradingAccountObject = S.String;
+
+export interface TradingHyperliquidOrder {
+  /** Whether the order can only reduce an existing position, or `null` when Hyperliquid omits it. */
+  reduce_only: boolean | null;
+  /** Trigger price in USD for take-profit and stop-loss orders, or `null` for orders without a trigger. */
+  trigger_price: Money | null;
+}
+export const TradingHyperliquidOrder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reduce_only: S.NullOr(S.Boolean),
+    trigger_price: S.NullOr(Money),
+  }),
+).annotate({ identifier: "TradingHyperliquidOrder" }) as any as S.Schema<TradingHyperliquidOrder>;
+
+export type TradingOrderObject = "trading_order";
+export const TradingOrderObject = S.String;
+
+export type TradingOrderOrderType = "limit" | "market" | "take_profit" | "stop_loss";
+export const TradingOrderOrderType = S.String;
+
+export type TradingOrderSide = "buy" | "sell";
+export const TradingOrderSide = S.String;
+
+export type TradingOrderStatus = "open" | "filled" | "canceled" | "triggered" | "rejected";
+export const TradingOrderStatus = S.String;
+
+/** How long the order stays active. `null` when the provider omits it or reports a policy outside the supported values. */
+export type TradingOrderTimeInForce =
+  | "add_liquidity_only"
+  | "good_til_canceled"
+  | "immediate_or_cancel";
+export const TradingOrderTimeInForce = S.String;
+
+export interface TradingOrder {
+  /** Client order ID, prefixed `trdcloid_`, or `null` when the order was placed without one. */
+  client_order_id: string | null;
+  /** When the order was placed, as an ISO 8601 timestamp, or `null` when the provider omits it. */
+  created_at: string | null;
+  /** Hyperliquid-specific order details. Present on Hyperliquid orders, otherwise `null`. */
+  hyperliquid: TradingHyperliquidOrder | null;
+  /** Trading order ID, prefixed `trdord_`. */
+  id: string;
+  /** Market symbol on the provider, such as `ETH`. */
+  market: string;
+  object: TradingOrderObject;
+  order_type: TradingOrderOrderType;
+  /** Size when the order was placed, as a decimal string, or `null` when the provider omits it. */
+  original_size: string | null;
+  /** Limit price in USD. */
+  price: Money;
+  /** The provider's own order ID, as a string. */
+  provider_order_id: string | null;
+  side: TradingOrderSide;
+  /** Remaining order size as a decimal string. */
+  size: string;
+  status: TradingOrderStatus;
+  /** When the status last changed, as an ISO 8601 timestamp, or `null` when the provider omits it. */
+  status_updated_at: string | null;
+  /** How long the order stays active. `null` when the provider omits it or reports a policy outside the supported values. */
+  time_in_force: TradingOrderTimeInForce | null;
+}
+export const TradingOrder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    client_order_id: S.NullOr(S.String),
+    created_at: S.NullOr(S.String),
+    hyperliquid: S.NullOr(TradingHyperliquidOrder),
+    id: S.String,
+    market: S.String,
+    object: TradingOrderObject,
+    order_type: TradingOrderOrderType,
+    original_size: S.NullOr(S.String),
+    price: Money,
+    provider_order_id: S.NullOr(S.String),
+    side: TradingOrderSide,
+    size: S.String,
+    status: TradingOrderStatus,
+    status_updated_at: S.NullOr(S.String),
+    time_in_force: S.NullOr(TradingOrderTimeInForce),
+  }),
+).annotate({ identifier: "TradingOrder" }) as any as S.Schema<TradingOrder>;
+
+export type TradingAccountOpenOrdersList = Array<TradingOrder>;
+export const TradingAccountOpenOrdersList = /*@__PURE__*/ S.Array(
+  TradingOrder,
+) as any as S.Schema<TradingAccountOpenOrdersList>;
+
+export interface TradingCumulativeFunding {
+  /** Funding paid on this market across the account's history, in USD, or `null` when unavailable. */
+  all_time: Money | null;
+  /** Funding paid since the position size last changed, in USD, or `null` when unavailable. */
+  since_change: Money | null;
+  /** Funding paid since the position opened, in USD, or `null` when unavailable. */
+  since_open: Money | null;
+}
+export const TradingCumulativeFunding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all_time: S.NullOr(Money),
+    since_change: S.NullOr(Money),
+    since_open: S.NullOr(Money),
+  }),
+).annotate({ identifier: "TradingCumulativeFunding" }) as any as S.Schema<TradingCumulativeFunding>;
+
+/** `cross` shares margin across positions; `isolated` limits margin to this position. */
+export type TradingPositionLeverageType = "cross" | "isolated";
+export const TradingPositionLeverageType = S.String;
+
+export interface TradingPositionLeverage {
+  /** `cross` shares margin across positions; `isolated` limits margin to this position. */
+  type: TradingPositionLeverageType;
+  /** Multiplier applied to the position's margin, such as `10` for 10x. */
+  value: number;
+}
+export const TradingPositionLeverage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: TradingPositionLeverageType,
+    value: S.Number,
+  }),
+).annotate({ identifier: "TradingPositionLeverage" }) as any as S.Schema<TradingPositionLeverage>;
+
+export interface TradingHyperliquidPosition {
+  /** Funding paid on the position over several windows, in USD. */
+  cumulative_funding: TradingCumulativeFunding;
+  /** Margin mode and multiplier for the position. */
+  leverage: TradingPositionLeverage;
+  /** Estimated liquidation price in USD, or `null` when Hyperliquid reports none. */
+  liquidation_price: Money | null;
+  /** Margin allocated to the position, in USD. */
+  margin_used: Money;
+  /** Return on equity as a decimal ratio string, such as `0.1` for 10%. */
+  return_on_equity: string;
+}
+export const TradingHyperliquidPosition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cumulative_funding: TradingCumulativeFunding,
+    leverage: TradingPositionLeverage,
+    liquidation_price: S.NullOr(Money),
+    margin_used: Money,
+    return_on_equity: S.String,
+  }),
+).annotate({
+  identifier: "TradingHyperliquidPosition",
+}) as any as S.Schema<TradingHyperliquidPosition>;
+
+export type TradingPositionObject = "trading_position";
+export const TradingPositionObject = S.String;
+
+export type TradingPositionSide = "long" | "short";
+export const TradingPositionSide = S.String;
+
+export interface TradingPosition {
+  /** Average entry price in USD, or `null` when the provider omits it. */
+  entry_price: Money | null;
+  /** Hyperliquid perpetual details. Present on Hyperliquid positions, otherwise `null`. */
+  hyperliquid: TradingHyperliquidPosition | null;
+  /** Trading position ID, prefixed `trdpos_`. Stable for a market within one trading account. */
+  id: string;
+  /** Market symbol on the provider, such as `ETH`. */
+  market: string;
+  object: TradingPositionObject;
+  /** Current position value in USD. */
+  position_value: Money;
+  side: TradingPositionSide;
+  /** Absolute position size as a decimal string. */
+  size: string;
+  /** Unrealized profit or loss in USD. Negative for a loss. */
+  unrealized_pnl: Money;
+}
+export const TradingPosition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entry_price: S.NullOr(Money),
+    hyperliquid: S.NullOr(TradingHyperliquidPosition),
+    id: S.String,
+    market: S.String,
+    object: TradingPositionObject,
+    position_value: Money,
+    side: TradingPositionSide,
+    size: S.String,
+    unrealized_pnl: Money,
+  }),
+).annotate({ identifier: "TradingPosition" }) as any as S.Schema<TradingPosition>;
+
+export type TradingAccountPositionsList = Array<TradingPosition>;
+export const TradingAccountPositionsList = /*@__PURE__*/ S.Array(
+  TradingPosition,
+) as any as S.Schema<TradingAccountPositionsList>;
+
+/** Trading venue that holds the positions and orders. */
+export type TradingAccountProvider = "hyperliquid";
+export const TradingAccountProvider = S.String;
+
+export interface TradingAccount {
+  /** The account that owns this trading account, prefixed `biz_`. `null` when a user owns it. */
+  account_id: string | null;
+  /** Hyperliquid-specific state. Present when `provider` is `hyperliquid`, otherwise `null`. */
+  hyperliquid: TradingHyperliquidAccount | null;
+  /** The Whop wallet ID backing this trading account, prefixed `cwal_`. */
+  id: string;
+  object: TradingAccountObject;
+  open_orders: TradingAccountOpenOrdersList;
+  positions: TradingAccountPositionsList;
+  /** Trading venue that holds the positions and orders. */
+  provider: TradingAccountProvider;
+  /** The user who owns this trading account, prefixed `user_`. `null` when an account owns it. */
+  user_id: string | null;
+}
+export const TradingAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.NullOr(S.String),
+    hyperliquid: S.NullOr(TradingHyperliquidAccount),
+    id: S.String,
+    object: TradingAccountObject,
+    open_orders: TradingAccountOpenOrdersList,
+    positions: TradingAccountPositionsList,
+    provider: TradingAccountProvider,
+    user_id: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "TradingAccount" }) as any as S.Schema<TradingAccount>;
+
 export interface User {
-  /** The user's balance: personal cash + crypto + in-flight treasury deposits, plus account balances for accounts they own. Computed only on the self view (retrieved with the reserved id `me`) for callers with balance-read scope; `null` otherwise. */
+  /** The user's balance: personal cash + crypto + in-flight treasury deposits, plus account balances for accounts they own. Computed only on the self view (retrieved with the reserved id `me`) for callers with balance-read scope; `null` otherwise, or when `include_balance=false`. */
   balance: UserBalance | null;
   /** The user's cumulative wallet balance over time (USD `{ t, v }` points plus last/min/max), for the balance chart. Opt in with `include_balance_history=true` when retrieving yourself with the reserved id `me`; populated only for callers with balance-read scope and `null` otherwise. A user with no wallet activity returns an empty series. */
   balance_history: UserBalanceHistory | null;
@@ -688,7 +1015,7 @@ export interface User {
   bio: string | null;
   /** When the user was created, as an ISO 8601 timestamp */
   created_at: string;
-  /** The user's gross USD income over time. Populated only on single-user self reads for callers with balance-read scope; `null` otherwise. */
+  /** The user's gross USD income over time, including a Partner commission breakdown. Populated only on single-user self reads for callers with balance-read scope; `null` otherwise. */
   earnings_usd: UserEarnings | null;
   /** The user's email address. Populated only on the self view (retrieved with the reserved id `me`) for callers with email-read scope; `null` otherwise, or while the account has no confirmed email yet. */
   email: string | null;
@@ -701,6 +1028,8 @@ export interface User {
   social_accounts: UserSocialAccountsList;
   /** Whop staff access flags. Populated only on the self view (retrieved with the reserved id `me`) for callers with staff-read scope; `null` there for every user who is not Whop staff, and always `null` elsewhere. */
   staff: UserStaffAccess | null;
+  /** Live trading state. Opt in with `include_trading=true` when retrieving `me`; `null` otherwise, without trading permission, or without an Ethereum wallet. Provider failures return an error, not a zero balance. */
+  trading: TradingAccount | null;
   /** The user's unique username */
   username: string;
   /** Identity verification status for the user's `individual` (KYC) and `business` (KYB) profiles. Each is `null` until created, otherwise a `status` of `not_started`, `pending`, `approved`, or `rejected`. */
@@ -722,6 +1051,7 @@ export const User = /*@__PURE__*/ S.suspend(() =>
     profile_picture: UserProfilePicture,
     social_accounts: UserSocialAccountsList,
     staff: S.NullOr(UserStaffAccess),
+    trading: S.NullOr(TradingAccount),
     username: S.String,
     verification: S.Unknown,
     whop_partner_enabled_at: S.NullOr(S.String),
@@ -763,13 +1093,13 @@ export const ListOauthGrantsRequestDirection = S.String;
 export interface ListOauthGrantsRequest {
   /** Only return grants for this app, prefixed `app_`. An app the user has never authorized returns an empty list. */
   app_id?: string;
-  /** The number of grants to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns grants after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of grants to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns grants before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort grants by. */
   order?: ListOauthGrantsRequestOrder | (string & {});
@@ -828,13 +1158,13 @@ export type ListPasskeysRequestDirection = "asc" | "desc";
 export const ListPasskeysRequestDirection = S.String;
 
 export interface ListPasskeysRequest {
-  /** The number of passkeys to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns passkeys after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of passkeys to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns passkeys before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort passkeys by. */
   order?: ListPasskeysRequestOrder | (string & {});
@@ -872,9 +1202,9 @@ export const ListPasskeysResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListPasskeysResponse" }) as any as S.Schema<ListPasskeysResponse>;
 
 export interface ListUserNotificationExperiencePreferencesRequest {
-  /** The number of preferences to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns preferences after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListUserNotificationExperiencePreferencesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -980,9 +1310,9 @@ export interface ListUserNotificationTopicPreferencesRequest {
   experience_id?: string;
   /** Only return preferences scoped to this notification topic (`topic_` tag). */
   topic_id?: string;
-  /** The number of preferences to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns preferences after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListUserNotificationTopicPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1165,13 +1495,13 @@ export const ListUserRecommendedActionsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListUsersRequest {
   /** A search term to filter users by name or username. */
   query?: string;
-  /** The number of users to return (max 50). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns users after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of users to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns users before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1210,7 +1540,7 @@ export type SetUserNotificationPreferencesRequestPreferencesItemLevel =
   | "nothing";
 export const SetUserNotificationPreferencesRequestPreferencesItemLevel = S.String;
 
-/** Delivery channel the preference applies to. Required when setting a topic override. */
+/** Delivery channel the preference applies to. Omit it (or pass `null`) to apply the preference to every channel. */
 export type SetUserNotificationPreferencesRequestPreferencesItemScopeChannel = "in_app" | "mobile";
 export const SetUserNotificationPreferencesRequestPreferencesItemScopeChannel = S.String;
 
@@ -1218,7 +1548,7 @@ export const SetUserNotificationPreferencesRequestPreferencesItemScopeChannel = 
 export interface SetUserNotificationPreferencesRequestPreferencesItemScope {
   /** Account to scope the preference to (member notifications), `biz_` tag. */
   account_id?: string | null;
-  /** Delivery channel the preference applies to. Required when setting a topic override. */
+  /** Delivery channel the preference applies to. Omit it (or pass `null`) to apply the preference to every channel. */
   channel?: SetUserNotificationPreferencesRequestPreferencesItemScopeChannel | (string & {}) | null;
   /** Experience to scope the preference to (`exp_` tag). Requires `account_id` when a `topic_id` is also given. */
   experience_id?: string | null;
@@ -1632,7 +1962,7 @@ export const listUsers: API.PaginatedOperationMethod<
 ) as any;
 
 export type SetUserNotificationPreferencesError = BadRequest | NotFound | WhopOpError;
-/** Set Sets the authenticated user's notification preferences. Each preference is addressed by `scope`, not by id, so a scope read back from either list endpoint can be sent straight here. A scope naming an experience with no topic sets that experience's level, and accepts all three levels. Any other scope sets a topic override, which is binary — `all` or `nothing` — and requires a `channel`. `level: null` clears the preference. Preferences are stored as overrides, so clearing one means the scope inherits its default again rather than being switched off. The batch is applied in one transaction: if any entry is rejected, none are written. Experience levels are applied before topic overrides, because setting a level replaces every topic preference for that experience — so an override sent alongside a level wins. The response reports what each scope now resolves to, in the order the entries were sent. */
+/** Set Sets the authenticated user's notification preferences. Each preference is addressed by `scope`, not by id, so a scope read back from either list endpoint can be sent straight here. A scope naming an experience with no topic sets that experience's level, and accepts all three levels. Any other scope sets a topic override, which is binary — `all` or `nothing`. A topic override with no `channel` applies to every delivery channel. `level: null` clears the preference. Preferences are stored as overrides, so clearing one means the scope inherits its default again rather than being switched off. The batch is applied in one transaction: if any entry is rejected, none are written. Experience levels are applied before topic overrides, because setting a level replaces every topic preference for that experience — so an override sent alongside a level wins. The response reports what each scope now resolves to, in the order the entries were sent. */
 export const setUserNotificationPreferences: API.OperationMethod<
   SetUserNotificationPreferencesRequest,
   SetUserNotificationPreferencesResponse,

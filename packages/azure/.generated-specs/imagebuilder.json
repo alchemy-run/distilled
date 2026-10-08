@@ -1737,6 +1737,60 @@
           "traits": {
             "smithy.api#documentation": "Tags that will be applied to the artifact once it has been created/updated by the distributor."
           }
+        },
+        "imageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ManagedImage: ARM resource ID of the managed image to create."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ManagedImage: Azure location of the managed image."
+          }
+        },
+        "galleryImageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SharedImage: ARM resource ID of the gallery image definition or version."
+          }
+        },
+        "replicationRegions": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "SharedImage: (deprecated) regions to replicate to."
+          }
+        },
+        "targetRegions": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "SharedImage: target regions with replica counts and storage types."
+          }
+        },
+        "versioning": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "SharedImage: version numbering scheme (`Latest` / `Source`)."
+          }
+        },
+        "storageAccountType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SharedImage: (deprecated) storage account type."
+          }
+        },
+        "excludeFromLatest": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "SharedImage: exclude the version from `latest`."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VHD: optional destination blob URI."
+          }
         }
       },
       "traits": {
@@ -1804,6 +1858,54 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Friendly Name to provide context on what this validation step does"
+          }
+        },
+        "scriptUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shell/PowerShell: URI of the script to run."
+          }
+        },
+        "sha256Checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shell/PowerShell/File: SHA256 checksum of the script or file."
+          }
+        },
+        "inline": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Shell/PowerShell: array of inline commands."
+          }
+        },
+        "validExitCodes": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "PowerShell: array of valid exit codes."
+          }
+        },
+        "runElevated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "PowerShell: run with elevated privileges."
+          }
+        },
+        "runAsSystem": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "PowerShell: run as the Local System user."
+          }
+        },
+        "sourceUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File: URI of the file to download."
+          }
+        },
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File: absolute destination path on the build VM."
           }
         }
       },
@@ -1935,6 +2037,90 @@
           "traits": {
             "smithy.api#documentation": "Friendly Name to provide context on what this customization step does"
           }
+        },
+        "scriptUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shell/PowerShell: URI of the script to run."
+          }
+        },
+        "sha256Checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shell/PowerShell/File: SHA256 checksum of the script or file."
+          }
+        },
+        "inline": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Shell/PowerShell: array of inline commands."
+          }
+        },
+        "validExitCodes": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "PowerShell: array of valid exit codes."
+          }
+        },
+        "runElevated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "PowerShell: run with elevated privileges."
+          }
+        },
+        "runAsSystem": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "PowerShell: run as the Local System user."
+          }
+        },
+        "restartCommand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WindowsRestart: command to execute the restart."
+          }
+        },
+        "restartCheckCommand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WindowsRestart: command to check whether the restart succeeded."
+          }
+        },
+        "restartTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WindowsRestart: restart timeout, e.g. `5m`."
+          }
+        },
+        "searchCriteria": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WindowsUpdate: update search criteria."
+          }
+        },
+        "filters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "WindowsUpdate: array of update filters."
+          }
+        },
+        "updateLimit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "WindowsUpdate: maximum number of updates to apply at a time."
+          }
+        },
+        "sourceUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File: URI of the file to download."
+          }
+        },
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File: absolute destination path on the build VM."
+          }
         }
       },
       "traits": {
@@ -1949,6 +2135,54 @@
           "traits": {
             "smithy.api#documentation": "Specifies the type of source image you want to start with.",
             "smithy.api#required": {}
+          }
+        },
+        "publisher": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PlatformImage: image publisher, e.g. `Canonical`."
+          }
+        },
+        "offer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PlatformImage: image offer, e.g. `ubuntu-24_04-lts`."
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PlatformImage: image SKU, e.g. `server`."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PlatformImage: image version or `latest`."
+          }
+        },
+        "exactVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PlatformImage: resolved image version (read-only)."
+          }
+        },
+        "planInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "PlatformImage: marketplace purchase plan (`planName`, `planProduct`, `planPublisher`)."
+          }
+        },
+        "imageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ManagedImage: ARM resource ID of the managed image."
+          }
+        },
+        "imageVersionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SharedImageVersion: ARM resource ID of the gallery image version."
           }
         }
       },

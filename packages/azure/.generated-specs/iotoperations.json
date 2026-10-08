@@ -234,6 +234,18 @@
             "smithy.api#documentation": "The trust type for the registry endpoint.",
             "smithy.api#required": {}
           }
+        },
+        "configMapRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the configmap. Only for `ConfigMap` (polymorphic subtype `RegistryEndpointTrustedSigningKeyConfigMap`)."
+          }
+        },
+        "secretRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the secret. Only for `Secret` (polymorphic subtype `RegistryEndpointTrustedSigningKeySecret`)."
+          }
         }
       },
       "traits": {
@@ -350,6 +362,30 @@
           "traits": {
             "smithy.api#documentation": "The authentication method.",
             "smithy.api#required": {}
+          }
+        },
+        "anonymousSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Anonymous authentication properties Only for `Anonymous` (polymorphic subtype `RegistryEndpointAnonymousAuthentication`)."
+          }
+        },
+        "artifactPullSecretSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Artifact Pull Secret authentication properties Only for `ArtifactPullSecret` (polymorphic subtype `RegistryEndpointArtifactPullSecretAuthentication`)."
+          }
+        },
+        "systemAssignedManagedIdentitySettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "System assigned managed identity properties Only for `SystemAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointSystemAssignedIdentityAuthentication`)."
+          }
+        },
+        "userAssignedManagedIdentitySettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "User assigned managed identity properties Only for `UserAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointUserAssignedIdentityAuthentication`)."
           }
         }
       },
@@ -1198,6 +1234,18 @@
           "traits": {
             "smithy.api#documentation": "The type of header operation to perform.",
             "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`)."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`)."
           }
         }
       },
@@ -2375,6 +2423,24 @@
           "traits": {
             "smithy.api#documentation": "Type of the node.",
             "smithy.api#required": {}
+          }
+        },
+        "destinationSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Destination configuration. Only for `Destination` (polymorphic subtype `DataflowGraphDestinationNode`)."
+          }
+        },
+        "graphSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Graph configuration. Only for `Graph` (polymorphic subtype `DataflowGraphGraphNode`)."
+          }
+        },
+        "sourceSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Source configuration. Only for `Source` (polymorphic subtype `DataflowGraphSourceNode`)."
           }
         }
       },
@@ -3629,6 +3695,24 @@
           "traits": {
             "smithy.api#documentation": "The authentication method.",
             "smithy.api#required": {}
+          }
+        },
+        "anonymousSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Settings for the anonymous connection Only for `Anonymous` (polymorphic subtype `DataflowOpenTelemetryAnonymousAuthentication`)."
+          }
+        },
+        "serviceAccountTokenSettings": {
+          "target": "com.azure.iotoperations#DataflowEndpointAuthenticationServiceAccountToken",
+          "traits": {
+            "smithy.api#documentation": "Kubernetes service account token authentication. Only for `ServiceAccountToken` (polymorphic subtype `DataflowOpenTelemetryServiceAccountAuthentication`)."
+          }
+        },
+        "x509CertificateSettings": {
+          "target": "com.azure.iotoperations#DataflowEndpointAuthenticationX509",
+          "traits": {
+            "smithy.api#documentation": "X.509 certificate authentication settings. Only for `X509Certificate` (polymorphic subtype `DataflowOpenTelemetryX509CertificateAuthentication`)."
           }
         }
       },
@@ -7963,6 +8047,12 @@
             "smithy.api#documentation": "'All' to persist all subscriber queues, 'None' to not persist any, 'Custom' to persist only the specified queues.",
             "smithy.api#required": {}
           }
+        },
+        "subscriberQueueSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom policy, required if mode is Custom. Subscriber queues from all groups are persisted to disk (logical OR). Only for `Custom` (polymorphic subtype `BrokerSubscriberQueueCustomPolicy`)."
+          }
         }
       },
       "traits": {
@@ -8004,6 +8094,12 @@
             "smithy.api#documentation": "'All' to persist all keys, 'None' to not persist any, 'Custom' to persist only the specified keys.",
             "smithy.api#required": {}
           }
+        },
+        "stateStoreSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerStateStoreCustomPolicy`)."
+          }
         }
       },
       "traits": {
@@ -8018,6 +8114,12 @@
           "traits": {
             "smithy.api#documentation": "'All' to persist all retain messages, 'None' to not persist any, 'Custom' to persist only the specified topics.",
             "smithy.api#required": {}
+          }
+        },
+        "retainSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerRetainMessagesCustomPolicy`)."
           }
         }
       },
@@ -10495,6 +10597,12 @@
             "smithy.api#documentation": "The authentication method for the MQTT connection.",
             "smithy.api#required": {}
           }
+        },
+        "serviceAccountTokenSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The service account token for the MQTT connection. Only for `ServiceAccountToken` (polymorphic subtype `AkriConnectorsServiceAccountAuthentication`)."
+          }
         }
       },
       "traits": {
@@ -10588,6 +10696,12 @@
           "traits": {
             "smithy.api#documentation": "Runtime configuration type for the Connector template.",
             "smithy.api#required": {}
+          }
+        },
+        "managedConfigurationSettings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The managed configuration settings. Only for `ManagedConfiguration` (polymorphic subtype `AkriConnectorTemplateManagedConfiguration`)."
           }
         }
       },

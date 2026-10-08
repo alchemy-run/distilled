@@ -284,9 +284,9 @@ export interface ListIdentityProfileRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id?: string;
   profile_type?: IdentityProfileKinds | (string & {});
   status?: IdentityProfileStatuses | (string & {});
+  account_id?: string;
 }
 export const ListIdentityProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -294,9 +294,9 @@ export const ListIdentityProfileRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
     profile_type: S.optional(IdentityProfileKinds.pipe(T.Query())),
     status: S.optional(IdentityProfileStatuses.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/identity_profiles", code: 200 })),
 ).annotate({
   identifier: "ListIdentityProfileRequest",
@@ -522,7 +522,7 @@ export type ListIdentityProfileError =
   | NotFound
   | UnprocessableEntity
   | WhopOpError;
-/** List identity profiles [Legacy API — https://docs.whop.com/api-reference] Returns a paginated list of identity profiles. When company_id is provided, lists IPs currently linked to that company's ledger. When omitted, lists IPs linked to any ledger the actor can read (including child companies under a parent). Required permissions: - `identity:read` */
+/** List identity profiles [Legacy API — https://docs.whop.com/api-reference] Returns a paginated list of identity profiles. When account_id is provided, lists IPs currently linked to that account's ledger. When omitted, lists IPs linked to any ledger the actor can read (including child accounts under a parent). Required permissions: - `identity:read` */
 export const listIdentityProfile: API.PaginatedOperationMethod<
   ListIdentityProfileRequest,
   ListIdentityProfileResponse,

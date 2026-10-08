@@ -347,6 +347,7 @@ const stampPagination = (model: any): string => {
 // ---- 4. Convert, write, finalize ---------------------------------------------
 
 const model = convertOpenApiToSmithy(spec, {
+  deferNaming: true,
   namespace: NAMESPACE,
   serviceName: "Catalog",
   // Per-status classes come from step 2; nothing generic per status.

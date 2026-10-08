@@ -207,6 +207,8 @@ export interface CancelPayoutResponse {
   source: CancelPayoutResponseSource | null;
   /** Payout delivery speed. */
   speed: CancelPayoutResponseSpeed;
+  /** Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9). */
+  statement_descriptor: string | null;
   /** Current payout status. */
   status: CancelPayoutResponseStatus;
   /** The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract. */
@@ -237,6 +239,7 @@ export const CancelPayoutResponse = /*@__PURE__*/ S.suspend(() =>
     payout_request_id: S.NullOr(S.String),
     source: S.NullOr(CancelPayoutResponseSource),
     speed: CancelPayoutResponseSpeed,
+    statement_descriptor: S.NullOr(S.String),
     status: CancelPayoutResponseStatus,
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
@@ -261,7 +264,7 @@ export interface CreatePayoutRequest {
   acknowledge_bank_warning?: boolean;
   /** The amount to pay out in the specified currency. */
   amount: number;
-  /** The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in — for example `cad` for an account funded by CAD transfers. Defaults to `usd`. */
+  /** The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in — for example `cad` for an account funded by CAD transfers. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency. */
   currency?: string;
   /** Key-value data to attach to the payout, echoed on every read and in webhook payloads. At most 50 keys, key names up to 40 characters, string values up to 500 characters. Never store secrets or regulated personal data here — webhook bodies are retained for delivery inspection. */
   metadata?: CreatePayoutRequestMetadataMap;
@@ -271,8 +274,12 @@ export interface CreatePayoutRequest {
   payout_method_id: string;
   /** Whether the parent platform covers the payout fee instead of the account being paid out. Omit to use the platform's configured fee coverage policy; pass `false` to opt out of it. `true` is only accepted for accounts that belong to a platform, and requires the platform's policy to cover this payout method's category or a caller authorized to manage the platform's child account fees. */
   platform_covers_fees?: boolean;
+  /** The server-signed quote_token returned by POST /payouts/quotes. Send it when the ledger account's payout_quote_required is true. A business with quote enforcement on refuses a payout without it with the invalid_payout_quote error type. When provided, Whop will not commit a provider payout below the destination amount the quote showed. */
+  quote_token?: string;
   /** How fast the funds should arrive. `instant` is only accepted when the account and payout method are eligible; otherwise the payout is rejected. */
   speed?: CreatePayoutRequestSpeed | (string & {});
+  /** Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Without a `quote_token`, omit or pass `null` to use the default descriptor. With a `quote_token`, set this value when creating the quote; the payout request may omit it but cannot add or change it. */
+  statement_descriptor?: string | null;
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
   user_id?: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
@@ -288,7 +295,9 @@ export const CreatePayoutRequest = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.NullOr(S.String)),
     payout_method_id: S.String,
     platform_covers_fees: S.optional(S.Boolean),
+    quote_token: S.optional(S.String),
     speed: S.optional(CreatePayoutRequestSpeed),
+    statement_descriptor: S.optional(S.NullOr(S.String)),
     user_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/payouts", code: 200 })),
@@ -422,6 +431,8 @@ export interface CreatePayoutResponse {
   source: CreatePayoutResponseSource | null;
   /** Payout delivery speed. */
   speed: CreatePayoutResponseSpeed;
+  /** Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9). */
+  statement_descriptor: string | null;
   /** Current payout status, in the same vocabulary as GET /payouts. */
   status: CreatePayoutResponseStatus;
   /** The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract. */
@@ -452,6 +463,7 @@ export const CreatePayoutResponse = /*@__PURE__*/ S.suspend(() =>
     payout_request_id: S.NullOr(S.String),
     source: S.NullOr(CreatePayoutResponseSource),
     speed: CreatePayoutResponseSpeed,
+    statement_descriptor: S.NullOr(S.String),
     status: CreatePayoutResponseStatus,
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
@@ -621,6 +633,101 @@ export const CreatePayoutMethodResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreatePayoutMethodResponse",
 }) as any as S.Schema<CreatePayoutMethodResponse>;
+
+/** How fast the funds should arrive. */
+export type CreatePayoutQuoteRequestSpeed = "standard" | "instant";
+export const CreatePayoutQuoteRequestSpeed = S.String;
+
+export interface CreatePayoutQuoteRequest {
+  /** Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
+  account_id?: string;
+  /** The amount to pay out in the specified currency. */
+  amount: number;
+  /** The currency to pay out. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency. */
+  currency?: string;
+  /** The saved payout method to quote (a potk_ identifier). */
+  payout_method_id: string;
+  /** Whether the parent platform covers the payout fee instead of the account being paid out. */
+  platform_covers_fees?: boolean;
+  /** How fast the funds should arrive. */
+  speed?: CreatePayoutQuoteRequestSpeed | (string & {});
+  /** Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Omit or pass `null` to use the default descriptor. */
+  statement_descriptor?: string | null;
+  /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
+  user_id?: string;
+  /** A unique key that makes this quote request safe to retry. */
+  idempotency_key: string;
+}
+export const CreatePayoutQuoteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.optional(S.String),
+    amount: S.Number,
+    currency: S.optional(S.String),
+    payout_method_id: S.String,
+    platform_covers_fees: S.optional(S.Boolean),
+    speed: S.optional(CreatePayoutQuoteRequestSpeed),
+    statement_descriptor: S.optional(S.NullOr(S.String)),
+    user_id: S.optional(S.String),
+    idempotency_key: S.String.pipe(T.Header("Idempotency-Key")),
+  }).pipe(T.Http({ method: "POST", uri: "/payouts/quotes", code: 200 })),
+).annotate({ identifier: "CreatePayoutQuoteRequest" }) as any as S.Schema<CreatePayoutQuoteRequest>;
+
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+export type CreatePayoutQuoteResponseObject = "payout_quote";
+export const CreatePayoutQuoteResponseObject = S.String;
+
+export interface CreatePayoutQuoteResponse {
+  /** Gross payout amount. */
+  amount: Money;
+  /** Exact amount quoted for delivery. */
+  destination_amount: Money;
+  /** Quoted exchange rate from the source currency to the destination currency. */
+  exchange_rate: number;
+  /** When the quote expires. */
+  expires_at: string;
+  /** Fee charged for the payout. */
+  fee: Money;
+  /** Provider-backed payout quote ID, prefixed `pout_`. */
+  id: string;
+  /** Amount remaining after fees. */
+  net_amount: Money;
+  object: CreatePayoutQuoteResponseObject;
+  /** Server-signed quote token to submit to POST /payouts. */
+  quote_token: string;
+}
+export const CreatePayoutQuoteResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: Money,
+    destination_amount: Money,
+    exchange_rate: S.Number,
+    expires_at: S.String,
+    fee: Money,
+    id: S.String,
+    net_amount: Money,
+    object: CreatePayoutQuoteResponseObject,
+    quote_token: S.String,
+  }),
+).annotate({
+  identifier: "CreatePayoutQuoteResponse",
+}) as any as S.Schema<CreatePayoutQuoteResponse>;
 
 export interface DeletePayoutMethodRequest {
   /** Payout method ID, prefixed `potk_`. */
@@ -793,6 +900,8 @@ export interface GetPayoutResponse {
   source: GetPayoutResponseSource | null;
   /** Payout delivery speed. */
   speed: GetPayoutResponseSpeed;
+  /** Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9). */
+  statement_descriptor: string | null;
   /** Current payout status. */
   status: GetPayoutResponseStatus;
   /** The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract. */
@@ -823,6 +932,7 @@ export const GetPayoutResponse = /*@__PURE__*/ S.suspend(() =>
     payout_request_id: S.NullOr(S.String),
     source: S.NullOr(GetPayoutResponseSource),
     speed: GetPayoutResponseSpeed,
+    statement_descriptor: S.NullOr(S.String),
     status: GetPayoutResponseStatus,
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
@@ -845,13 +955,13 @@ export interface ListPayoutMethodsRequest {
   currency?: string;
   /** When true, the response also carries limits — the live per-speed payout caps the account's payout requests are validated against, in the requested currency. Requires the payout:withdrawal:read scope. */
   include_limits?: boolean;
-  /** Number of payout methods to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of payout methods to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListPayoutMethodsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -920,7 +1030,7 @@ export const ListPayoutMethodsResponseDataItemObject = S.String;
 export interface ListPayoutMethodsResponseDataItemQuoteInstant {
   /** Total fee charged, in the payout currency. */
   fee: number;
-  /** Amount delivered after fees, in the payout currency. */
+  /** Amount remaining after fees, in the payout currency. */
   total_received: number;
 }
 export const ListPayoutMethodsResponseDataItemQuoteInstant = /*@__PURE__*/ S.suspend(() =>
@@ -931,6 +1041,11 @@ export const ListPayoutMethodsResponseDataItemQuoteInstant = /*@__PURE__*/ S.sus
 ).annotate({
   identifier: "ListPayoutMethodsResponseDataItemQuoteInstant",
 }) as any as S.Schema<ListPayoutMethodsResponseDataItemQuoteInstant>;
+
+/** Why instant delivery is unavailable for this method. `minimum_crypto_sales_not_met` means the account has not reached the total sales required for instant cryptocurrency payouts. `null` when this restriction does not apply. */
+export type ListPayoutMethodsResponseDataItemQuoteInstantUnavailableReason =
+  "minimum_crypto_sales_not_met";
+export const ListPayoutMethodsResponseDataItemQuoteInstantUnavailableReason = S.String;
 
 /** Standard-delivery estimate. Null if the method does not support standard delivery, or the amount does not cover the fee. */
 export type ListPayoutMethodsResponseDataItemQuoteStandard =
@@ -948,6 +1063,8 @@ export interface ListPayoutMethodsResponseDataItemQuote {
   exchange_rate: number;
   /** Instant-delivery estimate. Null if the method does not support instant delivery, instant delivery is unavailable for the account, or the amount does not cover the fee. */
   instant: ListPayoutMethodsResponseDataItemQuoteInstant | null;
+  /** Why instant delivery is unavailable for this method. `minimum_crypto_sales_not_met` means the account has not reached the total sales required for instant cryptocurrency payouts. `null` when this restriction does not apply. */
+  instant_unavailable_reason: ListPayoutMethodsResponseDataItemQuoteInstantUnavailableReason | null;
   /** Maximum payout amount for this method, in the payout currency. */
   max_limit: number | null;
   /** Minimum payout amount for this method, in the payout currency. */
@@ -961,6 +1078,9 @@ export const ListPayoutMethodsResponseDataItemQuote = /*@__PURE__*/ S.suspend(()
     currency: S.String,
     exchange_rate: S.Number,
     instant: S.NullOr(ListPayoutMethodsResponseDataItemQuoteInstant),
+    instant_unavailable_reason: S.NullOr(
+      ListPayoutMethodsResponseDataItemQuoteInstantUnavailableReason,
+    ),
     max_limit: S.NullOr(S.Number),
     min_limit: S.Number,
     standard: S.NullOr(ListPayoutMethodsResponseDataItemQuoteInstant),
@@ -1131,13 +1251,35 @@ export const ListPayoutMethodsResponseLimitsInstant = /*@__PURE__*/ S.suspend(()
 export type ListPayoutMethodsResponseLimitsObject = "payout_limit";
 export const ListPayoutMethodsResponseLimitsObject = S.String;
 
+/** Why a standard payout cannot move funds right now, or null when the cap is above 0. */
+export type ListPayoutMethodsResponseLimitsStandardErrorCode =
+  | "account_suspended"
+  | "block_move_money_out_because_clawback"
+  | "supportability_check_payout_status_hold"
+  | "card_usage_review_payout_status_hold"
+  | "kyc_completed"
+  | "rmi_clear"
+  | "identity_rfi_clear"
+  | "guardian_id_clear"
+  | "ecommerce_fulfillment_connected"
+  | "block_move_money_out"
+  | "block_move_money_out_set_by_parent"
+  | "no_available_balance";
+export const ListPayoutMethodsResponseLimitsStandardErrorCode = S.String;
+
 /** Caps for standard-speed payouts, which draw on settled funds only. */
 export interface ListPayoutMethodsResponseLimitsStandard {
+  /** Why a standard payout cannot move funds right now, or null when the cap is above 0. */
+  error_code: ListPayoutMethodsResponseLimitsStandardErrorCode | null;
+  /** Human-readable form of error_code, or null when a standard payout can move funds. */
+  error_message: string | null;
   /** The maximum amount a standard payout can move right now, in whole currency units. */
   max_amount: number;
 }
 export const ListPayoutMethodsResponseLimitsStandard = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    error_code: S.NullOr(ListPayoutMethodsResponseLimitsStandardErrorCode),
+    error_message: S.NullOr(S.String),
     max_amount: S.Number,
   }),
 ).annotate({
@@ -1229,13 +1371,13 @@ export interface ListPayoutsRequest {
   created_before?: string;
   /** Only payouts created at or after this ISO 8601 time (inclusive). */
   created_after?: string;
-  /** Number of payouts to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of payouts to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListPayoutsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1384,6 +1526,8 @@ export interface ListPayoutsResponseDataItem {
   source: ListPayoutsResponseDataItemSource | null;
   /** Payout delivery speed. */
   speed: ListPayoutsResponseDataItemSpeed;
+  /** Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9). */
+  statement_descriptor: string | null;
   /** Current payout status. */
   status: ListPayoutsResponseDataItemStatus;
   /** The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract. */
@@ -1414,6 +1558,7 @@ export const ListPayoutsResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     payout_request_id: S.NullOr(S.String),
     source: S.NullOr(ListPayoutsResponseDataItemSource),
     speed: ListPayoutsResponseDataItemSpeed,
+    statement_descriptor: S.NullOr(S.String),
     status: ListPayoutsResponseDataItemStatus,
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
@@ -1456,13 +1601,13 @@ export interface ListSupportedPayoutMethodsRequest {
   supported_payout_method_id?: string;
   /** Currency the supported payout method would deliver payouts in. Only meaningful with supported_payout_method_id; required fields vary by destination currency. */
   destination_currency?: string;
-  /** Number of supported payout methods to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of supported payout methods to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListSupportedPayoutMethodsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1675,13 +1820,16 @@ export const ListSupportedPayoutMethodsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UpdatePayoutMethodRequest {
   /** Payout method ID, prefixed `potk_`. */
   id: string;
+  /** Set to `true` to make this the account's default payout method. `false` is not accepted. */
+  is_default?: boolean;
   /** New label for the payout method, with at least one non-whitespace character and a maximum of 100 characters. */
-  nickname: string;
+  nickname?: string;
 }
 export const UpdatePayoutMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-    nickname: S.String,
+    is_default: S.optional(S.Boolean),
+    nickname: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/payouts/methods/{id}", code: 200 })),
 ).annotate({
   identifier: "UpdatePayoutMethodRequest",
@@ -1856,6 +2004,21 @@ export const createPayoutMethod: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreatePayoutQuoteError = BadRequest | Forbidden | Conflict | WhopOpError;
+/** Create Payout Quote Creates a short-lived, provider-backed quote for a payout. No funds move until the returned quote_token is submitted to POST /payouts. An Idempotency-Key header is required. */
+export const createPayoutQuote: API.OperationMethod<
+  CreatePayoutQuoteRequest,
+  CreatePayoutQuoteResponse,
+  CreatePayoutQuoteError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePayoutQuoteRequest,
+  output: CreatePayoutQuoteResponse,
+  errors: [BadRequest, Forbidden, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeletePayoutMethodError = Forbidden | NotFound | WhopOpError;
 /** Delete Saved Payout Method Deletes a saved payout method so it can no longer receive payouts. */
 export const deletePayoutMethod: API.OperationMethod<
@@ -1968,7 +2131,7 @@ export const listSupportedPayoutMethods: API.PaginatedOperationMethod<
 ) as any;
 
 export type UpdatePayoutMethodError = BadRequest | Forbidden | NotFound | WhopOpError;
-/** Rename Saved Payout Method Changes the label used to identify a saved payout method. */
+/** Update Saved Payout Method Changes the label used to identify a saved payout method or makes it the account's default payout method. */
 export const updatePayoutMethod: API.OperationMethod<
   UpdatePayoutMethodRequest,
   UpdatePayoutMethodResponse,

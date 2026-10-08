@@ -2,9 +2,84 @@
   "description": "The License schema lists many fields as required, but live responses from api.axiom.co omit several of them (e.g. defaultRegion, withAuths, regions). Make all the observed-to-be-missing fields optional so getOrg / getOrgs / updateOrg / createOrg succeed at decode time. `id` and `tier` are kept required because every observed response includes them and they're genuinely useful to depend on.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/components/schemas/License/required",
-      "value": ["id", "tier"]
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/apiRateLimitPerSecond/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/billingPeriodEnd/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/billingPeriodStart/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/defaultEdgeDeployment/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/edgeDeployments/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/features/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/issuedAt/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/issuedTo/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/issuer/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxAuditWindowSeconds/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxDatasets/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxEndpoints/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxFields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxMonitors/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxQueryWindowSeconds/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/maxUsers/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/monthlyIngestGb/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/monthlyQueryGbHours/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/validFrom/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#License/members/withAuths/traits"
     }
   ]
 }

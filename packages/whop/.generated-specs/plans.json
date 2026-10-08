@@ -170,28 +170,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of plans to return (default and max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns plans after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of plans to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns plans before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -215,6 +215,14 @@
           "traits": {
             "smithy.api#documentation": "Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags.",
             "smithy.api#required": {}
+          }
+        },
+        "attributes": {
+          "target": "com.whop.plans#PlanListItemAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"color\": \"Blue\", \"size\": \"Large\"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "billing_period": {
@@ -314,6 +322,13 @@
             "smithy.api#required": {}
           }
         },
+        "initial_price_due": {
+          "target": "com.whop.plans#Money",
+          "traits": {
+            "smithy.api#documentation": "Total charged at checkout for one unit, before promo codes and tax: `initial_price` plus the first `renewal_price` for recurring plans, or `initial_price` alone while a free trial applies. The trial does not apply when the viewing user has already used one for this plan.",
+            "smithy.api#required": {}
+          }
+        },
         "internal_notes": {
           "target": "smithy.api#String",
           "traits": {
@@ -398,6 +413,14 @@
             "smithy.api#required": {}
           }
         },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stock keeping unit, free text set by the seller (e.g. `TSHIRT-LARGE-BLUE`). Not enforced unique. `null` when unset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "split_pay_required_payments": {
           "target": "smithy.api#Double",
           "traits": {
@@ -433,7 +456,7 @@
         "three_ds_level": {
           "target": "com.whop.plans#PlanListItemThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -441,7 +464,7 @@
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. `null` if no title has been set.",
+            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. A variant created without one defaults to its attribute values joined with ` / `. `null` if no title has been set.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -497,6 +520,18 @@
         }
       },
       "traits": {}
+    },
+    "com.whop.plans#PlanListItemAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"color\": \"Blue\", \"size\": \"Large\"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant."
+      }
     },
     "com.whop.plans#PlanCustomField": {
       "type": "structure",
@@ -568,6 +603,40 @@
       },
       "traits": {}
     },
+    "com.whop.plans#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.whop.plans#PlanListItemPlanType": {
       "type": "enum",
       "members": {
@@ -617,15 +686,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
       }
     },
     "com.whop.plans#PlanListItemVisibility": {
@@ -829,35 +904,827 @@
         "smithy.api#documentation": "An image displayed on the product page to represent this plan."
       }
     },
+    "com.whop.plans#PaymentMethodTypes": {
+      "type": "enum",
+      "members": {
+        "ACSS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acss_debit"
+          }
+        },
+        "ADDI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "addi"
+          }
+        },
+        "AFFIRM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affirm"
+          }
+        },
+        "AFTERPAY_CLEARPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afterpay_clearpay"
+          }
+        },
+        "ALIPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALIPAYHK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipayhk"
+          }
+        },
+        "ALMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alma"
+          }
+        },
+        "AMAZON_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amazon_pay"
+          }
+        },
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        },
+        "APPLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_pay"
+          }
+        },
+        "AU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_bank_transfer"
+          }
+        },
+        "AU_BECS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_becs_debit"
+          }
+        },
+        "BACS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bacs_debit"
+          }
+        },
+        "BANCOLOMBIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancolombia"
+          }
+        },
+        "BANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancontact"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "BILLIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billie"
+          }
+        },
+        "BLIK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blik"
+          }
+        },
+        "BOLETO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boleto"
+          }
+        },
+        "BRE_B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bre_b"
+          }
+        },
+        "CA_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bank_transfer"
+          }
+        },
+        "CAPCHASE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "capchase_pay"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CARD_INSTALLMENTS_THREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_three"
+          }
+        },
+        "CARD_INSTALLMENTS_SIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_six"
+          }
+        },
+        "CARD_INSTALLMENTS_TWELVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_twelve"
+          }
+        },
+        "CASHAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashapp"
+          }
+        },
+        "CLARITYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claritypay"
+          }
+        },
+        "COINBASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinbase"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "CUSTOMER_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_balance"
+          }
+        },
+        "DEMO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "demo_pay"
+          }
+        },
+        "EFECTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "efecty"
+          }
+        },
+        "EPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eps"
+          }
+        },
+        "EU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_bank_transfer"
+          }
+        },
+        "FPX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fpx"
+          }
+        },
+        "FLEX_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flex_pay"
+          }
+        },
+        "GB_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GCASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcash"
+          }
+        },
+        "GIROPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "giropay"
+          }
+        },
+        "GOOGLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google_pay"
+          }
+        },
+        "GOPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gopay"
+          }
+        },
+        "GRABPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grabpay"
+          }
+        },
+        "ID_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_bank_transfer"
+          }
+        },
+        "IDEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ideal"
+          }
+        },
+        "INTERAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interac"
+          }
+        },
+        "KAKAO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kakao_pay"
+          }
+        },
+        "KLARNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna"
+          }
+        },
+        "KLARNA_PAY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna_pay_now"
+          }
+        },
+        "KONBINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "konbini"
+          }
+        },
+        "KR_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_card"
+          }
+        },
+        "KR_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_market"
+          }
+        },
+        "KRIYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kriya"
+          }
+        },
+        "KUESKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kueski"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "MB_WAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_way"
+          }
+        },
+        "M_PESA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "m_pesa"
+          }
+        },
+        "MERCADO_PAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago"
+          }
+        },
+        "MERCADO_PAGO_AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_ar"
+          }
+        },
+        "MERCADO_PAGO_MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_mx"
+          }
+        },
+        "MOBILEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobilepay"
+          }
+        },
+        "MODO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modo"
+          }
+        },
+        "MONDU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mondu"
+          }
+        },
+        "MULTIBANCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multibanco"
+          }
+        },
+        "NAVER_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "naver_pay"
+          }
+        },
+        "NEQUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nequi"
+          }
+        },
+        "NETBANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "netbanking"
+          }
+        },
+        "NG_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank"
+          }
+        },
+        "NG_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank_transfer"
+          }
+        },
+        "NG_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_card"
+          }
+        },
+        "NG_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_market"
+          }
+        },
+        "NG_USSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_ussd"
+          }
+        },
+        "NG_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_wallet"
+          }
+        },
+        "NUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nupay"
+          }
+        },
+        "NZ_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "ONEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney"
+          }
+        },
+        "ONEY_3X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_3x"
+          }
+        },
+        "ONEY_4X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_4x"
+          }
+        },
+        "OPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opay"
+          }
+        },
+        "OXXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oxxo"
+          }
+        },
+        "P24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p24"
+          }
+        },
+        "PAGO_EFECTIVO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pago_efectivo"
+          }
+        },
+        "PSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pse"
+          }
+        },
+        "PAY_BY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pay_by_bank"
+          }
+        },
+        "PAYCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payco"
+          }
+        },
+        "PAYNOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paynow"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "PAYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypay"
+          }
+        },
+        "PAYTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payto"
+          }
+        },
+        "PIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pix"
+          }
+        },
+        "PLATFORM_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance"
+          }
+        },
+        "PROMPTPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promptpay"
+          }
+        },
+        "QRIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qris"
+          }
+        },
+        "RAPIPAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapipago"
+          }
+        },
+        "RECHNUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rechnung"
+          }
+        },
+        "REVOLUT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revolut_pay"
+          }
+        },
+        "SAMSUNG_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samsung_pay"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
+          }
+        },
+        "SCALAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scalapay"
+          }
+        },
+        "SENCILLITO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sencillito"
+          }
+        },
+        "SEPA_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa_debit"
+          }
+        },
+        "SEQURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sequra"
+          }
+        },
+        "SERVIPAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "servipag"
+          }
+        },
+        "SEZZLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sezzle"
+          }
+        },
+        "SHOP_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_pay"
+          }
+        },
+        "SHOPEEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shopeepay"
+          }
+        },
+        "SOFORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sofort"
+          }
+        },
+        "SOUTH_KOREA_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "south_korea_market"
+          }
+        },
+        "SPEI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spei"
+          }
+        },
+        "SPLITIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "splitit"
+          }
+        },
+        "SUNBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sunbit"
+          }
+        },
+        "SWISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swish"
+          }
+        },
+        "TABBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabby"
+          }
+        },
+        "TAMARA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TOUCH_N_GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "touch_n_go"
+          }
+        },
+        "TWINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twint"
+          }
+        },
+        "UPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upi"
+          }
+        },
+        "US_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_account"
+          }
+        },
+        "US_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_transfer"
+          }
+        },
+        "VENMO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
+          }
+        },
+        "VIPPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vipps"
+          }
+        },
+        "WEBPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webpay"
+          }
+        },
+        "WECHAT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wechat_pay"
+          }
+        },
+        "YAPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yape"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COINFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinflow"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different types of payment methods that can be used."
+      }
+    },
     "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.plans#PaymentMethodTypes"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+      }
     },
     "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.plans#PaymentMethodTypes"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+      }
     },
     "com.whop.plans#CreatePlanRequestPaymentMethodConfiguration": {
       "type": "structure",
       "members": {
         "disabled": {
-          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationDisabledList"
+          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+          }
         },
         "enabled": {
-          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationEnabledList"
+          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+          }
         },
         "include_platform_defaults": {
           "target": "smithy.api#Boolean"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply."
+        "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty."
       }
     },
     "com.whop.plans#CreatePlanRequestThreeDsLevel": {
@@ -869,15 +1736,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default."
       }
     },
     "com.whop.plans#CreatePlanRequest": {
@@ -886,13 +1759,20 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the account to create this plan for. Defaults to the caller's account."
+            "smithy.api#documentation": "The unique identifier of the account to create this plan for. Required when authenticating as a user; an account API key supplies its own account."
           }
         },
         "adaptive_pricing_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attributes": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"size\": \"Large\", \"color\": \"Blue\"}`. Names are normalized to snake_case identifiers (`Ring Size` becomes `ring_size`) and come back in alphabetical order. Every variant plan on a product must carry the same attribute names and a distinct set of values. Send `null` to make the plan an ordinary pricing option again.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -947,7 +1827,7 @@
         "initial_price": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Initial amount charged in the plan's currency, e.g. 10.43 for $10.43.",
+            "smithy.api#documentation": "Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. A paid fiat plan charges at least 1.00 in its currency; use 0 for free.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -974,7 +1854,7 @@
         "payment_method_configuration": {
           "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfiguration",
           "traits": {
-            "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply.",
+            "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -999,7 +1879,14 @@
         "renewal_price": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The amount charged each billing period for recurring plans, in the plan's currency.",
+            "smithy.api#documentation": "The amount charged each billing period for recurring plans, in the plan's currency. A paid fiat plan charges at least 1.00 in its currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stock keeping unit for this plan. Maximum 100 characters. Free text, not enforced unique.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1020,14 +1907,14 @@
         "three_ds_level": {
           "target": "com.whop.plans#CreatePlanRequestThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The display name of the plan shown to customers on the product page.",
+            "smithy.api#documentation": "The display name of the plan shown to customers on the product page. Maximum 30 characters.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1079,6 +1966,14 @@
           "traits": {
             "smithy.api#documentation": "Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags.",
             "smithy.api#required": {}
+          }
+        },
+        "attributes": {
+          "target": "com.whop.plans#PlanAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"color\": \"Blue\", \"size\": \"Large\"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "billing_period": {
@@ -1201,6 +2096,13 @@
             "smithy.api#required": {}
           }
         },
+        "initial_price_due": {
+          "target": "com.whop.plans#Money",
+          "traits": {
+            "smithy.api#documentation": "Total charged at checkout for one unit, before promo codes and tax: `initial_price` plus the first `renewal_price` for recurring plans, or `initial_price` alone while a free trial applies. The trial does not apply when the viewing user has already used one for this plan.",
+            "smithy.api#required": {}
+          }
+        },
         "internal_notes": {
           "target": "smithy.api#String",
           "traits": {
@@ -1285,6 +2187,14 @@
             "smithy.api#required": {}
           }
         },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stock keeping unit, free text set by the seller (e.g. `TSHIRT-LARGE-BLUE`). Not enforced unique. `null` when unset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "split_pay_required_payments": {
           "target": "smithy.api#Double",
           "traits": {
@@ -1327,7 +2237,7 @@
         "three_ds_level": {
           "target": "com.whop.plans#PlanThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1335,7 +2245,7 @@
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. `null` if no title has been set.",
+            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. A variant created without one defaults to its attribute values joined with ` / `. `null` if no title has been set.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1371,6 +2281,18 @@
         }
       },
       "traits": {}
+    },
+    "com.whop.plans#PlanAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"color\": \"Blue\", \"size\": \"Large\"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant."
+      }
     },
     "com.whop.plans#PlanCurrency": {
       "type": "enum",
@@ -2041,15 +2963,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
       }
     },
     "com.whop.plans#PlanVisibility": {
@@ -2230,32 +3158,42 @@
     "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.plans#PaymentMethodTypes"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+      }
     },
     "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "com.whop.plans#PaymentMethodTypes"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+      }
     },
     "com.whop.plans#UpdatePlanRequestPaymentMethodConfiguration": {
       "type": "structure",
       "members": {
         "disabled": {
-          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationDisabledList"
+          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+          }
         },
         "enabled": {
-          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationEnabledList"
+          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped."
+          }
         },
         "include_platform_defaults": {
           "target": "smithy.api#Boolean"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply."
+        "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty."
       }
     },
     "com.whop.plans#UpdatePlanRequestThreeDsLevel": {
@@ -2267,15 +3205,21 @@
             "smithy.api#enumValue": "mandate_challenge"
           }
         },
-        "FRICTIONLESS": {
+        "MANDATE_IF_REQUIRED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "frictionless"
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default."
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default."
       }
     },
     "com.whop.plans#UpdatePlanRequest": {
@@ -2293,6 +3237,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attributes": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"size\": \"Large\", \"color\": \"Blue\"}`. Names are normalized to snake_case identifiers (`Ring Size` becomes `ring_size`) and come back in alphabetical order. Every variant plan on a product must carry the same attribute names and a distinct set of values. Send `null` to make the plan an ordinary pricing option again.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2361,7 +3312,7 @@
         "initial_price": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Initial amount charged in the plan's currency, e.g. 10.43 for $10.43.",
+            "smithy.api#documentation": "Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. A paid fiat plan charges at least 1.00 in its currency; use 0 for free.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2395,7 +3346,7 @@
         "payment_method_configuration": {
           "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfiguration",
           "traits": {
-            "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply.",
+            "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2408,7 +3359,14 @@
         "renewal_price": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The amount charged each billing period for recurring plans, in the plan's currency.",
+            "smithy.api#documentation": "The amount charged each billing period for recurring plans, in the plan's currency. A paid fiat plan charges at least 1.00 in its currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stock keeping unit for this plan. Maximum 100 characters. Free text, not enforced unique.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2436,14 +3394,14 @@
         "three_ds_level": {
           "target": "com.whop.plans#UpdatePlanRequestThreeDsLevel",
           "traits": {
-            "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default.",
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The display name of the plan shown to customers on the product page.",
+            "smithy.api#documentation": "The display name of the plan shown to customers on the product page. Maximum 30 characters.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2546,7 +3504,7 @@
           "uri": "/plans/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete Plan\n\nPermanently delete a plan from a product. Existing memberships on this plan will not be affected."
+        "smithy.api#documentation": "Delete Plan\n\nDelete a plan from a product. It stops selling immediately; existing memberships on this plan will not be affected."
       }
     },
     "com.whop.plans#CalculatePlanTaxRequestAddress": {

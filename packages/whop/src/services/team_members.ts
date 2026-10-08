@@ -45,10 +45,11 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The system role to grant. */
+/** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
 export type CreateTeamMemberRequestRole =
   | "owner"
   | "admin"
+  | "partner"
   | "sales_manager"
   | "moderator"
   | "advertiser"
@@ -60,7 +61,7 @@ export interface CreateTeamMemberRequest {
   account_id: string;
   /** Email address to invite. Mutually exclusive with `user_id`. If the email already belongs to a Whop account it is treated the same as passing that account's `user_id`; otherwise a pending invite is created for the email. */
   email?: string;
-  /** The system role to grant. */
+  /** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
   role: CreateTeamMemberRequestRole | (string & {});
   /** The user to add to the team, prefixed `user_`. Mutually exclusive with `email`. */
   user_id?: string;
@@ -94,6 +95,7 @@ export const TeamMemberAuthorizedRole = /*@__PURE__*/ S.suspend(() =>
 export type TeamMemberRole =
   | "owner"
   | "admin"
+  | "partner"
   | "sales_manager"
   | "moderator"
   | "advertiser"
@@ -209,6 +211,7 @@ export const ListTeamMembersRequestStatus = S.String;
 export type ListTeamMembersRequestRole =
   | "owner"
   | "admin"
+  | "partner"
   | "sales_manager"
   | "moderator"
   | "advertiser"
@@ -242,13 +245,13 @@ export interface ListTeamMembersRequest {
   order?: ListTeamMembersRequestOrder | (string & {});
   /** Sort direction. Defaults to `desc`. */
   direction?: ListTeamMembersRequestDirection | (string & {});
-  /** Number of members to return. Defaults to 20; maximum 100. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor for the next page of members. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of members to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListTeamMembersRequest = /*@__PURE__*/ S.suspend(() =>
@@ -301,10 +304,11 @@ export const ListTeamMembersResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ListTeamMembersResponse" }) as any as S.Schema<ListTeamMembersResponse>;
 
-/** The system role to grant. */
+/** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
 export type UpdateTeamMemberRequestRole =
   | "owner"
   | "admin"
+  | "partner"
   | "sales_manager"
   | "moderator"
   | "advertiser"
@@ -314,7 +318,7 @@ export const UpdateTeamMemberRequestRole = S.String;
 export interface UpdateTeamMemberRequest {
   /** Team member ID — `ausr_` for accepted members, `ausri_` for pending invites. */
   id: string;
-  /** The system role to grant. */
+  /** The system role to grant. The Partner role can only be granted to the account's attached, verified partner. */
   role: UpdateTeamMemberRequestRole | (string & {});
 }
 export const UpdateTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>

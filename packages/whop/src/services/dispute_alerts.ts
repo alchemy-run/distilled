@@ -46,15 +46,6 @@ export const GetDisputeAlertRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/dispute_alerts/{id}", code: 200 })),
 ).annotate({ identifier: "GetDisputeAlertRequest" }) as any as S.Schema<GetDisputeAlertRequest>;
 
-/** Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true. */
-export type DisputeAlertNotActionableReason =
-  | "network_resolved"
-  | "payment_unmatched"
-  | "payment_not_captured"
-  | "payment_disputed"
-  | "payment_refunded";
-export const DisputeAlertNotActionableReason = S.String;
-
 /** What the issuer sent. `early_fraud_warning` is a fraud report on a settled payment (Visa TC40 / Mastercard SAFE) — refunding still avoids the chargeback, and Whop never charges a fee for one. `dispute_alert` is a pre-dispute notice from the issuer's alert network, which Whop pays for and passes on as a fee. `rapid_dispute_resolution` is a Visa RDR case the network already closed by refunding the payment — nothing is left to act on. */
 export type DisputeAlertType = "early_fraud_warning" | "dispute_alert" | "rapid_dispute_resolution";
 export const DisputeAlertType = S.String;
@@ -62,10 +53,10 @@ export const DisputeAlertType = S.String;
 export interface DisputeAlert {
   /** The account the alerted payment belongs to, prefixed `biz_`. `null` while the alert is unmatched. */
   account_id: string | null;
-  /** Whether refunding the payment can still avoid a chargeback. `false` once the payment has been disputed or fully refunded, or when the alert could not be matched to a payment — `not_actionable_reason` says which. */
-  actionable: boolean;
   /** The alerted amount, in whole units of `currency`. This is what the issuer reported, which can differ from the payment's own amount. */
   amount: number;
+  /** Whether Whop automatically refunded the alerted payment. Reflects the payment, so it can be `true` for a refund issued by another flow (RDR, resolution) on the same payment. */
+  auto_refunded: boolean;
   /** The card network as reported by the issuer, lowercased, such as `visa` or `mastercard`. `unknown` when the report carries neither a network nor a recognizable BIN. */
   card_brand: string | null;
   /** When Whop received the alert, as an ISO 8601 timestamp. */
@@ -76,17 +67,15 @@ export interface DisputeAlert {
   fee_charged: boolean;
   /** Dispute alert ID, prefixed `dspa_`. */
   id: string;
-  /** Name of the bank that issued the card and filed the report. */
+  /** Deprecated: always `null` outside Whop's own dashboard. Name of the bank that issued the card and filed the report. DEPRECATED: Always null outside Whop's own dashboard. */
   issuer: string | null;
-  /** Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true. */
-  not_actionable_reason: DisputeAlertNotActionableReason | null;
   /** The payment the issuer reported, prefixed `pay_`. `null` when Whop could not match the report to a payment. */
   payment_id: string | null;
   /** The product the alerted payment was for, prefixed `prod_`. */
   product_id: string | null;
   /** When the issuer filed the report, as an ISO 8601 timestamp. Earlier than `created_at`, which is when Whop received it. */
   reported_at: string;
-  /** When the reported transaction was made, as an ISO 8601 timestamp. */
+  /** When the reported transaction was made, as an ISO 8601 timestamp — falls back to when the matched payment was made if the issuer's own report didn't carry one. Should not be `null` in practice; treat one as a data issue rather than expected behavior. */
   transaction_at: string | null;
   /** What the issuer sent. `early_fraud_warning` is a fraud report on a settled payment (Visa TC40 / Mastercard SAFE) — refunding still avoids the chargeback, and Whop never charges a fee for one. `dispute_alert` is a pre-dispute notice from the issuer's alert network, which Whop pays for and passes on as a fee. `rapid_dispute_resolution` is a Visa RDR case the network already closed by refunding the payment — nothing is left to act on. */
   type: DisputeAlertType;
@@ -96,15 +85,14 @@ export interface DisputeAlert {
 export const DisputeAlert = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.NullOr(S.String),
-    actionable: S.Boolean,
     amount: S.Number,
+    auto_refunded: S.Boolean,
     card_brand: S.NullOr(S.String),
     created_at: S.String,
     currency: S.String,
     fee_charged: S.Boolean,
     id: S.String,
     issuer: S.NullOr(S.String),
-    not_actionable_reason: S.NullOr(DisputeAlertNotActionableReason),
     payment_id: S.NullOr(S.String),
     product_id: S.NullOr(S.String),
     reported_at: S.String,
@@ -133,13 +121,13 @@ export interface ListDisputeAlertsRequest {
   payment_id?: string;
   /** Only alerts of this kind. `early_fraud_warning` for issuer fraud reports, `dispute_alert` for pre-dispute notices, `rapid_dispute_resolution` for Visa RDR cases the network already closed. */
   type?: ListDisputeAlertsRequestType | (string & {});
-  /** The number of alerts to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns alerts after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of alerts to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns alerts before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort alerts by. */
   order?: ListDisputeAlertsRequestOrder | (string & {});

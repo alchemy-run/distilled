@@ -197,6 +197,12 @@
             "smithy.api#documentation": "Action that should be applied.",
             "smithy.api#required": {}
           }
+        },
+        "actionGroupIds": {
+          "target": "com.azure.alertsmanagement#ActionActionGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Action group resource IDs to add (only for `AddActionGroups`)."
+          }
         }
       },
       "traits": {
@@ -284,6 +290,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "End time for recurrence."
+          }
+        },
+        "daysOfWeek": {
+          "target": "com.azure.alertsmanagement#RecurrenceDaysOfWeekList",
+          "traits": {
+            "smithy.api#documentation": "Days of the week (only for `Weekly` recurrences)."
+          }
+        },
+        "daysOfMonth": {
+          "target": "com.azure.alertsmanagement#RecurrenceDaysOfMonthList",
+          "traits": {
+            "smithy.api#documentation": "Days of the month (only for `Monthly` recurrences)."
           }
         }
       },
@@ -5121,6 +5139,33 @@
       "traits": {
         "smithy.api#title": "Azure Alertsmanagement",
         "smithy.api#documentation": "Azure Alertsmanagement API — merged from the alertsmanagement resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.alertsmanagement#ActionActionGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Action group resource IDs to add (only for `AddActionGroups`)."
+      }
+    },
+    "com.azure.alertsmanagement#RecurrenceDaysOfWeekList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Days of the week (only for `Weekly` recurrences)."
+      }
+    },
+    "com.azure.alertsmanagement#RecurrenceDaysOfMonthList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Days of the month (only for `Monthly` recurrences)."
       }
     }
   }

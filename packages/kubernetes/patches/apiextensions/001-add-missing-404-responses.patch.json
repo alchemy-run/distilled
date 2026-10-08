@@ -1,0 +1,93 @@
+{
+  "description": "From 001-add-missing-404-responses.patch.json: Add 404 NotFound responses to read, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReadApiextensionsV1CustomResourceDefinition/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinition/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinition/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#DeleteApiextensionsV1CustomResourceDefinition/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReadApiextensionsV1CustomResourceDefinitionStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinitionStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinitionStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#NotFound",
+      "before": "com.kubernetes.apiextensions#Apiextensions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

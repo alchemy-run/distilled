@@ -3,32 +3,32 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#GetManagedNetworkSettings/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsGet/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#PutManagedNetworkSettings/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsPut/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#PatchManagedNetworkSettings/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsPatch/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#DeleteManagedNetworkSettings/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsDelete/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#ListManagedNetworkSettings/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsList/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#ProvisionManagedNetworkProvisionManagedNetwork/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkProvisionsProvisionManagedNetwork/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
@@ -38,22 +38,22 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#GetOutboundRule/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleGet/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#DeleteOutboundRule/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleDelete/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#ListOutboundRule/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleList/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#PostOutboundRule/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRulesPost/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     }
   ]

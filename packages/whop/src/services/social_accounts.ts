@@ -45,14 +45,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The platform to connect the social account on. Supported options are `meta_business` and `tiktok`. */
-export type ConnectSocialAccountRequestPlatform = "meta_business" | "tiktok";
+/** The platform to connect the social account on. Use `meta_business` to connect Meta Business assets, which is how Facebook Pages and Instagram accounts are connected — there is no separate `instagram` value. Use `tiktok` for TikTok accounts, `snapchat` for Snapchat Public Profiles, or `linkedin` to connect the authenticated user’s LinkedIn profile. */
+export type ConnectSocialAccountRequestPlatform =
+  | "meta_business"
+  | "tiktok"
+  | "linkedin"
+  | "snapchat";
 export const ConnectSocialAccountRequestPlatform = S.String;
 
 export type ConnectSocialAccountRequestScopesItem = "advertise";
 export const ConnectSocialAccountRequestScopesItem = S.String;
 
-/** Capabilities to grant for the connected social account. Use `advertise` when connecting a Meta Business or TikTok account for ads. */
+/** The connection purpose. For `meta_business` and `snapchat`, `advertise` is required and connects company advertising assets. For `linkedin`, omit scopes to connect the authenticated user’s profile; advertising is not supported. For `tiktok`, omit scopes to connect the authenticated user’s profile, or pass `advertise` to connect company advertising assets. Profile connections still request the platform permissions needed to read the profile. */
 export type ConnectSocialAccountRequestScopesList = Array<
   ConnectSocialAccountRequestScopesItem | (string & {})
 >;
@@ -61,13 +65,13 @@ export const ConnectSocialAccountRequestScopesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ConnectSocialAccountRequestScopesList>;
 
 export interface ConnectSocialAccountRequest {
-  /** The Account (biz_ identifier) to connect the social account for. An account-scoped API key may omit this to default to its own account. */
+  /** The Account (biz_ identifier) to connect the social account for. An account-scoped API key may omit this to default to its own account. Omit for user profile connections. */
   account_id?: string;
-  /** The platform to connect the social account on. Supported options are `meta_business` and `tiktok`. */
+  /** The platform to connect the social account on. Use `meta_business` to connect Meta Business assets, which is how Facebook Pages and Instagram accounts are connected — there is no separate `instagram` value. Use `tiktok` for TikTok accounts, `snapchat` for Snapchat Public Profiles, or `linkedin` to connect the authenticated user’s LinkedIn profile. */
   platform: ConnectSocialAccountRequestPlatform | (string & {});
-  /** The Whop URL to redirect the user to after they finish connecting. */
-  redirect_url?: string;
-  /** Capabilities to grant for the connected social account. Use `advertise` when connecting a Meta Business or TikTok account for ads. */
+  /** Where to send the user once they finish connecting their accounts. Any `http` or `https` URL. If the connection fails, the user is redirected with a `social_account_error` query param. */
+  redirect_url: string;
+  /** The connection purpose. For `meta_business` and `snapchat`, `advertise` is required and connects company advertising assets. For `linkedin`, omit scopes to connect the authenticated user’s profile; advertising is not supported. For `tiktok`, omit scopes to connect the authenticated user’s profile, or pass `advertise` to connect company advertising assets. Profile connections still request the platform permissions needed to read the profile. */
   scopes?: ConnectSocialAccountRequestScopesList;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
@@ -76,7 +80,7 @@ export const ConnectSocialAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.optional(S.String),
     platform: ConnectSocialAccountRequestPlatform,
-    redirect_url: S.optional(S.String),
+    redirect_url: S.String,
     scopes: S.optional(ConnectSocialAccountRequestScopesList),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/social_accounts/connect", code: 200 })),
@@ -96,14 +100,14 @@ export const ConnectSocialAccountResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectSocialAccountResponse",
 }) as any as S.Schema<ConnectSocialAccountResponse>;
 
-/** The platform to create the social account on. `facebook` requires the account's `banner_image`, `logo`, and `description`; configure them with [Update Account](/api-reference/beta/accounts/update-account). */
-export type CreateSocialAccountRequestPlatform = "facebook";
+/** The platform to create the social account on. `facebook` requires the account's `banner_image`, `logo`, and `description`, and `tiktok` requires its `logo`; configure them with [Update Account](/api-reference/beta/accounts/update-account). The account is returned before the platform has created it — its `id` is usable right away, and the rest of the profile fills in once provisioning finishes. */
+export type CreateSocialAccountRequestPlatform = "facebook" | "tiktok";
 export const CreateSocialAccountRequestPlatform = S.String;
 
 export interface CreateSocialAccountRequest {
   /** The Account (biz_ identifier) to create the social account for. An account-scoped API key may omit this to default to its own account. Account API keys cannot update their own account's branding through Update Account; use a user-authenticated path. */
   account_id?: string;
-  /** The platform to create the social account on. `facebook` requires the account's `banner_image`, `logo`, and `description`; configure them with [Update Account](/api-reference/beta/accounts/update-account). */
+  /** The platform to create the social account on. `facebook` requires the account's `banner_image`, `logo`, and `description`, and `tiktok` requires its `logo`; configure them with [Update Account](/api-reference/beta/accounts/update-account). The account is returned before the platform has created it — its `id` is usable right away, and the rest of the profile fills in once provisioning finishes. */
   platform: CreateSocialAccountRequestPlatform | (string & {});
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
@@ -126,7 +130,9 @@ export type SocialAccountParentPlatform =
   | "tiktok"
   | "facebook"
   | "discord"
-  | "telegram";
+  | "telegram"
+  | "linkedin"
+  | "snapchat";
 export const SocialAccountParentPlatform = S.String;
 
 export interface SocialAccountParent {
@@ -165,7 +171,9 @@ export type SocialAccountPlatform =
   | "tiktok"
   | "facebook"
   | "discord"
-  | "telegram";
+  | "telegram"
+  | "linkedin"
+  | "snapchat";
 export const SocialAccountPlatform = S.String;
 
 export type SocialAccountScopesList = Array<string>;
@@ -189,9 +197,9 @@ export interface SocialAccount {
   /** The URL where the profile picture of the social account can be accessed. */
   profile_picture_url: string | null;
   scopes: SocialAccountScopesList;
-  /** The URL where the social account can be accessed on the platform. Null while a Whop-owned page is still being provisioned. */
+  /** The URL where the social account can be accessed on the platform. Null while a Whop-owned account is still being provisioned. */
   url: string | null;
-  /** The username of the social account on the platform. Null while a Whop-owned page is still being provisioned. */
+  /** The username of the social account on the platform. Null while a Whop-owned account is still being provisioned. */
   username: string | null;
   /** Whether the social account is verified on the platform. */
   verified: boolean;
@@ -260,21 +268,34 @@ export const ListSocialAccountLeadFormsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSocialAccountLeadFormsRequest",
 }) as any as S.Schema<ListSocialAccountLeadFormsRequest>;
 
+/** What the follow-up button does. `null` on forms saved before the button was configurable. */
+export type AdLeadFormCompletionButtonType = "website" | "call" | "download";
+export const AdLeadFormCompletionButtonType = S.String;
+
 export interface AdLeadFormCompletion {
   /** Text of the follow-up button. */
   button_text: string | null;
+  /** What the follow-up button does. `null` on forms saved before the button was configurable. */
+  button_type: AdLeadFormCompletionButtonType | null;
   /** Body text under the headline. */
   description: string | null;
+  /** File the follow-up button opens. Set when `button_type` is `download`. */
+  file_url: string | null;
   /** Headline of the completion screen. */
   headline: string | null;
-  /** Website the follow-up button opens. `null` when the screen has no button. */
+  /** Number the follow-up button calls. Set when `button_type` is `call`. */
+  phone_number: string | null;
+  /** Website the follow-up button opens. Set when `button_type` is `website`. */
   url: string | null;
 }
 export const AdLeadFormCompletion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     button_text: S.NullOr(S.String),
+    button_type: S.NullOr(AdLeadFormCompletionButtonType),
     description: S.NullOr(S.String),
+    file_url: S.NullOr(S.String),
     headline: S.NullOr(S.String),
+    phone_number: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "AdLeadFormCompletion" }) as any as S.Schema<AdLeadFormCompletion>;
@@ -470,9 +491,9 @@ export interface ListSocialAccountPostsRequest {
   account_id: string;
   /** Return only the single post with this platform id, instead of the full list. */
   post_id?: string;
-  /** The number of posts to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListSocialAccountPostsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -540,6 +561,8 @@ export const SocialAccountPostRestrictionsList = /*@__PURE__*/ S.Array(
 export interface SocialAccountPost {
   /** The post's call-to-action button, for example shop_now (Facebook only; null for Instagram and TikTok). */
   call_to_action: SocialAccountPostCallToAction | null;
+  /** The text accompanying the post, when available. */
+  caption: string | null;
   /** The URL the post's call-to-action drives to (Facebook only; null for Instagram and TikTok). */
   destination_url: string | null;
   /** An iframe-embeddable URL for previewing the post inline (the platform's player or post embed). For TikTok this is the only preview, since media_url is null; for Facebook and Instagram it supplements media_url. Null when no public embed is available. */
@@ -551,16 +574,20 @@ export interface SocialAccountPost {
   restrictions: SocialAccountPostRestrictionsList;
   /** Poster image for video posts (always set for TikTok, which is video-only); null for image posts, where media_url is already the image. */
   thumbnail_url: string | null;
+  /** The platform video identifier for engagement audience rules. Null for non-video posts or when unavailable. Facebook video identifiers differ from post identifiers. */
+  video_id: string | null;
 }
 export const SocialAccountPost = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     call_to_action: S.NullOr(SocialAccountPostCallToAction),
+    caption: S.NullOr(S.String),
     destination_url: S.NullOr(S.String),
     embed_url: S.NullOr(S.String),
     id: S.String,
     media_url: S.NullOr(S.String),
     restrictions: SocialAccountPostRestrictionsList,
     thumbnail_url: S.NullOr(S.String),
+    video_id: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "SocialAccountPost" }) as any as S.Schema<SocialAccountPost>;
 
@@ -602,7 +629,9 @@ export type ListSocialAccountsRequestPlatform =
   | "tiktok"
   | "facebook"
   | "discord"
-  | "telegram";
+  | "telegram"
+  | "linkedin"
+  | "snapchat";
 export const ListSocialAccountsRequestPlatform = S.String;
 
 export type ListSocialAccountsRequestScopesItem = "advertise";
@@ -632,13 +661,13 @@ export interface ListSocialAccountsRequest {
   verified?: boolean;
   /** Only return social accounts that have these scopes. */
   scopes?: ListSocialAccountsRequestScopesList;
-  /** The number of social accounts to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of social accounts to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort social accounts by. */
   order?: ListSocialAccountsRequestOrder | (string & {});
@@ -698,8 +727,26 @@ export const ListSocialAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSocialAccountsResponse",
 }) as any as S.Schema<ListSocialAccountsResponse>;
 
+export interface RefreshSocialAccountRequest {
+  /** The social account (a sacc_ identifier) to refresh. */
+  id: string;
+  /** The Account (biz_ identifier) the social account is connected to. An account-scoped API key may omit this to default to its own account. */
+  account_id?: string;
+  /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
+  idempotency_key?: string;
+}
+export const RefreshSocialAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    account_id: S.optional(S.String),
+    idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+  }).pipe(T.Http({ method: "POST", uri: "/social_accounts/{id}/refresh", code: 200 })),
+).annotate({
+  identifier: "RefreshSocialAccountRequest",
+}) as any as S.Schema<RefreshSocialAccountRequest>;
+
 export type ConnectSocialAccountError = BadRequest | Conflict | WhopOpError;
-/** Connect a Social Account Starts an OAuth connection flow and returns an authorize_url where the user can connect a social account. */
+/** Connect a Social Account Starts an OAuth connection flow and returns an authorize_url where the user can connect a social account. LinkedIn supports personal profiles only, with scopes omitted. TikTok connects the authenticated user’s profile when scopes are omitted or company advertising assets with advertise. Meta Business and Snapchat support advertising connections only and require advertise. Personal profile connections must be completed in a browser signed in as the initiating Whop user. */
 export const connectSocialAccount: API.OperationMethod<
   ConnectSocialAccountRequest,
   ConnectSocialAccountResponse,
@@ -714,7 +761,7 @@ export const connectSocialAccount: API.OperationMethod<
 }));
 
 export type CreateSocialAccountError = BadRequest | Conflict | WhopOpError;
-/** Create a Social Account Creates or returns a Whop-managed Facebook page for an account. */
+/** Create a Social Account Creates or returns a Whop-managed Facebook page or TikTok account for an account. */
 export const createSocialAccount: API.OperationMethod<
   CreateSocialAccountRequest,
   SocialAccount,
@@ -811,3 +858,18 @@ export const listSocialAccounts: API.PaginatedOperationMethod<
   }),
   paginateRelay,
 ) as any;
+
+export type RefreshSocialAccountError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
+/** Refresh Refreshes the state of a social account. Use it to clear an `error` that has been resolved. */
+export const refreshSocialAccount: API.OperationMethod<
+  RefreshSocialAccountRequest,
+  SocialAccount,
+  RefreshSocialAccountError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RefreshSocialAccountRequest,
+  output: SocialAccount,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));

@@ -13,42 +13,42 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#GetDotNetComponent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsGet/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#GetDotNetComponent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#UpdateDotNetComponent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#UpdateDotNetComponent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#DeleteDotNetComponent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsDelete/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#DeleteDotNetComponent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#ListDotNetComponents/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsList/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#ListDotNetComponents/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DotNetComponentsList/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     }
   ]
