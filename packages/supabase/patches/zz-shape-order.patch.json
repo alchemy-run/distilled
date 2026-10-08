@@ -1,0 +1,11 @@
+{
+  "description": "Keeps the shape order the converter wrote while these fixes were OpenAPI spec patches: the spec patches changed which error class an operation used first, and so the order the converter created the shapes in.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.supabase.api#Forbidden",
+      "path": "/shapes/com.supabase.api#Forbidden",
+      "before": "com.supabase.api#NotFound"
+    }
+  ]
+}

@@ -1,0 +1,927 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.waitlist_entries#ListWaitlistEntriesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntriesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntriesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntriesRequest": {
+      "type": "structure",
+      "members": {
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of results to return from the start of the range."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of results to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "plan_id",
+            "smithy.api#documentation": "Only return signups for this plan, prefixed `plan_`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only return signups submitted to this seller account, prefixed `biz_`."
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product_id",
+            "smithy.api#documentation": "Only return signups for plans on this product, prefixed `prod_`."
+          }
+        },
+        "status": {
+          "target": "com.whop.waitlist_entries#ListWaitlistEntriesRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return signups in this state. Canceled signups are returned only when `status` is `canceled`."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return signups submitted at or before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return signups submitted at or after this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.waitlist_entries#ListWaitlistEntriesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort results by. Defaults to `created_at`."
+          }
+        },
+        "direction": {
+          "target": "com.whop.waitlist_entries#ListWaitlistEntriesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction for results. Defaults to descending."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#WaitlistEntry": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The seller account, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "approval_failure_reason": {
+          "target": "com.whop.waitlist_entries#WaitlistEntryApprovalFailureReason",
+          "traits": {
+            "smithy.api#documentation": "Why the last approval attempt failed, or `null` when none has. `plan_unavailable` — the plan, product, or seller account was deleted. `already_member` — the user already has a membership on a one-per-user product. `checkout_failed` — checkout failed, usually a declined payment, and the signup was denied. `unknown` — another failure; retry. Cleared when approval is requeued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "buyer_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account the signup was submitted on behalf of, prefixed `biz_`, or `null` when the user signed up for themselves.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this signup was submitted, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_field_responses": {
+          "target": "com.whop.waitlist_entries#WaitlistEntryCustomFieldResponsesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The waitlist signup ID, prefixed `entry_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "membership_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The membership created for this signup, prefixed `mem_`, or `null` when there is none. Check the membership's status to determine access.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata associated with this signup.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan this signup belongs to, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product this signup belongs to, prefixed `prod_`, or `null` when the plan has no product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.waitlist_entries#WaitlistEntryStatus",
+          "traits": {
+            "smithy.api#documentation": "The signup's current state. Approval runs asynchronously, so a signup stays `pending` until processing completes. `approved` alone does not prove an active membership; check `membership_id`.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this signup last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user who submitted this signup, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#WaitlistEntryApprovalFailureReason": {
+      "type": "enum",
+      "members": {
+        "PLAN_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan_unavailable"
+          }
+        },
+        "ALREADY_MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "already_member"
+          }
+        },
+        "CHECKOUT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_failed"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the last approval attempt failed, or `null` when none has. `plan_unavailable` — the plan, product, or seller account was deleted. `already_member` — the user already has a membership on a one-per-user product. `checkout_failed` — checkout failed, usually a declined payment, and the signup was denied. `unknown` — another failure; retry. Cleared when approval is requeued."
+      }
+    },
+    "com.whop.waitlist_entries#WaitlistEntryCustomFieldResponse": {
+      "type": "structure",
+      "members": {
+        "answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The buyer's answer.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The answer's ID, prefixed `cfrp_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The question shown when the signup was submitted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#WaitlistEntryCustomFieldResponsesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.waitlist_entries#WaitlistEntryCustomFieldResponse"
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#WaitlistEntryStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The signup's current state. Approval runs asynchronously, so a signup stays `pending` until processing completes. `approved` alone does not prove an active membership; check `membership_id`."
+      }
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntriesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.waitlist_entries#WaitlistEntry"
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntriesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntriesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.waitlist_entries#ListWaitlistEntriesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.waitlist_entries#ListWaitlistEntriesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.waitlist_entries#ListWaitlistEntries": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#ListWaitlistEntriesRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#ListWaitlistEntriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#BadRequest"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/waitlist_entries",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Waitlist Entries\n\nLists visible waitlist signups. waitlist_entry:read grants the user's own signups; plan:waitlist:read grants signups for authorized seller accounts. With both permissions, returns their union. Account credentials are limited to their account. Filters narrow this set.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.waitlist_entries#CreateWaitlistEntryRequestCustomFieldResponsesItem": {
+      "type": "structure",
+      "members": {
+        "answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The buyer's answer.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_field_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout question being answered, prefixed `field_`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.waitlist_entries#CreateWaitlistEntryRequestCustomFieldResponsesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.waitlist_entries#CreateWaitlistEntryRequestCustomFieldResponsesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Answers to the plan's checkout questions. Every required question must be answered."
+      }
+    },
+    "com.whop.waitlist_entries#CreateWaitlistEntryRequest": {
+      "type": "structure",
+      "members": {
+        "custom_field_responses": {
+          "target": "com.whop.waitlist_entries#CreateWaitlistEntryRequestCustomFieldResponsesList",
+          "traits": {
+            "smithy.api#documentation": "Answers to the plan's checkout questions. Every required question must be answered."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs to store on the signup. Max 50 keys, 100 chars per key, 500 chars per string value. Ignored when the request returns an existing signup."
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The free waitlist plan to join, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#CreateWaitlistEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#CreateWaitlistEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#WaitlistEntry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#BadRequest"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/waitlist_entries",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Waitlist Entry\n\nJoins a free waitlist plan as the authenticated user. Requires waitlist_entry:create. Repeated joins return the existing pending entry, or an approved entry with a valid membership. Paid plans are rejected; no payment method is collected and no membership is granted."
+      }
+    },
+    "com.whop.waitlist_entries#ApproveAllWaitlistEntriesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The seller account whose pending signups to approve, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Only approve signups for this plan, prefixed `plan_`. Omit to include every waitlist plan on the account."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#ApproveAllWaitlistEntriesResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The seller account whose signups were queued, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan the request was narrowed to, prefixed `plan_`, or `null` when every waitlist plan on the account was included.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "queued": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether any pending signups were queued for approval. `false` when there were none.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.waitlist_entries#ApproveAllWaitlistEntries": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#ApproveAllWaitlistEntriesRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#ApproveAllWaitlistEntriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#BadRequest"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/waitlist_entries/approve_all",
+          "code": 200
+        },
+        "smithy.api#documentation": "Approve All Waitlist Entries\n\nQueues approval of every pending signup for an account, optionally narrowed to a plan. Requires plan:waitlist:manage. Paid signups may charge saved payment methods. Approval runs asynchronously: list signups with `status` set to `pending` to follow progress, and retrieve a signup to read its outcome. Signups created after this request are excluded."
+      }
+    },
+    "com.whop.waitlist_entries#GetWaitlistEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Waitlist signup ID, prefixed `entry_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#GetWaitlistEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#GetWaitlistEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#WaitlistEntry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/waitlist_entries/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Waitlist Entry\n\nRetrieves a signup owned by the caller with waitlist_entry:read, or submitted to an account they can read with plan:waitlist:read."
+      }
+    },
+    "com.whop.waitlist_entries#ApproveWaitlistEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Waitlist signup ID, prefixed `entry_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#ApproveWaitlistEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#ApproveWaitlistEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#WaitlistEntry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/waitlist_entries/{id}/approve",
+          "code": 200
+        },
+        "smithy.api#documentation": "Approve Waitlist Entry\n\nQueues approval of a pending signup. Requires plan:waitlist:manage on its seller account. Paid signups may charge their saved payment method. Returns the signup's current state; retrieve it to read `status` and `approval_failure_reason` after processing."
+      }
+    },
+    "com.whop.waitlist_entries#CancelWaitlistEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Waitlist signup ID, prefixed `entry_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#CancelWaitlistEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#CancelWaitlistEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#WaitlistEntry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/waitlist_entries/{id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel Waitlist Entry\n\nWithdraws the caller's pending personal signup. Requires waitlist_entry:cancel. Does not cancel an approved membership."
+      }
+    },
+    "com.whop.waitlist_entries#DenyWaitlistEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Waitlist signup ID, prefixed `entry_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.waitlist_entries#DenyWaitlistEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.waitlist_entries#DenyWaitlistEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.waitlist_entries#WaitlistEntry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.waitlist_entries#Forbidden"
+        },
+        {
+          "target": "com.whop.waitlist_entries#NotFound"
+        },
+        {
+          "target": "com.whop.waitlist_entries#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/waitlist_entries/{id}/deny",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deny Waitlist Entry\n\nDenies a pending signup. Requires plan:waitlist:manage on its seller account."
+      }
+    },
+    "com.whop.waitlist_entries#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.waitlist_entries#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.waitlist_entries#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.waitlist_entries#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.waitlist_entries#WaitlistEntries": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.waitlist_entries#ListWaitlistEntries"
+        },
+        {
+          "target": "com.whop.waitlist_entries#CreateWaitlistEntry"
+        },
+        {
+          "target": "com.whop.waitlist_entries#ApproveAllWaitlistEntries"
+        },
+        {
+          "target": "com.whop.waitlist_entries#GetWaitlistEntry"
+        },
+        {
+          "target": "com.whop.waitlist_entries#ApproveWaitlistEntry"
+        },
+        {
+          "target": "com.whop.waitlist_entries#CancelWaitlistEntry"
+        },
+        {
+          "target": "com.whop.waitlist_entries#DenyWaitlistEntry"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -112,13 +112,9 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "resend" },
   { package: "s2" },
   { package: "sentry" },
-  {
-    package: "slack",
-    // Slack publishes no machine-readable description; the SDK is built
-    // from the JSON twins of docs.slack.dev method pages, committed under
-    // packages/slack/specs by scripts/download-docs.ts.
-    blocked: "docs.slack.dev method JSON twins are committed in-repo",
-  },
+  // Slack publishes no OpenAPI document; the mirror snapshots the JSON twins
+  // of the docs.slack.dev reference pages.
+  { package: "slack" },
   { package: "spacetimedb" },
   { package: "stackit" },
   { package: "squarespace" },

@@ -179,18 +179,39 @@
             "smithy.api#documentation": "Only include people who fired this custom pixel event."
           }
         },
+        "event_within_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "event_within_days",
+            "smithy.api#documentation": "Match activity within a rolling number of days. Cannot be combined with event_from/event_to."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "Inclusive activity-window start. Alias for event_from."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#documentation": "Inclusive activity-window end. Alias for event_to."
+          }
+        },
         "event_from": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "event_from",
-            "smithy.api#documentation": "With event_to plus an event or source filter, switches to exact-population mode: person ids are resolved and paginated on the events side within this window (the same query the people metric counts), then hydrated per page."
+            "smithy.api#documentation": "The inclusive start of the matching activity window."
           }
         },
         "event_to": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "event_to",
-            "smithy.api#documentation": "The inclusive end of the event window for exact-population mode."
+            "smithy.api#documentation": "The inclusive end of the matching activity window, for both stats drilldowns and saved audiences."
           }
         },
         "audience_id": {
@@ -225,7 +246,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "country",
-            "smithy.api#documentation": "Only include people whose most recent visit came from this ISO 3166-1 alpha-2 country code."
+            "smithy.api#documentation": "Only include people with activity from this ISO 3166-1 alpha-2 country code."
           }
         },
         "has_purchased": {
@@ -284,25 +305,137 @@
             "smithy.api#documentation": "Only include people last seen before this ISO 8601 timestamp."
           }
         },
+        "ltv_gt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "ltv_gt",
+            "smithy.api#documentation": "Select people whose lifetime ltv is greater than this value. LTV and AOV are in USD."
+          }
+        },
+        "ltv_gte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "ltv_gte",
+            "smithy.api#documentation": "Select people whose lifetime ltv is at least this value. LTV and AOV are in USD."
+          }
+        },
+        "ltv_lt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "ltv_lt",
+            "smithy.api#documentation": "Select people whose lifetime ltv is less than this value. LTV and AOV are in USD."
+          }
+        },
+        "ltv_lte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "ltv_lte",
+            "smithy.api#documentation": "Select people whose lifetime ltv is at most this value. LTV and AOV are in USD."
+          }
+        },
+        "aov_gt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "aov_gt",
+            "smithy.api#documentation": "Select people whose lifetime aov is greater than this value. LTV and AOV are in USD."
+          }
+        },
+        "aov_gte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "aov_gte",
+            "smithy.api#documentation": "Select people whose lifetime aov is at least this value. LTV and AOV are in USD."
+          }
+        },
+        "aov_lt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "aov_lt",
+            "smithy.api#documentation": "Select people whose lifetime aov is less than this value. LTV and AOV are in USD."
+          }
+        },
+        "aov_lte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "aov_lte",
+            "smithy.api#documentation": "Select people whose lifetime aov is at most this value. LTV and AOV are in USD."
+          }
+        },
+        "purchase_count_gt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "purchase_count_gt",
+            "smithy.api#documentation": "Select people whose lifetime purchase_count is greater than this value. LTV and AOV are in USD."
+          }
+        },
+        "purchase_count_gte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "purchase_count_gte",
+            "smithy.api#documentation": "Select people whose lifetime purchase_count is at least this value. LTV and AOV are in USD."
+          }
+        },
+        "purchase_count_lt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "purchase_count_lt",
+            "smithy.api#documentation": "Select people whose lifetime purchase_count is less than this value. LTV and AOV are in USD."
+          }
+        },
+        "purchase_count_lte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "purchase_count_lte",
+            "smithy.api#documentation": "Select people whose lifetime purchase_count is at most this value. LTV and AOV are in USD."
+          }
+        },
+        "event_count_gt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "event_count_gt",
+            "smithy.api#documentation": "Select people whose lifetime event_count is greater than this value. LTV and AOV are in USD."
+          }
+        },
+        "event_count_gte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "event_count_gte",
+            "smithy.api#documentation": "Select people whose lifetime event_count is at least this value. LTV and AOV are in USD."
+          }
+        },
+        "event_count_lt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "event_count_lt",
+            "smithy.api#documentation": "Select people whose lifetime event_count is less than this value. LTV and AOV are in USD."
+          }
+        },
+        "event_count_lte": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "event_count_lte",
+            "smithy.api#documentation": "Select people whose lifetime event_count is at most this value. LTV and AOV are in USD."
+          }
+        },
         "first": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of people to return (default 100, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor for fetching people after a previous page."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor for fetching people before a later page."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         },
         "order": {

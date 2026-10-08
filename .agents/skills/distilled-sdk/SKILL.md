@@ -252,10 +252,13 @@ Smithy models, which is usually where the interesting bugs are.
 Patches go in `packages/<pkg>/patches/` as RFC-6902 `*.json` and apply in
 **convert** (`finalizeConvert` at the end of every dialect — OpenAPI,
 GraphQL, discovery, proto, Cloudflare markdown), so `.generated-specs` is
-the patched Smithy model. OpenAPI pointers (`/paths`, `/components`) run on
-the spec before conversion; Smithy pointers (`/shapes`, `/metadata`) run on
-the model after. generate does not patch — it only compiles the committed
-models.
+the patched Smithy model. Every op targets the Smithy model (`/shapes`,
+`/metadata`) and names shapes the way the spec does: the pipeline is
+convert (upstream names) → patches → verbNoun rename → `.generated-specs`.
+A new OpenAPI convert passes `deferNaming: true` to
+`convertOpenApiToSmithy` (`runOpenApiConvert` does) so the rename waits for
+the patches. finalizeConvert rejects an op on the spec. generate does not
+patch — it only compiles the committed models.
 
 `finalizeConvert` is **not idempotent** — `move` patches and model transforms
 only make sense on freshly converted models — so it stamps
@@ -268,18 +271,17 @@ how Fly's whole chain vanished after the spec-mirror prefixed paths with
 `/v1`). Pass `onStalePatch: "warn"` only if you truly want skip.
 
 Operation **names** are convert policy, not patches, and default to
-**verbNoun** (`listApps`, `getApp`, `createMachine`) in the OpenAPI and
-GraphQL converters and in `finalizeConvert` (for dialects with no naming
-step of their own). `toVerbNoun` only reorders ids it can recognise —
+**verbNoun** (`listApps`, `getApp`, `createMachine`): the OpenAPI converter
+computes them and `finalizeConvert` applies them after the patches, and
+also renames for dialects with no naming step of their own. `toVerbNoun` only reorders ids it can recognise —
 go-swagger `Apps_list`, REST `ConfigsList`, GraphQL `projectCreate` — and
 leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
 `packages/core/src/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
-one before changing the heuristic. Do not RFC-6902-patch
-`/paths/~1foo/get/operationId`; those break when upstream adds a prefix.
-Patch the spec, not the generated TypeScript. Writing and checking a
+one before changing the heuristic. Do not rename operations with a patch.
+Patch the model, not the generated TypeScript. Writing and checking a
 patch is the `distilled-sdk-patch` skill
 ([`.agents/skills/distilled-sdk-patch/SKILL.md`](../distilled-sdk-patch/SKILL.md)).
 

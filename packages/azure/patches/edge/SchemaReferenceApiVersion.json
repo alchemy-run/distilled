@@ -3,32 +3,32 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteSchemaReference/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteSchemaReference/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetSchemaReference/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesGet/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetSchemaReference/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListSchemaReferenceByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListSchemaReferenceByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
@@ -43,12 +43,12 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateSchemaReference/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateSchemaReference/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#SchemaReferencesUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     }
   ]

@@ -3,95 +3,23 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1organizations~1{id}/delete/responses/404",
+      "path": "/shapes/com.workos.api#AuditLogExportsControllerExports/errors/-",
       "value": {
-        "description": "Organization not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "A human-readable description of the error.",
-                  "example": "Organization not found: 'org_01EHQMYV6MBK39QC5PZXHY59C3'."
-                },
-                "code": {
-                  "type": "string",
-                  "description": "The error code identifying the type of error.",
-                  "example": "entity_not_found"
-                },
-                "entity_id": {
-                  "type": "string",
-                  "description": "The identifier of the missing entity."
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
+        "target": "com.workos.api#NotFound"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1directories~1{id}/delete/responses/404",
+      "path": "/shapes/com.workos.api#DirectoriesControllerDeleteDirectory/errors/-",
       "value": {
-        "description": "Directory not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "A human-readable description of the error.",
-                  "example": "Directory not found: 'directory_01ECAZ4NV9QMV47GW873HDCX74'."
-                },
-                "code": {
-                  "type": "string",
-                  "description": "The error code identifying the type of error.",
-                  "example": "entity_not_found"
-                },
-                "entity_id": {
-                  "type": "string",
-                  "description": "The identifier of the missing entity."
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
+        "target": "com.workos.api#NotFound"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1audit_logs~1exports/post/responses/404",
+      "path": "/shapes/com.workos.api#OrganizationsControllerDeleteOrganization/errors/-",
       "value": {
-        "description": "Organization not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "A human-readable description of the error.",
-                  "example": "Organization not found: 'org_01EHQMYV6MBK39QC5PZXHY59C3'."
-                },
-                "code": {
-                  "type": "string",
-                  "description": "The error code identifying the type of error.",
-                  "example": "entity_not_found"
-                },
-                "entity_id": {
-                  "type": "string",
-                  "description": "The identifier of the missing entity."
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
+        "target": "com.workos.api#NotFound"
       }
     }
   ]

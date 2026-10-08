@@ -23820,10 +23820,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/summaries/{summaryName}",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Get a AKSSummary",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#GetAksSummaryOperationResponse": {
@@ -24127,10 +24127,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/summaries",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "List AKSSummary resources by AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#AKSSummaryListResult": {
@@ -24260,10 +24260,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/downloadUrl",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Get URL for downloading AKS Assessment Report.",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#DownloadAksAssessmentOperationUrlRequest": {
@@ -24319,10 +24319,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/costDetails",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "List AKSCostDetail resources by AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#AKSCostDetailListResult": {
@@ -24577,10 +24577,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/clusters/{clusterName}",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Get a AKSCluster",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#GetAksClusterOperationResponse": {
@@ -24768,10 +24768,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/clusters",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "List AKSCluster resources by AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#AKSClusterListResult": {
@@ -24908,10 +24908,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/assessedWebApps/{assessedWorkload}",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Get a AssessedWebApplication",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#GetAssessedWebApplicationOperationResponse": {
@@ -25401,10 +25401,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/assessedWebApps",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "List AssessedWebApplication resources by AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#AssessedWebApplicationListResult": {
@@ -25562,10 +25562,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Delete a AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#DeleteAksAssessmentOperationRequest": {
@@ -25621,10 +25621,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Create a AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#CreateAksAssessmentOperationResponse": {
@@ -25790,13 +25790,6 @@
             "smithy.api#required": {}
           }
         },
-        "licensingProgram": {
-          "target": "com.azure.migrate#LicensingProgram",
-          "traits": {
-            "smithy.api#documentation": "Gets or sets licensing program.",
-            "smithy.api#required": {}
-          }
-        },
         "currency": {
           "target": "com.azure.migrate#AzureCurrency",
           "traits": {
@@ -25808,13 +25801,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Gets or sets discount percentage."
-          }
-        },
-        "sizingCriteria": {
-          "target": "com.azure.migrate#AssessmentSizingCriterion",
-          "traits": {
-            "smithy.api#documentation": "Gets or sets sizing criteria.",
-            "smithy.api#required": {}
           }
         },
         "performanceData": {
@@ -25836,13 +25822,6 @@
             "smithy.api#required": {}
           }
         },
-        "savingsOptions": {
-          "target": "com.azure.migrate#SavingsOptions",
-          "traits": {
-            "smithy.api#documentation": "Gets or sets savings options.",
-            "smithy.api#required": {}
-          }
-        },
         "consolidation": {
           "target": "com.azure.migrate#ConsolidationType",
           "traits": {
@@ -25855,6 +25834,25 @@
           "traits": {
             "smithy.api#documentation": "Gets or sets pricing tier.",
             "smithy.api#required": {}
+          }
+        },
+        "sizingCriterion": {
+          "target": "com.azure.migrate#AssessmentSizingCriterion",
+          "traits": {
+            "smithy.api#documentation": "Gets or sets sizing criteria.",
+            "smithy.api#required": {}
+          }
+        },
+        "savingsSettings": {
+          "target": "com.azure.migrate#AKSAssessmentSavingsSettings",
+          "traits": {
+            "smithy.api#documentation": "Savings settings."
+          }
+        },
+        "billingSettings": {
+          "target": "com.azure.migrate#AKSAssessmentBillingSettings",
+          "traits": {
+            "smithy.api#documentation": "Billing settings."
           }
         }
       },
@@ -26084,6 +26082,18 @@
           "traits": {
             "smithy.api#documentation": "Gets or sets the server group id."
           }
+        },
+        "scopeType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scope type, e.g. `ServerGroupId` or `AzureResourceGraphQuery`."
+          }
+        },
+        "azureResourceGraphQuery": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Graph query selecting the assessed resources."
+          }
         }
       },
       "traits": {
@@ -26208,10 +26218,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "Get a AKSAssessment",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#GetAksAssessmentOperationResponse": {
@@ -26311,10 +26321,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments",
           "code": 200,
-          "apiVersion": "2024-01-15"
+          "apiVersion": "2024-03-03-preview"
         },
         "smithy.api#documentation": "List AKSAssessment resources by AssessmentProject",
-        "com.distilled.openapi#apiVersion": "2024-01-15"
+        "com.distilled.openapi#apiVersion": "2024-03-03-preview"
       }
     },
     "com.azure.migrate#AKSAssessmentListResult": {
@@ -29723,10 +29733,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Delete the project\n\nDelete the migrate project. It deletes summary of the project.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#MigrateProjectsControllerDeleteMigrateProjectRequest": {
@@ -29774,10 +29784,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Update project.\n\nUpdate a project with specified name. Supports partial updates, for example only tags can be provided.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#MigrateProject": {
@@ -29820,6 +29830,12 @@
           "target": "com.azure.migrate#MigrateProjectSystemData",
           "traits": {
             "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        },
+        "tags": {
+          "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
           }
         }
       },
@@ -30352,6 +30368,12 @@
           "traits": {
             "smithy.api#documentation": "Azure location in which project is created."
           }
+        },
+        "tags": {
+          "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
         }
       },
       "traits": {
@@ -30423,10 +30445,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Create or update a new project with specified settings.\n\nCreate or update a new project by sending a json object of type 'migrateproject' as given in Models section as part of the Request Body. The project name is unique.\n\nThis operation is Idempotent.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#MigrateProjectsControllerPutMigrateProjectRequest": {
@@ -30470,6 +30492,12 @@
           "traits": {
             "smithy.api#documentation": "Azure location in which project is created."
           }
+        },
+        "tags": {
+          "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
         }
       },
       "traits": {
@@ -30489,10 +30517,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Get a specific project.\n\nGet information related to a specific migrate project. Returns a json object of type 'migrateProject' as specified in the models section.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#MigrateProjectsControllerGetMigrateProjectRequest": {
@@ -30540,10 +30568,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Get all migrate projects.\n\nGet all the migrate projects in the resource group.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#ProjectResultList": {
@@ -30609,10 +30637,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/migrateProjects",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Get all migrate projects.\n\nGet all the migrate projects in the subscription.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#ListProjectBySubscriptionRequest": {
@@ -31799,10 +31827,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Gets the list of solutions in the migrate project.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#SolutionsCollection": {
@@ -32299,10 +32327,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Delete the solution\n\nDelete the solution. Deleting non-existent project is a no-operation.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#DeleteSolutionsControllerSolutionResponse": {
@@ -32373,10 +32401,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Update solution.\n\nUpdate a solution with specified name. Supports partial updates, for example only tags can be provided.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#UpdateSolutionsControllerRequest": {
@@ -32781,10 +32809,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Creates a solution in the migrate project.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#CreateSolutionsControllerRequest": {
@@ -32852,10 +32880,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2023-01-01"
+          "apiVersion": "2020-05-01"
         },
         "smithy.api#documentation": "Gets a solution in the migrate project.",
-        "com.distilled.openapi#apiVersion": "2023-01-01"
+        "com.distilled.openapi#apiVersion": "2020-05-01"
       }
     },
     "com.azure.migrate#GetSolutionsControllerSolutionRequest": {
@@ -64481,6 +64509,46 @@
       "traits": {
         "smithy.api#title": "Azure Migrate",
         "smithy.api#documentation": "Azure Migrate API — merged from the migrate resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.migrate#AKSAssessmentSavingsSettings": {
+      "type": "structure",
+      "members": {
+        "savingsOptions": {
+          "target": "com.azure.migrate#SavingsOptions",
+          "traits": {
+            "smithy.api#documentation": "Savings options (reserved instances or savings plans)."
+          }
+        },
+        "azureOfferCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure offer code, e.g. `MSAZR0003P` (pay-as-you-go)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "AKS assessment savings settings."
+      }
+    },
+    "com.azure.migrate#AKSAssessmentBillingSettings": {
+      "type": "structure",
+      "members": {
+        "licensingProgram": {
+          "target": "com.azure.migrate#LicensingProgram",
+          "traits": {
+            "smithy.api#documentation": "Licensing program (`Default` or `EA`)."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subscription the prices are computed for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "AKS assessment billing settings."
       }
     }
   }

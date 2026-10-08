@@ -159,28 +159,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of payouts to return from the start of the window."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "Number of payouts to return from the end of the window."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -642,6 +642,14 @@
             "smithy.api#required": {}
           }
         },
+        "statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "status": {
           "target": "com.whop.payouts#ListPayoutsResponseDataItemStatus",
           "traits": {
@@ -819,7 +827,7 @@
         "currency": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in — for example `cad` for an account funded by CAD transfers. Defaults to `usd`."
+            "smithy.api#documentation": "The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in — for example `cad` for an account funded by CAD transfers. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency."
           }
         },
         "metadata": {
@@ -848,10 +856,23 @@
             "smithy.api#documentation": "Whether the parent platform covers the payout fee instead of the account being paid out. Omit to use the platform's configured fee coverage policy; pass `false` to opt out of it. `true` is only accepted for accounts that belong to a platform, and requires the platform's policy to cover this payout method's category or a caller authorized to manage the platform's child account fees."
           }
         },
+        "quote_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-signed quote_token returned by POST /payouts/quotes. Send it when the ledger account's payout_quote_required is true. A business with quote enforcement on refuses a payout without it with the invalid_payout_quote error type. When provided, Whop will not commit a provider payout below the destination amount the quote showed."
+          }
+        },
         "speed": {
           "target": "com.whop.payouts#CreatePayoutRequestSpeed",
           "traits": {
             "smithy.api#documentation": "How fast the funds should arrive. `instant` is only accepted when the account and payout method are eligible; otherwise the payout is rejected."
+          }
+        },
+        "statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Without a `quote_token`, omit or pass `null` to use the default descriptor. With a `quote_token`, set this value when creating the quote; the payout request may omit it but cannot add or change it.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "user_id": {
@@ -1326,6 +1347,14 @@
             "smithy.api#required": {}
           }
         },
+        "statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "status": {
           "target": "com.whop.payouts#CreatePayoutResponseStatus",
           "traits": {
@@ -1457,28 +1486,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of payout methods to return from the start of the window."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "Number of payout methods to return from the end of the window."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -1602,13 +1631,27 @@
         "total_received": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Amount delivered after fees, in the payout currency.",
+            "smithy.api#documentation": "Amount remaining after fees, in the payout currency.",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {
         "smithy.api#documentation": "Instant-delivery estimate. Null if the method does not support instant delivery, instant delivery is unavailable for the account, or the amount does not cover the fee."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteInstantUnavailableReason": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_CRYPTO_SALES_NOT_MET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_crypto_sales_not_met"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why instant delivery is unavailable for this method. `minimum_crypto_sales_not_met` means the account has not reached the total sales required for instant cryptocurrency payouts. `null` when this restriction does not apply."
       }
     },
     "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteStandard": {
@@ -1624,7 +1667,7 @@
         "total_received": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Amount delivered after fees, in the payout currency.",
+            "smithy.api#documentation": "Amount remaining after fees, in the payout currency.",
             "smithy.api#required": {}
           }
         }
@@ -1661,6 +1704,14 @@
           "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteInstant",
           "traits": {
             "smithy.api#documentation": "Instant-delivery estimate. Null if the method does not support instant delivery, instant delivery is unavailable for the account, or the amount does not cover the fee.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instant_unavailable_reason": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteInstantUnavailableReason",
+          "traits": {
+            "smithy.api#documentation": "Why instant delivery is unavailable for this method. `minimum_crypto_sales_not_met` means the account has not reached the total sales required for instant cryptocurrency payouts. `null` when this restriction does not apply.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -2115,9 +2166,105 @@
       },
       "traits": {}
     },
+    "com.whop.payouts#ListPayoutMethodsResponseLimitsStandardErrorCode": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT_SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_suspended"
+          }
+        },
+        "BLOCK_MOVE_MONEY_OUT_BECAUSE_CLAWBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block_move_money_out_because_clawback"
+          }
+        },
+        "SUPPORTABILITY_CHECK_PAYOUT_STATUS_HOLD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "supportability_check_payout_status_hold"
+          }
+        },
+        "CARD_USAGE_REVIEW_PAYOUT_STATUS_HOLD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_usage_review_payout_status_hold"
+          }
+        },
+        "KYC_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kyc_completed"
+          }
+        },
+        "RMI_CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rmi_clear"
+          }
+        },
+        "IDENTITY_RFI_CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity_rfi_clear"
+          }
+        },
+        "GUARDIAN_ID_CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "guardian_id_clear"
+          }
+        },
+        "ECOMMERCE_FULFILLMENT_CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecommerce_fulfillment_connected"
+          }
+        },
+        "BLOCK_MOVE_MONEY_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block_move_money_out"
+          }
+        },
+        "BLOCK_MOVE_MONEY_OUT_SET_BY_PARENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block_move_money_out_set_by_parent"
+          }
+        },
+        "NO_AVAILABLE_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_available_balance"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why a standard payout cannot move funds right now, or null when the cap is above 0."
+      }
+    },
     "com.whop.payouts#ListPayoutMethodsResponseLimitsStandard": {
       "type": "structure",
       "members": {
+        "error_code": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseLimitsStandardErrorCode",
+          "traits": {
+            "smithy.api#documentation": "Why a standard payout cannot move funds right now, or null when the cap is above 0.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable form of error_code, or null when a standard payout can move funds.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "max_amount": {
           "target": "smithy.api#Double",
           "traits": {
@@ -2731,11 +2878,16 @@
             "smithy.api#documentation": "Payout method ID, prefixed `potk_`."
           }
         },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` to make this the account's default payout method. `false` is not accepted."
+          }
+        },
         "nickname": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "New label for the payout method, with at least one non-whitespace character and a maximum of 100 characters.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "New label for the payout method, with at least one non-whitespace character and a maximum of 100 characters."
           }
         }
       },
@@ -3134,7 +3286,7 @@
           "uri": "/payouts/methods/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Rename Saved Payout Method\n\nChanges the label used to identify a saved payout method."
+        "smithy.api#documentation": "Update Saved Payout Method\n\nChanges the label used to identify a saved payout method or makes it the account's default payout method."
       }
     },
     "com.whop.payouts#DeletePayoutMethodRequest": {
@@ -3200,6 +3352,237 @@
         "smithy.api#documentation": "Delete Saved Payout Method\n\nDeletes a saved payout method so it can no longer receive payouts."
       }
     },
+    "com.whop.payouts#CreatePayoutQuoteRequestSpeed": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "INSTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How fast the funds should arrive."
+      }
+    },
+    "com.whop.payouts#CreatePayoutQuoteRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount to pay out in the specified currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency to pay out. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency."
+          }
+        },
+        "payout_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The saved payout method to quote (a potk_ identifier).",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_covers_fees": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the parent platform covers the payout fee instead of the account being paid out."
+          }
+        },
+        "speed": {
+          "target": "com.whop.payouts#CreatePayoutQuoteRequestSpeed",
+          "traits": {
+            "smithy.api#documentation": "How fast the funds should arrive."
+          }
+        },
+        "statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Omit or pass `null` to use the default descriptor.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A unique key that makes this quote request safe to retry."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#CreatePayoutQuoteResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT_QUOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_quote"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#CreatePayoutQuoteResponse": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "com.whop.payouts#Money",
+          "traits": {
+            "smithy.api#documentation": "Gross payout amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_amount": {
+          "target": "com.whop.payouts#Money",
+          "traits": {
+            "smithy.api#documentation": "Exact amount quoted for delivery.",
+            "smithy.api#required": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Quoted exchange rate from the source currency to the destination currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the quote expires.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee": {
+          "target": "com.whop.payouts#Money",
+          "traits": {
+            "smithy.api#documentation": "Fee charged for the payout.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider-backed payout quote ID, prefixed `pout_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_amount": {
+          "target": "com.whop.payouts#Money",
+          "traits": {
+            "smithy.api#documentation": "Amount remaining after fees.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#CreatePayoutQuoteResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quote_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-signed quote token to submit to POST /payouts.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#CreatePayoutQuote": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#CreatePayoutQuoteRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#CreatePayoutQuoteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payouts/quotes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Payout Quote\n\nCreates a short-lived, provider-backed quote for a payout. No funds move until the returned quote_token is submitted to POST /payouts. An Idempotency-Key header is required."
+      }
+    },
     "com.whop.payouts#ListSupportedPayoutMethodsRequest": {
       "type": "structure",
       "members": {
@@ -3256,28 +3639,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of supported payout methods to return from the start of the window."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "Number of supported payout methods to return from the end of the window."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -4236,6 +4619,14 @@
             "smithy.api#required": {}
           }
         },
+        "statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "status": {
           "target": "com.whop.payouts#GetPayoutResponseStatus",
           "traits": {
@@ -4782,6 +5173,14 @@
             "smithy.api#required": {}
           }
         },
+        "statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text that appears on the recipient's bank statement, or `null` if no descriptor was set. When set, 5-22 alphanumeric characters (A-Z, a-z, 0-9).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "status": {
           "target": "com.whop.payouts#CancelPayoutResponseStatus",
           "traits": {
@@ -4910,6 +5309,9 @@
         },
         {
           "target": "com.whop.payouts#DeletePayoutMethod"
+        },
+        {
+          "target": "com.whop.payouts#CreatePayoutQuote"
         },
         {
           "target": "com.whop.payouts#ListSupportedPayoutMethods"

@@ -2,79 +2,41 @@
   "description": "DatabaseBranch: Vitess-only fields (mysql_address, vtgate_*, shard_count, …) are not always returned (Postgres branches omit them). cluster_architecture is returned on the wire but missing from the spec.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/definitions/DatabaseBranch/required",
-      "value": [
-        "id",
-        "name",
-        "created_at",
-        "updated_at",
-        "deleted_at",
-        "restore_checklist_completed_at",
-        "schema_last_updated_at",
-        "kind",
-        "state",
-        "cluster_name",
-        "cluster_iops",
-        "ready",
-        "metal",
-        "production",
-        "safe_migrations",
-        "stale_schema",
-        "actor",
-        "restored_from_branch",
-        "private_edge_connectivity",
-        "has_replicas",
-        "has_read_only_replicas",
-        "html_url",
-        "url",
-        "region",
-        "parent_branch"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseBranchDataItem/members/deletion_protected/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseBranchDataItem/members/sharded/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseBranchDataItem/members/keyspace_count/traits/smithy.api#required"
     },
     {
       "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/cluster_architecture",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseBranchDataItem/members/cluster_architecture",
       "value": {
-        "type": "string"
+        "target": "smithy.api#String"
       }
     },
     {
-      "op": "replace",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/required",
-      "value": [
-        "id",
-        "name",
-        "created_at",
-        "updated_at",
-        "deleted_at",
-        "restore_checklist_completed_at",
-        "schema_last_updated_at",
-        "kind",
-        "state",
-        "cluster_name",
-        "cluster_iops",
-        "ready",
-        "metal",
-        "production",
-        "safe_migrations",
-        "stale_schema",
-        "actor",
-        "restored_from_branch",
-        "private_edge_connectivity",
-        "has_replicas",
-        "has_read_only_replicas",
-        "html_url",
-        "url",
-        "region",
-        "parent_branch"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#DatabaseBranch/members/deletion_protected/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#DatabaseBranch/members/sharded/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#DatabaseBranch/members/keyspace_count/traits/smithy.api#required"
     },
     {
       "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/cluster_architecture",
+      "path": "/shapes/com.planetscale.api#DatabaseBranch/members/cluster_architecture",
       "value": {
-        "type": "string"
+        "target": "smithy.api#String"
       }
     }
   ]

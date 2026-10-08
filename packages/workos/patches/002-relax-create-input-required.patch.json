@@ -3,11 +3,11 @@
   "patches": [
     {
       "op": "remove",
-      "path": "/components/schemas/OrganizationDto/required"
+      "path": "/shapes/com.workos.api#OrganizationsControllerCreateRequest/members/name/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/GenerateLinkDto/required"
+      "path": "/shapes/com.workos.api#PortalSessionsControllerCreateRequest/members/organization/traits/smithy.api#required"
     }
   ]
 }

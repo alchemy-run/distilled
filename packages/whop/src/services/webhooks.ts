@@ -57,6 +57,8 @@ export class UnprocessableEntity
 
 export type CreateWebhookRequestEventsItem =
   | "account.updated"
+  | "account.financing_approved"
+  | "account.financing_denied"
   | "invoice.created"
   | "invoice.marked_uncollectible"
   | "invoice.paid"
@@ -77,6 +79,7 @@ export type CreateWebhookRequestEventsItem =
   | "ledger_account.funds_available"
   | "swap.completed"
   | "deposit.succeeded"
+  | "financial_activity.funds_available"
   | "transfer.created"
   | "transfer.completed"
   | "transfer.failed"
@@ -104,6 +107,8 @@ export type CreateWebhookRequestEventsItem =
   | "identity_profile.needs_action"
   | "identity_profile.updated"
   | "payout_account.status_updated"
+  | "payment.authorized"
+  | "payment.canceled"
   | "resolution_center_case.created"
   | "resolution_center_case.updated"
   | "resolution_center_case.decided"
@@ -118,59 +123,23 @@ export type CreateWebhookRequestEventsItem =
   | "shipment.created"
   | "shipment.updated"
   | "member.created"
+  | "member.updated"
   | "ad_campaign.payment_failed"
+  | "ad_campaign.updated"
+  | "ad.updated"
   | "chat.message.created"
   | "chat.reaction.created"
   | "payment.created"
   | "payment.succeeded"
   | "payment.failed"
   | "payment.pending"
+  | "payment.requires_action"
   | "dispute.created"
   | "dispute.updated"
   | "refund.created"
   | "refund.updated"
   | "dispute_alert.created"
-  | "membership.cancel_at_period_end_changed"
-  | "membership_went_valid"
-  | "membership_went_invalid"
-  | "membership_metadata_updated"
-  | "resolution_created"
-  | "resolution_updated"
-  | "resolution_decided"
-  | "payment_affiliate_reward_created"
-  | "membership_experience_claimed"
-  | "app_membership_went_valid"
-  | "app_membership_went_invalid"
-  | "app_payment_created"
-  | "app_payment_succeeded"
-  | "app_payment_failed"
-  | "app_payment_pending"
-  | "app_membership_cancel_at_period_end_changed"
-  | "payment_created"
-  | "payment_succeeded"
-  | "payment_failed"
-  | "payment_pending"
-  | "dispute_created"
-  | "dispute_updated"
-  | "refund_created"
-  | "refund_updated"
-  | "dispute_alert_created"
-  | "membership_cancel_at_period_end_changed"
-  | "membership.went_valid"
-  | "membership.went_invalid"
-  | "membership.metadata_updated"
-  | "resolution.created"
-  | "resolution.updated"
-  | "resolution.decided"
-  | "payment.affiliate_reward_created"
-  | "membership.experience_claimed"
-  | "app_membership.went_valid"
-  | "app_membership.went_invalid"
-  | "app_payment.created"
-  | "app_payment.succeeded"
-  | "app_payment.failed"
-  | "app_payment.pending"
-  | "app_membership.cancel_at_period_end_changed";
+  | "membership.cancel_at_period_end_changed";
 export const CreateWebhookRequestEventsItem = S.String;
 
 /** The events to send the webhook for, in dot form (for example `payment.succeeded`). */
@@ -218,6 +187,8 @@ export const WebhookDisabledReason = S.String;
 /** Event types this webhook is subscribed to, in dot form (for example `payment.succeeded`). */
 export type WebhookEventsItem =
   | "account.updated"
+  | "account.financing_approved"
+  | "account.financing_denied"
   | "invoice.created"
   | "invoice.marked_uncollectible"
   | "invoice.paid"
@@ -238,6 +209,7 @@ export type WebhookEventsItem =
   | "ledger_account.funds_available"
   | "swap.completed"
   | "deposit.succeeded"
+  | "financial_activity.funds_available"
   | "transfer.created"
   | "transfer.completed"
   | "transfer.failed"
@@ -268,6 +240,8 @@ export type WebhookEventsItem =
   | "identity_profile.needs_action"
   | "identity_profile.updated"
   | "payout_account.status_updated"
+  | "payment.authorized"
+  | "payment.canceled"
   | "resolution_center_case.created"
   | "resolution_center_case.updated"
   | "resolution_center_case.decided"
@@ -282,13 +256,17 @@ export type WebhookEventsItem =
   | "shipment.created"
   | "shipment.updated"
   | "member.created"
+  | "member.updated"
   | "ad_campaign.payment_failed"
+  | "ad_campaign.updated"
+  | "ad.updated"
   | "chat.message.created"
   | "chat.reaction.created"
   | "payment.created"
   | "payment.succeeded"
   | "payment.failed"
   | "payment.pending"
+  | "payment.requires_action"
   | "dispute.created"
   | "dispute.updated"
   | "refund.created"
@@ -309,6 +287,7 @@ export type WebhookEventsItem =
   | "app_payment.succeeded"
   | "app_payment.failed"
   | "app_payment.pending"
+  | "app_payment.requires_action"
   | "app_membership.cancel_at_period_end_changed";
 export const WebhookEventsItem = S.String;
 
@@ -320,6 +299,8 @@ export const WebhookEventsList = /*@__PURE__*/ S.Array(
 /** The subset of subscribed event types that support sending test payloads, in dot form. */
 export type WebhookTestableEventsItem =
   | "account.updated"
+  | "account.financing_approved"
+  | "account.financing_denied"
   | "invoice.created"
   | "invoice.marked_uncollectible"
   | "invoice.paid"
@@ -340,6 +321,7 @@ export type WebhookTestableEventsItem =
   | "ledger_account.funds_available"
   | "swap.completed"
   | "deposit.succeeded"
+  | "financial_activity.funds_available"
   | "transfer.created"
   | "transfer.completed"
   | "transfer.failed"
@@ -370,6 +352,8 @@ export type WebhookTestableEventsItem =
   | "identity_profile.needs_action"
   | "identity_profile.updated"
   | "payout_account.status_updated"
+  | "payment.authorized"
+  | "payment.canceled"
   | "resolution_center_case.created"
   | "resolution_center_case.updated"
   | "resolution_center_case.decided"
@@ -384,13 +368,17 @@ export type WebhookTestableEventsItem =
   | "shipment.created"
   | "shipment.updated"
   | "member.created"
+  | "member.updated"
   | "ad_campaign.payment_failed"
+  | "ad_campaign.updated"
+  | "ad.updated"
   | "chat.message.created"
   | "chat.reaction.created"
   | "payment.created"
   | "payment.succeeded"
   | "payment.failed"
   | "payment.pending"
+  | "payment.requires_action"
   | "dispute.created"
   | "dispute.updated"
   | "refund.created"
@@ -411,6 +399,7 @@ export type WebhookTestableEventsItem =
   | "app_payment.succeeded"
   | "app_payment.failed"
   | "app_payment.pending"
+  | "app_payment.requires_action"
   | "app_membership.cancel_at_period_end_changed";
 export const WebhookTestableEventsItem = S.String;
 
@@ -609,9 +598,9 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListWebhookDeliveriesRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
-  /** The number of deliveries to return (default 50, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns deliveries after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListWebhookDeliveriesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -705,13 +694,13 @@ export interface ListWebhooksRequest {
   include_app_webhooks?: boolean;
   /** Only return webhooks whose endpoint is currently failing — every delivery since the current failure streak began has been rejected. Clears as soon as a delivery succeeds. */
   has_failures?: boolean;
-  /** The number of webhooks to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns webhooks after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of webhooks to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns webhooks before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
@@ -738,6 +727,8 @@ export const WebhookListItemDisabledReason = S.String;
 /** Event types this webhook is subscribed to, in dot form (for example `payment.succeeded`). */
 export type WebhookListItemEventsItem =
   | "account.updated"
+  | "account.financing_approved"
+  | "account.financing_denied"
   | "invoice.created"
   | "invoice.marked_uncollectible"
   | "invoice.paid"
@@ -758,6 +749,7 @@ export type WebhookListItemEventsItem =
   | "ledger_account.funds_available"
   | "swap.completed"
   | "deposit.succeeded"
+  | "financial_activity.funds_available"
   | "transfer.created"
   | "transfer.completed"
   | "transfer.failed"
@@ -788,6 +780,8 @@ export type WebhookListItemEventsItem =
   | "identity_profile.needs_action"
   | "identity_profile.updated"
   | "payout_account.status_updated"
+  | "payment.authorized"
+  | "payment.canceled"
   | "resolution_center_case.created"
   | "resolution_center_case.updated"
   | "resolution_center_case.decided"
@@ -802,13 +796,17 @@ export type WebhookListItemEventsItem =
   | "shipment.created"
   | "shipment.updated"
   | "member.created"
+  | "member.updated"
   | "ad_campaign.payment_failed"
+  | "ad_campaign.updated"
+  | "ad.updated"
   | "chat.message.created"
   | "chat.reaction.created"
   | "payment.created"
   | "payment.succeeded"
   | "payment.failed"
   | "payment.pending"
+  | "payment.requires_action"
   | "dispute.created"
   | "dispute.updated"
   | "refund.created"
@@ -829,6 +827,7 @@ export type WebhookListItemEventsItem =
   | "app_payment.succeeded"
   | "app_payment.failed"
   | "app_payment.pending"
+  | "app_payment.requires_action"
   | "app_membership.cancel_at_period_end_changed";
 export const WebhookListItemEventsItem = S.String;
 
@@ -1026,6 +1025,8 @@ export const TestWebhookResponse = /*@__PURE__*/ S.suspend(() =>
 
 export type UpdateWebhookRequestEventsItem =
   | "account.updated"
+  | "account.financing_approved"
+  | "account.financing_denied"
   | "invoice.created"
   | "invoice.marked_uncollectible"
   | "invoice.paid"
@@ -1046,6 +1047,7 @@ export type UpdateWebhookRequestEventsItem =
   | "ledger_account.funds_available"
   | "swap.completed"
   | "deposit.succeeded"
+  | "financial_activity.funds_available"
   | "transfer.created"
   | "transfer.completed"
   | "transfer.failed"
@@ -1073,6 +1075,8 @@ export type UpdateWebhookRequestEventsItem =
   | "identity_profile.needs_action"
   | "identity_profile.updated"
   | "payout_account.status_updated"
+  | "payment.authorized"
+  | "payment.canceled"
   | "resolution_center_case.created"
   | "resolution_center_case.updated"
   | "resolution_center_case.decided"
@@ -1087,59 +1091,23 @@ export type UpdateWebhookRequestEventsItem =
   | "shipment.created"
   | "shipment.updated"
   | "member.created"
+  | "member.updated"
   | "ad_campaign.payment_failed"
+  | "ad_campaign.updated"
+  | "ad.updated"
   | "chat.message.created"
   | "chat.reaction.created"
   | "payment.created"
   | "payment.succeeded"
   | "payment.failed"
   | "payment.pending"
+  | "payment.requires_action"
   | "dispute.created"
   | "dispute.updated"
   | "refund.created"
   | "refund.updated"
   | "dispute_alert.created"
-  | "membership.cancel_at_period_end_changed"
-  | "membership_went_valid"
-  | "membership_went_invalid"
-  | "membership_metadata_updated"
-  | "resolution_created"
-  | "resolution_updated"
-  | "resolution_decided"
-  | "payment_affiliate_reward_created"
-  | "membership_experience_claimed"
-  | "app_membership_went_valid"
-  | "app_membership_went_invalid"
-  | "app_payment_created"
-  | "app_payment_succeeded"
-  | "app_payment_failed"
-  | "app_payment_pending"
-  | "app_membership_cancel_at_period_end_changed"
-  | "payment_created"
-  | "payment_succeeded"
-  | "payment_failed"
-  | "payment_pending"
-  | "dispute_created"
-  | "dispute_updated"
-  | "refund_created"
-  | "refund_updated"
-  | "dispute_alert_created"
-  | "membership_cancel_at_period_end_changed"
-  | "membership.went_valid"
-  | "membership.went_invalid"
-  | "membership.metadata_updated"
-  | "resolution.created"
-  | "resolution.updated"
-  | "resolution.decided"
-  | "payment.affiliate_reward_created"
-  | "membership.experience_claimed"
-  | "app_membership.went_valid"
-  | "app_membership.went_invalid"
-  | "app_payment.created"
-  | "app_payment.succeeded"
-  | "app_payment.failed"
-  | "app_payment.pending"
-  | "app_membership.cancel_at_period_end_changed";
+  | "membership.cancel_at_period_end_changed";
 export const UpdateWebhookRequestEventsItem = S.String;
 
 /** The events to send the webhook for, in dot form (for example `payment.succeeded`). */

@@ -1,0 +1,344 @@
+{
+  "description": "From batch-exports-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"batch_exports\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsBackfillsCancelCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsCancelCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsLogsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunsRetryCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsLogsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsPauseCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsUnpauseCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsRunTestStepNewCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#BatchExportsTestRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.batch_exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.batch_exports#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.batch_exports#NotFound",
+      "before": "com.posthog.batch_exports#BatchExports",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

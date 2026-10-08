@@ -3562,6 +3562,18 @@
             "smithy.api#documentation": "Type of the specific object - used for deserializing",
             "smithy.api#required": {}
           }
+        },
+        "containersList": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Blob containers to back up (BlobBackupDatasourceParameters / AdlsBlobBackupDatasourceParameters)."
+          }
+        },
+        "secretStoreResource": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Secret store resource (SecretStoreBasedAuthCredentials)."
+          }
         }
       },
       "traits": {
@@ -3592,6 +3604,12 @@
           "traits": {
             "smithy.api#documentation": "type of datastore; Operational/Vault/Archive",
             "smithy.api#required": {}
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot resource group URI (AzureOperationalStoreParameters)."
           }
         }
       },
@@ -6117,6 +6135,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "policyRules": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Policy rules (`AzureBackupRule` / `AzureRetentionRule`) of a `BackupPolicy`."
           }
         }
       },

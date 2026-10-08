@@ -2268,13 +2268,13 @@
           }
         },
         "connectorServiceTypeInfo": {
-          "target": "com.azure.confluent#ConnectorServiceTypeInfoBase",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Connector Service type info base properties."
           }
         },
         "partnerConnectorInfo": {
-          "target": "com.azure.confluent#PartnerInfoBase",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "The connection information consumed by applications."
           }

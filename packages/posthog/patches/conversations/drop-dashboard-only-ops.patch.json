@@ -1,0 +1,100 @@
+{
+  "description": "From drop-dashboard-only-ops.patch.json: Remove 16 PostHog endpoints that PostHog's backend explicitly rejects with `Forbidden: This action does not support personal API key access`. PostHog publishes these in their OpenAPI spec but enforces a server-side allowlist that limits them to dashboard-session cookie auth only — there is no API credential (personal API key, project ingestion token, anything) that can call them. Dropping them from the spec means the SDK never generates an unusable typed surface for them.\n\nIf PostHog ever opens these to API auth, drop this patch and regenerate.\n\nObserved-Forbidden operations (path + method):\n  - POST   /api/projects/{project_id}/actions/bulk_update_tags/\n  - GET    /api/projects/{project_id}/conversations/tickets/unread_count/\n  - GET    /api/projects/{project_id}/dashboard_templates/json_schema/\n  - PATCH  /api/projects/{project_id}/dashboards/{id}/move_tile/\n  - POST   /api/projects/{project_id}/dashboards/bulk_update_tags/\n  - POST   /api/projects/{project_id}/dashboards/create_from_template_json/\n  - POST   /api/projects/{project_id}/dashboards/create_unlisted_dashboard/\n  - GET    /api/projects/{project_id}/event_definitions/{id}/metrics/\n  - POST   /api/projects/{project_id}/event_definitions/bulk_update_tags/\n  - POST   /api/projects/{project_id}/file_system/{id}/count/\n  - POST   /api/projects/{project_id}/file_system/{id}/link/\n  - POST   /api/projects/{project_id}/file_system/{id}/move/\n  - POST   /api/projects/{project_id}/file_system/count_by_path/\n  - GET    /api/projects/{project_id}/file_system/log_view/\n  - POST   /api/projects/{project_id}/file_system/log_view/\n  - GET    /api/projects/{project_id}/file_system/unfiled/",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.conversations#ConversationsTicketsUnreadCountRetrieveRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.conversations#ConversationsTicketsUnreadCountRetrieve"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsUnreadCountRetrieveRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#TicketUnreadCountResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsUnreadCountRetrieve"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.posthog.conversations#Conversations/operations",
+      "value": [
+        {
+          "target": "com.posthog.conversations#ConversationsAiContextAccountPropertiesList"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsAiReplyPlaybookRetrieve"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsList"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsRetrieve"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsUpdate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsPartialUpdate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsDestroy"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsAiFeedbackCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsAiHumanOutcomeCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsMessagesList"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsMessagesFullEmailRetrieve"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsNotesCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsNotesPartialUpdate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsNotesDestroy"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsReplyCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsBulkUpdateStatusCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsTicketsComposeCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsViewsList"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsViewsCreate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsViewsRetrieve"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsViewsPartialUpdate"
+        },
+        {
+          "target": "com.posthog.conversations#ConversationsViewsDestroy"
+        }
+      ]
+    }
+  ]
+}

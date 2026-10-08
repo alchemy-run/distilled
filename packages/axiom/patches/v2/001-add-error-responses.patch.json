@@ -3,535 +3,606 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/responses/UnprocessableEntityError",
-      "value": {
-        "description": "Unprocessable entity",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "integer"
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
+      "path": "/shapes/com.axiom.api#CreateAnnotation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
         }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets/post/responses/400",
-      "value": {
-        "$ref": "#/components/responses/BadRequestError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1fields/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1fields~1{field_id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1fields~1{field_id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1fields~1{field_id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1mapfields/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1mapfields/post/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1mapfields/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1mapfields/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1datasets~1{dataset_id}~1mapfields~1{map_field_name}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1monitors/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1monitors~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1monitors~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1monitors~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v2~1monitors~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetAnnotation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1monitors~1{id}~1history/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateAnnotation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1monitors~1{id}~1history/get/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteAnnotation/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1notifiers/post/responses/422",
+      "path": "/shapes/com.axiom.api#CreateDataset/errors/0",
       "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
+        "target": "com.axiom.api#BadRequest"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1notifiers~1{id}/get/responses/404",
+      "path": "/shapes/com.axiom.api#CreateDataset/errors/2",
       "value": {
-        "$ref": "#/components/responses/NotFoundError"
+        "target": "com.axiom.api#UnprocessableEntity"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1notifiers~1{id}/put/responses/404",
+      "path": "/shapes/com.axiom.api#UpdateDataset/errors/-",
       "value": {
-        "$ref": "#/components/responses/NotFoundError"
+        "target": "com.axiom.api#NotFound"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1notifiers~1{id}/put/responses/422",
+      "path": "/shapes/com.axiom.api#UpdateDataset/errors/-",
       "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
+        "target": "com.axiom.api#UnprocessableEntity"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1notifiers~1{id}/delete/responses/404",
+      "path": "/shapes/com.axiom.api#DeleteDataset/errors/-",
       "value": {
-        "$ref": "#/components/responses/NotFoundError"
+        "target": "com.axiom.api#NotFound"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1orgs~1{id}/get/responses/404",
+      "path": "/shapes/com.axiom.api#GetFieldsForDataset/errors/-",
       "value": {
-        "$ref": "#/components/responses/NotFoundError"
+        "target": "com.axiom.api#NotFound"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1orgs~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetFieldForDataset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1roles/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateFieldForDataset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1roles~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetMapFields/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1roles~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#CreateMapField/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1roles~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateMapFields/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1roles~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteMapField/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1groups/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#CreateMonitor/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1groups~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetMonitor/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1groups~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateMonitor/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1groups~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteMonitor/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1rbac~1groups~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetMonitorHistory/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1apl-starred-queries/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#CreateNotifier/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1apl-starred-queries~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetNotifier/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1apl-starred-queries~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateNotifier/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1apl-starred-queries~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteNotifier/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1apl-starred-queries~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetOrg/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1tokens/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateOrg/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1tokens~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#CreateRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1tokens~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetRoleById/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1tokens~1{id}~1regenerate/post/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1tokens~1{id}~1regenerate/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1users/post/responses/400",
-      "value": {
-        "$ref": "#/components/responses/BadRequestError"
-      }
+      "path": "/shapes/com.axiom.api#CreateGroup/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1users/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#GetGroupById/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1users~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateGroup/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1users~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteGroup/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1users~1{id}~1role/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#CreateStarred/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1users~1{id}~1role/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#GetStarred/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1vfields/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateStarred/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1vfields~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteStarred/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1vfields~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#CreateAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1vfields~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#GetAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1vfields~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1views/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#RegenerateAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1views~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#CreateUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1views~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1views~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#RemoveUserFromOrg/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1views~1{id}/delete/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateUserRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations/post/responses/400",
-      "value": {
-        "$ref": "#/components/responses/BadRequestError"
-      }
+      "path": "/shapes/com.axiom.api#CreateVirtualField/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#GetVirtualField/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/get/responses/400",
-      "value": {
-        "$ref": "#/components/responses/BadRequestError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateVirtualField/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/get/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteVirtualField/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/put/responses/400",
-      "value": {
-        "$ref": "#/components/responses/BadRequestError"
-      }
+      "path": "/shapes/com.axiom.api#CreateView/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/put/responses/404",
-      "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
+      "path": "/shapes/com.axiom.api#GetView/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/put/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
-      }
+      "path": "/shapes/com.axiom.api#UpdateView/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/delete/responses/400",
-      "value": {
-        "$ref": "#/components/responses/BadRequestError"
-      }
+      "path": "/shapes/com.axiom.api#DeleteView/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v2~1annotations~1{id}/delete/responses/404",
+      "path": "/shapes/com.axiom.api#UnprocessableEntity",
+      "before": "com.axiom.api#NotFound",
       "value": {
-        "$ref": "#/components/responses/NotFoundError"
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422
+            }
+          ]
+        }
       }
     }
   ]

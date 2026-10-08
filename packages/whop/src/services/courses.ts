@@ -360,7 +360,7 @@ export interface ListCourseRequest {
   first?: number;
   last?: number;
   experience_id?: string;
-  company_id?: string;
+  account_id?: string;
 }
 export const ListCourseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -369,7 +369,7 @@ export const ListCourseRequest = /*@__PURE__*/ S.suspend(() =>
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
     experience_id: S.optional(S.String.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/courses", code: 200 })),
 ).annotate({ identifier: "ListCourseRequest" }) as any as S.Schema<ListCourseRequest>;
 

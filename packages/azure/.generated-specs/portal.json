@@ -189,10 +189,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2025-04-01-preview"
         },
         "smithy.api#documentation": "Deletes the Dashboard.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2025-04-01-preview"
       }
     },
     "com.azure.portal#DeleteDashboardRequest": {
@@ -240,10 +240,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2025-04-01-preview"
         },
         "smithy.api#documentation": "Updates an existing Dashboard.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2025-04-01-preview"
       }
     },
     "com.azure.portal#UpdateDashboardResponse": {
@@ -406,7 +406,7 @@
           }
         },
         "metadata": {
-          "target": "com.azure.portal#DashboardPartMetadata",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "The dashboard part's metadata."
           }
@@ -704,10 +704,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2025-04-01-preview"
         },
         "smithy.api#documentation": "Creates or updates a Dashboard.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2025-04-01-preview"
       }
     },
     "com.azure.portal#DashboardsCreateOrUpdateResponse": {
@@ -878,10 +878,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2025-04-01-preview"
         },
         "smithy.api#documentation": "Gets the Dashboard.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2025-04-01-preview"
       }
     },
     "com.azure.portal#GetDashboardResponse": {
@@ -992,10 +992,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2025-04-01-preview"
         },
         "smithy.api#documentation": "Gets all the Dashboards within a resource group.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2025-04-01-preview"
       }
     },
     "com.azure.portal#ListDashboardByResourceGroupResponse": {
@@ -1128,10 +1128,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Portal/dashboards",
           "code": 200,
-          "apiVersion": "2026-04-01"
+          "apiVersion": "2025-04-01-preview"
         },
         "smithy.api#documentation": "Gets all the dashboards within a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
+        "com.distilled.openapi#apiVersion": "2025-04-01-preview"
       }
     },
     "com.azure.portal#ListDashboardBySubscriptionResponse": {

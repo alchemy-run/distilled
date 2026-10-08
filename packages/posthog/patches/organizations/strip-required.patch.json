@@ -1,0 +1,809 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/slug/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/membership_level/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/plugins_access_level/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/teams/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/projects/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/available_product_features/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/is_member_join_email_enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/metadata/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/customer_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/member_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/is_ai_training_locked/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/is_ai_training_cta_shown/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/has_signed_baa/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/is_active/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/is_not_active_reason/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/is_pending_deletion/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Organization/members/uses_most_specific_access_resolution/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#CreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#UpdateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationDomainList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationDomainList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationDomain/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationDomain/members/domain/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationDomain/members/is_verified/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationDomain/members/verified_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationDomain/members/verification_challenge/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationDomain/members/scim_base_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#DomainsCreateRequest/members/domain/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#DomainsUpdateRequest/members/domain/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#DomainsVerifyCreateRequest/members/domain/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/integration_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/config/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationIntegration/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationInviteListOutput/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationInviteListOutput/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/target_email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/emailing_attempt_made/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/is_expired/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationInviteOutput/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#InvitesCreateRequest/members/target_email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#InvitesBulkCreateRequest/members/target_email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedLegalDocumentDTOList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedLegalDocumentDTOList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/document_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/company_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/representative_email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/signed_pdf_stored/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentDTO/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentCreator/members/first_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentCreator/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsCreateRequest/members/document_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsCreateRequest/members/company_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsCreateRequest/members/company_address/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsCreateRequest/members/representative_email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationMemberList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationMemberList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/joined_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/is_2fa_enabled/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/has_social_auth/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/last_login/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationMember/members/search_match_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationOAuthApplicationList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedOrganizationOAuthApplicationList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationOAuthApplication/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationOAuthApplication/members/redirect_uris_list/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationOAuthApplication/members/created/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#OrganizationOAuthApplication/members/updated/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedProjectBackwardCompatBasicList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedProjectBackwardCompatBasicList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/organization/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/project_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/api_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/completed_snippet_onboarding/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/has_completed_onboarding_for/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/ingested_event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/is_demo/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/timezone/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/access_control/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompatBasic/members/tags/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#EventPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#CohortPropertyFilter/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ElementPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ElementPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#HogQLPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#DataWarehousePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#DataWarehousePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/organization/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/effective_membership_level/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/has_group_types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/group_types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/live_events_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/api_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/ingested_event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/person_on_events_querying_enabled/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/default_modifiers/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/product_intents/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/secret_api_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/secret_api_token_backup/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/heatmaps_screenshot_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/available_setup_task_ids/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/is_pending_deletion/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/deletion_scheduled_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/project_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/managed_viewsets/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/flag_evaluations_mode/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedRoleExternalReferenceList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedRoleExternalReferenceList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/provider/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/provider_organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/provider_role_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/provider_role_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/role/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReference/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreateRequest/members/provider/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreateRequest/members/provider_organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreateRequest/members/provider_role_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreateRequest/members/provider_role_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreateRequest/members/role/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleLookupResponse/members/reference/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedRoleList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedRoleList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Role/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Role/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Role/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Role/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Role/members/members/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#Role/members/is_default/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RolesCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RolesUpdateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedRoleMembershipListOutput/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#PaginatedRoleMembershipListOutput/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleMembershipOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleMembershipOutput/members/role_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleMembershipOutput/members/organization_member/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleMembershipOutput/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleMembershipOutput/members/joined_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RoleMembershipOutput/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#RolesRoleMembershipsCreateRequest/members/user_uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/organization_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/inviter/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/team_members/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/recent_activity/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/popular_dashboards/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/products_in_use/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/suggested_next_steps/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeResponse/members/is_organization_first_user/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeInviter/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeInviter/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeTeamMember/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeTeamMember/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeTeamMember/members/avatar/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeTeamMember/members/role/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeTeamMember/members/last_active/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeRecentActivity/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeRecentActivity/members/actor_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeRecentActivity/members/entity_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeRecentActivity/members/entity_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeRecentActivity/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomePopularDashboard/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomePopularDashboard/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomePopularDashboard/members/description/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomePopularDashboard/members/team_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomePopularDashboard/members/url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeSuggestedStep/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeSuggestedStep/members/href/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.organizations#WelcomeSuggestedStep/members/reason/traits"
+    }
+  ]
+}

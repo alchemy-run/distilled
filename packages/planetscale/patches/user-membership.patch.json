@@ -2,43 +2,16 @@
   "description": "User in OrganizationMembership, PaginatedOrganizationMembership and User: name is null for some users, and the spec (which now marks it x-nullable) still lists it as required, so the key may be absent; drop name from required.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/definitions/OrganizationMembership/properties/user/required",
-      "value": [
-        "id",
-        "display_name",
-        "email",
-        "avatar_url",
-        "created_at",
-        "updated_at",
-        "two_factor_auth_configured"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedOrganizationMembershipDataItemUser/members/name/traits/smithy.api#required"
     },
     {
-      "op": "replace",
-      "path": "/definitions/User/required",
-      "value": [
-        "id",
-        "display_name",
-        "email",
-        "avatar_url",
-        "created_at",
-        "updated_at",
-        "two_factor_auth_configured"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#OrganizationMembershipUser/members/name/traits/smithy.api#required"
     },
     {
-      "op": "replace",
-      "path": "/definitions/PaginatedOrganizationMembership/properties/data/items/properties/user/required",
-      "value": [
-        "id",
-        "display_name",
-        "email",
-        "avatar_url",
-        "created_at",
-        "updated_at",
-        "two_factor_auth_configured"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#User/members/name/traits/smithy.api#required"
     }
   ]
 }

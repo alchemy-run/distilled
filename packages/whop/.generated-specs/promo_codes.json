@@ -156,28 +156,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of promo codes to return from the start of the window."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to paginate forwards from."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "Number of promo codes to return from the end of the window."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to paginate backwards from."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -2668,7 +2668,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.promo_codes#Currencies",
+          "target": "com.whop.promo_codes#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The monetary currency of the promo code.",
             "smithy.api#required": {}
@@ -2796,7 +2796,7 @@
         "smithy.api#documentation": "The company for the promo code."
       }
     },
-    "com.whop.promo_codes#Currencies": {
+    "com.whop.promo_codes#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {

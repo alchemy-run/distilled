@@ -3,7 +3,7 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.azure.attestation#CreatePrivateEndpointConnectionRequest/members/id",
+      "path": "/shapes/com.azure.attestation#PrivateEndpointConnectionsCreateRequest/members/id",
       "value": {
         "target": "smithy.api#String",
         "traits": {

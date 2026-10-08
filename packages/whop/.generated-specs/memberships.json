@@ -172,28 +172,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of memberships to return from the start of the window."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to paginate forwards from."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "Number of memberships to return from the end of the window."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to paginate backwards from."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -205,7 +205,7 @@
       "type": "structure",
       "members": {
         "account": {
-          "target": "com.whop.memberships#MembershipAccount",
+          "target": "com.whop.memberships#StorefrontAccount",
           "traits": {
             "smithy.api#documentation": "The account (seller) this membership belongs to.",
             "smithy.api#required": {}
@@ -216,6 +216,22 @@
           "traits": {
             "smithy.api#documentation": "Whether the membership is set to cancel when the current billing period ends. Only meaningful for recurring plans.",
             "smithy.api#required": {}
+          }
+        },
+        "canceled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When cancellation was requested, or when the membership was canceled if no request time is recorded, as an ISO 8601 timestamp. `null` when neither is recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text explanation provided when canceling. `null` when no reason was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "created_at": {
@@ -229,6 +245,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "When the current billing period renews, or when a non-renewing membership expires, as an ISO 8601 timestamp. `null` for one-time purchases with no expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the current billing period started, as an ISO 8601 timestamp. `null` when no billing period is recorded.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -248,6 +272,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "manage_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL where the buyer can sign in to manage billing. `null` without a member record or unless the caller is the buyer or has `member:manage` on the account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "member": {
           "target": "com.whop.memberships#MembershipMember",
           "traits": {
@@ -261,6 +293,14 @@
           "traits": {
             "smithy.api#documentation": "Custom key-value pairs stored on the membership, commonly used for software licensing.",
             "smithy.api#required": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The buyer's phone number recorded for this membership, or `null`. The number collected (or verified) at checkout when the seller's phone collection is on; falls back to the buyer's account number when they have shared one with this seller.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "plan_id": {
@@ -295,7 +335,7 @@
       },
       "traits": {}
     },
-    "com.whop.memberships#MembershipAccount": {
+    "com.whop.memberships#StorefrontAccount": {
       "type": "structure",
       "members": {
         "id": {
@@ -308,7 +348,7 @@
         "logo_url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account logo image URL.",
+            "smithy.api#documentation": "Account logo image URL. `null` when the account has not set one.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -672,6 +712,12 @@
           "traits": {
             "smithy.api#documentation": "Key-value pairs to merge into the membership's metadata. Pass an empty object to clear it."
           }
+        },
+        "payment_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of a payment method the customer has saved with your account. Future renewals charge it, and an open past-due payment is retried on it right away. Requires the `member:payment_methods:manage` permission."
+          }
         }
       },
       "traits": {
@@ -700,7 +746,7 @@
           "uri": "/memberships/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update Membership\n\nUpdates a membership: merge metadata key-value pairs, or toggle `cancel_at_period_end` — `true` schedules the cancellation for the end of the current billing period, `false` reverses a pending one."
+        "smithy.api#documentation": "Update Membership\n\nUpdates a membership: merge metadata key-value pairs, toggle `cancel_at_period_end` — `true` schedules the cancellation for the end of the current billing period, `false` reverses a pending one — or move future renewals to another of the customer's saved payment methods with `payment_method_id`."
       }
     },
     "com.whop.memberships#CancelMembershipRequest": {
@@ -881,6 +927,66 @@
         "smithy.api#documentation": "Pause Membership\n\nPauses a membership's recurring payment collection. The customer keeps access but is not charged until the membership is resumed."
       }
     },
+    "com.whop.memberships#ReactivateMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days of access from now (1-1095), which sets `current_period_end`. Omit to keep the original `current_period_end`; required once it has passed. Ignored for lifetime memberships."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#ReactivateMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#ReactivateMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/reactivate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reactivate Membership\n\nRestores access to a `canceled` or `expired` membership that contains only one-time purchases and sets its `status` to `completed`. Lifetime memberships regain lifetime access. For memberships with an expiration, `days` sets `current_period_end` that many days from now; without it the original `current_period_end` is kept, so `days` is required once that has passed. Active and recurring memberships cannot be reactivated."
+      }
+    },
     "com.whop.memberships#ResumeMembershipRequest": {
       "type": "structure",
       "members": {
@@ -930,6 +1036,57 @@
           "code": 200
         },
         "smithy.api#documentation": "Resume Membership\n\nResumes a previously paused membership's recurring payment collection. Billing resumes on the next cycle."
+      }
+    },
+    "com.whop.memberships#ResyncAccessMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#ResyncAccessMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#ResyncAccessMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/resync_access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resync Membership Access\n\nRe-runs access fulfillment for a membership: recomputes the member's content access on Whop, re-validates their Discord link (re-adding them to the server and re-assigning roles if needed), and re-fulfills TradingView indicator access. Telegram access is invite-based and is not resynced. The work runs in the background and the outcome is written to the membership's logs."
       }
     },
     "com.whop.memberships#TransferMembershipRequest": {
@@ -1089,7 +1246,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.memberships#Currencies",
+          "target": "com.whop.memberships#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for this membership's billing. Null if the membership is free.",
             "smithy.api#required": {},
@@ -1335,7 +1492,7 @@
         "smithy.api#documentation": "The company this membership belongs to."
       }
     },
-    "com.whop.memberships#Currencies": {
+    "com.whop.memberships#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {
@@ -2178,53 +2335,6 @@
         "smithy.api#documentation": "Add free days membership\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nAdd free days to extend a membership's current billing period, expiration date, or Stripe trial.\n\nRequired permissions:\n - `member:manage`\n - `member:email:read`\n - `member:basic:read`"
       }
     },
-    "com.whop.memberships#ResyncAccessMembershipRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The unique identifier of the membership to resync access for."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.whop.memberships#ResyncAccessMembership": {
-      "type": "operation",
-      "input": {
-        "target": "com.whop.memberships#ResyncAccessMembershipRequest"
-      },
-      "output": {
-        "target": "com.whop.memberships#LegacyMembership"
-      },
-      "errors": [
-        {
-          "target": "com.whop.memberships#BadRequest"
-        },
-        {
-          "target": "com.whop.memberships#Forbidden"
-        },
-        {
-          "target": "com.whop.memberships#NotFound"
-        },
-        {
-          "target": "com.whop.memberships#UnprocessableEntity"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/memberships/{id}/resync_access",
-          "code": 200
-        },
-        "smithy.api#documentation": "Resync access membership\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRe-run access fulfillment for a membership. Recomputes the member's content access on Whop, re-validates their Discord link (re-adding them to the server and re-assigning roles if needed), and re-fulfills TradingView indicator access. Telegram access is invite-based and cannot be resynced here. The outcome is written to the membership's logs.\n\nRequired permissions:\n - `membership:resync_access`\n - `member:email:read`\n - `member:basic:read`"
-      }
-    },
     "com.whop.memberships#UncancelMembershipRequest": {
       "type": "structure",
       "members": {
@@ -2363,16 +2473,19 @@
           "target": "com.whop.memberships#PauseMembership"
         },
         {
+          "target": "com.whop.memberships#ReactivateMembership"
+        },
+        {
           "target": "com.whop.memberships#ResumeMembership"
+        },
+        {
+          "target": "com.whop.memberships#ResyncAccessMembership"
         },
         {
           "target": "com.whop.memberships#TransferMembership"
         },
         {
           "target": "com.whop.memberships#AddFreeDaysMembership"
-        },
-        {
-          "target": "com.whop.memberships#ResyncAccessMembership"
         },
         {
           "target": "com.whop.memberships#UncancelMembership"

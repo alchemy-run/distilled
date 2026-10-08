@@ -55,7 +55,7 @@ export const GetChatChannelRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/chat_channels/{id}", code: 200 })),
 ).annotate({ identifier: "GetChatChannelRequest" }) as any as S.Schema<GetChatChannelRequest>;
 
-/** A list of words that are automatically filtered from messages in this chat. */
+/** A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat. */
 export type ChatChannelBannedWordsList = Array<string>;
 export const ChatChannelBannedWordsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -89,7 +89,7 @@ export interface ChatChannel {
   ban_media: boolean;
   /** Whether URL links are blocked from being posted in this chat. */
   ban_urls: boolean;
-  /** A list of words that are automatically filtered from messages in this chat. */
+  /** A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat. */
   banned_words: ChatChannelBannedWordsList;
   /** The experience this chat feed is attached to. */
   experience: ChatChannelExperience;
@@ -120,8 +120,8 @@ export interface ListChatChannelRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
   product_id?: string;
+  account_id: string;
 }
 export const ListChatChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -129,12 +129,12 @@ export const ListChatChannelRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
     product_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/chat_channels", code: 200 })),
 ).annotate({ identifier: "ListChatChannelRequest" }) as any as S.Schema<ListChatChannelRequest>;
 
-/** A list of words that are automatically filtered from messages in this chat. */
+/** A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat. */
 export type ChatChannelListItemBannedWordsList = Array<string>;
 export const ChatChannelListItemBannedWordsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -150,7 +150,7 @@ export interface ChatChannelListItem {
   ban_media: boolean;
   /** Whether URL links are blocked from being posted in this chat. */
   ban_urls: boolean;
-  /** A list of words that are automatically filtered from messages in this chat. */
+  /** A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat. */
   banned_words: ChatChannelListItemBannedWordsList;
   /** The experience this chat feed is attached to. */
   experience: ChatChannelExperience;
@@ -230,7 +230,7 @@ export interface UpdateChatChannelRequest {
   ban_urls?: boolean | null;
   /** A list of words that are automatically blocked from messages in this chat channel. For example, ['spam', 'scam']. */
   banned_words?: UpdateChatChannelRequestBannedWordsList | null;
-  /** The minimum number of seconds a user must wait between sending messages in this chat channel. */
+  /** The minimum number of seconds a user must wait between sending messages in this chat channel. Pass null or 0 to remove the cooldown. */
   user_posts_cooldown_seconds?: number | null;
   /** Controls which roles are allowed to send messages in this chat channel. */
   who_can_post?: WhoCanPostTypes | (string & {}) | null;

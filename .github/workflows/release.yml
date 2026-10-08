@@ -3,28 +3,20 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: Branch to release from
-        required: false
-        type: string
-        default: main
       version:
         description: >-
-          Release spec. `rc` (the default) publishes the next `1.0.0-rc.N`;
-          `rc.N` publishes that exact candidate. `beta[.N]` and `alpha[.N]`
-          select those prerelease channels. `patch|minor|major` or `x.y.z`
-          publishes a stable release. Anything else publishes `0.0.0-<name>`.
+          Release spec, bumped from the version every package.json shares.
+          `rc` (the default) publishes the next rc, e.g. `1.0.0-rc.13` to
+          `1.0.0-rc.14`; `rc.N` publishes that candidate. `beta[.N]` and
+          `alpha[.N]` select those prerelease channels. `patch|minor|major`
+          bump per semver, and `x.y.z[-rc.N]` publishes exactly that version.
+          Anything else publishes `0.0.0-<name>` without committing it.
         required: false
         type: string
         default: "rc"
-      force-latest:
-        description: Publish under the latest dist-tag
-        required: false
-        type: boolean
-        default: false
 
 concurrency:
-  group: release-${{ inputs.branch }}
+  group: release-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -40,7 +32,6 @@ jobs:
     runs-on: blacksmith-8vcpu-ubuntu-2404
     outputs:
       sha: ${{ steps.commit.outputs.sha }}
-      tag: ${{ steps.release.outputs.tag }}
       version: ${{ steps.release.outputs.version }}
       channel: ${{ steps.release.outputs.channel }}
     steps:
@@ -54,7 +45,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.branch }}
           fetch-depth: 0
           token: ${{ steps.bot-token.outputs.token }}
 
@@ -67,8 +57,6 @@ jobs:
 
       - id: release
         name: Prepare release
-        env:
-          FORCE_LATEST: ${{ inputs.force-latest }}
         run: |
           set -euo pipefail
           node scripts/release/prepare.ts '${{ inputs.version }}' | tee -a "$GITHUB_OUTPUT"
@@ -82,7 +70,7 @@ jobs:
           mkdir release-packages
           while IFS= read -r dir; do
             pnpm --dir "$dir" pack --pack-destination "$GITHUB_WORKSPACE/release-packages"
-          done < <(jq -r '.[]' release-package-dirs.json)
+          done < <(jq -r '.[].dir' release-packages.json)
 
       - id: commit
         name: Commit and tag
@@ -90,20 +78,7 @@ jobs:
           VERSION: ${{ steps.release.outputs.version }}
           CHANNEL: ${{ steps.release.outputs.channel }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          TAG="v${VERSION}"
-          git config user.email "alchemy-version-bot[bot]@users.noreply.github.com"
-          git config user.name "alchemy-version-bot[bot]"
-          if [[ "$CHANNEL" != "tag" ]]; then node scripts/release/release-notes.ts "$TAG"; fi
-          mapfile -t PACKAGE_JSONS < <(jq -r '.[] | "\(.)/package.json"' release-package-dirs.json)
-          git add "${PACKAGE_JSONS[@]}" pnpm-lock.yaml
-          if [[ "$CHANNEL" != "tag" ]]; then git add CHANGELOG.md; fi
-          if ! git diff --cached --quiet; then git commit -m "chore(release): ${VERSION}"; fi
-          if ! git rev-parse --verify "refs/tags/${TAG}" >/dev/null 2>&1; then git tag -a "$TAG" -m "Release ${TAG}"; fi
-          git push origin HEAD
-          if ! git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then git push origin "refs/tags/${TAG}"; fi
-          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        run: bash scripts/release/commit.sh
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -123,14 +98,19 @@ jobs:
           ref: ${{ needs.build.outputs.sha }}
           fetch-depth: 0
 
-      - name: Setup pnpm, Node.js and install dependencies
+      - name: Setup pnpm and Node.js
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
-          install: true
-          require-lockfile: true
+          install: false
 
-      - run: sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+      # Release scripts import changelogithub and effect, but publishing does
+      # not need package lifecycle scripts.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Remove token-based npm authentication
+        run: sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
 
       - name: Download release artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -139,12 +119,7 @@ jobs:
           path: release-packages
 
       - name: Publish tarballs with OIDC
-        env:
-          PUBLISH_TAG: ${{ needs.build.outputs.tag }}
-          CHANNEL_TAG: ${{ needs.build.outputs.channel == 'release' && 'latest' || needs.build.outputs.channel == 'tag' && needs.build.outputs.tag || 'next' }}
-          FORCE_LATEST: ${{ inputs.force-latest }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: bash scripts/release/publish.sh
+        run: node scripts/release/publish.ts
 
       - name: Create GitHub release
         if: needs.build.outputs.channel != 'tag'

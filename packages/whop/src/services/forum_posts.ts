@@ -65,7 +65,7 @@ export const CreateForumPostRequestAttachmentsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateForumPostRequestAttachmentsList>;
 
 /** The available currencies on the platform */
-export type Currencies =
+export type LegacyCurrencies =
   | "usd"
   | "sgd"
   | "inr"
@@ -156,7 +156,7 @@ export type Currencies =
   | "awg"
   | "whop_usd"
   | "xau";
-export const Currencies = S.String;
+export const LegacyCurrencies = S.String;
 
 /** Input type for a single poll option */
 export interface CreateForumPostRequestPollOptionsItem {
@@ -198,13 +198,13 @@ export type ForumPostVisibilityTypes = "members_only" | "globally_visible";
 export const ForumPostVisibilityTypes = S.String;
 
 export interface CreateForumPostRequest {
+  /** The unique identifier of the company whose public forum to post in. Required when experience_id is 'public'. For example, 'biz_xxxxx'. */
+  account_id?: string | null;
   /** A list of file attachments to include with the post, such as images or videos. */
   attachments?: CreateForumPostRequestAttachmentsList | null;
-  /** The unique identifier of the company whose public forum to post in. Required when experience_id is 'public'. For example, 'biz_xxxxx'. */
-  company_id?: string | null;
   /** The main body of the post in Markdown format. For example, 'Check out this **update**'. Hidden if the post is paywalled and the viewer has not purchased access. */
   content?: string | null;
-  /** The unique identifier of the experience to create this post in. For example, 'exp_xxxxx'. Pass 'public' along with company_id to automatically use the company's public forum. */
+  /** The unique identifier of the experience to create this post in. For example, 'exp_xxxxx'. Pass 'public' along with account_id to automatically use the account's public forum. */
   experience_id: string;
   /** Whether to send this post as a mention notification to all users in the experience who have mentions enabled. */
   is_mention?: boolean | null;
@@ -213,7 +213,7 @@ export interface CreateForumPostRequest {
   /** The price to unlock this post in the specified paywall currency. For example, 5.00 for $5.00. When set, users must purchase access to view the post content. */
   paywall_amount?: number | null;
   /** The currency for the paywall price on this post. When set along with paywall_amount, users must purchase access to view the post content. */
-  paywall_currency?: Currencies | (string & {}) | null;
+  paywall_currency?: LegacyCurrencies | (string & {}) | null;
   /** Whether this post should be pinned to the top of the forum. */
   pinned?: boolean | null;
   /** A poll to attach to this post, allowing members to vote on options. */
@@ -227,14 +227,14 @@ export interface CreateForumPostRequest {
 }
 export const CreateForumPostRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    account_id: S.optional(S.NullOr(S.String)),
     attachments: S.optional(S.NullOr(CreateForumPostRequestAttachmentsList)),
-    company_id: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
     experience_id: S.String,
     is_mention: S.optional(S.NullOr(S.Boolean)),
     parent_id: S.optional(S.NullOr(S.String)),
     paywall_amount: S.optional(S.NullOr(S.Number)),
-    paywall_currency: S.optional(S.NullOr(Currencies)),
+    paywall_currency: S.optional(S.NullOr(LegacyCurrencies)),
     pinned: S.optional(S.NullOr(S.Boolean)),
     poll: S.optional(S.NullOr(CreateForumPostRequestPoll)),
     rich_content: S.optional(S.NullOr(S.String)),
@@ -513,7 +513,7 @@ export type CreateForumPostError =
   | NotFound
   | UnprocessableEntity
   | WhopOpError;
-/** Create forum post [Legacy API — https://docs.whop.com/api-reference] Create a new forum post or comment within an experience. Supports text content, attachments, polls, paywalling, and pinning. Pass experience_id 'public' with a company_id to post to a company's public forum. Required permissions: - `forum:post:create` */
+/** Create forum post [Legacy API — https://docs.whop.com/api-reference] Create a new forum post or comment within an experience. Supports text content, attachments, polls, paywalling, and pinning. Pass experience_id 'public' with an account_id to post to an account's public forum. Required permissions: - `forum:post:create` */
 export const createForumPost: API.OperationMethod<
   CreateForumPostRequest,
   ForumPost,

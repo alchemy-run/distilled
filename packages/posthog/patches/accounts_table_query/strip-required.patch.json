@@ -1,0 +1,245 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelRule/members/channel_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelRule/members/combiner/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelRule/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelRule/members/items/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelCondition/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelCondition/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CustomChannelCondition/members/op/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehouseEventsModifier/members/distinct_id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehouseEventsModifier/members/id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehouseEventsModifier/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehouseEventsModifier/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#QueryStatus/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#QueryStatus/members/team_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ClickhouseQueryProgress/members/active_cpu_time/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ClickhouseQueryProgress/members/bytes_read/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ClickhouseQueryProgress/members/estimated_rows_total/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ClickhouseQueryProgress/members/rows_read/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ClickhouseQueryProgress/members/time_elapsed/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ResolvedDateRangeResponse/members/date_from/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ResolvedDateRangeResponse/members/date_to/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#QueryTiming/members/k/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#QueryTiming/members/t/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#Breakdown/members/property/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#EventPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#PersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#PersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ElementPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ElementPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#EventMetadataPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#EventMetadataPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#SessionPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#SessionPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#CohortPropertyFilter/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#RecordingPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#RecordingPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#LogEntryPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#LogEntryPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#GroupPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#GroupPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#FeaturePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#FeaturePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#FlagPropertyFilter/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#FlagPropertyFilter/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#HogQLPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehousePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehousePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehousePersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#DataWarehousePersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ErrorTrackingIssueFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#ErrorTrackingIssueFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#LogPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#LogPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#LogPropertyFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#SpanPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#SpanPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#SpanPropertyFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#RevenueAnalyticsPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#RevenueAnalyticsPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#WorkflowVariablePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.accounts_table_query#WorkflowVariablePropertyFilter/members/operator/traits"
+    }
+  ]
+}

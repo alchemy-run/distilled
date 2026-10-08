@@ -1,0 +1,81 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#PaginatedProjectSecretAPIKeyList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#PaginatedProjectSecretAPIKeyList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/mask_value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/created_by/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/last_used_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/last_rolled_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretAPIKey/members/scopes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysCreateRequest/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysCreateRequest/members/scopes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysUpdateRequest/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysUpdateRequest/members/scopes/traits/smithy.api#required"
+    }
+  ]
+}

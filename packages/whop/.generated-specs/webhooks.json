@@ -54,28 +54,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of webhooks to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns webhooks after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of webhooks to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns webhooks before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -249,6 +249,18 @@
             "smithy.api#enumValue": "account.updated"
           }
         },
+        "ACCOUNT_FINANCING_APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_approved"
+          }
+        },
+        "ACCOUNT_FINANCING_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_denied"
+          }
+        },
         "INVOICE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -367,6 +379,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deposit.succeeded"
+          }
+        },
+        "FINANCIAL_ACTIVITY_FUNDS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_activity.funds_available"
           }
         },
         "TRANSFER_CREATED": {
@@ -549,6 +567,18 @@
             "smithy.api#enumValue": "payout_account.status_updated"
           }
         },
+        "PAYMENT_AUTHORIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.authorized"
+          }
+        },
+        "PAYMENT_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.canceled"
+          }
+        },
         "RESOLUTION_CENTER_CASE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -633,10 +663,28 @@
             "smithy.api#enumValue": "member.created"
           }
         },
+        "MEMBER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member.updated"
+          }
+        },
         "AD_CAMPAIGN_PAYMENT_FAILED": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ad_campaign.payment_failed"
+          }
+        },
+        "AD_CAMPAIGN_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign.updated"
+          }
+        },
+        "AD_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad.updated"
           }
         },
         "CHAT_MESSAGE_CREATED": {
@@ -673,6 +721,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "payment.pending"
+          }
+        },
+        "PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.requires_action"
           }
         },
         "DISPUTE_CREATED": {
@@ -793,6 +847,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "app_payment.pending"
+          }
+        },
+        "APP_PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_payment.requires_action"
           }
         },
         "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED": {
@@ -917,6 +977,18 @@
             "smithy.api#enumValue": "account.updated"
           }
         },
+        "ACCOUNT_FINANCING_APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_approved"
+          }
+        },
+        "ACCOUNT_FINANCING_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_denied"
+          }
+        },
         "INVOICE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1035,6 +1107,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deposit.succeeded"
+          }
+        },
+        "FINANCIAL_ACTIVITY_FUNDS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_activity.funds_available"
           }
         },
         "TRANSFER_CREATED": {
@@ -1199,6 +1277,18 @@
             "smithy.api#enumValue": "payout_account.status_updated"
           }
         },
+        "PAYMENT_AUTHORIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.authorized"
+          }
+        },
+        "PAYMENT_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.canceled"
+          }
+        },
         "RESOLUTION_CENTER_CASE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1283,10 +1373,28 @@
             "smithy.api#enumValue": "member.created"
           }
         },
+        "MEMBER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member.updated"
+          }
+        },
         "AD_CAMPAIGN_PAYMENT_FAILED": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ad_campaign.payment_failed"
+          }
+        },
+        "AD_CAMPAIGN_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign.updated"
+          }
+        },
+        "AD_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad.updated"
           }
         },
         "CHAT_MESSAGE_CREATED": {
@@ -1325,6 +1433,12 @@
             "smithy.api#enumValue": "payment.pending"
           }
         },
+        "PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.requires_action"
+          }
+        },
         "DISPUTE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1359,246 +1473,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "membership.cancel_at_period_end_changed"
-          }
-        },
-        "MEMBERSHIP_WENT_VALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_went_valid"
-          }
-        },
-        "MEMBERSHIP_WENT_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_went_invalid"
-          }
-        },
-        "MEMBERSHIP_METADATA_UPDATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_metadata_updated"
-          }
-        },
-        "RESOLUTION_CREATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution_created"
-          }
-        },
-        "RESOLUTION_UPDATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution_updated"
-          }
-        },
-        "RESOLUTION_DECIDED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution_decided"
-          }
-        },
-        "PAYMENT_AFFILIATE_REWARD_CREATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_affiliate_reward_created"
-          }
-        },
-        "MEMBERSHIP_EXPERIENCE_CLAIMED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_experience_claimed"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_VALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership_went_valid"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership_went_invalid"
-          }
-        },
-        "APP_PAYMENT_CREATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_created"
-          }
-        },
-        "APP_PAYMENT_SUCCEEDED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_succeeded"
-          }
-        },
-        "APP_PAYMENT_FAILED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_failed"
-          }
-        },
-        "APP_PAYMENT_PENDING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_pending"
-          }
-        },
-        "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership_cancel_at_period_end_changed"
-          }
-        },
-        "PAYMENT_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_created"
-          }
-        },
-        "PAYMENT_SUCCEEDED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_succeeded"
-          }
-        },
-        "PAYMENT_FAILED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_failed"
-          }
-        },
-        "PAYMENT_PENDING_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_pending"
-          }
-        },
-        "DISPUTE_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dispute_created"
-          }
-        },
-        "DISPUTE_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dispute_updated"
-          }
-        },
-        "REFUND_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "refund_created"
-          }
-        },
-        "REFUND_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "refund_updated"
-          }
-        },
-        "DISPUTE_ALERT_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dispute_alert_created"
-          }
-        },
-        "MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_cancel_at_period_end_changed"
-          }
-        },
-        "MEMBERSHIP_WENT_VALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.went_valid"
-          }
-        },
-        "MEMBERSHIP_WENT_INVALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.went_invalid"
-          }
-        },
-        "MEMBERSHIP_METADATA_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.metadata_updated"
-          }
-        },
-        "RESOLUTION_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution.created"
-          }
-        },
-        "RESOLUTION_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution.updated"
-          }
-        },
-        "RESOLUTION_DECIDED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution.decided"
-          }
-        },
-        "PAYMENT_AFFILIATE_REWARD_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment.affiliate_reward_created"
-          }
-        },
-        "MEMBERSHIP_EXPERIENCE_CLAIMED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.experience_claimed"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_VALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership.went_valid"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_INVALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership.went_invalid"
-          }
-        },
-        "APP_PAYMENT_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.created"
-          }
-        },
-        "APP_PAYMENT_SUCCEEDED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.succeeded"
-          }
-        },
-        "APP_PAYMENT_FAILED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.failed"
-          }
-        },
-        "APP_PAYMENT_PENDING_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.pending"
-          }
-        },
-        "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership.cancel_at_period_end_changed"
           }
         }
       },
@@ -1839,6 +1713,18 @@
             "smithy.api#enumValue": "account.updated"
           }
         },
+        "ACCOUNT_FINANCING_APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_approved"
+          }
+        },
+        "ACCOUNT_FINANCING_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_denied"
+          }
+        },
         "INVOICE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1957,6 +1843,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deposit.succeeded"
+          }
+        },
+        "FINANCIAL_ACTIVITY_FUNDS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_activity.funds_available"
           }
         },
         "TRANSFER_CREATED": {
@@ -2139,6 +2031,18 @@
             "smithy.api#enumValue": "payout_account.status_updated"
           }
         },
+        "PAYMENT_AUTHORIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.authorized"
+          }
+        },
+        "PAYMENT_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.canceled"
+          }
+        },
         "RESOLUTION_CENTER_CASE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2223,10 +2127,28 @@
             "smithy.api#enumValue": "member.created"
           }
         },
+        "MEMBER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member.updated"
+          }
+        },
         "AD_CAMPAIGN_PAYMENT_FAILED": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ad_campaign.payment_failed"
+          }
+        },
+        "AD_CAMPAIGN_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign.updated"
+          }
+        },
+        "AD_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad.updated"
           }
         },
         "CHAT_MESSAGE_CREATED": {
@@ -2263,6 +2185,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "payment.pending"
+          }
+        },
+        "PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.requires_action"
           }
         },
         "DISPUTE_CREATED": {
@@ -2383,6 +2311,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "app_payment.pending"
+          }
+        },
+        "APP_PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_payment.requires_action"
           }
         },
         "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED": {
@@ -2412,6 +2346,18 @@
             "smithy.api#enumValue": "account.updated"
           }
         },
+        "ACCOUNT_FINANCING_APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_approved"
+          }
+        },
+        "ACCOUNT_FINANCING_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_denied"
+          }
+        },
         "INVOICE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2530,6 +2476,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deposit.succeeded"
+          }
+        },
+        "FINANCIAL_ACTIVITY_FUNDS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_activity.funds_available"
           }
         },
         "TRANSFER_CREATED": {
@@ -2712,6 +2664,18 @@
             "smithy.api#enumValue": "payout_account.status_updated"
           }
         },
+        "PAYMENT_AUTHORIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.authorized"
+          }
+        },
+        "PAYMENT_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.canceled"
+          }
+        },
         "RESOLUTION_CENTER_CASE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2796,10 +2760,28 @@
             "smithy.api#enumValue": "member.created"
           }
         },
+        "MEMBER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member.updated"
+          }
+        },
         "AD_CAMPAIGN_PAYMENT_FAILED": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ad_campaign.payment_failed"
+          }
+        },
+        "AD_CAMPAIGN_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign.updated"
+          }
+        },
+        "AD_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad.updated"
           }
         },
         "CHAT_MESSAGE_CREATED": {
@@ -2836,6 +2818,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "payment.pending"
+          }
+        },
+        "PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.requires_action"
           }
         },
         "DISPUTE_CREATED": {
@@ -2956,6 +2944,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "app_payment.pending"
+          }
+        },
+        "APP_PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_payment.requires_action"
           }
         },
         "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED": {
@@ -3057,6 +3051,18 @@
             "smithy.api#enumValue": "account.updated"
           }
         },
+        "ACCOUNT_FINANCING_APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_approved"
+          }
+        },
+        "ACCOUNT_FINANCING_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account.financing_denied"
+          }
+        },
         "INVOICE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3175,6 +3181,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deposit.succeeded"
+          }
+        },
+        "FINANCIAL_ACTIVITY_FUNDS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_activity.funds_available"
           }
         },
         "TRANSFER_CREATED": {
@@ -3339,6 +3351,18 @@
             "smithy.api#enumValue": "payout_account.status_updated"
           }
         },
+        "PAYMENT_AUTHORIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.authorized"
+          }
+        },
+        "PAYMENT_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.canceled"
+          }
+        },
         "RESOLUTION_CENTER_CASE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3423,10 +3447,28 @@
             "smithy.api#enumValue": "member.created"
           }
         },
+        "MEMBER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member.updated"
+          }
+        },
         "AD_CAMPAIGN_PAYMENT_FAILED": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ad_campaign.payment_failed"
+          }
+        },
+        "AD_CAMPAIGN_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign.updated"
+          }
+        },
+        "AD_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad.updated"
           }
         },
         "CHAT_MESSAGE_CREATED": {
@@ -3465,6 +3507,12 @@
             "smithy.api#enumValue": "payment.pending"
           }
         },
+        "PAYMENT_REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment.requires_action"
+          }
+        },
         "DISPUTE_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3499,246 +3547,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "membership.cancel_at_period_end_changed"
-          }
-        },
-        "MEMBERSHIP_WENT_VALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_went_valid"
-          }
-        },
-        "MEMBERSHIP_WENT_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_went_invalid"
-          }
-        },
-        "MEMBERSHIP_METADATA_UPDATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_metadata_updated"
-          }
-        },
-        "RESOLUTION_CREATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution_created"
-          }
-        },
-        "RESOLUTION_UPDATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution_updated"
-          }
-        },
-        "RESOLUTION_DECIDED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution_decided"
-          }
-        },
-        "PAYMENT_AFFILIATE_REWARD_CREATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_affiliate_reward_created"
-          }
-        },
-        "MEMBERSHIP_EXPERIENCE_CLAIMED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_experience_claimed"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_VALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership_went_valid"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership_went_invalid"
-          }
-        },
-        "APP_PAYMENT_CREATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_created"
-          }
-        },
-        "APP_PAYMENT_SUCCEEDED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_succeeded"
-          }
-        },
-        "APP_PAYMENT_FAILED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_failed"
-          }
-        },
-        "APP_PAYMENT_PENDING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment_pending"
-          }
-        },
-        "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership_cancel_at_period_end_changed"
-          }
-        },
-        "PAYMENT_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_created"
-          }
-        },
-        "PAYMENT_SUCCEEDED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_succeeded"
-          }
-        },
-        "PAYMENT_FAILED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_failed"
-          }
-        },
-        "PAYMENT_PENDING_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_pending"
-          }
-        },
-        "DISPUTE_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dispute_created"
-          }
-        },
-        "DISPUTE_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dispute_updated"
-          }
-        },
-        "REFUND_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "refund_created"
-          }
-        },
-        "REFUND_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "refund_updated"
-          }
-        },
-        "DISPUTE_ALERT_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dispute_alert_created"
-          }
-        },
-        "MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership_cancel_at_period_end_changed"
-          }
-        },
-        "MEMBERSHIP_WENT_VALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.went_valid"
-          }
-        },
-        "MEMBERSHIP_WENT_INVALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.went_invalid"
-          }
-        },
-        "MEMBERSHIP_METADATA_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.metadata_updated"
-          }
-        },
-        "RESOLUTION_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution.created"
-          }
-        },
-        "RESOLUTION_UPDATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution.updated"
-          }
-        },
-        "RESOLUTION_DECIDED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resolution.decided"
-          }
-        },
-        "PAYMENT_AFFILIATE_REWARD_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment.affiliate_reward_created"
-          }
-        },
-        "MEMBERSHIP_EXPERIENCE_CLAIMED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "membership.experience_claimed"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_VALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership.went_valid"
-          }
-        },
-        "APP_MEMBERSHIP_WENT_INVALID_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership.went_invalid"
-          }
-        },
-        "APP_PAYMENT_CREATED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.created"
-          }
-        },
-        "APP_PAYMENT_SUCCEEDED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.succeeded"
-          }
-        },
-        "APP_PAYMENT_FAILED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.failed"
-          }
-        },
-        "APP_PAYMENT_PENDING_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_payment.pending"
-          }
-        },
-        "APP_MEMBERSHIP_CANCEL_AT_PERIOD_END_CHANGED_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "app_membership.cancel_at_period_end_changed"
           }
         }
       },
@@ -3906,14 +3714,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of deliveries to return (default 50, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns deliveries after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         }
       },

@@ -2109,6 +2109,30 @@
             "smithy.api#documentation": "[Required]",
             "smithy.api#required": {}
           }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cron: the cron expression."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recurrence: frequency (Minute, Hour, Day, Week, Month)."
+          }
+        },
+        "interval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurrence: interval."
+          }
+        },
+        "schedule": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Recurrence: the recurrence schedule (hours, minutes, weekDays, monthDays)."
+          }
         }
       },
       "traits": {}
@@ -2181,6 +2205,24 @@
           "traits": {
             "smithy.api#documentation": "[Required] Specifies the action type of the schedule",
             "smithy.api#required": {}
+          }
+        },
+        "jobDefinition": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "CreateJob: the job definition."
+          }
+        },
+        "createMonitorRequest": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "CreateMonitor: the monitor definition."
+          }
+        },
+        "endpointInvocationDefinition": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "InvokeBatchEndpoint: the endpoint invocation definition."
           }
         }
       },
@@ -4098,6 +4140,12 @@
         },
         "parentRuleNames": {
           "target": "com.azure.machinelearningservices#OutboundRuleParentRuleNamesList"
+        },
+        "destination": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}."
+          }
         }
       },
       "traits": {
@@ -4274,6 +4322,12 @@
           "traits": {
             "smithy.api#documentation": "Type of a managed network Outbound Rule of a machine learning workspace.",
             "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}."
           }
         }
       },
@@ -5614,6 +5668,36 @@
           "traits": {
             "smithy.api#documentation": "[Required] Type of deployment scaling algorithm",
             "smithy.api#required": {}
+          }
+        },
+        "minInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TargetUtilization: minimum instances."
+          }
+        },
+        "maxInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TargetUtilization: maximum instances."
+          }
+        },
+        "pollingInterval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TargetUtilization: polling interval (ISO 8601)."
+          }
+        },
+        "scaleDownDelay": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TargetUtilization: scale-down delay."
+          }
+        },
+        "targetUtilizationPercentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TargetUtilization: target CPU utilization percentage."
           }
         }
       },
@@ -17491,6 +17575,66 @@
           "traits": {
             "smithy.api#documentation": "Readonly property to indicate if datastore is the workspace default datastore"
           }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "containerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "fileShareName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "filesystem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "storeName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "serviceDataAccessAuthIdentity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "resourceGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
         }
       },
       "traits": {
@@ -17543,6 +17687,36 @@
           "traits": {
             "smithy.api#documentation": "[Required] Credential type used to authentication with storage.",
             "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Credential secrets (AccountKey: {secretsType,key}; Sas: {secretsType,sasToken}; ServicePrincipal: {secretsType,clientSecret})."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServicePrincipal/Certificate: client ID."
+          }
+        },
+        "tenantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServicePrincipal/Certificate: tenant ID."
+          }
+        },
+        "authorityUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServicePrincipal/Certificate: authority URL."
+          }
+        },
+        "resourceUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServicePrincipal/Certificate: resource URL."
           }
         }
       },
@@ -17708,6 +17882,66 @@
           "traits": {
             "smithy.api#documentation": "Enum to determine the datastore contents type.",
             "smithy.api#required": {}
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "containerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "fileShareName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "filesystem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "storeName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "serviceDataAccessAuthIdentity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "resourceGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
           }
         }
       },
@@ -19383,6 +19617,12 @@
         },
         "useWorkspaceManagedIdentity": {
           "target": "smithy.api#Boolean"
+        },
+        "credentials": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Credentials for the authType; only returned by listSecrets."
+          }
         }
       },
       "traits": {}
@@ -20601,6 +20841,12 @@
         },
         "useWorkspaceManagedIdentity": {
           "target": "smithy.api#Boolean"
+        },
+        "credentials": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Credentials for the authType (ApiKey: {key}; CustomKeys: {keys}; AccessKey: {accessKeyId, secretAccessKey}; ...)."
+          }
         }
       },
       "traits": {}
@@ -21775,6 +22021,12 @@
           "traits": {
             "smithy.api#documentation": "Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication."
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings, currentNodeCount)."
+          }
         }
       },
       "traits": {
@@ -22363,6 +22615,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings)."
           }
         }
       },
@@ -26519,6 +26777,30 @@
           "traits": {
             "smithy.api#documentation": "[Required] Specifies the type of asset reference.",
             "smithy.api#required": {}
+          }
+        },
+        "assetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id: ARM resource ID of the asset."
+          }
+        },
+        "datastoreId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DataPath: ARM resource ID of the datastore."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DataPath/OutputPath: the path."
+          }
+        },
+        "jobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OutputPath: ARM resource ID of the job."
           }
         }
       },

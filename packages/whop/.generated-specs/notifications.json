@@ -53,14 +53,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of notifications to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor (a notification `id` from a previous page); returns notifications older than it."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         }
       },
@@ -426,7 +426,7 @@
           "uri": "/notifications",
           "code": 200
         },
-        "smithy.api#documentation": "List Notifications\n\nLists the authenticated user's notifications, newest first. Requires a user credential — an account API key has no notification feed. Without filters the feed spans every experience the user belongs to plus the teams they are a member of.",
+        "smithy.api#documentation": "List Notifications\n\nLists the authenticated user's notifications, newest first. Requires a user credential — an account API key has no notification feed. Without filters the feed spans every experience the user belongs to plus the teams they are a member of. The `after` cursor is a notification `id` from a previous response; subsequent pages contain older notifications.",
         "smithy.api#paginated": {
           "mode": "relay",
           "inputToken": "after",
@@ -782,14 +782,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of topics to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns topics after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         }
       },
