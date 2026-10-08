@@ -11,12 +11,6 @@
     "com.gcp.androiddeveloperidstatus_v1#PackageRegistrationStatus": {
       "type": "structure",
       "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifier. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`)."
-          }
-        },
         "certificateFingerprint": {
           "target": "smithy.api#String",
           "traits": {
@@ -27,6 +21,12 @@
           "target": "com.gcp.androiddeveloperidstatus_v1#PackageRegistrationStatusStateEnum",
           "traits": {
             "smithy.api#documentation": "Output only. Registration state of the package, or pair."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`)."
           }
         }
       },

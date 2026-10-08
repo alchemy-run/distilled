@@ -91,15 +91,15 @@ export const AccessReadTokenProjectsLocationsConnectionsRepositoriesRequest =
 
 /** Message for responding to get read token. */
 export interface FetchReadTokenResponse {
-  /** The token content. */
-  token?: string;
   /** Expiration timestamp. Can be empty if unknown or non-expiring. */
   expirationTime?: string;
+  /** The token content. */
+  token?: string;
 }
 export const FetchReadTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.optional(S.String),
     expirationTime: S.optional(S.String),
+    token: S.optional(S.String),
   }),
 ).annotate({ identifier: "FetchReadTokenResponse" }) as any as S.Schema<FetchReadTokenResponse>;
 
@@ -150,46 +150,46 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** A repository associated to a parent connection. */
 export interface Repository {
-  /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap;
   /** Output only. External ID of the webhook created for the repository. */
   webhookId?: string;
-  /** Output only. Server assigned timestamp for when the connection was created. */
-  createTime?: string;
-  /** Immutable. Resource name of the repository, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  name?: string;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
+  /** Optional. Allows clients to store small amounts of arbitrary data. */
+  annotations?: StringMap;
   /** Required. Git Clone HTTPS URI. */
   remoteUri?: string;
+  /** Immutable. Resource name of the repository, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
+  name?: string;
   /** Output only. Server assigned timestamp for when the connection was updated. */
   updateTime?: string;
+  /** Output only. Server assigned timestamp for when the connection was created. */
+  createTime?: string;
 }
 export const Repository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    annotations: S.optional(StringMap),
     webhookId: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
     etag: S.optional(S.String),
+    annotations: S.optional(StringMap),
     remoteUri: S.optional(S.String),
+    name: S.optional(S.String),
     updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Repository" }) as any as S.Schema<Repository>;
 
 /** Message for creating a Repository. */
 export interface CreateRepositoryRequest {
-  /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
-  parent?: string;
   /** Required. The repository to create. */
   repository?: Repository;
+  /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
+  parent?: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   repositoryId?: string;
 }
 export const CreateRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.optional(S.String),
     repository: S.optional(Repository),
+    parent: S.optional(S.String),
     repositoryId: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreateRepositoryRequest" }) as any as S.Schema<CreateRepositoryRequest>;
@@ -264,24 +264,24 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    error: S.optional(Status),
-    name: S.optional(S.String),
     done: S.optional(S.Boolean),
-    metadata: S.optional(DocumentMap),
     response: S.optional(DocumentMap),
+    error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -345,34 +345,105 @@ export const GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig = /*@__PURE__*/ S.
 
 /** Configuration for connections to Bitbucket Data Center. */
 export interface BitbucketDataCenterConfig {
-  /** Optional. SSL certificate to use for requests to the Bitbucket Data Center. */
-  sslCa?: string;
-  /** Required. A http access token with the `REPO_READ` access. */
-  readAuthorizerCredential?: UserCredential;
   /** Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
   webhookSecretSecretVersion?: string;
-  /** Required. The URI of the Bitbucket Data Center instance or cluster this connection is for. */
-  hostUri?: string;
-  /** Required. A http access token with the `REPO_ADMIN` scope access. */
-  authorizerCredential?: UserCredential;
-  /** Optional. Configuration for using Service Directory to privately connect to a Bitbucket Data Center. This should only be set if the Bitbucket Data Center is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the Bitbucket Data Center will be made over the public internet. */
-  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
   /** Output only. Version of the Bitbucket Data Center running on the `host_uri`. */
   serverVersion?: string;
+  /** Required. A http access token with the `REPO_ADMIN` scope access. */
+  authorizerCredential?: UserCredential;
+  /** Required. A http access token with the `REPO_READ` access. */
+  readAuthorizerCredential?: UserCredential;
+  /** Optional. SSL certificate to use for requests to the Bitbucket Data Center. */
+  sslCa?: string;
+  /** Required. The URI of the Bitbucket Data Center instance or cluster this connection is for. */
+  hostUri?: string;
+  /** Optional. Configuration for using Service Directory to privately connect to a Bitbucket Data Center. This should only be set if the Bitbucket Data Center is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the Bitbucket Data Center will be made over the public internet. */
+  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
 }
 export const BitbucketDataCenterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sslCa: S.optional(S.String),
-    readAuthorizerCredential: S.optional(UserCredential),
     webhookSecretSecretVersion: S.optional(S.String),
-    hostUri: S.optional(S.String),
-    authorizerCredential: S.optional(UserCredential),
-    serviceDirectoryConfig: S.optional(GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig),
     serverVersion: S.optional(S.String),
+    authorizerCredential: S.optional(UserCredential),
+    readAuthorizerCredential: S.optional(UserCredential),
+    sslCa: S.optional(S.String),
+    hostUri: S.optional(S.String),
+    serviceDirectoryConfig: S.optional(GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig),
   }),
 ).annotate({
   identifier: "BitbucketDataCenterConfig",
 }) as any as S.Schema<BitbucketDataCenterConfig>;
+
+/** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
+export interface GoogleDevtoolsCloudbuildV2GitLabConfig {
+  /** Required. A GitLab personal access token with the `api` scope access. */
+  authorizerCredential?: UserCredential;
+  /** Output only. Version of the GitLab Enterprise server running on the `host_uri`. */
+  serverVersion?: string;
+  /** Optional. The URI of the GitLab Enterprise host this connection is for. If not specified, the default value is https://gitlab.com. */
+  hostUri?: string;
+  /** Optional. Configuration for using Service Directory to privately connect to a GitLab Enterprise server. This should only be set if the GitLab Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitLab Enterprise server will be made over the public internet. */
+  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
+  /** Required. Immutable. SecretManager resource containing the webhook secret of a GitLab Enterprise project, formatted as `projects/*\/secrets/*\/versions/*`. */
+  webhookSecretSecretVersion?: string;
+  /** Optional. SSL certificate to use for requests to GitLab Enterprise. */
+  sslCa?: string;
+  /** Required. A GitLab personal access token with the minimum `read_api` scope access. */
+  readAuthorizerCredential?: UserCredential;
+}
+export const GoogleDevtoolsCloudbuildV2GitLabConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorizerCredential: S.optional(UserCredential),
+    serverVersion: S.optional(S.String),
+    hostUri: S.optional(S.String),
+    serviceDirectoryConfig: S.optional(GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig),
+    webhookSecretSecretVersion: S.optional(S.String),
+    sslCa: S.optional(S.String),
+    readAuthorizerCredential: S.optional(UserCredential),
+  }),
+).annotate({
+  identifier: "GoogleDevtoolsCloudbuildV2GitLabConfig",
+}) as any as S.Schema<GoogleDevtoolsCloudbuildV2GitLabConfig>;
+
+/** Configuration for connections to an instance of GitHub Enterprise. */
+export interface GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig {
+  /** Optional. The URL-friendly name of the GitHub App. */
+  appSlug?: string;
+  /** Required. The URI of the GitHub Enterprise host this connection is for. */
+  hostUri?: string;
+  /** Optional. ID of the installation of the GitHub App. */
+  appInstallationId?: string;
+  /** Optional. SecretManager resource containing the private key of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
+  privateKeySecretVersion?: string;
+  /** Output only. GitHub Enterprise version installed at the host_uri. */
+  serverVersion?: string;
+  /** Optional. Configuration for using Service Directory to privately connect to a GitHub Enterprise server. This should only be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitHub Enterprise server will be made over the public internet. */
+  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
+  /** Optional. SecretManager resource containing the webhook secret of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
+  webhookSecretSecretVersion?: string;
+  /** Required. API Key used for authentication of webhook events. */
+  apiKey?: string;
+  /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
+  sslCa?: string;
+  /** Optional. Id of the GitHub App created from the manifest. */
+  appId?: string;
+}
+export const GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appSlug: S.optional(S.String),
+    hostUri: S.optional(S.String),
+    appInstallationId: S.optional(S.String),
+    privateKeySecretVersion: S.optional(S.String),
+    serverVersion: S.optional(S.String),
+    serviceDirectoryConfig: S.optional(GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig),
+    webhookSecretSecretVersion: S.optional(S.String),
+    apiKey: S.optional(S.String),
+    sslCa: S.optional(S.String),
+    appId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig",
+}) as any as S.Schema<GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig>;
 
 export type InstallationStateStageEnum =
   | "STAGE_UNSPECIFIED"
@@ -386,182 +457,111 @@ export const InstallationStateStageEnum = S.String;
 export interface InstallationState {
   /** Output only. Link to follow for next action. Empty string if the installation is already complete. */
   actionUri?: string;
-  /** Output only. Current step of the installation process. */
-  stage?: InstallationStateStageEnum | (string & {});
   /** Output only. Message of what the user should do next to continue the installation. Empty string if the installation is already complete. */
   message?: string;
+  /** Output only. Current step of the installation process. */
+  stage?: InstallationStateStageEnum | (string & {});
 }
 export const InstallationState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionUri: S.optional(S.String),
-    stage: S.optional(InstallationStateStageEnum),
     message: S.optional(S.String),
+    stage: S.optional(InstallationStateStageEnum),
   }),
 ).annotate({ identifier: "InstallationState" }) as any as S.Schema<InstallationState>;
 
-/** Represents an OAuth token of the account that authorized the Connection, and associated metadata. */
-export interface OAuthCredential {
-  /** Optional. A SecretManager resource containing the OAuth token that authorizes the Cloud Build connection. Format: `projects/*\/secrets/*\/versions/*`. */
-  oauthTokenSecretVersion?: string;
-  /** Output only. The username associated to this token. */
-  username?: string;
-}
-export const OAuthCredential = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oauthTokenSecretVersion: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({ identifier: "OAuthCredential" }) as any as S.Schema<OAuthCredential>;
-
-/** Configuration for connections to github.com. */
-export interface GitHubConfig {
-  /** Optional. GitHub App installation id. */
-  appInstallationId?: string;
-  /** Optional. OAuth credential of the account that authorized the Cloud Build GitHub App. It is recommended to use a robot account instead of a human user account. The OAuth token must be tied to the Cloud Build GitHub App. */
-  authorizerCredential?: OAuthCredential;
-}
-export const GitHubConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appInstallationId: S.optional(S.String),
-    authorizerCredential: S.optional(OAuthCredential),
-  }),
-).annotate({ identifier: "GitHubConfig" }) as any as S.Schema<GitHubConfig>;
-
 /** Configuration for connections to Bitbucket Cloud. */
 export interface BitbucketCloudConfig {
-  /** Required. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
-  webhookSecretSecretVersion?: string;
   /** Required. An access token with the `repository` access. It can be either a workspace, project or repository access token. It's recommended to use a system account to generate the credentials. */
   readAuthorizerCredential?: UserCredential;
   /** Required. An access token with the `webhook`, `repository`, `repository:admin` and `pullrequest` scope access. It can be either a workspace, project or repository access token. It's recommended to use a system account to generate these credentials. */
   authorizerCredential?: UserCredential;
   /** Required. The Bitbucket Cloud Workspace ID to be connected to Google Cloud Platform. */
   workspace?: string;
+  /** Required. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*`. */
+  webhookSecretSecretVersion?: string;
 }
 export const BitbucketCloudConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    webhookSecretSecretVersion: S.optional(S.String),
     readAuthorizerCredential: S.optional(UserCredential),
     authorizerCredential: S.optional(UserCredential),
     workspace: S.optional(S.String),
+    webhookSecretSecretVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "BitbucketCloudConfig" }) as any as S.Schema<BitbucketCloudConfig>;
 
-/** Configuration for connections to an instance of GitHub Enterprise. */
-export interface GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig {
-  /** Output only. GitHub Enterprise version installed at the host_uri. */
-  serverVersion?: string;
-  /** Optional. Id of the GitHub App created from the manifest. */
-  appId?: string;
-  /** Required. API Key used for authentication of webhook events. */
-  apiKey?: string;
-  /** Optional. The URL-friendly name of the GitHub App. */
-  appSlug?: string;
-  /** Optional. SecretManager resource containing the webhook secret of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
-  webhookSecretSecretVersion?: string;
-  /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
-  sslCa?: string;
-  /** Optional. SecretManager resource containing the private key of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*`. */
-  privateKeySecretVersion?: string;
-  /** Required. The URI of the GitHub Enterprise host this connection is for. */
-  hostUri?: string;
-  /** Optional. Configuration for using Service Directory to privately connect to a GitHub Enterprise server. This should only be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitHub Enterprise server will be made over the public internet. */
-  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
-  /** Optional. ID of the installation of the GitHub App. */
+/** Represents an OAuth token of the account that authorized the Connection, and associated metadata. */
+export interface OAuthCredential {
+  /** Output only. The username associated to this token. */
+  username?: string;
+  /** Optional. A SecretManager resource containing the OAuth token that authorizes the Cloud Build connection. Format: `projects/*\/secrets/*\/versions/*`. */
+  oauthTokenSecretVersion?: string;
+}
+export const OAuthCredential = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.optional(S.String),
+    oauthTokenSecretVersion: S.optional(S.String),
+  }),
+).annotate({ identifier: "OAuthCredential" }) as any as S.Schema<OAuthCredential>;
+
+/** Configuration for connections to github.com. */
+export interface GitHubConfig {
+  /** Optional. OAuth credential of the account that authorized the Cloud Build GitHub App. It is recommended to use a robot account instead of a human user account. The OAuth token must be tied to the Cloud Build GitHub App. */
+  authorizerCredential?: OAuthCredential;
+  /** Optional. GitHub App installation id. */
   appInstallationId?: string;
 }
-export const GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig = /*@__PURE__*/ S.suspend(() =>
+export const GitHubConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serverVersion: S.optional(S.String),
-    appId: S.optional(S.String),
-    apiKey: S.optional(S.String),
-    appSlug: S.optional(S.String),
-    webhookSecretSecretVersion: S.optional(S.String),
-    sslCa: S.optional(S.String),
-    privateKeySecretVersion: S.optional(S.String),
-    hostUri: S.optional(S.String),
-    serviceDirectoryConfig: S.optional(GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig),
+    authorizerCredential: S.optional(OAuthCredential),
     appInstallationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig",
-}) as any as S.Schema<GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig>;
-
-/** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
-export interface GoogleDevtoolsCloudbuildV2GitLabConfig {
-  /** Required. A GitLab personal access token with the `api` scope access. */
-  authorizerCredential?: UserCredential;
-  /** Optional. Configuration for using Service Directory to privately connect to a GitLab Enterprise server. This should only be set if the GitLab Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitLab Enterprise server will be made over the public internet. */
-  serviceDirectoryConfig?: GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig;
-  /** Output only. Version of the GitLab Enterprise server running on the `host_uri`. */
-  serverVersion?: string;
-  /** Required. Immutable. SecretManager resource containing the webhook secret of a GitLab Enterprise project, formatted as `projects/*\/secrets/*\/versions/*`. */
-  webhookSecretSecretVersion?: string;
-  /** Optional. SSL certificate to use for requests to GitLab Enterprise. */
-  sslCa?: string;
-  /** Required. A GitLab personal access token with the minimum `read_api` scope access. */
-  readAuthorizerCredential?: UserCredential;
-  /** Optional. The URI of the GitLab Enterprise host this connection is for. If not specified, the default value is https://gitlab.com. */
-  hostUri?: string;
-}
-export const GoogleDevtoolsCloudbuildV2GitLabConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizerCredential: S.optional(UserCredential),
-    serviceDirectoryConfig: S.optional(GoogleDevtoolsCloudbuildV2ServiceDirectoryConfig),
-    serverVersion: S.optional(S.String),
-    webhookSecretSecretVersion: S.optional(S.String),
-    sslCa: S.optional(S.String),
-    readAuthorizerCredential: S.optional(UserCredential),
-    hostUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleDevtoolsCloudbuildV2GitLabConfig",
-}) as any as S.Schema<GoogleDevtoolsCloudbuildV2GitLabConfig>;
+).annotate({ identifier: "GitHubConfig" }) as any as S.Schema<GitHubConfig>;
 
 /** A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Data Center, Bitbucket Cloud or GitLab. */
 export interface Connection {
-  /** Output only. Server assigned timestamp for when the connection was updated. */
-  updateTime?: string;
   /** Configuration for connections to Bitbucket Data Center. */
   bitbucketDataCenterConfig?: BitbucketDataCenterConfig;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
-  disabled?: boolean;
-  /** Output only. Installation state of the Connection. */
-  installationState?: InstallationState;
-  /** Configuration for connections to github.com. */
-  githubConfig?: GitHubConfig;
-  /** Configuration for connections to Bitbucket Cloud. */
-  bitbucketCloudConfig?: BitbucketCloudConfig;
-  /** Output only. Set to true when the connection is being set up or updated in the background. */
-  reconciling?: boolean;
-  /** Configuration for connections to an instance of GitHub Enterprise. */
-  githubEnterpriseConfig?: GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig;
+  /** Output only. Server assigned timestamp for when the connection was updated. */
+  updateTime?: string;
   /** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
   gitlabConfig?: GoogleDevtoolsCloudbuildV2GitLabConfig;
+  /** Configuration for connections to an instance of GitHub Enterprise. */
+  githubEnterpriseConfig?: GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig;
   /** Output only. Server assigned timestamp for when the connection was created. */
   createTime?: string;
-  /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap;
   /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name?: string;
+  /** Output only. Set to true when the connection is being set up or updated in the background. */
+  reconciling?: boolean;
+  /** Output only. Installation state of the Connection. */
+  installationState?: InstallationState;
+  /** Optional. Allows clients to store small amounts of arbitrary data. */
+  annotations?: StringMap;
+  /** Configuration for connections to Bitbucket Cloud. */
+  bitbucketCloudConfig?: BitbucketCloudConfig;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Configuration for connections to github.com. */
+  githubConfig?: GitHubConfig;
+  /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
+  disabled?: boolean;
 }
 export const Connection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
     bitbucketDataCenterConfig: S.optional(BitbucketDataCenterConfig),
-    etag: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
-    installationState: S.optional(InstallationState),
-    githubConfig: S.optional(GitHubConfig),
-    bitbucketCloudConfig: S.optional(BitbucketCloudConfig),
-    reconciling: S.optional(S.Boolean),
-    githubEnterpriseConfig: S.optional(GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig),
+    updateTime: S.optional(S.String),
     gitlabConfig: S.optional(GoogleDevtoolsCloudbuildV2GitLabConfig),
+    githubEnterpriseConfig: S.optional(GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig),
     createTime: S.optional(S.String),
-    annotations: S.optional(StringMap),
     name: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
+    installationState: S.optional(InstallationState),
+    annotations: S.optional(StringMap),
+    bitbucketCloudConfig: S.optional(BitbucketCloudConfig),
+    etag: S.optional(S.String),
+    githubConfig: S.optional(GitHubConfig),
+    disabled: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
 
@@ -614,18 +614,18 @@ export const CreateProjectsLocationsConnectionsRepositoriesRequest = /*@__PURE__
 }) as any as S.Schema<CreateProjectsLocationsConnectionsRepositoriesRequest>;
 
 export interface DeleteProjectsLocationsConnectionsRequest {
+  /** If set, validate the request, but do not actually post it. */
+  validateOnly?: boolean;
   /** Required. The name of the Connection to delete. Format: `projects/*\/locations/*\/connections/*`. */
   name: string;
   /** The current etag of the connection. If an etag is provided and does not match the current etag of the connection, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
-  /** If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://cloudbuild.googleapis.com/" }),
   ),
@@ -634,18 +634,18 @@ export const DeleteProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>;
 
 export interface DeleteProjectsLocationsConnectionsRepositoriesRequest {
+  /** If set, validate the request, but do not actually post it. */
+  validateOnly?: boolean;
   /** Required. The name of the Repository to delete. Format: `projects/*\/locations/*\/connections/*\/repositories/*`. */
   name: string;
   /** The current etag of the repository. If an etag is provided and does not match the current etag of the repository, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
-  /** If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsConnectionsRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://cloudbuild.googleapis.com/" }),
   ),
@@ -660,24 +660,24 @@ export type FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum =
 export const FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum = S.String;
 
 export interface FetchGitRefsProjectsLocationsConnectionsRepositoriesRequest {
-  /** Required. The resource name of the repository in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  repository: string;
   /** Optional. Page start. */
   pageToken?: string;
-  /** Type of refs to fetch */
-  refType?: FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum | (string & {});
   /** Optional. Number of results to return in the list. Default to 20. */
   pageSize?: number;
+  /** Type of refs to fetch */
+  refType?: FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum | (string & {});
+  /** Required. The resource name of the repository in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
+  repository: string;
 }
 export const FetchGitRefsProjectsLocationsConnectionsRepositoriesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      repository: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       refType: S.optional(
         FetchGitRefsProjectsLocationsConnectionsRepositoriesRefTypeEnum.pipe(T.Query()),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
+      repository: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -694,31 +694,31 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Response for fetching git refs */
 export interface FetchGitRefsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** Name of the refs fetched. */
   refNames?: StringList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const FetchGitRefsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     refNames: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "FetchGitRefsResponse" }) as any as S.Schema<FetchGitRefsResponse>;
 
 export interface FetchLinkableRepositoriesProjectsLocationsConnectionsRequest {
-  /** Page start. */
-  pageToken?: string;
   /** Required. The name of the Connection. Format: `projects/*\/locations/*\/connections/*`. */
   connection: string;
+  /** Page start. */
+  pageToken?: string;
   /** Number of results to return in the list. Default to 20. */
   pageSize?: number;
 }
 export const FetchLinkableRepositoriesProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       connection: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -736,15 +736,15 @@ export const RepositoryList = /*@__PURE__*/ S.Array(Repository) as any as S.Sche
 
 /** Response message for FetchLinkableRepositories. */
 export interface FetchLinkableRepositoriesResponse {
-  /** repositories ready to be created. */
-  repositories?: RepositoryList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** repositories ready to be created. */
+  repositories?: RepositoryList;
 }
 export const FetchLinkableRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    repositories: S.optional(RepositoryList),
     nextPageToken: S.optional(S.String),
+    repositories: S.optional(RepositoryList),
   }),
 ).annotate({
   identifier: "FetchLinkableRepositoriesResponse",
@@ -770,6 +770,46 @@ export const GetIamPolicyProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.s
 ).annotate({
   identifier: "GetIamPolicyProjectsLocationsConnectionsRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>;
+
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    expression: S.optional(S.String),
+    location: S.optional(S.String),
+    title: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    members: S.optional(StringList),
+    role: S.optional(S.String),
+    condition: S.optional(Expr),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
 
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -816,63 +856,23 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    expression: S.optional(S.String),
-    location: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    members: S.optional(StringList),
-    role: S.optional(S.String),
-    condition: S.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    auditConfigs: S.optional(AuditConfigList),
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
+    auditConfigs: S.optional(AuditConfigList),
+    etag: S.optional(S.String),
+    version: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -896,20 +896,20 @@ export interface Location {
   labels?: StringMap;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     labels: S.optional(StringMap),
     displayName: S.optional(S.String),
-    name: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -956,24 +956,24 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -990,34 +990,34 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsConnectionsRequest {
+  /** Optional. If set to true, the response will return partial results when some regions are unreachable. If set to false, the response will fail if any region is unreachable. */
+  returnPartialSuccess?: boolean;
+  /** Required. The parent, which owns this collection of Connections. Format: `projects/*\/locations/*`. */
+  parent: string;
   /** Page start. */
   pageToken?: string;
   /** Number of results to return in the list. */
   pageSize?: number;
-  /** Required. The parent, which owns this collection of Connections. Format: `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. If set to true, the response will return partial results when some regions are unreachable. If set to false, the response will fail if any region is unreachable. */
-  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1034,40 +1034,40 @@ export const ConnectionList = /*@__PURE__*/ S.Array(Connection) as any as S.Sche
 
 /** Message for response to listing Connections. */
 export interface ListConnectionsResponse {
-  /** The list of Connections. */
-  connections?: ConnectionList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of Connections. */
+  connections?: ConnectionList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connections: S.optional(ConnectionList),
     nextPageToken: S.optional(S.String),
+    connections: S.optional(ConnectionList),
     unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListConnectionsResponse" }) as any as S.Schema<ListConnectionsResponse>;
 
 export interface ListProjectsLocationsConnectionsRepositoriesRequest {
-  /** Optional. If set to true, the response will return partial results when some regions are unreachable. If set to false, the response will fail if any region is unreachable. */
-  returnPartialSuccess?: boolean;
-  /** A filter expression that filters resources listed in the response. Expressions must follow API improvement proposal [AIP-160](https://google.aip.dev/160). e.g. `remote_uri:"https://github.com*"`. */
-  filter?: string;
-  /** Page start. */
-  pageToken?: string;
-  /** Required. The parent, which owns this collection of Repositories. Format: `projects/*\/locations/*\/connections/*`. */
-  parent: string;
   /** Number of results to return in the list. */
   pageSize?: number;
+  /** Required. The parent, which owns this collection of Repositories. Format: `projects/*\/locations/*\/connections/*`. */
+  parent: string;
+  /** Page start. */
+  pageToken?: string;
+  /** A filter expression that filters resources listed in the response. Expressions must follow API improvement proposal [AIP-160](https://google.aip.dev/160). e.g. `remote_uri:"https://github.com*"`. */
+  filter?: string;
+  /** Optional. If set to true, the response will return partial results when some regions are unreachable. If set to false, the response will fail if any region is unreachable. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsConnectionsRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1081,39 +1081,39 @@ export const ListProjectsLocationsConnectionsRepositoriesRequest = /*@__PURE__*/
 
 /** Message for response to listing Repositories. */
 export interface ListRepositoriesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The list of Repositories. */
   repositories?: RepositoryList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     repositories: S.optional(RepositoryList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListRepositoriesResponse" }) as any as S.Schema<ListRepositoriesResponse>;
 
 export interface PatchProjectsLocationsConnectionsRequest {
   /** The list of fields to be updated. */
   updateMask?: string;
-  /** If set to true, and the connection is not found a new connection will be created. In this situation `update_mask` is ignored. The creation will succeed only if the input connection has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). */
-  allowMissing?: boolean;
   /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
   /** The current etag of the connection. If an etag is provided and does not match the current etag of the connection, update will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** If set to true, and the connection is not found a new connection will be created. In this situation `update_mask` is ignored. The creation will succeed only if the input connection has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). */
+  allowMissing?: boolean;
   /** Request body */
   body?: Connection;
 }
 export const PatchProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Connection.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://cloudbuild.googleapis.com/" }),
@@ -1140,17 +1140,17 @@ export const HttpBody = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "HttpBody" }) as any as S.Schema<HttpBody>;
 
 export interface ProcessWebhookProjectsLocationsConnectionsRequest {
-  /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
-  parent: string;
   /** Arbitrary additional key to find the matching repository for a webhook event if needed. */
   webhookKey?: string;
+  /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
+  parent: string;
   /** Request body */
   body?: HttpBody;
 }
 export const ProcessWebhookProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     webhookKey: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(HttpBody.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

@@ -78,15 +78,15 @@ export const CancelSubscriptionRequestCancellationReasonEnum = S.String;
 
 /** Request to cancel a subscription. */
 export interface CancelSubscriptionRequest {
-  /** Specifies the reason for the cancellation. */
-  cancellationReason?: CancelSubscriptionRequestCancellationReasonEnum | (string & {});
   /** Optional. If true, Google will cancel the subscription immediately, and may or may not (based on the contract) issue a prorated refund for the remainder of the billing cycle. Otherwise, Google defers the cancellation at renewal_time, and will not issue a refund. - YouTube subscriptions must use this option currently. However, the user will still have access to the subscription until the end of the billing cycle. */
   cancelImmediately?: boolean;
+  /** Specifies the reason for the cancellation. */
+  cancellationReason?: CancelSubscriptionRequestCancellationReasonEnum | (string & {});
 }
 export const CancelSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cancellationReason: S.optional(CancelSubscriptionRequestCancellationReasonEnum),
     cancelImmediately: S.optional(S.Boolean),
+    cancellationReason: S.optional(CancelSubscriptionRequestCancellationReasonEnum),
   }),
 ).annotate({
   identifier: "CancelSubscriptionRequest",
@@ -113,38 +113,61 @@ export const CancelPartnersSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelPartnersSubscriptionsRequest",
 }) as any as S.Schema<CancelPartnersSubscriptionsRequest>;
 
-export type SubscriptionStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STATE_CREATED"
-  | "STATE_ACTIVE"
-  | "STATE_CANCELLED"
-  | "STATE_IN_GRACE_PERIOD"
-  | "STATE_CANCEL_AT_END_OF_CYCLE"
-  | "STATE_SUSPENDED";
-export const SubscriptionStateEnum = S.String;
+export type SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum =
+  | "BILLING_CYCLE_SPEC_UNSPECIFIED"
+  | "BILLING_CYCLE_SPEC_ALIGN_WITH_PREVIOUS_SUBSCRIPTION"
+  | "BILLING_CYCLE_SPEC_START_IMMEDIATELY"
+  | "BILLING_CYCLE_SPEC_DEFERRED_TO_NEXT_RECURRENCE";
+export const SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum = S.String;
+
+/** Details about the previous subscription that this new subscription upgrades/downgrades from. */
+export interface SubscriptionUpgradeDowngradeDetails {
+  /** Required. The previous subscription id to be replaced. The format can be one of the following: 1. `subscription_id`: the old subscription id under the same partner_id. 2. `partners/{partner_id}/subscriptions/{subscription_id}`. A different partner_id is allowed. But they must be under the same partner group. */
+  previousSubscriptionId?: string;
+  /** Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription. */
+  billingCycleSpec?: SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum | (string & {});
+}
+export const SubscriptionUpgradeDowngradeDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    previousSubscriptionId: S.optional(S.String),
+    billingCycleSpec: S.optional(SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum),
+  }),
+).annotate({
+  identifier: "SubscriptionUpgradeDowngradeDetails",
+}) as any as S.Schema<SubscriptionUpgradeDowngradeDetails>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-/** Describes the amount unit including the currency code. */
-export interface Amount {
-  /** Required. Amount in micros (1_000_000 micros = 1 currency unit) */
-  amountMicros?: string;
-  /** Required. Currency codes in accordance with [ISO-4217 Currency Codes] (https://en.wikipedia.org/wiki/ISO_4217). For example, USD. */
-  currencyCode?: string;
+/** Describes a location of an end user. */
+export interface Location {
+  /** The postal code this location refers to. Ex. "94043" */
+  postalCode?: string;
+  /** 2-letter ISO region code for current content region. Ex. “US” Please refers to: https://en.wikipedia.org/wiki/ISO_3166-1 */
+  regionCode?: string;
 }
-export const Amount = /*@__PURE__*/ S.suspend(() =>
+export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    amountMicros: S.optional(S.String),
-    currencyCode: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    regionCode: S.optional(S.String),
   }),
-).annotate({ identifier: "Amount" }) as any as S.Schema<Amount>;
+).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
-export type SubscriptionPromotionSpecTypeEnum =
-  | "PROMOTION_TYPE_UNSPECIFIED"
-  | "PROMOTION_TYPE_FREE_TRIAL"
-  | "PROMOTION_TYPE_INTRODUCTORY_PRICING";
-export const SubscriptionPromotionSpecTypeEnum = S.String;
+/** Describes the details of the migrated subscription. */
+export interface SubscriptionMigrationDetails {
+  /** Output only. The migrated subscription id in the legacy system. */
+  migratedSubscriptionId?: string;
+  /** Output only. The creation time of the migrated subscription in the legacy system. */
+  legacyCreationTime?: string;
+}
+export const SubscriptionMigrationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    migratedSubscriptionId: S.optional(S.String),
+    legacyCreationTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SubscriptionMigrationDetails",
+}) as any as S.Schema<SubscriptionMigrationDetails>;
 
 export type DurationUnitEnum = "UNIT_UNSPECIFIED" | "MONTH" | "DAY" | "HOUR";
 export const DurationUnitEnum = S.String;
@@ -163,24 +186,44 @@ export const Duration = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Duration" }) as any as S.Schema<Duration>;
 
+export type SubscriptionPromotionSpecTypeEnum =
+  | "PROMOTION_TYPE_UNSPECIFIED"
+  | "PROMOTION_TYPE_FREE_TRIAL"
+  | "PROMOTION_TYPE_INTRODUCTORY_PRICING";
+export const SubscriptionPromotionSpecTypeEnum = S.String;
+
+/** Describes the amount unit including the currency code. */
+export interface Amount {
+  /** Required. Currency codes in accordance with [ISO-4217 Currency Codes] (https://en.wikipedia.org/wiki/ISO_4217). For example, USD. */
+  currencyCode?: string;
+  /** Required. Amount in micros (1_000_000 micros = 1 currency unit) */
+  amountMicros?: string;
+}
+export const Amount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    currencyCode: S.optional(S.String),
+    amountMicros: S.optional(S.String),
+  }),
+).annotate({ identifier: "Amount" }) as any as S.Schema<Amount>;
+
 /** The duration of an introductory pricing promotion. */
 export interface PromotionIntroductoryPricingDetailsIntroductoryPricingSpec {
-  /** Output only. 2-letter ISO region code where the product is available in. Ex. "US". */
-  regionCode?: string;
-  /** Output only. The discount percentage in micros. For example, 50,000 represents 5%. */
-  discountRatioMicros?: string;
   /** Output only. The duration of an introductory offer in billing cycles. */
   recurrenceCount?: number;
+  /** Output only. 2-letter ISO region code where the product is available in. Ex. "US". */
+  regionCode?: string;
   /** Output only. The discount amount. The value is positive. */
   discountAmount?: Amount;
+  /** Output only. The discount percentage in micros. For example, 50,000 represents 5%. */
+  discountRatioMicros?: string;
 }
 export const PromotionIntroductoryPricingDetailsIntroductoryPricingSpec = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      regionCode: S.optional(S.String),
-      discountRatioMicros: S.optional(S.String),
       recurrenceCount: S.optional(S.Number),
+      regionCode: S.optional(S.String),
       discountAmount: S.optional(Amount),
+      discountRatioMicros: S.optional(S.String),
     }),
 ).annotate({
   identifier: "PromotionIntroductoryPricingDetailsIntroductoryPricingSpec",
@@ -209,20 +252,20 @@ export const PromotionIntroductoryPricingDetails = /*@__PURE__*/ S.suspend(() =>
 
 /** Describes the spec for one promotion. */
 export interface SubscriptionPromotionSpec {
+  /** Output only. The duration of the free trial if the promotion is of type FREE_TRIAL. */
+  freeTrialDuration?: Duration;
   /** Output only. The type of the promotion for the spec. */
   type?: SubscriptionPromotionSpecTypeEnum | (string & {});
   /** Required. Promotion resource name that identifies a promotion. The format is 'partners/{partner_id}/promotions/{promotion_id}'. */
   promotion?: string;
-  /** Output only. The duration of the free trial if the promotion is of type FREE_TRIAL. */
-  freeTrialDuration?: Duration;
   /** Output only. The details of the introductory pricing spec if the promotion is of type INTRODUCTORY_PRICING. */
   introductoryPricingDetails?: PromotionIntroductoryPricingDetails;
 }
 export const SubscriptionPromotionSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    freeTrialDuration: S.optional(Duration),
     type: S.optional(SubscriptionPromotionSpecTypeEnum),
     promotion: S.optional(S.String),
-    freeTrialDuration: S.optional(Duration),
     introductoryPricingDetails: S.optional(PromotionIntroductoryPricingDetails),
   }),
 ).annotate({
@@ -233,160 +276,6 @@ export type SubscriptionPromotionSpecList = Array<SubscriptionPromotionSpec>;
 export const SubscriptionPromotionSpecList = /*@__PURE__*/ S.Array(
   SubscriptionPromotionSpec,
 ) as any as S.Schema<SubscriptionPromotionSpecList>;
-
-export type SubscriptionLineItemRecurrenceTypeEnum =
-  | "LINE_ITEM_RECURRENCE_TYPE_UNSPECIFIED"
-  | "LINE_ITEM_RECURRENCE_TYPE_PERIODIC"
-  | "LINE_ITEM_RECURRENCE_TYPE_ONE_TIME";
-export const SubscriptionLineItemRecurrenceTypeEnum = S.String;
-
-export type SubscriptionLineItemPlanTypeEnum =
-  | "LINE_ITEM_PLAN_TYPE_UNSPECIFIED"
-  | "LINE_ITEM_PLAN_TYPE_BASE"
-  | "LINE_ITEM_PLAN_TYPE_ADDON";
-export const SubscriptionLineItemPlanTypeEnum = S.String;
-
-/** Details for a subscription line item with finite billing cycles. */
-export interface FiniteBillingCycleDetails {
-  /** The number of a subscription line item billing cycles after which billing will stop automatically. */
-  billingCycleCountLimit?: string;
-}
-export const FiniteBillingCycleDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    billingCycleCountLimit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FiniteBillingCycleDetails",
-}) as any as S.Schema<FiniteBillingCycleDetails>;
-
-/** Payload specific for Google Home products. */
-export interface GoogleHomePayload {
-  /** Output only. This identifies whether the subscription is attached to a Google Home structure. */
-  attachedToGoogleStructure?: boolean;
-  /** Optional. This identifies the structure ID on partner side that the subscription should be applied to. Only required when the partner requires structure mapping. */
-  partnerStructureId?: string;
-  /** Optional. Structure identifier on Google side. */
-  googleStructureId?: string;
-}
-export const GoogleHomePayload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attachedToGoogleStructure: S.optional(S.Boolean),
-    partnerStructureId: S.optional(S.String),
-    googleStructureId: S.optional(S.String),
-  }),
-).annotate({ identifier: "GoogleHomePayload" }) as any as S.Schema<GoogleHomePayload>;
-
-export type YoutubePayloadPartnerPlanTypeEnum =
-  | "PARTNER_PLAN_TYPE_UNSPECIFIED"
-  | "PARTNER_PLAN_TYPE_STANDALONE"
-  | "PARTNER_PLAN_TYPE_HARD_BUNDLE"
-  | "PARTNER_PLAN_TYPE_SOFT_BUNDLE";
-export const YoutubePayloadPartnerPlanTypeEnum = S.String;
-
-/** Payload specific to Youtube products. */
-export interface YoutubePayload {
-  /** The list of eligibility_ids which are applicable for the line item. */
-  partnerEligibilityIds?: StringList;
-  /** Optional. Specifies the plan type offered to the end user by the partner. */
-  partnerPlanType?: YoutubePayloadPartnerPlanTypeEnum | (string & {});
-  /** Output only. The access expiration time for this line item. */
-  accessEndTime?: string;
-}
-export const YoutubePayload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partnerEligibilityIds: S.optional(StringList),
-    partnerPlanType: S.optional(YoutubePayloadPartnerPlanTypeEnum),
-    accessEndTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "YoutubePayload" }) as any as S.Schema<YoutubePayload>;
-
-export type GoogleOnePayloadOfferingEnum =
-  | "OFFERING_UNSPECIFIED"
-  | "OFFERING_VAS_BUNDLE"
-  | "OFFERING_VAS_STANDALONE"
-  | "OFFERING_HARD_BUNDLE"
-  | "OFFERING_SOFT_BUNDLE";
-export const GoogleOnePayloadOfferingEnum = S.String;
-
-export type GoogleOnePayloadSalesChannelEnum =
-  | "CHANNEL_UNSPECIFIED"
-  | "CHANNEL_RETAIL"
-  | "CHANNEL_ONLINE_WEB"
-  | "CHANNEL_ONLINE_ANDROID_APP"
-  | "CHANNEL_ONLINE_IOS_APP";
-export const GoogleOnePayloadSalesChannelEnum = S.String;
-
-/** Payload specific to Google One products. */
-export interface GoogleOnePayload {
-  /** The type of offering the subscription was sold by the partner. e.g. VAS. */
-  offering?: GoogleOnePayloadOfferingEnum | (string & {});
-  /** Campaign attributed to sales of this subscription. */
-  campaigns?: StringList;
-  /** The type of sales channel through which the subscription was sold. */
-  salesChannel?: GoogleOnePayloadSalesChannelEnum | (string & {});
-  /** The identifier for the partner store where the subscription was sold. */
-  storeId?: string;
-}
-export const GoogleOnePayload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offering: S.optional(GoogleOnePayloadOfferingEnum),
-    campaigns: S.optional(StringList),
-    salesChannel: S.optional(GoogleOnePayloadSalesChannelEnum),
-    storeId: S.optional(S.String),
-  }),
-).annotate({ identifier: "GoogleOnePayload" }) as any as S.Schema<GoogleOnePayload>;
-
-/** Specifies product specific payload. */
-export interface ProductPayload {
-  /** Payload specific to Google Home products. */
-  googleHomePayload?: GoogleHomePayload;
-  /** Payload specific to Youtube products. */
-  youtubePayload?: YoutubePayload;
-  /** Product-specific payloads. Payload specific to Google One products. */
-  googleOnePayload?: GoogleOnePayload;
-}
-export const ProductPayload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    googleHomePayload: S.optional(GoogleHomePayload),
-    youtubePayload: S.optional(YoutubePayload),
-    googleOnePayload: S.optional(GoogleOnePayload),
-  }),
-).annotate({ identifier: "ProductPayload" }) as any as S.Schema<ProductPayload>;
-
-/** The details for an element in the hard bundle. */
-export interface SubscriptionLineItemBundleDetailsBundleElementDetails {
-  /** Output only. The time when this product is linked to an end user. */
-  userAccountLinkedTime?: string;
-  /** Output only. Product resource name that identifies the bundle element. The format is 'partners/{partner_id}/products/{product_id}'. */
-  product?: string;
-}
-export const SubscriptionLineItemBundleDetailsBundleElementDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userAccountLinkedTime: S.optional(S.String),
-    product: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SubscriptionLineItemBundleDetailsBundleElementDetails",
-}) as any as S.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails>;
-
-export type SubscriptionLineItemBundleDetailsBundleElementDetailsList =
-  Array<SubscriptionLineItemBundleDetailsBundleElementDetails>;
-export const SubscriptionLineItemBundleDetailsBundleElementDetailsList = /*@__PURE__*/ S.Array(
-  SubscriptionLineItemBundleDetailsBundleElementDetails,
-) as any as S.Schema<SubscriptionLineItemBundleDetailsBundleElementDetailsList>;
-
-/** The bundle details for a line item corresponding to a hard bundle. */
-export interface SubscriptionLineItemBundleDetails {
-  /** Output only. The details for each element in the hard bundle. */
-  bundleElementDetails?: SubscriptionLineItemBundleDetailsBundleElementDetailsList;
-}
-export const SubscriptionLineItemBundleDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bundleElementDetails: S.optional(SubscriptionLineItemBundleDetailsBundleElementDetailsList),
-  }),
-).annotate({
-  identifier: "SubscriptionLineItemBundleDetails",
-}) as any as S.Schema<SubscriptionLineItemBundleDetails>;
 
 export type SubscriptionLineItemStateEnum =
   | "LINE_ITEM_STATE_UNSPECIFIED"
@@ -426,53 +315,207 @@ export const SubscriptionLineItemOneTimeRecurrenceDetails = /*@__PURE__*/ S.susp
   identifier: "SubscriptionLineItemOneTimeRecurrenceDetails",
 }) as any as S.Schema<SubscriptionLineItemOneTimeRecurrenceDetails>;
 
+export type SubscriptionLineItemPlanTypeEnum =
+  | "LINE_ITEM_PLAN_TYPE_UNSPECIFIED"
+  | "LINE_ITEM_PLAN_TYPE_BASE"
+  | "LINE_ITEM_PLAN_TYPE_ADDON";
+export const SubscriptionLineItemPlanTypeEnum = S.String;
+
+export type GoogleOnePayloadSalesChannelEnum =
+  | "CHANNEL_UNSPECIFIED"
+  | "CHANNEL_RETAIL"
+  | "CHANNEL_ONLINE_WEB"
+  | "CHANNEL_ONLINE_ANDROID_APP"
+  | "CHANNEL_ONLINE_IOS_APP";
+export const GoogleOnePayloadSalesChannelEnum = S.String;
+
+export type GoogleOnePayloadOfferingEnum =
+  | "OFFERING_UNSPECIFIED"
+  | "OFFERING_VAS_BUNDLE"
+  | "OFFERING_VAS_STANDALONE"
+  | "OFFERING_HARD_BUNDLE"
+  | "OFFERING_SOFT_BUNDLE";
+export const GoogleOnePayloadOfferingEnum = S.String;
+
+/** Payload specific to Google One products. */
+export interface GoogleOnePayload {
+  /** The type of sales channel through which the subscription was sold. */
+  salesChannel?: GoogleOnePayloadSalesChannelEnum | (string & {});
+  /** Campaign attributed to sales of this subscription. */
+  campaigns?: StringList;
+  /** The type of offering the subscription was sold by the partner. e.g. VAS. */
+  offering?: GoogleOnePayloadOfferingEnum | (string & {});
+  /** The identifier for the partner store where the subscription was sold. */
+  storeId?: string;
+}
+export const GoogleOnePayload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    salesChannel: S.optional(GoogleOnePayloadSalesChannelEnum),
+    campaigns: S.optional(StringList),
+    offering: S.optional(GoogleOnePayloadOfferingEnum),
+    storeId: S.optional(S.String),
+  }),
+).annotate({ identifier: "GoogleOnePayload" }) as any as S.Schema<GoogleOnePayload>;
+
+export type YoutubePayloadPartnerPlanTypeEnum =
+  | "PARTNER_PLAN_TYPE_UNSPECIFIED"
+  | "PARTNER_PLAN_TYPE_STANDALONE"
+  | "PARTNER_PLAN_TYPE_HARD_BUNDLE"
+  | "PARTNER_PLAN_TYPE_SOFT_BUNDLE";
+export const YoutubePayloadPartnerPlanTypeEnum = S.String;
+
+/** Payload specific to Youtube products. */
+export interface YoutubePayload {
+  /** Output only. The access expiration time for this line item. */
+  accessEndTime?: string;
+  /** The list of eligibility_ids which are applicable for the line item. */
+  partnerEligibilityIds?: StringList;
+  /** Optional. Specifies the plan type offered to the end user by the partner. */
+  partnerPlanType?: YoutubePayloadPartnerPlanTypeEnum | (string & {});
+}
+export const YoutubePayload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accessEndTime: S.optional(S.String),
+    partnerEligibilityIds: S.optional(StringList),
+    partnerPlanType: S.optional(YoutubePayloadPartnerPlanTypeEnum),
+  }),
+).annotate({ identifier: "YoutubePayload" }) as any as S.Schema<YoutubePayload>;
+
+/** Payload specific for Google Home products. */
+export interface GoogleHomePayload {
+  /** Output only. This identifies whether the subscription is attached to a Google Home structure. */
+  attachedToGoogleStructure?: boolean;
+  /** Optional. This identifies the structure ID on partner side that the subscription should be applied to. Only required when the partner requires structure mapping. */
+  partnerStructureId?: string;
+  /** Optional. Structure identifier on Google side. */
+  googleStructureId?: string;
+}
+export const GoogleHomePayload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attachedToGoogleStructure: S.optional(S.Boolean),
+    partnerStructureId: S.optional(S.String),
+    googleStructureId: S.optional(S.String),
+  }),
+).annotate({ identifier: "GoogleHomePayload" }) as any as S.Schema<GoogleHomePayload>;
+
+/** Specifies product specific payload. */
+export interface ProductPayload {
+  /** Product-specific payloads. Payload specific to Google One products. */
+  googleOnePayload?: GoogleOnePayload;
+  /** Payload specific to Youtube products. */
+  youtubePayload?: YoutubePayload;
+  /** Payload specific to Google Home products. */
+  googleHomePayload?: GoogleHomePayload;
+}
+export const ProductPayload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    googleOnePayload: S.optional(GoogleOnePayload),
+    youtubePayload: S.optional(YoutubePayload),
+    googleHomePayload: S.optional(GoogleHomePayload),
+  }),
+).annotate({ identifier: "ProductPayload" }) as any as S.Schema<ProductPayload>;
+
+export type SubscriptionLineItemRecurrenceTypeEnum =
+  | "LINE_ITEM_RECURRENCE_TYPE_UNSPECIFIED"
+  | "LINE_ITEM_RECURRENCE_TYPE_PERIODIC"
+  | "LINE_ITEM_RECURRENCE_TYPE_ONE_TIME";
+export const SubscriptionLineItemRecurrenceTypeEnum = S.String;
+
+/** The details for an element in the hard bundle. */
+export interface SubscriptionLineItemBundleDetailsBundleElementDetails {
+  /** Output only. Product resource name that identifies the bundle element. The format is 'partners/{partner_id}/products/{product_id}'. */
+  product?: string;
+  /** Output only. The time when this product is linked to an end user. */
+  userAccountLinkedTime?: string;
+}
+export const SubscriptionLineItemBundleDetailsBundleElementDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: S.optional(S.String),
+    userAccountLinkedTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SubscriptionLineItemBundleDetailsBundleElementDetails",
+}) as any as S.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails>;
+
+export type SubscriptionLineItemBundleDetailsBundleElementDetailsList =
+  Array<SubscriptionLineItemBundleDetailsBundleElementDetails>;
+export const SubscriptionLineItemBundleDetailsBundleElementDetailsList = /*@__PURE__*/ S.Array(
+  SubscriptionLineItemBundleDetailsBundleElementDetails,
+) as any as S.Schema<SubscriptionLineItemBundleDetailsBundleElementDetailsList>;
+
+/** The bundle details for a line item corresponding to a hard bundle. */
+export interface SubscriptionLineItemBundleDetails {
+  /** Output only. The details for each element in the hard bundle. */
+  bundleElementDetails?: SubscriptionLineItemBundleDetailsBundleElementDetailsList;
+}
+export const SubscriptionLineItemBundleDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bundleElementDetails: S.optional(SubscriptionLineItemBundleDetailsBundleElementDetailsList),
+  }),
+).annotate({
+  identifier: "SubscriptionLineItemBundleDetails",
+}) as any as S.Schema<SubscriptionLineItemBundleDetails>;
+
+/** Details for a subscription line item with finite billing cycles. */
+export interface FiniteBillingCycleDetails {
+  /** The number of a subscription line item billing cycles after which billing will stop automatically. */
+  billingCycleCountLimit?: string;
+}
+export const FiniteBillingCycleDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billingCycleCountLimit: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FiniteBillingCycleDetails",
+}) as any as S.Schema<FiniteBillingCycleDetails>;
+
 /** Individual line item definition of a subscription. */
 export interface SubscriptionLineItem {
-  /** Output only. The price of the product/service in this line item. The amount could be the wholesale price, or it can include a cost of sale based on the contract. */
-  amount?: Amount;
-  /** Optional. The promotions applied on the line item. It can be: - an introductory pricing promotion. - a free trial promotion. This feature is not enabled. If used, the request will be rejected. When used as input in Create or Provision API, specify its resource name only. */
-  lineItemPromotionSpecs?: SubscriptionPromotionSpecList;
-  /** Output only. A unique index of the subscription line item. */
-  lineItemIndex?: number;
-  /** Output only. Description of this line item. */
-  description?: string;
-  /** Output only. The recurrence type of the line item. */
-  recurrenceType?: SubscriptionLineItemRecurrenceTypeEnum | (string & {});
-  /** Optional. Output only. The plan type of the line item. */
-  planType?: SubscriptionLineItemPlanTypeEnum | (string & {});
-  /** Optional. Details for a subscription line item with finite billing cycles. If unset, the line item will be charged indefinitely. Used only with LINE_ITEM_RECURRENCE_TYPE_PERIODIC. */
-  finiteBillingCycleDetails?: FiniteBillingCycleDetails;
-  /** Optional. Product specific payload for this line item. */
-  productPayload?: ProductPayload;
-  /** Output only. The bundle details for the line item. Only populated if the line item corresponds to a hard bundle. */
-  bundleDetails?: SubscriptionLineItemBundleDetails;
-  /** Output only. The free trial end time will be populated after the line item is successfully processed. End time of the line item free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
-  lineItemFreeTrialEndTime?: string;
   /** Identifier. Resource name of the line item. Format: partners/{partner}/subscriptions/{subscription}/lineItems/{lineItem} */
   name?: string;
-  /** Required. Product resource name that identifies the product associated with this line item. The format is 'partners/{partner_id}/products/{product_id}'. */
-  product?: string;
+  /** Optional. The promotions applied on the line item. It can be: - an introductory pricing promotion. - a free trial promotion. This feature is not enabled. If used, the request will be rejected. When used as input in Create or Provision API, specify its resource name only. */
+  lineItemPromotionSpecs?: SubscriptionPromotionSpecList;
   /** Output only. The state of the line item. */
   state?: SubscriptionLineItemStateEnum | (string & {});
   /** Output only. Details only set for a ONE_TIME recurrence line item. */
   oneTimeRecurrenceDetails?: SubscriptionLineItemOneTimeRecurrenceDetails;
+  /** Output only. The price of the product/service in this line item. The amount could be the wholesale price, or it can include a cost of sale based on the contract. */
+  amount?: Amount;
+  /** Output only. Description of this line item. */
+  description?: string;
+  /** Optional. Output only. The plan type of the line item. */
+  planType?: SubscriptionLineItemPlanTypeEnum | (string & {});
+  /** Optional. Product specific payload for this line item. */
+  productPayload?: ProductPayload;
+  /** Required. Product resource name that identifies the product associated with this line item. The format is 'partners/{partner_id}/products/{product_id}'. */
+  product?: string;
+  /** Output only. The recurrence type of the line item. */
+  recurrenceType?: SubscriptionLineItemRecurrenceTypeEnum | (string & {});
+  /** Output only. A unique index of the subscription line item. */
+  lineItemIndex?: number;
+  /** Output only. The bundle details for the line item. Only populated if the line item corresponds to a hard bundle. */
+  bundleDetails?: SubscriptionLineItemBundleDetails;
+  /** Optional. Details for a subscription line item with finite billing cycles. If unset, the line item will be charged indefinitely. Used only with LINE_ITEM_RECURRENCE_TYPE_PERIODIC. */
+  finiteBillingCycleDetails?: FiniteBillingCycleDetails;
+  /** Output only. The free trial end time will be populated after the line item is successfully processed. End time of the line item free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
+  lineItemFreeTrialEndTime?: string;
 }
 export const SubscriptionLineItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    amount: S.optional(Amount),
-    lineItemPromotionSpecs: S.optional(SubscriptionPromotionSpecList),
-    lineItemIndex: S.optional(S.Number),
-    description: S.optional(S.String),
-    recurrenceType: S.optional(SubscriptionLineItemRecurrenceTypeEnum),
-    planType: S.optional(SubscriptionLineItemPlanTypeEnum),
-    finiteBillingCycleDetails: S.optional(FiniteBillingCycleDetails),
-    productPayload: S.optional(ProductPayload),
-    bundleDetails: S.optional(SubscriptionLineItemBundleDetails),
-    lineItemFreeTrialEndTime: S.optional(S.String),
     name: S.optional(S.String),
-    product: S.optional(S.String),
+    lineItemPromotionSpecs: S.optional(SubscriptionPromotionSpecList),
     state: S.optional(SubscriptionLineItemStateEnum),
     oneTimeRecurrenceDetails: S.optional(SubscriptionLineItemOneTimeRecurrenceDetails),
+    amount: S.optional(Amount),
+    description: S.optional(S.String),
+    planType: S.optional(SubscriptionLineItemPlanTypeEnum),
+    productPayload: S.optional(ProductPayload),
+    product: S.optional(S.String),
+    recurrenceType: S.optional(SubscriptionLineItemRecurrenceTypeEnum),
+    lineItemIndex: S.optional(S.Number),
+    bundleDetails: S.optional(SubscriptionLineItemBundleDetails),
+    finiteBillingCycleDetails: S.optional(FiniteBillingCycleDetails),
+    lineItemFreeTrialEndTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "SubscriptionLineItem" }) as any as S.Schema<SubscriptionLineItem>;
 
@@ -489,44 +532,15 @@ export type SubscriptionProcessingStateEnum =
   | "PROCESSING_STATE_SUSPENDING";
 export const SubscriptionProcessingStateEnum = S.String;
 
-export type SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum =
-  | "BILLING_CYCLE_SPEC_UNSPECIFIED"
-  | "BILLING_CYCLE_SPEC_ALIGN_WITH_PREVIOUS_SUBSCRIPTION"
-  | "BILLING_CYCLE_SPEC_START_IMMEDIATELY"
-  | "BILLING_CYCLE_SPEC_DEFERRED_TO_NEXT_RECURRENCE";
-export const SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum = S.String;
-
-/** Details about the previous subscription that this new subscription upgrades/downgrades from. */
-export interface SubscriptionUpgradeDowngradeDetails {
-  /** Required. The previous subscription id to be replaced. The format can be one of the following: 1. `subscription_id`: the old subscription id under the same partner_id. 2. `partners/{partner_id}/subscriptions/{subscription_id}`. A different partner_id is allowed. But they must be under the same partner group. */
-  previousSubscriptionId?: string;
-  /** Required. Specifies the billing cycle spec for the new upgraded/downgraded subscription. */
-  billingCycleSpec?: SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum | (string & {});
-}
-export const SubscriptionUpgradeDowngradeDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    previousSubscriptionId: S.optional(S.String),
-    billingCycleSpec: S.optional(SubscriptionUpgradeDowngradeDetailsBillingCycleSpecEnum),
-  }),
-).annotate({
-  identifier: "SubscriptionUpgradeDowngradeDetails",
-}) as any as S.Schema<SubscriptionUpgradeDowngradeDetails>;
-
-/** Describes the details of the migrated subscription. */
-export interface SubscriptionMigrationDetails {
-  /** Output only. The migrated subscription id in the legacy system. */
-  migratedSubscriptionId?: string;
-  /** Output only. The creation time of the migrated subscription in the legacy system. */
-  legacyCreationTime?: string;
-}
-export const SubscriptionMigrationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migratedSubscriptionId: S.optional(S.String),
-    legacyCreationTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SubscriptionMigrationDetails",
-}) as any as S.Schema<SubscriptionMigrationDetails>;
+export type SubscriptionStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STATE_CREATED"
+  | "STATE_ACTIVE"
+  | "STATE_CANCELLED"
+  | "STATE_IN_GRACE_PERIOD"
+  | "STATE_CANCEL_AT_END_OF_CYCLE"
+  | "STATE_SUSPENDED";
+export const SubscriptionStateEnum = S.String;
 
 export type SubscriptionCancellationDetailsReasonEnum =
   | "CANCELLATION_REASON_UNSPECIFIED"
@@ -556,85 +570,71 @@ export const SubscriptionCancellationDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "SubscriptionCancellationDetails",
 }) as any as S.Schema<SubscriptionCancellationDetails>;
 
-/** Describes a location of an end user. */
-export interface Location {
-  /** 2-letter ISO region code for current content region. Ex. “US” Please refers to: https://en.wikipedia.org/wiki/ISO_3166-1 */
-  regionCode?: string;
-  /** The postal code this location refers to. Ex. "94043" */
-  postalCode?: string;
-}
-export const Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regionCode: S.optional(S.String),
-    postalCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
-
 /** Acts as a central billing entity between an external partner and Google. Google services use the subscription state to grant or revoke the user's service entitlement. Note: The subscription state might not perfectly align with the user's service entitlement. Some services might continue providing access until the current cycle ends, even if the subscription is immediately canceled. Consult the relevant contract or product policy for specific details. */
 export interface Subscription {
-  /** Output only. The time at which the subscription is expected to be renewed by Google - a new charge will be incurred and the service entitlement will be renewed. A non-immediate cancellation will take place at this time too, before which, the service entitlement for the end user will remain valid. UTC timezone in ISO 8061 format. For example: "2019-08-31T17:28:54.564Z" */
-  renewalTime?: string;
-  /** Output only. Describes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
-  state?: SubscriptionStateEnum | (string & {});
-  /** Output only. The place where partners should redirect the end-user to after creation. This field might also be populated when creation failed. However, Partners should always prepare a default URL to redirect the user in case this field is empty. */
-  redirectUri?: string;
+  /** Output only. System generated timestamp when the subscription is most recently updated. UTC timezone. */
+  updateTime?: string;
+  /** Optional. The timestamp when the user transaction was made with the Partner. Specify for the case of "bundle with choice", and it must be before the provision_time (when the user makes a selection). */
+  purchaseTime?: string;
   /** Required. Identifier of the end-user in partner’s system. The value is restricted to 63 ASCII characters at the maximum. */
   partnerUserToken?: string;
-  /** Optional. Deprecated: consider using `line_items` as the input. Required. Resource name that identifies the purchased products. The format will be 'partners/{partner_id}/products/{product_id}'. */
-  products?: StringList;
-  /** Required. The line items of the subscription. */
-  lineItems?: SubscriptionLineItemList;
-  /** Output only. Describes the processing state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
-  processingState?: SubscriptionProcessingStateEnum | (string & {});
-  /** Output only. Indicates if the subscription is entitled to the end user. */
-  endUserEntitled?: boolean;
+  /** Identifier. Resource name of the subscription. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". This is available for authorizeAddon, but otherwise is response only. */
+  name?: string;
   /** Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription. */
   upgradeDowngradeDetails?: SubscriptionUpgradeDowngradeDetails;
-  /** Output only. Describes the details of the migrated subscription. Only populated if this subscription is migrated from another system. */
-  migrationDetails?: SubscriptionMigrationDetails;
-  /** Output only. Describes the details of a cancelled subscription. Only applicable to subscription of state `STATE_CANCELLED`. */
-  cancellationDetails?: SubscriptionCancellationDetails;
-  /** Output only. End of the free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
-  freeTrialEndTime?: string;
   /** Optional. Deprecated: consider using the top-level `promotion_specs` as the input. Optional. Resource name that identifies one or more promotions that can be applied on the product. A typical promotion for a subscription is Free trial. The format will be 'partners/{partner_id}/promotions/{promotion_id}'. */
   promotions?: StringList;
   /** Required. The location that the service is provided as indicated by the partner. */
   serviceLocation?: Location;
-  /** Output only. System generated timestamp when the subscription is created. UTC timezone. */
-  createTime?: string;
-  /** Identifier. Resource name of the subscription. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". This is available for authorizeAddon, but otherwise is response only. */
-  name?: string;
-  /** Output only. System generated timestamp when the subscription is most recently updated. UTC timezone. */
-  updateTime?: string;
-  /** Output only. The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. For example: "2019-08-31T17:28:54.564Z" */
-  cycleEndTime?: string;
+  /** Output only. Describes the details of the migrated subscription. Only populated if this subscription is migrated from another system. */
+  migrationDetails?: SubscriptionMigrationDetails;
+  /** Required. The line items of the subscription. */
+  lineItems?: SubscriptionLineItemList;
+  /** Output only. Describes the processing state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
+  processingState?: SubscriptionProcessingStateEnum | (string & {});
+  /** Output only. Describes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
+  state?: SubscriptionStateEnum | (string & {});
+  /** Output only. Describes the details of a cancelled subscription. Only applicable to subscription of state `STATE_CANCELLED`. */
+  cancellationDetails?: SubscriptionCancellationDetails;
+  /** Output only. Indicates if the subscription is entitled to the end user. */
+  endUserEntitled?: boolean;
+  /** Output only. End of the free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
+  freeTrialEndTime?: string;
+  /** Optional. Deprecated: consider using `line_items` as the input. Required. Resource name that identifies the purchased products. The format will be 'partners/{partner_id}/products/{product_id}'. */
+  products?: StringList;
   /** Optional. Subscription-level promotions. Only free trial is supported on this level. It determines the first renewal time of the subscription to be the end of the free trial period. Specify the promotion resource name only when used as input. */
   promotionSpecs?: SubscriptionPromotionSpecList;
-  /** Optional. The timestamp when the user transaction was made with the Partner. Specify for the case of "bundle with choice", and it must be before the provision_time (when the user makes a selection). */
-  purchaseTime?: string;
+  /** Output only. The place where partners should redirect the end-user to after creation. This field might also be populated when creation failed. However, Partners should always prepare a default URL to redirect the user in case this field is empty. */
+  redirectUri?: string;
+  /** Output only. The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. For example: "2019-08-31T17:28:54.564Z" */
+  cycleEndTime?: string;
+  /** Output only. The time at which the subscription is expected to be renewed by Google - a new charge will be incurred and the service entitlement will be renewed. A non-immediate cancellation will take place at this time too, before which, the service entitlement for the end user will remain valid. UTC timezone in ISO 8061 format. For example: "2019-08-31T17:28:54.564Z" */
+  renewalTime?: string;
+  /** Output only. System generated timestamp when the subscription is created. UTC timezone. */
+  createTime?: string;
 }
 export const Subscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    renewalTime: S.optional(S.String),
-    state: S.optional(SubscriptionStateEnum),
-    redirectUri: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    purchaseTime: S.optional(S.String),
     partnerUserToken: S.optional(S.String),
-    products: S.optional(StringList),
-    lineItems: S.optional(SubscriptionLineItemList),
-    processingState: S.optional(SubscriptionProcessingStateEnum),
-    endUserEntitled: S.optional(S.Boolean),
+    name: S.optional(S.String),
     upgradeDowngradeDetails: S.optional(SubscriptionUpgradeDowngradeDetails),
-    migrationDetails: S.optional(SubscriptionMigrationDetails),
-    cancellationDetails: S.optional(SubscriptionCancellationDetails),
-    freeTrialEndTime: S.optional(S.String),
     promotions: S.optional(StringList),
     serviceLocation: S.optional(Location),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    cycleEndTime: S.optional(S.String),
+    migrationDetails: S.optional(SubscriptionMigrationDetails),
+    lineItems: S.optional(SubscriptionLineItemList),
+    processingState: S.optional(SubscriptionProcessingStateEnum),
+    state: S.optional(SubscriptionStateEnum),
+    cancellationDetails: S.optional(SubscriptionCancellationDetails),
+    endUserEntitled: S.optional(S.Boolean),
+    freeTrialEndTime: S.optional(S.String),
+    products: S.optional(StringList),
     promotionSpecs: S.optional(SubscriptionPromotionSpecList),
-    purchaseTime: S.optional(S.String),
+    redirectUri: S.optional(S.String),
+    cycleEndTime: S.optional(S.String),
+    renewalTime: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 
@@ -652,17 +652,17 @@ export const CancelSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelSubscriptionResponse>;
 
 export interface CreatePartnersSubscriptionsRequest {
-  /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription with the same ID already exists, the creation fails with an `ALREADY_EXISTS` error. */
-  subscriptionId?: string;
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
+  /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription with the same ID already exists, the creation fails with an `ALREADY_EXISTS` error. */
+  subscriptionId?: string;
   /** Request body */
   body?: Subscription;
 }
 export const CreatePartnersSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subscriptionId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    subscriptionId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Subscription.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -748,29 +748,29 @@ export const EntitleSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Describes the details of an extension request. */
 export interface Extension {
-  /** Required. Identifier of the end-user in partner’s system. */
-  partnerUserToken?: string;
   /** Required. Specifies the period of access the subscription should grant. */
   duration?: Duration;
+  /** Required. Identifier of the end-user in partner’s system. */
+  partnerUserToken?: string;
 }
 export const Extension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerUserToken: S.optional(S.String),
     duration: S.optional(Duration),
+    partnerUserToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "Extension" }) as any as S.Schema<Extension>;
 
 /** Request message for extending a Subscription resource. A new recurrence will be made based on the subscription schedule defined by the original product. */
 export interface ExtendSubscriptionRequest {
-  /** Required. Restricted to 36 ASCII characters. A random UUID is recommended. The idempotency key for the request. The ID generation logic is controlled by the partner. request_id should be the same as on retries of the same request. A different request_id must be used for a extension of a different cycle. */
-  requestId?: string;
   /** Required. Specifies details of the extension. Currently, the duration of the extension must be exactly one billing cycle of the original subscription. */
   extension?: Extension;
+  /** Required. Restricted to 36 ASCII characters. A random UUID is recommended. The idempotency key for the request. The ID generation logic is controlled by the partner. request_id should be the same as on retries of the same request. A different request_id must be used for a extension of a different cycle. */
+  requestId?: string;
 }
 export const ExtendSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
     extension: S.optional(Extension),
+    requestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ExtendSubscriptionRequest",
@@ -799,17 +799,17 @@ export const ExtendPartnersSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response that contains the timestamps after the extension. */
 export interface ExtendSubscriptionResponse {
-  /** The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. Example, "cycleEndTime":"2019-08-31T17:28:54.564Z" */
-  cycleEndTime?: string;
   /** End of the free trial period, in ISO 8061 format. UTC timezone. Example, "freeTrialEndTime":"2019-08-31T17:28:54.564Z" This time will be set the same as initial subscription creation time if no free trial period is offered to the partner. */
   freeTrialEndTime?: string;
+  /** The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. Example, "cycleEndTime":"2019-08-31T17:28:54.564Z" */
+  cycleEndTime?: string;
   /** Output only. The time at which the subscription is expected to be renewed by Google - a new charge will be incurred and the service entitlement will be renewed. A non-immediate cancellation will take place at this time too, before which, the service entitlement for the end user will remain valid. UTC timezone in ISO 8061 format. For example: "2019-08-31T17:28:54.564Z" */
   renewalTime?: string;
 }
 export const ExtendSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cycleEndTime: S.optional(S.String),
     freeTrialEndTime: S.optional(S.String),
+    cycleEndTime: S.optional(S.String),
     renewalTime: S.optional(S.String),
   }),
 ).annotate({
@@ -818,18 +818,18 @@ export const ExtendSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to find eligible promotions for the current user. */
 export interface FindEligiblePromotionsRequest {
+  /** Optional. A page token, received from a previous `FindEligiblePromotions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FindEligiblePromotions` must match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. The maximum number of promotions to return. The service may return fewer than this value. If unspecified, at most 50 promotions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Optional. Specifies the filters for the promotion results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `applicableProducts` - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `applicableProducts:partners/partner1/products/product1 AND regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
   filter?: string;
-  /** Optional. A page token, received from a previous `FindEligiblePromotions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FindEligiblePromotions` must match the call that provided the page token. */
-  pageToken?: string;
 }
 export const FindEligiblePromotionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String),
     pageSize: S.optional(S.Number),
     filter: S.optional(S.String),
-    pageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FindEligiblePromotionsRequest",
@@ -856,23 +856,17 @@ export const FindEligiblePartnersPromotionsRequest = /*@__PURE__*/ S.suspend(() 
   identifier: "FindEligiblePartnersPromotionsRequest",
 }) as any as S.Schema<FindEligiblePartnersPromotionsRequest>;
 
-export type PromotionPromotionTypeEnum =
-  | "PROMOTION_TYPE_UNSPECIFIED"
-  | "PROMOTION_TYPE_FREE_TRIAL"
-  | "PROMOTION_TYPE_INTRODUCTORY_PRICING";
-export const PromotionPromotionTypeEnum = S.String;
-
 /** Localized variant of a text in a particular language. */
 export interface GoogleTypeLocalizedText {
-  /** Localized string in the language corresponding to language_code below. */
-  text?: string;
   /** The text's BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
   languageCode?: string;
+  /** Localized string in the language corresponding to language_code below. */
+  text?: string;
 }
 export const GoogleTypeLocalizedText = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    text: S.optional(S.String),
     languageCode: S.optional(S.String),
+    text: S.optional(S.String),
   }),
 ).annotate({ identifier: "GoogleTypeLocalizedText" }) as any as S.Schema<GoogleTypeLocalizedText>;
 
@@ -881,38 +875,44 @@ export const GoogleTypeLocalizedTextList = /*@__PURE__*/ S.Array(
   GoogleTypeLocalizedText,
 ) as any as S.Schema<GoogleTypeLocalizedTextList>;
 
+export type PromotionPromotionTypeEnum =
+  | "PROMOTION_TYPE_UNSPECIFIED"
+  | "PROMOTION_TYPE_FREE_TRIAL"
+  | "PROMOTION_TYPE_INTRODUCTORY_PRICING";
+export const PromotionPromotionTypeEnum = S.String;
+
 /** A Promotion resource that defines a promotion for a subscription that can be resold. */
 export interface Promotion {
-  /** Optional. Specifies the introductory pricing details when the promotion_type is PROMOTION_TYPE_INTRODUCTORY_PRICING. */
-  introductoryPricingDetails?: PromotionIntroductoryPricingDetails;
-  /** Output only. Specifies the type of the promotion. */
-  promotionType?: PromotionPromotionTypeEnum;
-  /** Output only. 2-letter ISO region code where the promotion is available in. Ex. "US" Please refer to: https://en.wikipedia.org/wiki/ISO_3166-1 */
-  regionCodes?: StringList;
-  /** Optional. Specifies the duration of the free trial of the subscription when promotion_type is PROMOTION_TYPE_FREE_TRIAL */
-  freeTrialDuration?: Duration;
   /** Optional. Specifies the end time (exclusive) of the period that the promotion is available in. If unset, the promotion is available indefinitely. */
   endTime?: string;
   /** Identifier. Response only. Resource name of the subscription promotion. It will have the format of "partners/{partner_id}/promotion/{promotion_id}" */
   name?: string;
-  /** Output only. The product ids this promotion can be applied to. */
-  applicableProducts?: StringList;
-  /** Output only. Localized human readable name of the promotion. */
-  titles?: GoogleTypeLocalizedTextList;
   /** Optional. Specifies the start time (inclusive) of the period that the promotion is available in. */
   startTime?: string;
+  /** Output only. 2-letter ISO region code where the promotion is available in. Ex. "US" Please refer to: https://en.wikipedia.org/wiki/ISO_3166-1 */
+  regionCodes?: StringList;
+  /** Output only. Localized human readable name of the promotion. */
+  titles?: GoogleTypeLocalizedTextList;
+  /** Output only. The product ids this promotion can be applied to. */
+  applicableProducts?: StringList;
+  /** Optional. Specifies the introductory pricing details when the promotion_type is PROMOTION_TYPE_INTRODUCTORY_PRICING. */
+  introductoryPricingDetails?: PromotionIntroductoryPricingDetails;
+  /** Output only. Specifies the type of the promotion. */
+  promotionType?: PromotionPromotionTypeEnum;
+  /** Optional. Specifies the duration of the free trial of the subscription when promotion_type is PROMOTION_TYPE_FREE_TRIAL */
+  freeTrialDuration?: Duration;
 }
 export const Promotion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    introductoryPricingDetails: S.optional(PromotionIntroductoryPricingDetails),
-    promotionType: S.optional(PromotionPromotionTypeEnum),
-    regionCodes: S.optional(StringList),
-    freeTrialDuration: S.optional(Duration),
     endTime: S.optional(S.String),
     name: S.optional(S.String),
-    applicableProducts: S.optional(StringList),
-    titles: S.optional(GoogleTypeLocalizedTextList),
     startTime: S.optional(S.String),
+    regionCodes: S.optional(StringList),
+    titles: S.optional(GoogleTypeLocalizedTextList),
+    applicableProducts: S.optional(StringList),
+    introductoryPricingDetails: S.optional(PromotionIntroductoryPricingDetails),
+    promotionType: S.optional(PromotionPromotionTypeEnum),
+    freeTrialDuration: S.optional(Duration),
   }),
 ).annotate({ identifier: "Promotion" }) as any as S.Schema<Promotion>;
 
@@ -921,32 +921,19 @@ export const PromotionList = /*@__PURE__*/ S.Array(Promotion) as any as S.Schema
 
 /** Response containing the found promotions for the current user. */
 export interface FindEligiblePromotionsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The promotions for the current user. */
   promotions?: PromotionList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const FindEligiblePromotionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     promotions: S.optional(PromotionList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FindEligiblePromotionsResponse",
 }) as any as S.Schema<FindEligiblePromotionsResponse>;
-
-/** Intent for entitling the previously provisioned subscription to an end user. */
-export interface EntitleSubscriptionIntent {
-  /** Required. The name of the subscription resource that is entitled to the current end user. It is in the format of "partners/{partner_id}/subscriptions/{subscriptionId}". */
-  name?: string;
-}
-export const EntitleSubscriptionIntent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EntitleSubscriptionIntent",
-}) as any as S.Schema<EntitleSubscriptionIntent>;
 
 /** The options for the intent. */
 export interface IntentPayloadIntentOptions {
@@ -978,34 +965,47 @@ export interface CreateSubscriptionIntent {
   parent?: string;
   /** Optional. The cycle options for the subscription. */
   cycleOptions?: CycleOptions;
-  /** Required. The Subscription to be created. */
-  subscription?: Subscription;
   /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription was previously created with the same subscription_id, we will directly return that one. */
   subscriptionId?: string;
+  /** Required. The Subscription to be created. */
+  subscription?: Subscription;
 }
 export const CreateSubscriptionIntent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.optional(S.String),
     cycleOptions: S.optional(CycleOptions),
-    subscription: S.optional(Subscription),
     subscriptionId: S.optional(S.String),
+    subscription: S.optional(Subscription),
   }),
 ).annotate({ identifier: "CreateSubscriptionIntent" }) as any as S.Schema<CreateSubscriptionIntent>;
 
+/** Intent for entitling the previously provisioned subscription to an end user. */
+export interface EntitleSubscriptionIntent {
+  /** Required. The name of the subscription resource that is entitled to the current end user. It is in the format of "partners/{partner_id}/subscriptions/{subscriptionId}". */
+  name?: string;
+}
+export const EntitleSubscriptionIntent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EntitleSubscriptionIntent",
+}) as any as S.Schema<EntitleSubscriptionIntent>;
+
 /** The payload that describes the user intent. */
 export interface IntentPayload {
-  /** The request to entitle a subscription. */
-  entitleIntent?: EntitleSubscriptionIntent;
   /** Optional. The additional features for the intent. */
   intentOptions?: IntentPayloadIntentOptions;
   /** The request to create a subscription. */
   createIntent?: CreateSubscriptionIntent;
+  /** The request to entitle a subscription. */
+  entitleIntent?: EntitleSubscriptionIntent;
 }
 export const IntentPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entitleIntent: S.optional(EntitleSubscriptionIntent),
     intentOptions: S.optional(IntentPayloadIntentOptions),
     createIntent: S.optional(CreateSubscriptionIntent),
+    entitleIntent: S.optional(EntitleSubscriptionIntent),
   }),
 ).annotate({ identifier: "IntentPayload" }) as any as S.Schema<IntentPayload>;
 
@@ -1089,20 +1089,20 @@ export const GetPartnersSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPartnersSubscriptionsRequest>;
 
 export interface ListPartnersProductsRequest {
+  /** Optional. A page token, received from a previous `ListProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProducts` must match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. Specifies the filters for the product results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
   filter?: string;
   /** Optional. The maximum number of products to return. The service may return fewer than this value. If unspecified, at most 50 products will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Optional. A page token, received from a previous `ListProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProducts` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
 }
 export const ListPartnersProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1114,6 +1114,31 @@ export const ListPartnersProductsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListPartnersProductsRequest",
 }) as any as S.Schema<ListPartnersProductsRequest>;
+
+export type ProductProductTypeEnum =
+  | "PRODUCT_TYPE_UNSPECIFIED"
+  | "PRODUCT_TYPE_SUBSCRIPTION"
+  | "PRODUCT_TYPE_BUNDLE_SUBSCRIPTION";
+export const ProductProductTypeEnum = S.String;
+
+/** Configs the prices in an available region. */
+export interface ProductPriceConfig {
+  /** Output only. The price in the region. */
+  amount?: Amount;
+  /** Output only. 2-letter ISO region code where the product is available in. Ex. "US". */
+  regionCode?: string;
+}
+export const ProductPriceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(Amount),
+    regionCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "ProductPriceConfig" }) as any as S.Schema<ProductPriceConfig>;
+
+export type ProductPriceConfigList = Array<ProductPriceConfig>;
+export const ProductPriceConfigList = /*@__PURE__*/ S.Array(
+  ProductPriceConfig,
+) as any as S.Schema<ProductPriceConfigList>;
 
 /** The individual product that is included in the bundle. */
 export interface ProductBundleDetailsBundleElement {
@@ -1153,60 +1178,35 @@ export const ProductBundleDetails = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ProductBundleDetails" }) as any as S.Schema<ProductBundleDetails>;
 
-/** Configs the prices in an available region. */
-export interface ProductPriceConfig {
-  /** Output only. 2-letter ISO region code where the product is available in. Ex. "US". */
-  regionCode?: string;
-  /** Output only. The price in the region. */
-  amount?: Amount;
-}
-export const ProductPriceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regionCode: S.optional(S.String),
-    amount: S.optional(Amount),
-  }),
-).annotate({ identifier: "ProductPriceConfig" }) as any as S.Schema<ProductPriceConfig>;
-
-export type ProductPriceConfigList = Array<ProductPriceConfig>;
-export const ProductPriceConfigList = /*@__PURE__*/ S.Array(
-  ProductPriceConfig,
-) as any as S.Schema<ProductPriceConfigList>;
-
-export type ProductProductTypeEnum =
-  | "PRODUCT_TYPE_UNSPECIFIED"
-  | "PRODUCT_TYPE_SUBSCRIPTION"
-  | "PRODUCT_TYPE_BUNDLE_SUBSCRIPTION";
-export const ProductProductTypeEnum = S.String;
-
 /** A Product resource that defines a subscription service that can be resold. */
 export interface Product {
-  /** Output only. Specifies the details for a bundle product. */
-  bundleDetails?: ProductBundleDetails;
+  /** Output only. Localized human readable name of the product. */
+  titles?: GoogleTypeLocalizedTextList;
   /** Identifier. Response only. Resource name of the product. It will have the format of "partners/{partner_id}/products/{product_id}" */
   name?: string;
-  /** Optional. Details for a subscription line item with finite billing cycles. If unset, the line item will be charged indefinitely. */
-  finiteBillingCycleDetails?: FiniteBillingCycleDetails;
-  /** Output only. Price configs for the product in the available regions. */
-  priceConfigs?: ProductPriceConfigList;
   /** Output only. 2-letter ISO region code where the product is available in. Ex. "US" Please refer to: https://en.wikipedia.org/wiki/ISO_3166-1 */
   regionCodes?: StringList;
   /** Output only. Specifies the type of the product. */
   productType?: ProductProductTypeEnum;
-  /** Output only. Localized human readable name of the product. */
-  titles?: GoogleTypeLocalizedTextList;
+  /** Output only. Price configs for the product in the available regions. */
+  priceConfigs?: ProductPriceConfigList;
   /** Output only. Specifies the length of the billing cycle of the subscription. */
   subscriptionBillingCycleDuration?: Duration;
+  /** Output only. Specifies the details for a bundle product. */
+  bundleDetails?: ProductBundleDetails;
+  /** Optional. Details for a subscription line item with finite billing cycles. If unset, the line item will be charged indefinitely. */
+  finiteBillingCycleDetails?: FiniteBillingCycleDetails;
 }
 export const Product = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bundleDetails: S.optional(ProductBundleDetails),
+    titles: S.optional(GoogleTypeLocalizedTextList),
     name: S.optional(S.String),
-    finiteBillingCycleDetails: S.optional(FiniteBillingCycleDetails),
-    priceConfigs: S.optional(ProductPriceConfigList),
     regionCodes: S.optional(StringList),
     productType: S.optional(ProductProductTypeEnum),
-    titles: S.optional(GoogleTypeLocalizedTextList),
+    priceConfigs: S.optional(ProductPriceConfigList),
     subscriptionBillingCycleDuration: S.optional(Duration),
+    bundleDetails: S.optional(ProductBundleDetails),
+    finiteBillingCycleDetails: S.optional(FiniteBillingCycleDetails),
   }),
 ).annotate({ identifier: "Product" }) as any as S.Schema<Product>;
 
@@ -1215,34 +1215,34 @@ export const ProductList = /*@__PURE__*/ S.Array(Product) as any as S.Schema<Pro
 
 /** Response that contains the products. */
 export interface ListProductsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The products for the specified partner. */
   products?: ProductList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListProductsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     products: S.optional(ProductList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListProductsResponse" }) as any as S.Schema<ListProductsResponse>;
 
 export interface ListPartnersPromotionsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
+  /** Optional. Specifies the filters for the promotion results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `applicableProducts` - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `applicableProducts:partners/partner1/products/product1 AND regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
+  filter?: string;
   /** Optional. The maximum number of promotions to return. The service may return fewer than this value. If unspecified, at most 50 promotions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Optional. A page token, received from a previous `ListPromotions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPromotions` must match the call that provided the page token. */
   pageToken?: string;
-  /** Optional. Specifies the filters for the promotion results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `applicableProducts` - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `applicableProducts:partners/partner1/products/product1 AND regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
-  filter?: string;
 }
 export const ListPartnersPromotionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1256,33 +1256,33 @@ export const ListPartnersPromotionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response that contains the promotions. */
 export interface ListPromotionsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The promotions for the specified partner. */
   promotions?: PromotionList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListPromotionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     promotions: S.optional(PromotionList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListPromotionsResponse" }) as any as S.Schema<ListPromotionsResponse>;
 
 export interface PatchPartnersSubscriptionsLineItemsRequest {
   /** Optional. An idempotency ID for the request. A random UUID is recommended. Restricted to 36 ASCII characters. */
   requestId?: string;
-  /** Required. The list of fields to update. Only a limited set of fields can be updated. The allowed fields are the following: - `product_payload.googleHomePayload.googleStructureId` */
-  updateMask?: string;
   /** Identifier. Resource name of the line item. Format: partners/{partner}/subscriptions/{subscription}/lineItems/{lineItem} */
   name: string;
+  /** Required. The list of fields to update. Only a limited set of fields can be updated. The allowed fields are the following: - `product_payload.googleHomePayload.googleStructureId` */
+  updateMask?: string;
   /** Request body */
   body?: SubscriptionLineItem;
 }
 export const PatchPartnersSubscriptionsLineItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(SubscriptionLineItem.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1303,27 +1303,27 @@ export type ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unit
 export const ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum = S.String;
 
 export interface ProvisionPartnersSubscriptionsRequest {
+  /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription with the same ID already exists, the creation fails with an `ALREADY_EXISTS` error. */
+  subscriptionId?: string;
+  /** number of duration units to be included. */
+  "cycleOptions.initialCycleDuration.count"?: number;
+  /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
+  parent: string;
   /** The unit used for the duration */
   "cycleOptions.initialCycleDuration.unit"?:
     | ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum
     | (string & {});
-  /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
-  parent: string;
-  /** number of duration units to be included. */
-  "cycleOptions.initialCycleDuration.count"?: number;
-  /** Required. Identifies the subscription resource on the Partner side. The value is restricted to 63 ASCII characters at the maximum. If a subscription with the same ID already exists, the creation fails with an `ALREADY_EXISTS` error. */
-  subscriptionId?: string;
   /** Request body */
   body?: Subscription;
 }
 export const ProvisionPartnersSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    subscriptionId: S.optional(S.String.pipe(T.Query())),
+    "cycleOptions.initialCycleDuration.count": S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     "cycleOptions.initialCycleDuration.unit": S.optional(
       ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum.pipe(T.Query()),
     ),
-    parent: S.String.pipe(T.Label()),
-    "cycleOptions.initialCycleDuration.count": S.optional(S.Number.pipe(T.Query())),
-    subscriptionId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Subscription.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1345,15 +1345,15 @@ export const ResumeSubscriptionRequestResumeModeEnum = S.String;
 
 /** Request to resume a suspended subscription. */
 export interface ResumeSubscriptionRequest {
-  /** Required. The mode to resume the subscription. */
-  resumeMode?: ResumeSubscriptionRequestResumeModeEnum | (string & {});
   /** Optional. The cycle options for the subscription. */
   cycleOptions?: CycleOptions;
+  /** Required. The mode to resume the subscription. */
+  resumeMode?: ResumeSubscriptionRequestResumeModeEnum | (string & {});
 }
 export const ResumeSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resumeMode: S.optional(ResumeSubscriptionRequestResumeModeEnum),
     cycleOptions: S.optional(CycleOptions),
+    resumeMode: S.optional(ResumeSubscriptionRequestResumeModeEnum),
   }),
 ).annotate({
   identifier: "ResumeSubscriptionRequest",

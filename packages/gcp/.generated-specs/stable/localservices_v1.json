@@ -8,6 +8,208 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AggregatorInfo": {
+      "type": "structure",
+      "members": {
+        "aggregatorProviderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider id (listed in aggregator system) which maps to a account id in GLS system."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Conatiner for aggregator specific information if lead is for an aggregator GLS account."
+      }
+    },
+    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AccountReport": {
+      "type": "structure",
+      "members": {
+        "averageWeeklyBudget": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average weekly budget in the currency code of the account."
+          }
+        },
+        "averageFiveStarRating": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average review rating score from 1-5 stars."
+          }
+        },
+        "phoneLeadResponsiveness": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Phone lead responsiveness of the account for the past 90 days from current date. This is computed by taking the total number of connected calls from charged phone leads and dividing by the total number of calls received."
+          }
+        },
+        "previousPeriodChargedLeads": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of charged leads the account received in previous specified period."
+          }
+        },
+        "previousPeriodTotalCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total cost of the account in previous specified period in the account's specified currency."
+          }
+        },
+        "currentPeriodPhoneCalls": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of phone calls in current specified period, including both connected and unconnected calls."
+          }
+        },
+        "currentPeriodChargedLeads": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of charged leads the account received in current specified period."
+          }
+        },
+        "totalReview": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of reviews the account has up to current date."
+          }
+        },
+        "businessName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business name of the account."
+          }
+        },
+        "aggregatorInfo": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AggregatorInfo",
+          "traits": {
+            "smithy.api#documentation": "Aggregator specific information related to the account."
+          }
+        },
+        "previousPeriodConnectedPhoneCalls": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of connected phone calls (duration over 30s) in previous specified period."
+          }
+        },
+        "accountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the GLS account."
+          }
+        },
+        "currentPeriodTotalCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total cost of the account in current specified period in the account's specified currency."
+          }
+        },
+        "previousPeriodPhoneCalls": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of phone calls in previous specified period, including both connected and unconnected calls."
+          }
+        },
+        "impressionsLastTwoDays": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of impressions that customers have had in the past 2 days."
+          }
+        },
+        "currentPeriodConnectedPhoneCalls": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of connected phone calls (duration over 30s) in current specified period."
+          }
+        },
+        "currencyCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency code of the account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An Account Report of a GLS account identified by their account id containing aggregate data gathered from a particular date range. Next ID: 18"
+      }
+    },
+    "com.gcp.localservices_v1#GoogleTypeTimeZone": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. IANA Time Zone Database version number. For example \"2019a\"."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IANA Time Zone Database time zone. For example \"America/New_York\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones)."
+      }
+    },
+    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1MessageLead": {
+      "type": "structure",
+      "members": {
+        "postalCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the customer who created the lead."
+          }
+        },
+        "customerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the customer who created the lead."
+          }
+        },
+        "jobType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The job type of the specified lead."
+          }
+        },
+        "consumerPhoneNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Consumer phone number associated with the message lead."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Container for message lead specific information."
+      }
+    },
+    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1PhoneLead": {
+      "type": "structure",
+      "members": {
+        "chargedConnectedCallDurationSeconds": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Duration of the charged phone call in seconds."
+          }
+        },
+        "consumerPhoneNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Consumer phone number associated with the phone lead."
+          }
+        },
+        "chargedCallTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the phone call which resulted in a charged phone lead."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Container for phone lead specific information."
+      }
+    },
     "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse": {
       "type": "structure",
       "members": {
@@ -34,19 +236,13 @@
         "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport"
       }
     },
-    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1MessageLead": {
+    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1BookingLead": {
       "type": "structure",
       "members": {
-        "customerName": {
+        "bookingAppointmentTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the customer who created the lead."
-          }
-        },
-        "postalCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The postal code of the customer who created the lead."
+            "smithy.api#documentation": "Timestamp of when service is provided by advertiser."
           }
         },
         "jobType": {
@@ -55,96 +251,36 @@
             "smithy.api#documentation": "The job type of the specified lead."
           }
         },
+        "consumerEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Consumer email associated with the booking lead."
+          }
+        },
+        "customerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the customer who created the lead."
+          }
+        },
         "consumerPhoneNumber": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Consumer phone number associated with the message lead."
+            "smithy.api#documentation": "Consumer phone number associated with the booking lead."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Container for message lead specific information."
+        "smithy.api#documentation": "Container for booking lead specific information."
       }
     },
     "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport": {
       "type": "structure",
       "members": {
-        "messageLead": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1MessageLead",
+        "phoneLead": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1PhoneLead",
           "traits": {
-            "smithy.api#documentation": "More information associated to only message leads."
-          }
-        },
-        "timezone": {
-          "target": "com.gcp.localservices_v1#GoogleTypeTimeZone",
-          "traits": {
-            "smithy.api#documentation": "Timezone of the particular provider associated to a lead."
-          }
-        },
-        "leadType": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Lead type."
-          }
-        },
-        "leadId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Deprecated in favor of google_ads_lead_id. Unique identifier of a Detailed Lead Report."
-          }
-        },
-        "chargeStatus": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "Whether the lead has been charged."
-          }
-        },
-        "aggregatorInfo": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AggregatorInfo",
-          "traits": {
-            "smithy.api#documentation": "Aggregator specific information related to the lead."
-          }
-        },
-        "googleAdsLeadId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier of a Detailed Lead Report."
-          }
-        },
-        "accountId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies account that received the lead."
-          }
-        },
-        "leadCreationTimestamp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Timestamp of when the lead was created."
-          }
-        },
-        "leadPrice": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Price of the lead (available only after it has been charged)."
-          }
-        },
-        "bookingLead": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1BookingLead",
-          "traits": {
-            "smithy.api#documentation": "More information associated to only booking leads."
-          }
-        },
-        "disputeStatus": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Dispute status related to the lead."
-          }
-        },
-        "geo": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Location of the associated account's home city."
+            "smithy.api#documentation": "More information associated to only phone leads."
           }
         },
         "currencyCode": {
@@ -153,10 +289,64 @@
             "smithy.api#documentation": "Currency code."
           }
         },
-        "phoneLead": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1PhoneLead",
+        "disputeStatus": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "More information associated to only phone leads."
+            "smithy.api#documentation": "Dispute status related to the lead."
+          }
+        },
+        "leadType": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Lead type."
+          }
+        },
+        "accountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies account that received the lead."
+          }
+        },
+        "messageLead": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1MessageLead",
+          "traits": {
+            "smithy.api#documentation": "More information associated to only message leads."
+          }
+        },
+        "bookingLead": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1BookingLead",
+          "traits": {
+            "smithy.api#documentation": "More information associated to only booking leads."
+          }
+        },
+        "googleAdsLeadId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of a Detailed Lead Report."
+          }
+        },
+        "leadCreationTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of when the lead was created."
+          }
+        },
+        "businessName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business name associated to the account."
+          }
+        },
+        "geo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location of the associated account's home city."
+          }
+        },
+        "aggregatorInfo": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AggregatorInfo",
+          "traits": {
+            "smithy.api#documentation": "Aggregator specific information related to the lead."
           }
         },
         "leadCategory": {
@@ -165,10 +355,28 @@
             "smithy.api#documentation": "Lead category (e.g. hvac, plumber)"
           }
         },
-        "businessName": {
+        "timezone": {
+          "target": "com.gcp.localservices_v1#GoogleTypeTimeZone",
+          "traits": {
+            "smithy.api#documentation": "Timezone of the particular provider associated to a lead."
+          }
+        },
+        "chargeStatus": {
+          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether the lead has been charged."
+          }
+        },
+        "leadId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Business name associated to the account."
+            "smithy.api#documentation": "Deprecated in favor of google_ads_lead_id. Unique identifier of a Detailed Lead Report."
+          }
+        },
+        "leadPrice": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Price of the lead (available only after it has been charged)."
           }
         }
       },
@@ -228,214 +436,6 @@
         }
       }
     },
-    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AccountReport": {
-      "type": "structure",
-      "members": {
-        "aggregatorInfo": {
-          "target": "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AggregatorInfo",
-          "traits": {
-            "smithy.api#documentation": "Aggregator specific information related to the account."
-          }
-        },
-        "accountId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier of the GLS account."
-          }
-        },
-        "currentPeriodPhoneCalls": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of phone calls in current specified period, including both connected and unconnected calls."
-          }
-        },
-        "previousPeriodChargedLeads": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of charged leads the account received in previous specified period."
-          }
-        },
-        "averageWeeklyBudget": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Average weekly budget in the currency code of the account."
-          }
-        },
-        "currencyCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Currency code of the account."
-          }
-        },
-        "currentPeriodTotalCost": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total cost of the account in current specified period in the account's specified currency."
-          }
-        },
-        "businessName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Business name of the account."
-          }
-        },
-        "impressionsLastTwoDays": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of impressions that customers have had in the past 2 days."
-          }
-        },
-        "currentPeriodConnectedPhoneCalls": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of connected phone calls (duration over 30s) in current specified period."
-          }
-        },
-        "totalReview": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Total number of reviews the account has up to current date."
-          }
-        },
-        "previousPeriodPhoneCalls": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of phone calls in previous specified period, including both connected and unconnected calls."
-          }
-        },
-        "currentPeriodChargedLeads": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of charged leads the account received in current specified period."
-          }
-        },
-        "previousPeriodTotalCost": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total cost of the account in previous specified period in the account's specified currency."
-          }
-        },
-        "previousPeriodConnectedPhoneCalls": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Number of connected phone calls (duration over 30s) in previous specified period."
-          }
-        },
-        "phoneLeadResponsiveness": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Phone lead responsiveness of the account for the past 90 days from current date. This is computed by taking the total number of connected calls from charged phone leads and dividing by the total number of calls received."
-          }
-        },
-        "averageFiveStarRating": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Average review rating score from 1-5 stars."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An Account Report of a GLS account identified by their account id containing aggregate data gathered from a particular date range. Next ID: 18"
-      }
-    },
-    "com.gcp.localservices_v1#GoogleTypeTimeZone": {
-      "type": "structure",
-      "members": {
-        "version": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. IANA Time Zone Database version number. For example \"2019a\"."
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "IANA Time Zone Database time zone. For example \"America/New_York\"."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones)."
-      }
-    },
-    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1PhoneLead": {
-      "type": "structure",
-      "members": {
-        "consumerPhoneNumber": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Consumer phone number associated with the phone lead."
-          }
-        },
-        "chargedCallTimestamp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Timestamp of the phone call which resulted in a charged phone lead."
-          }
-        },
-        "chargedConnectedCallDurationSeconds": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Duration of the charged phone call in seconds."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Container for phone lead specific information."
-      }
-    },
-    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1BookingLead": {
-      "type": "structure",
-      "members": {
-        "bookingAppointmentTimestamp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Timestamp of when service is provided by advertiser."
-          }
-        },
-        "consumerEmail": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Consumer email associated with the booking lead."
-          }
-        },
-        "consumerPhoneNumber": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Consumer phone number associated with the booking lead."
-          }
-        },
-        "jobType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The job type of the specified lead."
-          }
-        },
-        "customerName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the customer who created the lead."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Container for booking lead specific information."
-      }
-    },
-    "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1AggregatorInfo": {
-      "type": "structure",
-      "members": {
-        "aggregatorProviderId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provider id (listed in aggregator system) which maps to a account id in GLS system."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Conatiner for aggregator specific information if lead is for an aggregator GLS account."
-      }
-    },
     "com.gcp.localservices_v1#GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse": {
       "type": "structure",
       "members": {
@@ -465,32 +465,11 @@
     "com.gcp.localservices_v1#SearchAccountReportsRequest": {
       "type": "structure",
       "members": {
-        "startDate.month": {
+        "endDate.month": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
-            "smithy.api#httpQuery": "startDate.month"
-          }
-        },
-        "query": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Account Report for Manager with id 123. | Required.",
-            "smithy.api#httpQuery": "query"
-          }
-        },
-        "endDate.year": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year.",
-            "smithy.api#httpQuery": "endDate.year"
-          }
-        },
-        "startDate.day": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant.",
-            "smithy.api#httpQuery": "startDate.day"
+            "smithy.api#httpQuery": "endDate.month"
           }
         },
         "endDate.day": {
@@ -500,18 +479,11 @@
             "smithy.api#httpQuery": "endDate.day"
           }
         },
-        "pageSize": {
+        "endDate.year": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "endDate.month": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
-            "smithy.api#httpQuery": "endDate.month"
+            "smithy.api#documentation": "Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year.",
+            "smithy.api#httpQuery": "endDate.year"
           }
         },
         "pageToken": {
@@ -521,11 +493,39 @@
             "smithy.api#httpQuery": "pageToken"
           }
         },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Account Report for Manager with id 123. | Required.",
+            "smithy.api#httpQuery": "query"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "startDate.day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant.",
+            "smithy.api#httpQuery": "startDate.day"
+          }
+        },
         "startDate.year": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year.",
             "smithy.api#httpQuery": "startDate.year"
+          }
+        },
+        "startDate.month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
+            "smithy.api#httpQuery": "startDate.month"
           }
         }
       }
@@ -587,39 +587,11 @@
     "com.gcp.localservices_v1#SearchDetailedLeadReportsRequest": {
       "type": "structure",
       "members": {
-        "endDate.month": {
+        "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
-            "smithy.api#httpQuery": "endDate.month"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The `next_page_token` value returned from a previous request to SearchDetailedLeadReports that indicates where listing should continue. Optional.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "startDate.month": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
-            "smithy.api#httpQuery": "startDate.month"
-          }
-        },
-        "query": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Detailed Lead Report for Manager with id | | | 123. | Required.",
-            "smithy.api#httpQuery": "query"
-          }
-        },
-        "endDate.day": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant.",
-            "smithy.api#httpQuery": "endDate.day"
+            "smithy.api#documentation": "The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "startDate.day": {
@@ -629,11 +601,18 @@
             "smithy.api#httpQuery": "startDate.day"
           }
         },
-        "pageSize": {
+        "endDate.day": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#documentation": "Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant.",
+            "smithy.api#httpQuery": "endDate.day"
+          }
+        },
+        "startDate.month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
+            "smithy.api#httpQuery": "startDate.month"
           }
         },
         "startDate.year": {
@@ -643,11 +622,32 @@
             "smithy.api#httpQuery": "startDate.year"
           }
         },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Detailed Lead Report for Manager with id | | | 123. | Required.",
+            "smithy.api#httpQuery": "query"
+          }
+        },
+        "endDate.month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day.",
+            "smithy.api#httpQuery": "endDate.month"
+          }
+        },
         "endDate.year": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year.",
             "smithy.api#httpQuery": "endDate.year"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `next_page_token` value returned from a previous request to SearchDetailedLeadReports that indicates where listing should continue. Optional.",
+            "smithy.api#httpQuery": "pageToken"
           }
         }
       }

@@ -103,18 +103,18 @@ export const Bucket = /*@__PURE__*/ S.suspend(() =>
 export interface DefaultBucket {
   /** Identifier. Resource name of the default bucket. */
   name?: string;
-  /** Required. Immutable. Location of the default bucket. */
-  location?: string;
   /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
   storageClass?: string;
+  /** Required. Immutable. Location of the default bucket. */
+  location?: string;
   /** Output only. Underlying bucket resource. */
   bucket?: Bucket;
 }
 export const DefaultBucket = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    location: S.optional(S.String),
     storageClass: S.optional(S.String),
+    location: S.optional(S.String),
     bucket: S.optional(Bucket),
   }),
 ).annotate({ identifier: "DefaultBucket" }) as any as S.Schema<DefaultBucket>;

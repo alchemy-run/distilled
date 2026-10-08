@@ -61,20 +61,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The A2A task endpoints reject callers without an established consumer identity (HTTP 403 PERMISSION_DENIED: 'Method doesn't allow unregistered callers (callers without established identity).'). Not retryable. */
-export class TasksUnregisteredCaller
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<TasksUnregisteredCaller>()("TasksUnregisteredCaller", {
-      code: S.optional(S.Number),
-      message: S.String,
-      status: S.optional(S.String),
-      reason: S.optional(S.String),
-      domain: S.optional(S.String),
-      details: S.optional(S.Array(S.Unknown)),
-    }).pipe(C.withAuthError),
-    [{ status: 403, message: { includes: "doesn't allow unregistered callers" } }],
-  ) {}
-
 /** The access token lacks a Workspace Events OAuth scope for the subscribed resource (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable. */
 export class WorkspaceEventsScopeInsufficient
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -92,222 +78,8 @@ export class WorkspaceEventsScopeInsufficient
     [{ status: 403, message: { includes: "insufficient authentication scopes" } }],
   ) {}
 
-export interface CancelTaskRequest {
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-}
-export const CancelTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tenant: S.optional(S.String),
-  }),
-).annotate({ identifier: "CancelTaskRequest" }) as any as S.Schema<CancelTaskRequest>;
-
-export interface CancelTasksRequest {
-  /** The resource name of the task to cancel. Format: tasks/{task_id} */
-  name: string;
-  /** Request body */
-  body?: CancelTaskRequest;
-}
-export const CancelTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    body: S.optional(CancelTaskRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}:cancel",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({ identifier: "CancelTasksRequest" }) as any as S.Schema<CancelTasksRequest>;
-
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** DataPart represents a structured blob. This is most commonly a JSON payload. */
-export interface DataPart {
-  data?: DocumentMap;
-}
-export const DataPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "DataPart" }) as any as S.Schema<DataPart>;
-
-/** FilePart represents the different ways files can be provided. If files are small, directly feeding the bytes is supported via file_with_bytes. If the file is large, the agent should read the content as appropriate directly from the file_with_uri source. */
-export interface FilePart {
-  mimeType?: string;
-  fileWithUri?: string;
-  fileWithBytes?: string;
-  name?: string;
-}
-export const FilePart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mimeType: S.optional(S.String),
-    fileWithUri: S.optional(S.String),
-    fileWithBytes: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "FilePart" }) as any as S.Schema<FilePart>;
-
-/** Part represents a container for a section of communication content. Parts can be purely textual, some sort of file (image, video, etc) or a structured data blob (i.e. JSON). */
-export interface Part {
-  /** Optional metadata associated with this part. */
-  metadata?: DocumentMap;
-  data?: DataPart;
-  file?: FilePart;
-  text?: string;
-}
-export const Part = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadata: S.optional(DocumentMap),
-    data: S.optional(DataPart),
-    file: S.optional(FilePart),
-    text: S.optional(S.String),
-  }),
-).annotate({ identifier: "Part" }) as any as S.Schema<Part>;
-
-export type PartList = Array<Part>;
-export const PartList = /*@__PURE__*/ S.Array(Part) as any as S.Schema<PartList>;
-
-/** Artifacts are the container for task completed results. These are similar to Messages but are intended to be the product of a task, as opposed to point-to-point communication. */
-export interface Artifact {
-  /** A human readable description of the artifact, optional. */
-  description?: string;
-  /** Optional metadata included with the artifact. */
-  metadata?: DocumentMap;
-  /** Unique identifier (e.g. UUID) for the artifact. It must be at least unique within a task. */
-  artifactId?: string;
-  /** The URIs of extensions that are present or contributed to this Artifact. */
-  extensions?: StringList;
-  /** The content of the artifact. */
-  parts?: PartList;
-  /** A human readable name for the artifact. */
-  name?: string;
-}
-export const Artifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    artifactId: S.optional(S.String),
-    extensions: S.optional(StringList),
-    parts: S.optional(PartList),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
-
-export type ArtifactList = Array<Artifact>;
-export const ArtifactList = /*@__PURE__*/ S.Array(Artifact) as any as S.Schema<ArtifactList>;
-
-export type MessageRoleEnum = "ROLE_UNSPECIFIED" | "ROLE_USER" | "ROLE_AGENT";
-export const MessageRoleEnum = S.String;
-
-/** Message is one unit of communication between client and server. It is associated with a context and optionally a task. Since the server is responsible for the context definition, it must always provide a context_id in its messages. The client can optionally provide the context_id if it knows the context to associate the message to. Similarly for task_id, except the server decides if a task is created and whether to include the task_id. */
-export interface Message {
-  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED Any optional metadata to provide along with the message. */
-  metadata?: DocumentMap;
-  /** The context id of the message. This is optional and if set, the message will be associated with the given context. */
-  contextId?: string;
-  /** A role for the message. */
-  role?: MessageRoleEnum | (string & {});
-  /** The unique identifier (e.g. UUID)of the message. This is required and created by the message creator. */
-  messageId?: string;
-  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Content is the container of the message content. */
-  content?: PartList;
-  /** The task id of the message. This is optional and if set, the message will be associated with the given task. */
-  taskId?: string;
-  /** The URIs of extensions that are present or contributed to this Message. */
-  extensions?: StringList;
-}
-export const Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadata: S.optional(DocumentMap),
-    contextId: S.optional(S.String),
-    role: S.optional(MessageRoleEnum),
-    messageId: S.optional(S.String),
-    content: S.optional(PartList),
-    taskId: S.optional(S.String),
-    extensions: S.optional(StringList),
-  }),
-).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
-
-export type MessageList = Array<Message>;
-export const MessageList = /*@__PURE__*/ S.Array(Message) as any as S.Schema<MessageList>;
-
-export type TaskStatusStateEnum =
-  | "TASK_STATE_UNSPECIFIED"
-  | "TASK_STATE_SUBMITTED"
-  | "TASK_STATE_WORKING"
-  | "TASK_STATE_COMPLETED"
-  | "TASK_STATE_FAILED"
-  | "TASK_STATE_CANCELLED"
-  | "TASK_STATE_INPUT_REQUIRED"
-  | "TASK_STATE_REJECTED"
-  | "TASK_STATE_AUTH_REQUIRED";
-export const TaskStatusStateEnum = S.String;
-
-/** A container for the status of a task */
-export interface TaskStatus {
-  /** A message associated with the status. */
-  message?: Message;
-  /** The current state of this task */
-  state?: TaskStatusStateEnum;
-  /** Timestamp when the status was recorded. Example: "2023-10-27T10:00:00Z" */
-  timestamp?: string;
-}
-export const TaskStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(Message),
-    state: S.optional(TaskStatusStateEnum),
-    timestamp: S.optional(S.String),
-  }),
-).annotate({ identifier: "TaskStatus" }) as any as S.Schema<TaskStatus>;
-
-/** Task is the core unit of action for A2A. It has a current status and when results are created for the task they are stored in the artifact. If there are multiple turns for a task, these are stored in history. */
-export interface Task {
-  /** A set of output artifacts for a Task. */
-  artifacts?: ArtifactList;
-  /** Unique identifier (e.g. UUID) for the contextual collection of interactions (tasks and messages). Created by the A2A server. */
-  contextId?: string;
-  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED The history of interactions from a task. */
-  history?: MessageList;
-  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED A key/value object to store custom metadata about a task. */
-  metadata?: DocumentMap;
-  /** The current status of a Task, including state and a message. */
-  status?: TaskStatus;
-  /** Unique identifier (e.g. UUID) for the task, generated by the server for a new task. */
-  id?: string;
-}
-export const Task = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    artifacts: S.optional(ArtifactList),
-    contextId: S.optional(S.String),
-    history: S.optional(MessageList),
-    metadata: S.optional(DocumentMap),
-    status: S.optional(TaskStatus),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "Task" }) as any as S.Schema<Task>;
-
-/** Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
-export interface PayloadOptions {
-  /** Optional. Whether the event payload includes data about the resource that changed. For example, for an event where a Google Chat message was created, whether the payload contains data about the [`Message`](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages) resource. If false, the event payload only includes the name of the changed resource. */
-  includeResource?: boolean;
-  /** Optional. If `include_resource` is set to `true`, the list of fields to include in the event payload. Separate fields with a comma. For example, to include a Google Chat message's sender and create time, enter `message.sender,message.createTime`. If omitted, the payload includes all fields for the resource. If you specify a field that doesn't exist for the resource, the system ignores the field. */
-  fieldMask?: string;
-}
-export const PayloadOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includeResource: S.optional(S.Boolean),
-    fieldMask: S.optional(S.String),
-  }),
-).annotate({ identifier: "PayloadOptions" }) as any as S.Schema<PayloadOptions>;
 
 /** The endpoint where the subscription delivers events. */
 export interface NotificationEndpoint {
@@ -320,19 +92,19 @@ export const NotificationEndpoint = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "NotificationEndpoint" }) as any as S.Schema<NotificationEndpoint>;
 
-/** Additional supported options for serving Drive events. */
-export interface DriveOptions {
-  /** Optional. Immutable. For subscriptions to Google Drive events, whether to receive events about Drive files that are children of the target folder or shared drive. This field must be `true` for subscriptions on shared drives. * If `false`, the subscription only receives events about changes to the folder or shared drive that's specified as the `targetResource`. * If `true`, the `mimeType` field of the `file` resource must be set to `application/vnd.google-apps.folder`. For details, see [Google Drive event types](https://developers.google.com/workspace/events/guides/events-drive#event-types). */
-  includeDescendants?: boolean;
+/** Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
+export interface PayloadOptions {
+  /** Optional. If `include_resource` is set to `true`, the list of fields to include in the event payload. Separate fields with a comma. For example, to include a Google Chat message's sender and create time, enter `message.sender,message.createTime`. If omitted, the payload includes all fields for the resource. If you specify a field that doesn't exist for the resource, the system ignores the field. */
+  fieldMask?: string;
+  /** Optional. Whether the event payload includes data about the resource that changed. For example, for an event where a Google Chat message was created, whether the payload contains data about the [`Message`](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages) resource. If false, the event payload only includes the name of the changed resource. */
+  includeResource?: boolean;
 }
-export const DriveOptions = /*@__PURE__*/ S.suspend(() =>
+export const PayloadOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    includeDescendants: S.optional(S.Boolean),
+    fieldMask: S.optional(S.String),
+    includeResource: S.optional(S.Boolean),
   }),
-).annotate({ identifier: "DriveOptions" }) as any as S.Schema<DriveOptions>;
-
-export type SubscriptionStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED" | "DELETED";
-export const SubscriptionStateEnum = S.String;
+).annotate({ identifier: "PayloadOptions" }) as any as S.Schema<PayloadOptions>;
 
 export type SubscriptionSuspensionReasonEnum =
   | "ERROR_TYPE_UNSPECIFIED"
@@ -347,65 +119,79 @@ export type SubscriptionSuspensionReasonEnum =
   | "OTHER";
 export const SubscriptionSuspensionReasonEnum = S.String;
 
+export type SubscriptionStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED" | "DELETED";
+export const SubscriptionStateEnum = S.String;
+
+/** Additional supported options for serving Drive events. */
+export interface DriveOptions {
+  /** Optional. Immutable. For subscriptions to Google Drive events, whether to receive events about Drive files that are children of the target folder or shared drive. This field must be `true` for subscriptions on shared drives. * If `false`, the subscription only receives events about changes to the folder or shared drive that's specified as the `targetResource`. * If `true`, the `mimeType` field of the `file` resource must be set to `application/vnd.google-apps.folder`. For details, see [Google Drive event types](https://developers.google.com/workspace/events/guides/events-drive#event-types). */
+  includeDescendants?: boolean;
+}
+export const DriveOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    includeDescendants: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DriveOptions" }) as any as S.Schema<DriveOptions>;
+
 /** A subscription to receive events about a Google Workspace resource. To learn more about subscriptions, see the [Google Workspace Events API overview](https://developers.google.com/workspace/events). */
 export interface Subscription {
-  /** Output only. The time when the subscription is created. */
-  createTime?: string;
-  /** Output only. The last time that the subscription is updated. */
-  updateTime?: string;
-  /** Optional. Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
-  payloadOptions?: PayloadOptions;
-  /** Output only. The service account that was used to authorize the creation of the subscription. This service account must be owned by the same Google Cloud project where you created this subscription. Format: `projects/{project_id}/serviceAccounts/{service_account_id}` */
-  serviceAccountAuthority?: string;
-  /** Required. Immutable. The Google Workspace resource that's monitored for events, formatted as the [full resource name](https://google.aip.dev/122#full-resource-names). To learn about target resources and the events that they support, see [Supported Google Workspace events](https://developers.google.com/workspace/events#supported-events). A user can only authorize your app to create one subscription for a given target resource. If your app tries to create another subscription with the same user credentials, the request returns an `ALREADY_EXISTS` error. */
-  targetResource?: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and might be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Required. Unordered list. Input for creating a subscription. Otherwise, output only. One or more types of events to receive about the target resource. Formatted according to the CloudEvents specification. The supported event types depend on the target resource of your subscription. For details, see [Supported Google Workspace events](https://developers.google.com/workspace/events/guides#supported-events). By default, you also receive events about the [lifecycle of your subscription](https://developers.google.com/workspace/events/guides/events-lifecycle). You don't need to specify lifecycle events for this field. If you specify an event type that doesn't exist for the target resource, the request returns an HTTP `400 Bad Request` status code. */
-  eventTypes?: StringList;
-  /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
-  name?: string;
-  /** Output only. The user who authorized the creation of the subscription. The user must be able to view the `target_resource`. For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/workspace/admin/directory/reference/rest/v1/users#User.FIELDS.id) field from the Directory API. Format: `users/{user}` */
-  userAuthority?: string;
-  /** Required. Immutable. The endpoint where the subscription delivers events, such as a Pub/Sub topic. */
-  notificationEndpoint?: NotificationEndpoint;
   /** Non-empty default. The timestamp in UTC when the subscription expires. Always displayed on output, regardless of what was used on input. */
   expireTime?: string;
-  /** Output only. The user who authorized the creation of the subscription. When a user authorizes the subscription, this field and the `user_authority` field have the same value and the format is: Format: `users/{user}` For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User.FIELDS.ids) field from the Directory API. When a Chat app authorizes the subscription, only `service_account_authority` field populates and this field is empty. */
-  authority?: string;
-  /** Output only. If `true`, the subscription is in the process of being updated. */
-  reconciling?: boolean;
-  /** Optional. Features that are supported only for subscriptions on Drive resources. */
-  driveOptions?: DriveOptions;
+  /** Required. Unordered list. Input for creating a subscription. Otherwise, output only. One or more types of events to receive about the target resource. Formatted according to the CloudEvents specification. The supported event types depend on the target resource of your subscription. For details, see [Supported Google Workspace events](https://developers.google.com/workspace/events/guides#supported-events). By default, you also receive events about the [lifecycle of your subscription](https://developers.google.com/workspace/events/guides/events-lifecycle). You don't need to specify lifecycle events for this field. If you specify an event type that doesn't exist for the target resource, the request returns an HTTP `400 Bad Request` status code. */
+  eventTypes?: StringList;
   /** Input only. The time-to-live (TTL) or duration for the subscription. If unspecified or set to `0`, uses the maximum possible duration. */
   ttl?: string;
+  /** Output only. The time when the subscription is created. */
+  createTime?: string;
+  /** Required. Immutable. The endpoint where the subscription delivers events, such as a Pub/Sub topic. */
+  notificationEndpoint?: NotificationEndpoint;
+  /** Optional. Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
+  payloadOptions?: PayloadOptions;
+  /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
+  name?: string;
   /** Output only. System-assigned unique identifier for the subscription. */
   uid?: string;
-  /** Output only. The state of the subscription. Determines whether the subscription can receive events and deliver them to the notification endpoint. */
-  state?: SubscriptionStateEnum | (string & {});
+  /** Output only. The user who authorized the creation of the subscription. The user must be able to view the `target_resource`. For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/workspace/admin/directory/reference/rest/v1/users#User.FIELDS.id) field from the Directory API. Format: `users/{user}` */
+  userAuthority?: string;
   /** Output only. The error that suspended the subscription. To reactivate the subscription, resolve the error and call the `ReactivateSubscription` method. */
   suspensionReason?: SubscriptionSuspensionReasonEnum | (string & {});
+  /** Required. Immutable. The Google Workspace resource that's monitored for events, formatted as the [full resource name](https://google.aip.dev/122#full-resource-names). To learn about target resources and the events that they support, see [Supported Google Workspace events](https://developers.google.com/workspace/events#supported-events). A user can only authorize your app to create one subscription for a given target resource. If your app tries to create another subscription with the same user credentials, the request returns an `ALREADY_EXISTS` error. */
+  targetResource?: string;
+  /** Output only. If `true`, the subscription is in the process of being updated. */
+  reconciling?: boolean;
+  /** Output only. The state of the subscription. Determines whether the subscription can receive events and deliver them to the notification endpoint. */
+  state?: SubscriptionStateEnum | (string & {});
+  /** Optional. Features that are supported only for subscriptions on Drive resources. */
+  driveOptions?: DriveOptions;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and might be sent on update requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. The user who authorized the creation of the subscription. When a user authorizes the subscription, this field and the `user_authority` field have the same value and the format is: Format: `users/{user}` For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User.FIELDS.ids) field from the Directory API. When a Chat app authorizes the subscription, only `service_account_authority` field populates and this field is empty. */
+  authority?: string;
+  /** Output only. The last time that the subscription is updated. */
+  updateTime?: string;
+  /** Output only. The service account that was used to authorize the creation of the subscription. This service account must be owned by the same Google Cloud project where you created this subscription. Format: `projects/{project_id}/serviceAccounts/{service_account_id}` */
+  serviceAccountAuthority?: string;
 }
 export const Subscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    payloadOptions: S.optional(PayloadOptions),
-    serviceAccountAuthority: S.optional(S.String),
-    targetResource: S.optional(S.String),
-    etag: S.optional(S.String),
-    eventTypes: S.optional(StringList),
-    name: S.optional(S.String),
-    userAuthority: S.optional(S.String),
-    notificationEndpoint: S.optional(NotificationEndpoint),
     expireTime: S.optional(S.String),
-    authority: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    driveOptions: S.optional(DriveOptions),
+    eventTypes: S.optional(StringList),
     ttl: S.optional(S.String),
+    createTime: S.optional(S.String),
+    notificationEndpoint: S.optional(NotificationEndpoint),
+    payloadOptions: S.optional(PayloadOptions),
+    name: S.optional(S.String),
     uid: S.optional(S.String),
-    state: S.optional(SubscriptionStateEnum),
+    userAuthority: S.optional(S.String),
     suspensionReason: S.optional(SubscriptionSuspensionReasonEnum),
+    targetResource: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
+    state: S.optional(SubscriptionStateEnum),
+    driveOptions: S.optional(DriveOptions),
+    etag: S.optional(S.String),
+    authority: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    serviceAccountAuthority: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 
@@ -430,6 +216,12 @@ export const CreateSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSubscriptionsRequest",
 }) as any as S.Schema<CreateSubscriptionsRequest>;
 
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
 export type DocumentMapList = Array<DocumentMap>;
 export const DocumentMapList = /*@__PURE__*/ S.Array(
   DocumentMap,
@@ -437,136 +229,60 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
-    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
+    error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
-/** Defines authentication details, used for push notifications. */
-export interface AuthenticationInfo {
-  /** Optional credentials */
-  credentials?: string;
-  /** Supported authentication schemes - e.g. Basic, Bearer, etc */
-  schemes?: StringList;
-}
-export const AuthenticationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    credentials: S.optional(S.String),
-    schemes: S.optional(StringList),
-  }),
-).annotate({ identifier: "AuthenticationInfo" }) as any as S.Schema<AuthenticationInfo>;
-
-/** Configuration for setting up push notifications for task updates. */
-export interface PushNotificationConfig {
-  /** Information about the authentication to sent with the notification */
-  authentication?: AuthenticationInfo;
-  /** A unique identifier (e.g. UUID) for this push notification. */
-  id?: string;
-  /** Token unique for this task/session */
-  token?: string;
-  /** Url to send the notification too */
-  url?: string;
-}
-export const PushNotificationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authentication: S.optional(AuthenticationInfo),
-    id: S.optional(S.String),
-    token: S.optional(S.String),
-    url: S.optional(S.String),
-  }),
-).annotate({ identifier: "PushNotificationConfig" }) as any as S.Schema<PushNotificationConfig>;
-
-export interface TaskPushNotificationConfig {
-  /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
-  name?: string;
-  /** The push notification configuration details. */
-  pushNotificationConfig?: PushNotificationConfig;
-}
-export const TaskPushNotificationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    pushNotificationConfig: S.optional(PushNotificationConfig),
-  }),
-).annotate({
-  identifier: "TaskPushNotificationConfig",
-}) as any as S.Schema<TaskPushNotificationConfig>;
-
-export interface CreateTasksPushNotificationConfigsRequest {
-  /** Required. The parent task resource for this config. Format: tasks/{task_id} */
-  parent: string;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-  /** Required. The ID for the new config. */
-  configId?: string;
-  /** Request body */
-  body?: TaskPushNotificationConfig;
-}
-export const CreateTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parent: S.String.pipe(T.Label()),
-    tenant: S.optional(S.String.pipe(T.Query())),
-    configId: S.optional(S.String.pipe(T.Query())),
-    body: S.optional(TaskPushNotificationConfig.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+parent}",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "CreateTasksPushNotificationConfigsRequest",
-}) as any as S.Schema<CreateTasksPushNotificationConfigsRequest>;
-
 export interface DeleteSubscriptionsRequest {
-  /** Required. Resource name of the subscription to delete. Format: `subscriptions/{subscription}` */
-  name: string;
-  /** Optional. Etag of the subscription. If present, it must match with the server's etag. Otherwise, request fails with the status `ABORTED`. */
-  etag?: string;
   /** Optional. If set to `true`, validates and previews the request, but doesn't delete the subscription. */
   validateOnly?: boolean;
   /** Optional. If set to `true` and the subscription isn't found, the request succeeds but doesn't delete the subscription. */
   allowMissing?: boolean;
+  /** Required. Resource name of the subscription to delete. Format: `subscriptions/{subscription}` */
+  name: string;
+  /** Optional. Etag of the subscription. If present, it must match with the server's etag. Otherwise, request fails with the status `ABORTED`. */
+  etag?: string;
 }
 export const DeleteSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -577,33 +293,6 @@ export const DeleteSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteSubscriptionsRequest",
 }) as any as S.Schema<DeleteSubscriptionsRequest>;
-
-export interface DeleteTasksPushNotificationConfigsRequest {
-  /** The resource name of the config to delete. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
-  name: string;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-}
-export const DeleteTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    tenant: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteTasksPushNotificationConfigsRequest",
-}) as any as S.Schema<DeleteTasksPushNotificationConfigsRequest>;
-
-/** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
-export interface Empty {}
-export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "Empty",
-}) as any as S.Schema<Empty>;
 
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -637,61 +326,18 @@ export const GetSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetSubscriptionsRequest" }) as any as S.Schema<GetSubscriptionsRequest>;
 
-export interface GetTasksRequest {
-  /** The number of most recent messages from the task's history to retrieve. */
-  historyLength?: number;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-  /** Required. The resource name of the task. Format: tasks/{task_id} */
-  name: string;
-}
-export const GetTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    historyLength: S.optional(S.Number.pipe(T.Query())),
-    tenant: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({ identifier: "GetTasksRequest" }) as any as S.Schema<GetTasksRequest>;
-
-export interface GetTasksPushNotificationConfigsRequest {
-  /** The resource name of the config to retrieve. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
-  name: string;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-}
-export const GetTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    tenant: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "GetTasksPushNotificationConfigsRequest",
-}) as any as S.Schema<GetTasksPushNotificationConfigsRequest>;
-
 export interface ListSubscriptionsRequest {
-  /** Required. A query filter. You can filter subscriptions by event type (`event_types`) and target resource (`target_resource`). You must specify at least one event type in your query. To filter for multiple event types, use the `OR` operator. To filter by both event type and target resource, use the `AND` operator and specify the full resource name, such as `//chat.googleapis.com/spaces/{space}`. For example, the following queries are valid: ``` event_types:"google.workspace.chat.membership.v1.updated" OR event_types:"google.workspace.chat.message.v1.created" event_types:"google.workspace.chat.message.v1.created" AND target_resource="//chat.googleapis.com/spaces/{space}" ( event_types:"google.workspace.chat.membership.v1.updated" OR event_types:"google.workspace.chat.message.v1.created" ) AND target_resource="//chat.googleapis.com/spaces/{space}" ``` The following query is available in [Developer Preview](https://developers.google.com/workspace/preview): ``` event_types:"google.workspace.chat.message.v1.created" AND target_resource="//admin.googleapis.com/customers/my_customer" ``` The server rejects invalid queries with an `INVALID_ARGUMENT` error. */
-  filter?: string;
   /** Optional. The maximum number of subscriptions to return. The service might return fewer than this value. If unspecified or set to `0`, up to 50 subscriptions are returned. The maximum value is 100. If you specify a value more than 100, the system only returns 100 subscriptions. */
   pageSize?: number;
+  /** Required. A query filter. You can filter subscriptions by event type (`event_types`) and target resource (`target_resource`). You must specify at least one event type in your query. To filter for multiple event types, use the `OR` operator. To filter by both event type and target resource, use the `AND` operator and specify the full resource name, such as `//chat.googleapis.com/spaces/{space}`. For example, the following queries are valid: ``` event_types:"google.workspace.chat.membership.v1.updated" OR event_types:"google.workspace.chat.message.v1.created" event_types:"google.workspace.chat.message.v1.created" AND target_resource="//chat.googleapis.com/spaces/{space}" ( event_types:"google.workspace.chat.membership.v1.updated" OR event_types:"google.workspace.chat.message.v1.created" ) AND target_resource="//chat.googleapis.com/spaces/{space}" ``` The following query is available in [Developer Preview](https://developers.google.com/workspace/preview): ``` event_types:"google.workspace.chat.message.v1.created" AND target_resource="//admin.googleapis.com/customers/my_customer" ``` The server rejects invalid queries with an `INVALID_ARGUMENT` error. */
+  filter?: string;
   /** Optional. A page token, received from a previous list subscriptions call. Provide this parameter to retrieve the subsequent page. When paginating, the filter value should match the call that provided the page token. Passing a different value might lead to unexpected results. */
   pageToken?: string;
 }
 export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -722,53 +368,6 @@ export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListSubscriptionsResponse",
 }) as any as S.Schema<ListSubscriptionsResponse>;
-
-export interface ListTasksPushNotificationConfigsRequest {
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-  /** For AIP-158 these fields are present. Usually not used/needed. The maximum number of configurations to return. If unspecified, all configs will be returned. */
-  pageSize?: number;
-  /** A page token received from a previous ListTaskPushNotificationConfigRequest call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTaskPushNotificationConfigRequest` must match the call that provided the page token. */
-  pageToken?: string;
-  /** The parent task resource. Format: tasks/{task_id} */
-  parent: string;
-}
-export const ListTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tenant: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+parent}/pushNotificationConfigs",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "ListTasksPushNotificationConfigsRequest",
-}) as any as S.Schema<ListTasksPushNotificationConfigsRequest>;
-
-export type TaskPushNotificationConfigList = Array<TaskPushNotificationConfig>;
-export const TaskPushNotificationConfigList = /*@__PURE__*/ S.Array(
-  TaskPushNotificationConfig,
-) as any as S.Schema<TaskPushNotificationConfigList>;
-
-export interface ListTaskPushNotificationConfigResponse {
-  /** The list of push notification configurations. */
-  configs?: TaskPushNotificationConfigList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-}
-export const ListTaskPushNotificationConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    configs: S.optional(TaskPushNotificationConfigList),
-    nextPageToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTaskPushNotificationConfigResponse",
-}) as any as S.Schema<ListTaskPushNotificationConfigResponse>;
 
 export interface PatchSubscriptionsRequest {
   /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
@@ -824,161 +423,6 @@ export const ReactivateSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReactivateSubscriptionsRequest",
 }) as any as S.Schema<ReactivateSubscriptionsRequest>;
 
-/** Configuration of a send message request. */
-export interface SendMessageConfiguration {
-  /** A configuration of a webhook that can be used to receive updates */
-  pushNotification?: PushNotificationConfig;
-  /** The output modes that the agent is expected to respond with. */
-  acceptedOutputModes?: StringList;
-  /** The maximum number of messages to include in the history. if 0, the history will be unlimited. */
-  historyLength?: number;
-  /** If true, the message will be blocking until the task is completed. If false, the message will be non-blocking and the task will be returned immediately. It is the caller's responsibility to check for any task updates. */
-  blocking?: boolean;
-}
-export const SendMessageConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pushNotification: S.optional(PushNotificationConfig),
-    acceptedOutputModes: S.optional(StringList),
-    historyLength: S.optional(S.Number),
-    blocking: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SendMessageConfiguration" }) as any as S.Schema<SendMessageConfiguration>;
-
-/** /////////// Request Messages /////////// */
-export interface SendMessageRequest {
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-  /** Required. The message to send to the agent. */
-  message?: Message;
-  /** Configuration for the send request. */
-  configuration?: SendMessageConfiguration;
-  /** Optional metadata for the request. */
-  metadata?: DocumentMap;
-}
-export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tenant: S.optional(S.String),
-    message: S.optional(Message),
-    configuration: S.optional(SendMessageConfiguration),
-    metadata: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "SendMessageRequest" }) as any as S.Schema<SendMessageRequest>;
-
-export interface StreamMessageRequest {
-  /** Request body */
-  body?: SendMessageRequest;
-}
-export const StreamMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    body: S.optional(SendMessageRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/message:stream",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({ identifier: "StreamMessageRequest" }) as any as S.Schema<StreamMessageRequest>;
-
-/** TaskArtifactUpdateEvent represents a task delta where an artifact has been generated. */
-export interface TaskArtifactUpdateEvent {
-  /** The artifact itself */
-  artifact?: Artifact;
-  /** The id of the task for this artifact */
-  taskId?: string;
-  /** Optional metadata associated with the artifact update. */
-  metadata?: DocumentMap;
-  /** Whether this represents the last part of an artifact */
-  lastChunk?: boolean;
-  /** The id of the context that this task belongs too */
-  contextId?: string;
-  /** Whether this should be appended to a prior one produced */
-  append?: boolean;
-}
-export const TaskArtifactUpdateEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    artifact: S.optional(Artifact),
-    taskId: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    lastChunk: S.optional(S.Boolean),
-    contextId: S.optional(S.String),
-    append: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "TaskArtifactUpdateEvent" }) as any as S.Schema<TaskArtifactUpdateEvent>;
-
-/** TaskStatusUpdateEvent is a delta even on a task indicating that a task has changed. */
-export interface TaskStatusUpdateEvent {
-  /** Optional metadata to associate with the task update. */
-  metadata?: DocumentMap;
-  /** The id of the context that the task belongs to */
-  contextId?: string;
-  /** The id of the task that is changed */
-  taskId?: string;
-  /** The new status of the task. */
-  status?: TaskStatus;
-  /** Whether this is the last status update expected for this task. */
-  final?: boolean;
-}
-export const TaskStatusUpdateEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadata: S.optional(DocumentMap),
-    contextId: S.optional(S.String),
-    taskId: S.optional(S.String),
-    status: S.optional(TaskStatus),
-    final: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "TaskStatusUpdateEvent" }) as any as S.Schema<TaskStatusUpdateEvent>;
-
-/** The stream response for a message. The stream should be one of the following sequences: If the response is a message, the stream should contain one, and only one, message and then close If the response is a task lifecycle, the first response should be a Task object followed by zero or more TaskStatusUpdateEvents and TaskArtifactUpdateEvents. The stream should complete when the Task if in an interrupted or terminal state. A stream that ends before these conditions are met are */
-export interface StreamResponse {
-  task?: Task;
-  artifactUpdate?: TaskArtifactUpdateEvent;
-  message?: Message;
-  statusUpdate?: TaskStatusUpdateEvent;
-}
-export const StreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    task: S.optional(Task),
-    artifactUpdate: S.optional(TaskArtifactUpdateEvent),
-    message: S.optional(Message),
-    statusUpdate: S.optional(TaskStatusUpdateEvent),
-  }),
-).annotate({ identifier: "StreamResponse" }) as any as S.Schema<StreamResponse>;
-
-export interface SubscribeTasksRequest {
-  /** The resource name of the task to subscribe to. Format: tasks/{task_id} */
-  name: string;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-}
-export const SubscribeTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    tenant: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}:subscribe",
-      baseUrl: "https://workspaceevents.googleapis.com/",
-    }),
-  ),
-).annotate({ identifier: "SubscribeTasksRequest" }) as any as S.Schema<SubscribeTasksRequest>;
-
-export type CancelTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
-export const cancelTasks: API.OperationMethod<
-  CancelTasksRequest,
-  Task,
-  CancelTasksError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CancelTasksRequest,
-  output: Task,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type CreateSubscriptionsError =
   | NotFound
   | Forbidden
@@ -1007,27 +451,6 @@ export const createSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateTasksPushNotificationConfigsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | TasksUnregisteredCaller
-  | GcpOpError;
-/** Set a push notification config for a task. */
-export const createTasksPushNotificationConfigs: API.OperationMethod<
-  CreateTasksPushNotificationConfigsRequest,
-  TaskPushNotificationConfig,
-  CreateTasksPushNotificationConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateTasksPushNotificationConfigsRequest,
-  output: TaskPushNotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, TasksUnregisteredCaller, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type DeleteSubscriptionsError =
   | NotFound
   | Forbidden
@@ -1052,27 +475,6 @@ export const deleteSubscriptions: API.OperationMethod<
     WorkspaceEventsScopeInsufficient,
     UnknownGCPError,
   ],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type DeleteTasksPushNotificationConfigsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | TasksUnregisteredCaller
-  | GcpOpError;
-/** Delete a push notification config for a task. */
-export const deleteTasksPushNotificationConfigs: API.OperationMethod<
-  DeleteTasksPushNotificationConfigsRequest,
-  Empty,
-  DeleteTasksPushNotificationConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTasksPushNotificationConfigsRequest,
-  output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, TasksUnregisteredCaller, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1111,36 +513,6 @@ export const getSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetTasksError = NotFound | Forbidden | GcpOpError;
-/** Get the current state of a task from the agent. */
-export const getTasks: API.OperationMethod<GetTasksRequest, Task, GetTasksError, GcpOpContext> =
-  /*@__PURE__*/ API.make(() => ({
-    input: GetTasksRequest,
-    output: Task,
-    errors: [NotFound, Forbidden, UnknownGCPError],
-    protocol: GcpProtocol,
-    retry: Retry.Retry,
-  }));
-
-export type GetTasksPushNotificationConfigsError =
-  | NotFound
-  | Forbidden
-  | TasksUnregisteredCaller
-  | GcpOpError;
-/** Get a push notification config for a task. */
-export const getTasksPushNotificationConfigs: API.OperationMethod<
-  GetTasksPushNotificationConfigsRequest,
-  TaskPushNotificationConfig,
-  GetTasksPushNotificationConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetTasksPushNotificationConfigsRequest,
-  output: TaskPushNotificationConfig,
-  errors: [NotFound, Forbidden, TasksUnregisteredCaller, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ListSubscriptionsError =
   | NotFound
   | Forbidden
@@ -1157,27 +529,6 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse,
   errors: [NotFound, Forbidden, WorkspaceEventsScopeInsufficient, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
-})) as any;
-
-export type ListTasksPushNotificationConfigsError =
-  | NotFound
-  | Forbidden
-  | TasksUnregisteredCaller
-  | GcpOpError;
-/** Get a list of push notifications configured for a task. */
-export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<
-  ListTasksPushNotificationConfigsRequest,
-  ListTaskPushNotificationConfigResponse,
-  ListTasksPushNotificationConfigsError,
-  GcpOpContext,
-  ListTaskPushNotificationConfigResponse
-> = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTasksPushNotificationConfigsRequest,
-  output: ListTaskPushNotificationConfigResponse,
-  errors: [NotFound, Forbidden, TasksUnregisteredCaller, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
@@ -1235,36 +586,6 @@ export const reactivateSubscriptions: API.OperationMethod<
     WorkspaceEventsScopeInsufficient,
     UnknownGCPError,
   ],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type StreamMessageError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
-export const streamMessage: API.OperationMethod<
-  StreamMessageRequest,
-  StreamResponse,
-  StreamMessageError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: StreamMessageRequest,
-  output: StreamResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SubscribeTasksError = NotFound | Forbidden | GcpOpError;
-/** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
-export const subscribeTasks: API.OperationMethod<
-  SubscribeTasksRequest,
-  StreamResponse,
-  SubscribeTasksError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SubscribeTasksRequest,
-  output: StreamResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

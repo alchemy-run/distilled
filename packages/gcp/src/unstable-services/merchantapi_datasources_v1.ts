@@ -61,20 +61,48 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The promotion data source. */
+export interface PromotionDataSource {
+  /** Required. Immutable. The two-letter ISO 639-1 language of the items in the data source. */
+  contentLanguage?: string;
+  /** Required. Immutable. The target country used as part of the unique identifier. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). Promotions are only available in selected [countries](https://support.google.com/merchants/answer/4588460). */
+  targetCountry?: string;
+}
+export const PromotionDataSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentLanguage: S.optional(S.String),
+    targetCountry: S.optional(S.String),
+  }),
+).annotate({ identifier: "PromotionDataSource" }) as any as S.Schema<PromotionDataSource>;
+
+/** The local inventory data source type is only available for file inputs and can't be used to create API local inventory data sources. */
+export interface LocalInventoryDataSource {
+  /** Required. Immutable. The feed label of the offers to which the local inventory is provided. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
+  feedLabel?: string;
+  /** Required. Immutable. The two-letter ISO 639-1 language of the items to which the local inventory is provided. */
+  contentLanguage?: string;
+}
+export const LocalInventoryDataSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    feedLabel: S.optional(S.String),
+    contentLanguage: S.optional(S.String),
+  }),
+).annotate({ identifier: "LocalInventoryDataSource" }) as any as S.Schema<LocalInventoryDataSource>;
+
 /** Data source reference can be used to manage related data sources within the data source service. */
 export interface DataSourceReference {
   /** Optional. Deprecated: Use `self` instead to reference the primary data source. The name of the primary data source. Format: `accounts/{account}/dataSources/{datasource}` */
   primaryDataSourceName?: string;
-  /** Self should be used to reference the primary data source itself. */
-  self?: boolean;
   /** Optional. The name of the supplemental data source. Format: `accounts/{account}/dataSources/{datasource}` */
   supplementalDataSourceName?: string;
+  /** Self should be used to reference the primary data source itself. */
+  self?: boolean;
 }
 export const DataSourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primaryDataSourceName: S.optional(S.String),
-    self: S.optional(S.Boolean),
     supplementalDataSourceName: S.optional(S.String),
+    self: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "DataSourceReference" }) as any as S.Schema<DataSourceReference>;
 
@@ -102,136 +130,20 @@ export const SupplementalProductDataSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "SupplementalProductDataSource",
 }) as any as S.Schema<SupplementalProductDataSource>;
 
-/** The merchant review data source. */
-export interface MerchantReviewDataSource {}
-export const MerchantReviewDataSource = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "MerchantReviewDataSource",
-}) as any as S.Schema<MerchantReviewDataSource>;
-
 export interface RegionalInventoryDataSource {
-  /** Required. Immutable. The two-letter ISO 639-1 language of the items to which the regional inventory is provided. */
-  contentLanguage?: string;
   /** Required. Immutable. The feed label of the offers to which the regional inventory is provided. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
   feedLabel?: string;
+  /** Required. Immutable. The two-letter ISO 639-1 language of the items to which the regional inventory is provided. */
+  contentLanguage?: string;
 }
 export const RegionalInventoryDataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentLanguage: S.optional(S.String),
     feedLabel: S.optional(S.String),
+    contentLanguage: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RegionalInventoryDataSource",
 }) as any as S.Schema<RegionalInventoryDataSource>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export type DestinationStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED";
-export const DestinationStateEnum = S.String;
-
-export type DestinationDestinationEnum =
-  | "DESTINATION_ENUM_UNSPECIFIED"
-  | "SHOPPING_ADS"
-  | "DISPLAY_ADS"
-  | "LOCAL_INVENTORY_ADS"
-  | "FREE_LISTINGS"
-  | "FREE_LOCAL_LISTINGS"
-  | "YOUTUBE_SHOPPING"
-  | "YOUTUBE_SHOPPING_CHECKOUT"
-  | "YOUTUBE_AFFILIATE"
-  | "FREE_VEHICLE_LISTINGS"
-  | "VEHICLE_ADS"
-  | "CLOUD_RETAIL"
-  | "LOCAL_CLOUD_RETAIL"
-  | "RENTAL_ADS";
-export const DestinationDestinationEnum = S.String;
-
-/** Destinations also known as [Marketing methods](https://support.google.com/merchants/answer/15130232) selections. */
-export interface Destination {
-  /** The state of the destination. */
-  state?: DestinationStateEnum | (string & {});
-  /** [Marketing methods](https://support.google.com/merchants/answer/15130232) (also known as destination) selections. */
-  destination?: DestinationDestinationEnum | (string & {});
-}
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(DestinationStateEnum),
-    destination: S.optional(DestinationDestinationEnum),
-  }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
-
-export type DestinationList = Array<Destination>;
-export const DestinationList = /*@__PURE__*/ S.Array(
-  Destination,
-) as any as S.Schema<DestinationList>;
-
-/** Default rule management of the data source. */
-export interface DefaultRule {
-  /** Required. The list of data sources linked in the [default rule](https://support.google.com/merchants/answer/7450276). This list is ordered by the default rule priority of joining the data. It might include none or multiple references to `self` and supplemental data sources. The list must not be empty. To link the data source to the default rule, you need to add a new reference to this list (in sequential order). To unlink the data source from the default rule, you need to remove the given reference from this list. Changing the order of this list will result in changing the priority of data sources in the default rule. For example, providing the following list: [`1001`, `self`] will take attribute values from supplemental data source `1001`, and fallback to `self` if the attribute is not set in `1001`. Warning: The update (patch) and create call replaces the entire default rule setup. It doesn't work as an addition or append. If `self` is missing from the list of `take_from_data_sources`, the API will ignore attributes from the primary data source itself. */
-  takeFromDataSources?: DataSourceReferenceList;
-}
-export const DefaultRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    takeFromDataSources: S.optional(DataSourceReferenceList),
-  }),
-).annotate({ identifier: "DefaultRule" }) as any as S.Schema<DefaultRule>;
-
-/** The primary data source for local and online products. */
-export interface PrimaryProductDataSource {
-  /** Optional. The countries where the items may be displayed. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
-  countries?: StringList;
-  /** Optional. Immutable. Determines whether the products of this data source are **only** targeting local destinations. Legacy local products are prefixed with `local~` in the product resource ID. For example, `accounts/123/products/local~en~US~sku123`. */
-  legacyLocal?: boolean;
-  /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
-  contentLanguage?: string;
-  /** Optional. A list of destinations describing where products of the data source can be shown. When retrieving the data source, the list contains all the destinations that can be used for the data source, including the ones that are disabled for the data source but enabled for the account. Only destinations that are enabled on the account, for example through program participation, can be enabled on the data source. If unset, during creation, the destinations will be inherited based on the account level program participation. If set, during creation or update, the data source will be set only for the specified destinations. Updating this field requires at least one destination. */
-  destinations?: DestinationList;
-  /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). For more information about feed label, see [Create a primary data source for products](https://developers.google.com/merchant/api/guides/data-sources/api-sources#create-primary-data-source). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
-  feedLabel?: string;
-  /** Optional. Default rule management of the data source. If set, the linked data sources will be replaced. Warning: The update (patch) and create call replaces the entire default rule setup. It doesn't work as an addition or append. If `self` is missing from the list of `take_from_data_sources`, the API will ignore attributes from the primary data source itself. */
-  defaultRule?: DefaultRule;
-}
-export const PrimaryProductDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    countries: S.optional(StringList),
-    legacyLocal: S.optional(S.Boolean),
-    contentLanguage: S.optional(S.String),
-    destinations: S.optional(DestinationList),
-    feedLabel: S.optional(S.String),
-    defaultRule: S.optional(DefaultRule),
-  }),
-).annotate({ identifier: "PrimaryProductDataSource" }) as any as S.Schema<PrimaryProductDataSource>;
-
-export type DataSourceInputEnum = "INPUT_UNSPECIFIED" | "API" | "FILE" | "UI" | "AUTOFEED";
-export const DataSourceInputEnum = S.String;
-
-/** The promotion data source. */
-export interface PromotionDataSource {
-  /** Required. Immutable. The two-letter ISO 639-1 language of the items in the data source. */
-  contentLanguage?: string;
-  /** Required. Immutable. The target country used as part of the unique identifier. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). Promotions are only available in selected [countries](https://support.google.com/merchants/answer/4588460). */
-  targetCountry?: string;
-}
-export const PromotionDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentLanguage: S.optional(S.String),
-    targetCountry: S.optional(S.String),
-  }),
-).annotate({ identifier: "PromotionDataSource" }) as any as S.Schema<PromotionDataSource>;
-
-/** The local inventory data source type is only available for file inputs and can't be used to create API local inventory data sources. */
-export interface LocalInventoryDataSource {
-  /** Required. Immutable. The two-letter ISO 639-1 language of the items to which the local inventory is provided. */
-  contentLanguage?: string;
-  /** Required. Immutable. The feed label of the offers to which the local inventory is provided. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
-  feedLabel?: string;
-}
-export const LocalInventoryDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentLanguage: S.optional(S.String),
-    feedLabel: S.optional(S.String),
-  }),
-).annotate({ identifier: "LocalInventoryDataSource" }) as any as S.Schema<LocalInventoryDataSource>;
 
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
@@ -239,17 +151,17 @@ export interface TimeOfDay {
   hours?: number;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
   minutes?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
 }
 export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hours: S.optional(S.Number),
     nanos: S.optional(S.Number),
-    seconds: S.optional(S.Number),
     minutes: S.optional(S.Number),
+    seconds: S.optional(S.Number),
   }),
 ).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
 
@@ -273,36 +185,36 @@ export const FetchSettingsFrequencyEnum = S.String;
 
 /** Fetch details to deliver the data source. */
 export interface FetchSettings {
+  /** Optional. The day of the month when the data source file should be fetched (1-31). This field can only be set for monthly frequency. */
+  dayOfMonth?: number;
+  /** Optional. [Time zone](https://cldr.unicode.org) used for schedule. UTC by default. For example, "America/Los_Angeles". */
+  timeZone?: string;
+  /** Optional. Enables or pauses the fetch schedule. */
+  enabled?: boolean;
+  /** Optional. The URL where the data source file can be fetched. Google Merchant Center supports automatic scheduled uploads using the HTTP, HTTPS or SFTP protocols, so the value will need to be a valid link using one of those three protocols. Immutable for Google Sheets files. */
+  fetchUri?: string;
+  /** Optional. An optional user name for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
+  username?: string;
   /** Optional. An optional password for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
   password?: string;
   /** Optional. The hour of the day when the data source file should be fetched. Minutes and seconds are not supported and will be ignored. */
   timeOfDay?: TimeOfDay;
-  /** Optional. The URL where the data source file can be fetched. Google Merchant Center supports automatic scheduled uploads using the HTTP, HTTPS or SFTP protocols, so the value will need to be a valid link using one of those three protocols. Immutable for Google Sheets files. */
-  fetchUri?: string;
-  /** Optional. Enables or pauses the fetch schedule. */
-  enabled?: boolean;
   /** Optional. The day of the week when the data source file should be fetched. This field can only be set for weekly frequency. */
   dayOfWeek?: FetchSettingsDayOfWeekEnum | (string & {});
-  /** Optional. [Time zone](https://cldr.unicode.org) used for schedule. UTC by default. For example, "America/Los_Angeles". */
-  timeZone?: string;
   /** Required. The frequency describing fetch schedule. */
   frequency?: FetchSettingsFrequencyEnum | (string & {});
-  /** Optional. An optional user name for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
-  username?: string;
-  /** Optional. The day of the month when the data source file should be fetched (1-31). This field can only be set for monthly frequency. */
-  dayOfMonth?: number;
 }
 export const FetchSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dayOfMonth: S.optional(S.Number),
+    timeZone: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    fetchUri: S.optional(S.String),
+    username: S.optional(S.String),
     password: S.optional(S.String),
     timeOfDay: S.optional(TimeOfDay),
-    fetchUri: S.optional(S.String),
-    enabled: S.optional(S.Boolean),
     dayOfWeek: S.optional(FetchSettingsDayOfWeekEnum),
-    timeZone: S.optional(S.String),
     frequency: S.optional(FetchSettingsFrequencyEnum),
-    username: S.optional(S.String),
-    dayOfMonth: S.optional(S.Number),
   }),
 ).annotate({ identifier: "FetchSettings" }) as any as S.Schema<FetchSettings>;
 
@@ -330,51 +242,139 @@ export const FileInput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FileInput" }) as any as S.Schema<FileInput>;
 
+/** Default rule management of the data source. */
+export interface DefaultRule {
+  /** Required. The list of data sources linked in the [default rule](https://support.google.com/merchants/answer/7450276). This list is ordered by the default rule priority of joining the data. It might include none or multiple references to `self` and supplemental data sources. The list must not be empty. To link the data source to the default rule, you need to add a new reference to this list (in sequential order). To unlink the data source from the default rule, you need to remove the given reference from this list. Changing the order of this list will result in changing the priority of data sources in the default rule. For example, providing the following list: [`1001`, `self`] will take attribute values from supplemental data source `1001`, and fallback to `self` if the attribute is not set in `1001`. Warning: The update (patch) and create call replaces the entire default rule setup. It doesn't work as an addition or append. If `self` is missing from the list of `take_from_data_sources`, the API will ignore attributes from the primary data source itself. */
+  takeFromDataSources?: DataSourceReferenceList;
+}
+export const DefaultRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    takeFromDataSources: S.optional(DataSourceReferenceList),
+  }),
+).annotate({ identifier: "DefaultRule" }) as any as S.Schema<DefaultRule>;
+
+export type DestinationDestinationEnum =
+  | "DESTINATION_ENUM_UNSPECIFIED"
+  | "SHOPPING_ADS"
+  | "DISPLAY_ADS"
+  | "LOCAL_INVENTORY_ADS"
+  | "FREE_LISTINGS"
+  | "FREE_LOCAL_LISTINGS"
+  | "YOUTUBE_SHOPPING"
+  | "YOUTUBE_SHOPPING_CHECKOUT"
+  | "YOUTUBE_AFFILIATE"
+  | "FREE_VEHICLE_LISTINGS"
+  | "VEHICLE_ADS"
+  | "CLOUD_RETAIL"
+  | "LOCAL_CLOUD_RETAIL"
+  | "RENTAL_ADS";
+export const DestinationDestinationEnum = S.String;
+
+export type DestinationStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED";
+export const DestinationStateEnum = S.String;
+
+/** Destinations also known as [Marketing methods](https://support.google.com/merchants/answer/15130232) selections. */
+export interface Destination {
+  /** [Marketing methods](https://support.google.com/merchants/answer/15130232) (also known as destination) selections. */
+  destination?: DestinationDestinationEnum | (string & {});
+  /** The state of the destination. */
+  state?: DestinationStateEnum | (string & {});
+}
+export const Destination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destination: S.optional(DestinationDestinationEnum),
+    state: S.optional(DestinationStateEnum),
+  }),
+).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
+
+export type DestinationList = Array<Destination>;
+export const DestinationList = /*@__PURE__*/ S.Array(
+  Destination,
+) as any as S.Schema<DestinationList>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** The primary data source for local and online products. */
+export interface PrimaryProductDataSource {
+  /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
+  contentLanguage?: string;
+  /** Optional. Default rule management of the data source. If set, the linked data sources will be replaced. Warning: The update (patch) and create call replaces the entire default rule setup. It doesn't work as an addition or append. If `self` is missing from the list of `take_from_data_sources`, the API will ignore attributes from the primary data source itself. */
+  defaultRule?: DefaultRule;
+  /** Optional. A list of destinations describing where products of the data source can be shown. When retrieving the data source, the list contains all the destinations that can be used for the data source, including the ones that are disabled for the data source but enabled for the account. Only destinations that are enabled on the account, for example through program participation, can be enabled on the data source. If unset, during creation, the destinations will be inherited based on the account level program participation. If set, during creation or update, the data source will be set only for the specified destinations. Updating this field requires at least one destination. */
+  destinations?: DestinationList;
+  /** Optional. Immutable. Determines whether the products of this data source are **only** targeting local destinations. Legacy local products are prefixed with `local~` in the product resource ID. For example, `accounts/123/products/local~en~US~sku123`. */
+  legacyLocal?: boolean;
+  /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). For more information about feed label, see [Create a primary data source for products](https://developers.google.com/merchant/api/guides/data-sources/api-sources#create-primary-data-source). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
+  feedLabel?: string;
+  /** Optional. The countries where the items may be displayed. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
+  countries?: StringList;
+}
+export const PrimaryProductDataSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentLanguage: S.optional(S.String),
+    defaultRule: S.optional(DefaultRule),
+    destinations: S.optional(DestinationList),
+    legacyLocal: S.optional(S.Boolean),
+    feedLabel: S.optional(S.String),
+    countries: S.optional(StringList),
+  }),
+).annotate({ identifier: "PrimaryProductDataSource" }) as any as S.Schema<PrimaryProductDataSource>;
+
+export type DataSourceInputEnum = "INPUT_UNSPECIFIED" | "API" | "FILE" | "UI" | "AUTOFEED";
+export const DataSourceInputEnum = S.String;
+
 /** The product review data source. */
-export type ProductReviewDataSource = MerchantReviewDataSource;
-export const ProductReviewDataSource = MerchantReviewDataSource;
+export interface ProductReviewDataSource {}
+export const ProductReviewDataSource = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ProductReviewDataSource",
+}) as any as S.Schema<ProductReviewDataSource>;
+
+/** The merchant review data source. */
+export type MerchantReviewDataSource = ProductReviewDataSource;
+export const MerchantReviewDataSource = ProductReviewDataSource;
 
 /** The [data source](/merchant/api/guides/data-sources/overview) for the Merchant Center account. */
 export interface DataSource {
+  /** The [promotion](https://support.google.com/merchants/answer/2906014) data source. */
+  promotionDataSource?: PromotionDataSource;
+  /** Required. The displayed data source name in the Merchant Center UI. */
+  displayName?: string;
+  /** The [local inventory](https://support.google.com/merchants/answer/7023001) data source. */
+  localInventoryDataSource?: LocalInventoryDataSource;
   /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
   name?: string;
   /** The [supplemental data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
   supplementalProductDataSource?: SupplementalProductDataSource;
-  /** The [merchant review](https://support.google.com/merchants/answer/7045996) data source. */
-  merchantReviewDataSource?: MerchantReviewDataSource;
   /** The [regional inventory](https://support.google.com/merchants/answer/7439058) data source. */
   regionalInventoryDataSource?: RegionalInventoryDataSource;
+  /** Optional. The field is used only when data is managed through a file. */
+  fileInput?: FileInput;
   /** Output only. The data source id. */
   dataSourceId?: string;
   /** The [primary data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
   primaryProductDataSource?: PrimaryProductDataSource;
-  /** Required. The displayed data source name in the Merchant Center UI. */
-  displayName?: string;
   /** Output only. Determines the type of input to the data source. Based on the input some settings might not work. Only generic data sources can be created through the API. */
   input?: DataSourceInputEnum | (string & {});
-  /** The [promotion](https://support.google.com/merchants/answer/2906014) data source. */
-  promotionDataSource?: PromotionDataSource;
-  /** The [local inventory](https://support.google.com/merchants/answer/7023001) data source. */
-  localInventoryDataSource?: LocalInventoryDataSource;
-  /** Optional. The field is used only when data is managed through a file. */
-  fileInput?: FileInput;
   /** The [product review](https://support.google.com/merchants/answer/7045996) data source. */
-  productReviewDataSource?: MerchantReviewDataSource;
+  productReviewDataSource?: ProductReviewDataSource;
+  /** The [merchant review](https://support.google.com/merchants/answer/7045996) data source. */
+  merchantReviewDataSource?: ProductReviewDataSource;
 }
 export const DataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    promotionDataSource: S.optional(PromotionDataSource),
+    displayName: S.optional(S.String),
+    localInventoryDataSource: S.optional(LocalInventoryDataSource),
     name: S.optional(S.String),
     supplementalProductDataSource: S.optional(SupplementalProductDataSource),
-    merchantReviewDataSource: S.optional(MerchantReviewDataSource),
     regionalInventoryDataSource: S.optional(RegionalInventoryDataSource),
+    fileInput: S.optional(FileInput),
     dataSourceId: S.optional(S.String),
     primaryProductDataSource: S.optional(PrimaryProductDataSource),
-    displayName: S.optional(S.String),
     input: S.optional(DataSourceInputEnum),
-    promotionDataSource: S.optional(PromotionDataSource),
-    localInventoryDataSource: S.optional(LocalInventoryDataSource),
-    fileInput: S.optional(FileInput),
-    productReviewDataSource: S.optional(MerchantReviewDataSource),
+    productReviewDataSource: S.optional(ProductReviewDataSource),
+    merchantReviewDataSource: S.optional(ProductReviewDataSource),
   }),
 ).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 
@@ -424,19 +424,19 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 /** Request message for the FetchDataSource method. */
-export type FetchDataSourceRequest = MerchantReviewDataSource;
-export const FetchDataSourceRequest = MerchantReviewDataSource;
+export type FetchDataSourceRequest = ProductReviewDataSource;
+export const FetchDataSourceRequest = ProductReviewDataSource;
 
 export interface FetchAccountsDataSourcesRequest {
   /** Required. The name of the data source resource to fetch. Format: `accounts/{account}/dataSources/{datasource}` */
   name: string;
   /** Request body */
-  body?: MerchantReviewDataSource;
+  body?: ProductReviewDataSource;
 }
 export const FetchAccountsDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    body: S.optional(MerchantReviewDataSource.pipe(T.HttpBody())),
+    body: S.optional(ProductReviewDataSource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -493,10 +493,10 @@ export interface Issue {
   documentationUri?: string;
   /** Output only. The number of occurrences of the error in the file upload. */
   count?: string;
-  /** Output only. The severity of the issue. */
-  severity?: IssueSeverityEnum;
   /** Output only. The code of the error, for example, "validation/invalid_value". Returns "?" if the code is unknown. */
   code?: string;
+  /** Output only. The severity of the issue. */
+  severity?: IssueSeverityEnum;
   /** Output only. The error description, for example, "Your data source contains items which have too many attributes, or are too big. These items will be dropped". */
   description?: string;
   /** Output only. The title of the issue, for example, "Item too big". */
@@ -506,8 +506,8 @@ export const Issue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentationUri: S.optional(S.String),
     count: S.optional(S.String),
-    severity: S.optional(IssueSeverityEnum),
     code: S.optional(S.String),
+    severity: S.optional(IssueSeverityEnum),
     description: S.optional(S.String),
     title: S.optional(S.String),
   }),
@@ -527,47 +527,47 @@ export const FileUploadProcessingStateEnum = S.String;
 export interface FileUpload {
   /** Output only. The data source id. */
   dataSourceId?: string;
+  /** Output only. The list of issues occurring in the data source. */
+  issues?: IssueList;
+  /** Output only. The number of items in the data source that were updated. */
+  itemsUpdated?: string;
+  /** Output only. The processing state of the data source. */
+  processingState?: FileUploadProcessingStateEnum;
+  /** Output only. The date at which the file of the data source was uploaded. */
+  uploadTime?: string;
   /** Output only. The number of items in the data source that were created. */
   itemsCreated?: string;
   /** Output only. The number of items in the data source that were processed. */
   itemsTotal?: string;
-  /** Output only. The date at which the file of the data source was uploaded. */
-  uploadTime?: string;
-  /** Output only. The number of items in the data source that were updated. */
-  itemsUpdated?: string;
   /** Identifier. The name of the data source file upload. Format: `{datasource.name=accounts/{account}/dataSources/{datasource}/fileUploads/{fileupload}}` */
   name?: string;
-  /** Output only. The list of issues occurring in the data source. */
-  issues?: IssueList;
-  /** Output only. The processing state of the data source. */
-  processingState?: FileUploadProcessingStateEnum;
 }
 export const FileUpload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataSourceId: S.optional(S.String),
+    issues: S.optional(IssueList),
+    itemsUpdated: S.optional(S.String),
+    processingState: S.optional(FileUploadProcessingStateEnum),
+    uploadTime: S.optional(S.String),
     itemsCreated: S.optional(S.String),
     itemsTotal: S.optional(S.String),
-    uploadTime: S.optional(S.String),
-    itemsUpdated: S.optional(S.String),
     name: S.optional(S.String),
-    issues: S.optional(IssueList),
-    processingState: S.optional(FileUploadProcessingStateEnum),
   }),
 ).annotate({ identifier: "FileUpload" }) as any as S.Schema<FileUpload>;
 
 export interface ListAccountsDataSourcesRequest {
   /** Optional. The maximum number of data sources to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified, the maximum number of data sources will be returned. */
   pageSize?: number;
-  /** Optional. A page token, received from a previous `ListDataSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSources` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The account to list data sources for. Format: `accounts/{account}` */
   parent: string;
+  /** Optional. A page token, received from a previous `ListDataSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSources` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListAccountsDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -597,17 +597,17 @@ export const ListDataSourcesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListDataSourcesResponse" }) as any as S.Schema<ListDataSourcesResponse>;
 
 export interface PatchAccountsDataSourcesRequest {
-  /** Required. The list of data source fields to be updated. Fields specified in the update mask without a value specified in the body will be deleted from the data source. Providing special "*" value for full data source replacement is not supported. For example, If you insert `updateMask=displayName` in the request, it will only update the `displayName` leaving all other fields untouched. */
-  updateMask?: string;
   /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
   name: string;
+  /** Required. The list of data source fields to be updated. Fields specified in the update mask without a value specified in the body will be deleted from the data source. Providing special "*" value for full data source replacement is not supported. For example, If you insert `updateMask=displayName` in the request, it will only update the `displayName` leaving all other fields untouched. */
+  updateMask?: string;
   /** Request body */
   body?: DataSource;
 }
 export const PatchAccountsDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(DataSource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

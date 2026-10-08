@@ -37,35 +37,35 @@ export class NotFound
 
 export interface SearchAccountReportsRequest {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Account Report for Manager with id 123. | Required. */
-  query?: string;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "endDate.month"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "endDate.day"?: number;
-  /** The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional. */
-  pageSize?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "endDate.year"?: number;
   /** The `next_page_token` value returned from a previous request to SearchAccountReports that indicates where listing should continue. Optional. */
   pageToken?: string;
+  /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Account Report for Manager with id 123. | Required. */
+  query?: string;
+  /** The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional. */
+  pageSize?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "startDate.year"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
 }
 export const SearchAccountReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "startDate.month": S.optional(S.Number.pipe(T.Query())),
-    query: S.optional(S.String.pipe(T.Query())),
-    "endDate.year": S.optional(S.Number.pipe(T.Query())),
-    "startDate.day": S.optional(S.Number.pipe(T.Query())),
-    "endDate.day": S.optional(S.Number.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     "endDate.month": S.optional(S.Number.pipe(T.Query())),
+    "endDate.day": S.optional(S.Number.pipe(T.Query())),
+    "endDate.year": S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    "startDate.day": S.optional(S.Number.pipe(T.Query())),
     "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    "startDate.month": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -92,60 +92,60 @@ export const GoogleAdsHomeservicesLocalservicesV1AggregatorInfo = /*@__PURE__*/ 
 
 /** An Account Report of a GLS account identified by their account id containing aggregate data gathered from a particular date range. Next ID: 18 */
 export interface GoogleAdsHomeservicesLocalservicesV1AccountReport {
-  /** Aggregator specific information related to the account. */
-  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo;
-  /** Unique identifier of the GLS account. */
-  accountId?: string;
-  /** Number of phone calls in current specified period, including both connected and unconnected calls. */
-  currentPeriodPhoneCalls?: string;
-  /** Number of charged leads the account received in previous specified period. */
-  previousPeriodChargedLeads?: string;
   /** Average weekly budget in the currency code of the account. */
   averageWeeklyBudget?: number;
-  /** Currency code of the account. */
-  currencyCode?: string;
-  /** Total cost of the account in current specified period in the account's specified currency. */
-  currentPeriodTotalCost?: number;
+  /** Average review rating score from 1-5 stars. */
+  averageFiveStarRating?: number;
+  /** Phone lead responsiveness of the account for the past 90 days from current date. This is computed by taking the total number of connected calls from charged phone leads and dividing by the total number of calls received. */
+  phoneLeadResponsiveness?: number;
+  /** Number of charged leads the account received in previous specified period. */
+  previousPeriodChargedLeads?: string;
+  /** Total cost of the account in previous specified period in the account's specified currency. */
+  previousPeriodTotalCost?: number;
+  /** Number of phone calls in current specified period, including both connected and unconnected calls. */
+  currentPeriodPhoneCalls?: string;
+  /** Number of charged leads the account received in current specified period. */
+  currentPeriodChargedLeads?: string;
+  /** Total number of reviews the account has up to current date. */
+  totalReview?: number;
   /** Business name of the account. */
   businessName?: string;
+  /** Aggregator specific information related to the account. */
+  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo;
+  /** Number of connected phone calls (duration over 30s) in previous specified period. */
+  previousPeriodConnectedPhoneCalls?: string;
+  /** Unique identifier of the GLS account. */
+  accountId?: string;
+  /** Total cost of the account in current specified period in the account's specified currency. */
+  currentPeriodTotalCost?: number;
+  /** Number of phone calls in previous specified period, including both connected and unconnected calls. */
+  previousPeriodPhoneCalls?: string;
   /** Number of impressions that customers have had in the past 2 days. */
   impressionsLastTwoDays?: string;
   /** Number of connected phone calls (duration over 30s) in current specified period. */
   currentPeriodConnectedPhoneCalls?: string;
-  /** Total number of reviews the account has up to current date. */
-  totalReview?: number;
-  /** Number of phone calls in previous specified period, including both connected and unconnected calls. */
-  previousPeriodPhoneCalls?: string;
-  /** Number of charged leads the account received in current specified period. */
-  currentPeriodChargedLeads?: string;
-  /** Total cost of the account in previous specified period in the account's specified currency. */
-  previousPeriodTotalCost?: number;
-  /** Number of connected phone calls (duration over 30s) in previous specified period. */
-  previousPeriodConnectedPhoneCalls?: string;
-  /** Phone lead responsiveness of the account for the past 90 days from current date. This is computed by taking the total number of connected calls from charged phone leads and dividing by the total number of calls received. */
-  phoneLeadResponsiveness?: number;
-  /** Average review rating score from 1-5 stars. */
-  averageFiveStarRating?: number;
+  /** Currency code of the account. */
+  currencyCode?: string;
 }
 export const GoogleAdsHomeservicesLocalservicesV1AccountReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    aggregatorInfo: S.optional(GoogleAdsHomeservicesLocalservicesV1AggregatorInfo),
-    accountId: S.optional(S.String),
-    currentPeriodPhoneCalls: S.optional(S.String),
-    previousPeriodChargedLeads: S.optional(S.String),
     averageWeeklyBudget: S.optional(S.Number),
-    currencyCode: S.optional(S.String),
-    currentPeriodTotalCost: S.optional(S.Number),
+    averageFiveStarRating: S.optional(S.Number),
+    phoneLeadResponsiveness: S.optional(S.Number),
+    previousPeriodChargedLeads: S.optional(S.String),
+    previousPeriodTotalCost: S.optional(S.Number),
+    currentPeriodPhoneCalls: S.optional(S.String),
+    currentPeriodChargedLeads: S.optional(S.String),
+    totalReview: S.optional(S.Number),
     businessName: S.optional(S.String),
+    aggregatorInfo: S.optional(GoogleAdsHomeservicesLocalservicesV1AggregatorInfo),
+    previousPeriodConnectedPhoneCalls: S.optional(S.String),
+    accountId: S.optional(S.String),
+    currentPeriodTotalCost: S.optional(S.Number),
+    previousPeriodPhoneCalls: S.optional(S.String),
     impressionsLastTwoDays: S.optional(S.String),
     currentPeriodConnectedPhoneCalls: S.optional(S.String),
-    totalReview: S.optional(S.Number),
-    previousPeriodPhoneCalls: S.optional(S.String),
-    currentPeriodChargedLeads: S.optional(S.String),
-    previousPeriodTotalCost: S.optional(S.Number),
-    previousPeriodConnectedPhoneCalls: S.optional(S.String),
-    phoneLeadResponsiveness: S.optional(S.Number),
-    averageFiveStarRating: S.optional(S.Number),
+    currencyCode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleAdsHomeservicesLocalservicesV1AccountReport",
@@ -175,36 +175,36 @@ export const GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse =
   }) as any as S.Schema<GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse>;
 
 export interface SearchDetailedLeadReportsRequest {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** The `next_page_token` value returned from a previous request to SearchDetailedLeadReports that indicates where listing should continue. Optional. */
-  pageToken?: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Detailed Lead Report for Manager with id | | | 123. | Required. */
-  query?: string;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
   /** The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional. */
   pageSize?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "startDate.year"?: number;
+  /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Detailed Lead Report for Manager with id | | | 123. | Required. */
+  query?: string;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "endDate.year"?: number;
+  /** The `next_page_token` value returned from a previous request to SearchDetailedLeadReports that indicates where listing should continue. Optional. */
+  pageToken?: string;
 }
 export const SearchDetailedLeadReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "endDate.month": S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    "startDate.month": S.optional(S.Number.pipe(T.Query())),
-    query: S.optional(S.String.pipe(T.Query())),
-    "endDate.day": S.optional(S.Number.pipe(T.Query())),
-    "startDate.day": S.optional(S.Number.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    "startDate.day": S.optional(S.Number.pipe(T.Query())),
+    "endDate.day": S.optional(S.Number.pipe(T.Query())),
+    "startDate.month": S.optional(S.Number.pipe(T.Query())),
     "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    "endDate.month": S.optional(S.Number.pipe(T.Query())),
     "endDate.year": S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -216,12 +216,38 @@ export const SearchDetailedLeadReportsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchDetailedLeadReportsRequest",
 }) as any as S.Schema<SearchDetailedLeadReportsRequest>;
 
+/** Container for phone lead specific information. */
+export interface GoogleAdsHomeservicesLocalservicesV1PhoneLead {
+  /** Duration of the charged phone call in seconds. */
+  chargedConnectedCallDurationSeconds?: string;
+  /** Consumer phone number associated with the phone lead. */
+  consumerPhoneNumber?: string;
+  /** Timestamp of the phone call which resulted in a charged phone lead. */
+  chargedCallTimestamp?: string;
+}
+export const GoogleAdsHomeservicesLocalservicesV1PhoneLead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chargedConnectedCallDurationSeconds: S.optional(S.String),
+    consumerPhoneNumber: S.optional(S.String),
+    chargedCallTimestamp: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleAdsHomeservicesLocalservicesV1PhoneLead",
+}) as any as S.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead>;
+
+export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum =
+  | "LEAD_TYPE_UNSPECIFIED"
+  | "MESSAGE"
+  | "PHONE_CALL"
+  | "BOOKING";
+export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum = S.String;
+
 /** Container for message lead specific information. */
 export interface GoogleAdsHomeservicesLocalservicesV1MessageLead {
-  /** Name of the customer who created the lead. */
-  customerName?: string;
   /** The postal code of the customer who created the lead. */
   postalCode?: string;
+  /** Name of the customer who created the lead. */
+  customerName?: string;
   /** The job type of the specified lead. */
   jobType?: string;
   /** Consumer phone number associated with the message lead. */
@@ -229,14 +255,39 @@ export interface GoogleAdsHomeservicesLocalservicesV1MessageLead {
 }
 export const GoogleAdsHomeservicesLocalservicesV1MessageLead = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerName: S.optional(S.String),
     postalCode: S.optional(S.String),
+    customerName: S.optional(S.String),
     jobType: S.optional(S.String),
     consumerPhoneNumber: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleAdsHomeservicesLocalservicesV1MessageLead",
 }) as any as S.Schema<GoogleAdsHomeservicesLocalservicesV1MessageLead>;
+
+/** Container for booking lead specific information. */
+export interface GoogleAdsHomeservicesLocalservicesV1BookingLead {
+  /** Timestamp of when service is provided by advertiser. */
+  bookingAppointmentTimestamp?: string;
+  /** The job type of the specified lead. */
+  jobType?: string;
+  /** Consumer email associated with the booking lead. */
+  consumerEmail?: string;
+  /** Name of the customer who created the lead. */
+  customerName?: string;
+  /** Consumer phone number associated with the booking lead. */
+  consumerPhoneNumber?: string;
+}
+export const GoogleAdsHomeservicesLocalservicesV1BookingLead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bookingAppointmentTimestamp: S.optional(S.String),
+    jobType: S.optional(S.String),
+    consumerEmail: S.optional(S.String),
+    customerName: S.optional(S.String),
+    consumerPhoneNumber: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleAdsHomeservicesLocalservicesV1BookingLead",
+}) as any as S.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead>;
 
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface GoogleTypeTimeZone {
@@ -252,121 +303,70 @@ export const GoogleTypeTimeZone = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GoogleTypeTimeZone" }) as any as S.Schema<GoogleTypeTimeZone>;
 
-export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum =
-  | "LEAD_TYPE_UNSPECIFIED"
-  | "MESSAGE"
-  | "PHONE_CALL"
-  | "BOOKING";
-export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum = S.String;
-
 export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum =
   | "CHARGE_STATUS_UNSPECIFIED"
   | "CHARGED"
   | "NOT_CHARGED";
 export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum = S.String;
 
-/** Container for booking lead specific information. */
-export interface GoogleAdsHomeservicesLocalservicesV1BookingLead {
-  /** Timestamp of when service is provided by advertiser. */
-  bookingAppointmentTimestamp?: string;
-  /** Consumer email associated with the booking lead. */
-  consumerEmail?: string;
-  /** Consumer phone number associated with the booking lead. */
-  consumerPhoneNumber?: string;
-  /** The job type of the specified lead. */
-  jobType?: string;
-  /** Name of the customer who created the lead. */
-  customerName?: string;
-}
-export const GoogleAdsHomeservicesLocalservicesV1BookingLead = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bookingAppointmentTimestamp: S.optional(S.String),
-    consumerEmail: S.optional(S.String),
-    consumerPhoneNumber: S.optional(S.String),
-    jobType: S.optional(S.String),
-    customerName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleAdsHomeservicesLocalservicesV1BookingLead",
-}) as any as S.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead>;
-
-/** Container for phone lead specific information. */
-export interface GoogleAdsHomeservicesLocalservicesV1PhoneLead {
-  /** Consumer phone number associated with the phone lead. */
-  consumerPhoneNumber?: string;
-  /** Timestamp of the phone call which resulted in a charged phone lead. */
-  chargedCallTimestamp?: string;
-  /** Duration of the charged phone call in seconds. */
-  chargedConnectedCallDurationSeconds?: string;
-}
-export const GoogleAdsHomeservicesLocalservicesV1PhoneLead = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    consumerPhoneNumber: S.optional(S.String),
-    chargedCallTimestamp: S.optional(S.String),
-    chargedConnectedCallDurationSeconds: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleAdsHomeservicesLocalservicesV1PhoneLead",
-}) as any as S.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead>;
-
 /** A Detailed Lead Report of a lead identified by their lead id and contains consumer, account, monetization, and lead data. */
 export interface GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport {
-  /** More information associated to only message leads. */
-  messageLead?: GoogleAdsHomeservicesLocalservicesV1MessageLead;
-  /** Timezone of the particular provider associated to a lead. */
-  timezone?: GoogleTypeTimeZone;
-  /** Lead type. */
-  leadType?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum;
-  /** Deprecated in favor of google_ads_lead_id. Unique identifier of a Detailed Lead Report. */
-  leadId?: string;
-  /** Whether the lead has been charged. */
-  chargeStatus?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum;
-  /** Aggregator specific information related to the lead. */
-  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo;
-  /** Unique identifier of a Detailed Lead Report. */
-  googleAdsLeadId?: string;
-  /** Identifies account that received the lead. */
-  accountId?: string;
-  /** Timestamp of when the lead was created. */
-  leadCreationTimestamp?: string;
-  /** Price of the lead (available only after it has been charged). */
-  leadPrice?: number;
-  /** More information associated to only booking leads. */
-  bookingLead?: GoogleAdsHomeservicesLocalservicesV1BookingLead;
-  /** Dispute status related to the lead. */
-  disputeStatus?: string;
-  /** Location of the associated account's home city. */
-  geo?: string;
-  /** Currency code. */
-  currencyCode?: string;
   /** More information associated to only phone leads. */
   phoneLead?: GoogleAdsHomeservicesLocalservicesV1PhoneLead;
-  /** Lead category (e.g. hvac, plumber) */
-  leadCategory?: string;
+  /** Currency code. */
+  currencyCode?: string;
+  /** Dispute status related to the lead. */
+  disputeStatus?: string;
+  /** Lead type. */
+  leadType?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum;
+  /** Identifies account that received the lead. */
+  accountId?: string;
+  /** More information associated to only message leads. */
+  messageLead?: GoogleAdsHomeservicesLocalservicesV1MessageLead;
+  /** More information associated to only booking leads. */
+  bookingLead?: GoogleAdsHomeservicesLocalservicesV1BookingLead;
+  /** Unique identifier of a Detailed Lead Report. */
+  googleAdsLeadId?: string;
+  /** Timestamp of when the lead was created. */
+  leadCreationTimestamp?: string;
   /** Business name associated to the account. */
   businessName?: string;
+  /** Location of the associated account's home city. */
+  geo?: string;
+  /** Aggregator specific information related to the lead. */
+  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo;
+  /** Lead category (e.g. hvac, plumber) */
+  leadCategory?: string;
+  /** Timezone of the particular provider associated to a lead. */
+  timezone?: GoogleTypeTimeZone;
+  /** Whether the lead has been charged. */
+  chargeStatus?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum;
+  /** Deprecated in favor of google_ads_lead_id. Unique identifier of a Detailed Lead Report. */
+  leadId?: string;
+  /** Price of the lead (available only after it has been charged). */
+  leadPrice?: number;
 }
 export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    messageLead: S.optional(GoogleAdsHomeservicesLocalservicesV1MessageLead),
-    timezone: S.optional(GoogleTypeTimeZone),
+    phoneLead: S.optional(GoogleAdsHomeservicesLocalservicesV1PhoneLead),
+    currencyCode: S.optional(S.String),
+    disputeStatus: S.optional(S.String),
     leadType: S.optional(GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum),
-    leadId: S.optional(S.String),
+    accountId: S.optional(S.String),
+    messageLead: S.optional(GoogleAdsHomeservicesLocalservicesV1MessageLead),
+    bookingLead: S.optional(GoogleAdsHomeservicesLocalservicesV1BookingLead),
+    googleAdsLeadId: S.optional(S.String),
+    leadCreationTimestamp: S.optional(S.String),
+    businessName: S.optional(S.String),
+    geo: S.optional(S.String),
+    aggregatorInfo: S.optional(GoogleAdsHomeservicesLocalservicesV1AggregatorInfo),
+    leadCategory: S.optional(S.String),
+    timezone: S.optional(GoogleTypeTimeZone),
     chargeStatus: S.optional(
       GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum,
     ),
-    aggregatorInfo: S.optional(GoogleAdsHomeservicesLocalservicesV1AggregatorInfo),
-    googleAdsLeadId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    leadCreationTimestamp: S.optional(S.String),
+    leadId: S.optional(S.String),
     leadPrice: S.optional(S.Number),
-    bookingLead: S.optional(GoogleAdsHomeservicesLocalservicesV1BookingLead),
-    disputeStatus: S.optional(S.String),
-    geo: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    phoneLead: S.optional(GoogleAdsHomeservicesLocalservicesV1PhoneLead),
-    leadCategory: S.optional(S.String),
-    businessName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport",

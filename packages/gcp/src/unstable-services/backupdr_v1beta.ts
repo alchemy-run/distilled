@@ -109,39 +109,39 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
     name: S.optional(S.String),
-    response: S.optional(DocumentMap),
+    error: S.optional(Status),
     done: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -180,32 +180,32 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 
 /** PolicyEvaluationSummary contains the summary of the last run of job that applies policy to matching resources. */
 export interface PolicyEvaluationSummary {
-  /** Output only. The number of matching resources that are successfully protected. */
-  protectedResourceCount?: string;
   /** Output only. The number of matching resources whose protection failed during job run. */
   failedResourceCount?: string;
+  /** Output only. The number of matching resources that are successfully protected. */
+  protectedResourceCount?: string;
   /** Output only. The number of resources that currently match the policy's criteria. */
   matchingResourceCount?: string;
 }
 export const PolicyEvaluationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    protectedResourceCount: S.optional(S.String),
     failedResourceCount: S.optional(S.String),
+    protectedResourceCount: S.optional(S.String),
     matchingResourceCount: S.optional(S.String),
   }),
 ).annotate({ identifier: "PolicyEvaluationSummary" }) as any as S.Schema<PolicyEvaluationSummary>;
 
 /** BackupPlanDetail defines configuration of protection. */
 export interface BackupPlanDetail {
-  /** Required. The resource name of the BackupPlan to apply to resources that match the policy's criteria. This backup plan must be in the same location as AutoProtectionPolicy. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string;
   /** Required. The type of resource that this policy will automatically protect. For MVP, `compute.googleapis.com/Instance` and `compute.googleapis.com/Disk` are supported. */
   resourceType?: string;
+  /** Required. The resource name of the BackupPlan to apply to resources that match the policy's criteria. This backup plan must be in the same location as AutoProtectionPolicy. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
+  backupPlan?: string;
 }
 export const BackupPlanDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backupPlan: S.optional(S.String),
     resourceType: S.optional(S.String),
+    backupPlan: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackupPlanDetail" }) as any as S.Schema<BackupPlanDetail>;
 
@@ -213,14 +213,6 @@ export type BackupPlanDetailList = Array<BackupPlanDetail>;
 export const BackupPlanDetailList = /*@__PURE__*/ S.Array(
   BackupPlanDetail,
 ) as any as S.Schema<BackupPlanDetailList>;
-
-export type AutoProtectionPolicyStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "UPDATING"
-  | "DELETING";
-export const AutoProtectionPolicyStateEnum = S.String;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -266,6 +258,14 @@ export const Criteria = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Criteria" }) as any as S.Schema<Criteria>;
 
+export type AutoProtectionPolicyStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING";
+export const AutoProtectionPolicyStateEnum = S.String;
+
 /** BindingSummary contains count of different containers covered through this policy. */
 export interface BindingSummary {
   /** Output only. Total count of Projects protected with this policy. */
@@ -279,38 +279,38 @@ export const BindingSummary = /*@__PURE__*/ S.suspend(() =>
 
 /** An AutoprotectionPolicy is a policy resource designed to automate backup management, moving from manual per-resource protection to a bulk approach. The policy dynamically discovers and applies a specified backup plan to all eligible resources that match its defined scope and criteria. */
 export interface AutoProtectionPolicy {
-  /** Output only. The etag for the policy. If this is provided on update, it must match the server's etag, otherwise the request will be rejected with an ABORTED error. */
-  etag?: string;
-  /** Output only. Summary of last policy application when job was run per workload type. */
-  policyEvaluationSummary?: PolicyEvaluationSummary;
-  /** Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
-  name?: string;
-  /** Required. The backup plan details for matching resources. */
-  backupPlanDetails?: BackupPlanDetailList;
   /** Optional. A description of the policy. */
   description?: string;
-  /** Output only. The timestamp when the policy was last updated. */
-  updateTime?: string;
-  /** Output only. The current state of the AutoprotectionPolicy. */
-  state?: AutoProtectionPolicyStateEnum | (string & {});
+  /** Output only. Summary of last policy application when job was run per workload type. */
+  policyEvaluationSummary?: PolicyEvaluationSummary;
   /** Output only. The timestamp when the policy was created. */
   createTime?: string;
+  /** Output only. The timestamp when the policy was last updated. */
+  updateTime?: string;
+  /** Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
+  name?: string;
+  /** Output only. The etag for the policy. If this is provided on update, it must match the server's etag, otherwise the request will be rejected with an ABORTED error. */
+  etag?: string;
+  /** Required. The backup plan details for matching resources. */
+  backupPlanDetails?: BackupPlanDetailList;
   /** Required. The criteria for matching resources. */
   criteria?: Criteria;
+  /** Output only. The current state of the AutoprotectionPolicy. */
+  state?: AutoProtectionPolicyStateEnum | (string & {});
   /** Output only. Summary of total count of different containers covered through this policy. */
   bindingSummary?: BindingSummary;
 }
 export const AutoProtectionPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    policyEvaluationSummary: S.optional(PolicyEvaluationSummary),
-    name: S.optional(S.String),
-    backupPlanDetails: S.optional(BackupPlanDetailList),
     description: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    state: S.optional(AutoProtectionPolicyStateEnum),
+    policyEvaluationSummary: S.optional(PolicyEvaluationSummary),
     createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    backupPlanDetails: S.optional(BackupPlanDetailList),
     criteria: S.optional(Criteria),
+    state: S.optional(AutoProtectionPolicyStateEnum),
     bindingSummary: S.optional(BindingSummary),
   }),
 ).annotate({ identifier: "AutoProtectionPolicy" }) as any as S.Schema<AutoProtectionPolicy>;
@@ -339,23 +339,6 @@ export const CreateProjectsLocationsAutoProtectionPoliciesRequest = /*@__PURE__*
   identifier: "CreateProjectsLocationsAutoProtectionPoliciesRequest",
 }) as any as S.Schema<CreateProjectsLocationsAutoProtectionPoliciesRequest>;
 
-/** BindingEvaluationSummary contains the summary of the last run of job that applies policy to matching resources for a given binding. */
-export interface BindingEvaluationSummary {
-  /** Output only. The number of resources that currently match the policy's criteria. */
-  matchingResourceCount?: string;
-  /** Output only. The number of matching resources that are successfully protected. */
-  protectedResourceCount?: string;
-  /** Output only. The number of matching resources whose protection failed during job run. */
-  failedResourceCount?: string;
-}
-export const BindingEvaluationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    matchingResourceCount: S.optional(S.String),
-    protectedResourceCount: S.optional(S.String),
-    failedResourceCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "BindingEvaluationSummary" }) as any as S.Schema<BindingEvaluationSummary>;
-
 export type AutoProtectionPolicyBindingStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -363,34 +346,51 @@ export type AutoProtectionPolicyBindingStateEnum =
   | "DELETION_INITIATED";
 export const AutoProtectionPolicyBindingStateEnum = S.String;
 
+/** BindingEvaluationSummary contains the summary of the last run of job that applies policy to matching resources for a given binding. */
+export interface BindingEvaluationSummary {
+  /** Output only. The number of matching resources that are successfully protected. */
+  protectedResourceCount?: string;
+  /** Output only. The number of matching resources whose protection failed during job run. */
+  failedResourceCount?: string;
+  /** Output only. The number of resources that currently match the policy's criteria. */
+  matchingResourceCount?: string;
+}
+export const BindingEvaluationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    protectedResourceCount: S.optional(S.String),
+    failedResourceCount: S.optional(S.String),
+    matchingResourceCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "BindingEvaluationSummary" }) as any as S.Schema<BindingEvaluationSummary>;
+
 /** An AutoprotectionPolicyBinding (APPA) acts as the bridge between an AutoprotectionPolicy and the scope (Project, Folder, or Organization) where the policy should be applied. */
 export interface AutoProtectionPolicyBinding {
-  /** Required. Immutable. Resource Id of target container on which policy will be applied. Format: projects/{project_id} */
-  scope?: string;
+  /** Output only. The timestamp when the binding was last updated. */
+  updateTime?: string;
+  /** Optional. A description of the binding. */
+  description?: string;
   /** Optional. Output only. The etag for the binding. If this is provided on update, it must match the server's etag. */
   etag?: string;
   /** Identifier. The resource name of the AutoProtectionPolicyBinding. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}` */
   name?: string;
-  /** Output only. The timestamp when the binding was last updated. */
-  updateTime?: string;
-  /** Output only. Summaries of the last policy application when the job has run, with one entry per resource type specified in the AutoProtectionPolicy. */
-  bindingEvaluationSummary?: BindingEvaluationSummary;
   /** Output only. The current state of the AutoProtectionPolicyBinding. */
   state?: AutoProtectionPolicyBindingStateEnum | (string & {});
-  /** Optional. A description of the binding. */
-  description?: string;
+  /** Required. Immutable. Resource Id of target container on which policy will be applied. Format: projects/{project_id} */
+  scope?: string;
+  /** Output only. Summaries of the last policy application when the job has run, with one entry per resource type specified in the AutoProtectionPolicy. */
+  bindingEvaluationSummary?: BindingEvaluationSummary;
   /** Output only. The timestamp when the binding was created. */
   createTime?: string;
 }
 export const AutoProtectionPolicyBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    scope: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
     etag: S.optional(S.String),
     name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    bindingEvaluationSummary: S.optional(BindingEvaluationSummary),
     state: S.optional(AutoProtectionPolicyBindingStateEnum),
-    description: S.optional(S.String),
+    scope: S.optional(S.String),
+    bindingEvaluationSummary: S.optional(BindingEvaluationSummary),
     createTime: S.optional(S.String),
   }),
 ).annotate({
@@ -398,18 +398,18 @@ export const AutoProtectionPolicyBinding = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AutoProtectionPolicyBinding>;
 
 export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest {
-  /** Required. The ID to use for the binding. This will become the final component of the binding's resource name. */
-  autoProtectionPolicyBindingId?: string;
   /** Required. The parent resource where this binding will be created. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
   parent: string;
+  /** Required. The ID to use for the binding. This will become the final component of the binding's resource name. */
+  autoProtectionPolicyBindingId?: string;
   /** Request body */
   body?: AutoProtectionPolicyBinding;
 }
 export const CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      autoProtectionPolicyBindingId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      autoProtectionPolicyBindingId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(AutoProtectionPolicyBinding.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -422,24 +422,37 @@ export const CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest = /*@_
   identifier: "CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest",
 }) as any as S.Schema<CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest>;
 
-/** Filestore instance's BPA properties. */
-export interface FilestoreInstanceBackupPlanAssociationProperties {
+/** Properties for an AlloyDB cluster backup plan association. */
+export interface AlloyDBClusterBackupPlanAssociationProperties {
+  /** Output only. The cluster UID of the AlloyDB cluster. */
+  clusterUid?: string;
+}
+export const AlloyDBClusterBackupPlanAssociationProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterUid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AlloyDBClusterBackupPlanAssociationProperties",
+}) as any as S.Schema<AlloyDBClusterBackupPlanAssociationProperties>;
+
+/** Cloud SQL instance's BPA properties. */
+export interface CloudSqlInstanceBackupPlanAssociationProperties {
   /** Output only. The time when the instance was created. */
   instanceCreateTime?: string;
 }
-export const FilestoreInstanceBackupPlanAssociationProperties = /*@__PURE__*/ S.suspend(() =>
+export const CloudSqlInstanceBackupPlanAssociationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceCreateTime: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "FilestoreInstanceBackupPlanAssociationProperties",
-}) as any as S.Schema<FilestoreInstanceBackupPlanAssociationProperties>;
+  identifier: "CloudSqlInstanceBackupPlanAssociationProperties",
+}) as any as S.Schema<CloudSqlInstanceBackupPlanAssociationProperties>;
 
-/** Cloud SQL instance's BPA properties. */
-export type CloudSqlInstanceBackupPlanAssociationProperties =
-  FilestoreInstanceBackupPlanAssociationProperties;
-export const CloudSqlInstanceBackupPlanAssociationProperties =
-  FilestoreInstanceBackupPlanAssociationProperties;
+/** Filestore instance's BPA properties. */
+export type FilestoreInstanceBackupPlanAssociationProperties =
+  CloudSqlInstanceBackupPlanAssociationProperties;
+export const FilestoreInstanceBackupPlanAssociationProperties =
+  CloudSqlInstanceBackupPlanAssociationProperties;
 
 export type BackupPlanAssociationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -461,21 +474,21 @@ export const RuleConfigInfoLastBackupStateEnum = S.String;
 
 /** Message for rules config info. */
 export interface RuleConfigInfo {
-  /** Output only. Backup Rule id fetched from backup plan. */
-  ruleId?: string;
-  /** Output only. The point in time when the last successful backup was captured from the source. */
-  lastSuccessfulBackupConsistencyTime?: string;
   /** Output only. The last backup state for rule. */
   lastBackupState?: RuleConfigInfoLastBackupStateEnum | (string & {});
   /** Output only. google.rpc.Status object to store the last backup error. */
   lastBackupError?: Status;
+  /** Output only. The point in time when the last successful backup was captured from the source. */
+  lastSuccessfulBackupConsistencyTime?: string;
+  /** Output only. Backup Rule id fetched from backup plan. */
+  ruleId?: string;
 }
 export const RuleConfigInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ruleId: S.optional(S.String),
-    lastSuccessfulBackupConsistencyTime: S.optional(S.String),
     lastBackupState: S.optional(RuleConfigInfoLastBackupStateEnum),
     lastBackupError: S.optional(Status),
+    lastSuccessfulBackupConsistencyTime: S.optional(S.String),
+    ruleId: S.optional(S.String),
   }),
 ).annotate({ identifier: "RuleConfigInfo" }) as any as S.Schema<RuleConfigInfo>;
 
@@ -484,93 +497,80 @@ export const RuleConfigInfoList = /*@__PURE__*/ S.Array(
   RuleConfigInfo,
 ) as any as S.Schema<RuleConfigInfoList>;
 
-/** Properties for an AlloyDB cluster backup plan association. */
-export interface AlloyDBClusterBackupPlanAssociationProperties {
-  /** Output only. The cluster UID of the AlloyDB cluster. */
-  clusterUid?: string;
-}
-export const AlloyDBClusterBackupPlanAssociationProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterUid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AlloyDBClusterBackupPlanAssociationProperties",
-}) as any as S.Schema<AlloyDBClusterBackupPlanAssociationProperties>;
-
 /** A BackupPlanAssociation represents a single BackupPlanAssociation which contains details like workload, backup plan etc */
 export interface BackupPlanAssociation {
-  /** Output only. Filestore instance's backup plan association properties. */
-  filestoreInstanceBackupPlanAssociationProperties?: FilestoreInstanceBackupPlanAssociationProperties;
-  /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
-  name?: string;
-  /** Required. Immutable. Resource type of workload on which backupplan is applied */
-  resourceType?: string;
-  /** Required. Immutable. Resource name of workload on which the backup plan is applied. The format can either be the resource name (e.g., "projects/my-project/zones/us-central1-a/instances/my-instance") or the full resource URI (e.g., "https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-a/instances/my-instance"). */
-  resource?: string;
+  /** Required. Resource name of backup plan which needs to be applied on workload. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
+  backupPlan?: string;
+  /** Output only. AlloyDB cluster's backup plan association properties. */
+  alloydbClusterBackupPlanAssociationProperties?: AlloyDBClusterBackupPlanAssociationProperties;
+  /** Output only. Cloud SQL instance's backup plan association properties. */
+  cloudSqlInstanceBackupPlanAssociationProperties?: CloudSqlInstanceBackupPlanAssociationProperties;
   /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
   backupPlanRevisionName?: string;
-  /** Output only. Cloud SQL instance's backup plan association properties. */
-  cloudSqlInstanceBackupPlanAssociationProperties?: FilestoreInstanceBackupPlanAssociationProperties;
-  /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  backupPlanRevisionId?: string;
-  /** Output only. The BackupPlanAssociation resource state. */
-  state?: BackupPlanAssociationStateEnum | (string & {});
+  /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
+  name?: string;
   /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this association, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
   autoProtectionPolicyBinding?: string;
-  /** Output only. The config info related to backup rules. */
-  rulesConfigInfo?: RuleConfigInfoList;
+  /** Required. Immutable. Resource type of workload on which backupplan is applied */
+  resourceType?: string;
   /** Output only. Resource name of data source which will be used as storage location for backups taken. Format : projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource} */
   dataSource?: string;
   /** Output only. The time when the instance was created. */
   createTime?: string;
-  /** Output only. AlloyDB cluster's backup plan association properties. */
-  alloydbClusterBackupPlanAssociationProperties?: AlloyDBClusterBackupPlanAssociationProperties;
+  /** Output only. Filestore instance's backup plan association properties. */
+  filestoreInstanceBackupPlanAssociationProperties?: CloudSqlInstanceBackupPlanAssociationProperties;
+  /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
+  backupPlanRevisionId?: string;
+  /** Output only. The BackupPlanAssociation resource state. */
+  state?: BackupPlanAssociationStateEnum | (string & {});
   /** Output only. The time when the instance was updated. */
   updateTime?: string;
-  /** Required. Resource name of backup plan which needs to be applied on workload. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string;
+  /** Output only. The config info related to backup rules. */
+  rulesConfigInfo?: RuleConfigInfoList;
+  /** Required. Immutable. Resource name of workload on which the backup plan is applied. The format can either be the resource name (e.g., "projects/my-project/zones/us-central1-a/instances/my-instance") or the full resource URI (e.g., "https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-a/instances/my-instance"). */
+  resource?: string;
 }
 export const BackupPlanAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filestoreInstanceBackupPlanAssociationProperties: S.optional(
-      FilestoreInstanceBackupPlanAssociationProperties,
-    ),
-    name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    resource: S.optional(S.String),
-    backupPlanRevisionName: S.optional(S.String),
-    cloudSqlInstanceBackupPlanAssociationProperties: S.optional(
-      FilestoreInstanceBackupPlanAssociationProperties,
-    ),
-    backupPlanRevisionId: S.optional(S.String),
-    state: S.optional(BackupPlanAssociationStateEnum),
-    autoProtectionPolicyBinding: S.optional(S.String),
-    rulesConfigInfo: S.optional(RuleConfigInfoList),
-    dataSource: S.optional(S.String),
-    createTime: S.optional(S.String),
+    backupPlan: S.optional(S.String),
     alloydbClusterBackupPlanAssociationProperties: S.optional(
       AlloyDBClusterBackupPlanAssociationProperties,
     ),
+    cloudSqlInstanceBackupPlanAssociationProperties: S.optional(
+      CloudSqlInstanceBackupPlanAssociationProperties,
+    ),
+    backupPlanRevisionName: S.optional(S.String),
+    name: S.optional(S.String),
+    autoProtectionPolicyBinding: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    dataSource: S.optional(S.String),
+    createTime: S.optional(S.String),
+    filestoreInstanceBackupPlanAssociationProperties: S.optional(
+      CloudSqlInstanceBackupPlanAssociationProperties,
+    ),
+    backupPlanRevisionId: S.optional(S.String),
+    state: S.optional(BackupPlanAssociationStateEnum),
     updateTime: S.optional(S.String),
-    backupPlan: S.optional(S.String),
+    rulesConfigInfo: S.optional(RuleConfigInfoList),
+    resource: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackupPlanAssociation" }) as any as S.Schema<BackupPlanAssociation>;
 
 export interface CreateProjectsLocationsBackupPlanAssociationsRequest {
-  /** Required. The name of the backup plan association to create. The name must be unique for the specified project and location. */
-  backupPlanAssociationId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The backup plan association project and location in the format `projects/{project_id}/locations/{location}`. In Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
+  /** Required. The name of the backup plan association to create. The name must be unique for the specified project and location. */
+  backupPlanAssociationId?: string;
   /** Request body */
   body?: BackupPlanAssociation;
 }
 export const CreateProjectsLocationsBackupPlanAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backupPlanAssociationId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    backupPlanAssociationId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(BackupPlanAssociation.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -583,40 +583,23 @@ export const CreateProjectsLocationsBackupPlanAssociationsRequest = /*@__PURE__*
   identifier: "CreateProjectsLocationsBackupPlanAssociationsRequest",
 }) as any as S.Schema<CreateProjectsLocationsBackupPlanAssociationsRequest>;
 
-export type BackupPlanStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "INACTIVE"
-  | "UPDATING";
-export const BackupPlanStateEnum = S.String;
+export type StandardScheduleDaysOfWeekItemEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const StandardScheduleDaysOfWeekItemEnum = S.String;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-/** Properties for a disk backup plan. */
-export interface DiskBackupPlanProperties {
-  /** Optional. Indicates whether to perform a guest flush operation before taking a disk backup. When set to false, the system will create crash-consistent backups. Default value is false. */
-  guestFlush?: boolean;
-}
-export const DiskBackupPlanProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    guestFlush: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DiskBackupPlanProperties" }) as any as S.Schema<DiskBackupPlanProperties>;
-
-export type StandardScheduleRecurrenceTypeEnum =
-  | "RECURRENCE_TYPE_UNSPECIFIED"
-  | "HOURLY"
-  | "DAILY"
-  | "WEEKLY"
-  | "MONTHLY"
-  | "YEARLY";
-export const StandardScheduleRecurrenceTypeEnum = S.String;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+export type StandardScheduleDaysOfWeekItemEnumList = Array<
+  StandardScheduleDaysOfWeekItemEnum | (string & {})
+>;
+export const StandardScheduleDaysOfWeekItemEnumList = /*@__PURE__*/ S.Array(
+  StandardScheduleDaysOfWeekItemEnum,
+) as any as S.Schema<StandardScheduleDaysOfWeekItemEnumList>;
 
 /** `BackupWindow` defines a window of the day during which backup jobs will run. */
 export interface BackupWindow {
@@ -631,6 +614,18 @@ export const BackupWindow = /*@__PURE__*/ S.suspend(() =>
     endHourOfDay: S.optional(S.Number),
   }),
 ).annotate({ identifier: "BackupWindow" }) as any as S.Schema<BackupWindow>;
+
+export type StandardScheduleRecurrenceTypeEnum =
+  | "RECURRENCE_TYPE_UNSPECIFIED"
+  | "HOURLY"
+  | "DAILY"
+  | "WEEKLY"
+  | "MONTHLY"
+  | "YEARLY";
+export const StandardScheduleRecurrenceTypeEnum = S.String;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
 
 export type WeekDayOfMonthWeekOfMonthEnum =
   | "WEEK_OF_MONTH_UNSPECIFIED"
@@ -689,75 +684,68 @@ export const StandardScheduleMonthsItemEnumList = /*@__PURE__*/ S.Array(
   StandardScheduleMonthsItemEnum,
 ) as any as S.Schema<StandardScheduleMonthsItemEnumList>;
 
-export type StandardScheduleDaysOfWeekItemEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const StandardScheduleDaysOfWeekItemEnum = S.String;
-
-export type StandardScheduleDaysOfWeekItemEnumList = Array<
-  StandardScheduleDaysOfWeekItemEnum | (string & {})
->;
-export const StandardScheduleDaysOfWeekItemEnumList = /*@__PURE__*/ S.Array(
-  StandardScheduleDaysOfWeekItemEnum,
-) as any as S.Schema<StandardScheduleDaysOfWeekItemEnumList>;
-
 /** `StandardSchedule` defines a schedule that run within the confines of a defined window of days. We can define recurrence type for schedule as HOURLY, DAILY, WEEKLY, MONTHLY or YEARLY. */
 export interface StandardSchedule {
-  /** Required. Specifies the `RecurrenceType` for the schedule. */
-  recurrenceType?: StandardScheduleRecurrenceTypeEnum | (string & {});
-  /** Optional. Specifies days of months like 1, 5, or 14 on which jobs will run. Values for `days_of_month` are only applicable for `recurrence_type`, `MONTHLY` and `YEARLY`. A validation error will occur if other values are supplied. */
-  daysOfMonth?: IntegerList;
-  /** Required. A BackupWindow defines the window of day during which backup jobs will run. Jobs are queued at the beginning of the window and will be marked as `NOT_RUN` if they do not start by the end of the window. Note: running jobs will not be cancelled at the end of the window. */
-  backupWindow?: BackupWindow;
-  /** Optional. Specifies a week day of the month like, FIRST SUNDAY or LAST MONDAY, on which jobs will run. This will be specified by two fields in `WeekDayOfMonth`, one for the day, e.g. `MONDAY`, and one for the week, e.g. `LAST`. This field is only applicable for `recurrence_type`, `MONTHLY` and `YEARLY`. A validation error will occur if other values are supplied. */
-  weekDayOfMonth?: WeekDayOfMonth;
-  /** Optional. Specifies the months of year, like `FEBRUARY` and/or `MAY`, on which jobs will run. This field is only applicable when `recurrence_type` is `YEARLY`. A validation error will occur if other values are supplied. */
-  months?: StandardScheduleMonthsItemEnumList;
+  /** Optional. Specifies frequency for hourly backups. A hourly frequency of 2 means jobs will run every 2 hours from start time till end time defined. This is required for `recurrence_type`, `HOURLY` and is not applicable otherwise. A validation error will occur if a value is supplied and `recurrence_type` is not `HOURLY`. The supported values for each resource type are as follows: * `compute.googleapis.com/Instance`: 1-23 * `compute.googleapis.com/Disk`: 1-23 * `sqladmin.googleapis.com/Instance`: 6-23 * `alloydb.googleapis.com/Cluster`: 1-23 * `file.googleapis.com/Instance`: 1-23 Refer to link https://cloud.google.com/backup-disaster-recovery/docs/concepts/cloud_best_practices for more details. */
+  hourlyFrequency?: number;
   /** Optional. Specifies days of week like, MONDAY or TUESDAY, on which jobs will run. This is required for `recurrence_type`, `WEEKLY` and is not applicable otherwise. A validation error will occur if a value is supplied and `recurrence_type` is not `WEEKLY`. */
   daysOfWeek?: StandardScheduleDaysOfWeekItemEnumList;
   /** Required. The time zone to be used when interpreting the schedule. The value of this field must be a time zone name from the IANA tz database. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for the list of valid timezone names. For e.g., Europe/Paris. */
   timeZone?: string;
-  /** Optional. Specifies frequency for hourly backups. A hourly frequency of 2 means jobs will run every 2 hours from start time till end time defined. This is required for `recurrence_type`, `HOURLY` and is not applicable otherwise. A validation error will occur if a value is supplied and `recurrence_type` is not `HOURLY`. The supported values for each resource type are as follows: * `compute.googleapis.com/Instance`: 1-23 * `compute.googleapis.com/Disk`: 1-23 * `sqladmin.googleapis.com/Instance`: 6-23 * `alloydb.googleapis.com/Cluster`: 1-23 * `file.googleapis.com/Instance`: 1-23 Refer to link https://cloud.google.com/backup-disaster-recovery/docs/concepts/cloud_best_practices for more details. */
-  hourlyFrequency?: number;
+  /** Required. A BackupWindow defines the window of day during which backup jobs will run. Jobs are queued at the beginning of the window and will be marked as `NOT_RUN` if they do not start by the end of the window. Note: running jobs will not be cancelled at the end of the window. */
+  backupWindow?: BackupWindow;
+  /** Required. Specifies the `RecurrenceType` for the schedule. */
+  recurrenceType?: StandardScheduleRecurrenceTypeEnum | (string & {});
+  /** Optional. Specifies days of months like 1, 5, or 14 on which jobs will run. Values for `days_of_month` are only applicable for `recurrence_type`, `MONTHLY` and `YEARLY`. A validation error will occur if other values are supplied. */
+  daysOfMonth?: IntegerList;
+  /** Optional. Specifies a week day of the month like, FIRST SUNDAY or LAST MONDAY, on which jobs will run. This will be specified by two fields in `WeekDayOfMonth`, one for the day, e.g. `MONDAY`, and one for the week, e.g. `LAST`. This field is only applicable for `recurrence_type`, `MONTHLY` and `YEARLY`. A validation error will occur if other values are supplied. */
+  weekDayOfMonth?: WeekDayOfMonth;
+  /** Optional. Specifies the months of year, like `FEBRUARY` and/or `MAY`, on which jobs will run. This field is only applicable when `recurrence_type` is `YEARLY`. A validation error will occur if other values are supplied. */
+  months?: StandardScheduleMonthsItemEnumList;
 }
 export const StandardSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recurrenceType: S.optional(StandardScheduleRecurrenceTypeEnum),
-    daysOfMonth: S.optional(IntegerList),
-    backupWindow: S.optional(BackupWindow),
-    weekDayOfMonth: S.optional(WeekDayOfMonth),
-    months: S.optional(StandardScheduleMonthsItemEnumList),
+    hourlyFrequency: S.optional(S.Number),
     daysOfWeek: S.optional(StandardScheduleDaysOfWeekItemEnumList),
     timeZone: S.optional(S.String),
-    hourlyFrequency: S.optional(S.Number),
+    backupWindow: S.optional(BackupWindow),
+    recurrenceType: S.optional(StandardScheduleRecurrenceTypeEnum),
+    daysOfMonth: S.optional(IntegerList),
+    weekDayOfMonth: S.optional(WeekDayOfMonth),
+    months: S.optional(StandardScheduleMonthsItemEnumList),
   }),
 ).annotate({ identifier: "StandardSchedule" }) as any as S.Schema<StandardSchedule>;
 
 /** `BackupRule` binds the backup schedule to a retention policy. */
 export interface BackupRule {
-  /** Required. Immutable. The unique id of this `BackupRule`. The `rule_id` is unique per `BackupPlan`.The `rule_id` must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
-  ruleId?: string;
-  /** Required. Configures the duration for which backup data will be kept. It is defined in “days”. The value should be greater than or equal to minimum enforced retention of the backup vault. Minimum value is 1 and maximum value is 36159 for custom retention on-demand backup. Minimum and maximum values are workload specific for all other rules. Note: Longer retention can lead to higher storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
-  backupRetentionDays?: number;
   /** Optional. Defines a schedule that runs within the confines of a defined window of time. */
   standardSchedule?: StandardSchedule;
+  /** Required. Configures the duration for which backup data will be kept. It is defined in “days”. The value should be greater than or equal to minimum enforced retention of the backup vault. Minimum value is 1 and maximum value is 36159 for custom retention on-demand backup. Minimum and maximum values are workload specific for all other rules. Note: Longer retention can lead to higher storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
+  backupRetentionDays?: number;
+  /** Required. Immutable. The unique id of this `BackupRule`. The `rule_id` is unique per `BackupPlan`.The `rule_id` must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
+  ruleId?: string;
 }
 export const BackupRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ruleId: S.optional(S.String),
-    backupRetentionDays: S.optional(S.Number),
     standardSchedule: S.optional(StandardSchedule),
+    backupRetentionDays: S.optional(S.Number),
+    ruleId: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackupRule" }) as any as S.Schema<BackupRule>;
 
 export type BackupRuleList = Array<BackupRule>;
 export const BackupRuleList = /*@__PURE__*/ S.Array(BackupRule) as any as S.Schema<BackupRuleList>;
+
+/** Properties for a disk backup plan. */
+export interface DiskBackupPlanProperties {
+  /** Optional. Indicates whether to perform a guest flush operation before taking a disk backup. When set to false, the system will create crash-consistent backups. Default value is false. */
+  guestFlush?: boolean;
+}
+export const DiskBackupPlanProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    guestFlush: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DiskBackupPlanProperties" }) as any as S.Schema<DiskBackupPlanProperties>;
 
 /** Properties for a compute instance backup plan. */
 export interface ComputeInstanceBackupPlanProperties {
@@ -772,65 +760,77 @@ export const ComputeInstanceBackupPlanProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "ComputeInstanceBackupPlanProperties",
 }) as any as S.Schema<ComputeInstanceBackupPlanProperties>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export type BackupPlanStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "INACTIVE"
+  | "UPDATING";
+export const BackupPlanStateEnum = S.String;
+
 /** A `BackupPlan` specifies some common fields, such as `description` as well as one or more `BackupRule` messages. Each `BackupRule` has a retention policy and defines a schedule by which the system is to perform backup workloads. */
 export interface BackupPlan {
-  /** Optional. Optional field to configure the maximum number of days for which a backup can be retained. This field is only applicable for on-demand backups taken with custom retention value. */
-  maxCustomOnDemandRetentionDays?: number;
-  /** Output only. The `State` for the `BackupPlan`. */
-  state?: BackupPlanStateEnum | (string & {});
   /** Output only. All resource types to which backupPlan can be applied. */
   supportedResourceTypes?: StringList;
-  /** Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in “days”. This value should be greater than or equal to minimum enforced log retention duration of the backup vault. */
-  logRetentionDays?: string;
-  /** Optional. This collection of key/value pairs allows for custom labels to be supplied by the user. Example, {"tag": "Weekly"}. */
-  labels?: StringMap;
-  /** Optional. `etag` is returned from the service in the response. As a user of the service, you may provide an etag value in this field to prevent stale resources. */
-  etag?: string;
-  /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
-  name?: string;
-  /** Output only. When the `BackupPlan` was created. */
-  createTime?: string;
-  /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
-  diskBackupPlanProperties?: DiskBackupPlanProperties;
-  /** Output only. The Google Cloud service account to be used by the BackupVault for taking backups. Specify the email address of the Backup Vault Service Account. */
-  backupVaultServiceAccount?: string;
-  /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  revisionName?: string;
-  /** Output only. When the `BackupPlan` was last updated. */
-  updateTime?: string;
   /** Optional. The backup rules for this `BackupPlan`. */
   backupRules?: BackupRuleList;
+  /** Optional. `etag` is returned from the service in the response. As a user of the service, you may provide an etag value in this field to prevent stale resources. */
+  etag?: string;
+  /** Output only. When the `BackupPlan` was last updated. */
+  updateTime?: string;
+  /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
+  diskBackupPlanProperties?: DiskBackupPlanProperties;
+  /** Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in “days”. This value should be greater than or equal to minimum enforced log retention duration of the backup vault. */
+  logRetentionDays?: string;
+  /** Optional. Optional field to configure the maximum number of days for which a backup can be retained. This field is only applicable for on-demand backups taken with custom retention value. */
+  maxCustomOnDemandRetentionDays?: number;
+  /** Output only. The Google Cloud service account to be used by the BackupVault for taking backups. Specify the email address of the Backup Vault Service Account. */
+  backupVaultServiceAccount?: string;
+  /** Optional. The description of the `BackupPlan` resource. The description allows for additional details about `BackupPlan` and its use cases to be provided. An example description is the following: "This is a backup plan that performs a daily backup at 6pm and retains data for 3 months". The description must be at most 2048 characters. */
+  description?: string;
   /** Optional. Defines optional properties specific to backups of compute instance based resources, such as Compute Engine Instances. This includes settings like whether to perform a guest flush. */
   computeInstanceBackupPlanProperties?: ComputeInstanceBackupPlanProperties;
+  /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
+  revisionName?: string;
   /** Required. Resource name of backup vault which will be used as storage location for backups. Format: projects/{project}/locations/{location}/backupVaults/{backupvault} */
   backupVault?: string;
   /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
   revisionId?: string;
-  /** Optional. The description of the `BackupPlan` resource. The description allows for additional details about `BackupPlan` and its use cases to be provided. An example description is the following: "This is a backup plan that performs a daily backup at 6pm and retains data for 3 months". The description must be at most 2048 characters. */
-  description?: string;
+  /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
+  name?: string;
+  /** Optional. This collection of key/value pairs allows for custom labels to be supplied by the user. Example, {"tag": "Weekly"}. */
+  labels?: StringMap;
   /** Required. The resource type to which the `BackupPlan` will be applied. Examples include, "compute.googleapis.com/Instance", "sqladmin.googleapis.com/Instance", "alloydb.googleapis.com/Cluster", "compute.googleapis.com/Disk". */
   resourceType?: string;
+  /** Output only. The `State` for the `BackupPlan`. */
+  state?: BackupPlanStateEnum | (string & {});
+  /** Output only. When the `BackupPlan` was created. */
+  createTime?: string;
 }
 export const BackupPlan = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxCustomOnDemandRetentionDays: S.optional(S.Number),
-    state: S.optional(BackupPlanStateEnum),
     supportedResourceTypes: S.optional(StringList),
-    logRetentionDays: S.optional(S.String),
-    labels: S.optional(StringMap),
-    etag: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    diskBackupPlanProperties: S.optional(DiskBackupPlanProperties),
-    backupVaultServiceAccount: S.optional(S.String),
-    revisionName: S.optional(S.String),
-    updateTime: S.optional(S.String),
     backupRules: S.optional(BackupRuleList),
+    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    diskBackupPlanProperties: S.optional(DiskBackupPlanProperties),
+    logRetentionDays: S.optional(S.String),
+    maxCustomOnDemandRetentionDays: S.optional(S.Number),
+    backupVaultServiceAccount: S.optional(S.String),
+    description: S.optional(S.String),
     computeInstanceBackupPlanProperties: S.optional(ComputeInstanceBackupPlanProperties),
+    revisionName: S.optional(S.String),
     backupVault: S.optional(S.String),
     revisionId: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
     resourceType: S.optional(S.String),
+    state: S.optional(BackupPlanStateEnum),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackupPlan" }) as any as S.Schema<BackupPlan>;
 
@@ -861,22 +861,11 @@ export const CreateProjectsLocationsBackupPlansRequest = /*@__PURE__*/ S.suspend
   identifier: "CreateProjectsLocationsBackupPlansRequest",
 }) as any as S.Schema<CreateProjectsLocationsBackupPlansRequest>;
 
-export type BackupVaultStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "ERROR"
-  | "UPDATING";
-export const BackupVaultStateEnum = S.String;
-
-export type BackupVaultAccessRestrictionEnum =
-  | "ACCESS_RESTRICTION_UNSPECIFIED"
-  | "WITHIN_PROJECT"
-  | "WITHIN_ORGANIZATION"
-  | "UNRESTRICTED"
-  | "WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA";
-export const BackupVaultAccessRestrictionEnum = S.String;
+export type BackupVaultBackupRetentionInheritanceEnum =
+  | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
+  | "INHERIT_VAULT_RETENTION"
+  | "MATCH_BACKUP_EXPIRE_TIME";
+export const BackupVaultBackupRetentionInheritanceEnum = S.String;
 
 /** Message describing the EncryptionConfig of backup vault. This determines how data within the vault is encrypted at rest. */
 export interface EncryptionConfig {
@@ -889,81 +878,92 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 
-export type BackupVaultBackupRetentionInheritanceEnum =
-  | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
-  | "INHERIT_VAULT_RETENTION"
-  | "MATCH_BACKUP_EXPIRE_TIME";
-export const BackupVaultBackupRetentionInheritanceEnum = S.String;
+export type BackupVaultAccessRestrictionEnum =
+  | "ACCESS_RESTRICTION_UNSPECIFIED"
+  | "WITHIN_PROJECT"
+  | "WITHIN_ORGANIZATION"
+  | "UNRESTRICTED"
+  | "WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA";
+export const BackupVaultAccessRestrictionEnum = S.String;
+
+export type BackupVaultStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "ERROR"
+  | "UPDATING";
+export const BackupVaultStateEnum = S.String;
 
 /** Message describing a BackupVault object. */
 export interface BackupVault {
-  /** Required. The default and minimum enforced retention for each backup within the backup vault. The enforced retention for each backup can be extended. Note: Longer minimum enforced retention period impacts potential storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
-  backupMinimumEnforcedRetentionDuration?: string;
-  /** Optional. Time after which the BackupVault resource is locked. */
-  effectiveTime?: string;
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap;
-  /** Output only. The BackupVault resource instance state. */
-  state?: BackupVaultStateEnum | (string & {});
-  /** Output only. Service account used by the BackupVault Service for this BackupVault. The user should grant this account permissions in their workload project to enable the service to run backups and restores there. */
-  serviceAccount?: string;
-  /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
-  name?: string;
+  /** Optional. Setting for how a backup's enforced retention end time is inherited. */
+  backupRetentionInheritance?: BackupVaultBackupRetentionInheritanceEnum | (string & {});
   /** Optional. The description of the BackupVault instance (2048 characters or less). */
   description?: string;
-  /** Optional. Server specified ETag for the backup vault resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string;
+  /** Output only. The time when the instance was updated. */
+  updateTime?: string;
   /** Output only. Set to true when there are no backups nested under this resource. */
   deletable?: boolean;
-  /** Output only. Total size of the storage used by all backup resources. */
-  totalStoredBytes?: string;
   /** Optional. User annotations. See https://google.aip.dev/128#annotations Stores small amounts of arbitrary data. */
   annotations?: StringMap;
   /** Output only. Immutable after resource creation until resource deletion. */
   uid?: string;
-  /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
-  accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {});
+  /** Output only. Service account used by the BackupVault Service for this BackupVault. The user should grant this account permissions in their workload project to enable the service to run backups and restores there. */
+  serviceAccount?: string;
+  /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
+  name?: string;
   /** Optional. The encryption config of the backup vault. */
   encryptionConfig?: EncryptionConfig;
+  /** Required. The default and minimum enforced retention for each backup within the backup vault. The enforced retention for each backup can be extended. Note: Longer minimum enforced retention period impacts potential storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
+  backupMinimumEnforcedRetentionDuration?: string;
   /** Output only. The number of backups in this backup vault. */
   backupCount?: string;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string;
+  /** Optional. Time after which the BackupVault resource is locked. */
+  effectiveTime?: string;
+  /** Output only. Total size of the storage used by all backup resources. */
+  totalStoredBytes?: string;
+  /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
+  accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {});
+  /** Optional. Server specified ETag for the backup vault resource to prevent simultaneous updates from overwiting each other. */
+  etag?: string;
+  /** Output only. The BackupVault resource instance state. */
+  state?: BackupVaultStateEnum | (string & {});
   /** Output only. The time when the instance was created. */
   createTime?: string;
-  /** Optional. Setting for how a backup's enforced retention end time is inherited. */
-  backupRetentionInheritance?: BackupVaultBackupRetentionInheritanceEnum | (string & {});
+  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
+  labels?: StringMap;
 }
 export const BackupVault = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backupMinimumEnforcedRetentionDuration: S.optional(S.String),
-    effectiveTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    state: S.optional(BackupVaultStateEnum),
-    serviceAccount: S.optional(S.String),
-    name: S.optional(S.String),
+    backupRetentionInheritance: S.optional(BackupVaultBackupRetentionInheritanceEnum),
     description: S.optional(S.String),
-    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
     deletable: S.optional(S.Boolean),
-    totalStoredBytes: S.optional(S.String),
     annotations: S.optional(StringMap),
     uid: S.optional(S.String),
-    accessRestriction: S.optional(BackupVaultAccessRestrictionEnum),
+    serviceAccount: S.optional(S.String),
+    name: S.optional(S.String),
     encryptionConfig: S.optional(EncryptionConfig),
+    backupMinimumEnforcedRetentionDuration: S.optional(S.String),
     backupCount: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    effectiveTime: S.optional(S.String),
+    totalStoredBytes: S.optional(S.String),
+    accessRestriction: S.optional(BackupVaultAccessRestrictionEnum),
+    etag: S.optional(S.String),
+    state: S.optional(BackupVaultStateEnum),
     createTime: S.optional(S.String),
-    backupRetentionInheritance: S.optional(BackupVaultBackupRetentionInheritanceEnum),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "BackupVault" }) as any as S.Schema<BackupVault>;
 
 export interface CreateProjectsLocationsBackupVaultsRequest {
   /** Required. ID of the requesting object If auto-generating ID server-side, remove this field and backup_vault_id from the method_signature of Create RPC */
   backupVaultId?: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
-  validateOnly?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
+  validateOnly?: boolean;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
@@ -972,8 +972,8 @@ export interface CreateProjectsLocationsBackupVaultsRequest {
 export const CreateProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupVaultId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     body: S.optional(BackupVault.pipe(T.HttpBody())),
   }).pipe(
@@ -987,20 +987,6 @@ export const CreateProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspen
   identifier: "CreateProjectsLocationsBackupVaultsRequest",
 }) as any as S.Schema<CreateProjectsLocationsBackupVaultsRequest>;
 
-/** ManagementURI for the Management Server resource. */
-export interface ManagementURI {
-  /** Output only. The ManagementServer AGM/RD WebUI URL. */
-  webUi?: string;
-  /** Output only. The ManagementServer AGM/RD API URL. */
-  api?: string;
-}
-export const ManagementURI = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webUi: S.optional(S.String),
-    api: S.optional(S.String),
-  }),
-).annotate({ identifier: "ManagementURI" }) as any as S.Schema<ManagementURI>;
-
 export type ManagementServerStateEnum =
   | "INSTANCE_STATE_UNSPECIFIED"
   | "CREATING"
@@ -1011,41 +997,6 @@ export type ManagementServerStateEnum =
   | "MAINTENANCE"
   | "ERROR";
 export const ManagementServerStateEnum = S.String;
-
-export type ManagementServerTypeEnum = "INSTANCE_TYPE_UNSPECIFIED" | "BACKUP_RESTORE";
-export const ManagementServerTypeEnum = S.String;
-
-/** ManagementURI depending on the Workforce Identity i.e. either 1p or 3p. */
-export interface WorkforceIdentityBasedManagementURI {
-  /** Output only. First party Management URI for Google Identities. */
-  firstPartyManagementUri?: string;
-  /** Output only. Third party Management URI for External Identity Providers. */
-  thirdPartyManagementUri?: string;
-}
-export const WorkforceIdentityBasedManagementURI = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    firstPartyManagementUri: S.optional(S.String),
-    thirdPartyManagementUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WorkforceIdentityBasedManagementURI",
-}) as any as S.Schema<WorkforceIdentityBasedManagementURI>;
-
-/** OAuth Client ID depending on the Workforce Identity i.e. either 1p or 3p, */
-export interface WorkforceIdentityBasedOAuth2ClientID {
-  /** Output only. Third party OAuth Client ID for External Identity Providers. */
-  thirdPartyOauth2ClientId?: string;
-  /** Output only. First party OAuth Client ID for Google Identities. */
-  firstPartyOauth2ClientId?: string;
-}
-export const WorkforceIdentityBasedOAuth2ClientID = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thirdPartyOauth2ClientId: S.optional(S.String),
-    firstPartyOauth2ClientId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WorkforceIdentityBasedOAuth2ClientID",
-}) as any as S.Schema<WorkforceIdentityBasedOAuth2ClientID>;
 
 export type NetworkConfigPeeringModeEnum = "PEERING_MODE_UNSPECIFIED" | "PRIVATE_SERVICE_ACCESS";
 export const NetworkConfigPeeringModeEnum = S.String;
@@ -1069,77 +1020,126 @@ export const NetworkConfigList = /*@__PURE__*/ S.Array(
   NetworkConfig,
 ) as any as S.Schema<NetworkConfigList>;
 
+/** ManagementURI depending on the Workforce Identity i.e. either 1p or 3p. */
+export interface WorkforceIdentityBasedManagementURI {
+  /** Output only. First party Management URI for Google Identities. */
+  firstPartyManagementUri?: string;
+  /** Output only. Third party Management URI for External Identity Providers. */
+  thirdPartyManagementUri?: string;
+}
+export const WorkforceIdentityBasedManagementURI = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    firstPartyManagementUri: S.optional(S.String),
+    thirdPartyManagementUri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WorkforceIdentityBasedManagementURI",
+}) as any as S.Schema<WorkforceIdentityBasedManagementURI>;
+
+/** OAuth Client ID depending on the Workforce Identity i.e. either 1p or 3p, */
+export interface WorkforceIdentityBasedOAuth2ClientID {
+  /** Output only. First party OAuth Client ID for Google Identities. */
+  firstPartyOauth2ClientId?: string;
+  /** Output only. Third party OAuth Client ID for External Identity Providers. */
+  thirdPartyOauth2ClientId?: string;
+}
+export const WorkforceIdentityBasedOAuth2ClientID = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    firstPartyOauth2ClientId: S.optional(S.String),
+    thirdPartyOauth2ClientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WorkforceIdentityBasedOAuth2ClientID",
+}) as any as S.Schema<WorkforceIdentityBasedOAuth2ClientID>;
+
+export type ManagementServerTypeEnum = "INSTANCE_TYPE_UNSPECIFIED" | "BACKUP_RESTORE";
+export const ManagementServerTypeEnum = S.String;
+
+/** ManagementURI for the Management Server resource. */
+export interface ManagementURI {
+  /** Output only. The ManagementServer AGM/RD WebUI URL. */
+  webUi?: string;
+  /** Output only. The ManagementServer AGM/RD API URL. */
+  api?: string;
+}
+export const ManagementURI = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webUi: S.optional(S.String),
+    api: S.optional(S.String),
+  }),
+).annotate({ identifier: "ManagementURI" }) as any as S.Schema<ManagementURI>;
+
 /** ManagementServer describes a single BackupDR ManagementServer instance. */
 export interface ManagementServer {
   /** Output only. The OAuth 2.0 client id is required to make API calls to the Backup and DR instance API of this ManagementServer. This is the value that should be provided in the 'aud' field of the OIDC ID Token (see openid specification https://openid.net/specs/openid-connect-core-1_0.html#IDToken). */
   oauth2ClientId?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. The hostname or ip address of the exposed AGM endpoints, used by clients to connect to AGM/RD graphical user interface and APIs. */
-  managementUri?: ManagementURI;
-  /** Output only. The hostname or ip address of the exposed AGM endpoints, used by BAs to connect to BA proxy. */
-  baProxyUri?: StringList;
-  /** Optional. The description of the ManagementServer instance (2048 characters or less). */
-  description?: string;
-  /** Output only. Identifier. The resource name. */
-  name?: string;
-  /** Optional. Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string;
   /** Output only. The ManagementServer state. */
   state?: ManagementServerStateEnum | (string & {});
-  /** Optional. The type of the ManagementServer resource. */
-  type?: ManagementServerTypeEnum | (string & {});
-  /** Output only. The time when the instance was created. */
-  createTime?: string;
+  /** Output only. The hostname or ip address of the exposed AGM endpoints, used by BAs to connect to BA proxy. */
+  baProxyUri?: StringList;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean;
+  /** Optional. VPC networks to which the ManagementServer instance is connected. For this version, only a single network is supported. This field is optional if MS is created without PSA */
+  networks?: NetworkConfigList;
+  /** Output only. Identifier. The resource name. */
+  name?: string;
   /** Output only. The hostnames of the exposed AGM endpoints for both types of user i.e. 1p and 3p, used to connect AGM/RM UI. */
   workforceIdentityBasedManagementUri?: WorkforceIdentityBasedManagementURI;
   /** Output only. The time when the instance was updated. */
   updateTime?: string;
-  /** Optional. Resource labels to represent user provided metadata. Labels currently defined: 1. migrate_from_go= If set to true, the MS is created in migration ready mode. */
-  labels?: StringMap;
+  /** Output only. The time when the instance was created. */
+  createTime?: string;
   /** Output only. The OAuth client IDs for both types of user i.e. 1p and 3p. */
   workforceIdentityBasedOauth2ClientId?: WorkforceIdentityBasedOAuth2ClientID;
-  /** Optional. VPC networks to which the ManagementServer instance is connected. For this version, only a single network is supported. This field is optional if MS is created without PSA */
-  networks?: NetworkConfigList;
+  /** Optional. The description of the ManagementServer instance (2048 characters or less). */
+  description?: string;
+  /** Optional. The type of the ManagementServer resource. */
+  type?: ManagementServerTypeEnum | (string & {});
+  /** Output only. The hostname or ip address of the exposed AGM endpoints, used by clients to connect to AGM/RD graphical user interface and APIs. */
+  managementUri?: ManagementURI;
+  /** Optional. Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
+  etag?: string;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzi?: boolean;
+  /** Optional. Resource labels to represent user provided metadata. Labels currently defined: 1. migrate_from_go= If set to true, the MS is created in migration ready mode. */
+  labels?: StringMap;
 }
 export const ManagementServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     oauth2ClientId: S.optional(S.String),
-    satisfiesPzi: S.optional(S.Boolean),
-    managementUri: S.optional(ManagementURI),
-    baProxyUri: S.optional(StringList),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
     state: S.optional(ManagementServerStateEnum),
-    type: S.optional(ManagementServerTypeEnum),
-    createTime: S.optional(S.String),
+    baProxyUri: S.optional(StringList),
+    satisfiesPzs: S.optional(S.Boolean),
+    networks: S.optional(NetworkConfigList),
+    name: S.optional(S.String),
     workforceIdentityBasedManagementUri: S.optional(WorkforceIdentityBasedManagementURI),
     updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
     workforceIdentityBasedOauth2ClientId: S.optional(WorkforceIdentityBasedOAuth2ClientID),
-    networks: S.optional(NetworkConfigList),
-    satisfiesPzs: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    type: S.optional(ManagementServerTypeEnum),
+    managementUri: S.optional(ManagementURI),
+    etag: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "ManagementServer" }) as any as S.Schema<ManagementServer>;
 
 export interface CreateProjectsLocationsManagementServersRequest {
-  /** Required. The name of the management server to create. The name must be unique for the specified project and location. */
-  managementServerId?: string;
-  /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
+  /** Required. The name of the management server to create. The name must be unique for the specified project and location. */
+  managementServerId?: string;
   /** Request body */
   body?: ManagementServer;
 }
 export const CreateProjectsLocationsManagementServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    managementServerId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    managementServerId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ManagementServer.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1198,15 +1198,15 @@ export const DeleteProjectsLocationsBackupPlanAssociationsRequest = /*@__PURE__*
 }) as any as S.Schema<DeleteProjectsLocationsBackupPlanAssociationsRequest>;
 
 export interface DeleteProjectsLocationsBackupPlansRequest {
-  /** Required. The resource name of the `BackupPlan` to delete. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the `BackupPlan` to delete. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
+  name: string;
 }
 export const DeleteProjectsLocationsBackupPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1219,30 +1219,30 @@ export const DeleteProjectsLocationsBackupPlansRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<DeleteProjectsLocationsBackupPlansRequest>;
 
 export interface DeleteProjectsLocationsBackupVaultsRequest {
-  /** Required. Name of the resource. */
-  name: string;
-  /** The current etag of the backup vault. If an etag is provided and does not match the current etag of the connection, deletion will be blocked. */
-  etag?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. If set to true, any data source from this backup vault will also be deleted. */
-  force?: boolean;
+  /** Required. Name of the resource. */
+  name: string;
+  /** Optional. If true and the BackupVault is not found, the request will succeed but no action will be taken. */
+  allowMissing?: boolean;
+  /** The current etag of the backup vault. If an etag is provided and does not match the current etag of the connection, deletion will be blocked. */
+  etag?: string;
   /** Optional. If set to true, backupvault deletion will proceed even if there are backup plans referencing the backupvault. The default is 'false'. */
   ignoreBackupPlanReferences?: boolean;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
   validateOnly?: boolean;
-  /** Optional. If true and the BackupVault is not found, the request will succeed but no action will be taken. */
-  allowMissing?: boolean;
+  /** Optional. If set to true, any data source from this backup vault will also be deleted. */
+  force?: boolean;
 }
 export const DeleteProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
-    force: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    etag: S.optional(S.String.pipe(T.Query())),
     ignoreBackupPlanReferences: S.optional(S.Boolean.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1277,15 +1277,15 @@ export const DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest = /*@_
 }) as any as S.Schema<DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest>;
 
 export interface DeleteProjectsLocationsManagementServersRequest {
-  /** Required. Name of the resource */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Name of the resource */
+  name: string;
 }
 export const DeleteProjectsLocationsManagementServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1369,22 +1369,22 @@ export const TrialEndReasonEnum = S.String;
 export interface Trial {
   /** Output only. The state of the trial. */
   state?: TrialStateEnum;
-  /** Output only. The reason for ending the trial. */
-  endReason?: TrialEndReasonEnum;
-  /** Output only. The time when the trial will expire. */
-  endTime?: string;
   /** Identifier. The resource name of the trial. Format: projects/{project}/locations/{location}/trial */
   name?: string;
   /** Output only. The time when the trial was subscribed. */
   startTime?: string;
+  /** Output only. The reason for ending the trial. */
+  endReason?: TrialEndReasonEnum;
+  /** Output only. The time when the trial will expire. */
+  endTime?: string;
 }
 export const Trial = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(TrialStateEnum),
-    endReason: S.optional(TrialEndReasonEnum),
-    endTime: S.optional(S.String),
     name: S.optional(S.String),
     startTime: S.optional(S.String),
+    endReason: S.optional(TrialEndReasonEnum),
+    endTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Trial" }) as any as S.Schema<Trial>;
 
@@ -1423,43 +1423,43 @@ export const FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest =
 
 /** Response message for FetchAccessToken. */
 export interface FetchAccessTokenResponse {
-  /** The location in bucket that can be used for writing. */
-  writeLocation?: string;
-  /** Input only. The downscoped token that was created. */
-  token?: string;
   /** The location in bucket that can be used for reading. */
   readLocation?: string;
   /** The token is valid until this time. */
   expireTime?: string;
+  /** Input only. The downscoped token that was created. */
+  token?: string;
+  /** The location in bucket that can be used for writing. */
+  writeLocation?: string;
 }
 export const FetchAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    writeLocation: S.optional(S.String),
-    token: S.optional(S.String),
     readLocation: S.optional(S.String),
     expireTime: S.optional(S.String),
+    token: S.optional(S.String),
+    writeLocation: S.optional(S.String),
   }),
 ).annotate({ identifier: "FetchAccessTokenResponse" }) as any as S.Schema<FetchAccessTokenResponse>;
 
 export interface FetchFoldersLocationsResourceBackupConfigsRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
-  parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
-  pageSize?: number;
   /** Optional. Filtering results. */
   filter?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
+  pageSize?: number;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
+  parent: string;
 }
 export const FetchFoldersLocationsResourceBackupConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1470,6 +1470,45 @@ export const FetchFoldersLocationsResourceBackupConfigsRequest = /*@__PURE__*/ S
 ).annotate({
   identifier: "FetchFoldersLocationsResourceBackupConfigsRequest",
 }) as any as S.Schema<FetchFoldersLocationsResourceBackupConfigsRequest>;
+
+export type ResourceBackupConfigTargetResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "CLOUD_SQL_INSTANCE"
+  | "COMPUTE_ENGINE_VM"
+  | "COMPUTE_ENGINE_DISK"
+  | "COMPUTE_ENGINE_REGIONAL_DISK"
+  | "FILESTORE_INSTANCE";
+export const ResourceBackupConfigTargetResourceTypeEnum = S.String;
+
+export type BackupLocationTypeEnum = "TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL" | "MULTI_REGIONAL";
+export const BackupLocationTypeEnum = S.String;
+
+/** BackupLocation represents a cloud location where a backup can be stored. */
+export interface BackupLocation {
+  /** Output only. The id of the cloud location. Example: "us-central1" */
+  locationId?: string;
+  /** Output only. The type of the location. */
+  type?: BackupLocationTypeEnum;
+}
+export const BackupLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locationId: S.optional(S.String),
+    type: S.optional(BackupLocationTypeEnum),
+  }),
+).annotate({ identifier: "BackupLocation" }) as any as S.Schema<BackupLocation>;
+
+export type BackupLocationList = Array<BackupLocation>;
+export const BackupLocationList = /*@__PURE__*/ S.Array(
+  BackupLocation,
+) as any as S.Schema<BackupLocationList>;
+
+export type BackupConfigDetailsTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "CLOUD_SQL_INSTANCE_BACKUP_CONFIG"
+  | "COMPUTE_ENGINE_RESOURCE_POLICY"
+  | "BACKUPDR_BACKUP_PLAN"
+  | "BACKUPDR_TEMPLATE";
+export const BackupConfigDetailsTypeEnum = S.String;
 
 /** BackupDrPlanRule has rule specific information of the backup plan resource. */
 export interface BackupDrPlanRule {
@@ -1501,47 +1540,6 @@ export const BackupDrPlanConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BackupDrPlanConfig" }) as any as S.Schema<BackupDrPlanConfig>;
 
-export type BackupConfigDetailsTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "CLOUD_SQL_INSTANCE_BACKUP_CONFIG"
-  | "COMPUTE_ENGINE_RESOURCE_POLICY"
-  | "BACKUPDR_BACKUP_PLAN"
-  | "BACKUPDR_TEMPLATE";
-export const BackupConfigDetailsTypeEnum = S.String;
-
-export type BackupLocationTypeEnum = "TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL" | "MULTI_REGIONAL";
-export const BackupLocationTypeEnum = S.String;
-
-/** BackupLocation represents a cloud location where a backup can be stored. */
-export interface BackupLocation {
-  /** Output only. The type of the location. */
-  type?: BackupLocationTypeEnum;
-  /** Output only. The id of the cloud location. Example: "us-central1" */
-  locationId?: string;
-}
-export const BackupLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(BackupLocationTypeEnum),
-    locationId: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupLocation" }) as any as S.Schema<BackupLocation>;
-
-export type BackupLocationList = Array<BackupLocation>;
-export const BackupLocationList = /*@__PURE__*/ S.Array(
-  BackupLocation,
-) as any as S.Schema<BackupLocationList>;
-
-/** Point in time recovery settings of the backup configuration resource. */
-export interface PitrSettings {
-  /** Output only. Number of days to retain the backup. */
-  retentionDays?: number;
-}
-export const PitrSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    retentionDays: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PitrSettings" }) as any as S.Schema<PitrSettings>;
-
 /** Provides additional information about Google Cloud Backup and DR's Template backup configuration. */
 export interface BackupDrTemplateConfig {
   /** Output only. The URI of the BackupDr template resource for the first party identity users. */
@@ -1559,44 +1557,55 @@ export const BackupDrTemplateConfig = /*@__PURE__*/ S.suspend(() =>
 export type BackupConfigDetailsStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "ERROR";
 export const BackupConfigDetailsStateEnum = S.String;
 
+/** Point in time recovery settings of the backup configuration resource. */
+export interface PitrSettings {
+  /** Output only. Number of days to retain the backup. */
+  retentionDays?: number;
+}
+export const PitrSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    retentionDays: S.optional(S.Number),
+  }),
+).annotate({ identifier: "PitrSettings" }) as any as S.Schema<PitrSettings>;
+
 /** BackupConfigDetails has information about how the resource is configured for backups and about the most recent backup taken for this configuration. */
 export interface BackupConfigDetails {
-  /** Google Cloud Backup and DR's Backup Plan specific data. */
-  backupDrPlanConfig?: BackupDrPlanConfig;
-  /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the resource that is applicable for the backup configuration. Example: "//compute.googleapis.com/projects/{project}/zones/{zone}/instances/{instance}" */
-  applicableResource?: string;
-  /** Output only. The display name of the backup config source resource. */
-  backupConfigSourceDisplayName?: string;
-  /** Output only. The type of the backup config resource. */
-  type?: BackupConfigDetailsTypeEnum;
   /** The locations where the backups are to be stored. */
   backupLocations?: BackupLocationList;
-  /** Output only. Point in time recovery settings of the backup configuration resource. */
-  pitrSettings?: PitrSettings;
+  /** Output only. The type of the backup config resource. */
+  type?: BackupConfigDetailsTypeEnum;
+  /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the backup vault that will store the backups generated through this backup configuration. Example: "//backupdr.googleapis.com/v1/projects/{project}/locations/{region}/backupVaults/{backupvaultId}" */
+  backupVault?: string;
+  /** Google Cloud Backup and DR's Backup Plan specific data. */
+  backupDrPlanConfig?: BackupDrPlanConfig;
+  /** Output only. The display name of the backup config source resource. */
+  backupConfigSourceDisplayName?: string;
+  /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the resource that is applicable for the backup configuration. Example: "//compute.googleapis.com/projects/{project}/zones/{zone}/instances/{instance}" */
+  applicableResource?: string;
+  /** Output only. The full resource name of the backup config source resource. For example, "//backupdr.googleapis.com/v1/projects/{project}/locations/{region}/backupPlans/{backupplanId}" or "//compute.googleapis.com/projects/{project}/locations/{region}/resourcePolicies/{resourcePolicyId}". */
+  backupConfigSource?: string;
+  /** Output only. Timestamp of the latest successful backup created via this backup configuration. */
+  latestSuccessfulBackupTime?: string;
   /** Google Cloud Backup and DR's Template specific data. */
   backupDrTemplateConfig?: BackupDrTemplateConfig;
   /** Output only. The state of the backup config resource. */
   state?: BackupConfigDetailsStateEnum;
-  /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the backup vault that will store the backups generated through this backup configuration. Example: "//backupdr.googleapis.com/v1/projects/{project}/locations/{region}/backupVaults/{backupvaultId}" */
-  backupVault?: string;
-  /** Output only. Timestamp of the latest successful backup created via this backup configuration. */
-  latestSuccessfulBackupTime?: string;
-  /** Output only. The full resource name of the backup config source resource. For example, "//backupdr.googleapis.com/v1/projects/{project}/locations/{region}/backupPlans/{backupplanId}" or "//compute.googleapis.com/projects/{project}/locations/{region}/resourcePolicies/{resourcePolicyId}". */
-  backupConfigSource?: string;
+  /** Output only. Point in time recovery settings of the backup configuration resource. */
+  pitrSettings?: PitrSettings;
 }
 export const BackupConfigDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backupDrPlanConfig: S.optional(BackupDrPlanConfig),
-    applicableResource: S.optional(S.String),
-    backupConfigSourceDisplayName: S.optional(S.String),
-    type: S.optional(BackupConfigDetailsTypeEnum),
     backupLocations: S.optional(BackupLocationList),
-    pitrSettings: S.optional(PitrSettings),
+    type: S.optional(BackupConfigDetailsTypeEnum),
+    backupVault: S.optional(S.String),
+    backupDrPlanConfig: S.optional(BackupDrPlanConfig),
+    backupConfigSourceDisplayName: S.optional(S.String),
+    applicableResource: S.optional(S.String),
+    backupConfigSource: S.optional(S.String),
+    latestSuccessfulBackupTime: S.optional(S.String),
     backupDrTemplateConfig: S.optional(BackupDrTemplateConfig),
     state: S.optional(BackupConfigDetailsStateEnum),
-    backupVault: S.optional(S.String),
-    latestSuccessfulBackupTime: S.optional(S.String),
-    backupConfigSource: S.optional(S.String),
+    pitrSettings: S.optional(PitrSettings),
   }),
 ).annotate({ identifier: "BackupConfigDetails" }) as any as S.Schema<BackupConfigDetails>;
 
@@ -1605,47 +1614,38 @@ export const BackupConfigDetailsList = /*@__PURE__*/ S.Array(
   BackupConfigDetails,
 ) as any as S.Schema<BackupConfigDetailsList>;
 
-export type ResourceBackupConfigTargetResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "CLOUD_SQL_INSTANCE"
-  | "COMPUTE_ENGINE_VM"
-  | "COMPUTE_ENGINE_DISK"
-  | "COMPUTE_ENGINE_REGIONAL_DISK"
-  | "FILESTORE_INSTANCE";
-export const ResourceBackupConfigTargetResourceTypeEnum = S.String;
-
 /** ResourceBackupConfig represents a resource along with its backup configurations. */
 export interface ResourceBackupConfig {
   /** Identifier. The resource name of the ResourceBackupConfig. Format: projects/{project}/locations/{location}/resourceBackupConfigs/{uid} */
   name?: string;
+  /** Output only. The type of the target resource. */
+  targetResourceType?: ResourceBackupConfigTargetResourceTypeEnum;
+  /** Backup configurations applying to the target resource, including those targeting its related/child resources. For example, backup configuration applicable to Compute Engine disks will be populated in this field for a Compute Engine VM which has the disk associated. */
+  backupConfigsDetails?: BackupConfigDetailsList;
+  /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the cloud resource that this configuration applies to. Supported resource types are ResourceBackupConfig.ResourceType. */
+  targetResource?: string;
   /** Labels associated with the target resource. */
   targetResourceLabels?: StringMap;
+  /** Output only. The human friendly name of the target resource. */
+  targetResourceDisplayName?: string;
+  /** Output only. Whether the target resource is configured for backup. This is true if the backup_configs_details is not empty. */
+  backupConfigured?: boolean;
   /** Output only. The unique identifier of the resource backup config. */
   uid?: string;
   /** Output only. Whether the target resource is protected by a backup vault. This is true if the backup_configs_details is not empty and any of the ResourceBackupConfig.backup_configs_details has a backup configuration with BackupConfigDetails.backup_vault set. */
   vaulted?: boolean;
-  /** Output only. Whether the target resource is configured for backup. This is true if the backup_configs_details is not empty. */
-  backupConfigured?: boolean;
-  /** Output only. The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the cloud resource that this configuration applies to. Supported resource types are ResourceBackupConfig.ResourceType. */
-  targetResource?: string;
-  /** Backup configurations applying to the target resource, including those targeting its related/child resources. For example, backup configuration applicable to Compute Engine disks will be populated in this field for a Compute Engine VM which has the disk associated. */
-  backupConfigsDetails?: BackupConfigDetailsList;
-  /** Output only. The type of the target resource. */
-  targetResourceType?: ResourceBackupConfigTargetResourceTypeEnum;
-  /** Output only. The human friendly name of the target resource. */
-  targetResourceDisplayName?: string;
 }
 export const ResourceBackupConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
+    targetResourceType: S.optional(ResourceBackupConfigTargetResourceTypeEnum),
+    backupConfigsDetails: S.optional(BackupConfigDetailsList),
+    targetResource: S.optional(S.String),
     targetResourceLabels: S.optional(StringMap),
+    targetResourceDisplayName: S.optional(S.String),
+    backupConfigured: S.optional(S.Boolean),
     uid: S.optional(S.String),
     vaulted: S.optional(S.Boolean),
-    backupConfigured: S.optional(S.Boolean),
-    targetResource: S.optional(S.String),
-    backupConfigsDetails: S.optional(BackupConfigDetailsList),
-    targetResourceType: S.optional(ResourceBackupConfigTargetResourceTypeEnum),
-    targetResourceDisplayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "ResourceBackupConfig" }) as any as S.Schema<ResourceBackupConfig>;
 
@@ -1656,43 +1656,43 @@ export const ResourceBackupConfigList = /*@__PURE__*/ S.Array(
 
 /** Response for FetchResourceBackupConfigs. */
 export interface FetchResourceBackupConfigsResponse {
-  /** The list of ResourceBackupConfigs for the specified scope. */
-  resourceBackupConfigs?: ResourceBackupConfigList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of ResourceBackupConfigs for the specified scope. */
+  resourceBackupConfigs?: ResourceBackupConfigList;
 }
 export const FetchResourceBackupConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceBackupConfigs: S.optional(ResourceBackupConfigList),
     nextPageToken: S.optional(S.String),
+    resourceBackupConfigs: S.optional(ResourceBackupConfigList),
   }),
 ).annotate({
   identifier: "FetchResourceBackupConfigsResponse",
 }) as any as S.Schema<FetchResourceBackupConfigsResponse>;
 
 export interface FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest {
-  /** Optional. A page token, received from a previous call of `FetchBackupPlanAssociationsForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchBackupPlanAssociationsForResourceType` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The type of the Google Cloud resource. Ex: sql.googleapis.com/Instance */
-  resourceType?: string;
   /** Optional. The maximum number of BackupPlanAssociations to return. The service may return fewer than this value. If unspecified, at most 50 BackupPlanAssociations will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * resource * backup_plan * state * data_source * cloud_sql_instance_backup_plan_association_properties.instance_create_time */
   filter?: string;
+  /** Optional. A page token, received from a previous call of `FetchBackupPlanAssociationsForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchBackupPlanAssociationsForResourceType` must match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
   orderBy?: string;
+  /** Required. The type of the Google Cloud resource. Ex: sql.googleapis.com/Instance */
+  resourceType?: string;
 }
 export const FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      resourceType: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      resourceType: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1732,35 +1732,35 @@ export type FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsV
 export const FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum = S.String;
 
 export interface FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
+  /** Required. The type of the GCP resource. Ex: sqladmin.googleapis.com/Instance */
+  resourceType?: string;
+  /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * name * state * backup_type * create_time * expire_time * enforced_retention_end_time * gcp_backup_plan_info.backup_plan * cloud_sql_instance_backup_properties.instance_tier * cloud_sql_instance_backup_properties.database_installed_version */
+  filter?: string;
+  /** Optional. The maximum number of Backups to return. The service may return fewer than this value. If unspecified, at most 50 Backups will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
   /** Optional. This parameter is used to specify the view of the backup. If not specified, the default view is BASIC. */
   view?:
     | FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum
     | (string & {});
-  /** Required. Datasources are the parent resource for the backups. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{datasourceId} */
-  parent: string;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
   orderBy?: string;
+  /** Required. Datasources are the parent resource for the backups. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{datasourceId} */
+  parent: string;
   /** Optional. A page token, received from a previous call of `FetchBackupsForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchBackupsForResourceType` must match the call that provided the page token. */
   pageToken?: string;
-  /** Required. The type of the GCP resource. Ex: sqladmin.googleapis.com/Instance */
-  resourceType?: string;
-  /** Optional. The maximum number of Backups to return. The service may return fewer than this value. If unspecified, at most 50 Backups will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
-  /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * name * state * backup_type * create_time * expire_time * enforced_retention_end_time * gcp_backup_plan_info.backup_plan * cloud_sql_instance_backup_properties.instance_tier * cloud_sql_instance_backup_properties.database_installed_version */
-  filter?: string;
 }
 export const FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      resourceType: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       view: S.optional(
         FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum.pipe(T.Query()),
       ),
-      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      resourceType: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1772,58 +1772,27 @@ export const FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups
     identifier: "FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest",
   }) as any as S.Schema<FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest>;
 
-/** AlloyDbClusterBackupProperties represents AlloyDB cluster backup properties. . */
-export interface AlloyDbClusterBackupProperties {
-  /** An optional text description for the backup. */
-  description?: string;
-  /** Output only. The chain id of this backup. Backups belonging to the same chain are sharing the same chain id. This property is calculated and maintained by BackupDR. */
-  chainId?: string;
-  /** Output only. Storage usage of this particular backup */
-  storedBytes?: string;
-  /** Output only. The PostgreSQL major version of the AlloyDB cluster when the backup was taken. */
-  databaseVersion?: string;
+/** A specification of the type and number of accelerator cards attached to the instance. */
+export interface AcceleratorConfig {
+  /** Optional. The number of the guest accelerator cards exposed to this instance. */
+  acceleratorCount?: number;
+  /** Optional. Full or partial URL of the accelerator type resource to attach to this instance. */
+  acceleratorType?: string;
 }
-export const AlloyDbClusterBackupProperties = /*@__PURE__*/ S.suspend(() =>
+export const AcceleratorConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    chainId: S.optional(S.String),
-    storedBytes: S.optional(S.String),
-    databaseVersion: S.optional(S.String),
+    acceleratorCount: S.optional(S.Number),
+    acceleratorType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlloyDbClusterBackupProperties",
-}) as any as S.Schema<AlloyDbClusterBackupProperties>;
+).annotate({ identifier: "AcceleratorConfig" }) as any as S.Schema<AcceleratorConfig>;
 
-/** CloudSqlInstanceBackupProperties represents Cloud SQL Instance Backup properties. */
-export interface CloudSqlInstanceBackupProperties {
-  /** Output only. The instance delete timestamp. */
-  instanceDeleteTime?: string;
-  /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
-  /** Output only. The installed database version of the Cloud SQL instance when the backup was taken. */
-  databaseInstalledVersion?: string;
-  /** Output only. Whether the backup is a final backup. */
-  finalBackup?: boolean;
-  /** Output only. The source instance of the backup. Format: projects/{project}/instances/{instance} */
-  sourceInstance?: string;
-  /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
-  instanceTier?: string;
-}
-export const CloudSqlInstanceBackupProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceDeleteTime: S.optional(S.String),
-    instanceCreateTime: S.optional(S.String),
-    databaseInstalledVersion: S.optional(S.String),
-    finalBackup: S.optional(S.Boolean),
-    sourceInstance: S.optional(S.String),
-    instanceTier: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CloudSqlInstanceBackupProperties",
-}) as any as S.Schema<CloudSqlInstanceBackupProperties>;
+export type AcceleratorConfigList = Array<AcceleratorConfig>;
+export const AcceleratorConfigList = /*@__PURE__*/ S.Array(
+  AcceleratorConfig,
+) as any as S.Schema<AcceleratorConfigList>;
 
-export type DiskBackupPropertiesArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86_64" | "ARM64";
-export const DiskBackupPropertiesArchitectureEnum = S.String;
+export type AttachedDiskSavedStateEnum = "DISK_SAVED_STATE_UNSPECIFIED" | "PRESERVED";
+export const AttachedDiskSavedStateEnum = S.String;
 
 export type GuestOsFeatureTypeEnum =
   | "FEATURE_TYPE_UNSPECIFIED"
@@ -1859,296 +1828,139 @@ export const GuestOsFeatureList = /*@__PURE__*/ S.Array(
   GuestOsFeature,
 ) as any as S.Schema<GuestOsFeatureList>;
 
-/** DiskBackupProperties represents the properties of a Disk backup. */
-export interface DiskBackupProperties {
-  /** Region and zone are mutually exclusive fields. The URL of the region of the source disk. */
-  region?: string;
-  /** The URL of the Zone where the source disk. */
-  zone?: string;
-  /** A description of the source disk. */
-  description?: string;
-  /** The physical block size of the source disk. */
-  physicalBlockSizeBytes?: string;
-  /** Optional. Defines if the guest flush is enabled for the source disk. Default value is false. */
-  guestFlush?: boolean;
-  /** A list of publicly available licenses that are applicable to this backup. This is applicable if the original image had licenses attached, e.g. Windows image. */
-  licenses?: StringList;
-  /** The source disk used to create this backup. */
-  sourceDisk?: string;
-  /** The number of IOPS provisioned for the source disk. */
-  provisionedIops?: string;
-  /** Indicates whether the source disk is using confidential compute mode. */
-  enableConfidentialCompute?: boolean;
-  /** The URL of the type of the disk. */
-  type?: string;
-  /** The storage pool of the source disk. */
-  storagePool?: string;
-  /** The architecture of the source disk. Valid values are ARM64 or X86_64. */
-  architecture?: DiskBackupPropertiesArchitectureEnum | (string & {});
-  /** The number of throughput provisioned for the source disk. */
-  provisionedThroughput?: string;
-  /** Size(in GB) of the source disk. */
-  sizeGb?: string;
-  /** The access mode of the source disk. */
-  accessMode?: string;
-  /** A list of guest OS features that are applicable to this backup. */
-  guestOsFeature?: GuestOsFeatureList;
-  /** The URL of the Zones where the source disk should be replicated. */
+/** A customer-supplied encryption key. */
+export interface CustomerEncryptionKey {
+  /** Optional. RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource. */
+  rsaEncryptedKey?: string;
+  /** Optional. The name of the encryption key that is stored in Google Cloud KMS. */
+  kmsKeyName?: string;
+  /** Optional. Specifies a 256-bit customer-supplied encryption key. */
+  rawKey?: string;
+  /** Optional. The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used. */
+  kmsKeyServiceAccount?: string;
+}
+export const CustomerEncryptionKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rsaEncryptedKey: S.optional(S.String),
+    kmsKeyName: S.optional(S.String),
+    rawKey: S.optional(S.String),
+    kmsKeyServiceAccount: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomerEncryptionKey" }) as any as S.Schema<CustomerEncryptionKey>;
+
+export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY" | "LOCKED";
+export const AttachedDiskModeEnum = S.String;
+
+/** Specifies the parameters to initialize this disk. */
+export interface InitializeParams {
+  /** Optional. URL of the zone where the disk should be created. Required for each regional disk associated with the instance. */
   replicaZones?: StringList;
-  /** The labels of the source disk. */
-  labels?: StringMap;
+  /** Optional. Specifies the disk name. If not specified, the default is to use the name of the instance. */
+  diskName?: string;
 }
-export const DiskBackupProperties = /*@__PURE__*/ S.suspend(() =>
+export const InitializeParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    region: S.optional(S.String),
-    zone: S.optional(S.String),
-    description: S.optional(S.String),
-    physicalBlockSizeBytes: S.optional(S.String),
-    guestFlush: S.optional(S.Boolean),
-    licenses: S.optional(StringList),
-    sourceDisk: S.optional(S.String),
-    provisionedIops: S.optional(S.String),
-    enableConfidentialCompute: S.optional(S.Boolean),
-    type: S.optional(S.String),
-    storagePool: S.optional(S.String),
-    architecture: S.optional(DiskBackupPropertiesArchitectureEnum),
-    provisionedThroughput: S.optional(S.String),
-    sizeGb: S.optional(S.String),
-    accessMode: S.optional(S.String),
-    guestOsFeature: S.optional(GuestOsFeatureList),
     replicaZones: S.optional(StringList),
-    labels: S.optional(StringMap),
+    diskName: S.optional(S.String),
   }),
-).annotate({ identifier: "DiskBackupProperties" }) as any as S.Schema<DiskBackupProperties>;
+).annotate({ identifier: "InitializeParams" }) as any as S.Schema<InitializeParams>;
 
-/** BackupApplianceLockInfo contains metadata about the backupappliance that created the lock. */
-export interface BackupApplianceLockInfo {
-  /** The image name that depends on this Backup. */
-  backupImage?: string;
-  /** Required. The ID of the backup/recovery appliance that created this lock. */
-  backupApplianceId?: string;
-  /** Required. The name of the backup/recovery appliance that created this lock. */
-  backupApplianceName?: string;
-  /** The SLA on the backup/recovery appliance that owns the lock. */
-  slaId?: string;
-  /** The job name on the backup/recovery appliance that created this lock. */
-  jobName?: string;
-  /** Required. The reason for the lock: e.g. MOUNT/RESTORE/BACKUP/etc. The value of this string is only meaningful to the client and it is not interpreted by the BackupVault service. */
-  lockReason?: string;
+export type AttachedDiskDiskInterfaceEnum =
+  | "DISK_INTERFACE_UNSPECIFIED"
+  | "SCSI"
+  | "NVME"
+  | "NVDIMM"
+  | "ISCSI";
+export const AttachedDiskDiskInterfaceEnum = S.String;
+
+export type AttachedDiskDiskTypeDeprecatedEnum = "DISK_TYPE_UNSPECIFIED" | "SCRATCH" | "PERSISTENT";
+export const AttachedDiskDiskTypeDeprecatedEnum = S.String;
+
+export type AttachedDiskTypeEnum = "DISK_TYPE_UNSPECIFIED" | "SCRATCH" | "PERSISTENT";
+export const AttachedDiskTypeEnum = S.String;
+
+/** An instance-attached disk resource. */
+export interface AttachedDisk {
+  /** Optional. Output only. The state of the disk. */
+  savedState?: AttachedDiskSavedStateEnum | (string & {});
+  /** Optional. Type of the resource. */
+  kind?: string;
+  /** Optional. A list of features to enable on the guest operating system. Applicable only for bootable images. */
+  guestOsFeature?: GuestOsFeatureList;
+  /** Optional. The size of the disk in GB. */
+  diskSizeGb?: string;
+  /** Optional. Output only. The URI of the disk type resource. For example: projects/project/zones/zone/diskTypes/pd-standard or pd-ssd */
+  diskType?: string;
+  /** Optional. This is used as an identifier for the disks. This is the unique name has to provided to modify disk parameters like disk_name and replica_zones (in case of RePDs) */
+  deviceName?: string;
+  /** Optional. Specifies a valid partial or full URL to an existing Persistent Disk resource. */
+  source?: string;
+  /** Optional. Encrypts or decrypts a disk using a customer-supplied encryption key. */
+  diskEncryptionKey?: CustomerEncryptionKey;
+  /** Optional. The mode in which to attach this disk. */
+  mode?: AttachedDiskModeEnum | (string & {});
+  /** Optional. Any valid publicly visible licenses. */
+  license?: StringList;
+  /** Optional. Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance). */
+  autoDelete?: boolean;
+  /** Optional. A zero-based index to this disk, where 0 is reserved for the boot disk. */
+  index?: string;
+  /** Optional. Specifies the parameters to initialize this disk. */
+  initializeParams?: InitializeParams;
+  /** Optional. Specifies the disk interface to use for attaching this disk. */
+  diskInterface?: AttachedDiskDiskInterfaceEnum | (string & {});
+  /** Specifies the type of the disk. */
+  diskTypeDeprecated?: AttachedDiskDiskTypeDeprecatedEnum | (string & {});
+  /** Optional. Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem. */
+  boot?: boolean;
+  /** Optional. Specifies the type of the disk. */
+  type?: AttachedDiskTypeEnum | (string & {});
 }
-export const BackupApplianceLockInfo = /*@__PURE__*/ S.suspend(() =>
+export const AttachedDisk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backupImage: S.optional(S.String),
-    backupApplianceId: S.optional(S.String),
-    backupApplianceName: S.optional(S.String),
-    slaId: S.optional(S.String),
-    jobName: S.optional(S.String),
-    lockReason: S.optional(S.String),
+    savedState: S.optional(AttachedDiskSavedStateEnum),
+    kind: S.optional(S.String),
+    guestOsFeature: S.optional(GuestOsFeatureList),
+    diskSizeGb: S.optional(S.String),
+    diskType: S.optional(S.String),
+    deviceName: S.optional(S.String),
+    source: S.optional(S.String),
+    diskEncryptionKey: S.optional(CustomerEncryptionKey),
+    mode: S.optional(AttachedDiskModeEnum),
+    license: S.optional(StringList),
+    autoDelete: S.optional(S.Boolean),
+    index: S.optional(S.String),
+    initializeParams: S.optional(InitializeParams),
+    diskInterface: S.optional(AttachedDiskDiskInterfaceEnum),
+    diskTypeDeprecated: S.optional(AttachedDiskDiskTypeDeprecatedEnum),
+    boot: S.optional(S.Boolean),
+    type: S.optional(AttachedDiskTypeEnum),
   }),
-).annotate({ identifier: "BackupApplianceLockInfo" }) as any as S.Schema<BackupApplianceLockInfo>;
+).annotate({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
 
-/** ServiceLockInfo represents the details of a lock taken by the service on a Backup resource. */
-export interface ServiceLockInfo {
-  /** Output only. The name of the operation that created this lock. The lock will automatically be released when the operation completes. */
-  operation?: string;
+export type AttachedDiskList = Array<AttachedDisk>;
+export const AttachedDiskList = /*@__PURE__*/ S.Array(
+  AttachedDisk,
+) as any as S.Schema<AttachedDiskList>;
+
+/** A service account. */
+export interface ServiceAccount {
+  /** Optional. Email address of the service account. */
+  email?: string;
+  /** Optional. The list of scopes to be made available for this service account. */
+  scopes?: StringList;
 }
-export const ServiceLockInfo = /*@__PURE__*/ S.suspend(() =>
+export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operation: S.optional(S.String),
+    email: S.optional(S.String),
+    scopes: S.optional(StringList),
   }),
-).annotate({ identifier: "ServiceLockInfo" }) as any as S.Schema<ServiceLockInfo>;
+).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
 
-/** BackupLock represents a single lock on a Backup resource. An unexpired lock on a Backup prevents the Backup from being deleted. */
-export interface BackupLock {
-  /** If the client is a backup and recovery appliance, this contains metadata about why the lock exists. */
-  backupApplianceLockInfo?: BackupApplianceLockInfo;
-  /** Required. The time after which this lock is not considered valid and will no longer protect the Backup from deletion. */
-  lockUntilTime?: string;
-  /** Output only. Contains metadata about the lock exist for Google Cloud native backups. */
-  serviceLockInfo?: ServiceLockInfo;
-}
-export const BackupLock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backupApplianceLockInfo: S.optional(BackupApplianceLockInfo),
-    lockUntilTime: S.optional(S.String),
-    serviceLockInfo: S.optional(ServiceLockInfo),
-  }),
-).annotate({ identifier: "BackupLock" }) as any as S.Schema<BackupLock>;
-
-export type BackupLockList = Array<BackupLock>;
-export const BackupLockList = /*@__PURE__*/ S.Array(BackupLock) as any as S.Schema<BackupLockList>;
-
-export type BackupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "ERROR"
-  | "UPLOADING";
-export const BackupStateEnum = S.String;
-
-/** Minimum details to identify a Google Cloud resource for a backup. */
-export interface BackupGcpResource {
-  /** Type of the resource. Use the Unified Resource Type, eg. compute.googleapis.com/Instance. */
-  type?: string;
-  /** Location of the resource: //"global"/"unspecified". */
-  location?: string;
-  /** Name of the Google Cloud resource. */
-  gcpResourcename?: string;
-}
-export const BackupGcpResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    gcpResourcename: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupGcpResource" }) as any as S.Schema<BackupGcpResource>;
-
-export type ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum =
-  | "KEY_REVOCATION_ACTION_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "STOP";
-export const ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum = S.String;
-
-export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "VIRTIO_NET" | "GVNIC";
-export const NetworkInterfaceNicTypeEnum = S.String;
-
-/** An alias IP range attached to an instance's network interface. */
-export interface AliasIpRange {
-  /** Optional. The IP alias ranges to allocate for this interface. */
-  ipCidrRange?: string;
-  /** Optional. The name of a subnetwork secondary IP range from which to allocate an IP alias range. If not specified, the primary range of the subnetwork is used. */
-  subnetworkRangeName?: string;
-}
-export const AliasIpRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipCidrRange: S.optional(S.String),
-    subnetworkRangeName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AliasIpRange" }) as any as S.Schema<AliasIpRange>;
-
-export type AliasIpRangeList = Array<AliasIpRange>;
-export const AliasIpRangeList = /*@__PURE__*/ S.Array(
-  AliasIpRange,
-) as any as S.Schema<AliasIpRangeList>;
-
-export type AccessConfigNetworkTierEnum = "NETWORK_TIER_UNSPECIFIED" | "PREMIUM" | "STANDARD";
-export const AccessConfigNetworkTierEnum = S.String;
-
-export type AccessConfigTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "ONE_TO_ONE_NAT" | "DIRECT_IPV6";
-export const AccessConfigTypeEnum = S.String;
-
-/** An access configuration attached to an instance's network interface. Only one access config per instance is supported. */
-export interface AccessConfig {
-  /** Optional. This signifies the networking tier used for configuring this access */
-  networkTier?: AccessConfigNetworkTierEnum | (string & {});
-  /** Optional. In accessConfigs (IPv4), the default and only option is ONE_TO_ONE_NAT. In ipv6AccessConfigs, the default and only option is DIRECT_IPV6. */
-  type?: AccessConfigTypeEnum | (string & {});
-  /** Optional. The external IP address of this access configuration. */
-  natIP?: string;
-  /** Optional. The external IPv6 address of this access configuration. */
-  externalIpv6?: string;
-  /** Optional. Specifies whether a public DNS 'PTR' record should be created to map the external IP address of the instance to a DNS domain name. */
-  setPublicPtr?: boolean;
-  /** Optional. The prefix length of the external IPv6 range. */
-  externalIpv6PrefixLength?: number;
-  /** Optional. The DNS domain name for the public PTR record. */
-  publicPtrDomainName?: string;
-  /** Optional. The name of this access configuration. */
-  name?: string;
-}
-export const AccessConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkTier: S.optional(AccessConfigNetworkTierEnum),
-    type: S.optional(AccessConfigTypeEnum),
-    natIP: S.optional(S.String),
-    externalIpv6: S.optional(S.String),
-    setPublicPtr: S.optional(S.Boolean),
-    externalIpv6PrefixLength: S.optional(S.Number),
-    publicPtrDomainName: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "AccessConfig" }) as any as S.Schema<AccessConfig>;
-
-export type AccessConfigList = Array<AccessConfig>;
-export const AccessConfigList = /*@__PURE__*/ S.Array(
-  AccessConfig,
-) as any as S.Schema<AccessConfigList>;
-
-export type NetworkInterfaceStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4_ONLY" | "IPV4_IPV6";
-export const NetworkInterfaceStackTypeEnum = S.String;
-
-export type NetworkInterfaceIpv6AccessTypeEnum =
-  | "UNSPECIFIED_IPV6_ACCESS_TYPE"
-  | "INTERNAL"
-  | "EXTERNAL";
-export const NetworkInterfaceIpv6AccessTypeEnum = S.String;
-
-/** A network interface resource attached to an instance. s */
-export interface NetworkInterface {
-  /** Optional. The URL of the network attachment that this interface should connect to in the following format: projects/{project_number}/regions/{region_name}/networkAttachments/{network_attachment_name}. */
-  networkAttachment?: string;
-  /** Optional. The type of vNIC to be used on this interface. This may be gVNIC or VirtioNet. */
-  nicType?: NetworkInterfaceNicTypeEnum | (string & {});
-  /** Optional. An IPv6 internal network address for this network interface. To use a static internal IP address, it must be unused and in the same region as the instance's zone. If not specified, Google Cloud will automatically assign an internal IPv6 address from the instance's subnetwork. */
-  ipv6Address?: string;
-  /** Output only. [Output Only] The name of the network interface, which is generated by the server. */
-  name?: string;
-  /** Optional. An IPv4 internal IP address to assign to the instance for this network interface. If not specified by the user, an unused internal IP is assigned by the system. */
-  networkIP?: string;
-  /** Optional. An array of alias IP ranges for this network interface. You can only specify this field for network interfaces in VPC networks. */
-  aliasIpRanges?: AliasIpRangeList;
-  /** Optional. The prefix length of the primary internal IPv6 range. */
-  internalIpv6PrefixLength?: number;
-  /** Optional. The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It'll be empty if not specified by the users. */
-  queueCount?: number;
-  /** Optional. An array of configurations for this interface. Currently, only one access config,ONE_TO_ONE_NAT is supported. If there are no accessConfigs specified, then this instance will have no external internet access. */
-  accessConfigs?: AccessConfigList;
-  /** The stack type for this network interface. */
-  stackType?: NetworkInterfaceStackTypeEnum | (string & {});
-  /** Optional. [Output Only] One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet. This field is always inherited from its subnetwork. */
-  ipv6AccessType?: NetworkInterfaceIpv6AccessTypeEnum | (string & {});
-  /** Optional. URL of the VPC network resource for this instance. */
-  network?: string;
-  /** Optional. An array of IPv6 access configurations for this interface. Currently, only one IPv6 access config, DIRECT_IPV6, is supported. If there is no ipv6AccessConfig specified, then this instance will have no external IPv6 Internet access. */
-  ipv6AccessConfigs?: AccessConfigList;
-  /** Optional. The URL of the Subnetwork resource for this instance. */
-  subnetwork?: string;
-}
-export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkAttachment: S.optional(S.String),
-    nicType: S.optional(NetworkInterfaceNicTypeEnum),
-    ipv6Address: S.optional(S.String),
-    name: S.optional(S.String),
-    networkIP: S.optional(S.String),
-    aliasIpRanges: S.optional(AliasIpRangeList),
-    internalIpv6PrefixLength: S.optional(S.Number),
-    queueCount: S.optional(S.Number),
-    accessConfigs: S.optional(AccessConfigList),
-    stackType: S.optional(NetworkInterfaceStackTypeEnum),
-    ipv6AccessType: S.optional(NetworkInterfaceIpv6AccessTypeEnum),
-    network: S.optional(S.String),
-    ipv6AccessConfigs: S.optional(AccessConfigList),
-    subnetwork: S.optional(S.String),
-  }),
-).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
-
-export type NetworkInterfaceList = Array<NetworkInterface>;
-export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
-  NetworkInterface,
-) as any as S.Schema<NetworkInterfaceList>;
-
-/** A set of instance tags. */
-export interface Tags {
-  /** Optional. An array of tags. Each tag must be 1-63 characters long, and comply with RFC1035. */
-  items?: StringList;
-}
-export const Tags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(StringList),
-  }),
-).annotate({ identifier: "Tags" }) as any as S.Schema<Tags>;
+export type ServiceAccountList = Array<ServiceAccount>;
+export const ServiceAccountList = /*@__PURE__*/ S.Array(
+  ServiceAccount,
+) as any as S.Schema<ServiceAccountList>;
 
 /** A key/value pair to be used for storing metadata. */
 export interface Entry {
@@ -2178,181 +1990,11 @@ export const Metadata = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
 
-/** A service account. */
-export interface ServiceAccount {
-  /** Optional. Email address of the service account. */
-  email?: string;
-  /** Optional. The list of scopes to be made available for this service account. */
-  scopes?: StringList;
-}
-export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-    scopes: S.optional(StringList),
-  }),
-).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
-
-export type ServiceAccountList = Array<ServiceAccount>;
-export const ServiceAccountList = /*@__PURE__*/ S.Array(
-  ServiceAccount,
-) as any as S.Schema<ServiceAccountList>;
-
-/** A specification of the type and number of accelerator cards attached to the instance. */
-export interface AcceleratorConfig {
-  /** Optional. Full or partial URL of the accelerator type resource to attach to this instance. */
-  acceleratorType?: string;
-  /** Optional. The number of the guest accelerator cards exposed to this instance. */
-  acceleratorCount?: number;
-}
-export const AcceleratorConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    acceleratorType: S.optional(S.String),
-    acceleratorCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AcceleratorConfig" }) as any as S.Schema<AcceleratorConfig>;
-
-export type AcceleratorConfigList = Array<AcceleratorConfig>;
-export const AcceleratorConfigList = /*@__PURE__*/ S.Array(
-  AcceleratorConfig,
-) as any as S.Schema<AcceleratorConfigList>;
-
-/** A customer-supplied encryption key. */
-export interface CustomerEncryptionKey {
-  /** Optional. Specifies a 256-bit customer-supplied encryption key. */
-  rawKey?: string;
-  /** Optional. RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource. */
-  rsaEncryptedKey?: string;
-  /** Optional. The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used. */
-  kmsKeyServiceAccount?: string;
-  /** Optional. The name of the encryption key that is stored in Google Cloud KMS. */
-  kmsKeyName?: string;
-}
-export const CustomerEncryptionKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rawKey: S.optional(S.String),
-    rsaEncryptedKey: S.optional(S.String),
-    kmsKeyServiceAccount: S.optional(S.String),
-    kmsKeyName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomerEncryptionKey" }) as any as S.Schema<CustomerEncryptionKey>;
-
-export type AttachedDiskModeEnum = "DISK_MODE_UNSPECIFIED" | "READ_WRITE" | "READ_ONLY" | "LOCKED";
-export const AttachedDiskModeEnum = S.String;
-
-export type AttachedDiskDiskTypeDeprecatedEnum = "DISK_TYPE_UNSPECIFIED" | "SCRATCH" | "PERSISTENT";
-export const AttachedDiskDiskTypeDeprecatedEnum = S.String;
-
-export type AttachedDiskDiskInterfaceEnum =
-  | "DISK_INTERFACE_UNSPECIFIED"
-  | "SCSI"
-  | "NVME"
-  | "NVDIMM"
-  | "ISCSI";
-export const AttachedDiskDiskInterfaceEnum = S.String;
-
-export type AttachedDiskTypeEnum = "DISK_TYPE_UNSPECIFIED" | "SCRATCH" | "PERSISTENT";
-export const AttachedDiskTypeEnum = S.String;
-
-export type AttachedDiskSavedStateEnum = "DISK_SAVED_STATE_UNSPECIFIED" | "PRESERVED";
-export const AttachedDiskSavedStateEnum = S.String;
-
-/** Specifies the parameters to initialize this disk. */
-export interface InitializeParams {
-  /** Optional. Specifies the disk name. If not specified, the default is to use the name of the instance. */
-  diskName?: string;
-  /** Optional. URL of the zone where the disk should be created. Required for each regional disk associated with the instance. */
-  replicaZones?: StringList;
-}
-export const InitializeParams = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskName: S.optional(S.String),
-    replicaZones: S.optional(StringList),
-  }),
-).annotate({ identifier: "InitializeParams" }) as any as S.Schema<InitializeParams>;
-
-/** An instance-attached disk resource. */
-export interface AttachedDisk {
-  /** Optional. The size of the disk in GB. */
-  diskSizeGb?: string;
-  /** Optional. Specifies a valid partial or full URL to an existing Persistent Disk resource. */
-  source?: string;
-  /** Optional. Any valid publicly visible licenses. */
-  license?: StringList;
-  /** Optional. Specifies whether the disk will be auto-deleted when the instance is deleted (but not when the disk is detached from the instance). */
-  autoDelete?: boolean;
-  /** Optional. Type of the resource. */
-  kind?: string;
-  /** Optional. Encrypts or decrypts a disk using a customer-supplied encryption key. */
-  diskEncryptionKey?: CustomerEncryptionKey;
-  /** Optional. This is used as an identifier for the disks. This is the unique name has to provided to modify disk parameters like disk_name and replica_zones (in case of RePDs) */
-  deviceName?: string;
-  /** Optional. The mode in which to attach this disk. */
-  mode?: AttachedDiskModeEnum | (string & {});
-  /** Optional. Output only. The URI of the disk type resource. For example: projects/project/zones/zone/diskTypes/pd-standard or pd-ssd */
-  diskType?: string;
-  /** Specifies the type of the disk. */
-  diskTypeDeprecated?: AttachedDiskDiskTypeDeprecatedEnum | (string & {});
-  /** Optional. Indicates that this is a boot disk. The virtual machine will use the first partition of the disk for its root filesystem. */
-  boot?: boolean;
-  /** Optional. Specifies the disk interface to use for attaching this disk. */
-  diskInterface?: AttachedDiskDiskInterfaceEnum | (string & {});
-  /** Optional. Specifies the type of the disk. */
-  type?: AttachedDiskTypeEnum | (string & {});
-  /** Optional. Output only. The state of the disk. */
-  savedState?: AttachedDiskSavedStateEnum | (string & {});
-  /** Optional. A list of features to enable on the guest operating system. Applicable only for bootable images. */
-  guestOsFeature?: GuestOsFeatureList;
-  /** Optional. A zero-based index to this disk, where 0 is reserved for the boot disk. */
-  index?: string;
-  /** Optional. Specifies the parameters to initialize this disk. */
-  initializeParams?: InitializeParams;
-}
-export const AttachedDisk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskSizeGb: S.optional(S.String),
-    source: S.optional(S.String),
-    license: S.optional(StringList),
-    autoDelete: S.optional(S.Boolean),
-    kind: S.optional(S.String),
-    diskEncryptionKey: S.optional(CustomerEncryptionKey),
-    deviceName: S.optional(S.String),
-    mode: S.optional(AttachedDiskModeEnum),
-    diskType: S.optional(S.String),
-    diskTypeDeprecated: S.optional(AttachedDiskDiskTypeDeprecatedEnum),
-    boot: S.optional(S.Boolean),
-    diskInterface: S.optional(AttachedDiskDiskInterfaceEnum),
-    type: S.optional(AttachedDiskTypeEnum),
-    savedState: S.optional(AttachedDiskSavedStateEnum),
-    guestOsFeature: S.optional(GuestOsFeatureList),
-    index: S.optional(S.String),
-    initializeParams: S.optional(InitializeParams),
-  }),
-).annotate({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
-
-export type AttachedDiskList = Array<AttachedDisk>;
-export const AttachedDiskList = /*@__PURE__*/ S.Array(
-  AttachedDisk,
-) as any as S.Schema<AttachedDiskList>;
-
-export type SchedulingInstanceTerminationActionEnum =
-  | "INSTANCE_TERMINATION_ACTION_UNSPECIFIED"
-  | "DELETE"
+export type ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum =
+  | "KEY_REVOCATION_ACTION_TYPE_UNSPECIFIED"
+  | "NONE"
   | "STOP";
-export const SchedulingInstanceTerminationActionEnum = S.String;
-
-/** A SchedulingDuration represents a fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like "day" or "month". Range is approximately 10,000 years. */
-export interface SchedulingDuration {
-  /** Optional. Span of time at a resolution of a second. */
-  seconds?: string;
-  /** Optional. Span of time that's a fraction of a second at nanosecond resolution. */
-  nanos?: number;
-}
-export const SchedulingDuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    seconds: S.optional(S.String),
-    nanos: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SchedulingDuration" }) as any as S.Schema<SchedulingDuration>;
+export const ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum = S.String;
 
 export type NodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" | "NOT_IN";
 export const NodeAffinityOperatorEnum = S.String;
@@ -2391,94 +2033,310 @@ export type SchedulingProvisioningModelEnum =
   | "SPOT";
 export const SchedulingProvisioningModelEnum = S.String;
 
+export type SchedulingInstanceTerminationActionEnum =
+  | "INSTANCE_TERMINATION_ACTION_UNSPECIFIED"
+  | "DELETE"
+  | "STOP";
+export const SchedulingInstanceTerminationActionEnum = S.String;
+
+/** A SchedulingDuration represents a fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like "day" or "month". Range is approximately 10,000 years. */
+export interface SchedulingDuration {
+  /** Optional. Span of time that's a fraction of a second at nanosecond resolution. */
+  nanos?: number;
+  /** Optional. Span of time at a resolution of a second. */
+  seconds?: string;
+}
+export const SchedulingDuration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nanos: S.optional(S.Number),
+    seconds: S.optional(S.String),
+  }),
+).annotate({ identifier: "SchedulingDuration" }) as any as S.Schema<SchedulingDuration>;
+
 /** Sets the scheduling options for an Instance. */
 export interface Scheduling {
-  /** Optional. Specifies the termination action for the instance. */
-  instanceTerminationAction?: SchedulingInstanceTerminationActionEnum | (string & {});
-  /** Optional. Defines whether the instance is preemptible. */
-  preemptible?: boolean;
-  /** Optional. Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. */
-  localSsdRecoveryTimeout?: SchedulingDuration;
   /** Optional. A set of node affinity and anti-affinity configurations. Overrides reservationAffinity. */
   nodeAffinities?: NodeAffinityList;
-  /** Optional. Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). */
-  automaticRestart?: boolean;
   /** Optional. Defines the maintenance behavior for this instance. */
   onHostMaintenance?: SchedulingOnHostMaintenanceEnum | (string & {});
   /** Optional. Specifies the provisioning model of the instance. */
   provisioningModel?: SchedulingProvisioningModelEnum | (string & {});
+  /** Optional. Specifies the termination action for the instance. */
+  instanceTerminationAction?: SchedulingInstanceTerminationActionEnum | (string & {});
+  /** Optional. Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). */
+  automaticRestart?: boolean;
   /** Optional. The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. */
   minNodeCpus?: number;
+  /** Optional. Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. */
+  localSsdRecoveryTimeout?: SchedulingDuration;
+  /** Optional. Defines whether the instance is preemptible. */
+  preemptible?: boolean;
 }
 export const Scheduling = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instanceTerminationAction: S.optional(SchedulingInstanceTerminationActionEnum),
-    preemptible: S.optional(S.Boolean),
-    localSsdRecoveryTimeout: S.optional(SchedulingDuration),
     nodeAffinities: S.optional(NodeAffinityList),
-    automaticRestart: S.optional(S.Boolean),
     onHostMaintenance: S.optional(SchedulingOnHostMaintenanceEnum),
     provisioningModel: S.optional(SchedulingProvisioningModelEnum),
+    instanceTerminationAction: S.optional(SchedulingInstanceTerminationActionEnum),
+    automaticRestart: S.optional(S.Boolean),
     minNodeCpus: S.optional(S.Number),
+    localSsdRecoveryTimeout: S.optional(SchedulingDuration),
+    preemptible: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Scheduling" }) as any as S.Schema<Scheduling>;
 
+/** A set of instance tags. */
+export interface Tags {
+  /** Optional. An array of tags. Each tag must be 1-63 characters long, and comply with RFC1035. */
+  items?: StringList;
+}
+export const Tags = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(StringList),
+  }),
+).annotate({ identifier: "Tags" }) as any as S.Schema<Tags>;
+
+export type AccessConfigNetworkTierEnum = "NETWORK_TIER_UNSPECIFIED" | "PREMIUM" | "STANDARD";
+export const AccessConfigNetworkTierEnum = S.String;
+
+export type AccessConfigTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "ONE_TO_ONE_NAT" | "DIRECT_IPV6";
+export const AccessConfigTypeEnum = S.String;
+
+/** An access configuration attached to an instance's network interface. Only one access config per instance is supported. */
+export interface AccessConfig {
+  /** Optional. The name of this access configuration. */
+  name?: string;
+  /** Optional. The prefix length of the external IPv6 range. */
+  externalIpv6PrefixLength?: number;
+  /** Optional. Specifies whether a public DNS 'PTR' record should be created to map the external IP address of the instance to a DNS domain name. */
+  setPublicPtr?: boolean;
+  /** Optional. The external IP address of this access configuration. */
+  natIP?: string;
+  /** Optional. The DNS domain name for the public PTR record. */
+  publicPtrDomainName?: string;
+  /** Optional. This signifies the networking tier used for configuring this access */
+  networkTier?: AccessConfigNetworkTierEnum | (string & {});
+  /** Optional. The external IPv6 address of this access configuration. */
+  externalIpv6?: string;
+  /** Optional. In accessConfigs (IPv4), the default and only option is ONE_TO_ONE_NAT. In ipv6AccessConfigs, the default and only option is DIRECT_IPV6. */
+  type?: AccessConfigTypeEnum | (string & {});
+}
+export const AccessConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    externalIpv6PrefixLength: S.optional(S.Number),
+    setPublicPtr: S.optional(S.Boolean),
+    natIP: S.optional(S.String),
+    publicPtrDomainName: S.optional(S.String),
+    networkTier: S.optional(AccessConfigNetworkTierEnum),
+    externalIpv6: S.optional(S.String),
+    type: S.optional(AccessConfigTypeEnum),
+  }),
+).annotate({ identifier: "AccessConfig" }) as any as S.Schema<AccessConfig>;
+
+export type AccessConfigList = Array<AccessConfig>;
+export const AccessConfigList = /*@__PURE__*/ S.Array(
+  AccessConfig,
+) as any as S.Schema<AccessConfigList>;
+
+export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "VIRTIO_NET" | "GVNIC";
+export const NetworkInterfaceNicTypeEnum = S.String;
+
+export type NetworkInterfaceStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4_ONLY" | "IPV4_IPV6";
+export const NetworkInterfaceStackTypeEnum = S.String;
+
+/** An alias IP range attached to an instance's network interface. */
+export interface AliasIpRange {
+  /** Optional. The IP alias ranges to allocate for this interface. */
+  ipCidrRange?: string;
+  /** Optional. The name of a subnetwork secondary IP range from which to allocate an IP alias range. If not specified, the primary range of the subnetwork is used. */
+  subnetworkRangeName?: string;
+}
+export const AliasIpRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipCidrRange: S.optional(S.String),
+    subnetworkRangeName: S.optional(S.String),
+  }),
+).annotate({ identifier: "AliasIpRange" }) as any as S.Schema<AliasIpRange>;
+
+export type AliasIpRangeList = Array<AliasIpRange>;
+export const AliasIpRangeList = /*@__PURE__*/ S.Array(
+  AliasIpRange,
+) as any as S.Schema<AliasIpRangeList>;
+
+export type NetworkInterfaceIpv6AccessTypeEnum =
+  | "UNSPECIFIED_IPV6_ACCESS_TYPE"
+  | "INTERNAL"
+  | "EXTERNAL";
+export const NetworkInterfaceIpv6AccessTypeEnum = S.String;
+
+/** A network interface resource attached to an instance. s */
+export interface NetworkInterface {
+  /** Optional. An array of IPv6 access configurations for this interface. Currently, only one IPv6 access config, DIRECT_IPV6, is supported. If there is no ipv6AccessConfig specified, then this instance will have no external IPv6 Internet access. */
+  ipv6AccessConfigs?: AccessConfigList;
+  /** Optional. An IPv6 internal network address for this network interface. To use a static internal IP address, it must be unused and in the same region as the instance's zone. If not specified, Google Cloud will automatically assign an internal IPv6 address from the instance's subnetwork. */
+  ipv6Address?: string;
+  /** Optional. An array of configurations for this interface. Currently, only one access config,ONE_TO_ONE_NAT is supported. If there are no accessConfigs specified, then this instance will have no external internet access. */
+  accessConfigs?: AccessConfigList;
+  /** Optional. The type of vNIC to be used on this interface. This may be gVNIC or VirtioNet. */
+  nicType?: NetworkInterfaceNicTypeEnum | (string & {});
+  /** The stack type for this network interface. */
+  stackType?: NetworkInterfaceStackTypeEnum | (string & {});
+  /** Output only. [Output Only] The name of the network interface, which is generated by the server. */
+  name?: string;
+  /** Optional. The URL of the Subnetwork resource for this instance. */
+  subnetwork?: string;
+  /** Optional. The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It'll be empty if not specified by the users. */
+  queueCount?: number;
+  /** Optional. The URL of the network attachment that this interface should connect to in the following format: projects/{project_number}/regions/{region_name}/networkAttachments/{network_attachment_name}. */
+  networkAttachment?: string;
+  /** Optional. An array of alias IP ranges for this network interface. You can only specify this field for network interfaces in VPC networks. */
+  aliasIpRanges?: AliasIpRangeList;
+  /** Optional. URL of the VPC network resource for this instance. */
+  network?: string;
+  /** Optional. The prefix length of the primary internal IPv6 range. */
+  internalIpv6PrefixLength?: number;
+  /** Optional. [Output Only] One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet. This field is always inherited from its subnetwork. */
+  ipv6AccessType?: NetworkInterfaceIpv6AccessTypeEnum | (string & {});
+  /** Optional. An IPv4 internal IP address to assign to the instance for this network interface. If not specified by the user, an unused internal IP is assigned by the system. */
+  networkIP?: string;
+}
+export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipv6AccessConfigs: S.optional(AccessConfigList),
+    ipv6Address: S.optional(S.String),
+    accessConfigs: S.optional(AccessConfigList),
+    nicType: S.optional(NetworkInterfaceNicTypeEnum),
+    stackType: S.optional(NetworkInterfaceStackTypeEnum),
+    name: S.optional(S.String),
+    subnetwork: S.optional(S.String),
+    queueCount: S.optional(S.Number),
+    networkAttachment: S.optional(S.String),
+    aliasIpRanges: S.optional(AliasIpRangeList),
+    network: S.optional(S.String),
+    internalIpv6PrefixLength: S.optional(S.Number),
+    ipv6AccessType: S.optional(NetworkInterfaceIpv6AccessTypeEnum),
+    networkIP: S.optional(S.String),
+  }),
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
+
+export type NetworkInterfaceList = Array<NetworkInterface>;
+export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
+  NetworkInterface,
+) as any as S.Schema<NetworkInterfaceList>;
+
 /** ComputeInstanceBackupProperties represents Compute Engine instance backup properties. */
 export interface ComputeInstanceBackupProperties {
+  /** A list of guest accelerator cards' type and count to use for instances created from these properties. */
+  guestAccelerator?: AcceleratorConfigList;
+  /** An array of disks that are associated with the instances that are created from these properties. */
+  disk?: AttachedDiskList;
   /** Optional. Indicates whether to perform a guest flush operation before taking a compute backup. When set to false, the system will create crash-consistent backups. Default value is false. */
   guestFlush?: boolean;
-  /** Enables instances created based on these properties to send packets with source IP addresses other than their own and receive packets with destination IP addresses other than their own. If these instances will be used as an IP gateway or it will be set as the next-hop in a Route resource, specify `true`. If unsure, leave this set to `false`. See the https://cloud.google.com/vpc/docs/using-routes#canipforward documentation for more information. */
-  canIpForward?: boolean;
-  /** An optional text description for the instances that are created from these properties. */
-  description?: string;
   /** The source instance used to create this backup. This can be a partial or full URL to the resource. For example, the following are valid values: -https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance -projects/project/zones/zone/instances/instance */
   sourceInstance?: string;
+  /** Labels to apply to instances that are created from these properties. */
+  labels?: StringMap;
+  /** An optional text description for the instances that are created from these properties. */
+  description?: string;
+  /** The machine type to use for instances that are created from these properties. */
+  machineType?: string;
+  /** A list of service accounts with specified scopes. Access tokens for these service accounts are available to the instances that are created from these properties. Use metadata queries to obtain the access tokens for these instances. */
+  serviceAccount?: ServiceAccountList;
+  /** The metadata key/value pairs to assign to instances that are created from these properties. These pairs can consist of custom metadata or predefined keys. See https://cloud.google.com/compute/docs/metadata/overview for more information. */
+  metadata?: Metadata;
   /** KeyRevocationActionType of the instance. Supported options are "STOP" and "NONE". The default value is "NONE" if it is not specified. */
   keyRevocationActionType?:
     | ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum
     | (string & {});
-  /** Labels to apply to instances that are created from these properties. */
-  labels?: StringMap;
-  /** The machine type to use for instances that are created from these properties. */
-  machineType?: string;
-  /** An array of network access configurations for this interface. */
-  networkInterface?: NetworkInterfaceList;
-  /** A list of tags to apply to the instances that are created from these properties. The tags identify valid sources or targets for network firewalls. The setTags method can modify this list of tags. Each tag within the list must comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). */
-  tags?: Tags;
-  /** The metadata key/value pairs to assign to instances that are created from these properties. These pairs can consist of custom metadata or predefined keys. See https://cloud.google.com/compute/docs/metadata/overview for more information. */
-  metadata?: Metadata;
-  /** A list of service accounts with specified scopes. Access tokens for these service accounts are available to the instances that are created from these properties. Use metadata queries to obtain the access tokens for these instances. */
-  serviceAccount?: ServiceAccountList;
-  /** A list of guest accelerator cards' type and count to use for instances created from these properties. */
-  guestAccelerator?: AcceleratorConfigList;
-  /** Minimum cpu/platform to be used by instances. The instance may be scheduled on the specified or newer cpu/platform. Applicable values are the friendly names of CPU platforms, such as `minCpuPlatform: Intel Haswell` or `minCpuPlatform: Intel Sandy Bridge`. For more information, read https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform. */
-  minCpuPlatform?: string;
-  /** An array of disks that are associated with the instances that are created from these properties. */
-  disk?: AttachedDiskList;
   /** Specifies the scheduling options for the instances that are created from these properties. */
   scheduling?: Scheduling;
+  /** A list of tags to apply to the instances that are created from these properties. The tags identify valid sources or targets for network firewalls. The setTags method can modify this list of tags. Each tag within the list must comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). */
+  tags?: Tags;
+  /** An array of network access configurations for this interface. */
+  networkInterface?: NetworkInterfaceList;
+  /** Enables instances created based on these properties to send packets with source IP addresses other than their own and receive packets with destination IP addresses other than their own. If these instances will be used as an IP gateway or it will be set as the next-hop in a Route resource, specify `true`. If unsure, leave this set to `false`. See the https://cloud.google.com/vpc/docs/using-routes#canipforward documentation for more information. */
+  canIpForward?: boolean;
+  /** Minimum cpu/platform to be used by instances. The instance may be scheduled on the specified or newer cpu/platform. Applicable values are the friendly names of CPU platforms, such as `minCpuPlatform: Intel Haswell` or `minCpuPlatform: Intel Sandy Bridge`. For more information, read https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform. */
+  minCpuPlatform?: string;
 }
 export const ComputeInstanceBackupProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    guestFlush: S.optional(S.Boolean),
-    canIpForward: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    sourceInstance: S.optional(S.String),
-    keyRevocationActionType: S.optional(ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum),
-    labels: S.optional(StringMap),
-    machineType: S.optional(S.String),
-    networkInterface: S.optional(NetworkInterfaceList),
-    tags: S.optional(Tags),
-    metadata: S.optional(Metadata),
-    serviceAccount: S.optional(ServiceAccountList),
     guestAccelerator: S.optional(AcceleratorConfigList),
-    minCpuPlatform: S.optional(S.String),
     disk: S.optional(AttachedDiskList),
+    guestFlush: S.optional(S.Boolean),
+    sourceInstance: S.optional(S.String),
+    labels: S.optional(StringMap),
+    description: S.optional(S.String),
+    machineType: S.optional(S.String),
+    serviceAccount: S.optional(ServiceAccountList),
+    metadata: S.optional(Metadata),
+    keyRevocationActionType: S.optional(ComputeInstanceBackupPropertiesKeyRevocationActionTypeEnum),
     scheduling: S.optional(Scheduling),
+    tags: S.optional(Tags),
+    networkInterface: S.optional(NetworkInterfaceList),
+    canIpForward: S.optional(S.Boolean),
+    minCpuPlatform: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ComputeInstanceBackupProperties",
 }) as any as S.Schema<ComputeInstanceBackupProperties>;
+
+/** CloudSqlInstanceBackupProperties represents Cloud SQL Instance Backup properties. */
+export interface CloudSqlInstanceBackupProperties {
+  /** Output only. Whether the backup is a final backup. */
+  finalBackup?: boolean;
+  /** Output only. The source instance of the backup. Format: projects/{project}/instances/{instance} */
+  sourceInstance?: string;
+  /** Output only. The installed database version of the Cloud SQL instance when the backup was taken. */
+  databaseInstalledVersion?: string;
+  /** Output only. The instance delete timestamp. */
+  instanceDeleteTime?: string;
+  /** Output only. The instance creation timestamp. */
+  instanceCreateTime?: string;
+  /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
+  instanceTier?: string;
+}
+export const CloudSqlInstanceBackupProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    finalBackup: S.optional(S.Boolean),
+    sourceInstance: S.optional(S.String),
+    databaseInstalledVersion: S.optional(S.String),
+    instanceDeleteTime: S.optional(S.String),
+    instanceCreateTime: S.optional(S.String),
+    instanceTier: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlInstanceBackupProperties",
+}) as any as S.Schema<CloudSqlInstanceBackupProperties>;
+
+/** AlloyDbClusterBackupProperties represents AlloyDB cluster backup properties. . */
+export interface AlloyDbClusterBackupProperties {
+  /** Output only. Storage usage of this particular backup */
+  storedBytes?: string;
+  /** Output only. The chain id of this backup. Backups belonging to the same chain are sharing the same chain id. This property is calculated and maintained by BackupDR. */
+  chainId?: string;
+  /** An optional text description for the backup. */
+  description?: string;
+  /** Output only. The PostgreSQL major version of the AlloyDB cluster when the backup was taken. */
+  databaseVersion?: string;
+}
+export const AlloyDbClusterBackupProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storedBytes: S.optional(S.String),
+    chainId: S.optional(S.String),
+    description: S.optional(S.String),
+    databaseVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AlloyDbClusterBackupProperties",
+}) as any as S.Schema<AlloyDbClusterBackupProperties>;
+
+export type BackupBackupRetentionInheritanceEnum =
+  | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
+  | "INHERIT_VAULT_RETENTION"
+  | "MATCH_BACKUP_EXPIRE_TIME";
+export const BackupBackupRetentionInheritanceEnum = S.String;
 
 /** FilestoreInstanceBackupProperties represents the properties of a Filestore instance that are backed up by the datasource. . */
 export interface FilestoreInstanceBackupProperties {
@@ -2493,30 +2351,97 @@ export const FilestoreInstanceBackupProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "FilestoreInstanceBackupProperties",
 }) as any as S.Schema<FilestoreInstanceBackupProperties>;
 
-export type BackupBackupTypeEnum =
-  | "BACKUP_TYPE_UNSPECIFIED"
-  | "SCHEDULED"
-  | "ON_DEMAND"
-  | "ON_DEMAND_OPERATIONAL";
-export const BackupBackupTypeEnum = S.String;
+/** Minimum details to identify a Google Cloud resource for a backup. */
+export interface BackupGcpResource {
+  /** Name of the Google Cloud resource. */
+  gcpResourcename?: string;
+  /** Location of the resource: //"global"/"unspecified". */
+  location?: string;
+  /** Type of the resource. Use the Unified Resource Type, eg. compute.googleapis.com/Instance. */
+  type?: string;
+}
+export const BackupGcpResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcpResourcename: S.optional(S.String),
+    location: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupGcpResource" }) as any as S.Schema<BackupGcpResource>;
+
+/** BackupApplianceLockInfo contains metadata about the backupappliance that created the lock. */
+export interface BackupApplianceLockInfo {
+  /** The image name that depends on this Backup. */
+  backupImage?: string;
+  /** The SLA on the backup/recovery appliance that owns the lock. */
+  slaId?: string;
+  /** Required. The reason for the lock: e.g. MOUNT/RESTORE/BACKUP/etc. The value of this string is only meaningful to the client and it is not interpreted by the BackupVault service. */
+  lockReason?: string;
+  /** Required. The ID of the backup/recovery appliance that created this lock. */
+  backupApplianceId?: string;
+  /** Required. The name of the backup/recovery appliance that created this lock. */
+  backupApplianceName?: string;
+  /** The job name on the backup/recovery appliance that created this lock. */
+  jobName?: string;
+}
+export const BackupApplianceLockInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    backupImage: S.optional(S.String),
+    slaId: S.optional(S.String),
+    lockReason: S.optional(S.String),
+    backupApplianceId: S.optional(S.String),
+    backupApplianceName: S.optional(S.String),
+    jobName: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupApplianceLockInfo" }) as any as S.Schema<BackupApplianceLockInfo>;
+
+/** ServiceLockInfo represents the details of a lock taken by the service on a Backup resource. */
+export interface ServiceLockInfo {
+  /** Output only. The name of the operation that created this lock. The lock will automatically be released when the operation completes. */
+  operation?: string;
+}
+export const ServiceLockInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operation: S.optional(S.String),
+  }),
+).annotate({ identifier: "ServiceLockInfo" }) as any as S.Schema<ServiceLockInfo>;
+
+/** BackupLock represents a single lock on a Backup resource. An unexpired lock on a Backup prevents the Backup from being deleted. */
+export interface BackupLock {
+  /** If the client is a backup and recovery appliance, this contains metadata about why the lock exists. */
+  backupApplianceLockInfo?: BackupApplianceLockInfo;
+  /** Output only. Contains metadata about the lock exist for Google Cloud native backups. */
+  serviceLockInfo?: ServiceLockInfo;
+  /** Required. The time after which this lock is not considered valid and will no longer protect the Backup from deletion. */
+  lockUntilTime?: string;
+}
+export const BackupLock = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    backupApplianceLockInfo: S.optional(BackupApplianceLockInfo),
+    serviceLockInfo: S.optional(ServiceLockInfo),
+    lockUntilTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupLock" }) as any as S.Schema<BackupLock>;
+
+export type BackupLockList = Array<BackupLock>;
+export const BackupLockList = /*@__PURE__*/ S.Array(BackupLock) as any as S.Schema<BackupLockList>;
 
 /** GCPBackupPlanInfo captures the plan configuration details of Google Cloud resources at the time of backup. */
 export interface GCPBackupPlanInfo {
-  /** Resource name of the backup plan revision which triggered this backup in case of scheduled backup or used for on demand backup. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId}/revisions/{revisionId} */
-  backupPlanRevisionName?: string;
   /** The user friendly id of the backup plan revision which triggered this backup in case of scheduled backup or used for on demand backup. */
   backupPlanRevisionId?: string;
-  /** Resource name of backup plan by which workload is protected at the time of the backup. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string;
   /** The rule id of the backup plan which triggered this backup in case of scheduled backup or used for */
   backupPlanRuleId?: string;
+  /** Resource name of backup plan by which workload is protected at the time of the backup. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
+  backupPlan?: string;
+  /** Resource name of the backup plan revision which triggered this backup in case of scheduled backup or used for on demand backup. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId}/revisions/{revisionId} */
+  backupPlanRevisionName?: string;
 }
 export const GCPBackupPlanInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backupPlanRevisionName: S.optional(S.String),
     backupPlanRevisionId: S.optional(S.String),
-    backupPlan: S.optional(S.String),
     backupPlanRuleId: S.optional(S.String),
+    backupPlan: S.optional(S.String),
+    backupPlanRevisionName: S.optional(S.String),
   }),
 ).annotate({ identifier: "GCPBackupPlanInfo" }) as any as S.Schema<GCPBackupPlanInfo>;
 
@@ -2526,111 +2451,186 @@ export interface BackupApplianceBackupProperties {
   recoveryRangeStartTime?: string;
   /** Output only. The time when this backup object was finalized (if none, backup is not finalized). */
   finalizeTime?: string;
-  /** Optional. The latest timestamp of data available in this Backup. */
-  recoveryRangeEndTime?: string;
   /** Output only. The numeric generation ID of the backup (monotonically increasing). */
   generationId?: number;
+  /** Optional. The latest timestamp of data available in this Backup. */
+  recoveryRangeEndTime?: string;
 }
 export const BackupApplianceBackupProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recoveryRangeStartTime: S.optional(S.String),
     finalizeTime: S.optional(S.String),
-    recoveryRangeEndTime: S.optional(S.String),
     generationId: S.optional(S.Number),
+    recoveryRangeEndTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BackupApplianceBackupProperties",
 }) as any as S.Schema<BackupApplianceBackupProperties>;
 
-export type BackupBackupRetentionInheritanceEnum =
-  | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
-  | "INHERIT_VAULT_RETENTION"
-  | "MATCH_BACKUP_EXPIRE_TIME";
-export const BackupBackupRetentionInheritanceEnum = S.String;
+export type BackupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "ERROR"
+  | "UPLOADING";
+export const BackupStateEnum = S.String;
+
+export type BackupBackupTypeEnum =
+  | "BACKUP_TYPE_UNSPECIFIED"
+  | "SCHEDULED"
+  | "ON_DEMAND"
+  | "ON_DEMAND_OPERATIONAL";
+export const BackupBackupTypeEnum = S.String;
+
+export type DiskBackupPropertiesArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86_64" | "ARM64";
+export const DiskBackupPropertiesArchitectureEnum = S.String;
+
+/** DiskBackupProperties represents the properties of a Disk backup. */
+export interface DiskBackupProperties {
+  /** The URL of the Zone where the source disk. */
+  zone?: string;
+  /** A list of guest OS features that are applicable to this backup. */
+  guestOsFeature?: GuestOsFeatureList;
+  /** The labels of the source disk. */
+  labels?: StringMap;
+  /** The URL of the type of the disk. */
+  type?: string;
+  /** Optional. Defines if the guest flush is enabled for the source disk. Default value is false. */
+  guestFlush?: boolean;
+  /** The number of throughput provisioned for the source disk. */
+  provisionedThroughput?: string;
+  /** Region and zone are mutually exclusive fields. The URL of the region of the source disk. */
+  region?: string;
+  /** A list of publicly available licenses that are applicable to this backup. This is applicable if the original image had licenses attached, e.g. Windows image. */
+  licenses?: StringList;
+  /** The URL of the Zones where the source disk should be replicated. */
+  replicaZones?: StringList;
+  /** Size(in GB) of the source disk. */
+  sizeGb?: string;
+  /** Indicates whether the source disk is using confidential compute mode. */
+  enableConfidentialCompute?: boolean;
+  /** The physical block size of the source disk. */
+  physicalBlockSizeBytes?: string;
+  /** The architecture of the source disk. Valid values are ARM64 or X86_64. */
+  architecture?: DiskBackupPropertiesArchitectureEnum | (string & {});
+  /** The storage pool of the source disk. */
+  storagePool?: string;
+  /** A description of the source disk. */
+  description?: string;
+  /** The access mode of the source disk. */
+  accessMode?: string;
+  /** The number of IOPS provisioned for the source disk. */
+  provisionedIops?: string;
+  /** The source disk used to create this backup. */
+  sourceDisk?: string;
+}
+export const DiskBackupProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zone: S.optional(S.String),
+    guestOsFeature: S.optional(GuestOsFeatureList),
+    labels: S.optional(StringMap),
+    type: S.optional(S.String),
+    guestFlush: S.optional(S.Boolean),
+    provisionedThroughput: S.optional(S.String),
+    region: S.optional(S.String),
+    licenses: S.optional(StringList),
+    replicaZones: S.optional(StringList),
+    sizeGb: S.optional(S.String),
+    enableConfidentialCompute: S.optional(S.Boolean),
+    physicalBlockSizeBytes: S.optional(S.String),
+    architecture: S.optional(DiskBackupPropertiesArchitectureEnum),
+    storagePool: S.optional(S.String),
+    description: S.optional(S.String),
+    accessMode: S.optional(S.String),
+    provisionedIops: S.optional(S.String),
+    sourceDisk: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiskBackupProperties" }) as any as S.Schema<DiskBackupProperties>;
 
 /** Message describing a Backup object. */
 export interface Backup {
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Output only. The point in time when this backup was captured from the source. */
-  consistencyTime?: string;
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined. */
-  labels?: StringMap;
-  /** Output only. AlloyDB specific backup properties. */
-  alloyDbBackupProperties?: AlloyDbClusterBackupProperties;
+  /** Output only. Compute Engine specific backup properties. */
+  computeInstanceBackupProperties?: ComputeInstanceBackupProperties;
   /** Output only. source resource size in bytes at the time of the backup. */
   resourceSizeBytes?: string;
   /** Output only. Cloud SQL specific backup properties. */
   cloudSqlInstanceBackupProperties?: CloudSqlInstanceBackupProperties;
-  /** Output only. The description of the Backup instance (2048 characters or less). */
-  description?: string;
-  /** Output only. The time when the instance was created. */
-  createTime?: string;
-  /** Optional. Server specified ETag to prevent updates from overwriting each other. */
-  etag?: string;
-  /** Output only. Disk specific backup properties. */
-  diskBackupProperties?: DiskBackupProperties;
-  /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
-  name?: string;
-  /** Optional. The list of BackupLocks taken by the accessor Backup Appliance. */
-  backupApplianceLocks?: BackupLockList;
-  /** Optional. The backup can not be deleted before this time. */
-  enforcedRetentionEndTime?: string;
-  /** Output only. The Backup resource instance state. */
-  state?: BackupStateEnum | (string & {});
-  /** Optional. Output only. The list of KMS key versions used to encrypt the backup. */
-  kmsKeyVersions?: StringList;
-  /** Output only. Unique identifier of the GCP resource that is being backed up. */
-  gcpResource?: BackupGcpResource;
-  /** Output only. Compute Engine specific backup properties. */
-  computeInstanceBackupProperties?: ComputeInstanceBackupProperties;
-  /** Output only. Filestore specific backup properties. */
-  filestoreInstanceBackupProperties?: FilestoreInstanceBackupProperties;
-  /** Output only. Type of the backup, unspecified, scheduled or ondemand. */
-  backupType?: BackupBackupTypeEnum | (string & {});
-  /** Output only. Configuration for a Google Cloud resource. */
-  gcpBackupPlanInfo?: GCPBackupPlanInfo;
-  /** Output only. The list of BackupLocks taken by the service to prevent the deletion of the backup. */
-  serviceLocks?: BackupLockList;
-  /** Output only. Backup Appliance specific backup properties. */
-  backupApplianceBackupProperties?: BackupApplianceBackupProperties;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string;
-  /** Optional. When this backup is automatically expired. */
-  expireTime?: string;
+  /** Output only. AlloyDB specific backup properties. */
+  alloyDbBackupProperties?: AlloyDbClusterBackupProperties;
+  /** Optional. Resource labels to represent user provided metadata. No labels currently defined. */
+  labels?: StringMap;
   /** Output only. Setting for how the enforced retention end time is inherited. This value is copied from this backup's BackupVault. */
   backupRetentionInheritance?: BackupBackupRetentionInheritanceEnum | (string & {});
+  /** Output only. Filestore specific backup properties. */
+  filestoreInstanceBackupProperties?: FilestoreInstanceBackupProperties;
+  /** Output only. Unique identifier of the GCP resource that is being backed up. */
+  gcpResource?: BackupGcpResource;
+  /** Output only. The list of BackupLocks taken by the service to prevent the deletion of the backup. */
+  serviceLocks?: BackupLockList;
+  /** Optional. Server specified ETag to prevent updates from overwriting each other. */
+  etag?: string;
+  /** Optional. The list of BackupLocks taken by the accessor Backup Appliance. */
+  backupApplianceLocks?: BackupLockList;
+  /** Output only. Configuration for a Google Cloud resource. */
+  gcpBackupPlanInfo?: GCPBackupPlanInfo;
+  /** Optional. When this backup is automatically expired. */
+  expireTime?: string;
+  /** Optional. Output only. Reserved for future use. */
+  satisfiesPzi?: boolean;
+  /** Output only. Backup Appliance specific backup properties. */
+  backupApplianceBackupProperties?: BackupApplianceBackupProperties;
+  /** Output only. The Backup resource instance state. */
+  state?: BackupStateEnum | (string & {});
+  /** Output only. The time when the instance was created. */
+  createTime?: string;
+  /** Output only. Type of the backup, unspecified, scheduled or ondemand. */
+  backupType?: BackupBackupTypeEnum | (string & {});
+  /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
+  name?: string;
+  /** Output only. The description of the Backup instance (2048 characters or less). */
+  description?: string;
+  /** Output only. Disk specific backup properties. */
+  diskBackupProperties?: DiskBackupProperties;
+  /** Optional. Output only. The list of KMS key versions used to encrypt the backup. */
+  kmsKeyVersions?: StringList;
+  /** Optional. The backup can not be deleted before this time. */
+  enforcedRetentionEndTime?: string;
+  /** Output only. The time when the instance was updated. */
+  updateTime?: string;
+  /** Output only. The point in time when this backup was captured from the source. */
+  consistencyTime?: string;
+  /** Optional. Output only. Reserved for future use. */
+  satisfiesPzs?: boolean;
 }
 export const Backup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    satisfiesPzs: S.optional(S.Boolean),
-    consistencyTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    alloyDbBackupProperties: S.optional(AlloyDbClusterBackupProperties),
+    computeInstanceBackupProperties: S.optional(ComputeInstanceBackupProperties),
     resourceSizeBytes: S.optional(S.String),
     cloudSqlInstanceBackupProperties: S.optional(CloudSqlInstanceBackupProperties),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    diskBackupProperties: S.optional(DiskBackupProperties),
-    name: S.optional(S.String),
-    backupApplianceLocks: S.optional(BackupLockList),
-    enforcedRetentionEndTime: S.optional(S.String),
-    state: S.optional(BackupStateEnum),
-    kmsKeyVersions: S.optional(StringList),
-    gcpResource: S.optional(BackupGcpResource),
-    computeInstanceBackupProperties: S.optional(ComputeInstanceBackupProperties),
-    filestoreInstanceBackupProperties: S.optional(FilestoreInstanceBackupProperties),
-    backupType: S.optional(BackupBackupTypeEnum),
-    gcpBackupPlanInfo: S.optional(GCPBackupPlanInfo),
-    serviceLocks: S.optional(BackupLockList),
-    backupApplianceBackupProperties: S.optional(BackupApplianceBackupProperties),
-    satisfiesPzi: S.optional(S.Boolean),
-    updateTime: S.optional(S.String),
-    expireTime: S.optional(S.String),
+    alloyDbBackupProperties: S.optional(AlloyDbClusterBackupProperties),
+    labels: S.optional(StringMap),
     backupRetentionInheritance: S.optional(BackupBackupRetentionInheritanceEnum),
+    filestoreInstanceBackupProperties: S.optional(FilestoreInstanceBackupProperties),
+    gcpResource: S.optional(BackupGcpResource),
+    serviceLocks: S.optional(BackupLockList),
+    etag: S.optional(S.String),
+    backupApplianceLocks: S.optional(BackupLockList),
+    gcpBackupPlanInfo: S.optional(GCPBackupPlanInfo),
+    expireTime: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
+    backupApplianceBackupProperties: S.optional(BackupApplianceBackupProperties),
+    state: S.optional(BackupStateEnum),
+    createTime: S.optional(S.String),
+    backupType: S.optional(BackupBackupTypeEnum),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    diskBackupProperties: S.optional(DiskBackupProperties),
+    kmsKeyVersions: S.optional(StringList),
+    enforcedRetentionEndTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    consistencyTime: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Backup" }) as any as S.Schema<Backup>;
 
@@ -2639,42 +2639,42 @@ export const BackupList = /*@__PURE__*/ S.Array(Backup) as any as S.Schema<Backu
 
 /** Response for the FetchBackupsForResourceType method. */
 export interface FetchBackupsForResourceTypeResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The Backups from the specified parent. */
   backups?: BackupList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const FetchBackupsForResourceTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     backups: S.optional(BackupList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FetchBackupsForResourceTypeResponse",
 }) as any as S.Schema<FetchBackupsForResourceTypeResponse>;
 
 export interface FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest {
-  /** Required. The type of the Google Cloud resource. Ex: sql.googleapis.com/Instance */
-  resourceType?: string;
-  /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
-  orderBy?: string;
-  /** Optional. A page token, received from a previous call of `FetchDataSourceReferencesForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchDataSourceReferencesForResourceType` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Required. The type of the Google Cloud resource. Ex: sql.googleapis.com/Instance */
+  resourceType?: string;
   /** Optional. The maximum number of DataSourceReferences to return. The service may return fewer than this value. If unspecified, at most 50 DataSourceReferences will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
+  /** Optional. A page token, received from a previous call of `FetchDataSourceReferencesForResourceType`. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchDataSourceReferencesForResourceType` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * name */
+  orderBy?: string;
   /** Optional. A filter expression that filters the results fetched in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. Supported fields: * data_source * data_source_gcp_resource_info.gcp_resourcename * data_source_backup_config_state * data_source_backup_count * data_source_backup_config_info.last_backup_state * data_source_gcp_resource_info.gcp_resourcename * data_source_gcp_resource_info.type * data_source_gcp_resource_info.location * data_source_gcp_resource_info.cloud_sql_instance_properties.instance_create_time */
   filter?: string;
 }
 export const FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resourceType: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      resourceType: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -2686,6 +2686,28 @@ export const FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest =
   ).annotate({
     identifier: "FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest",
   }) as any as S.Schema<FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest>;
+
+/** CloudSqlInstanceDataSourceReferenceProperties represents the properties of a Cloud SQL resource that are stored in the DataSourceReference. */
+export interface CloudSqlInstanceDataSourceReferenceProperties {
+  /** Output only. Name of the Cloud SQL instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
+  name?: string;
+  /** Output only. The installed database version of the Cloud SQL instance. */
+  databaseInstalledVersion?: string;
+  /** Output only. The instance creation timestamp. */
+  instanceCreateTime?: string;
+  /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
+  instanceTier?: string;
+}
+export const CloudSqlInstanceDataSourceReferenceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    databaseInstalledVersion: S.optional(S.String),
+    instanceCreateTime: S.optional(S.String),
+    instanceTier: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlInstanceDataSourceReferenceProperties",
+}) as any as S.Schema<CloudSqlInstanceDataSourceReferenceProperties>;
 
 /** FilestoreInstanceDataSourceReferenceProperties represents the properties of a Filestore resource that are stored in the DataSourceReference. . */
 export interface FilestoreInstanceDataSourceReferenceProperties {
@@ -2703,28 +2725,6 @@ export const FilestoreInstanceDataSourceReferenceProperties = /*@__PURE__*/ S.su
   identifier: "FilestoreInstanceDataSourceReferenceProperties",
 }) as any as S.Schema<FilestoreInstanceDataSourceReferenceProperties>;
 
-/** CloudSqlInstanceDataSourceReferenceProperties represents the properties of a Cloud SQL resource that are stored in the DataSourceReference. */
-export interface CloudSqlInstanceDataSourceReferenceProperties {
-  /** Output only. The installed database version of the Cloud SQL instance. */
-  databaseInstalledVersion?: string;
-  /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
-  instanceTier?: string;
-  /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
-  /** Output only. Name of the Cloud SQL instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
-  name?: string;
-}
-export const CloudSqlInstanceDataSourceReferenceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    databaseInstalledVersion: S.optional(S.String),
-    instanceTier: S.optional(S.String),
-    instanceCreateTime: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CloudSqlInstanceDataSourceReferenceProperties",
-}) as any as S.Schema<CloudSqlInstanceDataSourceReferenceProperties>;
-
 /** AlloyDBClusterDataSourceReferenceProperties represents the properties of an AlloyDB cluster that are stored in the DataSourceReference. */
 export interface AlloyDBClusterDataSourceReferenceProperties {
   /** Output only. Name of the AlloyDB cluster backed up by the datasource. Format: projects/{project}/locations/{location}/clusters/{cluster} */
@@ -2740,14 +2740,14 @@ export const AlloyDBClusterDataSourceReferenceProperties = /*@__PURE__*/ S.suspe
 
 /** The Google Cloud resource that the DataSource is associated with. */
 export interface DataSourceGcpResourceInfo {
-  /** Output only. The properties of the Filestore instance. */
-  filestoreInstanceProperties?: FilestoreInstanceDataSourceReferenceProperties;
-  /** Output only. The type of the Google Cloud resource. Ex: compute.googleapis.com/Instance */
-  type?: string;
-  /** Output only. The properties of the Cloud SQL instance. */
-  cloudSqlInstanceProperties?: CloudSqlInstanceDataSourceReferenceProperties;
   /** Output only. The location of the Google Cloud resource. Ex: //"global"/"unspecified" */
   location?: string;
+  /** Output only. The properties of the Cloud SQL instance. */
+  cloudSqlInstanceProperties?: CloudSqlInstanceDataSourceReferenceProperties;
+  /** Output only. The type of the Google Cloud resource. Ex: compute.googleapis.com/Instance */
+  type?: string;
+  /** Output only. The properties of the Filestore instance. */
+  filestoreInstanceProperties?: FilestoreInstanceDataSourceReferenceProperties;
   /** Output only. The resource name of the Google Cloud resource. Ex: projects/{project}/zones/{zone}/instances/{instance} */
   gcpResourcename?: string;
   /** Output only. The properties of the AlloyDB cluster. */
@@ -2755,10 +2755,10 @@ export interface DataSourceGcpResourceInfo {
 }
 export const DataSourceGcpResourceInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filestoreInstanceProperties: S.optional(FilestoreInstanceDataSourceReferenceProperties),
-    type: S.optional(S.String),
-    cloudSqlInstanceProperties: S.optional(CloudSqlInstanceDataSourceReferenceProperties),
     location: S.optional(S.String),
+    cloudSqlInstanceProperties: S.optional(CloudSqlInstanceDataSourceReferenceProperties),
+    type: S.optional(S.String),
+    filestoreInstanceProperties: S.optional(FilestoreInstanceDataSourceReferenceProperties),
     gcpResourcename: S.optional(S.String),
     alloyDbClusterProperties: S.optional(AlloyDBClusterDataSourceReferenceProperties),
   }),
@@ -2798,32 +2798,32 @@ export const DataSourceBackupConfigInfo = /*@__PURE__*/ S.suspend(() =>
 
 /** DataSourceReference is a reference to a DataSource resource. */
 export interface DataSourceReference {
-  /** Identifier. The resource name of the DataSourceReference. Format: projects/{project}/locations/{location}/dataSourceReferences/{data_source_reference} */
-  name?: string;
   /** Output only. The Google Cloud resource that the DataSource is associated with. */
   dataSourceGcpResourceInfo?: DataSourceGcpResourceInfo;
-  /** Output only. The backup configuration state of the DataSource. */
-  dataSourceBackupConfigState?: DataSourceReferenceDataSourceBackupConfigStateEnum;
-  /** Output only. The resource name of the DataSource. Format: projects/{project}/locations/{location}/backupVaults/{backupVault}/dataSources/{dataSource} */
-  dataSource?: string;
-  /** Output only. Number of backups in the DataSource. */
-  dataSourceBackupCount?: string;
   /** Output only. Total size of the storage used by all backup resources for the referenced datasource. */
   totalStoredBytes?: string;
+  /** Output only. The backup configuration state of the DataSource. */
+  dataSourceBackupConfigState?: DataSourceReferenceDataSourceBackupConfigStateEnum;
+  /** Output only. Number of backups in the DataSource. */
+  dataSourceBackupCount?: string;
   /** Output only. The time when the DataSourceReference was created. */
   createTime?: string;
+  /** Identifier. The resource name of the DataSourceReference. Format: projects/{project}/locations/{location}/dataSourceReferences/{data_source_reference} */
+  name?: string;
+  /** Output only. The resource name of the DataSource. Format: projects/{project}/locations/{location}/backupVaults/{backupVault}/dataSources/{dataSource} */
+  dataSource?: string;
   /** Output only. Information of backup configuration on the DataSource. */
   dataSourceBackupConfigInfo?: DataSourceBackupConfigInfo;
 }
 export const DataSourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     dataSourceGcpResourceInfo: S.optional(DataSourceGcpResourceInfo),
-    dataSourceBackupConfigState: S.optional(DataSourceReferenceDataSourceBackupConfigStateEnum),
-    dataSource: S.optional(S.String),
-    dataSourceBackupCount: S.optional(S.String),
     totalStoredBytes: S.optional(S.String),
+    dataSourceBackupConfigState: S.optional(DataSourceReferenceDataSourceBackupConfigStateEnum),
+    dataSourceBackupCount: S.optional(S.String),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    dataSource: S.optional(S.String),
     dataSourceBackupConfigInfo: S.optional(DataSourceBackupConfigInfo),
   }),
 ).annotate({ identifier: "DataSourceReference" }) as any as S.Schema<DataSourceReference>;
@@ -2835,39 +2835,39 @@ export const DataSourceReferenceList = /*@__PURE__*/ S.Array(
 
 /** Response for the FetchDataSourceReferencesForResourceType method. */
 export interface FetchDataSourceReferencesForResourceTypeResponse {
-  /** The DataSourceReferences from the specified parent. */
-  dataSourceReferences?: DataSourceReferenceList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The DataSourceReferences from the specified parent. */
+  dataSourceReferences?: DataSourceReferenceList;
 }
 export const FetchDataSourceReferencesForResourceTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataSourceReferences: S.optional(DataSourceReferenceList),
     nextPageToken: S.optional(S.String),
+    dataSourceReferences: S.optional(DataSourceReferenceList),
   }),
 ).annotate({
   identifier: "FetchDataSourceReferencesForResourceTypeResponse",
 }) as any as S.Schema<FetchDataSourceReferencesForResourceTypeResponse>;
 
 export interface FetchOrganizationsLocationsResourceBackupConfigsRequest {
-  /** Optional. Filtering results. */
-  filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
-  pageSize?: number;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
   /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
   parent: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
+  pageSize?: number;
 }
 export const FetchOrganizationsLocationsResourceBackupConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2880,24 +2880,24 @@ export const FetchOrganizationsLocationsResourceBackupConfigsRequest = /*@__PURE
 }) as any as S.Schema<FetchOrganizationsLocationsResourceBackupConfigsRequest>;
 
 export interface FetchProjectsLocationsResourceBackupConfigsRequest {
-  /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
-  parent: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
   pageSize?: number;
+  /** Required. The project, folder or organization and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}', 'folders/{folder_id}/locations/{location}', or 'organizations/{organization_id}/locations/{location}'. */
+  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
 }
 export const FetchProjectsLocationsResourceBackupConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2910,24 +2910,24 @@ export const FetchProjectsLocationsResourceBackupConfigsRequest = /*@__PURE__*/ 
 }) as any as S.Schema<FetchProjectsLocationsResourceBackupConfigsRequest>;
 
 export interface FetchUsableProjectsLocationsBackupVaultsRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Required. The project and location for which to retrieve backupvault stores information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backupvault stores for all locations, use "-" for the '{location}' value. */
   parent: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
 }
 export const FetchUsableProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2946,17 +2946,17 @@ export const BackupVaultList = /*@__PURE__*/ S.Array(
 
 /** Response message for fetching usable BackupVaults. */
 export interface FetchUsableBackupVaultsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of BackupVault instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup vaults in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
   backupVaults?: BackupVaultList;
 }
 export const FetchUsableBackupVaultsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
     backupVaults: S.optional(BackupVaultList),
   }),
 ).annotate({
@@ -2965,30 +2965,30 @@ export const FetchUsableBackupVaultsResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Message for finalizing a Backup. */
 export interface FinalizeBackupRequest {
-  /** The latest timestamp of data available in this Backup. This will be set on the newly created Backup. */
-  recoveryRangeEndTime?: string;
-  /** The earliest timestamp of data available in this Backup. This will set on the newly created Backup. */
-  recoveryRangeStartTime?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Resource ID of the Backup resource to be finalized. This must be the same backup_id that was used in the InitiateBackupRequest. */
   backupId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** This will be assigned to the description field of the newly created Backup. */
   description?: string;
-  /** The ExpireTime on the backup will be set to FinalizeTime plus this duration. If the resulting ExpireTime is less than EnforcedRetentionEndTime, then ExpireTime is set to EnforcedRetentionEndTime. */
-  retentionDuration?: string;
+  /** The earliest timestamp of data available in this Backup. This will set on the newly created Backup. */
+  recoveryRangeStartTime?: string;
   /** The point in time when this backup was captured from the source. This will be assigned to the consistency_time field of the newly created Backup. */
   consistencyTime?: string;
+  /** The latest timestamp of data available in this Backup. This will be set on the newly created Backup. */
+  recoveryRangeEndTime?: string;
+  /** The ExpireTime on the backup will be set to FinalizeTime plus this duration. If the resulting ExpireTime is less than EnforcedRetentionEndTime, then ExpireTime is set to EnforcedRetentionEndTime. */
+  retentionDuration?: string;
 }
 export const FinalizeBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recoveryRangeEndTime: S.optional(S.String),
-    recoveryRangeStartTime: S.optional(S.String),
-    requestId: S.optional(S.String),
     backupId: S.optional(S.String),
+    requestId: S.optional(S.String),
     description: S.optional(S.String),
-    retentionDuration: S.optional(S.String),
+    recoveryRangeStartTime: S.optional(S.String),
     consistencyTime: S.optional(S.String),
+    recoveryRangeEndTime: S.optional(S.String),
+    retentionDuration: S.optional(S.String),
   }),
 ).annotate({ identifier: "FinalizeBackupRequest" }) as any as S.Schema<FinalizeBackupRequest>;
 
@@ -3015,15 +3015,15 @@ export const FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest =
   }) as any as S.Schema<FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest>;
 
 export interface GetIamPolicyProjectsLocationsManagementServersRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsManagementServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3039,18 +3039,18 @@ export const GetIamPolicyProjectsLocationsManagementServersRequest = /*@__PURE__
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
-    expression: S.optional(S.String),
     title: S.optional(S.String),
+    expression: S.optional(S.String),
     location: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
@@ -3059,16 +3059,16 @@ export const Expr = /*@__PURE__*/ S.suspend(() =>
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: Expr;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.optional(S.String),
-    members: S.optional(StringList),
     condition: S.optional(Expr),
+    members: S.optional(StringList),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -3084,15 +3084,15 @@ export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exemptedMembers: S.optional(StringList),
     logType: S.optional(AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -3122,21 +3122,21 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
+    etag: S.optional(S.String),
     auditConfigs: S.optional(AuditConfigList),
+    version: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -3156,24 +3156,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
     name: S.optional(S.String),
+    labels: S.optional(StringMap),
     locationId: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
     displayName: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -3231,41 +3231,41 @@ export const AutoProtectionDetailsStateEnum = S.String;
 
 /** AutoProtectionDetails contains the protection details of a resource from the current binding's perspective. */
 export interface AutoProtectionDetails {
+  /** Output only. Resource name of the datasource linked to the resource, if any. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{dataSourceId} */
+  dataSource?: string;
   /** Output only. Resource name of backup plan association linked to the resource, if any. Format: projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
   backupPlanAssociation?: string;
   /** Output only. Protection state of the resource from the current binding's perspective. Output only. */
   state?: AutoProtectionDetailsStateEnum;
-  /** Output only. Resource name of the datasource linked to the resource, if any. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{dataSourceId} */
-  dataSource?: string;
   /** Output only. Error during last sync for protection/unprotection, if any. */
   error?: Status;
 }
 export const AutoProtectionDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dataSource: S.optional(S.String),
     backupPlanAssociation: S.optional(S.String),
     state: S.optional(AutoProtectionDetailsStateEnum),
-    dataSource: S.optional(S.String),
     error: S.optional(Status),
   }),
 ).annotate({ identifier: "AutoProtectionDetails" }) as any as S.Schema<AutoProtectionDetails>;
 
 /** BindingMatchingResource contains the details of a resource that matches the criteria of a binding. */
 export interface BindingMatchingResource {
+  /** Output only. The auto protection details of the resource from the current binding's perspective. */
+  autoProtectionDetails?: AutoProtectionDetails;
+  /** Required. Immutable. Resource name of the workload that matches the criteria of the binding. The format can be either a relative resource name (e.g., `projects/my-project/zones/us-central1-a/instances/my-instance`) or a schemeless full resource name (e.g., `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`). */
+  resource?: string;
   /** Identifier. The resource name of the `BindingMatchingResource`. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}/matchingResources/{matching_resource}` */
   name?: string;
   /** Output only. The timestamp when the resource was last evaluated for protection. */
   lastEvaluationTime?: string;
-  /** Required. Immutable. Resource name of the workload that matches the criteria of the binding. The format can be either a relative resource name (e.g., `projects/my-project/zones/us-central1-a/instances/my-instance`) or a schemeless full resource name (e.g., `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`). */
-  resource?: string;
-  /** Output only. The auto protection details of the resource from the current binding's perspective. */
-  autoProtectionDetails?: AutoProtectionDetails;
 }
 export const BindingMatchingResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    autoProtectionDetails: S.optional(AutoProtectionDetails),
+    resource: S.optional(S.String),
     name: S.optional(S.String),
     lastEvaluationTime: S.optional(S.String),
-    resource: S.optional(S.String),
-    autoProtectionDetails: S.optional(AutoProtectionDetails),
   }),
 ).annotate({ identifier: "BindingMatchingResource" }) as any as S.Schema<BindingMatchingResource>;
 
@@ -3321,24 +3321,24 @@ export const BackupPlanRevisionStateEnum = S.String;
 
 /** `BackupPlanRevision` represents a snapshot of a `BackupPlan` at a point in time. */
 export interface BackupPlanRevision {
-  /** Output only. The timestamp that the revision was created. */
-  createTime?: string;
-  /** Output only. Identifier. The resource name of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision}` */
-  name?: string;
   /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
   revisionId?: string;
-  /** Output only. Resource State */
-  state?: BackupPlanRevisionStateEnum;
+  /** Output only. The timestamp that the revision was created. */
+  createTime?: string;
   /** The Backup Plan being encompassed by this revision. */
   backupPlanSnapshot?: BackupPlan;
+  /** Output only. Resource State */
+  state?: BackupPlanRevisionStateEnum;
+  /** Output only. Identifier. The resource name of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision}` */
+  name?: string;
 }
 export const BackupPlanRevision = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
     revisionId: S.optional(S.String),
-    state: S.optional(BackupPlanRevisionStateEnum),
+    createTime: S.optional(S.String),
     backupPlanSnapshot: S.optional(BackupPlan),
+    state: S.optional(BackupPlanRevisionStateEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackupPlanRevision" }) as any as S.Schema<BackupPlanRevision>;
 
@@ -3379,59 +3379,106 @@ export const GetProjectsLocationsBackupVaultsDataSourcesRequest = /*@__PURE__*/ 
   identifier: "GetProjectsLocationsBackupVaultsDataSourcesRequest",
 }) as any as S.Schema<GetProjectsLocationsBackupVaultsDataSourcesRequest>;
 
-export type DataSourceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "ERROR";
-export const DataSourceStateEnum = S.String;
+export type DataSourceConfigStateEnum = "BACKUP_CONFIG_STATE_UNSPECIFIED" | "ACTIVE" | "PASSIVE";
+export const DataSourceConfigStateEnum = S.String;
 
-/** BackupApplianceApplication describes a Source Resource when it is an application backed up by a BackupAppliance. */
-export interface DataSourceBackupApplianceApplication {
-  /** Appliance Id of the Backup Appliance. */
-  applianceId?: string;
-  /** The name of the Application as known to the Backup Appliance. */
-  applicationName?: string;
-  /** Hostid of the application host. */
-  hostId?: string;
-  /** The appid field of the application within the Backup Appliance. */
-  applicationId?: string;
-  /** Hostname of the host where the application is running. */
-  hostname?: string;
-  /** The type of the application. e.g. VMBackup */
-  type?: string;
-  /** Appliance name. */
-  backupAppliance?: string;
+/** FilestoreInstanceDataSourceProperties represents the properties of a Filestore resource that are stored in the DataSource. . */
+export interface FilestoreInstanceDataSourceProperties {
+  /** Output only. Name of the Filestore instance backed up by the datasource. */
+  name?: string;
+  /** Output only. The instance creation timestamp. */
+  instanceCreateTime?: string;
 }
-export const DataSourceBackupApplianceApplication = /*@__PURE__*/ S.suspend(() =>
+export const FilestoreInstanceDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    applianceId: S.optional(S.String),
-    applicationName: S.optional(S.String),
-    hostId: S.optional(S.String),
-    applicationId: S.optional(S.String),
-    hostname: S.optional(S.String),
-    type: S.optional(S.String),
-    backupAppliance: S.optional(S.String),
+    name: S.optional(S.String),
+    instanceCreateTime: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "DataSourceBackupApplianceApplication",
-}) as any as S.Schema<DataSourceBackupApplianceApplication>;
+  identifier: "FilestoreInstanceDataSourceProperties",
+}) as any as S.Schema<FilestoreInstanceDataSourceProperties>;
+
+/** ComputeInstanceDataSourceProperties represents the properties of a ComputeEngine resource that are stored in the DataSource. */
+export interface ComputeInstanceDataSourceProperties {
+  /** The total number of disks attached to the Instance. */
+  totalDiskCount?: string;
+  /** The description of the Compute Engine instance. */
+  description?: string;
+  /** The machine type of the instance. */
+  machineType?: string;
+  /** The sum of all the disk sizes. */
+  totalDiskSizeGb?: string;
+  /** Name of the compute instance backed up by the datasource. */
+  name?: string;
+}
+export const ComputeInstanceDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    totalDiskCount: S.optional(S.String),
+    description: S.optional(S.String),
+    machineType: S.optional(S.String),
+    totalDiskSizeGb: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ComputeInstanceDataSourceProperties",
+}) as any as S.Schema<ComputeInstanceDataSourceProperties>;
+
+/** DiskDataSourceProperties represents the properties of a Disk resource that are stored in the DataSource. . */
+export interface DiskDataSourceProperties {
+  /** The size of the disk in GB. */
+  sizeGb?: string;
+  /** Name of the disk backed up by the datasource. */
+  name?: string;
+  /** The type of the disk. */
+  type?: string;
+  /** The description of the disk. */
+  description?: string;
+}
+export const DiskDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sizeGb: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiskDataSourceProperties" }) as any as S.Schema<DiskDataSourceProperties>;
+
+/** CloudSqlInstanceDataSourceProperties represents the properties of a Cloud SQL resource that are stored in the DataSource. */
+export interface CloudSqlInstanceDataSourceProperties {
+  /** Output only. The instance creation timestamp. */
+  instanceCreateTime?: string;
+  /** Output only. The installed database version of the Cloud SQL instance. */
+  databaseInstalledVersion?: string;
+  /** Output only. Name of the Cloud SQL instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
+  name?: string;
+  /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
+  instanceTier?: string;
+}
+export const CloudSqlInstanceDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceCreateTime: S.optional(S.String),
+    databaseInstalledVersion: S.optional(S.String),
+    name: S.optional(S.String),
+    instanceTier: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlInstanceDataSourceProperties",
+}) as any as S.Schema<CloudSqlInstanceDataSourceProperties>;
 
 /** Point in time recovery window for an AlloyDB cluster. */
 export interface AlloyDbPitrWindow {
+  /** Output only. The start time of the PITR window. */
+  startTime?: string;
   /** Output only. Log retention days for the PITR window. */
   logRetentionDays?: string;
   /** Output only. The end time of the PITR window. It is not set if the corresponding Backup Plan Association is active. */
   endTime?: string;
-  /** Output only. The start time of the PITR window. */
-  startTime?: string;
 }
 export const AlloyDbPitrWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    startTime: S.optional(S.String),
     logRetentionDays: S.optional(S.String),
     endTime: S.optional(S.String),
-    startTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "AlloyDbPitrWindow" }) as any as S.Schema<AlloyDbPitrWindow>;
 
@@ -3459,180 +3506,45 @@ export const AlloyDBClusterDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "AlloyDBClusterDataSourceProperties",
 }) as any as S.Schema<AlloyDBClusterDataSourceProperties>;
 
-/** FilestoreInstanceDataSourceProperties represents the properties of a Filestore resource that are stored in the DataSource. . */
-export interface FilestoreInstanceDataSourceProperties {
-  /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
-  /** Output only. Name of the Filestore instance backed up by the datasource. */
-  name?: string;
-}
-export const FilestoreInstanceDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceCreateTime: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FilestoreInstanceDataSourceProperties",
-}) as any as S.Schema<FilestoreInstanceDataSourceProperties>;
-
-/** ComputeInstanceDataSourceProperties represents the properties of a ComputeEngine resource that are stored in the DataSource. */
-export interface ComputeInstanceDataSourceProperties {
-  /** The total number of disks attached to the Instance. */
-  totalDiskCount?: string;
-  /** The description of the Compute Engine instance. */
-  description?: string;
-  /** Name of the compute instance backed up by the datasource. */
-  name?: string;
-  /** The machine type of the instance. */
-  machineType?: string;
-  /** The sum of all the disk sizes. */
-  totalDiskSizeGb?: string;
-}
-export const ComputeInstanceDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    totalDiskCount: S.optional(S.String),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
-    machineType: S.optional(S.String),
-    totalDiskSizeGb: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ComputeInstanceDataSourceProperties",
-}) as any as S.Schema<ComputeInstanceDataSourceProperties>;
-
-/** DiskDataSourceProperties represents the properties of a Disk resource that are stored in the DataSource. . */
-export interface DiskDataSourceProperties {
-  /** Name of the disk backed up by the datasource. */
-  name?: string;
-  /** The description of the disk. */
-  description?: string;
-  /** The size of the disk in GB. */
-  sizeGb?: string;
-  /** The type of the disk. */
-  type?: string;
-}
-export const DiskDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    sizeGb: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({ identifier: "DiskDataSourceProperties" }) as any as S.Schema<DiskDataSourceProperties>;
-
-/** CloudSqlInstanceDataSourceProperties represents the properties of a Cloud SQL resource that are stored in the DataSource. */
-export interface CloudSqlInstanceDataSourceProperties {
-  /** Output only. Name of the Cloud SQL instance backed up by the datasource. Format: projects/{project}/instances/{instance} */
-  name?: string;
-  /** Output only. The installed database version of the Cloud SQL instance. */
-  databaseInstalledVersion?: string;
-  /** Output only. The instance creation timestamp. */
-  instanceCreateTime?: string;
-  /** Output only. The tier (or machine type) for this instance. Example: `db-custom-1-3840` */
-  instanceTier?: string;
-}
-export const CloudSqlInstanceDataSourceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    databaseInstalledVersion: S.optional(S.String),
-    instanceCreateTime: S.optional(S.String),
-    instanceTier: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CloudSqlInstanceDataSourceProperties",
-}) as any as S.Schema<CloudSqlInstanceDataSourceProperties>;
-
 /** DataSourceGcpResource is used for protected resources that are Google Cloud Resources. This name is easeier to understand than GcpResourceDataSource or GcpDataSourceResource */
 export interface DataSourceGcpResource {
-  /** Output only. AlloyDBClusterDataSourceProperties has a subset of AlloyDB cluster properties that are useful at the Datasource level. Currently none of its child properties are auditable. If new auditable properties are added, the AUDIT annotation should be added. */
-  alloyDbClusterDatasourceProperties?: AlloyDBClusterDataSourceProperties;
-  /** The type of the Google Cloud resource. Use the Unified Resource Type, eg. compute.googleapis.com/Instance. */
-  type?: string;
   /** Output only. FilestoreInstanceDataSourceProperties has a subset of FileStore instance properties that are useful at the Datasource level. */
   filestoreInstanceDatasourceProperties?: FilestoreInstanceDataSourceProperties;
-  /** ComputeInstanceDataSourceProperties has a subset of Compute Instance properties that are useful at the Datasource level. */
-  computeInstanceDatasourceProperties?: ComputeInstanceDataSourceProperties;
-  /** DiskDataSourceProperties has a subset of Disk properties that are useful at the Datasource level. */
-  diskDatasourceProperties?: DiskDataSourceProperties;
   /** Location of the resource: //"global"/"unspecified". */
   location?: string;
+  /** ComputeInstanceDataSourceProperties has a subset of Compute Instance properties that are useful at the Datasource level. */
+  computeInstanceDatasourceProperties?: ComputeInstanceDataSourceProperties;
+  /** The type of the Google Cloud resource. Use the Unified Resource Type, eg. compute.googleapis.com/Instance. */
+  type?: string;
+  /** DiskDataSourceProperties has a subset of Disk properties that are useful at the Datasource level. */
+  diskDatasourceProperties?: DiskDataSourceProperties;
   /** Output only. CloudSqlInstanceDataSourceProperties has a subset of Cloud SQL Instance properties that are useful at the Datasource level. */
   cloudSqlInstanceDatasourceProperties?: CloudSqlInstanceDataSourceProperties;
+  /** Output only. AlloyDBClusterDataSourceProperties has a subset of AlloyDB cluster properties that are useful at the Datasource level. Currently none of its child properties are auditable. If new auditable properties are added, the AUDIT annotation should be added. */
+  alloyDbClusterDatasourceProperties?: AlloyDBClusterDataSourceProperties;
   /** Output only. Full resource pathname URL of the source Google Cloud resource. */
   gcpResourcename?: string;
 }
 export const DataSourceGcpResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    alloyDbClusterDatasourceProperties: S.optional(AlloyDBClusterDataSourceProperties),
-    type: S.optional(S.String),
     filestoreInstanceDatasourceProperties: S.optional(FilestoreInstanceDataSourceProperties),
-    computeInstanceDatasourceProperties: S.optional(ComputeInstanceDataSourceProperties),
-    diskDatasourceProperties: S.optional(DiskDataSourceProperties),
     location: S.optional(S.String),
+    computeInstanceDatasourceProperties: S.optional(ComputeInstanceDataSourceProperties),
+    type: S.optional(S.String),
+    diskDatasourceProperties: S.optional(DiskDataSourceProperties),
     cloudSqlInstanceDatasourceProperties: S.optional(CloudSqlInstanceDataSourceProperties),
+    alloyDbClusterDatasourceProperties: S.optional(AlloyDBClusterDataSourceProperties),
     gcpResourcename: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataSourceGcpResource" }) as any as S.Schema<DataSourceGcpResource>;
 
-/** BackupApplianceBackupConfig captures the backup configuration for applications that are protected by Backup Appliances. */
-export interface BackupApplianceBackupConfig {
-  /** The name of the backup appliance. */
-  backupApplianceName?: string;
-  /** The name of the SLP associated with the application. */
-  slpName?: string;
-  /** The name of the host where the application is running. */
-  hostName?: string;
-  /** The ID of the SLA of this application. */
-  slaId?: string;
-  /** The ID of the backup appliance. */
-  backupApplianceId?: string;
-  /** The name of the SLT associated with the application. */
-  sltName?: string;
-  /** The name of the application. */
-  applicationName?: string;
-}
-export const BackupApplianceBackupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backupApplianceName: S.optional(S.String),
-    slpName: S.optional(S.String),
-    hostName: S.optional(S.String),
-    slaId: S.optional(S.String),
-    backupApplianceId: S.optional(S.String),
-    sltName: S.optional(S.String),
-    applicationName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BackupApplianceBackupConfig",
-}) as any as S.Schema<BackupApplianceBackupConfig>;
-
-/** GcpBackupConfig captures the Backup configuration details for Google Cloud resources. All Google Cloud resources regardless of type are protected with backup plan associations. */
-export interface GcpBackupConfig {
-  /** The names of the backup plan rules which point to this backupvault */
-  backupPlanRules?: StringList;
-  /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this datasource, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
-  autoProtectionPolicyBinding?: string;
-  /** The name of the backup plan revision. */
-  backupPlanRevisionName?: string;
-  /** The name of the backup plan association. */
-  backupPlanAssociation?: string;
-  /** The user friendly id of the backup plan revision. E.g. v0, v1 etc. */
-  backupPlanRevisionId?: string;
-  /** The name of the backup plan. */
-  backupPlan?: string;
-  /** The description of the backup plan. */
-  backupPlanDescription?: string;
-}
-export const GcpBackupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backupPlanRules: S.optional(StringList),
-    autoProtectionPolicyBinding: S.optional(S.String),
-    backupPlanRevisionName: S.optional(S.String),
-    backupPlanAssociation: S.optional(S.String),
-    backupPlanRevisionId: S.optional(S.String),
-    backupPlan: S.optional(S.String),
-    backupPlanDescription: S.optional(S.String),
-  }),
-).annotate({ identifier: "GcpBackupConfig" }) as any as S.Schema<GcpBackupConfig>;
+export type DataSourceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "ERROR";
+export const DataSourceStateEnum = S.String;
 
 export type BackupConfigInfoLastBackupStateEnum =
   | "LAST_BACKUP_STATE_UNSPECIFIED"
@@ -3642,76 +3554,164 @@ export type BackupConfigInfoLastBackupStateEnum =
   | "PERMISSION_DENIED";
 export const BackupConfigInfoLastBackupStateEnum = S.String;
 
+/** BackupApplianceBackupConfig captures the backup configuration for applications that are protected by Backup Appliances. */
+export interface BackupApplianceBackupConfig {
+  /** The ID of the SLA of this application. */
+  slaId?: string;
+  /** The name of the host where the application is running. */
+  hostName?: string;
+  /** The name of the SLT associated with the application. */
+  sltName?: string;
+  /** The ID of the backup appliance. */
+  backupApplianceId?: string;
+  /** The name of the backup appliance. */
+  backupApplianceName?: string;
+  /** The name of the SLP associated with the application. */
+  slpName?: string;
+  /** The name of the application. */
+  applicationName?: string;
+}
+export const BackupApplianceBackupConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    slaId: S.optional(S.String),
+    hostName: S.optional(S.String),
+    sltName: S.optional(S.String),
+    backupApplianceId: S.optional(S.String),
+    backupApplianceName: S.optional(S.String),
+    slpName: S.optional(S.String),
+    applicationName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BackupApplianceBackupConfig",
+}) as any as S.Schema<BackupApplianceBackupConfig>;
+
+/** GcpBackupConfig captures the Backup configuration details for Google Cloud resources. All Google Cloud resources regardless of type are protected with backup plan associations. */
+export interface GcpBackupConfig {
+  /** The user friendly id of the backup plan revision. E.g. v0, v1 etc. */
+  backupPlanRevisionId?: string;
+  /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this datasource, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
+  autoProtectionPolicyBinding?: string;
+  /** The description of the backup plan. */
+  backupPlanDescription?: string;
+  /** The name of the backup plan. */
+  backupPlan?: string;
+  /** The name of the backup plan revision. */
+  backupPlanRevisionName?: string;
+  /** The names of the backup plan rules which point to this backupvault */
+  backupPlanRules?: StringList;
+  /** The name of the backup plan association. */
+  backupPlanAssociation?: string;
+}
+export const GcpBackupConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    backupPlanRevisionId: S.optional(S.String),
+    autoProtectionPolicyBinding: S.optional(S.String),
+    backupPlanDescription: S.optional(S.String),
+    backupPlan: S.optional(S.String),
+    backupPlanRevisionName: S.optional(S.String),
+    backupPlanRules: S.optional(StringList),
+    backupPlanAssociation: S.optional(S.String),
+  }),
+).annotate({ identifier: "GcpBackupConfig" }) as any as S.Schema<GcpBackupConfig>;
+
 /** BackupConfigInfo has information about how the resource is configured for Backup and about the most recent backup to this vault. */
 export interface BackupConfigInfo {
-  /** Output only. If the last backup were successful, this field has the consistency date. */
-  lastSuccessfulBackupConsistencyTime?: string;
-  /** Configuration for an application backed up by a Backup Appliance. */
-  backupApplianceBackupConfig?: BackupApplianceBackupConfig;
-  /** Configuration for a Google Cloud resource. */
-  gcpBackupConfig?: GcpBackupConfig;
   /** Output only. The status of the last backup to this BackupVault */
   lastBackupState?: BackupConfigInfoLastBackupStateEnum | (string & {});
   /** Output only. If the last backup failed, this field has the error message. */
   lastBackupError?: Status;
+  /** Configuration for an application backed up by a Backup Appliance. */
+  backupApplianceBackupConfig?: BackupApplianceBackupConfig;
+  /** Configuration for a Google Cloud resource. */
+  gcpBackupConfig?: GcpBackupConfig;
+  /** Output only. If the last backup were successful, this field has the consistency date. */
+  lastSuccessfulBackupConsistencyTime?: string;
 }
 export const BackupConfigInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastSuccessfulBackupConsistencyTime: S.optional(S.String),
-    backupApplianceBackupConfig: S.optional(BackupApplianceBackupConfig),
-    gcpBackupConfig: S.optional(GcpBackupConfig),
     lastBackupState: S.optional(BackupConfigInfoLastBackupStateEnum),
     lastBackupError: S.optional(Status),
+    backupApplianceBackupConfig: S.optional(BackupApplianceBackupConfig),
+    gcpBackupConfig: S.optional(GcpBackupConfig),
+    lastSuccessfulBackupConsistencyTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackupConfigInfo" }) as any as S.Schema<BackupConfigInfo>;
 
-export type DataSourceConfigStateEnum = "BACKUP_CONFIG_STATE_UNSPECIFIED" | "ACTIVE" | "PASSIVE";
-export const DataSourceConfigStateEnum = S.String;
+/** BackupApplianceApplication describes a Source Resource when it is an application backed up by a BackupAppliance. */
+export interface DataSourceBackupApplianceApplication {
+  /** The name of the Application as known to the Backup Appliance. */
+  applicationName?: string;
+  /** Appliance Id of the Backup Appliance. */
+  applianceId?: string;
+  /** Hostid of the application host. */
+  hostId?: string;
+  /** Appliance name. */
+  backupAppliance?: string;
+  /** The appid field of the application within the Backup Appliance. */
+  applicationId?: string;
+  /** Hostname of the host where the application is running. */
+  hostname?: string;
+  /** The type of the application. e.g. VMBackup */
+  type?: string;
+}
+export const DataSourceBackupApplianceApplication = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationName: S.optional(S.String),
+    applianceId: S.optional(S.String),
+    hostId: S.optional(S.String),
+    backupAppliance: S.optional(S.String),
+    applicationId: S.optional(S.String),
+    hostname: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataSourceBackupApplianceApplication",
+}) as any as S.Schema<DataSourceBackupApplianceApplication>;
 
 /** Message describing a DataSource object. Datasource object used to represent Datasource details for both admin and basic view. */
 export interface DataSource {
-  /** Output only. The DataSource resource instance state. */
-  state?: DataSourceStateEnum | (string & {});
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap;
-  /** Output only. This field is set to true if the backup is blocked by vault access restriction. */
-  backupBlockedByVaultAccessRestriction?: boolean;
-  /** The backed up resource is a backup appliance application. */
-  dataSourceBackupApplianceApplication?: DataSourceBackupApplianceApplication;
-  /** The backed up resource is a Google Cloud resource. The word 'DataSource' was included in the names to indicate that this is the representation of the Google Cloud resource used within the DataSource object. */
-  dataSourceGcpResource?: DataSourceGcpResource;
-  /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
-  name?: string;
-  /** Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string;
-  /** Output only. Details of how the resource is configured for backup. */
-  backupConfigInfo?: BackupConfigInfo;
   /** Output only. The backup configuration state. */
   configState?: DataSourceConfigStateEnum | (string & {});
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string;
-  /** The number of bytes (metadata and data) stored in this datasource. */
-  totalStoredBytes?: string;
-  /** Number of backups in the data source. */
-  backupCount?: string;
+  /** Output only. This field is set to true if the backup is blocked by vault access restriction. */
+  backupBlockedByVaultAccessRestriction?: boolean;
   /** Output only. The time when the instance was created. */
   createTime?: string;
+  /** Number of backups in the data source. */
+  backupCount?: string;
+  /** The number of bytes (metadata and data) stored in this datasource. */
+  totalStoredBytes?: string;
+  /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
+  name?: string;
+  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
+  labels?: StringMap;
+  /** The backed up resource is a Google Cloud resource. The word 'DataSource' was included in the names to indicate that this is the representation of the Google Cloud resource used within the DataSource object. */
+  dataSourceGcpResource?: DataSourceGcpResource;
+  /** Output only. The DataSource resource instance state. */
+  state?: DataSourceStateEnum | (string & {});
+  /** Output only. Details of how the resource is configured for backup. */
+  backupConfigInfo?: BackupConfigInfo;
+  /** Output only. The time when the instance was updated. */
+  updateTime?: string;
+  /** The backed up resource is a backup appliance application. */
+  dataSourceBackupApplianceApplication?: DataSourceBackupApplianceApplication;
+  /** Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
+  etag?: string;
 }
 export const DataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(DataSourceStateEnum),
-    labels: S.optional(StringMap),
-    backupBlockedByVaultAccessRestriction: S.optional(S.Boolean),
-    dataSourceBackupApplianceApplication: S.optional(DataSourceBackupApplianceApplication),
-    dataSourceGcpResource: S.optional(DataSourceGcpResource),
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
-    backupConfigInfo: S.optional(BackupConfigInfo),
     configState: S.optional(DataSourceConfigStateEnum),
-    updateTime: S.optional(S.String),
-    totalStoredBytes: S.optional(S.String),
-    backupCount: S.optional(S.String),
+    backupBlockedByVaultAccessRestriction: S.optional(S.Boolean),
     createTime: S.optional(S.String),
+    backupCount: S.optional(S.String),
+    totalStoredBytes: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    dataSourceGcpResource: S.optional(DataSourceGcpResource),
+    state: S.optional(DataSourceStateEnum),
+    backupConfigInfo: S.optional(BackupConfigInfo),
+    updateTime: S.optional(S.String),
+    dataSourceBackupApplianceApplication: S.optional(DataSourceBackupApplianceApplication),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 
@@ -3820,20 +3820,20 @@ export interface InitializeServiceRequest {
   cloudSqlInstanceInitializationConfig?: CloudSqlInstanceInitializationConfig;
   /** Optional. The location where the BackupPlan will be created. This field is required for multi-region BackupVaults and is optional for regional BackupVaults. It is useful when creating a Backup Vault in a multi-region, allowing the BackupPlan to reside in a specific region within that multi-region. If this field is not provided, the BackupPlan will be created in the same location as specified in the `name` field. */
   backupPlanLocation?: string;
-  /** Optional. If set, validates the request and returns the result, but does not actually run it. */
-  validateOnly?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The resource type to which the default service config will be applied. Examples include, "compute.googleapis.com/Instance" and "storage.googleapis.com/Bucket". */
   resourceType?: string;
+  /** Optional. If set, validates the request and returns the result, but does not actually run it. */
+  validateOnly?: boolean;
 }
 export const InitializeServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cloudSqlInstanceInitializationConfig: S.optional(CloudSqlInstanceInitializationConfig),
     backupPlanLocation: S.optional(S.String),
-    validateOnly: S.optional(S.Boolean),
     requestId: S.optional(S.String),
     resourceType: S.optional(S.String),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "InitializeServiceRequest" }) as any as S.Schema<InitializeServiceRequest>;
 
@@ -3896,17 +3896,17 @@ export const InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest =
 
 /** Response message for InitiateBackup. */
 export interface InitiateBackupResponse {
-  /** The generation id of the new backup. */
-  newBackupGenerationId?: number;
   /** The generation id of the base backup. It is needed for the incremental backups. */
   baseBackupGenerationId?: number;
+  /** The generation id of the new backup. */
+  newBackupGenerationId?: number;
   /** The name of the backup that was created. */
   backup?: string;
 }
 export const InitiateBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    newBackupGenerationId: S.optional(S.Number),
     baseBackupGenerationId: S.optional(S.Number),
+    newBackupGenerationId: S.optional(S.Number),
     backup: S.optional(S.String),
   }),
 ).annotate({ identifier: "InitiateBackupResponse" }) as any as S.Schema<InitiateBackupResponse>;
@@ -3940,22 +3940,22 @@ export const InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsReques
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3972,38 +3972,38 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsAppliedAutoProtectionPoliciesRequest {
+  /** Optional. The maximum number of applied policies to return in a single page. */
+  pageSize?: number;
+  /** Optional. A filter expression that filters resources listed in the response. */
+  filter?: string;
   /** Optional. An expression that sorts the results in the response. */
   orderBy?: string;
   /** Optional. A page token, received from a previous `ListAppliedAutoProtectionPolicies` call. */
   pageToken?: string;
   /** Required. The project and location for which to retrieve the list of applied policies. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Optional. The maximum number of applied policies to return in a single page. */
-  pageSize?: number;
-  /** Optional. A filter expression that filters resources listed in the response. */
-  filter?: string;
 }
 export const ListProjectsLocationsAppliedAutoProtectionPoliciesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4026,8 +4026,6 @@ export const AppliedAutoProtectionPolicyStatusEnum = S.String;
 export interface AppliedAutoProtectionPolicy {
   /** Output only. The status of the applied auto protection policy. */
   status?: AppliedAutoProtectionPolicyStatusEnum;
-  /** Output only. Timestamp indicating when the binding was last created. */
-  createTime?: string;
   /** Output only. The criteria resources must meet for this rule to apply. From AutoProtectionPolicy.criteria. */
   criteria?: Criteria;
   /** Output only. Timestamp indicating when the binding was last modified. */
@@ -4036,21 +4034,23 @@ export interface AppliedAutoProtectionPolicy {
   name?: string;
   /** Output only. The full resource name of the AutoProtectionPolicyBinding that applies the source policy to a scope including this workload project. e.g., projects/{admin-project}/locations/{location}/autoProtectionPolicies/{policy_id}/autoProtectionPolicyBindings/{binding_id}. */
   sourceBinding?: string;
-  /** Output only. The summary of the last policy application when the job has run. */
-  bindingEvaluationSummary?: BindingEvaluationSummary;
   /** Output only. The set of backup plan configurations, mirroring the backup_plan_details from the source AutoProtectionPolicy. Each element specifies a backup plan for a given resource type. */
   backupPlanDetails?: BackupPlanDetailList;
+  /** Output only. Timestamp indicating when the binding was last created. */
+  createTime?: string;
+  /** Output only. The summary of the last policy application when the job has run. */
+  bindingEvaluationSummary?: BindingEvaluationSummary;
 }
 export const AppliedAutoProtectionPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(AppliedAutoProtectionPolicyStatusEnum),
-    createTime: S.optional(S.String),
     criteria: S.optional(Criteria),
     updateTime: S.optional(S.String),
     name: S.optional(S.String),
     sourceBinding: S.optional(S.String),
-    bindingEvaluationSummary: S.optional(BindingEvaluationSummary),
     backupPlanDetails: S.optional(BackupPlanDetailList),
+    createTime: S.optional(S.String),
+    bindingEvaluationSummary: S.optional(BindingEvaluationSummary),
   }),
 ).annotate({
   identifier: "AppliedAutoProtectionPolicy",
@@ -4063,42 +4063,42 @@ export const AppliedAutoProtectionPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListAppliedAutoProtectionPolicies. */
 export interface ListAppliedAutoProtectionPoliciesResponse {
-  /** A list of the AppliedAutoProtectionPolicy resources found. */
-  appliedAutoProtectionPolicies?: AppliedAutoProtectionPolicyList;
-  /** A token that can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token that can be sent as `page_token` to retrieve the next page. */
+  nextPageToken?: string;
+  /** A list of the AppliedAutoProtectionPolicy resources found. */
+  appliedAutoProtectionPolicies?: AppliedAutoProtectionPolicyList;
 }
 export const ListAppliedAutoProtectionPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appliedAutoProtectionPolicies: S.optional(AppliedAutoProtectionPolicyList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+    appliedAutoProtectionPolicies: S.optional(AppliedAutoProtectionPolicyList),
   }),
 ).annotate({
   identifier: "ListAppliedAutoProtectionPoliciesResponse",
 }) as any as S.Schema<ListAppliedAutoProtectionPoliciesResponse>;
 
 export interface ListProjectsLocationsAutoProtectionPoliciesRequest {
-  /** Optional. An expression that sorts the results in the response. The following fields are sortable: */
-  orderBy?: string;
-  /** Optional. A page token, received from a previous `ListAutoProtectionPolicies` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-  /** Optional. The maximum number of policies to return in a single page. If unspecified, a server-default value will be used. */
-  pageSize?: number;
-  /** Optional. A filter expression that filters resources listed in the response. The following fields are filterable: */
-  filter?: string;
   /** Required. The project and location for which to retrieve the list of policies. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. A page token, received from a previous `ListAutoProtectionPolicies` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Optional. An expression that sorts the results in the response. The following fields are sortable: */
+  orderBy?: string;
+  /** Optional. A filter expression that filters resources listed in the response. The following fields are filterable: */
+  filter?: string;
+  /** Optional. The maximum number of policies to return in a single page. If unspecified, a server-default value will be used. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsAutoProtectionPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4117,43 +4117,43 @@ export const AutoProtectionPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListAutoProtectionPolicies. */
 export interface ListAutoProtectionPoliciesResponse {
-  /** A list of the AutoProtectionPolicy resources found. */
-  autoProtectionPolicies?: AutoProtectionPolicyList;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** A list of the AutoProtectionPolicy resources found. */
+  autoProtectionPolicies?: AutoProtectionPolicyList;
 }
 export const ListAutoProtectionPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    autoProtectionPolicies: S.optional(AutoProtectionPolicyList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+    autoProtectionPolicies: S.optional(AutoProtectionPolicyList),
   }),
 ).annotate({
   identifier: "ListAutoProtectionPoliciesResponse",
 }) as any as S.Schema<ListAutoProtectionPoliciesResponse>;
 
 export interface ListProjectsLocationsAutoProtectionPoliciesBindingsRequest {
-  /** Optional. An expression that sorts the results in the response. The following fields are sortable: */
-  orderBy?: string;
+  /** Required. The project and location for which to retrieve the list of policies. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Optional. A page token, received from a previous `ListAutoProtectionPolicies` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
   /** Optional. The maximum number of policies to return in a single page. If unspecified, a server-default value will be used. */
   pageSize?: number;
   /** Optional. A filter expression that filters resources listed in the response. The following fields are filterable: */
   filter?: string;
-  /** Required. The project and location for which to retrieve the list of policies. Format: projects/{project}/locations/{location} */
-  parent: string;
+  /** Optional. An expression that sorts the results in the response. The following fields are sortable: */
+  orderBy?: string;
 }
 export const ListProjectsLocationsAutoProtectionPoliciesBindingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4172,43 +4172,43 @@ export const AutoProtectionPolicyBindingList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListAutoProtectionPolicyBindings. */
 export interface ListAutoProtectionPolicyBindingsResponse {
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** A list of the AutoProtectionPolicyBindings resources found. */
   autoProtectionPolicyBindings?: AutoProtectionPolicyBindingList;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
 }
 export const ListAutoProtectionPolicyBindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     autoProtectionPolicyBindings: S.optional(AutoProtectionPolicyBindingList),
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListAutoProtectionPolicyBindingsResponse",
 }) as any as S.Schema<ListAutoProtectionPolicyBindingsResponse>;
 
 export interface ListProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest {
-  /** Optional. Field by which to sort the results. */
-  orderBy?: string;
-  /** Optional. The maximum number of `BindingMatchingResources` to return in a single response. The default page size is 100 and maximum page size is 200. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
   /** Optional. Field match expression used to filter the results. */
   filter?: string;
-  /** Optional. The value of next_page_token received from a previous `ListBindingMatchingResources` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBindingMatchingResources` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The project, location, auto protection policy and binding for which to retrieve `BindingMatchingResources` information. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
+  /** Optional. The value of next_page_token received from a previous `ListBindingMatchingResources` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBindingMatchingResources` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of `BindingMatchingResources` to return in a single response. The default page size is 100 and maximum page size is 200. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
+  pageSize?: number;
+  /** Optional. Field by which to sort the results. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4227,15 +4227,15 @@ export const BindingMatchingResourceList = /*@__PURE__*/ S.Array(
 
 /** The response message for getting a list of `BindingMatchingResources`. */
 export interface ListBindingMatchingResourcesResponse {
-  /** A token which may be sent as page_token in a subsequent `ListBindingMatchingResources` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
-  nextPageToken?: string;
   /** The list of `BindingMatchingResources` in the project,location for the specified binding. */
   matchingResources?: BindingMatchingResourceList;
+  /** A token which may be sent as page_token in a subsequent `ListBindingMatchingResources` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
+  nextPageToken?: string;
 }
 export const ListBindingMatchingResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     matchingResources: S.optional(BindingMatchingResourceList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListBindingMatchingResourcesResponse",
@@ -4244,19 +4244,19 @@ export const ListBindingMatchingResourcesResponse = /*@__PURE__*/ S.suspend(() =
 export interface ListProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Required. The project and location for which to retrieve backup Plan Associations information, in the format `projects/{project_id}/locations/{location}`. In Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backup plan associations for all locations, use "-" for the `{location}` value. */
-  parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. Filtering results */
   filter?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. The project and location for which to retrieve backup Plan Associations information, in the format `projects/{project_id}/locations/{location}`. In Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backup plan associations for all locations, use "-" for the `{location}` value. */
+  parent: string;
 }
 export const ListProjectsLocationsBackupPlanAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4270,17 +4270,17 @@ export const ListProjectsLocationsBackupPlanAssociationsRequest = /*@__PURE__*/ 
 
 /** Response message for List BackupPlanAssociation */
 export interface ListBackupPlanAssociationsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of Backup Plan Associations in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup plan associations in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
   backupPlanAssociations?: BackupPlanAssociationList;
 }
 export const ListBackupPlanAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
     backupPlanAssociations: S.optional(BackupPlanAssociationList),
   }),
 ).annotate({
@@ -4288,23 +4288,23 @@ export const ListBackupPlanAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBackupPlanAssociationsResponse>;
 
 export interface ListProjectsLocationsBackupPlansRequest {
-  /** Optional. Field match expression used to filter the results. */
-  filter?: string;
-  /** Optional. The maximum number of `BackupPlans` to return in a single response. If not specified, a default value will be chosen by the service. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
   /** Required. The project and location for which to retrieve `BackupPlans` information. Format: `projects/{project}/locations/{location}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for e.g. **us-central1**. To retrieve backup plans for all locations, use "-" for the `{location}` value. */
   parent: string;
   /** Optional. The value of next_page_token received from a previous `ListBackupPlans` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBackupPlans` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The maximum number of `BackupPlans` to return in a single response. If not specified, a default value will be chosen by the service. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
+  pageSize?: number;
+  /** Optional. Field match expression used to filter the results. */
+  filter?: string;
   /** Optional. Field by which to sort the results. */
   orderBy?: string;
 }
 export const ListProjectsLocationsBackupPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4322,34 +4322,34 @@ export const BackupPlanList = /*@__PURE__*/ S.Array(BackupPlan) as any as S.Sche
 
 /** The response message for getting a list of `BackupPlan`. */
 export interface ListBackupPlansResponse {
+  /** The list of `BackupPlans` in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of resources from all locations. In case any location is unreachable, the response will only return backup plans in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. BackupPlan */
+  backupPlans?: BackupPlanList;
   /** A token which may be sent as page_token in a subsequent `ListBackupPlans` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The list of `BackupPlans` in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of resources from all locations. In case any location is unreachable, the response will only return backup plans in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. BackupPlan */
-  backupPlans?: BackupPlanList;
 }
 export const ListBackupPlansResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    backupPlans: S.optional(BackupPlanList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    backupPlans: S.optional(BackupPlanList),
   }),
 ).annotate({ identifier: "ListBackupPlansResponse" }) as any as S.Schema<ListBackupPlansResponse>;
 
 export interface ListProjectsLocationsBackupPlansRevisionsRequest {
-  /** Optional. The value of next_page_token received from a previous `ListBackupPlans` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBackupPlans` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The maximum number of `BackupPlans` to return in a single response. If not specified, a default value will be chosen by the service. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
   /** Required. The project and location for which to retrieve `BackupPlanRevisions` information. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for e.g. **us-central1**. */
   parent: string;
+  /** Optional. The maximum number of `BackupPlans` to return in a single response. If not specified, a default value will be chosen by the service. Note that the response may include a partial list and a caller should only rely on the response's next_page_token to determine if there are more instances left to be queried. */
+  pageSize?: number;
+  /** Optional. The value of next_page_token received from a previous `ListBackupPlans` call. Provide this to retrieve the subsequent page in a multi-page list of results. When paginating, all other parameters provided to `ListBackupPlans` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsBackupPlansRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4368,18 +4368,18 @@ export const BackupPlanRevisionList = /*@__PURE__*/ S.Array(
 
 /** The response message for getting a list of `BackupPlanRevision`. */
 export interface ListBackupPlanRevisionsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** A token which may be sent as page_token in a subsequent `ListBackupPlanRevisions` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
   nextPageToken?: string;
   /** The list of `BackupPlanRevisions` in the project for the specified location. If the `{location}` value in the request is "-", the response contains a list of resources from all locations. In case any location is unreachable, the response will only return backup plans in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
   backupPlanRevisions?: BackupPlanRevisionList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListBackupPlanRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     backupPlanRevisions: S.optional(BackupPlanRevisionList),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListBackupPlanRevisionsResponse",
@@ -4392,27 +4392,27 @@ export type ListProjectsLocationsBackupVaultsViewEnum =
 export const ListProjectsLocationsBackupVaultsViewEnum = S.String;
 
 export interface ListProjectsLocationsBackupVaultsRequest {
-  /** Optional. Filtering results. */
-  filter?: string;
   /** Required. The project and location for which to retrieve backupvault stores information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backupvault stores for all locations, use "-" for the '{location}' value. */
   parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  /** Optional. Filtering results. */
+  filter?: string;
   /** Optional. Reserved for future use to provide a BASIC & FULL view of Backup Vault. */
   view?: ListProjectsLocationsBackupVaultsViewEnum | (string & {});
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     view: S.optional(ListProjectsLocationsBackupVaultsViewEnum.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4428,38 +4428,38 @@ export const ListProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(
 export interface ListBackupVaultsResponse {
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
-  /** The list of BackupVault instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup vaults in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  backupVaults?: BackupVaultList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of BackupVault instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup vaults in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
+  backupVaults?: BackupVaultList;
 }
 export const ListBackupVaultsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    backupVaults: S.optional(BackupVaultList),
     unreachable: S.optional(StringList),
+    backupVaults: S.optional(BackupVaultList),
   }),
 ).annotate({ identifier: "ListBackupVaultsResponse" }) as any as S.Schema<ListBackupVaultsResponse>;
 
 export interface ListProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Required. The project and location for which to retrieve data sources information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
+  /** Required. The project and location for which to retrieve data sources information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
+  parent: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Filtering results. */
+  filter?: string;
 }
 export const ListProjectsLocationsBackupVaultsDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4476,17 +4476,17 @@ export const DataSourceList = /*@__PURE__*/ S.Array(DataSource) as any as S.Sche
 
 /** Response message for listing DataSources. */
 export interface ListDataSourcesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of DataSource instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return data sources in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
   dataSources?: DataSourceList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListDataSourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     dataSources: S.optional(DataSourceList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListDataSourcesResponse" }) as any as S.Schema<ListDataSourcesResponse>;
@@ -4498,28 +4498,28 @@ export type ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum =
 export const ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum = S.String;
 
 export interface ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Required. The project and location for which to retrieve backup information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
-  parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. Filtering results. */
   filter?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
   /** Optional. Reserved for future use to provide a BASIC & FULL view of Backup resource. */
   view?: ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum | (string & {});
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. The project and location for which to retrieve backup information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
+  parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       view: S.optional(ListProjectsLocationsBackupVaultsDataSourcesBackupsViewEnum.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4535,38 +4535,38 @@ export const ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest = /*@__P
 export interface ListBackupsResponse {
   /** The list of Backup instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return data sources in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
   backups?: BackupList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backups: S.optional(BackupList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
 
 export interface ListProjectsLocationsDataSourceReferencesRequest {
-  /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * data_source * data_source_gcp_resource_info.gcp_resourcename */
-  orderBy?: string;
-  /** Optional. A filter expression that filters the results listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The following field and operator combinations are supported: * data_source_gcp_resource_info.gcp_resourcename with `=`, `!=` * data_source_gcp_resource_info.type with `=`, `!=` */
-  filter?: string;
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Optional. A page token, received from a previous `ListDataSourceReferences` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSourceReferences` must match the call that provided the page token. */
-  pageToken?: string;
+  /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * data_source * data_source_gcp_resource_info.gcp_resourcename */
+  orderBy?: string;
   /** Optional. The maximum number of DataSourceReferences to return. The service may return fewer than this value. If unspecified, at most 50 DataSourceReferences will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
+  /** Optional. A filter expression that filters the results listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The following field and operator combinations are supported: * data_source_gcp_resource_info.gcp_resourcename with `=`, `!=` * data_source_gcp_resource_info.type with `=`, `!=` */
+  filter?: string;
+  /** Optional. A page token, received from a previous `ListDataSourceReferences` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSourceReferences` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsDataSourceReferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4580,42 +4580,42 @@ export const ListProjectsLocationsDataSourceReferencesRequest = /*@__PURE__*/ S.
 
 /** Response for the ListDataSourceReferences method. */
 export interface ListDataSourceReferencesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** The DataSourceReferences from the specified parent. */
-  dataSourceReferences?: DataSourceReferenceList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The DataSourceReferences from the specified parent. */
+  dataSourceReferences?: DataSourceReferenceList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListDataSourceReferencesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    dataSourceReferences: S.optional(DataSourceReferenceList),
     nextPageToken: S.optional(S.String),
+    dataSourceReferences: S.optional(DataSourceReferenceList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListDataSourceReferencesResponse",
 }) as any as S.Schema<ListDataSourceReferencesResponse>;
 
 export interface ListProjectsLocationsManagementServersRequest {
-  /** Optional. Filtering results. */
-  filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Required. The project and location for which to retrieve management servers information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve management servers for all locations, use "-" for the '{location}' value. */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsManagementServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4634,17 +4634,17 @@ export const ManagementServerList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing management servers. */
 export interface ListManagementServersResponse {
-  /** The list of ManagementServer instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return management servers in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
-  managementServers?: ManagementServerList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of ManagementServer instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return management servers in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
+  managementServers?: ManagementServerList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
 }
 export const ListManagementServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    managementServers: S.optional(ManagementServerList),
     unreachable: S.optional(StringList),
+    managementServers: S.optional(ManagementServerList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -4654,22 +4654,22 @@ export const ListManagementServersResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string;
-  /** The standard list page token. */
-  pageToken?: string;
   /** The standard list page size. */
   pageSize?: number;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4686,40 +4686,40 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsResourceBackupConfigsRequest {
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Required. The project and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will use 100 as default. Maximum value is 500 and values above 500 will be coerced to 500. */
   pageSize?: number;
   /** Optional. Filtering results. */
   filter?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
-  /** Required. The project and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
 }
 export const ListProjectsLocationsResourceBackupConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4839,20 +4839,20 @@ export const PatchProjectsLocationsBackupPlanAssociationsRequest = /*@__PURE__*/
 }) as any as S.Schema<PatchProjectsLocationsBackupPlanAssociationsRequest>;
 
 export interface PatchProjectsLocationsBackupPlansRequest {
-  /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
-  name: string;
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlan resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently, these fields are supported in update: description, schedules, retention period, adding and removing Backup Rules. */
   updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
+  name: string;
   /** Request body */
   body?: BackupPlan;
 }
 export const PatchProjectsLocationsBackupPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(BackupPlan.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1beta/{+name}", baseUrl: "https://backupdr.googleapis.com/" }),
@@ -4862,16 +4862,16 @@ export const PatchProjectsLocationsBackupPlansRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsBackupPlansRequest>;
 
 export interface PatchProjectsLocationsBackupVaultsRequest {
-  /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
-  name: string;
-  /** Optional. If set to true, we will force update access restriction even if some non compliant data sources are present. The default is 'false'. */
-  forceUpdateAccessRestriction?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to true, we will force update access restriction even if some non compliant data sources are present. The default is 'false'. */
+  forceUpdateAccessRestriction?: boolean;
   /** Optional. If set to true, will not check plan duration against backup vault enforcement duration. */
   force?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten in the BackupVault resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
   updateMask?: string;
+  /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
+  name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
   validateOnly?: boolean;
   /** Request body */
@@ -4879,11 +4879,11 @@ export interface PatchProjectsLocationsBackupVaultsRequest {
 }
 export const PatchProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    forceUpdateAccessRestriction: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    forceUpdateAccessRestriction: S.optional(S.Boolean.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(BackupVault.pipe(T.HttpBody())),
   }).pipe(
@@ -4894,12 +4894,12 @@ export const PatchProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<PatchProjectsLocationsBackupVaultsRequest>;
 
 export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
-  name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the DataSource resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
   updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
+  name: string;
   /** Optional. Enable upsert. */
   allowMissing?: boolean;
   /** Request body */
@@ -4907,9 +4907,9 @@ export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
 }
 export const PatchProjectsLocationsBackupVaultsDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(DataSource.pipe(T.HttpBody())),
   }).pipe(
@@ -4920,21 +4920,21 @@ export const PatchProjectsLocationsBackupVaultsDataSourcesRequest = /*@__PURE__*
 }) as any as S.Schema<PatchProjectsLocationsBackupVaultsDataSourcesRequest>;
 
 export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
-  updateMask?: string;
   /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
+  updateMask?: string;
   /** Request body */
   body?: Backup;
 }
 export const PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Backup.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4979,22 +4979,195 @@ export const RemoveProjectsLocationsBackupVaultsDataSourcesRequest = /*@__PURE__
   identifier: "RemoveProjectsLocationsBackupVaultsDataSourcesRequest",
 }) as any as S.Schema<RemoveProjectsLocationsBackupVaultsDataSourcesRequest>;
 
-/** DiskTargetEnvironment represents the target environment for the disk. */
-export interface DiskTargetEnvironment {
+export type DiskRestorePropertiesArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86_64" | "ARM64";
+export const DiskRestorePropertiesArchitectureEnum = S.String;
+
+export type DiskRestorePropertiesAccessModeEnum =
+  | "READ_WRITE_SINGLE"
+  | "READ_WRITE_MANY"
+  | "READ_ONLY_MANY";
+export const DiskRestorePropertiesAccessModeEnum = S.String;
+
+/** Options for creating a disk from a source Compute Instance backup. */
+export interface RestoreDiskFromInstanceOptions {
+  /** The device name of the disk to restore from the VM backup. */
+  sourceDeviceName?: string;
+  /** Set to true to restore the boot disk from the instance backup. This field should only be set to true if selected. */
+  bootDisk?: boolean;
+}
+export const RestoreDiskFromInstanceOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceDeviceName: S.optional(S.String),
+    bootDisk: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "RestoreDiskFromInstanceOptions",
+}) as any as S.Schema<RestoreDiskFromInstanceOptions>;
+
+/** DiskRestoreProperties represents the properties of a Disk restore. */
+export interface DiskRestoreProperties {
+  /** Required. The size of the disk in GB. */
+  sizeGb?: string;
+  /** Optional. The architecture of the source disk. Valid values are ARM64 or X86_64. */
+  architecture?: DiskRestorePropertiesArchitectureEnum | (string & {});
+  /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. */
+  provisionedIops?: string;
+  /** Optional. Indicates whether this disk is using confidential compute mode. Encryption with a Cloud KMS key is required to enable this option. */
+  enableConfidentialCompute?: boolean;
+  /** Required. Name of the disk. */
+  name?: string;
+  /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput MB per second that the disk can handle. */
+  provisionedThroughput?: string;
+  /** Optional. The access mode of the disk. */
+  accessMode?: DiskRestorePropertiesAccessModeEnum | (string & {});
+  /** Optional. A list of features to enable in the guest operating system. This is applicable only for bootable images. */
+  guestOsFeature?: GuestOsFeatureList;
+  /** Required. URL of the disk type resource describing which disk type to use to create the disk. */
+  type?: string;
+  /** Optional. Resource policies applied to this disk. */
+  resourcePolicy?: StringList;
+  /** Optional. Labels to apply to this disk. These can be modified later using setLabels method. Label values can be empty. */
+  labels?: StringMap;
+  /** Optional. An optional description of this resource. Provide this property when you create the resource. */
+  description?: string;
+  /** Optional. The storage pool in which the new disk is created. You can provide this as a partial or full URL to the resource. */
+  storagePool?: string;
+  /** Optional. A list of publicly available licenses that are applicable to this backup. This is applicable if the original image had licenses attached, e.g. Windows image */
+  licenses?: StringList;
+  /** Options for creating a disk from a source Compute Instance backup. */
+  instanceBackupSource?: RestoreDiskFromInstanceOptions;
+  /** Optional. Resource manager tags to be bound to the disk. */
+  resourceManagerTags?: StringMap;
+  /** Optional. Encrypts the disk using a customer-supplied encryption key or a customer-managed encryption key. */
+  diskEncryptionKey?: CustomerEncryptionKey;
+  /** Optional. Physical block size of the persistent disk, in bytes. If not present in a request, a default value is used. Currently, the supported size is 4096. */
+  physicalBlockSizeBytes?: string;
+}
+export const DiskRestoreProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sizeGb: S.optional(S.String),
+    architecture: S.optional(DiskRestorePropertiesArchitectureEnum),
+    provisionedIops: S.optional(S.String),
+    enableConfidentialCompute: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    provisionedThroughput: S.optional(S.String),
+    accessMode: S.optional(DiskRestorePropertiesAccessModeEnum),
+    guestOsFeature: S.optional(GuestOsFeatureList),
+    type: S.optional(S.String),
+    resourcePolicy: S.optional(StringList),
+    labels: S.optional(StringMap),
+    description: S.optional(S.String),
+    storagePool: S.optional(S.String),
+    licenses: S.optional(StringList),
+    instanceBackupSource: S.optional(RestoreDiskFromInstanceOptions),
+    resourceManagerTags: S.optional(StringMap),
+    diskEncryptionKey: S.optional(CustomerEncryptionKey),
+    physicalBlockSizeBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiskRestoreProperties" }) as any as S.Schema<DiskRestoreProperties>;
+
+/** RegionDiskTargetEnvironment represents the target environment for the disk. */
+export interface RegionDiskTargetEnvironment {
   /** Optional. Whether to use the project service account for the disk restore. */
   useProjectServiceAccount?: boolean;
   /** Required. Target project for the disk. */
   project?: string;
-  /** Required. Target zone for the disk. */
-  zone?: string;
+  /** Required. Target URLs of the replica zones for the disk. */
+  replicaZones?: StringList;
+  /** Required. Target region for the disk. */
+  region?: string;
 }
-export const DiskTargetEnvironment = /*@__PURE__*/ S.suspend(() =>
+export const RegionDiskTargetEnvironment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     useProjectServiceAccount: S.optional(S.Boolean),
     project: S.optional(S.String),
-    zone: S.optional(S.String),
+    replicaZones: S.optional(StringList),
+    region: S.optional(S.String),
   }),
-).annotate({ identifier: "DiskTargetEnvironment" }) as any as S.Schema<DiskTargetEnvironment>;
+).annotate({
+  identifier: "RegionDiskTargetEnvironment",
+}) as any as S.Schema<RegionDiskTargetEnvironment>;
+
+export type ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum =
+  | "INSTANCE_PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
+  | "INHERIT_FROM_SUBNETWORK"
+  | "ENABLE_OUTBOUND_VM_ACCESS_TO_GOOGLE"
+  | "ENABLE_BIDIRECTIONAL_ACCESS_TO_GOOGLE";
+export const ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum = S.String;
+
+export type ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum =
+  | "KEY_REVOCATION_ACTION_TYPE_UNSPECIFIED"
+  | "NONE"
+  | "STOP";
+export const ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum = S.String;
+
+export type AllocationAffinityConsumeReservationTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "NO_RESERVATION"
+  | "ANY_RESERVATION"
+  | "SPECIFIC_RESERVATION";
+export const AllocationAffinityConsumeReservationTypeEnum = S.String;
+
+/** Specifies the reservations that this instance can consume from. */
+export interface AllocationAffinity {
+  /** Optional. Specifies the type of reservation from which this instance can consume */
+  consumeReservationType?: AllocationAffinityConsumeReservationTypeEnum | (string & {});
+  /** Optional. Corresponds to the label values of a reservation resource. */
+  values?: StringList;
+  /** Optional. Corresponds to the label key of a reservation resource. */
+  key?: string;
+}
+export const AllocationAffinity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    consumeReservationType: S.optional(AllocationAffinityConsumeReservationTypeEnum),
+    values: S.optional(StringList),
+    key: S.optional(S.String),
+  }),
+).annotate({ identifier: "AllocationAffinity" }) as any as S.Schema<AllocationAffinity>;
+
+/** A set of Confidential Instance options. */
+export interface ConfidentialInstanceConfig {
+  /** Optional. Defines whether the instance should have confidential compute enabled. */
+  enableConfidentialCompute?: boolean;
+}
+export const ConfidentialInstanceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enableConfidentialCompute: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ConfidentialInstanceConfig",
+}) as any as S.Schema<ConfidentialInstanceConfig>;
+
+/** Specifies options for controlling advanced machine features. */
+export interface AdvancedMachineFeatures {
+  /** Optional. Whether to enable nested virtualization or not (default is false). */
+  enableNestedVirtualization?: boolean;
+  /** Optional. The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed. */
+  threadsPerCore?: number;
+  /** Optional. The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance's nominal CPU count and the underlying platform's SMT width. */
+  visibleCoreCount?: number;
+  /** Optional. Whether to enable UEFI networking for instance creation. */
+  enableUefiNetworking?: boolean;
+}
+export const AdvancedMachineFeatures = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enableNestedVirtualization: S.optional(S.Boolean),
+    threadsPerCore: S.optional(S.Number),
+    visibleCoreCount: S.optional(S.Number),
+    enableUefiNetworking: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AdvancedMachineFeatures" }) as any as S.Schema<AdvancedMachineFeatures>;
+
+/** A set of Display Device options */
+export interface DisplayDevice {
+  /** Optional. Enables display for the Compute Engine VM */
+  enableDisplay?: boolean;
+}
+export const DisplayDevice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enableDisplay: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DisplayDevice" }) as any as S.Schema<DisplayDevice>;
 
 export type NetworkPerformanceConfigTotalEgressBandwidthTierEnum =
   | "TIER_UNSPECIFIED"
@@ -5013,44 +5186,6 @@ export const NetworkPerformanceConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "NetworkPerformanceConfig" }) as any as S.Schema<NetworkPerformanceConfig>;
 
-export type ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum =
-  | "INSTANCE_PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
-  | "INHERIT_FROM_SUBNETWORK"
-  | "ENABLE_OUTBOUND_VM_ACCESS_TO_GOOGLE"
-  | "ENABLE_BIDIRECTIONAL_ACCESS_TO_GOOGLE";
-export const ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum = S.String;
-
-/** Specifies options for controlling advanced machine features. */
-export interface AdvancedMachineFeatures {
-  /** Optional. Whether to enable nested virtualization or not (default is false). */
-  enableNestedVirtualization?: boolean;
-  /** Optional. Whether to enable UEFI networking for instance creation. */
-  enableUefiNetworking?: boolean;
-  /** Optional. The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed. */
-  threadsPerCore?: number;
-  /** Optional. The number of physical cores to expose to an instance. Multiply by the number of threads per core to compute the total number of virtual CPUs to expose to the instance. If unset, the number of cores is inferred from the instance's nominal CPU count and the underlying platform's SMT width. */
-  visibleCoreCount?: number;
-}
-export const AdvancedMachineFeatures = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableNestedVirtualization: S.optional(S.Boolean),
-    enableUefiNetworking: S.optional(S.Boolean),
-    threadsPerCore: S.optional(S.Number),
-    visibleCoreCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AdvancedMachineFeatures" }) as any as S.Schema<AdvancedMachineFeatures>;
-
-/** A set of Display Device options */
-export interface DisplayDevice {
-  /** Optional. Enables display for the Compute Engine VM */
-  enableDisplay?: boolean;
-}
-export const DisplayDevice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableDisplay: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DisplayDevice" }) as any as S.Schema<DisplayDevice>;
-
 /** Additional instance params. */
 export interface InstanceParams {
   /** Optional. Resource manager tags to be bound to the instance. */
@@ -5062,296 +5197,161 @@ export const InstanceParams = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "InstanceParams" }) as any as S.Schema<InstanceParams>;
 
-export type ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum =
-  | "KEY_REVOCATION_ACTION_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "STOP";
-export const ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum = S.String;
-
-/** A set of Confidential Instance options. */
-export interface ConfidentialInstanceConfig {
-  /** Optional. Defines whether the instance should have confidential compute enabled. */
-  enableConfidentialCompute?: boolean;
-}
-export const ConfidentialInstanceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableConfidentialCompute: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ConfidentialInstanceConfig",
-}) as any as S.Schema<ConfidentialInstanceConfig>;
-
-export type AllocationAffinityConsumeReservationTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "NO_RESERVATION"
-  | "ANY_RESERVATION"
-  | "SPECIFIC_RESERVATION";
-export const AllocationAffinityConsumeReservationTypeEnum = S.String;
-
-/** Specifies the reservations that this instance can consume from. */
-export interface AllocationAffinity {
-  /** Optional. Corresponds to the label values of a reservation resource. */
-  values?: StringList;
-  /** Optional. Corresponds to the label key of a reservation resource. */
-  key?: string;
-  /** Optional. Specifies the type of reservation from which this instance can consume */
-  consumeReservationType?: AllocationAffinityConsumeReservationTypeEnum | (string & {});
-}
-export const AllocationAffinity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    values: S.optional(StringList),
-    key: S.optional(S.String),
-    consumeReservationType: S.optional(AllocationAffinityConsumeReservationTypeEnum),
-  }),
-).annotate({ identifier: "AllocationAffinity" }) as any as S.Schema<AllocationAffinity>;
-
 /** ComputeInstanceRestoreProperties represents Compute Engine instance properties to be overridden during restore. */
 export interface ComputeInstanceRestoreProperties {
-  /** Optional. Specifies the hostname of the instance. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[PROJECT_ID].internal when using zonal DNS. */
-  hostname?: string;
-  /** Optional. A list of the type and count of accelerator cards attached to the instance. */
-  guestAccelerators?: AcceleratorConfigList;
-  /** Optional. An array of network configurations for this instance. These specify how interfaces are configured to interact with other network services, such as connecting to the internet. Multiple interfaces are supported per instance. Required to restore in different project or region. */
-  networkInterfaces?: NetworkInterfaceList;
-  /** Optional. This includes custom metadata and predefined keys. */
-  metadata?: Metadata;
-  /** Optional. Configure network performance such as egress bandwidth tier. */
-  networkPerformanceConfig?: NetworkPerformanceConfig;
+  /** Optional. Labels to apply to this instance. */
+  labels?: StringMap;
+  /** Optional. Array of disks associated with this instance. Persistent disks must be created before you can assign them. Source regional persistent disks will be restored with default replica zones if not specified. */
+  disks?: AttachedDiskList;
   /** Optional. The private IPv6 google access type for the VM. If not specified, use INHERIT_FROM_SUBNETWORK as default. */
   privateIpv6GoogleAccess?:
     | ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum
     | (string & {});
+  /** Optional. A list of the type and count of accelerator cards attached to the instance. */
+  guestAccelerators?: AcceleratorConfigList;
   /** Optional. Allows this instance to send and receive packets with non-matching destination or source IPs. */
   canIpForward?: boolean;
-  /** Optional. Controls for advanced machine-related behavior features. */
-  advancedMachineFeatures?: AdvancedMachineFeatures;
-  /** Optional. A list of service accounts, with their specified scopes, authorized for this instance. Only one service account per VM instance is supported. */
-  serviceAccounts?: ServiceAccountList;
-  /** Optional. Enables display device for the instance. */
-  displayDevice?: DisplayDevice;
-  /** Optional. Tags to apply to this instance. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during instance creation. */
-  tags?: Tags;
-  /** Optional. Labels to apply to this instance. */
-  labels?: StringMap;
-  /** Optional. Whether the resource should be protected against deletion. */
-  deletionProtection?: boolean;
-  /** Input only. Additional params passed with the request, but not persisted as part of resource payload. */
-  params?: InstanceParams;
-  /** Required. Name of the compute instance. */
-  name?: string;
-  /** Optional. An optional description of this resource. Provide this property when you create the resource. */
-  description?: string;
-  /** Optional. Array of disks associated with this instance. Persistent disks must be created before you can assign them. Source regional persistent disks will be restored with default replica zones if not specified. */
-  disks?: AttachedDiskList;
-  /** Optional. Encrypts suspended data for an instance with a customer-managed encryption key. */
-  instanceEncryptionKey?: CustomerEncryptionKey;
   /** Optional. KeyRevocationActionType of the instance. */
   keyRevocationActionType?:
     | ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum
     | (string & {});
-  /** Optional. Controls Confidential compute options on the instance */
-  confidentialInstanceConfig?: ConfidentialInstanceConfig;
-  /** Optional. Specifies the reservations that this instance can consume from. */
-  reservationAffinity?: AllocationAffinity;
-  /** Optional. Sets the scheduling options for this instance. */
-  scheduling?: Scheduling;
+  /** Optional. An array of network configurations for this instance. These specify how interfaces are configured to interact with other network services, such as connecting to the internet. Multiple interfaces are supported per instance. Required to restore in different project or region. */
+  networkInterfaces?: NetworkInterfaceList;
   /** Optional. Full or partial URL of the machine type resource to use for this instance. */
   machineType?: string;
+  /** Optional. Sets the scheduling options for this instance. */
+  scheduling?: Scheduling;
+  /** Optional. Tags to apply to this instance. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during instance creation. */
+  tags?: Tags;
+  /** Optional. Specifies the reservations that this instance can consume from. */
+  reservationAffinity?: AllocationAffinity;
+  /** Optional. Encrypts suspended data for an instance with a customer-managed encryption key. */
+  instanceEncryptionKey?: CustomerEncryptionKey;
+  /** Optional. Controls Confidential compute options on the instance */
+  confidentialInstanceConfig?: ConfidentialInstanceConfig;
+  /** Optional. Specifies the hostname of the instance. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[PROJECT_ID].internal when using zonal DNS. */
+  hostname?: string;
   /** Optional. Resource policies applied to this instance. By default, no resource policies will be applied. */
   resourcePolicies?: StringList;
+  /** Optional. Controls for advanced machine-related behavior features. */
+  advancedMachineFeatures?: AdvancedMachineFeatures;
+  /** Optional. Enables display device for the instance. */
+  displayDevice?: DisplayDevice;
+  /** Optional. Whether the resource should be protected against deletion. */
+  deletionProtection?: boolean;
   /** Optional. Minimum CPU platform to use for this instance. */
   minCpuPlatform?: string;
+  /** Optional. Configure network performance such as egress bandwidth tier. */
+  networkPerformanceConfig?: NetworkPerformanceConfig;
+  /** Optional. This includes custom metadata and predefined keys. */
+  metadata?: Metadata;
+  /** Optional. An optional description of this resource. Provide this property when you create the resource. */
+  description?: string;
+  /** Input only. Additional params passed with the request, but not persisted as part of resource payload. */
+  params?: InstanceParams;
+  /** Optional. A list of service accounts, with their specified scopes, authorized for this instance. Only one service account per VM instance is supported. */
+  serviceAccounts?: ServiceAccountList;
+  /** Required. Name of the compute instance. */
+  name?: string;
 }
 export const ComputeInstanceRestoreProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hostname: S.optional(S.String),
-    guestAccelerators: S.optional(AcceleratorConfigList),
-    networkInterfaces: S.optional(NetworkInterfaceList),
-    metadata: S.optional(Metadata),
-    networkPerformanceConfig: S.optional(NetworkPerformanceConfig),
+    labels: S.optional(StringMap),
+    disks: S.optional(AttachedDiskList),
     privateIpv6GoogleAccess: S.optional(
       ComputeInstanceRestorePropertiesPrivateIpv6GoogleAccessEnum,
     ),
+    guestAccelerators: S.optional(AcceleratorConfigList),
     canIpForward: S.optional(S.Boolean),
-    advancedMachineFeatures: S.optional(AdvancedMachineFeatures),
-    serviceAccounts: S.optional(ServiceAccountList),
-    displayDevice: S.optional(DisplayDevice),
-    tags: S.optional(Tags),
-    labels: S.optional(StringMap),
-    deletionProtection: S.optional(S.Boolean),
-    params: S.optional(InstanceParams),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    disks: S.optional(AttachedDiskList),
-    instanceEncryptionKey: S.optional(CustomerEncryptionKey),
     keyRevocationActionType: S.optional(
       ComputeInstanceRestorePropertiesKeyRevocationActionTypeEnum,
     ),
-    confidentialInstanceConfig: S.optional(ConfidentialInstanceConfig),
-    reservationAffinity: S.optional(AllocationAffinity),
-    scheduling: S.optional(Scheduling),
+    networkInterfaces: S.optional(NetworkInterfaceList),
     machineType: S.optional(S.String),
+    scheduling: S.optional(Scheduling),
+    tags: S.optional(Tags),
+    reservationAffinity: S.optional(AllocationAffinity),
+    instanceEncryptionKey: S.optional(CustomerEncryptionKey),
+    confidentialInstanceConfig: S.optional(ConfidentialInstanceConfig),
+    hostname: S.optional(S.String),
     resourcePolicies: S.optional(StringList),
+    advancedMachineFeatures: S.optional(AdvancedMachineFeatures),
+    displayDevice: S.optional(DisplayDevice),
+    deletionProtection: S.optional(S.Boolean),
     minCpuPlatform: S.optional(S.String),
+    networkPerformanceConfig: S.optional(NetworkPerformanceConfig),
+    metadata: S.optional(Metadata),
+    description: S.optional(S.String),
+    params: S.optional(InstanceParams),
+    serviceAccounts: S.optional(ServiceAccountList),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ComputeInstanceRestoreProperties",
 }) as any as S.Schema<ComputeInstanceRestoreProperties>;
 
-export type DiskRestorePropertiesArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86_64" | "ARM64";
-export const DiskRestorePropertiesArchitectureEnum = S.String;
-
-export type DiskRestorePropertiesAccessModeEnum =
-  | "READ_WRITE_SINGLE"
-  | "READ_WRITE_MANY"
-  | "READ_ONLY_MANY";
-export const DiskRestorePropertiesAccessModeEnum = S.String;
-
-/** Options for creating a disk from a source Compute Instance backup. */
-export interface RestoreDiskFromInstanceOptions {
-  /** Set to true to restore the boot disk from the instance backup. This field should only be set to true if selected. */
-  bootDisk?: boolean;
-  /** The device name of the disk to restore from the VM backup. */
-  sourceDeviceName?: string;
-}
-export const RestoreDiskFromInstanceOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bootDisk: S.optional(S.Boolean),
-    sourceDeviceName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RestoreDiskFromInstanceOptions",
-}) as any as S.Schema<RestoreDiskFromInstanceOptions>;
-
-/** DiskRestoreProperties represents the properties of a Disk restore. */
-export interface DiskRestoreProperties {
-  /** Optional. The architecture of the source disk. Valid values are ARM64 or X86_64. */
-  architecture?: DiskRestorePropertiesArchitectureEnum | (string & {});
-  /** Optional. Resource manager tags to be bound to the disk. */
-  resourceManagerTags?: StringMap;
-  /** Required. The size of the disk in GB. */
-  sizeGb?: string;
-  /** Optional. An optional description of this resource. Provide this property when you create the resource. */
-  description?: string;
-  /** Optional. A list of publicly available licenses that are applicable to this backup. This is applicable if the original image had licenses attached, e.g. Windows image */
-  licenses?: StringList;
-  /** Optional. Resource policies applied to this disk. */
-  resourcePolicy?: StringList;
-  /** Optional. Labels to apply to this disk. These can be modified later using setLabels method. Label values can be empty. */
-  labels?: StringMap;
-  /** Optional. The access mode of the disk. */
-  accessMode?: DiskRestorePropertiesAccessModeEnum | (string & {});
-  /** Options for creating a disk from a source Compute Instance backup. */
-  instanceBackupSource?: RestoreDiskFromInstanceOptions;
-  /** Required. Name of the disk. */
-  name?: string;
-  /** Optional. The storage pool in which the new disk is created. You can provide this as a partial or full URL to the resource. */
-  storagePool?: string;
-  /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput MB per second that the disk can handle. */
-  provisionedThroughput?: string;
-  /** Optional. A list of features to enable in the guest operating system. This is applicable only for bootable images. */
-  guestOsFeature?: GuestOsFeatureList;
-  /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. */
-  provisionedIops?: string;
-  /** Optional. Physical block size of the persistent disk, in bytes. If not present in a request, a default value is used. Currently, the supported size is 4096. */
-  physicalBlockSizeBytes?: string;
-  /** Required. URL of the disk type resource describing which disk type to use to create the disk. */
-  type?: string;
-  /** Optional. Indicates whether this disk is using confidential compute mode. Encryption with a Cloud KMS key is required to enable this option. */
-  enableConfidentialCompute?: boolean;
-  /** Optional. Encrypts the disk using a customer-supplied encryption key or a customer-managed encryption key. */
-  diskEncryptionKey?: CustomerEncryptionKey;
-}
-export const DiskRestoreProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    architecture: S.optional(DiskRestorePropertiesArchitectureEnum),
-    resourceManagerTags: S.optional(StringMap),
-    sizeGb: S.optional(S.String),
-    description: S.optional(S.String),
-    licenses: S.optional(StringList),
-    resourcePolicy: S.optional(StringList),
-    labels: S.optional(StringMap),
-    accessMode: S.optional(DiskRestorePropertiesAccessModeEnum),
-    instanceBackupSource: S.optional(RestoreDiskFromInstanceOptions),
-    name: S.optional(S.String),
-    storagePool: S.optional(S.String),
-    provisionedThroughput: S.optional(S.String),
-    guestOsFeature: S.optional(GuestOsFeatureList),
-    provisionedIops: S.optional(S.String),
-    physicalBlockSizeBytes: S.optional(S.String),
-    type: S.optional(S.String),
-    enableConfidentialCompute: S.optional(S.Boolean),
-    diskEncryptionKey: S.optional(CustomerEncryptionKey),
-  }),
-).annotate({ identifier: "DiskRestoreProperties" }) as any as S.Schema<DiskRestoreProperties>;
-
-/** RegionDiskTargetEnvironment represents the target environment for the disk. */
-export interface RegionDiskTargetEnvironment {
-  /** Optional. Whether to use the project service account for the disk restore. */
-  useProjectServiceAccount?: boolean;
-  /** Required. Target region for the disk. */
-  region?: string;
-  /** Required. Target URLs of the replica zones for the disk. */
-  replicaZones?: StringList;
-  /** Required. Target project for the disk. */
-  project?: string;
-}
-export const RegionDiskTargetEnvironment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    useProjectServiceAccount: S.optional(S.Boolean),
-    region: S.optional(S.String),
-    replicaZones: S.optional(StringList),
-    project: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RegionDiskTargetEnvironment",
-}) as any as S.Schema<RegionDiskTargetEnvironment>;
-
 /** ComputeInstanceTargetEnvironment represents Compute Engine target environment to be used during restore. */
 export interface ComputeInstanceTargetEnvironment {
   /** Optional. Whether to use the project service account for the Compute Engine instance restore. */
   useProjectServiceAccount?: boolean;
-  /** Required. Target project for the Compute Engine instance. */
-  project?: string;
   /** Required. The zone of the Compute Engine instance. */
   zone?: string;
+  /** Required. Target project for the Compute Engine instance. */
+  project?: string;
 }
 export const ComputeInstanceTargetEnvironment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     useProjectServiceAccount: S.optional(S.Boolean),
-    project: S.optional(S.String),
     zone: S.optional(S.String),
+    project: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ComputeInstanceTargetEnvironment",
 }) as any as S.Schema<ComputeInstanceTargetEnvironment>;
 
+/** DiskTargetEnvironment represents the target environment for the disk. */
+export interface DiskTargetEnvironment {
+  /** Required. Target project for the disk. */
+  project?: string;
+  /** Optional. Whether to use the project service account for the disk restore. */
+  useProjectServiceAccount?: boolean;
+  /** Required. Target zone for the disk. */
+  zone?: string;
+}
+export const DiskTargetEnvironment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project: S.optional(S.String),
+    useProjectServiceAccount: S.optional(S.Boolean),
+    zone: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiskTargetEnvironment" }) as any as S.Schema<DiskTargetEnvironment>;
+
 /** Request message for restoring from a Backup. */
 export interface RestoreBackupRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Disk target environment to be used during restore. */
-  diskTargetEnvironment?: DiskTargetEnvironment;
-  /** Compute Engine instance properties to be overridden during restore. */
-  computeInstanceRestoreProperties?: ComputeInstanceRestoreProperties;
   /** Disk properties to be overridden during restore. */
   diskRestoreProperties?: DiskRestoreProperties;
   /** Region disk target environment to be used during restore. */
   regionDiskTargetEnvironment?: RegionDiskTargetEnvironment;
-  /** Optional. A field mask used to clear server-side default values for fields within the `instance_properties` oneof. When a field in this mask is cleared, the server will not apply its default logic (like inheriting a value from the source) for that field. The most common current use case is clearing default encryption keys. Examples of field mask paths: - Compute Instance Disks: `compute_instance_restore_properties.disks.*.disk_encryption_key` - Single Disk: `disk_restore_properties.disk_encryption_key` */
-  clearOverridesFieldMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Compute Engine instance properties to be overridden during restore. */
+  computeInstanceRestoreProperties?: ComputeInstanceRestoreProperties;
   /** Compute Engine target environment to be used during restore. */
   computeInstanceTargetEnvironment?: ComputeInstanceTargetEnvironment;
+  /** Optional. A field mask used to clear server-side default values for fields within the `instance_properties` oneof. When a field in this mask is cleared, the server will not apply its default logic (like inheriting a value from the source) for that field. The most common current use case is clearing default encryption keys. Examples of field mask paths: - Compute Instance Disks: `compute_instance_restore_properties.disks.*.disk_encryption_key` - Single Disk: `disk_restore_properties.disk_encryption_key` */
+  clearOverridesFieldMask?: string;
+  /** Disk target environment to be used during restore. */
+  diskTargetEnvironment?: DiskTargetEnvironment;
 }
 export const RestoreBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
-    diskTargetEnvironment: S.optional(DiskTargetEnvironment),
-    computeInstanceRestoreProperties: S.optional(ComputeInstanceRestoreProperties),
     diskRestoreProperties: S.optional(DiskRestoreProperties),
     regionDiskTargetEnvironment: S.optional(RegionDiskTargetEnvironment),
-    clearOverridesFieldMask: S.optional(S.String),
+    requestId: S.optional(S.String),
+    computeInstanceRestoreProperties: S.optional(ComputeInstanceRestoreProperties),
     computeInstanceTargetEnvironment: S.optional(ComputeInstanceTargetEnvironment),
+    clearOverridesFieldMask: S.optional(S.String),
+    diskTargetEnvironment: S.optional(DiskTargetEnvironment),
   }),
 ).annotate({ identifier: "RestoreBackupRequest" }) as any as S.Schema<RestoreBackupRequest>;
 
@@ -5553,10 +5553,10 @@ export const TestIamPermissionsProjectsLocationsManagementServersRequest = /*@__
 
 /** Request message for triggering a backup. */
 export interface TriggerBackupRequest {
-  /** Optional. backup rule_id for which a backup needs to be triggered. If not specified, on-demand backup with custom retention will be triggered. */
-  ruleId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. backup rule_id for which a backup needs to be triggered. If not specified, on-demand backup with custom retention will be triggered. */
+  ruleId?: string;
   /** Optional. Labels to be applied on the backup. */
   labels?: StringMap;
   /** Optional. The duration for which backup data will be kept, while taking an on-demand backup with custom retention. It is defined in "days". It is mutually exclusive with rule_id. This field is required if rule_id is not provided. */
@@ -5564,8 +5564,8 @@ export interface TriggerBackupRequest {
 }
 export const TriggerBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ruleId: S.optional(S.String),
     requestId: S.optional(S.String),
+    ruleId: S.optional(S.String),
     labels: S.optional(StringMap),
     customRetentionDays: S.optional(S.Number),
   }),

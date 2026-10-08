@@ -61,79 +61,60 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface ReportRequestTimeRange {
-  /** Inclusive date in YYYY-MM-DD format. */
-  startDate?: string;
-  /** Inclusive date in YYYY-MM-DD format. */
-  endDate?: string;
-  /** Inclusive UTC timestamp in RFC format, e.g., `2013-07-16T10:16:23.555Z`. See additional references on how changed attribute reports work. */
-  changedAttributesSinceTimestamp?: string;
-  /** Inclusive UTC timestamp in RFC format, e.g., `2013-07-16T10:16:23.555Z`. See additional references on how changed metrics reports work. */
-  changedMetricsSinceTimestamp?: string;
-}
-export const ReportRequestTimeRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startDate: S.optional(S.String),
-    endDate: S.optional(S.String),
-    changedAttributesSinceTimestamp: S.optional(S.String),
-    changedMetricsSinceTimestamp: S.optional(S.String),
-  }),
-).annotate({ identifier: "ReportRequestTimeRange" }) as any as S.Schema<ReportRequestTimeRange>;
-
-export type DocumentList = Array<unknown>;
-export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<DocumentList>;
-
 /** A request object used to create a DoubleClick Search report. */
 export interface ReportApiColumnSpec {
+  /** Name of a DoubleClick Search column to include in the report. */
+  columnName?: string;
   /** Segments a report by a custom dimension. The report must be scoped to an advertiser or lower, and the custom dimension must already be set up in DoubleClick Search. The custom dimension name, which appears in DoubleClick Search, is case sensitive.\ If used in a conversion report, returns the value of the specified custom dimension for the given conversion, if set. This column does not segment the conversion report. */
   customDimensionName?: string;
   /** Synchronous report only. Set to `true` to group by this column. Defaults to `false`. */
   groupByColumn?: boolean;
+  /** Inclusive day in YYYY-MM-DD format. When provided, this overrides the overall time range of the report for this column only. Must be provided together with `startDate`. */
+  endDate?: string;
+  /** Returns metrics only for a specific type of product activity. Accepted values are: - "`sold`": returns metrics only for products that were sold - "`advertised`": returns metrics only for products that were advertised in a Shopping campaign, and that might or might not have been sold */
+  productReportPerspective?: string;
   /** Inclusive date in YYYY-MM-DD format. When provided, this overrides the overall time range of the report for this column only. Must be provided together with `endDate`. */
   startDate?: string;
+  /** Name of a custom metric to include in the report. The report must be scoped to an advertiser or lower, and the custom metric must already be set up in DoubleClick Search. The custom metric name, which appears in DoubleClick Search, is case sensitive. */
+  customMetricName?: string;
   /** The platform that is used to provide data for the custom dimension. Acceptable values are "floodlight". */
   platformSource?: string;
   /** Name of a saved column to include in the report. The report must be scoped at advertiser or lower, and this saved column must already be created in the DoubleClick Search UI. */
   savedColumnName?: string;
-  /** Returns metrics only for a specific type of product activity. Accepted values are: - "`sold`": returns metrics only for products that were sold - "`advertised`": returns metrics only for products that were advertised in a Shopping campaign, and that might or might not have been sold */
-  productReportPerspective?: string;
   /** Text used to identify this column in the report output; defaults to `columnName` or `savedColumnName` when not specified. This can be used to prevent collisions between DoubleClick Search columns and saved columns with the same name. */
   headerText?: string;
-  /** Name of a custom metric to include in the report. The report must be scoped to an advertiser or lower, and the custom metric must already be set up in DoubleClick Search. The custom metric name, which appears in DoubleClick Search, is case sensitive. */
-  customMetricName?: string;
-  /** Name of a DoubleClick Search column to include in the report. */
-  columnName?: string;
-  /** Inclusive day in YYYY-MM-DD format. When provided, this overrides the overall time range of the report for this column only. Must be provided together with `startDate`. */
-  endDate?: string;
 }
 export const ReportApiColumnSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    columnName: S.optional(S.String),
     customDimensionName: S.optional(S.String),
     groupByColumn: S.optional(S.Boolean),
+    endDate: S.optional(S.String),
+    productReportPerspective: S.optional(S.String),
     startDate: S.optional(S.String),
+    customMetricName: S.optional(S.String),
     platformSource: S.optional(S.String),
     savedColumnName: S.optional(S.String),
-    productReportPerspective: S.optional(S.String),
     headerText: S.optional(S.String),
-    customMetricName: S.optional(S.String),
-    columnName: S.optional(S.String),
-    endDate: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportApiColumnSpec" }) as any as S.Schema<ReportApiColumnSpec>;
+
+export type DocumentList = Array<unknown>;
+export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<DocumentList>;
 
 export interface ReportRequestFiltersItem {
   /** Operator to use in the filter. See the filter reference for a list of available operators. */
   operator?: string;
-  /** A list of values to filter the column value against.\ The maximum number of filter values per request is 300. */
-  values?: DocumentList;
   /** Column to perform the filter on. This can be a DoubleClick Search column or a saved column. */
   column?: ReportApiColumnSpec;
+  /** A list of values to filter the column value against.\ The maximum number of filter values per request is 300. */
+  values?: DocumentList;
 }
 export const ReportRequestFiltersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operator: S.optional(S.String),
-    values: S.optional(DocumentList),
     column: S.optional(ReportApiColumnSpec),
+    values: S.optional(DocumentList),
   }),
 ).annotate({ identifier: "ReportRequestFiltersItem" }) as any as S.Schema<ReportRequestFiltersItem>;
 
@@ -141,6 +122,30 @@ export type ReportRequestFiltersItemList = Array<ReportRequestFiltersItem>;
 export const ReportRequestFiltersItemList = /*@__PURE__*/ S.Array(
   ReportRequestFiltersItem,
 ) as any as S.Schema<ReportRequestFiltersItemList>;
+
+export interface ReportRequestTimeRange {
+  /** Inclusive UTC timestamp in RFC format, e.g., `2013-07-16T10:16:23.555Z`. See additional references on how changed attribute reports work. */
+  changedAttributesSinceTimestamp?: string;
+  /** Inclusive UTC timestamp in RFC format, e.g., `2013-07-16T10:16:23.555Z`. See additional references on how changed metrics reports work. */
+  changedMetricsSinceTimestamp?: string;
+  /** Inclusive date in YYYY-MM-DD format. */
+  endDate?: string;
+  /** Inclusive date in YYYY-MM-DD format. */
+  startDate?: string;
+}
+export const ReportRequestTimeRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    changedAttributesSinceTimestamp: S.optional(S.String),
+    changedMetricsSinceTimestamp: S.optional(S.String),
+    endDate: S.optional(S.String),
+    startDate: S.optional(S.String),
+  }),
+).annotate({ identifier: "ReportRequestTimeRange" }) as any as S.Schema<ReportRequestTimeRange>;
+
+export type ReportApiColumnSpecList = Array<ReportApiColumnSpec>;
+export const ReportApiColumnSpecList = /*@__PURE__*/ S.Array(
+  ReportApiColumnSpec,
+) as any as S.Schema<ReportApiColumnSpecList>;
 
 export interface ReportRequestOrderByItem {
   /** The sort direction, which is either `ascending` or `descending`. */
@@ -160,36 +165,31 @@ export const ReportRequestOrderByItemList = /*@__PURE__*/ S.Array(
   ReportRequestOrderByItem,
 ) as any as S.Schema<ReportRequestOrderByItemList>;
 
-export type ReportApiColumnSpecList = Array<ReportApiColumnSpec>;
-export const ReportApiColumnSpecList = /*@__PURE__*/ S.Array(
-  ReportApiColumnSpec,
-) as any as S.Schema<ReportApiColumnSpecList>;
-
 export interface ReportRequestReportScope {
+  /** DS advertiser ID. */
+  advertiserId?: string;
+  /** DS campaign ID. */
+  campaignId?: string;
+  /** DS engine account ID. */
+  engineAccountId?: string;
   /** DS ad ID. */
   adId?: string;
   /** DS ad group ID. */
   adGroupId?: string;
-  /** DS engine account ID. */
-  engineAccountId?: string;
-  /** DS advertiser ID. */
-  advertiserId?: string;
-  /** DS agency ID. */
-  agencyId?: string;
   /** DS keyword ID. */
   keywordId?: string;
-  /** DS campaign ID. */
-  campaignId?: string;
+  /** DS agency ID. */
+  agencyId?: string;
 }
 export const ReportRequestReportScope = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    advertiserId: S.optional(S.String),
+    campaignId: S.optional(S.String),
+    engineAccountId: S.optional(S.String),
     adId: S.optional(S.String),
     adGroupId: S.optional(S.String),
-    engineAccountId: S.optional(S.String),
-    advertiserId: S.optional(S.String),
-    agencyId: S.optional(S.String),
     keywordId: S.optional(S.String),
-    campaignId: S.optional(S.String),
+    agencyId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportRequestReportScope" }) as any as S.Schema<ReportRequestReportScope>;
 
@@ -201,45 +201,45 @@ export interface ReportRequest {
   maxRowsPerFile?: number;
   /** If `true`, the report would only be created if all the requested stat data are sourced from a single timezone. Defaults to `false`. */
   verifySingleTimeZone?: boolean;
-  /** Specifies the currency in which monetary will be returned. Possible values are: `usd`, `agency` (valid if the report is scoped to agency or lower), `advertiser` (valid if the report is scoped to * advertiser or lower), or `account` (valid if the report is scoped to engine account or lower). */
-  statisticsCurrency?: string;
-  /** If metrics are requested in a report, this argument will be used to restrict the metrics to a specific time range. */
-  timeRange?: ReportRequestTimeRange;
-  /** Determines if removed entities should be included in the report. Defaults to `false`. */
-  includeRemovedEntities?: boolean;
-  /** Synchronous report only. Zero-based index of the first row to return. Acceptable values are `0` to `50000`, inclusive. Defaults to `0`. */
-  startRow?: number;
   /** A list of filters to be applied to the report.\ The maximum number of filters per request is 300. */
   filters?: ReportRequestFiltersItemList;
-  /** Determines if removed entities should be included in the report. Defaults to `false`. Deprecated, please use `includeRemovedEntities` instead. */
-  includeDeletedEntities?: boolean;
   /** Determines the type of rows that are returned in the report. For example, if you specify `reportType: keyword`, each row in the report will contain data about a keyword. See the [Types of Reports](/search-ads/v2/report-types/) reference for the columns that are available for each type. */
   reportType?: string;
-  /** Synchronous report only. A list of columns and directions defining sorting to be performed on the report rows.\ The maximum number of orderings per request is 300. */
-  orderBy?: ReportRequestOrderByItemList;
+  /** If metrics are requested in a report, this argument will be used to restrict the metrics to a specific time range. */
+  timeRange?: ReportRequestTimeRange;
   /** The columns to include in the report. This includes both DoubleClick Search columns and saved columns. For DoubleClick Search columns, only the `columnName` parameter is required. For saved columns only the `savedColumnName` parameter is required. Both `columnName` and `savedColumnName` cannot be set in the same stanza.\ The maximum number of columns per request is 300. */
   columns?: ReportApiColumnSpecList;
-  /** Synchronous report only. The maximum number of rows to return; additional rows are dropped. Acceptable values are `0` to `10000`, inclusive. Defaults to `10000`. */
-  rowCount?: number;
+  /** Determines if removed entities should be included in the report. Defaults to `false`. */
+  includeRemovedEntities?: boolean;
+  /** Specifies the currency in which monetary will be returned. Possible values are: `usd`, `agency` (valid if the report is scoped to agency or lower), `advertiser` (valid if the report is scoped to * advertiser or lower), or `account` (valid if the report is scoped to engine account or lower). */
+  statisticsCurrency?: string;
+  /** Synchronous report only. A list of columns and directions defining sorting to be performed on the report rows.\ The maximum number of orderings per request is 300. */
+  orderBy?: ReportRequestOrderByItemList;
+  /** Synchronous report only. Zero-based index of the first row to return. Acceptable values are `0` to `50000`, inclusive. Defaults to `0`. */
+  startRow?: number;
   /** The reportScope is a set of IDs that are used to determine which subset of entities will be returned in the report. The full lineage of IDs from the lowest scoped level desired up through agency is required. */
   reportScope?: ReportRequestReportScope;
+  /** Determines if removed entities should be included in the report. Defaults to `false`. Deprecated, please use `includeRemovedEntities` instead. */
+  includeDeletedEntities?: boolean;
+  /** Synchronous report only. The maximum number of rows to return; additional rows are dropped. Acceptable values are `0` to `10000`, inclusive. Defaults to `10000`. */
+  rowCount?: number;
 }
 export const ReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     downloadFormat: S.optional(S.String),
     maxRowsPerFile: S.optional(S.Number),
     verifySingleTimeZone: S.optional(S.Boolean),
-    statisticsCurrency: S.optional(S.String),
-    timeRange: S.optional(ReportRequestTimeRange),
-    includeRemovedEntities: S.optional(S.Boolean),
-    startRow: S.optional(S.Number),
     filters: S.optional(ReportRequestFiltersItemList),
-    includeDeletedEntities: S.optional(S.Boolean),
     reportType: S.optional(S.String),
-    orderBy: S.optional(ReportRequestOrderByItemList),
+    timeRange: S.optional(ReportRequestTimeRange),
     columns: S.optional(ReportApiColumnSpecList),
-    rowCount: S.optional(S.Number),
+    includeRemovedEntities: S.optional(S.Boolean),
+    statisticsCurrency: S.optional(S.String),
+    orderBy: S.optional(ReportRequestOrderByItemList),
+    startRow: S.optional(S.Number),
     reportScope: S.optional(ReportRequestReportScope),
+    includeDeletedEntities: S.optional(S.Boolean),
+    rowCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ReportRequest" }) as any as S.Schema<ReportRequest>;
 
@@ -286,79 +286,79 @@ export const ReportFilesItemList = /*@__PURE__*/ S.Array(
 
 /** A DoubleClick Search report. This object contains the report request, some report metadata such as currency code, and the generated report rows or report files. */
 export interface Report {
-  /** Identifies this as a Report resource. Value: the fixed string `doubleclicksearch#report`. */
-  kind?: string;
-  /** Asynchronous report only. Id of the report. */
-  id?: string;
-  /** The number of report rows generated by the report, not including headers. */
-  rowCount?: number;
-  /** Synchronous report only. Generated report rows. */
-  rows?: ReportRowList;
-  /** Asynchronous report only. True if and only if the report has completed successfully and the report files are ready to be downloaded. */
-  isReportReady?: boolean;
-  /** Asynchronous report only. Contains a list of generated report files once the report has successfully completed. */
-  files?: ReportFilesItemList;
   /** If all statistics of the report are sourced from the same time zone, this would be it. Otherwise the field is unset. */
   statisticsTimeZone?: string;
-  /** The request that created the report. Optional fields not specified in the original request are filled with default values. */
-  request?: ReportRequest;
   /** The currency code of all monetary values produced in the report, including values that are set by users (e.g., keyword bid settings) and metrics (e.g., cost and revenue). The currency code of a report is determined by the `statisticsCurrency` field of the report request. */
   statisticsCurrencyCode?: string;
+  /** Synchronous report only. Generated report rows. */
+  rows?: ReportRowList;
+  /** Identifies this as a Report resource. Value: the fixed string `doubleclicksearch#report`. */
+  kind?: string;
+  /** The number of report rows generated by the report, not including headers. */
+  rowCount?: number;
+  /** Asynchronous report only. Id of the report. */
+  id?: string;
+  /** The request that created the report. Optional fields not specified in the original request are filled with default values. */
+  request?: ReportRequest;
+  /** Asynchronous report only. Contains a list of generated report files once the report has successfully completed. */
+  files?: ReportFilesItemList;
+  /** Asynchronous report only. True if and only if the report has completed successfully and the report files are ready to be downloaded. */
+  isReportReady?: boolean;
 }
 export const Report = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    id: S.optional(S.String),
-    rowCount: S.optional(S.Number),
-    rows: S.optional(ReportRowList),
-    isReportReady: S.optional(S.Boolean),
-    files: S.optional(ReportFilesItemList),
     statisticsTimeZone: S.optional(S.String),
-    request: S.optional(ReportRequest),
     statisticsCurrencyCode: S.optional(S.String),
+    rows: S.optional(ReportRowList),
+    kind: S.optional(S.String),
+    rowCount: S.optional(S.Number),
+    id: S.optional(S.String),
+    request: S.optional(ReportRequest),
+    files: S.optional(ReportFilesItemList),
+    isReportReady: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
 export interface GetByCustomerIdConversionRequest {
-  /** Numeric ID of the engine account. */
-  engineAccountId?: string;
-  /** Last date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
-  endDate: number;
-  /** Numeric ID of the campaign. */
-  campaignId?: string;
-  /** First date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
-  startDate: number;
-  /** The number of conversions to return per call. */
-  rowCount: number;
-  /** Numeric ID of the ad group. */
-  adGroupId?: string;
-  /** Numeric ID of the advertiser. */
-  advertiserId?: string;
-  /** Customer ID of a client account in the new Search Ads 360 experience. */
-  customerId: string;
-  /** Numeric ID of the criterion. */
-  criterionId?: string;
   /** Numeric ID of the agency. */
   agencyId?: string;
   /** Numeric ID of the ad. */
   adId?: string;
+  /** First date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
+  startDate: number;
   /** The 0-based starting index for retrieving conversions results. */
   startRow: number;
+  /** Numeric ID of the campaign. */
+  campaignId?: string;
+  /** Last date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
+  endDate: number;
+  /** Numeric ID of the criterion. */
+  criterionId?: string;
+  /** Numeric ID of the ad group. */
+  adGroupId?: string;
+  /** Customer ID of a client account in the new Search Ads 360 experience. */
+  customerId: string;
+  /** Numeric ID of the advertiser. */
+  advertiserId?: string;
+  /** Numeric ID of the engine account. */
+  engineAccountId?: string;
+  /** The number of conversions to return per call. */
+  rowCount: number;
 }
 export const GetByCustomerIdConversionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    engineAccountId: S.optional(S.String.pipe(T.Query())),
-    endDate: S.Number.pipe(T.Query()),
-    campaignId: S.optional(S.String.pipe(T.Query())),
-    startDate: S.Number.pipe(T.Query()),
-    rowCount: S.Number.pipe(T.Query()),
-    adGroupId: S.optional(S.String.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
-    customerId: S.String.pipe(T.Label()),
-    criterionId: S.optional(S.String.pipe(T.Query())),
     agencyId: S.optional(S.String.pipe(T.Query())),
     adId: S.optional(S.String.pipe(T.Query())),
+    startDate: S.Number.pipe(T.Query()),
     startRow: S.Number.pipe(T.Query()),
+    campaignId: S.optional(S.String.pipe(T.Query())),
+    endDate: S.Number.pipe(T.Query()),
+    criterionId: S.optional(S.String.pipe(T.Query())),
+    adGroupId: S.optional(S.String.pipe(T.Query())),
+    customerId: S.String.pipe(T.Label()),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    engineAccountId: S.optional(S.String.pipe(T.Query())),
+    rowCount: S.Number.pipe(T.Query()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -370,20 +370,17 @@ export const GetByCustomerIdConversionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetByCustomerIdConversionRequest",
 }) as any as S.Schema<GetByCustomerIdConversionRequest>;
 
-export type ConversionAdUserDataConsentEnum = "UNKNOWN" | "GRANTED" | "DENIED";
-export const ConversionAdUserDataConsentEnum = S.String;
-
 /** A message containing the custom dimension. */
 export interface CustomDimension {
-  /** Custom dimension value. */
-  value?: string;
   /** Custom dimension name. */
   name?: string;
+  /** Custom dimension value. */
+  value?: string;
 }
 export const CustomDimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
     name: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomDimension" }) as any as S.Schema<CustomDimension>;
 
@@ -391,6 +388,9 @@ export type CustomDimensionList = Array<CustomDimension>;
 export const CustomDimensionList = /*@__PURE__*/ S.Array(
   CustomDimension,
 ) as any as S.Schema<CustomDimensionList>;
+
+export type ConversionAdUserDataConsentEnum = "UNKNOWN" | "GRANTED" | "DENIED";
+export const ConversionAdUserDataConsentEnum = S.String;
 
 /** A message containing the custom metric. */
 export interface CustomMetric {
@@ -413,114 +413,114 @@ export const CustomMetricList = /*@__PURE__*/ S.Array(
 
 /** A conversion containing data relevant to DoubleClick Search. Common DS3 API conversion fields: Id Range [1 - 2800]. Next Id to use: 33 */
 export interface Conversion {
+  /** The friendly segmentation identifier (for example, DoubleClick Search Floodlight activity name). */
+  segmentationName?: string;
+  /** The type of the conversion, that is, either `ACTION` or `TRANSACTION`. An `ACTION` conversion is an action by the user that has no monetarily quantifiable value, while a `TRANSACTION` conversion is an action that does have a monetarily quantifiable value. Examples are email list signups (`ACTION`) versus ecommerce purchases (`TRANSACTION`). */
+  type?: string;
+  /** DS campaign ID. */
+  campaignId?: string;
   /** The country registered for the Merchant Center feed that contains the product. Use an ISO 3166 code to specify a country. */
   productCountry?: string;
-  /** Sales channel for the product. Acceptable values are: - "`local`": a physical store - "`online`": an online store */
-  channel?: string;
-  /** The quantity of this conversion, in millis. */
-  quantityMillis?: string;
+  /** Custom dimensions for the conversion, which can be used to filter data in a report. */
+  customDimension?: CustomDimensionList;
+  /** The currency code for the conversion's revenue. Should be in ISO 4217 alphabetic (3-char) format. */
+  currencyCode?: string;
+  /** The product ID (SKU). */
+  productId?: string;
+  /** Customer ID of a client account in the new Search Ads 360 experience. */
+  customerId?: string;
+  /** Available to advertisers only after contacting DoubleClick Search customer support. */
+  attributionModel?: string;
+  /** DS product group ID. */
+  productGroupId?: string;
+  /** DS engine account ID. */
+  engineAccountId?: string;
+  /** DS agency ID. */
+  agencyId?: string;
+  /** DS click ID for the conversion. */
+  clickId?: string;
   /** ID that DS generates and uses to uniquely identify the inventory account that contains the product. */
   inventoryAccountId?: string;
   /** DS ad ID. */
   adId?: string;
-  /** The revenue amount of this `TRANSACTION` conversion, in micros (value multiplied by 1000000, no decimal). For example, to specify a revenue value of "10" enter "10000000" (10 million) in your request. */
-  revenueMicros?: string;
-  /** The friendly segmentation identifier (for example, DoubleClick Search Floodlight activity name). */
-  segmentationName?: string;
-  /** DS ad group ID. */
-  adGroupId?: string;
-  /** The product ID (SKU). */
-  productId?: string;
+  /** The Floodlight order ID provided by the advertiser for the conversion. */
+  floodlightOrderId?: string;
   /** For offline conversions, advertisers provide this ID. Advertisers can specify any ID that is meaningful to them. Each conversion in a request must specify a unique ID, and the combination of ID and timestamp must be unique amongst all conversions within the advertiser. For online conversions, DS copies the `dsConversionId` or `floodlightOrderId` into this property depending on the advertiser's Floodlight instructions. */
   conversionId?: string;
-  /** Available to advertisers only after contacting DoubleClick Search customer support. */
-  attributionModel?: string;
-  /** The numeric segmentation identifier (for example, DoubleClick Search Floodlight activity ID). */
-  segmentationId?: string;
-  /** Represents consent for core platform services (CPS) preferences in settings. No default value. Acceptable values are: GRANTED: The desired consent status is to grant. Read the CPS preferences from GTE settings. DENIED: The desired consent status is to deny; CPS list is empty. */
-  adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {});
-  /** DS campaign ID. */
-  campaignId?: string;
-  /** The type of device on which the conversion occurred. */
-  deviceType?: string;
+  /** The revenue amount of this `TRANSACTION` conversion, in micros (value multiplied by 1000000, no decimal). For example, to specify a revenue value of "10" enter "10000000" (10 million) in your request. */
+  revenueMicros?: string;
   /** The language registered for the Merchant Center feed that contains the product. Use an ISO 639 code to specify a language. */
   productLanguage?: string;
+  /** Sales channel for the product. Acceptable values are: - "`local`": a physical store - "`online`": an online store */
+  channel?: string;
+  /** DS advertiser ID. */
+  advertiserId?: string;
+  /** The segmentation type of this conversion (for example, `FLOODLIGHT`). */
+  segmentationType?: string;
   /** ID that DoubleClick Search generates for each conversion. */
   dsConversionId?: string;
-  /** Custom dimensions for the conversion, which can be used to filter data in a report. */
-  customDimension?: CustomDimensionList;
-  /** The time at which the conversion was last modified, in epoch millis UTC. */
-  conversionModifiedTimestamp?: string;
-  /** DS agency ID. */
-  agencyId?: string;
+  /** The type of device on which the conversion occurred. */
+  deviceType?: string;
   /** Available to advertisers only after contacting DoubleClick Search customer support. */
   countMillis?: string;
   /** The state of the conversion, that is, either `ACTIVE` or `REMOVED`. Note: state DELETED is deprecated. */
   state?: string;
-  /** DS engine account ID. */
-  engineAccountId?: string;
-  /** DS advertiser ID. */
-  advertiserId?: string;
-  /** DS click ID for the conversion. */
-  clickId?: string;
-  /** DS criterion (keyword) ID. */
-  criterionId?: string;
-  /** The segmentation type of this conversion (for example, `FLOODLIGHT`). */
-  segmentationType?: string;
-  /** The currency code for the conversion's revenue. Should be in ISO 4217 alphabetic (3-char) format. */
-  currencyCode?: string;
-  /** Customer ID of a client account in the new Search Ads 360 experience. */
-  customerId?: string;
-  /** The Floodlight order ID provided by the advertiser for the conversion. */
-  floodlightOrderId?: string;
   /** The time at which the conversion took place, in epoch millis UTC. */
   conversionTimestamp?: string;
-  /** The type of the conversion, that is, either `ACTION` or `TRANSACTION`. An `ACTION` conversion is an action by the user that has no monetarily quantifiable value, while a `TRANSACTION` conversion is an action that does have a monetarily quantifiable value. Examples are email list signups (`ACTION`) versus ecommerce purchases (`TRANSACTION`). */
-  type?: string;
+  /** The numeric segmentation identifier (for example, DoubleClick Search Floodlight activity ID). */
+  segmentationId?: string;
   /** The ID of the local store for which the product was advertised. Applicable only when the channel is "`local`". */
   storeId?: string;
-  /** DS product group ID. */
-  productGroupId?: string;
+  /** Represents consent for core platform services (CPS) preferences in settings. No default value. Acceptable values are: GRANTED: The desired consent status is to grant. Read the CPS preferences from GTE settings. DENIED: The desired consent status is to deny; CPS list is empty. */
+  adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {});
+  /** DS criterion (keyword) ID. */
+  criterionId?: string;
+  /** The quantity of this conversion, in millis. */
+  quantityMillis?: string;
   /** Custom metrics for the conversion. */
   customMetric?: CustomMetricList;
+  /** The time at which the conversion was last modified, in epoch millis UTC. */
+  conversionModifiedTimestamp?: string;
+  /** DS ad group ID. */
+  adGroupId?: string;
 }
 export const Conversion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    segmentationName: S.optional(S.String),
+    type: S.optional(S.String),
+    campaignId: S.optional(S.String),
     productCountry: S.optional(S.String),
-    channel: S.optional(S.String),
-    quantityMillis: S.optional(S.String),
+    customDimension: S.optional(CustomDimensionList),
+    currencyCode: S.optional(S.String),
+    productId: S.optional(S.String),
+    customerId: S.optional(S.String),
+    attributionModel: S.optional(S.String),
+    productGroupId: S.optional(S.String),
+    engineAccountId: S.optional(S.String),
+    agencyId: S.optional(S.String),
+    clickId: S.optional(S.String),
     inventoryAccountId: S.optional(S.String),
     adId: S.optional(S.String),
-    revenueMicros: S.optional(S.String),
-    segmentationName: S.optional(S.String),
-    adGroupId: S.optional(S.String),
-    productId: S.optional(S.String),
+    floodlightOrderId: S.optional(S.String),
     conversionId: S.optional(S.String),
-    attributionModel: S.optional(S.String),
-    segmentationId: S.optional(S.String),
-    adUserDataConsent: S.optional(ConversionAdUserDataConsentEnum),
-    campaignId: S.optional(S.String),
-    deviceType: S.optional(S.String),
+    revenueMicros: S.optional(S.String),
     productLanguage: S.optional(S.String),
+    channel: S.optional(S.String),
+    advertiserId: S.optional(S.String),
+    segmentationType: S.optional(S.String),
     dsConversionId: S.optional(S.String),
-    customDimension: S.optional(CustomDimensionList),
-    conversionModifiedTimestamp: S.optional(S.String),
-    agencyId: S.optional(S.String),
+    deviceType: S.optional(S.String),
     countMillis: S.optional(S.String),
     state: S.optional(S.String),
-    engineAccountId: S.optional(S.String),
-    advertiserId: S.optional(S.String),
-    clickId: S.optional(S.String),
-    criterionId: S.optional(S.String),
-    segmentationType: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    customerId: S.optional(S.String),
-    floodlightOrderId: S.optional(S.String),
     conversionTimestamp: S.optional(S.String),
-    type: S.optional(S.String),
+    segmentationId: S.optional(S.String),
     storeId: S.optional(S.String),
-    productGroupId: S.optional(S.String),
+    adUserDataConsent: S.optional(ConversionAdUserDataConsentEnum),
+    criterionId: S.optional(S.String),
+    quantityMillis: S.optional(S.String),
     customMetric: S.optional(CustomMetricList),
+    conversionModifiedTimestamp: S.optional(S.String),
+    adGroupId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Conversion" }) as any as S.Schema<Conversion>;
 
@@ -531,58 +531,58 @@ export const ConversionList_ = /*@__PURE__*/ S.Array(
 
 /** A list of conversions. */
 export interface ConversionList {
-  /** The conversions being requested. */
-  conversion?: ConversionList_;
   /** Identifies this as a ConversionList resource. Value: the fixed string doubleclicksearch#conversionList. */
   kind?: string;
+  /** The conversions being requested. */
+  conversion?: ConversionList_;
 }
 export const ConversionList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    conversion: S.optional(ConversionList_),
     kind: S.optional(S.String),
+    conversion: S.optional(ConversionList_),
   }),
 ).annotate({ identifier: "ConversionList" }) as any as S.Schema<ConversionList>;
 
 export interface GetConversionRequest {
-  /** Numeric ID of the ad group. */
-  adGroupId?: string;
   /** The 0-based starting index for retrieving conversions results. */
   startRow: number;
   /** Numeric ID of the engine account. */
   engineAccountId: string;
-  /** Numeric ID of the agency. */
-  agencyId: string;
   /** Customer ID of a client account in the new Search Ads 360 experience. */
   customerId?: string;
-  /** Numeric ID of the advertiser. */
-  advertiserId: string;
   /** Numeric ID of the criterion. */
   criterionId?: string;
-  /** The number of conversions to return per call. */
-  rowCount: number;
-  /** Last date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
-  endDate: number;
-  /** Numeric ID of the ad. */
-  adId?: string;
   /** First date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
   startDate: number;
   /** Numeric ID of the campaign. */
   campaignId?: string;
+  /** The number of conversions to return per call. */
+  rowCount: number;
+  /** Last date (inclusive) on which to retrieve conversions. Format is yyyymmdd. */
+  endDate: number;
+  /** Numeric ID of the agency. */
+  agencyId: string;
+  /** Numeric ID of the ad. */
+  adId?: string;
+  /** Numeric ID of the advertiser. */
+  advertiserId: string;
+  /** Numeric ID of the ad group. */
+  adGroupId?: string;
 }
 export const GetConversionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    adGroupId: S.optional(S.String.pipe(T.Query())),
     startRow: S.Number.pipe(T.Query()),
     engineAccountId: S.String.pipe(T.Label()),
-    agencyId: S.String.pipe(T.Label()),
     customerId: S.optional(S.String.pipe(T.Query())),
-    advertiserId: S.String.pipe(T.Label()),
     criterionId: S.optional(S.String.pipe(T.Query())),
-    rowCount: S.Number.pipe(T.Query()),
-    endDate: S.Number.pipe(T.Query()),
-    adId: S.optional(S.String.pipe(T.Query())),
     startDate: S.Number.pipe(T.Query()),
     campaignId: S.optional(S.String.pipe(T.Query())),
+    rowCount: S.Number.pipe(T.Query()),
+    endDate: S.Number.pipe(T.Query()),
+    agencyId: S.String.pipe(T.Label()),
+    adId: S.optional(S.String.pipe(T.Query())),
+    advertiserId: S.String.pipe(T.Label()),
+    adGroupId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -593,15 +593,15 @@ export const GetConversionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetConversionRequest" }) as any as S.Schema<GetConversionRequest>;
 
 export interface GetFileReportsRequest {
-  /** ID of the report. */
-  reportId: string;
   /** The index of the report fragment to download. */
   reportFragment: number;
+  /** ID of the report. */
+  reportId: string;
 }
 export const GetFileReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportId: S.String.pipe(T.Label()),
     reportFragment: S.Number.pipe(T.Label()),
+    reportId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -696,18 +696,18 @@ export const ListSavedColumnsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A saved column */
 export interface SavedColumn {
-  /** The type of data this saved column will produce. */
-  type?: string;
-  /** The name of the saved column. */
-  savedColumnName?: string;
   /** Identifies this as a SavedColumn resource. Value: the fixed string doubleclicksearch#savedColumn. */
   kind?: string;
+  /** The name of the saved column. */
+  savedColumnName?: string;
+  /** The type of data this saved column will produce. */
+  type?: string;
 }
 export const SavedColumn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
-    savedColumnName: S.optional(S.String),
     kind: S.optional(S.String),
+    savedColumnName: S.optional(S.String),
+    type: S.optional(S.String),
   }),
 ).annotate({ identifier: "SavedColumn" }) as any as S.Schema<SavedColumn>;
 
@@ -748,30 +748,30 @@ export const RequestReportsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A message containing availability data relevant to DoubleClick Search. */
 export interface Availability {
-  /** The time by which all conversions have been uploaded, in epoch millis UTC. */
-  availabilityTimestamp?: string;
-  /** DS agency ID. */
-  agencyId?: string;
-  /** Customer ID of a client account in the new Search Ads 360 experience. */
-  customerId?: string;
-  /** DS advertiser ID. */
-  advertiserId?: string;
-  /** The segmentation type that this availability is for (its default value is `FLOODLIGHT`). */
-  segmentationType?: string;
-  /** The numeric segmentation identifier (for example, DoubleClick Search Floodlight activity ID). */
-  segmentationId?: string;
   /** The friendly segmentation identifier (for example, DoubleClick Search Floodlight activity name). */
   segmentationName?: string;
+  /** The time by which all conversions have been uploaded, in epoch millis UTC. */
+  availabilityTimestamp?: string;
+  /** DS advertiser ID. */
+  advertiserId?: string;
+  /** DS agency ID. */
+  agencyId?: string;
+  /** The numeric segmentation identifier (for example, DoubleClick Search Floodlight activity ID). */
+  segmentationId?: string;
+  /** The segmentation type that this availability is for (its default value is `FLOODLIGHT`). */
+  segmentationType?: string;
+  /** Customer ID of a client account in the new Search Ads 360 experience. */
+  customerId?: string;
 }
 export const Availability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    availabilityTimestamp: S.optional(S.String),
-    agencyId: S.optional(S.String),
-    customerId: S.optional(S.String),
-    advertiserId: S.optional(S.String),
-    segmentationType: S.optional(S.String),
-    segmentationId: S.optional(S.String),
     segmentationName: S.optional(S.String),
+    availabilityTimestamp: S.optional(S.String),
+    advertiserId: S.optional(S.String),
+    agencyId: S.optional(S.String),
+    segmentationId: S.optional(S.String),
+    segmentationType: S.optional(S.String),
+    customerId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Availability" }) as any as S.Schema<Availability>;
 

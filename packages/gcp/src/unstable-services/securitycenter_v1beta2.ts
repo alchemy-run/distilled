@@ -62,13 +62,13 @@ export class NotFound
   ) {}
 
 export interface CalculateFoldersContainerThreatDetectionSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean;
+  name: string;
 }
 export const CalculateFoldersContainerThreatDetectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -116,33 +116,33 @@ export const ContainerThreatDetectionSettingsServiceEnablementStateEnum = S.Stri
 
 export interface ContainerThreatDetectionSettings {
   modules?: ConfigMap;
+  serviceAccount?: string;
+  updateTime?: string;
+  name?: string;
   serviceEnablementState?:
     | ContainerThreatDetectionSettingsServiceEnablementStateEnum
     | (string & {});
-  name?: string;
-  serviceAccount?: string;
-  updateTime?: string;
 }
 export const ContainerThreatDetectionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     modules: S.optional(ConfigMap),
-    serviceEnablementState: S.optional(ContainerThreatDetectionSettingsServiceEnablementStateEnum),
-    name: S.optional(S.String),
     serviceAccount: S.optional(S.String),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    serviceEnablementState: S.optional(ContainerThreatDetectionSettingsServiceEnablementStateEnum),
   }),
 ).annotate({
   identifier: "ContainerThreatDetectionSettings",
 }) as any as S.Schema<ContainerThreatDetectionSettings>;
 
 export interface CalculateFoldersEventThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
   name: string;
+  showEligibleModulesOnly?: boolean;
 }
 export const CalculateFoldersEventThreatDetectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -162,16 +162,16 @@ export type EventThreatDetectionSettingsServiceEnablementStateEnum =
 export const EventThreatDetectionSettingsServiceEnablementStateEnum = S.String;
 
 export interface EventThreatDetectionSettings {
-  updateTime?: string;
   modules?: ConfigMap;
   serviceEnablementState?: EventThreatDetectionSettingsServiceEnablementStateEnum | (string & {});
+  updateTime?: string;
   name?: string;
 }
 export const EventThreatDetectionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
     modules: S.optional(ConfigMap),
     serviceEnablementState: S.optional(EventThreatDetectionSettingsServiceEnablementStateEnum),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
   }),
 ).annotate({
@@ -204,34 +204,34 @@ export type RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum =
 export const RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum = S.String;
 
 export interface RapidVulnerabilityDetectionSettings {
+  modules?: ConfigMap;
+  name?: string;
   serviceEnablementState?:
     | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
     | (string & {});
-  modules?: ConfigMap;
   updateTime?: string;
-  name?: string;
 }
 export const RapidVulnerabilityDetectionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    modules: S.optional(ConfigMap),
+    name: S.optional(S.String),
     serviceEnablementState: S.optional(
       RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum,
     ),
-    modules: S.optional(ConfigMap),
     updateTime: S.optional(S.String),
-    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RapidVulnerabilityDetectionSettings",
 }) as any as S.Schema<RapidVulnerabilityDetectionSettings>;
 
 export interface CalculateFoldersSecurityHealthAnalyticsSettingsRequest {
-  showEligibleModulesOnly?: boolean;
   name: string;
+  showEligibleModulesOnly?: boolean;
 }
 export const CalculateFoldersSecurityHealthAnalyticsSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -251,35 +251,35 @@ export type SecurityHealthAnalyticsSettingsServiceEnablementStateEnum =
 export const SecurityHealthAnalyticsSettingsServiceEnablementStateEnum = S.String;
 
 export interface SecurityHealthAnalyticsSettings {
+  serviceAccount?: string;
+  modules?: ConfigMap;
+  updateTime?: string;
   name?: string;
   serviceEnablementState?:
     | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
     | (string & {});
-  serviceAccount?: string;
-  modules?: ConfigMap;
-  updateTime?: string;
 }
 export const SecurityHealthAnalyticsSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    serviceEnablementState: S.optional(SecurityHealthAnalyticsSettingsServiceEnablementStateEnum),
     serviceAccount: S.optional(S.String),
     modules: S.optional(ConfigMap),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    serviceEnablementState: S.optional(SecurityHealthAnalyticsSettingsServiceEnablementStateEnum),
   }),
 ).annotate({
   identifier: "SecurityHealthAnalyticsSettings",
 }) as any as S.Schema<SecurityHealthAnalyticsSettings>;
 
 export interface CalculateFoldersVirtualMachineThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
   name: string;
+  showEligibleModulesOnly?: boolean;
 }
 export const CalculateFoldersVirtualMachineThreatDetectionSettingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -302,9 +302,9 @@ export interface VirtualMachineThreatDetectionSettings {
   serviceEnablementState?:
     | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
     | (string & {});
-  serviceAccount?: string;
-  updateTime?: string;
   name?: string;
+  updateTime?: string;
+  serviceAccount?: string;
   modules?: ConfigMap;
 }
 export const VirtualMachineThreatDetectionSettings = /*@__PURE__*/ S.suspend(() =>
@@ -312,9 +312,9 @@ export const VirtualMachineThreatDetectionSettings = /*@__PURE__*/ S.suspend(() 
     serviceEnablementState: S.optional(
       VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum,
     ),
-    serviceAccount: S.optional(S.String),
-    updateTime: S.optional(S.String),
     name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
     modules: S.optional(ConfigMap),
   }),
 ).annotate({
@@ -322,13 +322,13 @@ export const VirtualMachineThreatDetectionSettings = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<VirtualMachineThreatDetectionSettings>;
 
 export interface CalculateFoldersWebSecurityScannerSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean;
+  name: string;
 }
 export const CalculateFoldersWebSecurityScannerSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -349,16 +349,16 @@ export const WebSecurityScannerSettingsServiceEnablementStateEnum = S.String;
 
 export interface WebSecurityScannerSettings {
   updateTime?: string;
-  name?: string;
   serviceEnablementState?: WebSecurityScannerSettingsServiceEnablementStateEnum | (string & {});
   modules?: ConfigMap;
+  name?: string;
 }
 export const WebSecurityScannerSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateTime: S.optional(S.String),
-    name: S.optional(S.String),
     serviceEnablementState: S.optional(WebSecurityScannerSettingsServiceEnablementStateEnum),
     modules: S.optional(ConfigMap),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "WebSecurityScannerSettings",
@@ -385,14 +385,14 @@ export const CalculateOrganizationsContainerThreatDetectionSettingsRequest =
   }) as any as S.Schema<CalculateOrganizationsContainerThreatDetectionSettingsRequest>;
 
 export interface CalculateOrganizationsEventThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
   name: string;
+  showEligibleModulesOnly?: boolean;
 }
 export const CalculateOrganizationsEventThreatDetectionSettingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -423,14 +423,14 @@ export const CalculateOrganizationsRapidVulnerabilityDetectionSettingsRequest =
   }) as any as S.Schema<CalculateOrganizationsRapidVulnerabilityDetectionSettingsRequest>;
 
 export interface CalculateOrganizationsSecurityHealthAnalyticsSettingsRequest {
-  showEligibleModulesOnly?: boolean;
   name: string;
+  showEligibleModulesOnly?: boolean;
 }
 export const CalculateOrganizationsSecurityHealthAnalyticsSettingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -482,14 +482,14 @@ export const CalculateOrganizationsWebSecurityScannerSettingsRequest = /*@__PURE
 }) as any as S.Schema<CalculateOrganizationsWebSecurityScannerSettingsRequest>;
 
 export interface CalculateProjectsContainerThreatDetectionSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean;
+  name: string;
 }
 export const CalculateProjectsContainerThreatDetectionSettingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -502,13 +502,13 @@ export const CalculateProjectsContainerThreatDetectionSettingsRequest = /*@__PUR
 }) as any as S.Schema<CalculateProjectsContainerThreatDetectionSettingsRequest>;
 
 export interface CalculateProjectsEventThreatDetectionSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean;
+  name: string;
 }
 export const CalculateProjectsEventThreatDetectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -559,13 +559,13 @@ export const CalculateProjectsRapidVulnerabilityDetectionSettingsRequest = /*@__
 }) as any as S.Schema<CalculateProjectsRapidVulnerabilityDetectionSettingsRequest>;
 
 export interface CalculateProjectsSecurityHealthAnalyticsSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean;
+  name: string;
 }
 export const CalculateProjectsSecurityHealthAnalyticsSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -598,13 +598,13 @@ export const CalculateProjectsVirtualMachineThreatDetectionSettingsRequest =
   }) as any as S.Schema<CalculateProjectsVirtualMachineThreatDetectionSettingsRequest>;
 
 export interface CalculateProjectsWebSecurityScannerSettingsRequest {
-  showEligibleModulesOnly?: boolean;
   name: string;
+  showEligibleModulesOnly?: boolean;
 }
 export const CalculateProjectsWebSecurityScannerSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -806,19 +806,19 @@ export const GetSecurityCenterSettingsFoldersRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetSecurityCenterSettingsFoldersRequest>;
 
 export interface SecurityCenterSettings {
-  name?: string;
-  onboardingTime?: string;
-  orgServiceAccount?: string;
-  logSinkProject?: string;
   cryptoKeyName?: string;
+  onboardingTime?: string;
+  name?: string;
+  logSinkProject?: string;
+  orgServiceAccount?: string;
 }
 export const SecurityCenterSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    onboardingTime: S.optional(S.String),
-    orgServiceAccount: S.optional(S.String),
-    logSinkProject: S.optional(S.String),
     cryptoKeyName: S.optional(S.String),
+    onboardingTime: S.optional(S.String),
+    name: S.optional(S.String),
+    logSinkProject: S.optional(S.String),
+    orgServiceAccount: S.optional(S.String),
   }),
 ).annotate({ identifier: "SecurityCenterSettings" }) as any as S.Schema<SecurityCenterSettings>;
 
@@ -945,15 +945,15 @@ export type DetailsTypeEnum =
 export const DetailsTypeEnum = S.String;
 
 export interface Details {
+  startTime?: string;
   endTime?: string;
   type?: DetailsTypeEnum;
-  startTime?: string;
 }
 export const Details = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    startTime: S.optional(S.String),
     endTime: S.optional(S.String),
     type: S.optional(DetailsTypeEnum),
-    startTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Details" }) as any as S.Schema<Details>;
 
@@ -1096,16 +1096,16 @@ export const UpdateContainerThreatDetectionSettingsFoldersRequest = /*@__PURE__*
 }) as any as S.Schema<UpdateContainerThreatDetectionSettingsFoldersRequest>;
 
 export interface UpdateContainerThreatDetectionSettingsOrganizationsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: ContainerThreatDetectionSettings;
 }
 export const UpdateContainerThreatDetectionSettingsOrganizationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(ContainerThreatDetectionSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1164,15 +1164,15 @@ export const UpdateContainerThreatDetectionSettingsProjectsLocationsClustersRequ
   }) as any as S.Schema<UpdateContainerThreatDetectionSettingsProjectsLocationsClustersRequest>;
 
 export interface UpdateEventThreatDetectionSettingsFoldersRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: EventThreatDetectionSettings;
 }
 export const UpdateEventThreatDetectionSettingsFoldersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(EventThreatDetectionSettings.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1186,15 +1186,15 @@ export const UpdateEventThreatDetectionSettingsFoldersRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateEventThreatDetectionSettingsFoldersRequest>;
 
 export interface UpdateEventThreatDetectionSettingsOrganizationsRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: EventThreatDetectionSettings;
 }
 export const UpdateEventThreatDetectionSettingsOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(EventThreatDetectionSettings.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1320,16 +1320,16 @@ export const UpdateSecurityHealthAnalyticsSettingsFoldersRequest = /*@__PURE__*/
 }) as any as S.Schema<UpdateSecurityHealthAnalyticsSettingsFoldersRequest>;
 
 export interface UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: SecurityHealthAnalyticsSettings;
 }
 export const UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(SecurityHealthAnalyticsSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1388,16 +1388,16 @@ export const UpdateVirtualMachineThreatDetectionSettingsFoldersRequest = /*@__PU
 }) as any as S.Schema<UpdateVirtualMachineThreatDetectionSettingsFoldersRequest>;
 
 export interface UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: VirtualMachineThreatDetectionSettings;
 }
 export const UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(VirtualMachineThreatDetectionSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1411,16 +1411,16 @@ export const UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest =
   }) as any as S.Schema<UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest>;
 
 export interface UpdateVirtualMachineThreatDetectionSettingsProjectsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: VirtualMachineThreatDetectionSettings;
 }
 export const UpdateVirtualMachineThreatDetectionSettingsProjectsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(VirtualMachineThreatDetectionSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1434,15 +1434,15 @@ export const UpdateVirtualMachineThreatDetectionSettingsProjectsRequest = /*@__P
 }) as any as S.Schema<UpdateVirtualMachineThreatDetectionSettingsProjectsRequest>;
 
 export interface UpdateWebSecurityScannerSettingsFoldersRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: WebSecurityScannerSettings;
 }
 export const UpdateWebSecurityScannerSettingsFoldersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(WebSecurityScannerSettings.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

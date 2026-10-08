@@ -8,6 +8,32 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.workflowexecutions_v1beta#StackTraceElement": {
+      "type": "structure",
+      "members": {
+        "step": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The step the error occurred at."
+          }
+        },
+        "routine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The routine where the error occurred."
+          }
+        },
+        "position": {
+          "target": "com.gcp.workflowexecutions_v1beta#Position",
+          "traits": {
+            "smithy.api#documentation": "The source position information of the stack trace element."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single stack element (frame) where an error occurred."
+      }
+    },
     "com.gcp.workflowexecutions_v1beta#Position": {
       "type": "structure",
       "members": {
@@ -34,92 +60,13 @@
         "smithy.api#documentation": "Position contains source position information about the stack trace element such as line number, column number and length of the code block in bytes."
       }
     },
-    "com.gcp.workflowexecutions_v1beta#StackTraceElement": {
-      "type": "structure",
-      "members": {
-        "routine": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The routine where the error occurred."
-          }
-        },
-        "position": {
-          "target": "com.gcp.workflowexecutions_v1beta#Position",
-          "traits": {
-            "smithy.api#documentation": "The source position information of the stack trace element."
-          }
-        },
-        "step": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The step the error occurred at."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A single stack element (frame) where an error occurred."
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#StackTrace": {
-      "type": "structure",
-      "members": {
-        "elements": {
-          "target": "com.gcp.workflowexecutions_v1beta#StackTraceElementList",
-          "traits": {
-            "smithy.api#documentation": "An array of stack elements."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A collection of stack elements (frames) where an error occurred."
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#StackTraceElementList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.workflowexecutions_v1beta#StackTraceElement"
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#Workflowexecutions_Error": {
-      "type": "structure",
-      "members": {
-        "payload": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Error message and data returned represented as a JSON string."
-          }
-        },
-        "context": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Human-readable stack trace string."
-          }
-        },
-        "stackTrace": {
-          "target": "com.gcp.workflowexecutions_v1beta#StackTrace",
-          "traits": {
-            "smithy.api#documentation": "Stack trace with detailed information of where error was generated."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Error describes why the execution was abnormally terminated."
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#CancelExecutionRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request for the CancelExecution method."
-      }
-    },
     "com.gcp.workflowexecutions_v1beta#Execution": {
       "type": "structure",
       "members": {
-        "result": {
-          "target": "smithy.api#String",
+        "status": {
+          "target": "com.gcp.workflowexecutions_v1beta#Status",
           "traits": {
-            "smithy.api#documentation": "Output only. Output of the execution represented as a JSON string. The value can only be present if the execution's state is `SUCCEEDED`."
+            "smithy.api#documentation": "Output only. Status tracks the current steps and progress data of this execution."
           }
         },
         "workflowRevisionId": {
@@ -128,22 +75,16 @@
             "smithy.api#documentation": "Output only. Revision of the workflow this execution is using."
           }
         },
-        "startTime": {
+        "result": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. Marks the beginning of execution."
+            "smithy.api#documentation": "Output only. Output of the execution represented as a JSON string. The value can only be present if the execution's state is `SUCCEEDED`."
           }
         },
-        "endTime": {
+        "argument": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. Marks the end of execution, successful or not."
-          }
-        },
-        "error": {
-          "target": "com.gcp.workflowexecutions_v1beta#Workflowexecutions_Error",
-          "traits": {
-            "smithy.api#documentation": "Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`."
+            "smithy.api#documentation": "Input parameters of the execution represented as a JSON string. The size limit is 32KB. *Note*: If you are using the REST API directly to run your workflow, you must escape any JSON string value of `argument`. Example: `'{\"argument\":\"{\\\"firstName\\\":\\\"FIRST\\\",\\\"lastName\\\":\\\"LAST\\\"}\"}'`"
           }
         },
         "callLogLevel": {
@@ -158,22 +99,28 @@
             "smithy.api#documentation": "Output only. Current state of the execution."
           }
         },
-        "status": {
-          "target": "com.gcp.workflowexecutions_v1beta#Status",
-          "traits": {
-            "smithy.api#documentation": "Output only. Status tracks the current steps and progress data of this execution."
-          }
-        },
-        "argument": {
+        "startTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Input parameters of the execution represented as a JSON string. The size limit is 32KB. *Note*: If you are using the REST API directly to run your workflow, you must escape any JSON string value of `argument`. Example: `'{\"argument\":\"{\\\"firstName\\\":\\\"FIRST\\\",\\\"lastName\\\":\\\"LAST\\\"}\"}'`"
+            "smithy.api#documentation": "Output only. Marks the beginning of execution."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Marks the end of execution, successful or not."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}"
+          }
+        },
+        "error": {
+          "target": "com.gcp.workflowexecutions_v1beta#Workflowexecutions_Error",
+          "traits": {
+            "smithy.api#documentation": "Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`."
           }
         }
       },
@@ -251,6 +198,79 @@
         }
       }
     },
+    "com.gcp.workflowexecutions_v1beta#Workflowexecutions_Error": {
+      "type": "structure",
+      "members": {
+        "context": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable stack trace string."
+          }
+        },
+        "stackTrace": {
+          "target": "com.gcp.workflowexecutions_v1beta#StackTrace",
+          "traits": {
+            "smithy.api#documentation": "Stack trace with detailed information of where error was generated."
+          }
+        },
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message and data returned represented as a JSON string."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Error describes why the execution was abnormally terminated."
+      }
+    },
+    "com.gcp.workflowexecutions_v1beta#Step": {
+      "type": "structure",
+      "members": {
+        "step": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of a step within the routine."
+          }
+        },
+        "routine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of a routine within the workflow."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a step of the workflow this execution is running."
+      }
+    },
+    "com.gcp.workflowexecutions_v1beta#Status": {
+      "type": "structure",
+      "members": {
+        "currentSteps": {
+          "target": "com.gcp.workflowexecutions_v1beta#StepList",
+          "traits": {
+            "smithy.api#documentation": "A list of currently executing or last executed step names for the workflow execution currently running. If the workflow has succeeded or failed, this is the last attempted or executed step. Presently, if the current step is inside a subworkflow, the list only includes that step. In the future, the list will contain items for each step in the call stack, starting with the outermost step in the `main` subworkflow, and ending with the most deeply nested step."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the current status of this execution."
+      }
+    },
+    "com.gcp.workflowexecutions_v1beta#StepList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.workflowexecutions_v1beta#Step"
+      }
+    },
+    "com.gcp.workflowexecutions_v1beta#CancelExecutionRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request for the CancelExecution method."
+      }
+    },
     "com.gcp.workflowexecutions_v1beta#ListExecutionsResponse": {
       "type": "structure",
       "members": {
@@ -277,62 +297,79 @@
         "target": "com.gcp.workflowexecutions_v1beta#Execution"
       }
     },
-    "com.gcp.workflowexecutions_v1beta#Status": {
+    "com.gcp.workflowexecutions_v1beta#StackTrace": {
       "type": "structure",
       "members": {
-        "currentSteps": {
-          "target": "com.gcp.workflowexecutions_v1beta#StepList",
+        "elements": {
+          "target": "com.gcp.workflowexecutions_v1beta#StackTraceElementList",
           "traits": {
-            "smithy.api#documentation": "A list of currently executing or last executed step names for the workflow execution currently running. If the workflow has succeeded or failed, this is the last attempted or executed step. Presently, if the current step is inside a subworkflow, the list only includes that step. In the future, the list will contain items for each step in the call stack, starting with the outermost step in the `main` subworkflow, and ending with the most deeply nested step."
+            "smithy.api#documentation": "An array of stack elements."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Represents the current status of this execution."
+        "smithy.api#documentation": "A collection of stack elements (frames) where an error occurred."
       }
     },
-    "com.gcp.workflowexecutions_v1beta#StepList": {
+    "com.gcp.workflowexecutions_v1beta#StackTraceElementList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.workflowexecutions_v1beta#Step"
+        "target": "com.gcp.workflowexecutions_v1beta#StackTraceElement"
       }
     },
-    "com.gcp.workflowexecutions_v1beta#Step": {
-      "type": "structure",
+    "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsViewEnum": {
+      "type": "enum",
       "members": {
-        "routine": {
-          "target": "smithy.api#String",
+        "EXECUTION_VIEW_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Name of a routine within the workflow."
+            "smithy.api#enumValue": "EXECUTION_VIEW_UNSPECIFIED"
           }
         },
-        "step": {
-          "target": "smithy.api#String",
+        "BASIC": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Name of a step within the routine."
+            "smithy.api#enumValue": "BASIC"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FULL"
           }
         }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents a step of the workflow this execution is running."
       }
     },
-    "com.gcp.workflowexecutions_v1beta#CancelProjectsLocationsWorkflowsExecutionsRequest": {
+    "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsRequest": {
       "type": "structure",
       "members": {
-        "name": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of executions to return per call. Max supported value depends on the selected Execution view: it's 10000 for BASIC and 100 for FULL. The default value used if the field is not specified is 100, regardless of the selected view. Values greater than the max value will be coerced down to it.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. Name of the execution to be cancelled. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}",
+            "smithy.api#documentation": "A page token, received from a previous `ListExecutions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExecutions` must match the call that provided the page token.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the workflow for which the executions should be listed. Format: projects/{project}/locations/{location}/workflows/{workflow}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
-        "body": {
-          "target": "com.gcp.workflowexecutions_v1beta#CancelExecutionRequest",
+        "view": {
+          "target": "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsViewEnum",
           "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
+            "smithy.api#documentation": "Optional. A view defining which fields should be filled in the returned executions. The API will default to the BASIC view.",
+            "smithy.api#httpQuery": "view"
           }
         }
       }
@@ -363,6 +400,54 @@
         ]
       }
     },
+    "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.workflowexecutions_v1beta#ListExecutionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.workflowexecutions_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.workflowexecutions_v1beta#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1beta/{+parent}/executions"
+        },
+        "smithy.api#documentation": "Returns a list of executions which belong to the workflow with the given name. The method returns executions of all workflow revisions. Returned executions are ordered by their start time (newest first).",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.workflowexecutions_v1beta#CreateProjectsLocationsWorkflowsExecutionsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.workflowexecutions_v1beta#Execution",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
     "com.gcp.workflowexecutions_v1beta#BadRequest": {
       "type": "structure",
       "members": {},
@@ -387,56 +472,6 @@
             "status": 409
           }
         ]
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#CancelProjectsLocationsWorkflowsExecutions": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.workflowexecutions_v1beta#CancelProjectsLocationsWorkflowsExecutionsRequest"
-      },
-      "output": {
-        "target": "com.gcp.workflowexecutions_v1beta#Execution"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.workflowexecutions_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.workflowexecutions_v1beta#Forbidden"
-        },
-        {
-          "target": "com.gcp.workflowexecutions_v1beta#BadRequest"
-        },
-        {
-          "target": "com.gcp.workflowexecutions_v1beta#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1beta/{+name}:cancel"
-        },
-        "smithy.api#documentation": "Cancels an execution of the given name."
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#CreateProjectsLocationsWorkflowsExecutionsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.workflowexecutions_v1beta#Execution",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
       }
     },
     "com.gcp.workflowexecutions_v1beta#CreateProjectsLocationsWorkflowsExecutions": {
@@ -536,70 +571,33 @@
         "smithy.api#documentation": "Returns an execution of the given name."
       }
     },
-    "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsViewEnum": {
-      "type": "enum",
-      "members": {
-        "EXECUTION_VIEW_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_VIEW_UNSPECIFIED"
-          }
-        },
-        "BASIC": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BASIC"
-          }
-        },
-        "FULL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FULL"
-          }
-        }
-      }
-    },
-    "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsRequest": {
+    "com.gcp.workflowexecutions_v1beta#CancelProjectsLocationsWorkflowsExecutionsRequest": {
       "type": "structure",
       "members": {
-        "view": {
-          "target": "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsViewEnum",
-          "traits": {
-            "smithy.api#documentation": "Optional. A view defining which fields should be filled in the returned executions. The API will default to the BASIC view.",
-            "smithy.api#httpQuery": "view"
-          }
-        },
-        "parent": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. Name of the workflow for which the executions should be listed. Format: projects/{project}/locations/{location}/workflows/{workflow}",
+            "smithy.api#documentation": "Required. Name of the execution to be cancelled. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
-        "pageToken": {
-          "target": "smithy.api#String",
+        "body": {
+          "target": "com.gcp.workflowexecutions_v1beta#CancelExecutionRequest",
           "traits": {
-            "smithy.api#documentation": "A page token, received from a previous `ListExecutions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExecutions` must match the call that provided the page token.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum number of executions to return per call. Max supported value depends on the selected Execution view: it's 10000 for BASIC and 100 for FULL. The default value used if the field is not specified is 100, regardless of the selected view. Values greater than the max value will be coerced down to it.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
     },
-    "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutions": {
+    "com.gcp.workflowexecutions_v1beta#CancelProjectsLocationsWorkflowsExecutions": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.workflowexecutions_v1beta#ListProjectsLocationsWorkflowsExecutionsRequest"
+        "target": "com.gcp.workflowexecutions_v1beta#CancelProjectsLocationsWorkflowsExecutionsRequest"
       },
       "output": {
-        "target": "com.gcp.workflowexecutions_v1beta#ListExecutionsResponse"
+        "target": "com.gcp.workflowexecutions_v1beta#Execution"
       },
       "errors": [
         {
@@ -607,18 +605,20 @@
         },
         {
           "target": "com.gcp.workflowexecutions_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.workflowexecutions_v1beta#BadRequest"
+        },
+        {
+          "target": "com.gcp.workflowexecutions_v1beta#Conflict"
         }
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1beta/{+parent}/executions"
+          "method": "POST",
+          "uri": "v1beta/{+name}:cancel"
         },
-        "smithy.api#documentation": "Returns a list of executions which belong to the workflow with the given name. The method returns executions of all workflow revisions. Returned executions are ordered by their start time (newest first).",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
+        "smithy.api#documentation": "Cancels an execution of the given name."
       }
     }
   }

@@ -8,6 +8,38 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.acceleratedmobilepageurl_v1#BatchGetAmpUrlsResponse": {
+      "type": "structure",
+      "members": {
+        "urlErrors": {
+          "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlErrorList",
+          "traits": {
+            "smithy.api#documentation": "The errors for requested URLs that have no AMP URL."
+          }
+        },
+        "ampUrls": {
+          "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlList",
+          "traits": {
+            "smithy.api#documentation": "For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Batch AMP URL response."
+      }
+    },
+    "com.gcp.acceleratedmobilepageurl_v1#AmpUrlErrorList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlError"
+      }
+    },
+    "com.gcp.acceleratedmobilepageurl_v1#AmpUrlList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrl"
+      }
+    },
     "com.gcp.acceleratedmobilepageurl_v1#AmpUrlError": {
       "type": "structure",
       "members": {
@@ -75,36 +107,30 @@
         }
       }
     },
-    "com.gcp.acceleratedmobilepageurl_v1#BatchGetAmpUrlsResponse": {
+    "com.gcp.acceleratedmobilepageurl_v1#AmpUrl": {
       "type": "structure",
       "members": {
-        "urlErrors": {
-          "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlErrorList",
+        "ampUrl": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The errors for requested URLs that have no AMP URL."
+            "smithy.api#documentation": "The AMP URL pointing to the publisher's web server."
           }
         },
-        "ampUrls": {
-          "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlList",
+        "originalUrl": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once."
+            "smithy.api#documentation": "The original non-AMP URL."
+          }
+        },
+        "cdnAmpUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Batch AMP URL response."
-      }
-    },
-    "com.gcp.acceleratedmobilepageurl_v1#AmpUrlErrorList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlError"
-      }
-    },
-    "com.gcp.acceleratedmobilepageurl_v1#AmpUrlList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrl"
+        "smithy.api#documentation": "AMP URL response for a requested URL."
       }
     },
     "com.gcp.acceleratedmobilepageurl_v1#BatchGetAmpUrlsRequest": {
@@ -148,32 +174,6 @@
             "smithy.api#enumValue": "IN_INDEX_DOC"
           }
         }
-      }
-    },
-    "com.gcp.acceleratedmobilepageurl_v1#AmpUrl": {
-      "type": "structure",
-      "members": {
-        "originalUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The original non-AMP URL."
-          }
-        },
-        "ampUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The AMP URL pointing to the publisher's web server."
-          }
-        },
-        "cdnAmpUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "AMP URL response for a requested URL."
       }
     },
     "com.gcp.acceleratedmobilepageurl_v1#BatchGetAmpUrlsRequest_": {

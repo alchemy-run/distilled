@@ -89,22 +89,8 @@ export class SaasNotFound
     [{ status: 400, message: { matches: "cannot get \\w+'s Saas" } }],
   ) {}
 
-/** Blueprints are OCI Images that contain all of the artifacts needed to provision a unit. Metadata such as, type of the engine used to actuate the blueprint (e.g. terraform, helm etc) and version will come from the image manifest. If the hostname is omitted, it will be assumed to be the regional path to Artifact Registry (eg. us-east1-docker.pkg.dev). */
-export interface Blueprint {
-  /** Optional. Immutable. URI to a blueprint used by the Unit (required unless unitKind or release is set). */
-  package?: string;
-  /** Output only. Type of the engine used to actuate the blueprint. e.g. terraform, helm etc. */
-  engine?: string;
-  /** Output only. Version metadata if present on the blueprint. */
-  version?: string;
-}
-export const Blueprint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    package: S.optional(S.String),
-    engine: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
 export type UnitVariableTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -117,18 +103,18 @@ export const UnitVariableTypeEnum = S.String;
 
 /** UnitVariable describes a parameter for a Unit. */
 export interface UnitVariable {
-  /** Optional. Immutable. Name of a supported variable type. Supported types are string, int, bool. */
-  type?: UnitVariableTypeEnum | (string & {});
   /** Required. Immutable. Name of the variable from actuation configs. */
   variable?: string;
   /** Optional. String encoded value for the variable. */
   value?: string;
+  /** Optional. Immutable. Name of a supported variable type. Supported types are string, int, bool. */
+  type?: UnitVariableTypeEnum | (string & {});
 }
 export const UnitVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(UnitVariableTypeEnum),
     variable: S.optional(S.String),
     value: S.optional(S.String),
+    type: S.optional(UnitVariableTypeEnum),
   }),
 ).annotate({ identifier: "UnitVariable" }) as any as S.Schema<UnitVariable>;
 
@@ -136,9 +122,6 @@ export type UnitVariableList = Array<UnitVariable>;
 export const UnitVariableList = /*@__PURE__*/ S.Array(
   UnitVariable,
 ) as any as S.Schema<UnitVariableList>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -154,71 +137,88 @@ export const ReleaseRequirements = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ReleaseRequirements" }) as any as S.Schema<ReleaseRequirements>;
 
-/** A new version to be propagated and deployed to units. This includes pointers to packaged blueprints for actuation (e.g Helm or Terraform configuration packages) via artifact registry. */
+/** Blueprints are OCI Images that contain all of the artifacts needed to provision a unit. Metadata such as, type of the engine used to actuate the blueprint (Terraform, for example) and version will come from the image manifest. If the hostname is omitted, it will be assumed to be the regional path to Artifact Registry (eg. us-east1-docker.pkg.dev). */
+export interface Blueprint {
+  /** Output only. Version metadata if present on the blueprint. */
+  version?: string;
+  /** Output only. Type of the engine used to actuate the blueprint. (Terraform, for example) */
+  engine?: string;
+  /** Optional. Immutable. URI to a blueprint used by the Unit (required unless unitKind or release is set). */
+  package?: string;
+}
+export const Blueprint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    engine: S.optional(S.String),
+    package: S.optional(S.String),
+  }),
+).annotate({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
+
+/** A new version to be propagated and deployed to units. This includes pointers to packaged blueprints for actuation via Artifact Registry. */
 export interface Release {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
+  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
+  annotations?: StringMap;
   /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
   uid?: string;
+  /** Optional. Mapping of input variables to default values. Maximum 100 */
+  inputVariableDefaults?: UnitVariableList;
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/releases/{release}" */
   name?: string;
+  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
+  updateTime?: string;
+  /** Optional. Output only. List of input variables declared on the blueprint and can be present with their values on the unit spec */
+  inputVariables?: UnitVariableList;
   /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
   etag?: string;
   /** Required. Immutable. Reference to the UnitKind this Release corresponds to (required and immutable once created). */
   unitKind?: string;
-  /** Optional. Blueprints are OCI Images that contain all of the artifacts needed to provision a unit. */
-  blueprint?: Blueprint;
-  /** Optional. Output only. List of input variables declared on the blueprint and can be present with their values on the unit spec */
-  inputVariables?: UnitVariableList;
-  /** Optional. Output only. List of output variables declared on the blueprint and can be present with their values on the unit status */
-  outputVariables?: UnitVariableList;
-  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
-  annotations?: StringMap;
   /** Optional. Set of requirements to be fulfilled on the Unit when using this Release. */
   releaseRequirements?: ReleaseRequirements;
-  /** Optional. Mapping of input variables to default values. Maximum 100 */
-  inputVariableDefaults?: UnitVariableList;
-  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
-  updateTime?: string;
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Blueprints are OCI Images that contain all of the artifacts needed to provision a unit. */
+  blueprint?: Blueprint;
+  /** Optional. Output only. List of output variables declared on the blueprint and can be present with their values on the unit status */
+  outputVariables?: UnitVariableList;
 }
 export const Release = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    annotations: S.optional(StringMap),
     uid: S.optional(S.String),
+    inputVariableDefaults: S.optional(UnitVariableList),
     name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    inputVariables: S.optional(UnitVariableList),
     etag: S.optional(S.String),
     unitKind: S.optional(S.String),
-    blueprint: S.optional(Blueprint),
-    inputVariables: S.optional(UnitVariableList),
-    outputVariables: S.optional(UnitVariableList),
-    annotations: S.optional(StringMap),
     releaseRequirements: S.optional(ReleaseRequirements),
-    inputVariableDefaults: S.optional(UnitVariableList),
-    updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    blueprint: S.optional(Blueprint),
+    outputVariables: S.optional(UnitVariableList),
   }),
 ).annotate({ identifier: "Release" }) as any as S.Schema<Release>;
 
 export interface CreateProjectsLocationsReleasesRequest {
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The ID value for the new release. */
   releaseId?: string;
   /** Required. The parent of the release. */
   parent: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Release;
 }
 export const CreateProjectsLocationsReleasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     releaseId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Release.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -233,15 +233,15 @@ export const CreateProjectsLocationsReleasesRequest = /*@__PURE__*/ S.suspend(()
 
 /** The configuration for error budget. If the number of failed units exceeds max(allowed_count, allowed_ratio * total_units), the rollout will be paused. */
 export interface ErrorBudget {
-  /** Optional. The maximum number of failed units allowed in a location without pausing the rollout. */
-  allowedCount?: number;
   /** Optional. The maximum percentage of units allowed to fail (0, 100] within a location without pausing the rollout. */
   allowedPercentage?: number;
+  /** Optional. The maximum number of failed units allowed in a location without pausing the rollout. */
+  allowedCount?: number;
 }
 export const ErrorBudget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowedCount: S.optional(S.Number),
     allowedPercentage: S.optional(S.Number),
+    allowedCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ErrorBudget" }) as any as S.Schema<ErrorBudget>;
 
@@ -278,69 +278,69 @@ export const UnitUpdatePacing = /*@__PURE__*/ S.suspend(() =>
 
 /** An object that describes various settings of Rollout execution. Includes built-in and customizable policies. */
 export interface RolloutKind {
-  /** Optional. The strategy used for executing a Rollout. This is a required field. There are two supported values strategies which are used to control - "Google.Cloud.Simple.AllAtOnce" - "Google.Cloud.Simple.OneLocationAtATime" A rollout with one of these simple strategies will rollout across all locations defined in the associated UnitKind's Saas Locations. */
-  rolloutOrchestrationStrategy?: string;
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
-  /** Optional. CEL(https://github.com/google/cel-spec) formatted filter string against Unit. The filter will be applied to determine the eligible unit population. This filter can only reduce, but not expand the scope of the rollout. */
-  unitFilter?: string;
-  /** Optional. The configuration for error budget. If the number of failed units exceeds max(allowed_count, allowed_ratio * total_units), the rollout will be paused. If not set, all units will be attempted to be updated regardless of the number of failures encountered. */
-  errorBudget?: ErrorBudget;
-  /** Optional. Immutable. UnitKind that this rollout kind corresponds to. Rollouts stemming from this rollout kind will target the units of this unit kind. In other words, this defines the population of target units to be upgraded by rollouts. */
-  unitKind?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
-  etag?: string;
-  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
-  annotations?: StringMap;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rolloutKinds/{rollout_kind_id}" */
-  name?: string;
-  /** Optional. The config for updating the unit kind. By default, the unit kind will be updated on the rollout start. */
-  updateUnitKindStrategy?: RolloutKindUpdateUnitKindStrategyEnum | (string & {});
   /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
   updateTime?: string;
-  /** Optional. Settings for controlling the pacing of rollouts i.e. the number of units to be rolled out in parallel in a region. */
-  unitUpdatePacing?: UnitUpdatePacing;
   /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
   uid?: string;
+  /** Optional. The configuration for error budget. If the number of failed units exceeds max(allowed_count, allowed_ratio * total_units), the rollout will be paused. If not set, all units will be attempted to be updated regardless of the number of failures encountered. */
+  errorBudget?: ErrorBudget;
+  /** Optional. The strategy used for executing a Rollout. This is a required field. There are two supported values strategies which are used to control - "Google.Cloud.Simple.AllAtOnce" - "Google.Cloud.Simple.OneLocationAtATime" A rollout with one of these simple strategies will rollout across all locations defined in the associated UnitKind's Saas Locations. */
+  rolloutOrchestrationStrategy?: string;
+  /** Optional. [CEL](https://github.com/google/cel-spec) formatted filter string against Unit. The filter will be applied to determine the eligible unit population. This filter can only reduce, but not expand the scope of the rollout. */
+  unitFilter?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
+  annotations?: StringMap;
+  /** Optional. The config for updating the unit kind. By default, the unit kind will be updated on the rollout start. */
+  updateUnitKindStrategy?: RolloutKindUpdateUnitKindStrategyEnum | (string & {});
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rolloutKinds/{rollout_kind_id}" */
+  name?: string;
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
+  /** Optional. Immutable. UnitKind that this rollout kind corresponds to. Rollouts stemming from this rollout kind will target the units of this unit kind. In other words, this defines the population of target units to be upgraded by rollouts. */
+  unitKind?: string;
+  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
+  etag?: string;
+  /** Optional. Settings for controlling the pacing of rollouts i.e. the number of units to be rolled out in parallel in a region. */
+  unitUpdatePacing?: UnitUpdatePacing;
 }
 export const RolloutKind = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rolloutOrchestrationStrategy: S.optional(S.String),
-    labels: S.optional(StringMap),
-    unitFilter: S.optional(S.String),
-    errorBudget: S.optional(ErrorBudget),
-    unitKind: S.optional(S.String),
-    createTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    name: S.optional(S.String),
-    updateUnitKindStrategy: S.optional(RolloutKindUpdateUnitKindStrategyEnum),
     updateTime: S.optional(S.String),
-    unitUpdatePacing: S.optional(UnitUpdatePacing),
     uid: S.optional(S.String),
+    errorBudget: S.optional(ErrorBudget),
+    rolloutOrchestrationStrategy: S.optional(S.String),
+    unitFilter: S.optional(S.String),
+    createTime: S.optional(S.String),
+    annotations: S.optional(StringMap),
+    updateUnitKindStrategy: S.optional(RolloutKindUpdateUnitKindStrategyEnum),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    unitKind: S.optional(S.String),
+    etag: S.optional(S.String),
+    unitUpdatePacing: S.optional(UnitUpdatePacing),
   }),
 ).annotate({ identifier: "RolloutKind" }) as any as S.Schema<RolloutKind>;
 
 export interface CreateProjectsLocationsRolloutKindsRequest {
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The parent of the rollout kind. */
-  parent: string;
   /** Required. The ID value for the new rollout kind. */
   rolloutKindId?: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
+  /** Required. The parent of the rollout kind. */
+  parent: string;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: RolloutKind;
 }
 export const CreateProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     rolloutKindId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(RolloutKind.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -352,37 +352,6 @@ export const CreateProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspen
 ).annotate({
   identifier: "CreateProjectsLocationsRolloutKindsRequest",
 }) as any as S.Schema<CreateProjectsLocationsRolloutKindsRequest>;
-
-/** Represents the aggregation of a set of population of like records by a certain group. For example, a collection of unit counts can be aggregated and grouped by their state. */
-export interface Aggregate {
-  /** Required. Number of records in the group. */
-  count?: number;
-  /** Required. Group by which to aggregate. */
-  group?: string;
-}
-export const Aggregate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.Number),
-    group: S.optional(S.String),
-  }),
-).annotate({ identifier: "Aggregate" }) as any as S.Schema<Aggregate>;
-
-export type AggregateList = Array<Aggregate>;
-export const AggregateList = /*@__PURE__*/ S.Array(Aggregate) as any as S.Schema<AggregateList>;
-
-/** RolloutStats contains information about the progress of a rollout. */
-export interface RolloutStats {
-  /** Optional. Output only. Estimated number of units based. The estimation is computed upon creation of the rollout. */
-  estimatedTotalUnitCount?: string;
-  /** Optional. Output only. Unordered list. A breakdown of the progress of operations triggered by the rollout. Provides a count of Operations by their state. This can be used to determine the number of units which have been updated, or are scheduled to be updated. There will be at most one entry per group. Possible values for operation groups are: - "SCHEDULED" - "PENDING" - "RUNNING" - "SUCCEEDED" - "FAILED" - "CANCELLED" */
-  operationsByState?: AggregateList;
-}
-export const RolloutStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    estimatedTotalUnitCount: S.optional(S.String),
-    operationsByState: S.optional(AggregateList),
-  }),
-).annotate({ identifier: "RolloutStats" }) as any as S.Schema<RolloutStats>;
 
 /** Parameters for the RUN action controlling the behavior of the rollout when it is resumed from a PAUSED state. */
 export interface RunRolloutActionParams {
@@ -429,101 +398,132 @@ export type RolloutStateEnum =
   | "ROLLOUT_STATE_PAUSING";
 export const RolloutStateEnum = S.String;
 
+/** Represents the aggregation of a set of population of like records by a certain group. For example, a collection of unit counts can be aggregated and grouped by their state. */
+export interface Aggregate {
+  /** Required. Number of records in the group. */
+  count?: number;
+  /** Required. Group by which to aggregate. */
+  group?: string;
+}
+export const Aggregate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.optional(S.Number),
+    group: S.optional(S.String),
+  }),
+).annotate({ identifier: "Aggregate" }) as any as S.Schema<Aggregate>;
+
+export type AggregateList = Array<Aggregate>;
+export const AggregateList = /*@__PURE__*/ S.Array(Aggregate) as any as S.Schema<AggregateList>;
+
+/** RolloutStats contains information about the progress of a rollout. */
+export interface RolloutStats {
+  /** Optional. Output only. Unordered list. A breakdown of the progress of operations triggered by the rollout. Provides a count of Operations by their state. This can be used to determine the number of units which have been updated, or are scheduled to be updated. There will be at most one entry per group. Possible values for operation groups are: - "SCHEDULED" - "PENDING" - "RUNNING" - "SUCCEEDED" - "FAILED" - "CANCELLED" */
+  operationsByState?: AggregateList;
+  /** Optional. Output only. Estimated number of units based. The estimation is computed upon creation of the rollout. */
+  estimatedTotalUnitCount?: string;
+}
+export const RolloutStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operationsByState: S.optional(AggregateList),
+    estimatedTotalUnitCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RolloutStats" }) as any as S.Schema<RolloutStats>;
+
 /** Represents a single rollout execution and its results */
 export interface Rollout {
-  /** Optional. Output only. Output only snapshot of the effective unit filter at Rollout start time. Contains a CEL(https://github.com/google/cel-spec) expression consisting of a conjunction of Rollout.unit_filter and RolloutKind.unit_filter. This field captures the filter applied by the Rollout to determine the Unit population. If the associated RolloutKind's unit_filter is modified after the rollout is started, it will not be updated here. */
-  effectiveUnitFilter?: string;
-  /** Optional. Output only. Details about the progress of the rollout. */
-  stats?: RolloutStats;
-  /** Optional. Immutable. Name of the FlagRelease to be rolled out to the target Units. Release and FlagRelease are mutually exclusive. Note: `release` comment needs to be adjusted to mention that "Release and FlagRelease are mutually exclusive" when visibility restriction will be lifted. */
-  flagRelease?: string;
-  /** Optional. Output only. The direct parent rollout that this rollout is stemming from. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rollouts/{rollout_id}" */
-  parentRollout?: string;
-  /** Optional. Requested change to the execution of this rollout. Default RolloutControl.action is ROLLOUT_ACTION_RUN meaning the rollout will be executed to completion while progressing through all natural Rollout States (such as RUNNING -> SUCCEEDED or RUNNING -> FAILED). Requests can only be made when the Rollout is in a non-terminal state. */
-  control?: RolloutControl;
-  /** Optional. The strategy used for executing this Rollout. This strategy will override whatever strategy is specified in the RolloutKind. If not specified on creation, the strategy from RolloutKind will be used. There are two supported values strategies which are used to control - "Google.Cloud.Simple.AllAtOnce" - "Google.Cloud.Simple.OneLocationAtATime" A rollout with one of these simple strategies will rollout across all locations defined in the targeted UnitKind's Saas Locations. */
-  rolloutOrchestrationStrategy?: string;
-  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
-  updateTime?: string;
-  /** Optional. Output only. The time when the rollout transitioned into its current state. */
-  stateTransitionTime?: string;
-  /** Optional. Immutable. Name of the Release that gets rolled out to target Units. Required if no other type of release is specified. */
-  release?: string;
-  /** Optional. Output only. The time when the rollout started executing. Will be empty if the rollout hasn't started yet. */
-  startTime?: string;
-  /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
-  uid?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Output only. The time when the rollout finished execution (regardless of success, failure, or cancellation). Will be empty if the rollout hasn't finished yet. Once set, the rollout is in terminal state and all the results are final. */
-  endTime?: string;
-  /** Output only. Human readable message indicating details about the last state transition. */
-  stateMessage?: string;
-  /** Output only. Current state of the rollout. */
-  state?: RolloutStateEnum | (string & {});
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rollout/{rollout_id}" */
   name?: string;
+  /** Required. Immutable. Name of the RolloutKind this rollout is stemming from and adhering to. */
+  rolloutKind?: string;
+  /** Optional. Requested change to the execution of this rollout. Default RolloutControl.action is ROLLOUT_ACTION_RUN meaning the rollout will be executed to completion while progressing through all natural Rollout States (such as RUNNING -> SUCCEEDED or RUNNING -> FAILED). Requests can only be made when the Rollout is in a non-terminal state. */
+  control?: RolloutControl;
+  /** Optional. Immutable. Name of the FlagRelease to be rolled out to the target Units. Release and FlagRelease are mutually exclusive. Note: `release` comment needs to be adjusted to mention that "Release and FlagRelease are mutually exclusive" when visibility restriction will be lifted. */
+  flagRelease?: string;
+  /** Optional. Immutable. Name of the Release that gets rolled out to target Units. Required if no other type of release is specified. */
+  release?: string;
   /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
   etag?: string;
+  /** Optional. Output only. Output only snapshot of the effective unit filter at Rollout start time. Contains a CEL(https://github.com/google/cel-spec) expression consisting of a conjunction of Rollout.unit_filter and RolloutKind.unit_filter. This field captures the filter applied by the Rollout to determine the Unit population. If the associated RolloutKind's unit_filter is modified after the rollout is started, it will not be updated here. */
+  effectiveUnitFilter?: string;
+  /** Output only. Human readable message indicating details about the last state transition. */
+  stateMessage?: string;
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
+  /** Optional. Output only. The direct parent rollout that this rollout is stemming from. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rollouts/{rollout_id}" */
+  parentRollout?: string;
+  /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
+  uid?: string;
+  /** Optional. Output only. The time when the rollout started executing. Will be empty if the rollout hasn't started yet. */
+  startTime?: string;
+  /** Optional. Output only. The time when the rollout transitioned into its current state. */
+  stateTransitionTime?: string;
+  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
+  updateTime?: string;
+  /** Output only. Current state of the rollout. */
+  state?: RolloutStateEnum | (string & {});
+  /** Optional. Output only. Details about the progress of the rollout. */
+  stats?: RolloutStats;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
   /** Output only. The timestamp when the resource was marked for deletion (deletion is an asynchronous operation). */
   deleteTime?: string;
   /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
   annotations?: StringMap;
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
   /** Optional. CEL(https://github.com/google/cel-spec) formatted filter string against Unit. The filter will be applied to determine the eligible unit population. This filter can only reduce, but not expand the scope of the rollout. If not provided, the unit_filter from the RolloutKind will be used. */
   unitFilter?: string;
+  /** Optional. Output only. The time when the rollout finished execution (regardless of success, failure, or cancellation). Will be empty if the rollout hasn't finished yet. Once set, the rollout is in terminal state and all the results are final. */
+  endTime?: string;
+  /** Optional. The strategy used for executing this Rollout. This strategy will override whatever strategy is specified in the RolloutKind. If not specified on creation, the strategy from RolloutKind will be used. There are two supported values strategies which are used to control - "Google.Cloud.Simple.AllAtOnce" - "Google.Cloud.Simple.OneLocationAtATime" A rollout with one of these simple strategies will rollout across all locations defined in the targeted UnitKind's Saas Locations. */
+  rolloutOrchestrationStrategy?: string;
   /** Optional. Output only. The root rollout that this rollout is stemming from. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rollouts/{rollout_id}" */
   rootRollout?: string;
-  /** Required. Immutable. Name of the RolloutKind this rollout is stemming from and adhering to. */
-  rolloutKind?: string;
 }
 export const Rollout = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    effectiveUnitFilter: S.optional(S.String),
-    stats: S.optional(RolloutStats),
-    flagRelease: S.optional(S.String),
-    parentRollout: S.optional(S.String),
-    control: S.optional(RolloutControl),
-    rolloutOrchestrationStrategy: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    stateTransitionTime: S.optional(S.String),
-    release: S.optional(S.String),
-    startTime: S.optional(S.String),
-    uid: S.optional(S.String),
-    createTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-    stateMessage: S.optional(S.String),
-    state: S.optional(RolloutStateEnum),
     name: S.optional(S.String),
+    rolloutKind: S.optional(S.String),
+    control: S.optional(RolloutControl),
+    flagRelease: S.optional(S.String),
+    release: S.optional(S.String),
     etag: S.optional(S.String),
+    effectiveUnitFilter: S.optional(S.String),
+    stateMessage: S.optional(S.String),
+    labels: S.optional(StringMap),
+    parentRollout: S.optional(S.String),
+    uid: S.optional(S.String),
+    startTime: S.optional(S.String),
+    stateTransitionTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    state: S.optional(RolloutStateEnum),
+    stats: S.optional(RolloutStats),
+    createTime: S.optional(S.String),
     deleteTime: S.optional(S.String),
     annotations: S.optional(StringMap),
-    labels: S.optional(StringMap),
     unitFilter: S.optional(S.String),
+    endTime: S.optional(S.String),
+    rolloutOrchestrationStrategy: S.optional(S.String),
     rootRollout: S.optional(S.String),
-    rolloutKind: S.optional(S.String),
   }),
 ).annotate({ identifier: "Rollout" }) as any as S.Schema<Rollout>;
 
 export interface CreateProjectsLocationsRolloutsRequest {
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. The parent of the rollout. */
   parent: string;
   /** Required. The ID value for the new rollout. */
   rolloutId?: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
   /** Request body */
   body?: Rollout;
 }
 export const CreateProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     rolloutId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Rollout.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -536,71 +536,13 @@ export const CreateProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(()
   identifier: "CreateProjectsLocationsRolloutsRequest",
 }) as any as S.Schema<CreateProjectsLocationsRolloutsRequest>;
 
-export type SaasConditionStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "STATUS_UNKNOWN"
-  | "STATUS_TRUE"
-  | "STATUS_FALSE";
-export const SaasConditionStatusEnum = S.String;
-
-export type SaasConditionTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_READY" | "TYPE_SYNCHRONIZED";
-export const SaasConditionTypeEnum = S.String;
-
-/** SaasCondition describes the status of a Saas. */
-export interface SaasCondition {
-  /** Required. Status of the condition. */
-  status?: SaasConditionStatusEnum | (string & {});
-  /** Required. Brief reason for the condition's last transition. */
-  reason?: string;
-  /** Required. Human readable message indicating details about the last transition. */
-  message?: string;
-  /** Required. Type of the condition. */
-  type?: SaasConditionTypeEnum | (string & {});
-  /** Required. Last time the condition transited from one status to another. */
-  lastTransitionTime?: string;
-}
-export const SaasCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(SaasConditionStatusEnum),
-    reason: S.optional(S.String),
-    message: S.optional(S.String),
-    type: S.optional(SaasConditionTypeEnum),
-    lastTransitionTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "SaasCondition" }) as any as S.Schema<SaasCondition>;
-
-export type SaasConditionList = Array<SaasCondition>;
-export const SaasConditionList = /*@__PURE__*/ S.Array(
-  SaasCondition,
-) as any as S.Schema<SaasConditionList>;
-
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type DocumentMapList = Array<DocumentMap>;
-export const DocumentMapList = /*@__PURE__*/ S.Array(
-  DocumentMap,
-) as any as S.Schema<DocumentMapList>;
-
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-}
-export const Status = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
-    code: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
+export type SaasStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STATE_TYPE_UNSPECIFIED"
+  | "STATE_ACTIVE"
+  | "STATE_RUNNING"
+  | "STATE_FAILED";
+export const SaasStateEnum = S.String;
 
 /** Location information that the service is available in. */
 export interface Location {
@@ -616,73 +558,131 @@ export const Location = /*@__PURE__*/ S.suspend(() =>
 export type LocationList = Array<Location>;
 export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<LocationList>;
 
-export type SaasStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STATE_TYPE_UNSPECIFIED"
-  | "STATE_ACTIVE"
-  | "STATE_RUNNING"
-  | "STATE_FAILED";
-export const SaasStateEnum = S.String;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+}
+export const Status = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
+
+export type SaasConditionStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "STATUS_UNKNOWN"
+  | "STATUS_TRUE"
+  | "STATUS_FALSE";
+export const SaasConditionStatusEnum = S.String;
+
+export type SaasConditionTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_READY" | "TYPE_SYNCHRONIZED";
+export const SaasConditionTypeEnum = S.String;
+
+/** SaasCondition describes the status of a Saas. */
+export interface SaasCondition {
+  /** Required. Status of the condition. */
+  status?: SaasConditionStatusEnum | (string & {});
+  /** Required. Type of the condition. */
+  type?: SaasConditionTypeEnum | (string & {});
+  /** Required. Last time the condition transited from one status to another. */
+  lastTransitionTime?: string;
+  /** Required. Brief reason for the condition's last transition. */
+  reason?: string;
+  /** Required. Human readable message indicating details about the last transition. */
+  message?: string;
+}
+export const SaasCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(SaasConditionStatusEnum),
+    type: S.optional(SaasConditionTypeEnum),
+    lastTransitionTime: S.optional(S.String),
+    reason: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "SaasCondition" }) as any as S.Schema<SaasCondition>;
+
+export type SaasConditionList = Array<SaasCondition>;
+export const SaasConditionList = /*@__PURE__*/ S.Array(
+  SaasCondition,
+) as any as S.Schema<SaasConditionList>;
 
 /** Saas is a representation of a SaaS service managed by the Producer. */
 export interface Saas {
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
   /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
   annotations?: StringMap;
-  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
-  etag?: string;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/saas/{saas}" */
-  name?: string;
-  /** Output only. A set of conditions which indicate the various conditions this resource can have. */
-  conditions?: SaasConditionList;
-  /** Output only. If the state is FAILED, the corresponding error code and message. Defaults to code=OK for all other states. */
-  error?: Status;
-  /** Optional. List of locations that the service is available in. Rollout refers to the list to generate a rollout plan. */
-  locations?: LocationList;
-  /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
-  uid?: string;
-  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
-  updateTime?: string;
   /** Output only. State of the Saas. It is always in STATE_ACTIVE state if the application_template is empty. */
   state?: SaasStateEnum | (string & {});
+  /** Optional. List of locations that the service is available in. Rollout refers to the list to generate a rollout plan. */
+  locations?: LocationList;
+  /** Output only. If the state is FAILED, the corresponding error code and message. Defaults to code=OK for all other states. */
+  error?: Status;
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
+  /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
+  uid?: string;
+  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
+  etag?: string;
+  /** Output only. A set of conditions which indicate the various conditions this resource can have. */
+  conditions?: SaasConditionList;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/saas/{saas}" */
+  name?: string;
+  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
+  updateTime?: string;
 }
 export const Saas = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
     annotations: S.optional(StringMap),
-    etag: S.optional(S.String),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    conditions: S.optional(SaasConditionList),
-    error: S.optional(Status),
-    locations: S.optional(LocationList),
-    uid: S.optional(S.String),
-    updateTime: S.optional(S.String),
     state: S.optional(SaasStateEnum),
+    locations: S.optional(LocationList),
+    error: S.optional(Status),
+    labels: S.optional(StringMap),
+    uid: S.optional(S.String),
+    etag: S.optional(S.String),
+    conditions: S.optional(SaasConditionList),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Saas" }) as any as S.Schema<Saas>;
 
 export interface CreateProjectsLocationsSaasRequest {
+  /** Required. The parent of the saas. */
+  parent: string;
+  /** Required. The ID value for the new saas. */
+  saasId?: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
-  /** Required. The ID value for the new saas. */
-  saasId?: string;
-  /** Required. The parent of the saas. */
-  parent: string;
   /** Request body */
   body?: Saas;
 }
 export const CreateProjectsLocationsSaasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
+    saasId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    saasId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     body: S.optional(Saas.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -697,57 +697,57 @@ export const CreateProjectsLocationsSaasRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Tenant represents the service producer side of an instance of the service created based on a request from a consumer. In a typical scenario a Tenant has a one-to-one mapping with a resource given out to a service consumer. Example: tenant: name: "projects/svc1/locations/loc/tenants/inst-068afff8" consumer_resource: "projects/gshoe/locations/loc/shoes/black-shoe" */
 export interface Tenant {
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
+  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
+  updateTime?: string;
   /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
   annotations?: StringMap;
+  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
+  etag?: string;
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
   /** Required. Immutable. A reference to the Saas that defines the product (managed service) that the producer wants to manage with App Lifecycle Manager. Part of the App Lifecycle Manager common data model. */
   saas?: string;
   /** Optional. Immutable. A reference to the consumer resource this SaaS Tenant is representing. The relationship with a consumer resource can be used by App Lifecycle Manager for retrieving consumer-defined settings and policies such as maintenance policies (using Unified Maintenance Policy API). */
   consumerResource?: string;
-  /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
-  uid?: string;
-  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
-  updateTime?: string;
-  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
-  etag?: string;
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/tenants/{tenant}" */
   name?: string;
+  /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
+  uid?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
 }
 export const Tenant = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
     annotations: S.optional(StringMap),
+    etag: S.optional(S.String),
+    labels: S.optional(StringMap),
     saas: S.optional(S.String),
     consumerResource: S.optional(S.String),
-    uid: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    etag: S.optional(S.String),
     name: S.optional(S.String),
+    uid: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Tenant" }) as any as S.Schema<Tenant>;
 
 export interface CreateProjectsLocationsTenantsRequest {
-  /** Required. The parent of the tenant. */
-  parent: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The ID value for the new tenant. */
   tenantId?: string;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** Required. The parent of the tenant. */
+  parent: string;
   /** Request body */
   body?: Tenant;
 }
 export const CreateProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     tenantId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Tenant.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -760,51 +760,51 @@ export const CreateProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() 
   identifier: "CreateProjectsLocationsTenantsRequest",
 }) as any as S.Schema<CreateProjectsLocationsTenantsRequest>;
 
+/** Output variables whose values will be passed on to dependencies */
+export interface FromMapping {
+  /** Required. Alias of the dependency that the outputVariable will pass its value to */
+  dependency?: string;
+  /** Required. Name of the outputVariable on the dependency */
+  outputVariable?: string;
+}
+export const FromMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dependency: S.optional(S.String),
+    outputVariable: S.optional(S.String),
+  }),
+).annotate({ identifier: "FromMapping" }) as any as S.Schema<FromMapping>;
+
 /** Input variables whose values will be passed on to dependencies */
 export interface ToMapping {
+  /** Required. Name of the inputVariable on the dependency */
+  inputVariable?: string;
   /** Required. Alias of the dependency that the inputVariable will pass its value to */
   dependency?: string;
   /** Optional. Tells App Lifecycle Manager if this mapping should be used during lookup or not */
   ignoreForLookup?: boolean;
-  /** Required. Name of the inputVariable on the dependency */
-  inputVariable?: string;
 }
 export const ToMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    inputVariable: S.optional(S.String),
     dependency: S.optional(S.String),
     ignoreForLookup: S.optional(S.Boolean),
-    inputVariable: S.optional(S.String),
   }),
 ).annotate({ identifier: "ToMapping" }) as any as S.Schema<ToMapping>;
 
-/** Output variables whose values will be passed on to dependencies */
-export interface FromMapping {
-  /** Required. Name of the outputVariable on the dependency */
-  outputVariable?: string;
-  /** Required. Alias of the dependency that the outputVariable will pass its value to */
-  dependency?: string;
-}
-export const FromMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputVariable: S.optional(S.String),
-    dependency: S.optional(S.String),
-  }),
-).annotate({ identifier: "FromMapping" }) as any as S.Schema<FromMapping>;
-
 /** Mapping of input variables to their respective output variable for depedenencies */
 export interface VariableMapping {
-  /** Optional. Input variables whose values will be passed on to dependencies. */
-  to?: ToMapping;
   /** Required. name of the variable */
   variable?: string;
   /** Optional. Output variables which will get their values from dependencies */
   from?: FromMapping;
+  /** Optional. Input variables whose values will be passed on to dependencies. */
+  to?: ToMapping;
 }
 export const VariableMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    to: S.optional(ToMapping),
     variable: S.optional(S.String),
     from: S.optional(FromMapping),
+    to: S.optional(ToMapping),
   }),
 ).annotate({ identifier: "VariableMapping" }) as any as S.Schema<VariableMapping>;
 
@@ -838,72 +838,75 @@ export const UnitKindBoundaryTypeEnum = S.String;
 
 /** Definition of a Unit. Units belonging to the same UnitKind are managed together; for example they follow the same release model (blueprints, versions etc.) and are typically rolled out together. */
 export interface UnitKind {
+  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
+  etag?: string;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitKinds/{unitKind}" */
+  name?: string;
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
+  /** Optional. Default revisions of flags for this UnitKind. Newly created units will use the flag default_flag_revisions present at the time of creation. */
+  defaultFlagRevisions?: StringList;
+  /** Optional. List of inputVariables for this release that will either be retrieved from a dependency's outputVariables, or will be passed on to a dependency's inputVariables. Maximum 100. */
+  inputVariableMappings?: VariableMappingList;
   /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
   uid?: string;
   /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
   updateTime?: string;
-  /** Optional. List of outputVariables for this unit kind will be passed to this unit's outputVariables. Maximum 100. */
-  outputVariableMappings?: VariableMappingList;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitKinds/{unitKind}" */
-  name?: string;
-  /** Optional. Immutable. List of other unit kinds that this release will depend on. Dependencies will be automatically provisioned if not found. Maximum 10. */
-  dependencies?: DependencyList;
-  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
-  etag?: string;
   /** Required. Immutable. A reference to the Saas that defines the product (managed service) that the producer wants to manage with App Lifecycle Manager. Part of the App Lifecycle Manager common data model. Immutable once set. */
   saas?: string;
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
+  /** Optional. Immutable. List of other unit kinds that this release will depend on. Dependencies will be automatically provisioned if not found. Maximum 10. */
+  dependencies?: DependencyList;
   /** Optional. A reference to the Release object to use as default for creating new units of this UnitKind (optional). If not specified, a new unit must explicitly reference which release to use for its creation. */
   defaultRelease?: string;
-  /** Optional. List of inputVariables for this release that will either be retrieved from a dependency's outputVariables, or will be passed on to a dependency's inputVariables. Maximum 100. */
-  inputVariableMappings?: VariableMappingList;
   /** Optional. Output only. BoundaryType describes the type of boundary the Unit Kind represents. */
   boundaryType?: UnitKindBoundaryTypeEnum | (string & {});
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
   /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
   annotations?: StringMap;
-  /** Optional. Default revisions of flags for this UnitKind. Newly created units will use the flag default_flag_revisions present at the time of creation. */
-  defaultFlagRevisions?: StringList;
+  /** Optional. List of outputVariables for this unit kind will be passed to this unit's outputVariables. Maximum 100. */
+  outputVariableMappings?: VariableMappingList;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was marked for deletion (deletion is an asynchronous operation). */
+  deleteTime?: string;
 }
 export const UnitKind = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etag: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    defaultFlagRevisions: S.optional(StringList),
+    inputVariableMappings: S.optional(VariableMappingList),
     uid: S.optional(S.String),
     updateTime: S.optional(S.String),
-    outputVariableMappings: S.optional(VariableMappingList),
-    name: S.optional(S.String),
-    dependencies: S.optional(DependencyList),
-    etag: S.optional(S.String),
     saas: S.optional(S.String),
-    labels: S.optional(StringMap),
+    dependencies: S.optional(DependencyList),
     defaultRelease: S.optional(S.String),
-    inputVariableMappings: S.optional(VariableMappingList),
     boundaryType: S.optional(UnitKindBoundaryTypeEnum),
-    createTime: S.optional(S.String),
     annotations: S.optional(StringMap),
-    defaultFlagRevisions: S.optional(StringList),
+    outputVariableMappings: S.optional(VariableMappingList),
+    createTime: S.optional(S.String),
+    deleteTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "UnitKind" }) as any as S.Schema<UnitKind>;
 
 export interface CreateProjectsLocationsUnitKindsRequest {
-  /** Required. The ID value for the new unit kind. */
-  unitKindId?: string;
-  /** Required. The parent of the unit kind. */
-  parent: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. The parent of the unit kind. */
+  parent: string;
+  /** Required. The ID value for the new unit kind. */
+  unitKindId?: string;
   /** Request body */
   body?: UnitKind;
 }
 export const CreateProjectsLocationsUnitKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unitKindId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    unitKindId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(UnitKind.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -930,12 +933,6 @@ export const Provision = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Provision" }) as any as S.Schema<Provision>;
 
-/** Deprovision is the unit operation that deprovision the underlying resources represented by a Unit. Can only execute if the Unit is currently provisioned. */
-export interface Deprovision {}
-export const Deprovision = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "Deprovision",
-}) as any as S.Schema<Deprovision>;
-
 /** FlagUpdate is a UnitOperation that pushes new flag values to Units. */
 export interface FlagUpdate {
   /** Required. Flag release being applied by UnitOperation. */
@@ -947,55 +944,16 @@ export const FlagUpdate = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FlagUpdate" }) as any as S.Schema<FlagUpdate>;
 
-export type UnitOperationConditionStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "STATUS_UNKNOWN"
-  | "STATUS_TRUE"
-  | "STATUS_FALSE";
-export const UnitOperationConditionStatusEnum = S.String;
-
-export type UnitOperationConditionTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TYPE_SCHEDULED"
-  | "TYPE_RUNNING"
-  | "TYPE_SUCCEEDED"
-  | "TYPE_CANCELLED"
-  | "TYPE_APP_CREATED"
-  | "TYPE_APP_COMPONENTS_REGISTERED"
-  | "TYPE_WORKLOAD_SUCCEEDED";
-export const UnitOperationConditionTypeEnum = S.String;
-
-/** UnitOperationCondition describes the status of an Unit Operation. UnitOperationCondition is individual components that contribute to an overall state. */
-export interface UnitOperationCondition {
-  /** Required. Status of the condition. */
-  status?: UnitOperationConditionStatusEnum | (string & {});
-  /** Required. Last time the condition transited from one status to another. */
-  lastTransitionTime?: string;
-  /** Required. Brief reason for the condition's last transition. */
-  reason?: string;
-  /** Required. Type of the condition. */
-  type?: UnitOperationConditionTypeEnum | (string & {});
-  /** Required. Human readable message indicating details about the last transition. */
-  message?: string;
+/** A time specification to schedule the maintenance. */
+export interface Schedule {
+  /** Optional. Start of operation. If not set, will be set to the start of the next window. (optional) */
+  startTime?: string;
 }
-export const UnitOperationCondition = /*@__PURE__*/ S.suspend(() =>
+export const Schedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(UnitOperationConditionStatusEnum),
-    lastTransitionTime: S.optional(S.String),
-    reason: S.optional(S.String),
-    type: S.optional(UnitOperationConditionTypeEnum),
-    message: S.optional(S.String),
+    startTime: S.optional(S.String),
   }),
-).annotate({ identifier: "UnitOperationCondition" }) as any as S.Schema<UnitOperationCondition>;
-
-export type UnitOperationConditionList = Array<UnitOperationCondition>;
-export const UnitOperationConditionList = /*@__PURE__*/ S.Array(
-  UnitOperationCondition,
-) as any as S.Schema<UnitOperationConditionList>;
-
-/** Upgrade is the unit operation that upgrades a provisioned unit, which may also include the underlying resources represented by a Unit. Can only execute if the Unit is currently provisioned. */
-export type Upgrade = Provision;
-export const Upgrade = Provision;
+).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
 
 export type UnitOperationErrorCategoryEnum =
   | "UNIT_OPERATION_ERROR_CATEGORY_UNSPECIFIED"
@@ -1016,106 +974,161 @@ export type UnitOperationStateEnum =
   | "UNIT_OPERATION_STATE_CANCELLED";
 export const UnitOperationStateEnum = S.String;
 
-/** A time specification to schedule the maintenance. */
-export interface Schedule {
-  /** Optional. Start of operation. If not set, will be set to the start of the next window. (optional) */
-  startTime?: string;
+export type UnitOperationConditionTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TYPE_SCHEDULED"
+  | "TYPE_RUNNING"
+  | "TYPE_SUCCEEDED"
+  | "TYPE_CANCELLED"
+  | "TYPE_APP_CREATED"
+  | "TYPE_APP_COMPONENTS_REGISTERED"
+  | "TYPE_WORKLOAD_SUCCEEDED";
+export const UnitOperationConditionTypeEnum = S.String;
+
+export type UnitOperationConditionStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "STATUS_UNKNOWN"
+  | "STATUS_TRUE"
+  | "STATUS_FALSE";
+export const UnitOperationConditionStatusEnum = S.String;
+
+/** UnitOperationCondition describes the status of an Unit Operation. UnitOperationCondition is individual components that contribute to an overall state. */
+export interface UnitOperationCondition {
+  /** Required. Brief reason for the condition's last transition. */
+  reason?: string;
+  /** Required. Type of the condition. */
+  type?: UnitOperationConditionTypeEnum | (string & {});
+  /** Required. Human readable message indicating details about the last transition. */
+  message?: string;
+  /** Required. Last time the condition transited from one status to another. */
+  lastTransitionTime?: string;
+  /** Required. Status of the condition. */
+  status?: UnitOperationConditionStatusEnum | (string & {});
 }
-export const Schedule = /*@__PURE__*/ S.suspend(() =>
+export const UnitOperationCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.String),
+    reason: S.optional(S.String),
+    type: S.optional(UnitOperationConditionTypeEnum),
+    message: S.optional(S.String),
+    lastTransitionTime: S.optional(S.String),
+    status: S.optional(UnitOperationConditionStatusEnum),
   }),
-).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+).annotate({ identifier: "UnitOperationCondition" }) as any as S.Schema<UnitOperationCondition>;
+
+export type UnitOperationConditionList = Array<UnitOperationCondition>;
+export const UnitOperationConditionList = /*@__PURE__*/ S.Array(
+  UnitOperationCondition,
+) as any as S.Schema<UnitOperationConditionList>;
+
+/** Deprovision is the unit operation that deprovision the underlying resources represented by a Unit. Can only execute if the Unit is currently provisioned. */
+export interface Deprovision {}
+export const Deprovision = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "Deprovision",
+}) as any as S.Schema<Deprovision>;
+
+/** Upgrade is the unit operation that upgrades a provisioned unit, which may also include the underlying resources represented by a Unit. Can only execute if the Unit is currently provisioned. */
+export interface Upgrade {
+  /** Optional. Reference to the Release object to use for the Unit. (optional). */
+  release?: string;
+  /** Optional. Set of input variables. Maximum 100. (optional) */
+  inputVariables?: UnitVariableList;
+}
+export const Upgrade = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    release: S.optional(S.String),
+    inputVariables: S.optional(UnitVariableList),
+  }),
+).annotate({ identifier: "Upgrade" }) as any as S.Schema<Upgrade>;
 
 /** UnitOperation encapsulates the intent of changing/interacting with the service component represented by the specific Unit. Multiple UnitOperations can be created (requested) and scheduled in the future, however only one will be allowed to execute at a time (that can change in the future for non-mutating operations). UnitOperations allow different actors interacting with the same unit to focus only on the change they have requested. This is a base object that contains the common fields in all unit operations. Next: 22 */
 export interface UnitOperation {
-  /** Optional. Output only. The engine state for on-going deployment engine operation(s). This field is opaque for external usage. */
-  engineState?: string;
   /** Optional. Provision operation. */
   provision?: Provision;
-  /** Optional. Reference to parent resource: UnitOperation. If an operation needs to create other operations as part of its workflow, each of the child operations should have this field set to the parent. This can be used for tracing. (Optional) */
-  parentUnitOperation?: string;
-  /** Optional. Deprovision operation. */
-  deprovision?: Deprovision;
-  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
-  annotations?: StringMap;
-  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
-  updateTime?: string;
-  /** Optional. Flag update operation. */
-  flagUpdate?: FlagUpdate;
-  /** Optional. Output only. A set of conditions which indicate the various conditions this resource can have. */
-  conditions?: UnitOperationConditionList;
-  /** Output only. The timestamp when the resource was marked for deletion (deletion is an asynchronous operation). */
-  deleteTime?: string;
-  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
-  etag?: string;
-  /** Optional. Upgrade operation. */
-  upgrade?: Provision;
-  /** Optional. Specifies which rollout created this Unit Operation. This cannot be modified and is used for filtering purposes only. If a dependent unit and unit operation are created as part of another unit operation, they will use the same rolloutId. */
-  rollout?: string;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitOperations/{unitOperation}" */
-  name?: string;
   /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
   uid?: string;
+  /** Optional. Output only. The engine state for on-going deployment engine operation(s). This field is opaque for external usage. */
+  engineState?: string;
+  /** Optional. Flag update operation. */
+  flagUpdate?: FlagUpdate;
+  /** Optional. When to schedule this operation. */
+  schedule?: Schedule;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitOperations/{unitOperation}" */
+  name?: string;
+  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
+  etag?: string;
   /** Optional. Output only. UnitOperationErrorCategory describe the error category. */
   errorCategory?: UnitOperationErrorCategoryEnum | (string & {});
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Required. Immutable. The Unit a given UnitOperation will act upon. */
-  unit?: string;
   /** Optional. When true, attempt to cancel the operation. Cancellation may fail if the operation is already executing. (Optional) */
   cancel?: boolean;
   /** Optional. Output only. UnitOperationState describes the current state of the unit operation. */
   state?: UnitOperationStateEnum | (string & {});
-  /** Optional. When to schedule this operation. */
-  schedule?: Schedule;
   /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
   labels?: StringMap;
+  /** Optional. Output only. A set of conditions which indicate the various conditions this resource can have. */
+  conditions?: UnitOperationConditionList;
+  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
+  annotations?: StringMap;
+  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
+  updateTime?: string;
+  /** Required. Immutable. The Unit a given UnitOperation will act upon. */
+  unit?: string;
+  /** Optional. Specifies which rollout created this Unit Operation. This cannot be modified and is used for filtering purposes only. If a dependent unit and unit operation are created as part of another unit operation, they will use the same rolloutId. */
+  rollout?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was marked for deletion (deletion is an asynchronous operation). */
+  deleteTime?: string;
+  /** Optional. Deprovision operation. */
+  deprovision?: Deprovision;
+  /** Optional. Upgrade operation. */
+  upgrade?: Upgrade;
+  /** Optional. Reference to parent resource: UnitOperation. If an operation needs to create other operations as part of its workflow, each of the child operations should have this field set to the parent. This can be used for tracing. (Optional) */
+  parentUnitOperation?: string;
 }
 export const UnitOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    engineState: S.optional(S.String),
     provision: S.optional(Provision),
-    parentUnitOperation: S.optional(S.String),
-    deprovision: S.optional(Deprovision),
-    annotations: S.optional(StringMap),
-    updateTime: S.optional(S.String),
-    flagUpdate: S.optional(FlagUpdate),
-    conditions: S.optional(UnitOperationConditionList),
-    deleteTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    upgrade: S.optional(Provision),
-    rollout: S.optional(S.String),
-    name: S.optional(S.String),
     uid: S.optional(S.String),
+    engineState: S.optional(S.String),
+    flagUpdate: S.optional(FlagUpdate),
+    schedule: S.optional(Schedule),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
     errorCategory: S.optional(UnitOperationErrorCategoryEnum),
-    createTime: S.optional(S.String),
-    unit: S.optional(S.String),
     cancel: S.optional(S.Boolean),
     state: S.optional(UnitOperationStateEnum),
-    schedule: S.optional(Schedule),
     labels: S.optional(StringMap),
+    conditions: S.optional(UnitOperationConditionList),
+    annotations: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    unit: S.optional(S.String),
+    rollout: S.optional(S.String),
+    createTime: S.optional(S.String),
+    deleteTime: S.optional(S.String),
+    deprovision: S.optional(Deprovision),
+    upgrade: S.optional(Upgrade),
+    parentUnitOperation: S.optional(S.String),
   }),
 ).annotate({ identifier: "UnitOperation" }) as any as S.Schema<UnitOperation>;
 
 export interface CreateProjectsLocationsUnitOperationsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The ID value for the new unit operation. */
-  unitOperationId?: string;
   /** Required. The parent of the unit operation. */
   parent: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** Required. The ID value for the new unit operation. */
+  unitOperationId?: string;
   /** Request body */
   body?: UnitOperation;
 }
 export const CreateProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    unitOperationId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    unitOperationId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(UnitOperation.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1127,48 +1140,6 @@ export const CreateProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.susp
 ).annotate({
   identifier: "CreateProjectsLocationsUnitOperationsRequest",
 }) as any as S.Schema<CreateProjectsLocationsUnitOperationsRequest>;
-
-/** Set of dependencies for this unit. Maximum 10. */
-export interface UnitDependency {
-  /** Output only. Alias for the name of the dependency. */
-  alias?: string;
-  /** Output only. A reference to the Unit object. */
-  unit?: string;
-}
-export const UnitDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    alias: S.optional(S.String),
-    unit: S.optional(S.String),
-  }),
-).annotate({ identifier: "UnitDependency" }) as any as S.Schema<UnitDependency>;
-
-export type UnitDependencyList = Array<UnitDependency>;
-export const UnitDependencyList = /*@__PURE__*/ S.Array(
-  UnitDependency,
-) as any as S.Schema<UnitDependencyList>;
-
-export type UnitStateEnum =
-  | "UNIT_STATE_UNSPECIFIED"
-  | "UNIT_STATE_NOT_PROVISIONED"
-  | "UNIT_STATE_PROVISIONING"
-  | "UNIT_STATE_UPDATING"
-  | "UNIT_STATE_DEPROVISIONING"
-  | "UNIT_STATE_READY"
-  | "UNIT_STATE_ERROR";
-export const UnitStateEnum = S.String;
-
-export type UnitManagementModeEnum =
-  | "MANAGEMENT_MODE_UNSPECIFIED"
-  | "MANAGEMENT_MODE_USER"
-  | "MANAGEMENT_MODE_SYSTEM";
-export const UnitManagementModeEnum = S.String;
-
-export type UnitSystemManagedStateEnum =
-  | "SYSTEM_MANAGED_STATE_UNSPECIFIED"
-  | "SYSTEM_MANAGED_STATE_ACTIVE"
-  | "SYSTEM_MANAGED_STATE_INACTIVE"
-  | "SYSTEM_MANAGED_STATE_DECOMMISSIONED";
-export const UnitSystemManagedStateEnum = S.String;
 
 export type UnitConditionTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1190,24 +1161,24 @@ export const UnitConditionStatusEnum = S.String;
 
 /** UnitCondition describes the status of an Unit. UnitCondition is individual components that contribute to an overall state. */
 export interface UnitCondition {
-  /** Required. Human readable message indicating details about the last transition. */
-  message?: string;
   /** Required. Type of the condition. */
   type?: UnitConditionTypeEnum | (string & {});
+  /** Required. Human readable message indicating details about the last transition. */
+  message?: string;
   /** Required. Brief reason for the condition's last transition. */
   reason?: string;
-  /** Required. Status of the condition. */
-  status?: UnitConditionStatusEnum | (string & {});
   /** Required. Last time the condition transited from one status to another. */
   lastTransitionTime?: string;
+  /** Required. Status of the condition. */
+  status?: UnitConditionStatusEnum | (string & {});
 }
 export const UnitCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     type: S.optional(UnitConditionTypeEnum),
+    message: S.optional(S.String),
     reason: S.optional(S.String),
-    status: S.optional(UnitConditionStatusEnum),
     lastTransitionTime: S.optional(S.String),
+    status: S.optional(UnitConditionStatusEnum),
   }),
 ).annotate({ identifier: "UnitCondition" }) as any as S.Schema<UnitCondition>;
 
@@ -1215,6 +1186,38 @@ export type UnitConditionList = Array<UnitCondition>;
 export const UnitConditionList = /*@__PURE__*/ S.Array(
   UnitCondition,
 ) as any as S.Schema<UnitConditionList>;
+
+export type UnitSystemManagedStateEnum =
+  | "SYSTEM_MANAGED_STATE_UNSPECIFIED"
+  | "SYSTEM_MANAGED_STATE_ACTIVE"
+  | "SYSTEM_MANAGED_STATE_INACTIVE"
+  | "SYSTEM_MANAGED_STATE_DECOMMISSIONED";
+export const UnitSystemManagedStateEnum = S.String;
+
+/** Set of dependencies for this unit. Maximum 10. */
+export interface UnitDependency {
+  /** Output only. A reference to the Unit object. */
+  unit?: string;
+  /** Output only. Alias for the name of the dependency. */
+  alias?: string;
+}
+export const UnitDependency = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unit: S.optional(S.String),
+    alias: S.optional(S.String),
+  }),
+).annotate({ identifier: "UnitDependency" }) as any as S.Schema<UnitDependency>;
+
+export type UnitDependencyList = Array<UnitDependency>;
+export const UnitDependencyList = /*@__PURE__*/ S.Array(
+  UnitDependency,
+) as any as S.Schema<UnitDependencyList>;
+
+export type UnitManagementModeEnum =
+  | "MANAGEMENT_MODE_UNSPECIFIED"
+  | "MANAGEMENT_MODE_USER"
+  | "MANAGEMENT_MODE_SYSTEM";
+export const UnitManagementModeEnum = S.String;
 
 /** Captures requested directives for performing future maintenance on the unit. This includes a request for the unit to skip maintenance for a period of time and remain pinned to its current release as well as controls for postponing maintenance scheduled in future. */
 export interface MaintenanceSettings {
@@ -1227,110 +1230,120 @@ export const MaintenanceSettings = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MaintenanceSettings" }) as any as S.Schema<MaintenanceSettings>;
 
-/** A unit of deployment that has its lifecycle via a CRUD API using an actuation engine under the hood (e.g. based on Terraform, Helm or a custom implementation provided by a service producer). A building block of a SaaS Tenant. */
+export type UnitStateEnum =
+  | "UNIT_STATE_UNSPECIFIED"
+  | "UNIT_STATE_NOT_PROVISIONED"
+  | "UNIT_STATE_PROVISIONING"
+  | "UNIT_STATE_UPDATING"
+  | "UNIT_STATE_DEPROVISIONING"
+  | "UNIT_STATE_READY"
+  | "UNIT_STATE_ERROR";
+export const UnitStateEnum = S.String;
+
+/** A unit of deployment that has its lifecycle via a CRUD API using an actuation engine under the hood (e.g. based on Terraform, or a custom implementation provided by a service producer). A building block of a SaaS Tenant. */
 export interface Unit {
-  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
-  labels?: StringMap;
-  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
-  etag?: string;
-  /** Optional. Output only. Flag revisions used by this Unit. */
-  flagRevisions?: StringList;
-  /** Optional. Output only. Set of dependencies for this unit. Maximum 10. */
-  dependencies?: UnitDependencyList;
-  /** Optional. Output only. Current lifecycle state of the resource (e.g. if it's being created or ready to use). */
-  state?: UnitStateEnum | (string & {});
-  /** Optional. Output only. List of concurrent UnitOperations that are operating on this Unit. */
-  ongoingOperations?: StringList;
-  /** Optional. Output only. List of scheduled UnitOperations for this unit. */
-  scheduledOperations?: StringList;
-  /** Optional. Reference to the UnitKind this Unit belongs to. Immutable once set. */
-  unitKind?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Output only. Set of key/value pairs corresponding to output variables from execution of actuation templates. The variables are declared in actuation configs (e.g in helm chart or terraform) and the values are fetched and returned by the actuation engine upon completion of execution. */
-  outputVariables?: UnitVariableList;
   /** Output only. The unique identifier of the resource. UID is unique in the time and space for this resource within the scope of the service. It is typically generated by the server on successful creation of a resource and must not be changed. UID is used to uniquely identify resources with resource name reuses. This should be a UUID4. */
   uid?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
-  annotations?: StringMap;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Output only. Set of key/value pairs corresponding to output variables from execution of actuation templates. The variables are declared in actuation configs (in Terraform for example) and the values are fetched and returned by the actuation engine upon completion of execution. */
+  outputVariables?: UnitVariableList;
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/units/{unit}" */
   name?: string;
+  /** Optional. Output only. A set of conditions which indicate the various conditions this resource can have. */
+  conditions?: UnitConditionList;
+  /** Optional. Reference to the Saas Tenant resource this unit belongs to. This for example informs the maintenance policies to use for scheduling future updates on a unit. (optional and immutable once created) */
+  tenant?: string;
+  /** Optional. Output only. Flag revisions used by this Unit. */
+  flagRevisions?: StringList;
+  /** Optional. Output only. Indicates the system managed state of the unit. */
+  systemManagedState?: UnitSystemManagedStateEnum | (string & {});
+  /** Optional. Output only. Set of dependencies for this unit. Maximum 10. */
+  dependencies?: UnitDependencyList;
+  /** Optional. Immutable. Indicates whether the Unit life cycle is controlled by the user or by the system. Immutable once created. */
+  managementMode?: UnitManagementModeEnum | (string & {});
+  /** Optional. The labels on the resource, which can be used for categorization. similar to Kubernetes resource labels. */
+  labels?: StringMap;
+  /** Optional. Output only. Indicates the current input variables deployed by the unit */
+  inputVariables?: UnitVariableList;
+  /** Optional. Output only. If set, indicates the time when the system will start removing the unit. */
+  systemCleanupAt?: string;
+  /** Optional. Output only. List of scheduled UnitOperations for this unit. */
+  scheduledOperations?: StringList;
+  /** Optional. Captures requested directives for performing future maintenance on the unit. This includes a request for the unit to skip maintenance for a period of time and remain pinned to its current release as well as controls for postponing maintenance scheduled in future. */
+  maintenance?: MaintenanceSettings;
+  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
+  updateTime?: string;
+  /** Optional. Output only. List of concurrent UnitOperations that are operating on this Unit. */
+  ongoingOperations?: StringList;
+  /** Optional. Output only. Current lifecycle state of the resource (e.g. if it's being created or ready to use). */
+  state?: UnitStateEnum | (string & {});
+  /** Optional. Reference to the UnitKind this Unit belongs to. Immutable once set. */
+  unitKind?: string;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean;
+  /** Output only. An opaque value that uniquely identifies a version or generation of a resource. It can be used to confirm that the client and server agree on the ordering of a resource being written. */
+  etag?: string;
+  /** Optional. Annotations is an unstructured key-value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/user-guide/annotations */
+  annotations?: StringMap;
   /** Optional. Output only. The current Release object for this Unit. */
   release?: string;
   /** Optional. Output only. List of Units that depend on this unit. Unit can only be deprovisioned if this list is empty. Maximum 1000. */
   dependents?: UnitDependencyList;
-  /** Optional. Output only. If set, indicates the time when the system will start removing the unit. */
-  systemCleanupAt?: string;
-  /** Optional. Immutable. Indicates whether the Unit life cycle is controlled by the user or by the system. Immutable once created. */
-  managementMode?: UnitManagementModeEnum | (string & {});
-  /** Optional. Output only. Indicates the system managed state of the unit. */
-  systemManagedState?: UnitSystemManagedStateEnum | (string & {});
-  /** Optional. Output only. Indicates the current input variables deployed by the unit */
-  inputVariables?: UnitVariableList;
-  /** Output only. The timestamp when the resource was last updated. Any change to the resource made by users must refresh this value. Changes to a resource made by the service should refresh this value. */
-  updateTime?: string;
-  /** Optional. Reference to the Saas Tenant resource this unit belongs to. This for example informs the maintenance policies to use for scheduling future updates on a unit. (optional and immutable once created) */
-  tenant?: string;
-  /** Optional. Output only. List of pending (wait to be executed) UnitOperations for this unit. */
-  pendingOperations?: StringList;
-  /** Optional. Output only. A set of conditions which indicate the various conditions this resource can have. */
-  conditions?: UnitConditionList;
   /** Output only. Indicates whether the resource location satisfies Zone Separation constraints. This is false by default. */
   satisfiesPzs?: boolean;
-  /** Optional. Captures requested directives for performing future maintenance on the unit. This includes a request for the unit to skip maintenance for a period of time and remain pinned to its current release as well as controls for postponing maintenance scheduled in future. */
-  maintenance?: MaintenanceSettings;
+  /** Optional. Output only. List of pending (wait to be executed) UnitOperations for this unit. */
+  pendingOperations?: StringList;
 }
 export const Unit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    etag: S.optional(S.String),
-    flagRevisions: S.optional(StringList),
-    dependencies: S.optional(UnitDependencyList),
-    state: S.optional(UnitStateEnum),
-    ongoingOperations: S.optional(StringList),
-    scheduledOperations: S.optional(StringList),
-    unitKind: S.optional(S.String),
+    uid: S.optional(S.String),
     createTime: S.optional(S.String),
     outputVariables: S.optional(UnitVariableList),
-    uid: S.optional(S.String),
-    satisfiesPzi: S.optional(S.Boolean),
-    annotations: S.optional(StringMap),
     name: S.optional(S.String),
+    conditions: S.optional(UnitConditionList),
+    tenant: S.optional(S.String),
+    flagRevisions: S.optional(StringList),
+    systemManagedState: S.optional(UnitSystemManagedStateEnum),
+    dependencies: S.optional(UnitDependencyList),
+    managementMode: S.optional(UnitManagementModeEnum),
+    labels: S.optional(StringMap),
+    inputVariables: S.optional(UnitVariableList),
+    systemCleanupAt: S.optional(S.String),
+    scheduledOperations: S.optional(StringList),
+    maintenance: S.optional(MaintenanceSettings),
+    updateTime: S.optional(S.String),
+    ongoingOperations: S.optional(StringList),
+    state: S.optional(UnitStateEnum),
+    unitKind: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
+    etag: S.optional(S.String),
+    annotations: S.optional(StringMap),
     release: S.optional(S.String),
     dependents: S.optional(UnitDependencyList),
-    systemCleanupAt: S.optional(S.String),
-    managementMode: S.optional(UnitManagementModeEnum),
-    systemManagedState: S.optional(UnitSystemManagedStateEnum),
-    inputVariables: S.optional(UnitVariableList),
-    updateTime: S.optional(S.String),
-    tenant: S.optional(S.String),
-    pendingOperations: S.optional(StringList),
-    conditions: S.optional(UnitConditionList),
     satisfiesPzs: S.optional(S.Boolean),
-    maintenance: S.optional(MaintenanceSettings),
+    pendingOperations: S.optional(StringList),
   }),
 ).annotate({ identifier: "Unit" }) as any as S.Schema<Unit>;
 
 export interface CreateProjectsLocationsUnitsRequest {
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
   /** Required. The parent of the unit. */
   parent: string;
   /** Required. The ID value for the new unit. */
   unitId?: string;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Unit;
 }
 export const CreateProjectsLocationsUnitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     unitId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Unit.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1344,21 +1357,21 @@ export const CreateProjectsLocationsUnitsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateProjectsLocationsUnitsRequest>;
 
 export interface DeleteProjectsLocationsReleasesRequest {
-  /** The etag known to the client for the expected state of the release. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the release. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
-  etag?: string;
-  /** Required. The resource name of the resource within a service. */
-  name: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** Required. The resource name of the resource within a service. */
+  name: string;
+  /** The etag known to the client for the expected state of the release. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the release. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
+  etag?: string;
 }
 export const DeleteProjectsLocationsReleasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1377,20 +1390,20 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteProjectsLocationsRolloutKindsRequest {
-  /** The etag known to the client for the expected state of the rollout kind. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the rollout kind. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
-  etag?: string;
-  /** Required. The resource name of the resource within a service. */
-  name: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the resource within a service. */
+  name: string;
+  /** The etag known to the client for the expected state of the rollout kind. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the rollout kind. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
+  etag?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1404,21 +1417,21 @@ export const DeleteProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<DeleteProjectsLocationsRolloutKindsRequest>;
 
 export interface DeleteProjectsLocationsRolloutsRequest {
-  /** The etag known to the client for the expected state of the rollout. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the rollout. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
-  etag?: string;
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
   /** Required. The resource name of the resource within a service. */
   name: string;
+  /** The etag known to the client for the expected state of the rollout. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the rollout. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
+  etag?: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1431,21 +1444,21 @@ export const DeleteProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DeleteProjectsLocationsRolloutsRequest>;
 
 export interface DeleteProjectsLocationsSaasRequest {
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The resource name of the resource within a service. */
   name: string;
   /** The etag known to the client for the expected state of the saas. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the saas. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
   etag?: string;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsSaasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1462,17 +1475,17 @@ export interface DeleteProjectsLocationsTenantsRequest {
   validateOnly?: boolean;
   /** Required. The resource name of the resource within a service. */
   name: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** The etag known to the client for the expected state of the tenant. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the tenant. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
   etag?: string;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     etag: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1485,21 +1498,21 @@ export const DeleteProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DeleteProjectsLocationsTenantsRequest>;
 
 export interface DeleteProjectsLocationsUnitKindsRequest {
-  /** Required. The resource name of the resource within a service. */
-  name: string;
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the resource within a service. */
+  name: string;
   /** The etag known to the client for the expected state of the unit kind. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the unit kind. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
   etag?: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsUnitKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1512,21 +1525,21 @@ export const DeleteProjectsLocationsUnitKindsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<DeleteProjectsLocationsUnitKindsRequest>;
 
 export interface DeleteProjectsLocationsUnitOperationsRequest {
+  /** Required. The resource name of the resource within a service. */
+  name: string;
   /** The etag known to the client for the expected state of the unit operation. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the unit operation. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
   etag?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The resource name of the resource within a service. */
-  name: string;
 }
 export const DeleteProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1539,21 +1552,21 @@ export const DeleteProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<DeleteProjectsLocationsUnitOperationsRequest>;
 
 export interface DeleteProjectsLocationsUnitsRequest {
-  /** The etag known to the client for the expected state of the unit. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the unit. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
-  etag?: string;
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
   /** Required. The resource name of the resource within a service. */
   name: string;
+  /** The etag known to the client for the expected state of the unit. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the unit. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
+  etag?: string;
 }
 export const DeleteProjectsLocationsUnitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1585,24 +1598,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface GoogleCloudLocationLocation {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export const GoogleCloudLocationLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    locationId: S.optional(S.String),
-    labels: S.optional(StringMap),
     name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    locationId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    labels: S.optional(StringMap),
   }),
 ).annotate({
   identifier: "GoogleCloudLocationLocation",
@@ -1753,23 +1766,23 @@ export const GetProjectsLocationsUnitsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsLocationsUnitsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1789,37 +1802,37 @@ export const GoogleCloudLocationLocationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: GoogleCloudLocationLocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: GoogleCloudLocationLocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(GoogleCloudLocationLocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(GoogleCloudLocationLocationList),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsReleasesRequest {
-  /** Filter the list as specified in https://google.aip.dev/160. */
-  filter?: string;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
-  /** The maximum number of releases to send per page. */
-  pageSize?: number;
-  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
-  pageToken?: string;
   /** Required. The parent of the release. */
   parent: string;
+  /** Filter the list as specified in https://google.aip.dev/160. */
+  filter?: string;
+  /** The maximum number of releases to send per page. */
+  pageSize?: number;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
+  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsReleasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1836,40 +1849,40 @@ export const ReleaseList = /*@__PURE__*/ S.Array(Release) as any as S.Schema<Rel
 
 /** The response structure for the ListReleases method. */
 export interface ListReleasesResponse {
+  /** The resulting releases. */
+  releases?: ReleaseList;
   /** If present, the next page token can be provided to a subsequent ListReleases call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The resulting releases. */
-  releases?: ReleaseList;
 }
 export const ListReleasesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    releases: S.optional(ReleaseList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    releases: S.optional(ReleaseList),
   }),
 ).annotate({ identifier: "ListReleasesResponse" }) as any as S.Schema<ListReleasesResponse>;
 
 export interface ListProjectsLocationsRolloutKindsRequest {
+  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
+  pageToken?: string;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
   /** The maximum number of rollout kinds to send per page. */
   pageSize?: number;
   /** Required. The parent of the rollout kind. */
   parent: string;
-  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
-  pageToken?: string;
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
 }
 export const ListProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1888,40 +1901,40 @@ export const RolloutKindList = /*@__PURE__*/ S.Array(
 
 /** The response structure for the ListRolloutKinds method. */
 export interface ListRolloutKindsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The resulting rollout kinds. */
   rolloutKinds?: RolloutKindList;
   /** If present, the next page token can be provided to a subsequent ListRolloutKinds call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListRolloutKindsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     rolloutKinds: S.optional(RolloutKindList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListRolloutKindsResponse" }) as any as S.Schema<ListRolloutKindsResponse>;
 
 export interface ListProjectsLocationsRolloutsRequest {
-  /** The maximum number of rollouts to send per page. */
-  pageSize?: number;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
   /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
   pageToken?: string;
-  /** Filter the list as specified in https://google.aip.dev/160. */
-  filter?: string;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
   /** Required. The parent of the rollout. */
   parent: string;
+  /** Filter the list as specified in https://google.aip.dev/160. */
+  filter?: string;
+  /** The maximum number of rollouts to send per page. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1940,37 +1953,37 @@ export const RolloutList = /*@__PURE__*/ S.Array(Rollout) as any as S.Schema<Rol
 export interface ListRolloutsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The resulting rollouts. */
-  rollouts?: RolloutList;
   /** If present, the next page token can be provided to a subsequent ListRollouts call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string;
+  /** The resulting rollouts. */
+  rollouts?: RolloutList;
 }
 export const ListRolloutsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    rollouts: S.optional(RolloutList),
     nextPageToken: S.optional(S.String),
+    rollouts: S.optional(RolloutList),
   }),
 ).annotate({ identifier: "ListRolloutsResponse" }) as any as S.Schema<ListRolloutsResponse>;
 
 export interface ListProjectsLocationsSaasRequest {
-  /** Required. The parent of the saas. */
-  parent: string;
-  /** The maximum number of saas to send per page. */
-  pageSize?: number;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
   /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
   pageToken?: string;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
+  /** The maximum number of saas to send per page. */
+  pageSize?: number;
+  /** Required. The parent of the saas. */
+  parent: string;
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
 }
 export const ListProjectsLocationsSaasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1988,39 +2001,39 @@ export const SaasList = /*@__PURE__*/ S.Array(Saas) as any as S.Schema<SaasList>
 
 /** The response structure for the ListSaas method. */
 export interface ListSaasResponse {
-  /** The resulting saas. */
-  saas?: SaasList;
   /** If present, the next page token can be provided to a subsequent ListSaas call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string;
+  /** The resulting saas. */
+  saas?: SaasList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListSaasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    saas: S.optional(SaasList),
     nextPageToken: S.optional(S.String),
+    saas: S.optional(SaasList),
     unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListSaasResponse" }) as any as S.Schema<ListSaasResponse>;
 
 export interface ListProjectsLocationsTenantsRequest {
-  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
-  pageToken?: string;
-  /** Required. The parent of the tenant. */
-  parent: string;
   /** Order results as specified in https://google.aip.dev/132. */
   orderBy?: string;
   /** The maximum number of tenants to send per page. */
   pageSize?: number;
+  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
+  pageToken?: string;
+  /** Required. The parent of the tenant. */
+  parent: string;
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
 }
 export const ListProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2038,40 +2051,40 @@ export const TenantList = /*@__PURE__*/ S.Array(Tenant) as any as S.Schema<Tenan
 
 /** The response structure for the ListTenants method. */
 export interface ListTenantsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** If present, the next page token can be provided to a subsequent ListTenants call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string;
   /** The resulting tenants. */
   tenants?: TenantList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListTenantsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     tenants: S.optional(TenantList),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListTenantsResponse" }) as any as S.Schema<ListTenantsResponse>;
 
 export interface ListProjectsLocationsUnitKindsRequest {
   /** The maximum number of unit kinds to send per page. */
   pageSize?: number;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
-  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
-  pageToken?: string;
   /** Required. The parent of the unit kind. */
   parent: string;
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
+  /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsUnitKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2090,16 +2103,16 @@ export const UnitKindList = /*@__PURE__*/ S.Array(UnitKind) as any as S.Schema<U
 export interface ListUnitKindsResponse {
   /** The resulting unit kinds. */
   unitKinds?: UnitKindList;
-  /** If present, the next page token can be provided to a subsequent ListUnitKinds call to list the next page. If empty, there are no more pages. */
-  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** If present, the next page token can be provided to a subsequent ListUnitKinds call to list the next page. If empty, there are no more pages. */
+  nextPageToken?: string;
 }
 export const ListUnitKindsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unitKinds: S.optional(UnitKindList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListUnitKindsResponse" }) as any as S.Schema<ListUnitKindsResponse>;
 
@@ -2110,18 +2123,18 @@ export interface ListProjectsLocationsUnitOperationsRequest {
   filter?: string;
   /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
   pageToken?: string;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
   /** The maximum number of unit operations to send per page. */
   pageSize?: number;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2142,16 +2155,16 @@ export const UnitOperationList = /*@__PURE__*/ S.Array(
 export interface ListUnitOperationsResponse {
   /** The resulting unit operations. */
   unitOperations?: UnitOperationList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** If present, the next page token can be provided to a subsequent ListUnitOperations call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListUnitOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unitOperations: S.optional(UnitOperationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListUnitOperationsResponse",
@@ -2160,22 +2173,22 @@ export const ListUnitOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsUnitsRequest {
   /** Required. The parent of the unit. */
   parent: string;
-  /** Order results as specified in https://google.aip.dev/132. */
-  orderBy?: string;
+  /** Filter the list as specified in https://google.aip.dev/160. */
+  filter?: string;
   /** The maximum number of units to send per page. */
   pageSize?: number;
   /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
   pageToken?: string;
-  /** Filter the list as specified in https://google.aip.dev/160. */
-  filter?: string;
+  /** Order results as specified in https://google.aip.dev/132. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsUnitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2194,26 +2207,26 @@ export const UnitList = /*@__PURE__*/ S.Array(Unit) as any as S.Schema<UnitList>
 export interface ListUnitsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** If present, the next page token can be provided to a subsequent ListUnits call to list the next page. If empty, there are no more pages. */
-  nextPageToken?: string;
   /** The resulting units. */
   units?: UnitList;
+  /** If present, the next page token can be provided to a subsequent ListUnits call to list the next page. If empty, there are no more pages. */
+  nextPageToken?: string;
 }
 export const ListUnitsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     units: S.optional(UnitList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListUnitsResponse" }) as any as S.Schema<ListUnitsResponse>;
 
 export interface PatchProjectsLocationsReleasesRequest {
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/releases/{release}" */
+  name: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Field mask is used to specify the fields to be overwritten in the Release resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Release will be overwritten. */
   updateMask?: string;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/releases/{release}" */
-  name: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
   /** Request body */
@@ -2221,9 +2234,9 @@ export interface PatchProjectsLocationsReleasesRequest {
 }
 export const PatchProjectsLocationsReleasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Release.pipe(T.HttpBody())),
   }).pipe(
@@ -2238,10 +2251,10 @@ export const PatchProjectsLocationsReleasesRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchProjectsLocationsReleasesRequest>;
 
 export interface PatchProjectsLocationsRolloutKindsRequest {
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rolloutKinds/{rollout_kind_id}" */
-  name: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rolloutKinds/{rollout_kind_id}" */
+  name: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
   /** Field mask is used to specify the fields to be overwritten in the RolloutKind resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the RolloutKind will be overwritten. */
@@ -2251,8 +2264,8 @@ export interface PatchProjectsLocationsRolloutKindsRequest {
 }
 export const PatchProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(RolloutKind.pipe(T.HttpBody())),
@@ -2268,23 +2281,23 @@ export const PatchProjectsLocationsRolloutKindsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<PatchProjectsLocationsRolloutKindsRequest>;
 
 export interface PatchProjectsLocationsRolloutsRequest {
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rollout/{rollout_id}" */
+  name: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
   /** Field mask is used to specify the fields to be overwritten in the Rollout resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Rollout will be overwritten. */
   updateMask?: string;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/rollout/{rollout_id}" */
-  name: string;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Rollout;
 }
 export const PatchProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Rollout.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2298,23 +2311,23 @@ export const PatchProjectsLocationsRolloutsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchProjectsLocationsRolloutsRequest>;
 
 export interface PatchProjectsLocationsSaasRequest {
-  /** Field mask is used to specify the fields to be overwritten in the Saas resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Saas will be overwritten. */
-  updateMask?: string;
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/saas/{saas}" */
-  name: string;
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** Field mask is used to specify the fields to be overwritten in the Saas resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Saas will be overwritten. */
+  updateMask?: string;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/saas/{saas}" */
+  name: string;
   /** Request body */
   body?: Saas;
 }
 export const PatchProjectsLocationsSaasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Saas.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2330,21 +2343,21 @@ export const PatchProjectsLocationsSaasRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PatchProjectsLocationsTenantsRequest {
   /** Field mask is used to specify the fields to be overwritten in the Tenant resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Tenant will be overwritten. */
   updateMask?: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/tenants/{tenant}" */
   name: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Tenant;
 }
 export const PatchProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Tenant.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2358,23 +2371,23 @@ export const PatchProjectsLocationsTenantsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PatchProjectsLocationsTenantsRequest>;
 
 export interface PatchProjectsLocationsUnitKindsRequest {
-  /** Field mask is used to specify the fields to be overwritten in the UnitKind resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the UnitKind will be overwritten. */
-  updateMask?: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitKinds/{unitKind}" */
   name: string;
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Field mask is used to specify the fields to be overwritten in the UnitKind resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the UnitKind will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: UnitKind;
 }
 export const PatchProjectsLocationsUnitKindsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(UnitKind.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2388,23 +2401,23 @@ export const PatchProjectsLocationsUnitKindsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<PatchProjectsLocationsUnitKindsRequest>;
 
 export interface PatchProjectsLocationsUnitOperationsRequest {
-  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitOperations/{unitOperation}" */
-  name: string;
   /** Field mask is used to specify the fields to be overwritten in the UnitOperation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the UnitOperation will be overwritten. */
   updateMask?: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitOperations/{unitOperation}" */
+  name: string;
   /** Request body */
   body?: UnitOperation;
 }
 export const PatchProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(UnitOperation.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2418,23 +2431,23 @@ export const PatchProjectsLocationsUnitOperationsRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<PatchProjectsLocationsUnitOperationsRequest>;
 
 export interface PatchProjectsLocationsUnitsRequest {
+  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
+  validateOnly?: boolean;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/units/{unit}" */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the Unit resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Unit will be overwritten. */
   updateMask?: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
-  validateOnly?: boolean;
   /** Request body */
   body?: Unit;
 }
 export const PatchProjectsLocationsUnitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Unit.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
