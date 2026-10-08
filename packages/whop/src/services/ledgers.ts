@@ -41,8 +41,160 @@ export type GetFinancialReportRequestReportType =
   | "balance_activity";
 export const GetFinancialReportRequestReportType = S.String;
 
-export type GetFinancialReportRequestGroupBy = "day" | "week" | "month";
+export type GetFinancialReportRequestGroupBy = "hour" | "day" | "week" | "month";
 export const GetFinancialReportRequestGroupBy = S.String;
+
+export type GetFinancialReportRequestLineTypesItem =
+  | "account_settlement"
+  | "ad_budget_release"
+  | "ad_campaign_budget"
+  | "ad_publisher_payout"
+  | "ad_publisher_payout_received"
+  | "ad_spend_charge"
+  | "affiliate_fee"
+  | "airdrop"
+  | "airdrop_link_created"
+  | "airdrop_link_redeemed"
+  | "airdrop_link_returned"
+  | "airdrop_reversal"
+  | "application_fee"
+  | "application_fee_payout"
+  | "balance_reservation"
+  | "balance_reservation_reversal"
+  | "bank_transfer"
+  | "billing_percentage_fee"
+  | "buyer_fee"
+  | "card_interchange"
+  | "card_load_deposit"
+  | "card_load_transfer"
+  | "card_spend_authorization"
+  | "card_spend_authorization_void"
+  | "card_spend_refund"
+  | "card_unload_deposit"
+  | "card_unload_transfer"
+  | "cashback"
+  | "cashback_funding"
+  | "company_referral"
+  | "connected_account_negative_balance"
+  | "cross_border_percentage_fee"
+  | "currency_conversion_incoming"
+  | "currency_conversion_outgoing"
+  | "dispute_alert_fee"
+  | "dispute_hold_adjustment"
+  | "dispute_representment_fee"
+  | "economic_intelligence_percentage_fee"
+  | "external_card_load_deposit"
+  | "fees"
+  | "fraud_prevention_fee"
+  | "fx_percentage_fee"
+  | "high_risk_merchant_fee"
+  | "installment_default"
+  | "internal_balance_transfer_incoming"
+  | "internal_balance_transfer_outgoing"
+  | "internal_withdrawal"
+  | "internal_withdrawal_complete"
+  | "internal_withdrawal_fee"
+  | "internal_withdrawal_fee_reversal"
+  | "internal_withdrawal_in_transit"
+  | "internal_withdrawal_in_transit_reversal"
+  | "internal_withdrawal_markup_fee"
+  | "internal_withdrawal_markup_fee_payout"
+  | "internal_withdrawal_markup_fee_payout_reversal"
+  | "internal_withdrawal_markup_fee_reversal"
+  | "internal_withdrawal_reversal"
+  | "legacy_crypto_payment"
+  | "legacy_payment"
+  | "legacy_payment_refund"
+  | "license_sale"
+  | "license_sale_commission"
+  | "license_sale_revenue"
+  | "marketplace_affiliate_fee"
+  | "misc_purchase"
+  | "misc_refund"
+  | "misc_reversal"
+  | "onboarding_reward"
+  | "onchain_deposit"
+  | "onchain_swap_source"
+  | "onchain_swap_target"
+  | "onchain_wallet_transfer_incoming"
+  | "onchain_wallet_transfer_outgoing"
+  | "onchain_withdrawal"
+  | "orchestration_percentage_fee"
+  | "partner_grant_reward"
+  | "passthrough_gmv"
+  | "payment_dispute"
+  | "payment_dispute_adjustment"
+  | "payment_dispute_fee"
+  | "payment_dispute_reversal"
+  | "payment_gross"
+  | "payment_gross_reversal"
+  | "payment_processing_fixed_fee"
+  | "payment_processing_percentage_fee"
+  | "payment_referral"
+  | "payment_referral_refund"
+  | "payment_referral_reversal"
+  | "payment_refund"
+  | "payment_refund_reversal"
+  | "payment_revshare"
+  | "payment_revshare_payout"
+  | "payment_revshare_refund"
+  | "payment_revshare_reversal"
+  | "payout_fee"
+  | "platform_affiliate_payment"
+  | "platform_affiliate_payment_reversal"
+  | "platform_balance_payment"
+  | "platform_balance_payment_refund"
+  | "platform_balance_transfer_fee"
+  | "platform_balance_transfer_incoming"
+  | "platform_balance_transfer_outgoing"
+  | "platform_covered_dispute"
+  | "platform_credits_granted"
+  | "platform_credits_payment"
+  | "platform_credits_payment_refund"
+  | "platform_earning"
+  | "platform_markup_fee"
+  | "platform_markup_fee_payout"
+  | "promo_reversal"
+  | "referral_bonus"
+  | "resolution_center_refund"
+  | "revshare_percentage_fee"
+  | "sales_tax_fee"
+  | "sales_tax_remittance"
+  | "sales_tax_remittance_reversal"
+  | "software_rental_revshare"
+  | "software_rental_transaction"
+  | "stripe_domestic_processing_fee"
+  | "stripe_international_processing_fee"
+  | "swap_fee"
+  | "three_ds_fixed_fee"
+  | "topup"
+  | "topup_fee"
+  | "topup_reversal"
+  | "treasury_payin"
+  | "whop_processing_fee"
+  | "withdrawal"
+  | "withdrawal_clawback"
+  | "withdrawal_clawback_reversal"
+  | "withdrawal_fee"
+  | "withdrawal_fee_reversal"
+  | "withdrawal_markup_fee"
+  | "withdrawal_markup_fee_payout"
+  | "withdrawal_markup_fee_payout_reversal"
+  | "withdrawal_markup_fee_reversal"
+  | "withdrawal_reclassification"
+  | "withdrawal_reversal"
+  | "withdrawal_topup_adjustment";
+export const GetFinancialReportRequestLineTypesItem = S.String;
+
+export type GetFinancialReportRequestLineTypesList = Array<
+  GetFinancialReportRequestLineTypesItem | (string & {})
+>;
+export const GetFinancialReportRequestLineTypesList = /*@__PURE__*/ S.Array(
+  GetFinancialReportRequestLineTypesItem,
+) as any as S.Schema<GetFinancialReportRequestLineTypesList>;
+
+export type GetFinancialReportRequestDirection = "money_in" | "money_out";
+export const GetFinancialReportRequestDirection = S.String;
 
 export interface GetFinancialReportRequest {
   /** The owning account ID (a biz_ identifier), or `global` for a platform-wide report across all ledger accounts (requires internal admin access). */
@@ -53,18 +205,24 @@ export interface GetFinancialReportRequest {
   currency?: string;
   /** Aggregate all activity into this display currency via FX conversion. */
   in_currency?: string;
-  /** Start of the report window as an ISO 8601 timestamp (UTC). Required for platform-wide (global) reports. */
-  from_date?: string;
-  /** End of the report window as an ISO 8601 timestamp (UTC). Required for platform-wide (global) reports. */
-  to_date?: string;
-  /** Grouping granularity for report rows. */
+  /** Start of the report window as an ISO 8601 timestamp. Required for platform-wide (global) reports. */
+  from?: string;
+  /** Exclusive end of the report window as an ISO 8601 timestamp. Required for platform-wide (global) reports. */
+  to?: string;
+  /** Grouping granularity for report rows. Hourly grouping is supported for account-level balance activity reports only; hourly periods are timestamps in the requested timezone. */
   group_by?: GetFinancialReportRequestGroupBy | (string & {});
-  /** IANA timezone (for example `America/New_York`) used to bucket report periods and to interpret calendar-day boundaries for balance snapshots. Defaults to UTC. from_date/to_date remain exact instants regardless of this setting. */
+  /** IANA timezone (for example `America/New_York`) used to bucket report periods. Defaults to UTC. `from` and `to` remain exact instants. */
   timezone?: string;
-  /** Platform-wide (global) reports only: when true, return cumulative balances as of to_date (all history, no lower bound) instead of activity within the period. */
+  /** Account-level balance activity only: ledger line categories to include. */
+  line_types?: GetFinancialReportRequestLineTypesList;
+  /** Account-level balance activity only: include money moving in or money moving out. */
+  direction?: GetFinancialReportRequestDirection | (string & {});
+  /** Platform-wide (global) reports only: when true, return cumulative balances as of to (all history, no lower bound) instead of activity within the period. */
   cumulative?: boolean;
   /** Platform-wide (global) reports only: narrow the report to ledger lines on the ledger account owned by this account ID (a biz_ identifier). Ignored unless account_id is `global`. */
   scope_account_id?: string;
+  /** Balance activity only: include payment costs grouped by payment method and provider. */
+  include_payment_fee_breakdown?: boolean;
 }
 export const GetFinancialReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -72,12 +230,15 @@ export const GetFinancialReportRequest = /*@__PURE__*/ S.suspend(() =>
     report_type: GetFinancialReportRequestReportType.pipe(T.Query()),
     currency: S.optional(S.String.pipe(T.Query())),
     in_currency: S.optional(S.String.pipe(T.Query())),
-    from_date: S.optional(S.String.pipe(T.Query())),
-    to_date: S.optional(S.String.pipe(T.Query())),
+    from: S.optional(S.String.pipe(T.Query())),
+    to: S.optional(S.String.pipe(T.Query())),
     group_by: S.optional(GetFinancialReportRequestGroupBy.pipe(T.Query())),
     timezone: S.optional(S.String.pipe(T.Query())),
+    line_types: S.optional(GetFinancialReportRequestLineTypesList.pipe(T.Query())),
+    direction: S.optional(GetFinancialReportRequestDirection.pipe(T.Query())),
     cumulative: S.optional(S.Boolean.pipe(T.Query())),
     scope_account_id: S.optional(S.String.pipe(T.Query())),
+    include_payment_fee_breakdown: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/financial_reports", code: 200 })),
 ).annotate({
   identifier: "GetFinancialReportRequest",
@@ -93,6 +254,69 @@ export type GetFinancialReportResponseFxExcludedCurrenciesList = Array<string>;
 export const GetFinancialReportResponseFxExcludedCurrenciesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetFinancialReportResponseFxExcludedCurrenciesList>;
+
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+/** The customer-facing payment method family or standalone service. */
+export type GetFinancialReportResponsePaymentFeeBreakdownItemCategory =
+  | "app_store_payments"
+  | "bank_payments"
+  | "buy_now_pay_later"
+  | "card_payments"
+  | "crypto_payments"
+  | "fraud_prevention"
+  | "local_payments"
+  | "other_payment_methods"
+  | "subscription_billing"
+  | "wallet_payments"
+  | "whop_balance"
+  | "whop_orchestration";
+export const GetFinancialReportResponsePaymentFeeBreakdownItemCategory = S.String;
+
+export interface GetFinancialReportResponsePaymentFeeBreakdownItem {
+  /** Payment costs attributed to this payment method. */
+  amount: Money;
+  /** The customer-facing payment method family or standalone service. */
+  category: GetFinancialReportResponsePaymentFeeBreakdownItemCategory;
+  /** The card brand, payment provider, payment rail, or standalone service. */
+  payment_method: string;
+  /** Start of the time bucket containing these payment costs. */
+  period: string;
+}
+export const GetFinancialReportResponsePaymentFeeBreakdownItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: Money,
+    category: GetFinancialReportResponsePaymentFeeBreakdownItemCategory,
+    payment_method: S.String,
+    period: S.String,
+  }),
+).annotate({
+  identifier: "GetFinancialReportResponsePaymentFeeBreakdownItem",
+}) as any as S.Schema<GetFinancialReportResponsePaymentFeeBreakdownItem>;
+
+/** Payment costs grouped by customer-facing payment method and provider when requested. */
+export type GetFinancialReportResponsePaymentFeeBreakdownList =
+  Array<GetFinancialReportResponsePaymentFeeBreakdownItem>;
+export const GetFinancialReportResponsePaymentFeeBreakdownList = /*@__PURE__*/ S.Array(
+  GetFinancialReportResponsePaymentFeeBreakdownItem,
+) as any as S.Schema<GetFinancialReportResponsePaymentFeeBreakdownList>;
 
 /** The report that was generated, echoing the requested `report_type`. */
 export type GetFinancialReportResponseReportType =
@@ -116,8 +340,10 @@ export type GetFinancialReportResponseRowsItemGrouping =
   | "fx"
   | "legacy"
   | "misc"
+  | "operational_costs"
   | "other"
   | "payments"
+  | "platform_credits"
   | "refunds"
   | "reserves"
   | "transfers"
@@ -141,6 +367,7 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "ad_publisher_payout_received"
   | "ad_spend_charge"
   | "ad_spend_margin"
+  | "ad_spend_purchase"
   | "ads_card_spread"
   | "affiliate_fee"
   | "aggregated_fee"
@@ -180,6 +407,9 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "card_spend_refund_offset"
   | "card_unload_deposit"
   | "card_unload_transfer"
+  | "cashback"
+  | "cashback_expense"
+  | "cashback_funding"
   | "clawback_fee"
   | "clawback_receivable"
   | "clawback_receivable_reversal"
@@ -204,6 +434,7 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "dispute_settlement_reversal"
   | "dispute_unreconciled_clearing"
   | "dispute_unreconciled_reversal"
+  | "economic_intelligence_percentage_fee"
   | "external_account_connection_fee"
   | "external_card_load_deposit"
   | "external_card_load_offset"
@@ -240,6 +471,7 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "misc_purchase"
   | "misc_refund"
   | "misc_reversal"
+  | "onboarding_reward"
   | "onchain_deposit"
   | "onchain_deposit_offset"
   | "onchain_swap_offset"
@@ -250,6 +482,7 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "onchain_withdrawal"
   | "onchain_withdrawal_offset"
   | "orchestration_percentage_fee"
+  | "partner_grant_reward"
   | "passthrough_gmv"
   | "passthrough_gmv_offset"
   | "payment_dispute"
@@ -289,11 +522,17 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "platform_balance_transfer_incoming"
   | "platform_balance_transfer_outgoing"
   | "platform_covered_dispute"
+  | "platform_credits_granted"
+  | "platform_credits_payment"
+  | "platform_credits_payment_refund"
   | "platform_earning"
   | "platform_earning_settlement"
   | "platform_earning_unreconciled_clearing"
+  | "platform_markup_fee"
+  | "platform_markup_fee_payout"
   | "promo_reversal"
   | "psp_accelerated_settlement_fee"
+  | "psp_account_debit"
   | "psp_account_updater_fee"
   | "psp_adjusted_processing_fee"
   | "psp_authentication_fee"
@@ -317,6 +556,7 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "psp_dispute_payable"
   | "psp_external_account_connection_fee"
   | "psp_fixed_fee"
+  | "psp_fx_adjustment"
   | "psp_gateway_fee"
   | "psp_identity_verification_fee"
   | "psp_interchange_fee"
@@ -338,6 +578,8 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "psp_payout_settlement_reversal"
   | "psp_pool_clearing"
   | "psp_pool_dispute_settlement"
+  | "psp_pool_refund_clearing"
+  | "psp_pool_refund_settlement"
   | "psp_pool_settlement"
   | "psp_processing_fee"
   | "psp_receivable_pooled"
@@ -375,6 +617,7 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "sales_tax_remittance_reversal"
   | "sales_tax_remitted"
   | "settlement_rounding_variance"
+  | "settlement_shortfall_loss"
   | "software_rental_revshare"
   | "software_rental_transaction"
   | "stripe_domestic_processing_fee"
@@ -385,6 +628,10 @@ export type GetFinancialReportResponseRowsItemLineCategory =
   | "topup"
   | "topup_fee"
   | "topup_reversal"
+  | "trading_account_deposit"
+  | "trading_account_deposit_offset"
+  | "trading_account_withdrawal"
+  | "trading_account_withdrawal_offset"
   | "treasury_fee"
   | "treasury_payin"
   | "treasury_payin_receivable"
@@ -456,6 +703,8 @@ export interface GetFinancialReportResponse {
   currencies?: GetFinancialReportResponseCurrenciesList;
   ending_balance?: number | null;
   fx_excluded_currencies?: GetFinancialReportResponseFxExcludedCurrenciesList;
+  /** Payment costs grouped by customer-facing payment method and provider when requested. */
+  payment_fee_breakdown?: GetFinancialReportResponsePaymentFeeBreakdownList;
   /** The report that was generated, echoing the requested `report_type`. */
   report_type: GetFinancialReportResponseReportType;
   rows: GetFinancialReportResponseRowsList;
@@ -467,6 +716,7 @@ export const GetFinancialReportResponse = /*@__PURE__*/ S.suspend(() =>
     currencies: S.optional(GetFinancialReportResponseCurrenciesList),
     ending_balance: S.optional(S.NullOr(S.Number)),
     fx_excluded_currencies: S.optional(GetFinancialReportResponseFxExcludedCurrenciesList),
+    payment_fee_breakdown: S.optional(GetFinancialReportResponsePaymentFeeBreakdownList),
     report_type: GetFinancialReportResponseReportType,
     rows: GetFinancialReportResponseRowsList,
     total: S.Number,
@@ -475,7 +725,194 @@ export const GetFinancialReportResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFinancialReportResponse",
 }) as any as S.Schema<GetFinancialReportResponse>;
 
+export type GetFinancialReportBreakdownRequestBucket =
+  | "transfers"
+  | "payments"
+  | "refunds"
+  | "ads"
+  | "application_fees"
+  | "card_spend"
+  | "card_authorization_releases"
+  | "withdrawals"
+  | "withdrawal_markup"
+  | "platform_markup"
+  | "clawbacks"
+  | "disputes"
+  | "affiliate_earnings"
+  | "affiliate_payouts"
+  | "revenue_share"
+  | "swaps"
+  | "card_loads";
+export const GetFinancialReportBreakdownRequestBucket = S.String;
+
+export type GetFinancialReportBreakdownRequestDirection = "money_in" | "money_out";
+export const GetFinancialReportBreakdownRequestDirection = S.String;
+
+export type GetFinancialReportBreakdownRequestGroupBy = "hour" | "day" | "week" | "month";
+export const GetFinancialReportBreakdownRequestGroupBy = S.String;
+
+export interface GetFinancialReportBreakdownRequest {
+  /** The owning account ID (a biz_ identifier). */
+  account_id: string;
+  /** The high-level report bucket to explain. */
+  bucket: GetFinancialReportBreakdownRequestBucket | (string & {});
+  /** Whether to explain money received or money sent. */
+  direction: GetFinancialReportBreakdownRequestDirection | (string & {});
+  /** The report currency to explain. */
+  currency: string;
+  /** Start of the report window as an ISO 8601 timestamp. */
+  from: string;
+  /** Exclusive end of the report window as an ISO 8601 timestamp. */
+  to: string;
+  /** Period grouping used by the parent report. */
+  group_by?: GetFinancialReportBreakdownRequestGroupBy | (string & {});
+  /** IANA timezone used by the parent report to bucket periods. Defaults to UTC. */
+  timezone?: string;
+}
+export const GetFinancialReportBreakdownRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String.pipe(T.Query()),
+    bucket: GetFinancialReportBreakdownRequestBucket.pipe(T.Query()),
+    direction: GetFinancialReportBreakdownRequestDirection.pipe(T.Query()),
+    currency: S.String.pipe(T.Query()),
+    from: S.String.pipe(T.Query()),
+    to: S.String.pipe(T.Query()),
+    group_by: S.optional(GetFinancialReportBreakdownRequestGroupBy.pipe(T.Query())),
+    timezone: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/financial_reports/breakdown", code: 200 })),
+).annotate({
+  identifier: "GetFinancialReportBreakdownRequest",
+}) as any as S.Schema<GetFinancialReportBreakdownRequest>;
+
+export type GetFinancialReportBreakdownResponseActivityFiltersDirection = "money_in" | "money_out";
+export const GetFinancialReportBreakdownResponseActivityFiltersDirection = S.String;
+
+export type GetFinancialReportBreakdownResponseActivityFiltersLineTypesList = Array<string>;
+export const GetFinancialReportBreakdownResponseActivityFiltersLineTypesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetFinancialReportBreakdownResponseActivityFiltersLineTypesList>;
+
+export interface GetFinancialReportBreakdownResponseActivityFilters {
+  direction: GetFinancialReportBreakdownResponseActivityFiltersDirection;
+  line_types: GetFinancialReportBreakdownResponseActivityFiltersLineTypesList;
+}
+export const GetFinancialReportBreakdownResponseActivityFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    direction: GetFinancialReportBreakdownResponseActivityFiltersDirection,
+    line_types: GetFinancialReportBreakdownResponseActivityFiltersLineTypesList,
+  }),
+).annotate({
+  identifier: "GetFinancialReportBreakdownResponseActivityFilters",
+}) as any as S.Schema<GetFinancialReportBreakdownResponseActivityFilters>;
+
+export type GetFinancialReportBreakdownResponseBucket =
+  | "transfers"
+  | "payments"
+  | "refunds"
+  | "ads"
+  | "application_fees"
+  | "card_spend"
+  | "card_authorization_releases"
+  | "withdrawals"
+  | "withdrawal_markup"
+  | "platform_markup"
+  | "clawbacks"
+  | "disputes"
+  | "affiliate_earnings"
+  | "affiliate_payouts"
+  | "revenue_share"
+  | "swaps"
+  | "card_loads";
+export const GetFinancialReportBreakdownResponseBucket = S.String;
+
+export type GetFinancialReportBreakdownResponseDirection = "money_in" | "money_out";
+export const GetFinancialReportBreakdownResponseDirection = S.String;
+
+export type GetFinancialReportBreakdownResponseItemsItemAvatarShape = "circle" | "square";
+export const GetFinancialReportBreakdownResponseItemsItemAvatarShape = S.String;
+
+export interface GetFinancialReportBreakdownResponseItemsItemAvatar {
+  shape: GetFinancialReportBreakdownResponseItemsItemAvatarShape;
+  /** The image to show, or `null` to fall back to the row's initials. */
+  url: string | null;
+}
+export const GetFinancialReportBreakdownResponseItemsItemAvatar = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shape: GetFinancialReportBreakdownResponseItemsItemAvatarShape,
+    url: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "GetFinancialReportBreakdownResponseItemsItemAvatar",
+}) as any as S.Schema<GetFinancialReportBreakdownResponseItemsItemAvatar>;
+
+export type GetFinancialReportBreakdownResponseItemsItemObject =
+  | "user"
+  | "account"
+  | "merchant"
+  | "payout_destination"
+  | "balance"
+  | "withdrawal_adjustment"
+  | "ad_campaign";
+export const GetFinancialReportBreakdownResponseItemsItemObject = S.String;
+
+export interface GetFinancialReportBreakdownResponseItemsItem {
+  amount: Money;
+  /** How to draw the row's icon. `null` when the row has nothing to show (balances, adjustments, ad campaigns), so clients render no icon rather than a placeholder. */
+  avatar: GetFinancialReportBreakdownResponseItemsItemAvatar | null;
+  image_url: string | null;
+  /** An opaque identifier for this grouping within the breakdown. */
+  key: string;
+  name: string;
+  object: GetFinancialReportBreakdownResponseItemsItemObject;
+  /** The prefixed identifier of the represented Whop resource, when one exists. */
+  resource_id: string | null;
+}
+export const GetFinancialReportBreakdownResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: Money,
+    avatar: S.NullOr(GetFinancialReportBreakdownResponseItemsItemAvatar),
+    image_url: S.NullOr(S.String),
+    key: S.String,
+    name: S.String,
+    object: GetFinancialReportBreakdownResponseItemsItemObject,
+    resource_id: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "GetFinancialReportBreakdownResponseItemsItem",
+}) as any as S.Schema<GetFinancialReportBreakdownResponseItemsItem>;
+
+export type GetFinancialReportBreakdownResponseItemsList =
+  Array<GetFinancialReportBreakdownResponseItemsItem>;
+export const GetFinancialReportBreakdownResponseItemsList = /*@__PURE__*/ S.Array(
+  GetFinancialReportBreakdownResponseItemsItem,
+) as any as S.Schema<GetFinancialReportBreakdownResponseItemsList>;
+
+export interface GetFinancialReportBreakdownResponse {
+  activity_filters: GetFinancialReportBreakdownResponseActivityFilters;
+  bucket: GetFinancialReportBreakdownResponseBucket;
+  currency: string;
+  direction: GetFinancialReportBreakdownResponseDirection;
+  items: GetFinancialReportBreakdownResponseItemsList;
+  other_amount: Money | null;
+  other_name: string;
+}
+export const GetFinancialReportBreakdownResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    activity_filters: GetFinancialReportBreakdownResponseActivityFilters,
+    bucket: GetFinancialReportBreakdownResponseBucket,
+    currency: S.String,
+    direction: GetFinancialReportBreakdownResponseDirection,
+    items: GetFinancialReportBreakdownResponseItemsList,
+    other_amount: S.NullOr(Money),
+    other_name: S.String,
+  }),
+).annotate({
+  identifier: "GetFinancialReportBreakdownResponse",
+}) as any as S.Schema<GetFinancialReportBreakdownResponse>;
+
 export type ListFinancialActivityRequestLineTypesItem =
+  | "account_settlement"
   | "ad_budget_release"
   | "ad_campaign_budget"
   | "ad_publisher_payout"
@@ -494,16 +931,26 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "bank_transfer"
   | "billing_percentage_fee"
   | "buyer_fee"
+  | "card_interchange"
+  | "card_load_deposit"
+  | "card_load_transfer"
   | "card_spend_authorization"
   | "card_spend_authorization_void"
   | "card_spend_refund"
+  | "card_unload_deposit"
+  | "card_unload_transfer"
+  | "cashback"
+  | "cashback_funding"
   | "company_referral"
+  | "connected_account_negative_balance"
   | "cross_border_percentage_fee"
   | "currency_conversion_incoming"
   | "currency_conversion_outgoing"
   | "dispute_alert_fee"
   | "dispute_hold_adjustment"
   | "dispute_representment_fee"
+  | "economic_intelligence_percentage_fee"
+  | "external_card_load_deposit"
   | "fees"
   | "fraud_prevention_fee"
   | "fx_percentage_fee"
@@ -512,6 +959,15 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "internal_balance_transfer_incoming"
   | "internal_balance_transfer_outgoing"
   | "internal_withdrawal"
+  | "internal_withdrawal_complete"
+  | "internal_withdrawal_fee"
+  | "internal_withdrawal_fee_reversal"
+  | "internal_withdrawal_in_transit"
+  | "internal_withdrawal_in_transit_reversal"
+  | "internal_withdrawal_markup_fee"
+  | "internal_withdrawal_markup_fee_payout"
+  | "internal_withdrawal_markup_fee_payout_reversal"
+  | "internal_withdrawal_markup_fee_reversal"
   | "internal_withdrawal_reversal"
   | "legacy_crypto_payment"
   | "legacy_payment"
@@ -519,14 +975,19 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "license_sale"
   | "license_sale_commission"
   | "license_sale_revenue"
+  | "marketplace_affiliate_fee"
   | "misc_purchase"
   | "misc_refund"
   | "misc_reversal"
+  | "onboarding_reward"
   | "onchain_deposit"
+  | "onchain_swap_source"
   | "onchain_swap_target"
   | "onchain_wallet_transfer_incoming"
   | "onchain_wallet_transfer_outgoing"
+  | "onchain_withdrawal"
   | "orchestration_percentage_fee"
+  | "partner_grant_reward"
   | "passthrough_gmv"
   | "payment_dispute"
   | "payment_dispute_adjustment"
@@ -537,6 +998,7 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "payment_processing_fixed_fee"
   | "payment_processing_percentage_fee"
   | "payment_referral"
+  | "payment_referral_refund"
   | "payment_referral_reversal"
   | "payment_refund"
   | "payment_refund_reversal"
@@ -549,9 +1011,16 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "platform_affiliate_payment_reversal"
   | "platform_balance_payment"
   | "platform_balance_payment_refund"
+  | "platform_balance_transfer_fee"
   | "platform_balance_transfer_incoming"
   | "platform_balance_transfer_outgoing"
   | "platform_covered_dispute"
+  | "platform_credits_granted"
+  | "platform_credits_payment"
+  | "platform_credits_payment_refund"
+  | "platform_earning"
+  | "platform_markup_fee"
+  | "platform_markup_fee_payout"
   | "promo_reversal"
   | "referral_bonus"
   | "resolution_center_refund"
@@ -563,6 +1032,7 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "software_rental_transaction"
   | "stripe_domestic_processing_fee"
   | "stripe_international_processing_fee"
+  | "swap_fee"
   | "three_ds_fixed_fee"
   | "topup"
   | "topup_fee"
@@ -572,8 +1042,15 @@ export type ListFinancialActivityRequestLineTypesItem =
   | "withdrawal"
   | "withdrawal_clawback"
   | "withdrawal_clawback_reversal"
+  | "withdrawal_fee"
+  | "withdrawal_fee_reversal"
+  | "withdrawal_markup_fee"
+  | "withdrawal_markup_fee_payout"
+  | "withdrawal_markup_fee_payout_reversal"
+  | "withdrawal_markup_fee_reversal"
   | "withdrawal_reclassification"
-  | "withdrawal_reversal";
+  | "withdrawal_reversal"
+  | "withdrawal_topup_adjustment";
 export const ListFinancialActivityRequestLineTypesItem = S.String;
 
 export type ListFinancialActivityRequestLineTypesList = Array<
@@ -582,6 +1059,9 @@ export type ListFinancialActivityRequestLineTypesList = Array<
 export const ListFinancialActivityRequestLineTypesList = /*@__PURE__*/ S.Array(
   ListFinancialActivityRequestLineTypesItem,
 ) as any as S.Schema<ListFinancialActivityRequestLineTypesList>;
+
+export type ListFinancialActivityRequestDirection = "money_in" | "money_out";
+export const ListFinancialActivityRequestDirection = S.String;
 
 export interface ListFinancialActivityRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
@@ -594,15 +1074,23 @@ export interface ListFinancialActivityRequest {
   include_resource?: boolean;
   /** Optional ledger line categories to include. Some categories (for example `onchain_deposit`, which covers inbound crypto deposits such as MoonPay onramps) are only returned when explicitly requested here. */
   line_types?: ListFinancialActivityRequestLineTypesList;
+  /** Optional direction filter. `money_in` returns positive activity and `money_out` returns negative activity. */
+  direction?: ListFinancialActivityRequestDirection | (string & {});
+  /** Optional prefixed resource ID. Returns activity associated with that resource. */
+  resource_id?: string;
+  /** Optional ledger activity ID (for example `line_3`). Returns at most that one activity. */
+  activity_id?: string;
+  /** Whether to exclude balance reservations and balanced movements between the account's own balances. */
+  exclude_internal_movements?: boolean;
   /** Optional currency code filter, for example `usd`. */
   currency?: string;
   /** Only include rows posted after this ISO 8601 timestamp. */
   posted_after?: string;
   /** Only include rows posted before this ISO 8601 timestamp. */
   posted_before?: string;
-  /** Only include rows whose funds became withdrawable on or after this `YYYY-MM-DD` settlement date (UTC), distinct from posted_at. Requires currency. */
+  /** Only include balance credits and debits available on or after this `YYYY-MM-DD` date (UTC), distinct from posted_at. Requires currency. */
   available_after?: string;
-  /** Only include rows whose funds became withdrawable on or before this `YYYY-MM-DD` settlement date (UTC). Set equal to available_after for a single day. Requires currency. */
+  /** Only include balance credits and debits available on or before this `YYYY-MM-DD` date (UTC). Set equal to available_after for a single day. Requires currency. */
   available_before?: string;
   /** Maximum number of rows to return. */
   limit?: number;
@@ -616,6 +1104,10 @@ export const ListFinancialActivityRequest = /*@__PURE__*/ S.suspend(() =>
     include_owned_accounts: S.optional(S.Boolean.pipe(T.Query())),
     include_resource: S.optional(S.Boolean.pipe(T.Query())),
     line_types: S.optional(ListFinancialActivityRequestLineTypesList.pipe(T.Query())),
+    direction: S.optional(ListFinancialActivityRequestDirection.pipe(T.Query())),
+    resource_id: S.optional(S.String.pipe(T.Query())),
+    activity_id: S.optional(S.String.pipe(T.Query())),
+    exclude_internal_movements: S.optional(S.Boolean.pipe(T.Query())),
     currency: S.optional(S.String.pipe(T.Query())),
     posted_after: S.optional(S.String.pipe(T.Query())),
     posted_before: S.optional(S.String.pipe(T.Query())),
@@ -623,7 +1115,7 @@ export const ListFinancialActivityRequest = /*@__PURE__*/ S.suspend(() =>
     available_before: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/financial-activity", code: 200 })),
+  }).pipe(T.Http({ method: "GET", uri: "/financial_activity", code: 200 })),
 ).annotate({
   identifier: "ListFinancialActivityRequest",
 }) as any as S.Schema<ListFinancialActivityRequest>;
@@ -700,6 +1192,7 @@ export const LedgerActivityCurrency = /*@__PURE__*/ S.suspend(() =>
 
 /** The ledger line category this activity was posted under. */
 export type LedgerActivityLineType =
+  | "account_settlement"
   | "ad_budget_release"
   | "ad_campaign_budget"
   | "ad_publisher_payout"
@@ -718,16 +1211,26 @@ export type LedgerActivityLineType =
   | "bank_transfer"
   | "billing_percentage_fee"
   | "buyer_fee"
+  | "card_interchange"
+  | "card_load_deposit"
+  | "card_load_transfer"
   | "card_spend_authorization"
   | "card_spend_authorization_void"
   | "card_spend_refund"
+  | "card_unload_deposit"
+  | "card_unload_transfer"
+  | "cashback"
+  | "cashback_funding"
   | "company_referral"
+  | "connected_account_negative_balance"
   | "cross_border_percentage_fee"
   | "currency_conversion_incoming"
   | "currency_conversion_outgoing"
   | "dispute_alert_fee"
   | "dispute_hold_adjustment"
   | "dispute_representment_fee"
+  | "economic_intelligence_percentage_fee"
+  | "external_card_load_deposit"
   | "fraud_prevention_fee"
   | "fx_percentage_fee"
   | "high_risk_merchant_fee"
@@ -735,6 +1238,15 @@ export type LedgerActivityLineType =
   | "internal_balance_transfer_incoming"
   | "internal_balance_transfer_outgoing"
   | "internal_withdrawal"
+  | "internal_withdrawal_complete"
+  | "internal_withdrawal_fee"
+  | "internal_withdrawal_fee_reversal"
+  | "internal_withdrawal_in_transit"
+  | "internal_withdrawal_in_transit_reversal"
+  | "internal_withdrawal_markup_fee"
+  | "internal_withdrawal_markup_fee_payout"
+  | "internal_withdrawal_markup_fee_payout_reversal"
+  | "internal_withdrawal_markup_fee_reversal"
   | "internal_withdrawal_reversal"
   | "legacy_crypto_payment"
   | "legacy_payment"
@@ -742,14 +1254,19 @@ export type LedgerActivityLineType =
   | "license_sale"
   | "license_sale_commission"
   | "license_sale_revenue"
+  | "marketplace_affiliate_fee"
   | "misc_purchase"
   | "misc_refund"
   | "misc_reversal"
+  | "onboarding_reward"
   | "onchain_deposit"
+  | "onchain_swap_source"
   | "onchain_swap_target"
   | "onchain_wallet_transfer_incoming"
   | "onchain_wallet_transfer_outgoing"
+  | "onchain_withdrawal"
   | "orchestration_percentage_fee"
+  | "partner_grant_reward"
   | "passthrough_gmv"
   | "payment_dispute"
   | "payment_dispute_adjustment"
@@ -760,6 +1277,7 @@ export type LedgerActivityLineType =
   | "payment_processing_fixed_fee"
   | "payment_processing_percentage_fee"
   | "payment_referral"
+  | "payment_referral_refund"
   | "payment_referral_reversal"
   | "payment_refund"
   | "payment_refund_reversal"
@@ -772,9 +1290,16 @@ export type LedgerActivityLineType =
   | "platform_affiliate_payment_reversal"
   | "platform_balance_payment"
   | "platform_balance_payment_refund"
+  | "platform_balance_transfer_fee"
   | "platform_balance_transfer_incoming"
   | "platform_balance_transfer_outgoing"
   | "platform_covered_dispute"
+  | "platform_credits_granted"
+  | "platform_credits_payment"
+  | "platform_credits_payment_refund"
+  | "platform_earning"
+  | "platform_markup_fee"
+  | "platform_markup_fee_payout"
   | "promo_reversal"
   | "referral_bonus"
   | "resolution_center_refund"
@@ -786,6 +1311,7 @@ export type LedgerActivityLineType =
   | "software_rental_transaction"
   | "stripe_domestic_processing_fee"
   | "stripe_international_processing_fee"
+  | "swap_fee"
   | "three_ds_fixed_fee"
   | "topup"
   | "topup_fee"
@@ -795,31 +1321,24 @@ export type LedgerActivityLineType =
   | "withdrawal"
   | "withdrawal_clawback"
   | "withdrawal_clawback_reversal"
+  | "withdrawal_fee"
+  | "withdrawal_fee_reversal"
+  | "withdrawal_markup_fee"
+  | "withdrawal_markup_fee_payout"
+  | "withdrawal_markup_fee_payout_reversal"
+  | "withdrawal_markup_fee_reversal"
   | "withdrawal_reclassification"
-  | "withdrawal_reversal";
+  | "withdrawal_reversal"
+  | "withdrawal_topup_adjustment"
+  | "deposit"
+  | "wallet_transfer_incoming"
+  | "wallet_transfer_outgoing"
+  | "swap_source"
+  | "swap_target";
 export const LedgerActivityLineType = S.String;
 
 export type LedgerActivityObject = "ledger_activity";
 export const LedgerActivityObject = S.String;
-
-export interface Money {
-  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
-  amount: string;
-  /** Three-letter ISO 4217 currency code, lowercase. */
-  currency: string;
-  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
-  decimals: number;
-  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
-  display_decimals: number;
-}
-export const Money = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amount: S.String,
-    currency: S.String,
-    decimals: S.Number,
-    display_decimals: S.Number,
-  }),
-).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
 
 export type LedgerActivityPaymentObject = "payment";
 export const LedgerActivityPaymentObject = S.String;
@@ -1234,6 +1753,10 @@ export type LedgerActivityResource =
   | LedgerActivityResourceCase6;
 export const LedgerActivityResource = S.Unknown as any as S.Schema<LedgerActivityResource>;
 
+/** Action that generated a platform markup fee: deposit, swap, transfer, card_spend, or payout. Present for platform_markup_fee and platform_markup_fee_payout, including when include_resource is false. Null when the originating action is unavailable; omitted on other source types. */
+export type LedgerActivitySourceFeeKind = "payout" | "transfer" | "deposit" | "swap" | "card_spend";
+export const LedgerActivitySourceFeeKind = S.String;
+
 /** Payout destination display info (payout sources only). */
 export interface LedgerActivitySourcePayoutDestination {
   icon_url?: string | null;
@@ -1248,7 +1771,7 @@ export const LedgerActivitySourcePayoutDestination = /*@__PURE__*/ S.suspend(() 
   identifier: "LedgerActivitySourcePayoutDestination",
 }) as any as S.Schema<LedgerActivitySourcePayoutDestination>;
 
-/** Source of this ledger activity. */
+/** Source of this ledger activity. Platform markup fees use object platform_fee and the ledger activity ID. */
 export interface LedgerActivitySource {
   /** Payout amount as a decimal number in the destination currency (payout sources only; requires payout:withdrawal:read). */
   amount_float?: number | null;
@@ -1256,17 +1779,21 @@ export interface LedgerActivitySource {
   card_brand?: string | null;
   /** Chain the deposit landed on, for example plasma (onchain_transaction sources only). */
   chain?: string | null;
-  /** Public claim URL for the airdrop link (airdrop_link sources only). */
+  /** The airdrop's claim URL. Null unless the caller can manage claim links on the funding company or withdraw from the funding personal balance. */
   claim_url?: string | null;
   /** Payout creation time as an ISO 8601 timestamp (payout sources only; requires payout:withdrawal:read). */
   created_at?: string | null;
   /** Estimated arrival as an ISO 8601 timestamp (payout sources only; requires payout:withdrawal:read). */
   estimated_arrival?: string | null;
+  /** Action that generated a platform markup fee: deposit, swap, transfer, card_spend, or payout. Present for platform_markup_fee and platform_markup_fee_payout, including when include_resource is false. Null when the originating action is unavailable; omitted on other source types. */
+  fee_kind?: LedgerActivitySourceFeeKind | null;
   /** Amount converted out of from_currency as a decimal string (swap sources only). */
   from_amount?: string | null;
   /** Lowercase currency code converted from (swap sources only). */
   from_currency?: string | null;
   id: string;
+  /** Memo attached to the transfer or payout source, or null when none was provided (on payout sources requires payout:withdrawal:read). */
+  notes?: string | null;
   object: string;
   /** Name of the entity processing the payout (payout sources only; requires payout:withdrawal:read). */
   payer_name?: string | null;
@@ -1303,9 +1830,11 @@ export const LedgerActivitySource = /*@__PURE__*/ S.suspend(() =>
     claim_url: S.optional(S.NullOr(S.String)),
     created_at: S.optional(S.NullOr(S.String)),
     estimated_arrival: S.optional(S.NullOr(S.String)),
+    fee_kind: S.optional(S.NullOr(LedgerActivitySourceFeeKind)),
     from_amount: S.optional(S.NullOr(S.String)),
     from_currency: S.optional(S.NullOr(S.String)),
     id: S.String,
+    notes: S.optional(S.NullOr(S.String)),
     object: S.String,
     payer_name: S.optional(S.NullOr(S.String)),
     payment_amount: S.optional(S.NullOr(Money)),
@@ -1328,7 +1857,7 @@ export interface LedgerActivity {
   account?: LedgerActivityAccount;
   /** Signed amount in the currency's smallest precision units. */
   amount: string;
-  /** ISO 8601 timestamp these funds became (or are scheduled to become) withdrawable: the posted time for already-settled funds, or 00:00:00 UTC on the scheduled release date for pending funds. Present only on inflows entering the balance (payments, top-ups, incoming transfers/affiliate); null on payouts, refunds, disputes and on-chain rows. The available_after/before filters window on its UTC settlement date. */
+  /** ISO 8601 timestamp when this activity affects available funds: 00:00:00 UTC on the scheduled release date for credits and debits in a pending good-funds release bucket; the posted time for credits and debits to settled available funds, including refunds, disputes and payouts. Null for activity outside these paths, including on-chain rows. The available_after/before filters use its UTC date; default activity excludes some movements, including opt-in reserves. */
   available_at: string | null;
   /** Currency for this ledger activity. */
   currency: LedgerActivityCurrency;
@@ -1355,8 +1884,10 @@ export interface LedgerActivity {
   product_name?: string | null;
   /** Resource associated with this ledger activity. */
   resource: LedgerActivityResource | null;
-  /** Source of this ledger activity. */
+  /** Source of this ledger activity. Platform markup fees use object platform_fee and the ledger activity ID. */
   source: LedgerActivitySource | null;
+  /** Dollar value of this movement as a decimal string, signed like `amount`. Converted from the posted amount at the rate that was live when the line posted — the same pricing the wallet balance chart and the financial reports use — so a crypto row carries its dollar value too. `null` for a currency Whop holds no exchange rate for. */
+  usd_amount: string | null;
   /** Email of the customer associated with the payment. Requires member:email:read. */
   user_email?: string | null;
   /** ID of the customer associated with the payment. */
@@ -1383,6 +1914,7 @@ export const LedgerActivity = /*@__PURE__*/ S.suspend(() =>
     product_name: S.optional(S.NullOr(S.String)),
     resource: S.NullOr(LedgerActivityResource),
     source: S.NullOr(LedgerActivitySource),
+    usd_amount: S.NullOr(S.String),
     user_email: S.optional(S.NullOr(S.String)),
     user_id: S.optional(S.NullOr(S.String)),
     user_name: S.optional(S.NullOr(S.String)),
@@ -1435,6 +1967,21 @@ export const getFinancialReport: API.OperationMethod<
   input: GetFinancialReportRequest,
   output: GetFinancialReportResponse,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetFinancialReportBreakdownError = BadRequest | Forbidden | WhopOpError;
+/** Get Financial Report Breakdown Returns the top entities behind one high-level financial report bucket and an aggregate remainder. */
+export const getFinancialReportBreakdown: API.OperationMethod<
+  GetFinancialReportBreakdownRequest,
+  GetFinancialReportBreakdownResponse,
+  GetFinancialReportBreakdownError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetFinancialReportBreakdownRequest,
+  output: GetFinancialReportBreakdownResponse,
+  errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));

@@ -1,0 +1,1709 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.trades#ListTradesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "SUBMISSION_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submission_unknown"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#ListTradesRequestOperationType": {
+      "type": "enum",
+      "members": {
+        "CREATE_ORDERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_orders"
+          }
+        },
+        "CANCEL_ORDERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancel_orders"
+          }
+        },
+        "UPDATE_LEVERAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_leverage"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#ListTradesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#ListTradesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#ListTradesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only return trades for this account or user, prefixed `biz_` or `user_`."
+          }
+        },
+        "status": {
+          "target": "com.whop.trades#ListTradesRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return trades with this submission status."
+          }
+        },
+        "operation_type": {
+          "target": "com.whop.trades#ListTradesRequestOperationType",
+          "traits": {
+            "smithy.api#httpQuery": "operation_type",
+            "smithy.api#documentation": "Only return trades of this kind, such as `create_orders` for order submissions."
+          }
+        },
+        "order": {
+          "target": "com.whop.trades#ListTradesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Field to sort by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.trades#ListTradesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of results to return from the start of the range."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of results to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.trades#Trade": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account that owns the trading wallet, prefixed `biz_`. `null` when a user owns it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellations": {
+          "target": "com.whop.trades#TradeCancellationsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission finished, as an ISO 8601 timestamp, or `null` while it is pending or its outcome is unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the trade was submitted, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "failure_code": {
+          "target": "com.whop.trades#TradeFailureCode",
+          "traits": {
+            "smithy.api#documentation": "Why the trade failed or has an unknown outcome, or `null` otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hyperliquid": {
+          "target": "com.whop.trades#TradeHyperliquid",
+          "traits": {
+            "smithy.api#documentation": "Hyperliquid-specific submission details. Present when `provider` is `hyperliquid`, otherwise `null`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trade ID, prefixed `trop_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "instrument_type": {
+          "target": "com.whop.trades#TradeInstrumentType",
+          "traits": {
+            "smithy.api#documentation": "The kind of instrument traded.",
+            "smithy.api#required": {}
+          }
+        },
+        "leverage": {
+          "target": "com.whop.trades#TradeLeverage",
+          "traits": {
+            "smithy.api#documentation": "The leverage requested by an `update_leverage` trade. `null` for other trades.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "String-to-string annotations you provided when submitting the trade.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.trades#TradeObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation_type": {
+          "target": "com.whop.trades#TradeOperationType",
+          "traits": {
+            "smithy.api#documentation": "`create_orders` places orders, `cancel_orders` cancels a submitted batch, and `update_leverage` sets a market's leverage.",
+            "smithy.api#required": {}
+          }
+        },
+        "orders": {
+          "target": "com.whop.trades#TradeOrdersList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "provider": {
+          "target": "com.whop.trades#TradeProvider",
+          "traits": {
+            "smithy.api#documentation": "Trading venue the trade was submitted to.",
+            "smithy.api#required": {}
+          }
+        },
+        "requested_orders": {
+          "target": "com.whop.trades#TradeRequestedOrdersList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.trades#TradeStatus",
+          "traits": {
+            "smithy.api#documentation": "Submission status, not fill status. `completed` means the provider response was recorded, even if individual orders were rejected. Never resubmit a `submission_unknown` trade with a new idempotency key.",
+            "smithy.api#required": {}
+          }
+        },
+        "trade_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For a cancellation, the ID of the canceled trade, prefixed `trop_`. `null` otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the trade last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user who owns the trading wallet, prefixed `user_`. `null` when an account owns it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeCancellationResult": {
+      "type": "structure",
+      "members": {
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider's rejection reason, or `null` when the order was canceled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client order ID of the order the cancellation targeted, prefixed `trdcloid_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.trades#TradeCancellationResultStatus",
+          "traits": {
+            "smithy.api#documentation": "`canceled` when the provider canceled the order; `rejected` when it refused, for example because the order had already filled.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeCancellationResultStatus": {
+      "type": "enum",
+      "members": {
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`canceled` when the provider canceled the order; `rejected` when it refused, for example because the order had already filled."
+      }
+    },
+    "com.whop.trades#TradeCancellationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.trades#TradeCancellationResult"
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeFailureCode": {
+      "type": "enum",
+      "members": {
+        "PRE_SUBMISSION_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pre_submission_error"
+          }
+        },
+        "PROVIDER_REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provider_rejected"
+          }
+        },
+        "PROVIDER_OUTCOME_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provider_outcome_unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the trade failed or has an unknown outcome, or `null` otherwise."
+      }
+    },
+    "com.whop.trades#TradeHyperliquid": {
+      "type": "structure",
+      "members": {
+        "builder_fee_bps": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Builder fee Whop charged on the submitted orders, in basis points as a decimal string, or `null` for trades that place no orders.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeInstrumentType": {
+      "type": "enum",
+      "members": {
+        "PERPETUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "perpetual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of instrument traded."
+      }
+    },
+    "com.whop.trades#TradeLeverage": {
+      "type": "structure",
+      "members": {
+        "leverage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Requested leverage multiplier, such as `10` for 10x, or `null` if the request didn't contain a whole number.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "margin_mode": {
+          "target": "com.whop.trades#TradeLeverageMarginMode",
+          "traits": {
+            "smithy.api#documentation": "`cross` shares margin across positions; `isolated` limits margin to this market's position. `null` if the request didn't contain a supported mode.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "market": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Market symbol, such as `ETH`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeLeverageMarginMode": {
+      "type": "enum",
+      "members": {
+        "CROSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cross"
+          }
+        },
+        "ISOLATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "isolated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`cross` shares margin across positions; `isolated` limits margin to this market's position. `null` if the request didn't contain a supported mode."
+      }
+    },
+    "com.whop.trades#TradeObject": {
+      "type": "enum",
+      "members": {
+        "TRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trade"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeOperationType": {
+      "type": "enum",
+      "members": {
+        "CREATE_ORDERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_orders"
+          }
+        },
+        "CANCEL_ORDERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancel_orders"
+          }
+        },
+        "UPDATE_LEVERAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_leverage"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`create_orders` places orders, `cancel_orders` cancels a submitted batch, and `update_leverage` sets a market's leverage."
+      }
+    },
+    "com.whop.trades#TradeOrderResult": {
+      "type": "structure",
+      "members": {
+        "average_price": {
+          "target": "com.whop.trades#Money",
+          "traits": {
+            "smithy.api#documentation": "Average fill price in USD for an immediate fill, or `null` when nothing filled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "client_order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client order ID Whop assigned to the order, prefixed `trdcloid_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider's rejection reason, or `null` when the order was accepted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filled_size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Size filled immediately at submission, as a decimal string, or `null` when nothing filled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hyperliquid": {
+          "target": "com.whop.trades#TradingHyperliquidOrder",
+          "traits": {
+            "smithy.api#documentation": "Hyperliquid-specific order details. Present on Hyperliquid orders, otherwise `null`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trading order ID, prefixed `trdord_` once the provider assigns one, otherwise the client order ID prefixed `trdcloid_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "market": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Market symbol on the provider, such as `ETH`.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.trades#TradeOrderResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "order_type": {
+          "target": "com.whop.trades#TradeOrderResultOrderType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parent_client_order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For an attached take-profit or stop-loss, the client order ID of its entry order, prefixed `trdcloid_`. `null` for other orders.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "price": {
+          "target": "com.whop.trades#Money",
+          "traits": {
+            "smithy.api#documentation": "Submitted limit price in USD. For market and trigger orders, the worst price allowed after slippage.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider_order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider's own order ID, or `null` until the provider assigns one, such as for a rejected order or a take-profit or stop-loss that hasn't triggered yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "side": {
+          "target": "com.whop.trades#TradeOrderResultSide",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submitted size as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.trades#TradeOrderResultStatus",
+          "traits": {
+            "smithy.api#documentation": "The provider's acknowledgement at submission time, not the current fill status.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradingHyperliquidOrder": {
+      "type": "structure",
+      "members": {
+        "reduce_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the order can only reduce an existing position, or `null` when Hyperliquid omits it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trigger_price": {
+          "target": "com.whop.trades#Money",
+          "traits": {
+            "smithy.api#documentation": "Trigger price in USD for take-profit and stop-loss orders, or `null` for orders without a trigger.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeOrderResultObject": {
+      "type": "enum",
+      "members": {
+        "TRADING_ORDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trading_order"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeOrderResultOrderType": {
+      "type": "enum",
+      "members": {
+        "LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limit"
+          }
+        },
+        "MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "market"
+          }
+        },
+        "TAKE_PROFIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "take_profit"
+          }
+        },
+        "STOP_LOSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop_loss"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeOrderResultSide": {
+      "type": "enum",
+      "members": {
+        "BUY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy"
+          }
+        },
+        "SELL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sell"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeOrderResultStatus": {
+      "type": "enum",
+      "members": {
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "FILLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "filled"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The provider's acknowledgement at submission time, not the current fill status."
+      }
+    },
+    "com.whop.trades#TradeOrdersList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.trades#TradeOrderResult"
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeProvider": {
+      "type": "enum",
+      "members": {
+        "HYPERLIQUID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hyperliquid"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Trading venue the trade was submitted to."
+      }
+    },
+    "com.whop.trades#TradeRequestedOrder": {
+      "type": "structure",
+      "members": {
+        "client_order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client order ID Whop assigned to the order, prefixed `trdcloid_`. Matches the order in `orders` and on the provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "market": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Market symbol as submitted, such as `ETH`.",
+            "smithy.api#required": {}
+          }
+        },
+        "order_type": {
+          "target": "com.whop.trades#TradeRequestedOrderOrderType",
+          "traits": {
+            "smithy.api#documentation": "Submitted order type, or `null` if the request didn't contain a supported type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parent_client_order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For an attached take-profit or stop-loss, the client order ID of its entry order, prefixed `trdcloid_`. `null` for other orders.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "price": {
+          "target": "com.whop.trades#Money",
+          "traits": {
+            "smithy.api#documentation": "Submitted limit price in USD, or `null` for orders submitted without one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "side": {
+          "target": "com.whop.trades#TradeRequestedOrderSide",
+          "traits": {
+            "smithy.api#documentation": "Submitted side, or `null` if the request didn't contain a supported side.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submitted size as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger_price": {
+          "target": "com.whop.trades#Money",
+          "traits": {
+            "smithy.api#documentation": "Submitted trigger price in USD, or `null` for orders without a trigger.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeRequestedOrderOrderType": {
+      "type": "enum",
+      "members": {
+        "LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limit"
+          }
+        },
+        "MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "market"
+          }
+        },
+        "TAKE_PROFIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "take_profit"
+          }
+        },
+        "STOP_LOSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop_loss"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Submitted order type, or `null` if the request didn't contain a supported type."
+      }
+    },
+    "com.whop.trades#TradeRequestedOrderSide": {
+      "type": "enum",
+      "members": {
+        "BUY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy"
+          }
+        },
+        "SELL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sell"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Submitted side, or `null` if the request didn't contain a supported side."
+      }
+    },
+    "com.whop.trades#TradeRequestedOrdersList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.trades#TradeRequestedOrder"
+      },
+      "traits": {}
+    },
+    "com.whop.trades#TradeStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "SUBMISSION_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submission_unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Submission status, not fill status. `completed` means the provider response was recorded, even if individual orders were rejected. Never resubmit a `submission_unknown` trade with a new idempotency key."
+      }
+    },
+    "com.whop.trades#ListTradesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.trades#Trade"
+      },
+      "traits": {}
+    },
+    "com.whop.trades#ListTradesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#ListTradesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.trades#ListTradesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.trades#ListTradesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.trades#ListTrades": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.trades#ListTradesRequest"
+      },
+      "output": {
+        "target": "com.whop.trades#ListTradesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.trades#BadRequest"
+        },
+        {
+          "target": "com.whop.trades#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/trades",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Trades\n\nLists trades you can access, newest first. User credentials see their own trades and those of accounts they belong to, including connected accounts; account credentials see their account and its connected accounts. These are submission records, not fill or position history.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.trades#CreateTradeRequestInstrumentType": {
+      "type": "enum",
+      "members": {
+        "PERPETUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "perpetual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of instrument to trade."
+      }
+    },
+    "com.whop.trades#CreateTradeRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Free-form string-to-string annotations stored on the trade."
+      }
+    },
+    "com.whop.trades#CreateTradeRequestOrdersItemOrderType": {
+      "type": "enum",
+      "members": {
+        "LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limit"
+          }
+        },
+        "MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "market"
+          }
+        },
+        "TAKE_PROFIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "take_profit"
+          }
+        },
+        "STOP_LOSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop_loss"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#CreateTradeRequestOrdersItemSide": {
+      "type": "enum",
+      "members": {
+        "BUY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy"
+          }
+        },
+        "SELL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sell"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#CreateTradeRequestOrdersItemStopLoss": {
+      "type": "structure",
+      "members": {
+        "limit_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Limit price once triggered, as a decimal string. Omit or pass `null` for a market order with the request's slippage cap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trigger_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Price that triggers the order, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#CreateTradeRequestOrdersItemTakeProfit": {
+      "type": "structure",
+      "members": {
+        "limit_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Limit price once triggered, as a decimal string. Omit or pass `null` for a market order with the request's slippage cap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trigger_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Price that triggers the order, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#CreateTradeRequestOrdersItemTimeInForce": {
+      "type": "enum",
+      "members": {
+        "ADD_LIQUIDITY_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_liquidity_only"
+          }
+        },
+        "GOOD_TIL_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "good_til_canceled"
+          }
+        },
+        "IMMEDIATE_OR_CANCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "immediate_or_cancel"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How long a limit order stays active. Ignored for other order types."
+      }
+    },
+    "com.whop.trades#CreateTradeRequestOrdersItem": {
+      "type": "structure",
+      "members": {
+        "market": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Perpetual market on the selected provider, such as `ETH`.",
+            "smithy.api#required": {}
+          }
+        },
+        "order_type": {
+          "target": "com.whop.trades#CreateTradeRequestOrdersItemOrderType"
+        },
+        "price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Limit price as a decimal string. Required for a limit order; for a take-profit or stop-loss, omit it to trigger a market order.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reduce_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the order can only reduce an existing position. Take-profit and stop-loss orders are always reduce-only."
+          }
+        },
+        "side": {
+          "target": "com.whop.trades#CreateTradeRequestOrdersItemSide",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Order size as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "slippage_bps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Slippage cap for this order in basis points, overriding the request's `slippage_bps`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stop_loss": {
+          "target": "com.whop.trades#CreateTradeRequestOrdersItemStopLoss",
+          "traits": {
+            "smithy.api#documentation": "Stop-loss to attach to a single entry order.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "take_profit": {
+          "target": "com.whop.trades#CreateTradeRequestOrdersItemTakeProfit",
+          "traits": {
+            "smithy.api#documentation": "Take-profit to attach to a single entry order.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_in_force": {
+          "target": "com.whop.trades#CreateTradeRequestOrdersItemTimeInForce",
+          "traits": {
+            "smithy.api#documentation": "How long a limit order stays active. Ignored for other order types."
+          }
+        },
+        "trigger_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trigger price as a decimal string. Required for standalone take-profit and stop-loss orders.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#CreateTradeRequestOrdersList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.trades#CreateTradeRequestOrdersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Orders to submit together. Attached take-profit and stop-loss are supported only with a single entry order."
+      }
+    },
+    "com.whop.trades#CreateTradeRequestProvider": {
+      "type": "enum",
+      "members": {
+        "HYPERLIQUID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hyperliquid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#CreateTradeRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account or user that owns the trading wallet, prefixed `biz_` or `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "instrument_type": {
+          "target": "com.whop.trades#CreateTradeRequestInstrumentType",
+          "traits": {
+            "smithy.api#documentation": "The kind of instrument to trade.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.trades#CreateTradeRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Free-form string-to-string annotations stored on the trade.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "orders": {
+          "target": "com.whop.trades#CreateTradeRequestOrdersList",
+          "traits": {
+            "smithy.api#documentation": "Orders to submit together. Attached take-profit and stop-loss are supported only with a single entry order.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.whop.trades#CreateTradeRequestProvider",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slippage_bps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Default slippage cap in basis points for market orders and market-triggered take-profit and stop-loss.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.trades#CreateTrade": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.trades#CreateTradeRequest"
+      },
+      "output": {
+        "target": "com.whop.trades#Trade"
+      },
+      "errors": [
+        {
+          "target": "com.whop.trades#BadRequest"
+        },
+        {
+          "target": "com.whop.trades#Forbidden"
+        },
+        {
+          "target": "com.whop.trades#NotFound"
+        },
+        {
+          "target": "com.whop.trades#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/trades",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Trade\n\nSubmits perpetual orders from a funded trading wallet. Send several limit orders for a ladder, or attach `take_profit` and `stop_loss` to a single entry order. Whop's builder fee is approved and attached automatically. The returned `trop_` ID identifies the submission, not a position, and `completed` doesn't mean filled: check each order acknowledgement, and read live orders and positions from the account's `trading` field. Requires an `Idempotency-Key`. Early beta: email support@whop.com for access."
+      }
+    },
+    "com.whop.trades#UpdateTradeLeverageRequestMarginMode": {
+      "type": "enum",
+      "members": {
+        "CROSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cross"
+          }
+        },
+        "ISOLATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "isolated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`cross` shares margin across positions; `isolated` limits margin to this market's position."
+      }
+    },
+    "com.whop.trades#UpdateTradeLeverageRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Free-form string-to-string annotations stored on the trade."
+      }
+    },
+    "com.whop.trades#UpdateTradeLeverageRequestProvider": {
+      "type": "enum",
+      "members": {
+        "HYPERLIQUID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hyperliquid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.trades#UpdateTradeLeverageRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account or user that owns the trading wallet, prefixed `biz_` or `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "leverage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Leverage multiplier, such as `10` for 10x. Capped at the market's maximum.",
+            "smithy.api#required": {}
+          }
+        },
+        "margin_mode": {
+          "target": "com.whop.trades#UpdateTradeLeverageRequestMarginMode",
+          "traits": {
+            "smithy.api#documentation": "`cross` shares margin across positions; `isolated` limits margin to this market's position.",
+            "smithy.api#required": {}
+          }
+        },
+        "market": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Perpetual market on the provider, such as `ETH`.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.trades#UpdateTradeLeverageRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Free-form string-to-string annotations stored on the trade.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "provider": {
+          "target": "com.whop.trades#UpdateTradeLeverageRequestProvider",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.trades#UpdateTradeLeverage": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.trades#UpdateTradeLeverageRequest"
+      },
+      "output": {
+        "target": "com.whop.trades#Trade"
+      },
+      "errors": [
+        {
+          "target": "com.whop.trades#BadRequest"
+        },
+        {
+          "target": "com.whop.trades#Forbidden"
+        },
+        {
+          "target": "com.whop.trades#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/trades/leverage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Trade Leverage\n\nSets cross or isolated leverage for a perpetual market, up to that market's maximum. Returns a trade recording the submission. Requires an `Idempotency-Key`."
+      }
+    },
+    "com.whop.trades#GetTradeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Trade ID, prefixed `trop_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.trades#GetTrade": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.trades#GetTradeRequest"
+      },
+      "output": {
+        "target": "com.whop.trades#Trade"
+      },
+      "errors": [
+        {
+          "target": "com.whop.trades#Forbidden"
+        },
+        {
+          "target": "com.whop.trades#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/trades/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Trade\n\nRetrieves a trade. Order acknowledgements don't update as orders fill; read live orders and positions from the account's `trading` field. Never resubmit a `submission_unknown` trade with a new idempotency key."
+      }
+    },
+    "com.whop.trades#CancelTradeRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Free-form string-to-string annotations stored on the trade."
+      }
+    },
+    "com.whop.trades#CancelTradeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the order trade to cancel, prefixed `trop_`."
+          }
+        },
+        "metadata": {
+          "target": "com.whop.trades#CancelTradeRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Free-form string-to-string annotations stored on the trade.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Required. Reuse the same key when retrying, including after a `submission_unknown` outcome; a new key submits a new trade."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.trades#CancelTrade": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.trades#CancelTradeRequest"
+      },
+      "output": {
+        "target": "com.whop.trades#Trade"
+      },
+      "errors": [
+        {
+          "target": "com.whop.trades#BadRequest"
+        },
+        {
+          "target": "com.whop.trades#Forbidden"
+        },
+        {
+          "target": "com.whop.trades#NotFound"
+        },
+        {
+          "target": "com.whop.trades#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/trades/{id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel Trade\n\nCancels every order in an order trade, including attached take-profit and stop-loss. This doesn't close filled positions. Returns a new cancellation trade whose `trade_id` points to the original, which is left unchanged. Cancellation works even while opening new positions is disabled. Requires an `Idempotency-Key`."
+      }
+    },
+    "com.whop.trades#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.trades#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.trades#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.trades#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.trades#Trades": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.trades#ListTrades"
+        },
+        {
+          "target": "com.whop.trades#CreateTrade"
+        },
+        {
+          "target": "com.whop.trades#UpdateTradeLeverage"
+        },
+        {
+          "target": "com.whop.trades#GetTrade"
+        },
+        {
+          "target": "com.whop.trades#CancelTrade"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

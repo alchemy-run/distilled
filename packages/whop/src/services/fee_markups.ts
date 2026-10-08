@@ -51,7 +51,12 @@ export type FeeMarkupTypes =
   | "rtp_withdrawal_markup"
   | "next_day_bank_withdrawal_markup"
   | "bank_wire_withdrawal_markup"
-  | "digital_wallet_withdrawal_markup";
+  | "digital_wallet_withdrawal_markup"
+  | "transfer_markup"
+  | "crypto_deposit_markup"
+  | "bank_deposit_markup"
+  | "crypto_swap_markup"
+  | "payment_markup";
 export const FeeMarkupTypes = S.String;
 
 /** Custom key-value metadata to attach to this fee markup. */
@@ -63,7 +68,7 @@ export const CreateFeeMarkupRequestMetadataMap = /*@__PURE__*/ S.Record(
 
 export interface CreateFeeMarkupRequest {
   /** The unique identifier of the company to create or update the fee markup for. */
-  company_id: string;
+  account_id: string;
   /** The type of fee this markup applies to, such as processing or platform fees. */
   fee_type: FeeMarkupTypes | (string & {});
   /** The fixed fee amount in USD to charge per transaction. Must be between 0 and 50. */
@@ -77,7 +82,7 @@ export interface CreateFeeMarkupRequest {
 }
 export const CreateFeeMarkupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.String,
+    account_id: S.String,
     fee_type: FeeMarkupTypes,
     fixed_fee_usd: S.optional(S.NullOr(S.Number)),
     metadata: S.optional(S.NullOr(CreateFeeMarkupRequestMetadataMap)),
@@ -135,7 +140,7 @@ export interface ListFeeMarkupRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
+  account_id: string;
 }
 export const ListFeeMarkupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -143,7 +148,7 @@ export const ListFeeMarkupRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/fee_markups", code: 200 })),
 ).annotate({ identifier: "ListFeeMarkupRequest" }) as any as S.Schema<ListFeeMarkupRequest>;
 

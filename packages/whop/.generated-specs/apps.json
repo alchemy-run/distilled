@@ -212,7 +212,7 @@
           "target": "com.whop.apps#ListAppsRequestOrder",
           "traits": {
             "smithy.api#httpQuery": "order",
-            "smithy.api#documentation": "The field to sort apps by. Defaults to discoverable_at, showing the most recently published apps first. `template_usage` ranks Whop-verified apps first, then apps with a banner image, then by how many apps were created from each app as a template."
+            "smithy.api#documentation": "The field to sort apps by. Defaults to discoverable_at, showing the most recently published apps first. `template_usage` ranks Whop-verified apps first, then by how many businesses created apps from each app as a template."
           }
         },
         "direction": {
@@ -226,28 +226,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of apps to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns apps after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of apps to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns apps before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -339,6 +339,13 @@
             "smithy.api#required": {}
           }
         },
+        "domains": {
+          "target": "com.whop.apps#AppListItemDomainsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "experience_path": {
           "target": "smithy.api#String",
           "traits": {
@@ -392,10 +399,16 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "previous_hosted_urls": {
+          "target": "com.whop.apps#AppListItemPreviousHostedUrlsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "route": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.app), or `null` if no route is claimed.",
+            "smithy.api#documentation": "Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.site), or `null` if no route is claimed.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -428,6 +441,12 @@
     "com.whop.apps#AccountParent": {
       "type": "structure",
       "members": {
+        "fees": {
+          "target": "com.whop.apps#AccountParentFeesMap",
+          "traits": {
+            "smithy.api#documentation": "Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default."
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -459,6 +478,38 @@
         }
       },
       "traits": {}
+    },
+    "com.whop.apps#AccountParentFeesValue": {
+      "type": "structure",
+      "members": {
+        "fixed_fee_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fixed markup in US dollars per transaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "percentage_fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage of the transaction charged as markup.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AccountParentFeesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.whop.apps#AccountParentFeesValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default."
+      }
     },
     "com.whop.apps#AppListItemAppType": {
       "type": "enum",
@@ -546,6 +597,84 @@
       },
       "traits": {}
     },
+    "com.whop.apps#AppDomain": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Normalized hostname assigned to this app.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain ID, prefixed `dom_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.apps#AppDomainStatus",
+          "traits": {
+            "smithy.api#documentation": "Domain lifecycle status, matching the domain resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppDomainStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING_VERIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_verification"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Domain lifecycle status, matching the domain resource."
+      }
+    },
+    "com.whop.apps#AppListItemDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#AppDomain"
+      },
+      "traits": {}
+    },
     "com.whop.apps#AppIcon": {
       "type": "structure",
       "members": {
@@ -556,6 +685,13 @@
             "smithy.api#required": {}
           }
         }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppListItemPreviousHostedUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -785,7 +921,7 @@
         "route": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The subdomain route where the app's hosted web builds are served, such as `myapp` for myapp.whop.app.",
+            "smithy.api#documentation": "The subdomain route where the app's hosted web builds are served, such as `myapp` for myapp.whop.site.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -917,6 +1053,13 @@
             "smithy.api#required": {}
           }
         },
+        "domains": {
+          "target": "com.whop.apps#AppDomainsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "elements_used": {
           "target": "com.whop.apps#AppElementsUsedList",
           "traits": {
@@ -991,6 +1134,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "preview_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short-lived signed pass scoping the caller to this app's gated preview hosts — every build preview and the live dev-server sandbox. Add it to a preview host as the `__whop_preview` query param (or `x-whop-preview-token` header). `null` unless the caller is a team member who can read the app's developer settings.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous_hosted_urls": {
+          "target": "com.whop.apps#AppPreviousHostedUrlsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "product_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -1044,7 +1201,7 @@
         "route": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.app), or `null` if no route is claimed.",
+            "smithy.api#documentation": "Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.site), or `null` if no route is claimed.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1378,6 +1535,13 @@
         "smithy.api#documentation": "Whether the app has anything to publish, and what a publish in flight is doing. `unpublished` means publishing would ship something new; `no_source` means the sandbox holds no copy of this app, so there is nothing to publish from."
       }
     },
+    "com.whop.apps#AppDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#AppDomain"
+      },
+      "traits": {}
+    },
     "com.whop.apps#AppElementsUsedItem": {
       "type": "enum",
       "members": {
@@ -1649,6 +1813,13 @@
         "smithy.api#documentation": "How the app authenticates at the OAuth token endpoint."
       }
     },
+    "com.whop.apps#AppPreviousHostedUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.whop.apps#AppProductionBuild": {
       "type": "structure",
       "members": {
@@ -1873,7 +2044,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "App ID (prefixed `app_`), the app's claimed route, or its proxy domain id."
+            "smithy.api#documentation": "App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id."
           }
         }
       },
@@ -1900,7 +2071,7 @@
           "uri": "/apps/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve App\n\nRetrieves an app by ID, claimed route, or proxy domain id. Credential fields (api_key, default_api_key, secrets) render `null` unless the caller has the corresponding developer permission on the owning account."
+        "smithy.api#documentation": "Retrieve App\n\nRetrieves an app by ID, claimed route, active verified custom hostname, or proxy domain id. Custom hostnames return 404 for inactive assignments, suspended accounts, or deleted apps. Credential fields (api_key, default_api_key, secrets) render `null` unless the caller has the corresponding developer permission on the owning account."
       }
     },
     "com.whop.apps#UpdateAppRequestAppType": {
@@ -2033,7 +2204,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "App ID (prefixed `app_`), the app's claimed route, or its proxy domain id."
+            "smithy.api#documentation": "App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id."
           }
         },
         "app_store_description": {
@@ -2206,7 +2377,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "App ID (prefixed `app_`), the app's claimed route, or its proxy domain id."
+            "smithy.api#documentation": "App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id."
           }
         }
       },
@@ -2401,21 +2572,21 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of log lines to return (max 500)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor for fetching logs after a previous page."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor for fetching logs before a later page."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -2649,7 +2820,7 @@
           "uri": "/apps/{id}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "List App Logs\n\nLists a hosted app's server runtime logs, most recent first: console output, uncaught exceptions, and failed-request summaries captured on whop.app hosting. Logs are retained for 7 days.",
+        "smithy.api#documentation": "List App Logs\n\nLists a hosted app's server runtime logs, most recent first: console output, uncaught exceptions, and failed-request summaries captured on whop.site hosting. Logs are retained for 7 days.",
         "smithy.api#paginated": {
           "mode": "relay",
           "inputToken": "after",

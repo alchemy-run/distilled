@@ -80,6 +80,7 @@ export const CreateAuthorizedUserRequestElevation = /*@__PURE__*/ S.suspend(() =
 export type GrantableAuthorizedUserRoles =
   | "owner"
   | "admin"
+  | "partner"
   | "sales_manager"
   | "moderator"
   | "advertiser";
@@ -87,7 +88,7 @@ export const GrantableAuthorizedUserRoles = S.String;
 
 export interface CreateAuthorizedUserRequest {
   /** The ID of the company to add the authorized user to. */
-  company_id: string;
+  account_id: string;
   /** Re-authentication proof required to perform this sensitive action. */
   elevation?: CreateAuthorizedUserRequestElevation | null;
   /** The role to assign to the authorized user within the company. Supported roles: 'moderator', 'sales_manager'. */
@@ -99,7 +100,7 @@ export interface CreateAuthorizedUserRequest {
 }
 export const CreateAuthorizedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.String,
+    account_id: S.String,
     elevation: S.optional(S.NullOr(CreateAuthorizedUserRequestElevation)),
     role: GrantableAuthorizedUserRoles,
     send_emails: S.optional(S.NullOr(S.Boolean)),
@@ -127,6 +128,7 @@ export const AuthorizedUserCompany = /*@__PURE__*/ S.suspend(() =>
 export type AuthorizedUserRoles =
   | "owner"
   | "admin"
+  | "partner"
   | "sales_manager"
   | "moderator"
   | "advertiser"
@@ -180,12 +182,12 @@ export const AuthorizedUser = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteAuthorizedUserRequest {
   /** The ID of the authorized user or user to remove. */
   id: string;
-  company_id?: string;
+  account_id?: string;
 }
 export const DeleteAuthorizedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-    company_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/authorized_users/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteAuthorizedUserRequest",
@@ -213,11 +215,11 @@ export interface ListAuthorizedUserRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id?: string;
   user_id?: string;
   role?: AuthorizedUserRoles | (string & {});
   created_before?: string;
   created_after?: string;
+  account_id?: string;
 }
 export const ListAuthorizedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -225,11 +227,11 @@ export const ListAuthorizedUserRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
     user_id: S.optional(S.String.pipe(T.Query())),
     role: S.optional(AuthorizedUserRoles.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/authorized_users", code: 200 })),
 ).annotate({
   identifier: "ListAuthorizedUserRequest",

@@ -62,13 +62,13 @@ export const ArchiveAffiliateResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateAffiliateRequest {
   /** The ID of the company to create the affiliate for. */
-  company_id: string;
+  account_id: string;
   /** The user identifier (username, email, user ID, or Discord ID). */
   user_identifier: string;
 }
 export const CreateAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.String,
+    account_id: S.String,
     user_identifier: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/affiliates", code: 200 })),
 ).annotate({ identifier: "CreateAffiliateRequest" }) as any as S.Schema<CreateAffiliateRequest>;
@@ -407,11 +407,11 @@ export interface ListAffiliateRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
   direction?: Direction | (string & {});
   order?: AffiliatesSortableColumns | (string & {});
   query?: string;
   status?: Status | (string & {});
+  account_id: string;
 }
 export const ListAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -419,11 +419,11 @@ export const ListAffiliateRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
     direction: S.optional(Direction.pipe(T.Query())),
     order: S.optional(AffiliatesSortableColumns.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
     status: S.optional(Status.pipe(T.Query())),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/affiliates", code: 200 })),
 ).annotate({ identifier: "ListAffiliateRequest" }) as any as S.Schema<ListAffiliateRequest>;
 

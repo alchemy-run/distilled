@@ -439,6 +439,8 @@ export type AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit = "mile" | "k
 export const AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit = S.String;
 
 export interface AdGroupGeoLocationsBodyCustomLocationsItem {
+  /** ISO 3166-1 alpha-2 country the point falls in, as `DE`. Send it under a special ad category: the campaign must declare the countries its ad sets reach, and a coordinate names none. */
+  country_code?: string;
   /** Unit for `radius`. Defaults to `mile`. */
   distance_unit?: AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit | (string & {});
   /** Latitude of the center point. */
@@ -452,6 +454,7 @@ export interface AdGroupGeoLocationsBodyCustomLocationsItem {
 }
 export const AdGroupGeoLocationsBodyCustomLocationsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    country_code: S.optional(S.String),
     distance_unit: S.optional(AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit),
     latitude: S.Number,
     longitude: S.Number,
@@ -547,8 +550,10 @@ export interface CreateAdGroupRequest {
   audiences?: AdGroupAudiencesBody;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
   bid_type?: CreateAdGroupRequestBidType | (string & {});
-  /** This ad group's budget, in the ad account's currency. Omit when the budget is set on the campaign instead. */
+  /** This ad group's budget in USD, which is what it is stored and billed in. Omit when the budget is set on the campaign instead. */
   budget_amount?: number;
+  /** This ad group's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; on an update, an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
+  budget_amount_local?: number;
   /** Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
   budget_type?: CreateAdGroupRequestBudgetType | (string & {});
   conversion_event?: ConversionEvent | null;
@@ -562,7 +567,7 @@ export interface CreateAdGroupRequest {
   detailed_targeting?: AdGroupDetailedTargetingBody;
   /** Device platforms and operating systems to target. */
   devices?: AdGroupDevicesBody;
-  /** Let the ad platform automatically mix and match this ad group's creatives and copy to find the best-performing combinations. Set at creation; can't be changed afterward. */
+  /** Whether the ad platform automatically mixes and matches this ad group's creatives and copy to find the best-performing combinations. Meta has deprecated it and rejects `true`; ad groups already using it keep it, and it can't be changed afterward. */
   dynamic_creative?: boolean;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused. */
   ends_at?: string;
@@ -595,6 +600,7 @@ export const CreateAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     audiences: S.optional(AdGroupAudiencesBody),
     bid_type: S.optional(CreateAdGroupRequestBidType),
     budget_amount: S.optional(S.Number),
+    budget_amount_local: S.optional(S.Number),
     budget_type: S.optional(CreateAdGroupRequestBudgetType),
     conversion_event: S.optional(S.NullOr(ConversionEvent)),
     conversion_location: S.optional(CreateAdGroupRequestConversionLocation),
@@ -653,7 +659,7 @@ export const AdGroupAudiences = /*@__PURE__*/ S.suspend(() =>
 export type AdGroupBidType = "minimum_cost" | "average_target" | "maximum_target";
 export const AdGroupBidType = S.String;
 
-/** Whether `budget_amount` is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
+/** Whether `budget_amount` is spent per day (`daily`) or over the ad group's full run (`lifetime`). A `lifetime` ad group also needs `ends_at`, at least 24 hours after it starts. */
 export type AdGroupBudgetType = "daily" | "lifetime";
 export const AdGroupBudgetType = S.String;
 
@@ -672,6 +678,7 @@ export const AdGroupConversionLocation = S.String;
 
 /** Whether ads in this ad group are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned. */
 export type AdGroupDeliveryStatus =
+  | "in_appeal"
   | "all_ads_rejected"
   | "rejected"
   | "draft"
@@ -947,6 +954,10 @@ export const AdGroupPlacementsList = /*@__PURE__*/ S.Array(
   AdGroupPlacement,
 ) as any as S.Schema<AdGroupPlacementsList>;
 
+/** The ad platform this ad group runs on. */
+export type AdGroupPlatform = "meta" | "tiktok" | "google";
+export const AdGroupPlatform = S.String;
+
 export interface AdGroupCity {
   /** The ad platform's key for the city in its location taxonomy. */
   key: string;
@@ -980,6 +991,8 @@ export type AdGroupCustomLocationDistanceUnit = "mile" | "kilometer";
 export const AdGroupCustomLocationDistanceUnit = S.String;
 
 export interface AdGroupCustomLocation {
+  /** ISO 3166-1 alpha-2 country the point falls in. Send it under a special ad category, where the campaign must declare the countries its ad sets reach. */
+  country_code?: string;
   /** Unit for `radius`. */
   distance_unit: AdGroupCustomLocationDistanceUnit;
   /** Latitude of the center point. */
@@ -993,6 +1006,7 @@ export interface AdGroupCustomLocation {
 }
 export const AdGroupCustomLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    country_code: S.optional(S.String),
     distance_unit: AdGroupCustomLocationDistanceUnit,
     latitude: S.Number,
     longitude: S.Number,
@@ -1077,9 +1091,13 @@ export interface AdGroup {
   audiences: AdGroupAudiences;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
   bid_type: AdGroupBidType | null;
-  /** This ad group's budget, in the ad account's currency. `null` when the budget is set on the campaign instead. */
+  /** This ad group's budget in USD, which is what it is stored and billed in. `null` when the budget is set on the campaign instead. */
   budget_amount: number | null;
-  /** Whether `budget_amount` is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
+  /** The same budget stated in `budget_currency` at today's exchange rate, for display in the account's ads reporting currency. `null` when `budget_amount` is. */
+  budget_amount_local: number | null;
+  /** The ISO 4217 code `budget_amount_local` is in: the account's `ads_reporting_currency` preference. `usd` unless the account changed it. */
+  budget_currency: string;
+  /** Whether `budget_amount` is spent per day (`daily`) or over the ad group's full run (`lifetime`). A `lifetime` ad group also needs `ends_at`, at least 24 hours after it starts. */
   budget_type: AdGroupBudgetType | null;
   /** Clicks divided by impressions, between 0 and 1. */
   click_through_rate: number;
@@ -1093,7 +1111,7 @@ export interface AdGroup {
   contact_value: number;
   /** Whop pixel-attributed contact events, last-click. */
   contacts: number;
-  conversion_event?: ConversionEvent | null;
+  conversion_event: ConversionEvent | null;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. */
   conversion_location?: AdGroupConversionLocation | null;
   /** Spend divided by attributed add-to-cart events; null when they are not the goal and none are attributed. */
@@ -1156,12 +1174,16 @@ export interface AdGroup {
   lead_value: number;
   /** Whop pixel-attributed leads, last-click. */
   leads: number;
+  /** Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad. */
+  link_clicks: number;
   message_apps?: AdGroupMessageAppsList;
   /** Minimum the ad group tries to spend each day. `null` when no floor is set. */
   minimum_daily_spend?: number | null;
   /** The result the ad group's delivery is optimized to get the most of. */
   optimization_goal: AdGroupOptimizationGoal | null;
   placements: AdGroupPlacementsList;
+  /** The ad platform this ad group runs on. */
+  platform: AdGroupPlatform;
   /** USD value of pixel-attributed purchases. */
   purchase_value: number;
   /** Whop pixel-attributed purchases, last-click. */
@@ -1215,6 +1237,8 @@ export const AdGroup = /*@__PURE__*/ S.suspend(() =>
     audiences: AdGroupAudiences,
     bid_type: S.NullOr(AdGroupBidType),
     budget_amount: S.NullOr(S.Number),
+    budget_amount_local: S.NullOr(S.Number),
+    budget_currency: S.String,
     budget_type: S.NullOr(AdGroupBudgetType),
     click_through_rate: S.Number,
     clicks: S.Number,
@@ -1222,7 +1246,7 @@ export const AdGroup = /*@__PURE__*/ S.suspend(() =>
     completed_registrations: S.Number,
     contact_value: S.Number,
     contacts: S.Number,
-    conversion_event: S.optional(S.NullOr(ConversionEvent)),
+    conversion_event: S.NullOr(ConversionEvent),
     conversion_location: S.optional(S.NullOr(AdGroupConversionLocation)),
     cost_per_added_to_cart: S.NullOr(S.Number),
     cost_per_click: S.Number,
@@ -1255,10 +1279,12 @@ export const AdGroup = /*@__PURE__*/ S.suspend(() =>
     languages: AdGroupLanguagesList,
     lead_value: S.Number,
     leads: S.Number,
+    link_clicks: S.Number,
     message_apps: S.optional(AdGroupMessageAppsList),
     minimum_daily_spend: S.optional(S.NullOr(S.Number)),
     optimization_goal: S.NullOr(AdGroupOptimizationGoal),
     placements: AdGroupPlacementsList,
+    platform: AdGroupPlatform,
     purchase_value: S.Number,
     purchases: S.Number,
     reach: S.Number,
@@ -1442,6 +1468,7 @@ export type ListAdGroupsRequestOrder =
   | "impressions"
   | "reach"
   | "clicks"
+  | "link_clicks"
   | "unique_clicks"
   | "frequency"
   | "click_through_rate"
@@ -1485,13 +1512,13 @@ export interface ListAdGroupsRequest {
   time_zone?: string;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
   attribution_model?: ListAdGroupsRequestAttributionModel | (string & {});
-  /** The number of ad groups to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of ad groups to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListAdGroupsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1927,8 +1954,10 @@ export interface UpdateAdGroupRequest {
   audiences?: AdGroupAudiencesBody;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
   bid_type?: UpdateAdGroupRequestBidType | (string & {});
-  /** This ad group's budget, in the ad account's currency. Omit when the budget is set on the campaign instead. */
+  /** This ad group's budget in USD, which is what it is stored and billed in. Omit when the budget is set on the campaign instead. */
   budget_amount?: number;
+  /** This ad group's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; on an update, an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
+  budget_amount_local?: number;
   /** Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
   budget_type?: UpdateAdGroupRequestBudgetType | (string & {});
   conversion_event?: ConversionEvent | null;
@@ -1971,6 +2000,7 @@ export const UpdateAdGroupRequest = /*@__PURE__*/ S.suspend(() =>
     audiences: S.optional(AdGroupAudiencesBody),
     bid_type: S.optional(UpdateAdGroupRequestBidType),
     budget_amount: S.optional(S.Number),
+    budget_amount_local: S.optional(S.Number),
     budget_type: S.optional(UpdateAdGroupRequestBudgetType),
     conversion_event: S.optional(S.NullOr(ConversionEvent)),
     conversion_location: S.optional(UpdateAdGroupRequestConversionLocation),

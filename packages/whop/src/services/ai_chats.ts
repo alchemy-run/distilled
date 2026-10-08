@@ -45,6 +45,10 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
+/** The AI agent that handles an AI chat. */
+export type AiChatAgentIdentifiers = "general" | "support";
+export const AiChatAgentIdentifiers = S.String;
+
 /** Input for an attachment */
 export interface CreateAiChatRequestMessageAttachmentsItem {
   /** The ID of an existing file object. */
@@ -70,8 +74,10 @@ export type AiChatMessageSourceTypes = "manual" | "suggestion" | "link";
 export const AiChatMessageSourceTypes = S.String;
 
 export interface CreateAiChatRequest {
-  /** The unique identifier of the company to set as context for the AI chat (e.g., "biz_XXXXX"). */
-  current_company_id?: string | null;
+  /** The AI agent that handles the chat. Defaults to `support`. */
+  agent_identifier?: AiChatAgentIdentifiers | (string & {}) | null;
+  /** The unique identifier of the account to set as context for the AI chat (e.g., "biz_XXXXX"). */
+  current_account_id?: string | null;
   /** A list of previously uploaded file attachments to include with the first message. */
   message_attachments?: CreateAiChatRequestMessageAttachmentsList | null;
   /** The source of the message. */
@@ -85,7 +91,8 @@ export interface CreateAiChatRequest {
 }
 export const CreateAiChatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    current_company_id: S.optional(S.NullOr(S.String)),
+    agent_identifier: S.optional(S.NullOr(AiChatAgentIdentifiers)),
+    current_account_id: S.optional(S.NullOr(S.String)),
     message_attachments: S.optional(S.NullOr(CreateAiChatRequestMessageAttachmentsList)),
     message_source: S.optional(S.NullOr(AiChatMessageSourceTypes)),
     message_text: S.String,
@@ -111,6 +118,8 @@ export const AiChatUser = /*@__PURE__*/ S.suspend(() =>
 
 /** An AI-powered chat conversation belonging to a user, with optional scheduled automation. */
 export interface AiChat {
+  /** The AI agent that handles this chat. Set when the chat is created and fixed for its lifetime. */
+  agent_identifier: AiChatAgentIdentifiers;
   /** The total number of tokens consumed across all messages in this conversation. */
   blended_token_usage: string;
   /** The datetime the ai chat was created. */
@@ -132,6 +141,7 @@ export interface AiChat {
 }
 export const AiChat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    agent_identifier: AiChatAgentIdentifiers,
     blended_token_usage: S.String,
     created_at: S.String,
     id: S.String,
@@ -174,6 +184,7 @@ export interface ListAiChatRequest {
   before?: string;
   first?: number;
   last?: number;
+  agent_identifier?: AiChatAgentIdentifiers | (string & {});
   only_active_crons?: boolean;
 }
 export const ListAiChatRequest = /*@__PURE__*/ S.suspend(() =>
@@ -182,6 +193,7 @@ export const ListAiChatRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
+    agent_identifier: S.optional(AiChatAgentIdentifiers.pipe(T.Query())),
     only_active_crons: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/ai_chats", code: 200 })),
 ).annotate({ identifier: "ListAiChatRequest" }) as any as S.Schema<ListAiChatRequest>;
@@ -192,6 +204,8 @@ export const AiChatListItemUser = AiChatUser;
 
 /** An AI-powered chat conversation belonging to a user, with optional scheduled automation. */
 export interface AiChatListItem {
+  /** The AI agent that handles this chat. Set when the chat is created and fixed for its lifetime. */
+  agent_identifier: AiChatAgentIdentifiers;
   /** The total number of tokens consumed across all messages in this conversation. */
   blended_token_usage: string;
   /** The datetime the ai chat was created. */
@@ -213,6 +227,7 @@ export interface AiChatListItem {
 }
 export const AiChatListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    agent_identifier: AiChatAgentIdentifiers,
     blended_token_usage: S.String,
     created_at: S.String,
     id: S.String,
@@ -267,8 +282,8 @@ export const ListAiChatResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateAiChatRequest {
   /** The unique identifier of the AI chat to update (e.g., "ai_chat_XXXXX"). */
   id: string;
-  /** The unique identifier of the company to set as context for the AI chat (e.g., "biz_XXXXX"). */
-  current_company_id?: string | null;
+  /** The unique identifier of the account to set as context for the AI chat (e.g., "biz_XXXXX"). */
+  current_account_id?: string | null;
   /** The notification preference for the AI chat. */
   notification_preference?: AiChatNotificationPreferences | (string & {}) | null;
   /** The new display title for the AI chat thread (e.g., "Help with billing"). */
@@ -277,7 +292,7 @@ export interface UpdateAiChatRequest {
 export const UpdateAiChatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-    current_company_id: S.optional(S.NullOr(S.String)),
+    current_account_id: S.optional(S.NullOr(S.String)),
     notification_preference: S.optional(S.NullOr(AiChatNotificationPreferences)),
     title: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/ai_chats/{id}", code: 200 })),
@@ -371,7 +386,7 @@ export type UpdateAiChatError =
   | NotFound
   | UnprocessableEntity
   | WhopOpError;
-/** Update ai chat [Legacy API — https://docs.whop.com/api-reference] Update an AI chat's title, notification preferences, or associated company context. Required permissions: - `ai_chat:update` */
+/** Update ai chat [Legacy API — https://docs.whop.com/api-reference] Update an AI chat's title, notification preferences, or associated account context. Required permissions: - `ai_chat:update` */
 export const updateAiChat: API.OperationMethod<
   UpdateAiChatRequest,
   AiChat,

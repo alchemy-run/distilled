@@ -89,21 +89,21 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of events to return."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor for fetching events after a previous page."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor for fetching events before a later page."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         },
         "direction": {
@@ -124,7 +124,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "source",
-            "smithy.api#documentation": "Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct). Restricts the list to conversion targets attributed to that source — the debuggability twin of a metric cell's source parameter."
+            "smithy.api#documentation": "Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct, unknown). Selects conversions credited to this source."
           }
         },
         "attribution_model": {
@@ -507,6 +507,12 @@
           "traits": {
             "smithy.api#enumValue": "people_filter"
           }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
         }
       },
       "traits": {}
@@ -546,6 +552,118 @@
         "smithy.api#documentation": "The saved audience this event came from. Present on the identify events an audience ingest writes for each of its members."
       }
     },
+    "com.whop.events#ReceiptLineItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Line item ID, prefixed `li_`. Null when the payment predates item snapshots and the item is read from the payment's plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The item's name as shown at checkout — the product title, else the plan title.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan bought, prefixed `plan_`. Null when the plan has since been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan's current title, or `null` when the plan has been deleted or has no title.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product the plan belongs to, prefixed `prod_`. On a payment that predates item snapshots this falls back to the plan's product, so it can be set where the parent's own `product_id` is null. Null for a plan with no product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product's current title, or `null` when the item has no product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How many units were bought.",
+            "smithy.api#required": {}
+          }
+        },
+        "subtotal": {
+          "target": "com.whop.events#Money",
+          "traits": {
+            "smithy.api#documentation": "The recorded amount for this item's full quantity, before discounts, tax, and fees, in its purchase currency. Returns `null` when no item amount was recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedPaymentLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.events#ReceiptLineItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Everything this payment charged for, in purchase order, including quantities. Older payments fall back to their original plan."
+      }
+    },
     "com.whop.events#ListEventsResponseDataItemRelatedPayment": {
       "type": "structure",
       "members": {
@@ -563,6 +681,12 @@
         },
         "id": {
           "target": "smithy.api#String"
+        },
+        "line_items": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedPaymentLineItemsList",
+          "traits": {
+            "smithy.api#documentation": "Everything this payment charged for, in purchase order, including quantities. Older payments fall back to their original plan."
+          }
         },
         "provider": {
           "target": "smithy.api#String",
@@ -839,18 +963,6 @@
         },
         "questions": {
           "target": "com.whop.events#ListEventsResponseDataItemQuestionsList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "recommended_action_chain_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "recommended_action_shown_position": {
-          "target": "smithy.api#Integer",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -1163,6 +1275,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Reddit click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whop SC identifier.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2183,21 +2302,21 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of events to return."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor for fetching events after a previous page."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor for fetching events before a later page."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },

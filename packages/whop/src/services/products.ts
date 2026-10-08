@@ -53,6 +53,27 @@ export type CreateProductRequestCustomCta =
   | "complete_order";
 export const CreateProductRequestCustomCta = S.String;
 
+export interface CreateProductRequestGalleryImagesItem {
+  /** The signed ID of a completed direct upload, as an alternative to id. */
+  direct_upload_id?: string;
+  /** The tag of an already-uploaded attachment. */
+  id?: string;
+}
+export const CreateProductRequestGalleryImagesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    direct_upload_id: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateProductRequestGalleryImagesItem",
+}) as any as S.Schema<CreateProductRequestGalleryImagesItem>;
+
+/** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
+export type CreateProductRequestGalleryImagesList = Array<CreateProductRequestGalleryImagesItem>;
+export const CreateProductRequestGalleryImagesList = /*@__PURE__*/ S.Array(
+  CreateProductRequestGalleryImagesItem,
+) as any as S.Schema<CreateProductRequestGalleryImagesList>;
+
 /** The enrollment status in the global affiliate program. */
 export type CreateProductRequestGlobalAffiliateStatus = "enabled" | "disabled";
 export const CreateProductRequestGlobalAffiliateStatus = S.String;
@@ -78,13 +99,15 @@ export interface CreateProductRequest {
   custom_cta_url?: string | null;
   /** Custom bank statement descriptor. Must start with WHOP*. */
   custom_statement_descriptor?: string | null;
-  /** A written description displayed on the product page. */
+  /** A written description displayed on the product page. Maximum 1,500 characters. */
   description?: string | null;
+  /** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
+  gallery_images?: CreateProductRequestGalleryImagesList | null;
   /** The commission rate affiliates earn. */
   global_affiliate_percentage?: number | null;
   /** The enrollment status in the global affiliate program. */
   global_affiliate_status?: CreateProductRequestGlobalAffiliateStatus | (string & {});
-  /** A short marketing headline for the product page. */
+  /** A short marketing headline for the product page. Maximum 80 characters. */
   headline?: string | null;
   /** Labels used to group products into collections. Stored lowercased and de-duplicated. Maximum 20 labels, 50 characters each. */
   labels?: CreateProductRequestLabelsList | null;
@@ -117,6 +140,7 @@ export const CreateProductRequest = /*@__PURE__*/ S.suspend(() =>
     custom_cta_url: S.optional(S.NullOr(S.String)),
     custom_statement_descriptor: S.optional(S.NullOr(S.String)),
     description: S.optional(S.NullOr(S.String)),
+    gallery_images: S.optional(S.NullOr(CreateProductRequestGalleryImagesList)),
     global_affiliate_percentage: S.optional(S.NullOr(S.Number)),
     global_affiliate_status: S.optional(CreateProductRequestGlobalAffiliateStatus),
     headline: S.optional(S.NullOr(S.String)),
@@ -250,9 +274,212 @@ export const ProductMarketplaceStatus = S.String;
 export type ProductMemberAffiliateStatus = "enabled" | "disabled";
 export const ProductMemberAffiliateStatus = S.String;
 
+export interface AccountSummary {
+  /** Account ID, prefixed `biz_`. */
+  id: string;
+  /** Account display name. */
+  title: string;
+}
+export const AccountSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+  }),
+).annotate({ identifier: "AccountSummary" }) as any as S.Schema<AccountSummary>;
+
+/** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
+export type PlanListItemAttributesMap = { [key: string]: string | undefined };
+export const PlanListItemAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PlanListItemAttributesMap>;
+
+/** Custom field input type. */
+export type PlanCustomFieldFieldType = "text";
+export const PlanCustomFieldFieldType = S.String;
+
+export interface PlanCustomField {
+  /** Custom field input type. */
+  field_type: PlanCustomFieldFieldType;
+  /** Custom field ID, prefixed `field_`. */
+  id: string;
+  /** Field label shown to customer at checkout. */
+  name: string;
+  /** Field position on checkout form. */
+  order: number;
+  /** Placeholder text shown in the empty field. `null` if none is set. */
+  placeholder: string | null;
+  /** Whether the customer must complete this field to check out. */
+  required: boolean;
+}
+export const PlanCustomField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    field_type: PlanCustomFieldFieldType,
+    id: S.String,
+    name: S.String,
+    order: S.Number,
+    placeholder: S.NullOr(S.String),
+    required: S.Boolean,
+  }),
+).annotate({ identifier: "PlanCustomField" }) as any as S.Schema<PlanCustomField>;
+
+export type PlanListItemCustomFieldsList = Array<PlanCustomField>;
+export const PlanListItemCustomFieldsList = /*@__PURE__*/ S.Array(
+  PlanCustomField,
+) as any as S.Schema<PlanListItemCustomFieldsList>;
+
+/** Billing model for this plan. */
+export type PlanListItemPlanType = "renewal" | "one_time";
+export const PlanListItemPlanType = S.String;
+
+/** Sales method for this plan. */
+export type PlanListItemReleaseMethod = "buy_now" | "waitlist";
+export const PlanListItemReleaseMethod = S.String;
+
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
+export type PlanListItemThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
+export const PlanListItemThreeDsLevel = S.String;
+
+/** Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link. */
+export type PlanListItemVisibility = "visible" | "hidden" | "archived" | "quick_link";
+export const PlanListItemVisibility = S.String;
+
+export interface PlanListItem {
+  /** Account that sells this plan; `null` for standalone invoice plans. */
+  account: AccountSummary | null;
+  /** Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags. */
+  adaptive_pricing_enabled: boolean;
+  /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
+  attributes: PlanListItemAttributesMap | null;
+  /** Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans. */
+  billing_period: number | null;
+  /** Billing intervals the cancellation discount applies to (`0` forever, `1` first payment, or a month count). `null` when none is offered or the actor lacks the `plan:basic:read` scope. */
+  cancel_discount_intervals: number | null;
+  /** Cancellation discount as a whole-number percentage. `null` when none is offered or the actor lacks the `plan:basic:read` scope. */
+  cancel_discount_percentage: number | null;
+  /** Plan-level checkout styling (`background_color`, `button_color`, `font_family`, `border_style`); `null` inherits the account default. */
+  checkout_styling: unknown | null;
+  /** When the plan was created, as an ISO 8601 timestamp. */
+  created_at: string;
+  /** Three-letter ISO currency code for this plan's prices. */
+  currency: string;
+  custom_fields: PlanListItemCustomFieldsList;
+  /** Customer-visible plan description. Maximum 1000 characters. `null` if no description is set. */
+  description: string | null;
+  /** Access duration in days for expiration-based plans, such as 365 for a one-year pass. `null` for plans without an expiration. */
+  expiration_days: number | null;
+  /** Human-readable price for display (currency + interval), e.g. "$10 / month". */
+  formatted_price: string;
+  /** Plan ID, prefixed `plan_`. */
+  id: string;
+  /** Pricing-tier image (`url`, `blurhash`) shown on the product page; `null` when no image is set. */
+  image: unknown | null;
+  /** Initial purchase price in plan currency. */
+  initial_price: number;
+  /** Total charged at checkout for one unit, before promo codes and tax: `initial_price` plus the first `renewal_price` for recurring plans, or `initial_price` alone while a free trial applies. The trial does not apply when the viewing user has already used one for this plan. */
+  initial_price_due: Money;
+  /** Private notes not shown to customers. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
+  internal_notes: string | null;
+  /** Invoice this plan was generated for; `null` unless created for an invoice. */
+  invoice: unknown | null;
+  /** Active memberships through this plan. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
+  member_count: number | null;
+  /** Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Maximum 50 keys, 100 characters per key, 500 characters per value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan. */
+  metadata: unknown | null;
+  /** Whether a cancellation discount is offered. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
+  offer_cancel_discount: boolean | null;
+  /** Payment method configuration (`enabled`, `disabled`, `include_platform_defaults`); `null` when plan uses default settings. */
+  payment_method_configuration: unknown | null;
+  /** Billing model for this plan. */
+  plan_type: PlanListItemPlanType;
+  /** Product this plan belongs to; `null` for standalone plans. */
+  product: unknown | null;
+  /** URL where customers can purchase this plan directly. */
+  purchase_url: string;
+  /** Sales method for this plan. */
+  release_method: PlanListItemReleaseMethod;
+  /** Recurring price charged every billing period. */
+  renewal_price: number;
+  /** Stock keeping unit, free text set by the seller (e.g. `TSHIRT-LARGE-BLUE`). Not enforced unique. `null` when unset. */
+  sku: string | null;
+  /** Installment payments required before the subscription pauses. Must be greater than 1. `null` if split pay is not configured. */
+  split_pay_required_payments: number | null;
+  /** Units available for purchase. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
+  stock: number | null;
+  /** Original initial price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set. */
+  strike_through_initial_price: number | null;
+  /** Original renewal price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set. */
+  strike_through_renewal_price: number | null;
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
+  three_ds_level: PlanListItemThreeDsLevel | null;
+  /** Plan display name shown to customers. Maximum 30 characters. A variant created without one defaults to its attribute values joined with ` / `. `null` if no title has been set. */
+  title: string | null;
+  /** Free trial days before the first renewal charge. `null` if no trial is configured or the user has already used a trial for this plan. */
+  trial_period_days: number | null;
+  /** Whether the plan has unlimited stock. When `true`, the `stock` field is ignored; waitlist plans always report `true`. */
+  unlimited_stock: boolean;
+  /** When the plan was last updated, as an ISO 8601 timestamp. */
+  updated_at: string;
+  /** Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link. */
+  visibility: PlanListItemVisibility;
+}
+export const PlanListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account: S.NullOr(AccountSummary),
+    adaptive_pricing_enabled: S.Boolean,
+    attributes: S.NullOr(PlanListItemAttributesMap),
+    billing_period: S.NullOr(S.Number),
+    cancel_discount_intervals: S.NullOr(S.Number),
+    cancel_discount_percentage: S.NullOr(S.Number),
+    checkout_styling: S.NullOr(S.Unknown),
+    created_at: S.String,
+    currency: S.String,
+    custom_fields: PlanListItemCustomFieldsList,
+    description: S.NullOr(S.String),
+    expiration_days: S.NullOr(S.Number),
+    formatted_price: S.String,
+    id: S.String,
+    image: S.NullOr(S.Unknown),
+    initial_price: S.Number,
+    initial_price_due: Money,
+    internal_notes: S.NullOr(S.String),
+    invoice: S.NullOr(S.Unknown),
+    member_count: S.NullOr(S.Number),
+    metadata: S.NullOr(S.Unknown),
+    offer_cancel_discount: S.NullOr(S.Boolean),
+    payment_method_configuration: S.NullOr(S.Unknown),
+    plan_type: PlanListItemPlanType,
+    product: S.NullOr(S.Unknown),
+    purchase_url: S.String,
+    release_method: PlanListItemReleaseMethod,
+    renewal_price: S.Number,
+    sku: S.NullOr(S.String),
+    split_pay_required_payments: S.NullOr(S.Number),
+    stock: S.NullOr(S.Number),
+    strike_through_initial_price: S.NullOr(S.Number),
+    strike_through_renewal_price: S.NullOr(S.Number),
+    three_ds_level: S.NullOr(PlanListItemThreeDsLevel),
+    title: S.NullOr(S.String),
+    trial_period_days: S.NullOr(S.Number),
+    unlimited_stock: S.Boolean,
+    updated_at: S.String,
+    visibility: PlanListItemVisibility,
+  }),
+).annotate({ identifier: "PlanListItem" }) as any as S.Schema<PlanListItem>;
+
+export type ProductVariantsList = Array<PlanListItem>;
+export const ProductVariantsList = /*@__PURE__*/ S.Array(
+  PlanListItem,
+) as any as S.Schema<ProductVariantsList>;
+
 export interface Product {
   /** Account that sells this product. */
   account: unknown | null;
+  /** Average star rating across published reviews for this product, from `1.0` to `5.0`. Returns `0.0` when no published-review rating is available. */
+  average_review_rating: number;
   /** When the product was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** Call-to-action button label shown on the product purchase page. */
@@ -299,6 +526,9 @@ export interface Product {
   title: string;
   /** When the product was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
+  /** The option set the product's variants span, as a map of attribute name to the values in use, e.g. `{"color": ["Blue", "Red"], "size": ["S", "M", "L"]}`. Derived from the visible, non-invoice plans that carry `attributes`: keys alphabetical, values in the order the plans were created. Read-only. `null` when the product has no variants. */
+  variant_attributes: unknown | null;
+  variants: ProductVariantsList | null;
   /** Whether the product has been verified by Whop. */
   verified: boolean;
   /** Whether the product is publicly visible, hidden, or archived. */
@@ -307,6 +537,7 @@ export interface Product {
 export const Product = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.NullOr(S.Unknown),
+    average_review_rating: S.Number,
     created_at: S.String,
     custom_cta: S.NullOr(ProductCustomCta),
     custom_cta_url: S.NullOr(S.String),
@@ -331,6 +562,8 @@ export const Product = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
     updated_at: S.String,
+    variant_attributes: S.NullOr(S.Unknown),
+    variants: S.NullOr(ProductVariantsList),
     verified: S.Boolean,
     visibility: S.NullOr(S.String),
   }),
@@ -420,13 +653,13 @@ export interface ListProductsRequest {
   direction?: ListProductsRequestDirection | (string & {});
   /** The field to sort results by. Account lists default to `created_at`. Marketplace lists default to `discoverable_at` and accept `created_at` or `discoverable_at`. Cannot be combined with `query`. */
   order?: string;
-  /** The number of products to return (default and max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns products after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of products to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns products before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** Only return products created after this ISO 8601 timestamp. */
   created_after?: string;
@@ -468,6 +701,8 @@ export const ProductListItemLabelsList = /*@__PURE__*/ S.Array(
 export interface ProductListItem {
   /** Account that sells this product. */
   account: unknown | null;
+  /** Average star rating across published reviews for this product, from `1.0` to `5.0`. Returns `0.0` when no published-review rating is available. */
+  average_review_rating: number;
   /** When the product was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** Buyable plan to show and check out with. The configured default when that plan is buyable, otherwise the first buyable plan in product-page order. `null` when none is buyable. */
@@ -494,6 +729,8 @@ export interface ProductListItem {
   title: string;
   /** When the product was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
+  /** The option set the product's variants span, as a map of attribute name to the values in use, e.g. `{"color": ["Blue", "Red"], "size": ["S", "M", "L"]}`. Derived from the visible, non-invoice plans that carry `attributes`: keys alphabetical, values in the order the plans were created. Read-only. `null` when the product has no variants. */
+  variant_attributes: unknown | null;
   /** Whether the product has been verified by Whop. */
   verified: boolean;
   /** Whether the product is publicly visible, hidden, or archived. */
@@ -502,6 +739,7 @@ export interface ProductListItem {
 export const ProductListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.NullOr(S.Unknown),
+    average_review_rating: S.Number,
     created_at: S.String,
     default_plan: S.NullOr(ProductPublicPlan),
     description: S.NullOr(S.String),
@@ -516,6 +754,7 @@ export const ProductListItem = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
     updated_at: S.String,
+    variant_attributes: S.NullOr(S.Unknown),
     verified: S.Boolean,
     visibility: S.NullOr(S.String),
   }),
@@ -596,6 +835,15 @@ export const UpdateProductRequestBannerImage = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateProductRequestBannerImage",
 }) as any as S.Schema<UpdateProductRequestBannerImage>;
 
+export type UpdateProductRequestGalleryImagesItem = CreateProductRequestGalleryImagesItem;
+export const UpdateProductRequestGalleryImagesItem = CreateProductRequestGalleryImagesItem;
+
+/** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
+export type UpdateProductRequestGalleryImagesList = Array<CreateProductRequestGalleryImagesItem>;
+export const UpdateProductRequestGalleryImagesList = /*@__PURE__*/ S.Array(
+  CreateProductRequestGalleryImagesItem,
+) as any as S.Schema<UpdateProductRequestGalleryImagesList>;
+
 /** Labels used to group products into collections. Replaces the existing labels. Send an empty array to clear them. */
 export type UpdateProductRequestLabelsList = Array<string>;
 export const UpdateProductRequestLabelsList = /*@__PURE__*/ S.Array(
@@ -607,9 +855,11 @@ export interface UpdateProductRequest {
   id: string;
   /** A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it. */
   banner_image?: UpdateProductRequestBannerImage | null;
-  /** A written description displayed on the product page. */
+  /** A written description displayed on the product page. Maximum 1,500 characters. */
   description?: string | null;
-  /** A short marketing headline for the product page. */
+  /** Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery. */
+  gallery_images?: UpdateProductRequestGalleryImagesList | null;
+  /** A short marketing headline for the product page. Maximum 80 characters. */
   headline?: string | null;
   /** Labels used to group products into collections. Replaces the existing labels. Send an empty array to clear them. */
   labels?: UpdateProductRequestLabelsList | null;
@@ -619,7 +869,7 @@ export interface UpdateProductRequest {
   product_tax_code_id?: string | null;
   /** Whether to send an automated welcome message via support chat when a user joins this product. */
   send_welcome_message?: boolean | null;
-  /** The display name of the product. */
+  /** The display name of the product. Maximum 80 characters. */
   title?: string;
   /** Whether the product is visible to customers. */
   visibility?: string;
@@ -629,6 +879,7 @@ export const UpdateProductRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     banner_image: S.optional(S.NullOr(UpdateProductRequestBannerImage)),
     description: S.optional(S.NullOr(S.String)),
+    gallery_images: S.optional(S.NullOr(UpdateProductRequestGalleryImagesList)),
     headline: S.optional(S.NullOr(S.String)),
     labels: S.optional(S.NullOr(UpdateProductRequestLabelsList)),
     metadata: S.optional(S.NullOr(S.Unknown)),
@@ -712,7 +963,7 @@ export const listProducts: API.PaginatedOperationMethod<
 ) as any;
 
 export type PublishProductError = NotFound | Conflict | WhopOpError;
-/** Publish Product Submits a product to the whop.com marketplace for review. The product moves to `pending_review`; a Whop reviewer approves it before it goes live. */
+/** Publish Product Submits a product to the whop.com marketplace for review. The product moves to `pending_review`; a Whop reviewer approves it before it goes live. Requires a logo, a headline, and at least one gallery image or video; the request fails naming whichever is missing. */
 export const publishProduct: API.OperationMethod<
   PublishProductRequest,
   Product,

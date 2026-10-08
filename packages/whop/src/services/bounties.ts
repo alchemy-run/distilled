@@ -359,6 +359,8 @@ export const AccountSummary = /*@__PURE__*/ S.suspend(() =>
 export interface StorefrontAccount {
   /** Account ID, prefixed `biz_`. */
   id: string;
+  /** Account logo image URL. `null` when the account has not set one. */
+  logo_url: string | null;
   /** Account public route identifier — the `whop.com/{route}` storefront path. */
   route: string;
   /** Account display name. */
@@ -367,6 +369,7 @@ export interface StorefrontAccount {
 export const StorefrontAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
+    logo_url: S.NullOr(S.String),
     route: S.String,
     title: S.String,
   }),
@@ -428,6 +431,8 @@ export interface Bounty {
   hosting_account: StorefrontAccount | null;
   /** Bounty ID, prefixed `bnty_`. */
   id: string;
+  /** Total verified footage a submission must accumulate before it can be submitted, in seconds. Always a whole number of hours. Present only on `data_capture` bounties — it is what `net_reward_amount` pays for, so rate displays divide by it. `null` for every other goal type. */
+  min_total_verified_duration_seconds: number | null;
   /** What a worker is quoted per accepted submission after the platform fee, in whole currency units. The exact post-fee figure, at the standard platform fee rate — a worker who locked a different rate, or who arrived through an affiliate link, is paid a different amount. */
   net_reward_amount: number;
   /** User who posted the bounty — the account owner when created with an account API key. */
@@ -478,6 +483,7 @@ export const Bounty = /*@__PURE__*/ S.suspend(() =>
     gross_reward_amount: S.Number,
     hosting_account: S.NullOr(StorefrontAccount),
     id: S.String,
+    min_total_verified_duration_seconds: S.NullOr(S.Number),
     net_reward_amount: S.Number,
     poster: UserSummary,
     scheduled_frequency: S.NullOr(BountyScheduledFrequency),
@@ -746,13 +752,13 @@ export interface ListBountiesRequest {
   order?: ListBountiesRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListBountiesRequestDirection | (string & {});
-  /** Number of bounties to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of bounties to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListBountiesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -850,6 +856,8 @@ export interface BountyListItem {
   hosting_account: StorefrontAccount | null;
   /** Bounty ID, prefixed `bnty_`. */
   id: string;
+  /** Total verified footage a submission must accumulate before it can be submitted, in seconds. Always a whole number of hours. Present only on `data_capture` bounties — it is what `net_reward_amount` pays for, so rate displays divide by it. `null` for every other goal type. */
+  min_total_verified_duration_seconds: number | null;
   /** What a worker is quoted per accepted submission after the platform fee, in whole currency units. The exact post-fee figure, at the standard platform fee rate — a worker who locked a different rate, or who arrived through an affiliate link, is paid a different amount. */
   net_reward_amount: number;
   /** User who posted the bounty — the account owner when created with an account API key. */
@@ -896,6 +904,7 @@ export const BountyListItem = /*@__PURE__*/ S.suspend(() =>
     gross_reward_amount: S.Number,
     hosting_account: S.NullOr(StorefrontAccount),
     id: S.String,
+    min_total_verified_duration_seconds: S.NullOr(S.Number),
     net_reward_amount: S.Number,
     poster: UserSummary,
     scheduled_frequency: S.NullOr(BountyListItemScheduledFrequency),
@@ -965,13 +974,13 @@ export interface ListPublicBountySubmissionsRequest {
   order?: ListPublicBountySubmissionsRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListPublicBountySubmissionsRequestDirection | (string & {});
-  /** Number of submissions to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of submissions to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListPublicBountySubmissionsRequest = /*@__PURE__*/ S.suspend(() =>
