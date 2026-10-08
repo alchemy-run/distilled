@@ -10,12 +10,18 @@
  *   ../specs/graphql.json   Fly GraphQL API, the standard introspection
  *                           result from https://api.fly.io/graphql (open to
  *                           unauthenticated introspection)
+ *   ../specs/mpg.json       Managed Postgres through Fly's internal
+ *                           /api/v1/organizations/{org}/postgresv2 endpoints,
+ *                           which have no published description: hand-written
+ *                           in alchemy-run/distilled at
+ *                           stacks/distilled-submodules/spec-repos/fly-io/models/,
+ *                           deployed to .meta/models/ and copied here
  *
  * Usage:
  *   node fetch-specs.ts
  */
 
-import { mkdirSync } from "fs";
+import { copyFileSync, mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
 
 const SPECS_DIR = "../specs";
@@ -92,6 +98,8 @@ async function main() {
     );
   }
   await save("graphql.json", result.data);
+
+  copyFileSync("models/mpg.json", `${SPECS_DIR}/mpg.json`);
   console.log("Done!");
 }
 
