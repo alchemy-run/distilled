@@ -79,9 +79,7 @@ export const EvictCellRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scope: S.String.pipe(T.Label(), T.LabelEncoding({ preserve: ":$" })),
   }).pipe(T.Http({ method: "POST", uri: "/evict/{scope}", code: 200 })),
-).annotate({
-  identifier: "EvictCellRequest",
-}) as any as S.Schema<EvictCellRequest>;
+).annotate({ identifier: "EvictCellRequest" }) as any as S.Schema<EvictCellRequest>;
 
 export interface OkResponse {
   ok: boolean;
@@ -95,9 +93,7 @@ export const OkResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetNodeStateRequest {}
 export const GetNodeStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/state", code: 200 })),
-).annotate({
-  identifier: "GetNodeStateRequest",
-}) as any as S.Schema<GetNodeStateRequest>;
+).annotate({ identifier: "GetNodeStateRequest" }) as any as S.Schema<GetNodeStateRequest>;
 
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
@@ -165,9 +161,7 @@ export const DeploymentGeneration = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     isolates: IsolateCensus,
   }),
-).annotate({
-  identifier: "DeploymentGeneration",
-}) as any as S.Schema<DeploymentGeneration>;
+).annotate({ identifier: "DeploymentGeneration" }) as any as S.Schema<DeploymentGeneration>;
 
 export type DeploymentGenerations = Array<DeploymentGeneration>;
 export const DeploymentGenerations = /*@__PURE__*/ S.Array(
@@ -196,9 +190,7 @@ export const DeploymentState = /*@__PURE__*/ S.suspend(() =>
     cells: LongMap,
     isolates: IsolateCensus,
   }),
-).annotate({
-  identifier: "DeploymentState",
-}) as any as S.Schema<DeploymentState>;
+).annotate({ identifier: "DeploymentState" }) as any as S.Schema<DeploymentState>;
 
 /** Jemalloc memory counters from the node snapshot, in bytes. */
 export interface AllocatorStats {
@@ -232,9 +224,7 @@ export const LibcMallocStats = /*@__PURE__*/ S.suspend(() =>
     mmap_bytes: S.Number,
     arena_bytes: S.Number,
   }),
-).annotate({
-  identifier: "LibcMallocStats",
-}) as any as S.Schema<LibcMallocStats>;
+).annotate({ identifier: "LibcMallocStats" }) as any as S.Schema<LibcMallocStats>;
 
 /** Node snapshot. Census detail is implementation-defined JSON. If the actor has stopped, the server instead returns only error="actor_stopped". */
 export interface NodeState {
@@ -311,9 +301,7 @@ export const NodeState = /*@__PURE__*/ S.suspend(() =>
 export interface PauseRebalancingRequest {}
 export const PauseRebalancingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/rebalance/pause", code: 200 })),
-).annotate({
-  identifier: "PauseRebalancingRequest",
-}) as any as S.Schema<PauseRebalancingRequest>;
+).annotate({ identifier: "PauseRebalancingRequest" }) as any as S.Schema<PauseRebalancingRequest>;
 
 export interface RebalanceResponse {
   rebalance_paused: boolean;
@@ -322,16 +310,12 @@ export const RebalanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rebalance_paused: S.Boolean,
   }),
-).annotate({
-  identifier: "RebalanceResponse",
-}) as any as S.Schema<RebalanceResponse>;
+).annotate({ identifier: "RebalanceResponse" }) as any as S.Schema<RebalanceResponse>;
 
 export interface ReloadDeploymentRequest {}
 export const ReloadDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/reload", code: 200 })),
-).annotate({
-  identifier: "ReloadDeploymentRequest",
-}) as any as S.Schema<ReloadDeploymentRequest>;
+).annotate({ identifier: "ReloadDeploymentRequest" }) as any as S.Schema<ReloadDeploymentRequest>;
 
 export interface ReloadResponse {
   ok: boolean;
@@ -353,9 +337,7 @@ export const ReloadResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ResumeRebalancingRequest {}
 export const ResumeRebalancingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/rebalance/resume", code: 200 })),
-).annotate({
-  identifier: "ResumeRebalancingRequest",
-}) as any as S.Schema<ResumeRebalancingRequest>;
+).annotate({ identifier: "ResumeRebalancingRequest" }) as any as S.Schema<ResumeRebalancingRequest>;
 
 export interface RouteCellRequest {
   scope: string;
@@ -364,9 +346,7 @@ export const RouteCellRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scope: S.String.pipe(T.Label(), T.LabelEncoding({ preserve: ":$" })),
   }).pipe(T.Http({ method: "GET", uri: "/cell/{scope}", code: 200 })),
-).annotate({
-  identifier: "RouteCellRequest",
-}) as any as S.Schema<RouteCellRequest>;
+).annotate({ identifier: "RouteCellRequest" }) as any as S.Schema<RouteCellRequest>;
 
 export interface RouteCellResponse {
   route?: string;
@@ -385,9 +365,7 @@ export const RouteCellResponse = /*@__PURE__*/ S.suspend(() =>
     epoch: S.optional(S.Number),
     peer_protocol: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RouteCellResponse",
-}) as any as S.Schema<RouteCellResponse>;
+).annotate({ identifier: "RouteCellResponse" }) as any as S.Schema<RouteCellResponse>;
 
 export type ShutdownHandoff = "preserve";
 export const ShutdownHandoff = S.String;
@@ -399,9 +377,7 @@ export const ShutdownNodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     handoff: S.optional(ShutdownHandoff.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/shutdown", code: 200 })),
-).annotate({
-  identifier: "ShutdownNodeRequest",
-}) as any as S.Schema<ShutdownNodeRequest>;
+).annotate({ identifier: "ShutdownNodeRequest" }) as any as S.Schema<ShutdownNodeRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -440,9 +416,7 @@ export const AssetManifestRef = /*@__PURE__*/ S.suspend(() =>
     file_count: S.Number,
     total_bytes: S.Number,
   }),
-).annotate({
-  identifier: "AssetManifestRef",
-}) as any as S.Schema<AssetManifestRef>;
+).annotate({ identifier: "AssetManifestRef" }) as any as S.Schema<AssetManifestRef>;
 
 export interface QueueConsumerConfig {
   queue: string;
@@ -463,9 +437,7 @@ export const QueueConsumerConfig = /*@__PURE__*/ S.suspend(() =>
     max_concurrency: S.optional(S.Number),
     retry_delay: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueueConsumerConfig",
-}) as any as S.Schema<QueueConsumerConfig>;
+).annotate({ identifier: "QueueConsumerConfig" }) as any as S.Schema<QueueConsumerConfig>;
 
 export type QueueConsumerConfigs = Array<QueueConsumerConfig>;
 export const QueueConsumerConfigs = /*@__PURE__*/ S.Array(
@@ -626,9 +598,7 @@ export const QueueConsumerDeployment = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     prefix: S.String,
   }),
-).annotate({
-  identifier: "QueueConsumerDeployment",
-}) as any as S.Schema<QueueConsumerDeployment>;
+).annotate({ identifier: "QueueConsumerDeployment" }) as any as S.Schema<QueueConsumerDeployment>;
 
 export interface QueueConsumerAttachment {
   schema_version: number;
@@ -641,9 +611,7 @@ export const QueueConsumerAttachment = /*@__PURE__*/ S.suspend(() =>
     queue: S.String,
     consumer: S.optional(QueueConsumerDeployment),
   }),
-).annotate({
-  identifier: "QueueConsumerAttachment",
-}) as any as S.Schema<QueueConsumerAttachment>;
+).annotate({ identifier: "QueueConsumerAttachment" }) as any as S.Schema<QueueConsumerAttachment>;
 
 export type EvictCellError =
   | MalformedScope

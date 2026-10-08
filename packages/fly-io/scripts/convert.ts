@@ -13,8 +13,9 @@
  *             → .generated-specs/sprites.json
  *             patches: patches/sprites/*.patch.json (Smithy)
  *
- *   mpg       OpenAPI  specs/mpg/openapi.json (hand-authored from flyctl
- *             UI-EX REST /api/v1/.../postgresv2)
+ *   mpg       OpenAPI  specs/spec-mirror-fly-io/specs/mpg.json (hand-written
+ *             for flyctl's internal /api/v1/.../postgresv2 endpoints; edit it in
+ *             stacks/distilled-submodules/spec-repos/fly-io/models/)
  *             → .generated-specs/mpg.json
  *             patches: patches/mpg/*.patch.json (Smithy)
  *
@@ -137,7 +138,7 @@ await runOpenApiConvert({
     },
     {
       name: "mpg",
-      specPath: "specs/mpg/openapi.json",
+      specPath: "specs/spec-mirror-fly-io/specs/mpg.json",
       options: {
         namespace: "com.flyio.mpg",
         serviceName: "FlyMpg",
