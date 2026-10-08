@@ -252,9 +252,7 @@ export const ExecuteD1StatementsInput = /*@__PURE__*/ S.suspend(() =>
     peer_signature: S.String.pipe(T.Header("x-cells-peer-signature")),
     statements: D1StatementList,
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "ExecuteD1StatementsInput",
-}) as any as S.Schema<ExecuteD1StatementsInput>;
+).annotate({ identifier: "ExecuteD1StatementsInput" }) as any as S.Schema<ExecuteD1StatementsInput>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface ExecuteD1StatementsOutput {
@@ -392,9 +390,7 @@ export const GetKvInfoResult = /*@__PURE__*/ S.suspend(() =>
     bytes: S.Number,
     stored: S.Number,
   }),
-).annotate({
-  identifier: "GetKvInfoResult",
-}) as any as S.Schema<GetKvInfoResult>;
+).annotate({ identifier: "GetKvInfoResult" }) as any as S.Schema<GetKvInfoResult>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface GetKvInfoOutput {
@@ -404,9 +400,7 @@ export const GetKvInfoOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: GetKvInfoResult,
   }),
-).annotate({
-  identifier: "GetKvInfoOutput",
-}) as any as S.Schema<GetKvInfoOutput>;
+).annotate({ identifier: "GetKvInfoOutput" }) as any as S.Schema<GetKvInfoOutput>;
 
 export type GetQueueInfoOperation = "info";
 export const GetQueueInfoOperation = S.String;
@@ -445,9 +439,7 @@ export const GetQueueInfoInput = /*@__PURE__*/ S.suspend(() =>
     peer_signature: S.String.pipe(T.Header("x-cells-peer-signature")),
     op: GetQueueInfoOperation,
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "GetQueueInfoInput",
-}) as any as S.Schema<GetQueueInfoInput>;
+).annotate({ identifier: "GetQueueInfoInput" }) as any as S.Schema<GetQueueInfoInput>;
 
 export interface GetQueueInfoResult {
   backlog_count: number;
@@ -465,9 +457,7 @@ export const GetQueueInfoResult = /*@__PURE__*/ S.suspend(() =>
     stored: S.Number,
     paused: S.Boolean,
   }),
-).annotate({
-  identifier: "GetQueueInfoResult",
-}) as any as S.Schema<GetQueueInfoResult>;
+).annotate({ identifier: "GetQueueInfoResult" }) as any as S.Schema<GetQueueInfoResult>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface GetQueueInfoOutput {
@@ -477,9 +467,7 @@ export const GetQueueInfoOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: GetQueueInfoResult,
   }),
-).annotate({
-  identifier: "GetQueueInfoOutput",
-}) as any as S.Schema<GetQueueInfoOutput>;
+).annotate({ identifier: "GetQueueInfoOutput" }) as any as S.Schema<GetQueueInfoOutput>;
 
 export type KvListOperation = "list";
 export const KvListOperation = S.String;
@@ -624,9 +612,7 @@ export const MigrateD1Output = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: S.Unknown,
   }),
-).annotate({
-  identifier: "MigrateD1Output",
-}) as any as S.Schema<MigrateD1Output>;
+).annotate({ identifier: "MigrateD1Output" }) as any as S.Schema<MigrateD1Output>;
 
 export type QueuePauseOperation = "pause";
 export const QueuePauseOperation = S.String;
@@ -665,9 +651,7 @@ export const PauseQueueInput = /*@__PURE__*/ S.suspend(() =>
     peer_signature: S.String.pipe(T.Header("x-cells-peer-signature")),
     op: QueuePauseOperation,
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "PauseQueueInput",
-}) as any as S.Schema<PauseQueueInput>;
+).annotate({ identifier: "PauseQueueInput" }) as any as S.Schema<PauseQueueInput>;
 
 export interface QueuePausedResult {
   backlog_count: number;
@@ -683,9 +667,7 @@ export const QueuePausedResult = /*@__PURE__*/ S.suspend(() =>
     oldest_message_timestamp: S.optional(S.NullOr(S.Number).pipe(T.Body("oldestMessageTimestamp"))),
     paused: S.Boolean,
   }),
-).annotate({
-  identifier: "QueuePausedResult",
-}) as any as S.Schema<QueuePausedResult>;
+).annotate({ identifier: "QueuePausedResult" }) as any as S.Schema<QueuePausedResult>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface PauseQueueOutput {
@@ -695,9 +677,7 @@ export const PauseQueueOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: QueuePausedResult,
   }),
-).annotate({
-  identifier: "PauseQueueOutput",
-}) as any as S.Schema<PauseQueueOutput>;
+).annotate({ identifier: "PauseQueueOutput" }) as any as S.Schema<PauseQueueOutput>;
 
 export type PeekQueueOperation = "peek";
 export const PeekQueueOperation = S.String;
@@ -784,9 +764,7 @@ export const PeekQueueResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messages: QueueMessages,
   }),
-).annotate({
-  identifier: "PeekQueueResult",
-}) as any as S.Schema<PeekQueueResult>;
+).annotate({ identifier: "PeekQueueResult" }) as any as S.Schema<PeekQueueResult>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface PeekQueueOutput {
@@ -796,9 +774,7 @@ export const PeekQueueOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: PeekQueueResult,
   }),
-).annotate({
-  identifier: "PeekQueueOutput",
-}) as any as S.Schema<PeekQueueOutput>;
+).annotate({ identifier: "PeekQueueOutput" }) as any as S.Schema<PeekQueueOutput>;
 
 export type QueuePurgeOperation = "purge";
 export const QueuePurgeOperation = S.String;
@@ -837,9 +813,7 @@ export const PurgeQueueInput = /*@__PURE__*/ S.suspend(() =>
     peer_signature: S.String.pipe(T.Header("x-cells-peer-signature")),
     op: QueuePurgeOperation,
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "PurgeQueueInput",
-}) as any as S.Schema<PurgeQueueInput>;
+).annotate({ identifier: "PurgeQueueInput" }) as any as S.Schema<PurgeQueueInput>;
 
 export interface QueueMetrics {
   backlog_count: number;
@@ -866,9 +840,7 @@ export const PurgeQueueResult = /*@__PURE__*/ S.suspend(() =>
     leased: S.Number,
     metrics: QueueMetrics,
   }),
-).annotate({
-  identifier: "PurgeQueueResult",
-}) as any as S.Schema<PurgeQueueResult>;
+).annotate({ identifier: "PurgeQueueResult" }) as any as S.Schema<PurgeQueueResult>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface PurgeQueueOutput {
@@ -878,9 +850,7 @@ export const PurgeQueueOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: PurgeQueueResult,
   }),
-).annotate({
-  identifier: "PurgeQueueOutput",
-}) as any as S.Schema<PurgeQueueOutput>;
+).annotate({ identifier: "PurgeQueueOutput" }) as any as S.Schema<PurgeQueueOutput>;
 
 export type KvPutOperation = "put";
 export const KvPutOperation = S.String;
@@ -1003,9 +973,7 @@ export const PutKvBase64Input = /*@__PURE__*/ S.suspend(() =>
     expiration_ttl: S.optional(S.Number.pipe(T.Body("expirationTtl"))),
     value: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "PutKvBase64Input",
-}) as any as S.Schema<PutKvBase64Input>;
+).annotate({ identifier: "PutKvBase64Input" }) as any as S.Schema<PutKvBase64Input>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface PutKvBase64Output {
@@ -1015,9 +983,7 @@ export const PutKvBase64Output = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: OkResult,
   }),
-).annotate({
-  identifier: "PutKvBase64Output",
-}) as any as S.Schema<PutKvBase64Output>;
+).annotate({ identifier: "PutKvBase64Output" }) as any as S.Schema<PutKvBase64Output>;
 
 export type RedriveQueueOperation = "redrive";
 export const RedriveQueueOperation = S.String;
@@ -1059,9 +1025,7 @@ export const RedriveQueueInput = /*@__PURE__*/ S.suspend(() =>
     op: RedriveQueueOperation,
     limit: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "RedriveQueueInput",
-}) as any as S.Schema<RedriveQueueInput>;
+).annotate({ identifier: "RedriveQueueInput" }) as any as S.Schema<RedriveQueueInput>;
 
 export interface RedriveQueueResult {
   redriven: number;
@@ -1072,9 +1036,7 @@ export const RedriveQueueResult = /*@__PURE__*/ S.suspend(() =>
     redriven: S.Number,
     metrics: QueueMetrics,
   }),
-).annotate({
-  identifier: "RedriveQueueResult",
-}) as any as S.Schema<RedriveQueueResult>;
+).annotate({ identifier: "RedriveQueueResult" }) as any as S.Schema<RedriveQueueResult>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface RedriveQueueOutput {
@@ -1084,9 +1046,7 @@ export const RedriveQueueOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: RedriveQueueResult,
   }),
-).annotate({
-  identifier: "RedriveQueueOutput",
-}) as any as S.Schema<RedriveQueueOutput>;
+).annotate({ identifier: "RedriveQueueOutput" }) as any as S.Schema<RedriveQueueOutput>;
 
 export type QueueResumeOperation = "resume";
 export const QueueResumeOperation = S.String;
@@ -1125,9 +1085,7 @@ export const ResumeQueueInput = /*@__PURE__*/ S.suspend(() =>
     peer_signature: S.String.pipe(T.Header("x-cells-peer-signature")),
     op: QueueResumeOperation,
   }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}", code: 200 })),
-).annotate({
-  identifier: "ResumeQueueInput",
-}) as any as S.Schema<ResumeQueueInput>;
+).annotate({ identifier: "ResumeQueueInput" }) as any as S.Schema<ResumeQueueInput>;
 
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface ResumeQueueOutput {
@@ -1137,9 +1095,7 @@ export const ResumeQueueOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: QueuePausedResult,
   }),
-).annotate({
-  identifier: "ResumeQueueOutput",
-}) as any as S.Schema<ResumeQueueOutput>;
+).annotate({ identifier: "ResumeQueueOutput" }) as any as S.Schema<ResumeQueueOutput>;
 
 export type DeleteKvError =
   | PeerIncompatibleVersion
