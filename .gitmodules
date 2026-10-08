@@ -418,3 +418,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-iceberg.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/zerossl/specs/spec-mirror-zerossl"]
+path = packages/zerossl/specs/spec-mirror-zerossl
+url = https://github.com/distilled-mirror/spec-mirror-zerossl.git
+ignore = dirty
+shallow = true
