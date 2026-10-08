@@ -428,3 +428,8 @@ path = packages/acme/specs/spec-mirror-acme
 url = https://github.com/distilled-mirror/spec-mirror-acme.git
 ignore = dirty
 shallow = true
+[submodule "packages/celld/specs/spec-mirror-celld"]
+path = packages/celld/specs/spec-mirror-celld
+url = https://github.com/distilled-mirror/spec-mirror-celld.git
+ignore = dirty
+shallow = true

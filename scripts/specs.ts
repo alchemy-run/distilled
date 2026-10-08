@@ -35,7 +35,7 @@
  * — and `specs:check` fails the build if one is ever written by hand.
  */
 import { spawnSync } from "node:child_process";
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 const ROOT = join(import.meta.dirname, "..");
@@ -65,8 +65,9 @@ const manifest = (await import(manifestPath)) as {
   repositoryName: (specRepo: SpecRepo) => string;
   SHARED: ReadonlyArray<readonly [string, string]>;
   PER_REPO: ReadonlyArray<readonly [string, string]>;
+  MODELS: readonly [string, string];
 };
-const { SPEC_REPOS, repositoryName, SHARED, PER_REPO } = manifest;
+const { SPEC_REPOS, repositoryName, SHARED, PER_REPO, MODELS } = manifest;
 
 const mirrorUrl = (specRepo: SpecRepo) =>
   `https://github.com/${MIRROR_OWNER}/${repositoryName(specRepo)}.git`;
@@ -126,6 +127,10 @@ const local = (pkg: string) => {
     const target = join(dest, to);
     mkdirSync(dirname(target), { recursive: true });
     cpSync(join(source, from), target);
+  }
+  if (existsSync(join(source, MODELS[0]))) {
+    rmSync(join(dest, MODELS[1]), { recursive: true, force: true });
+    cpSync(join(source, MODELS[0]), join(dest, MODELS[1]), { recursive: true });
   }
 
   const meta = join(dest, ".meta");

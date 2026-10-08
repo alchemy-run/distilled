@@ -52,11 +52,9 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "axiom" },
   { package: "azure" },
   { package: "boat-dev" },
-  {
-    package: "celld",
-    blocked:
-      "Celld v0.6.0 has no published API description; source-derived Smithy contracts are committed in packages/celld/specs",
-  },
+  // celld publishes no API description: its models are hand-written in
+  // spec-repos/celld/models/ and shipped by the mirror.
+  { package: "celld" },
   { package: "chronosphere" },
   { package: "clerk" },
   { package: "cloudflare" },
@@ -163,6 +161,15 @@ export const PER_REPO: readonly ScaffoldEntry[] = [
 ];
 
 /**
+ * Hand-written models a mirror ships verbatim, for an API with no published
+ * description: every file in `spec-repos/<package>/models/` lands in the
+ * mirror's `.meta/models/`, and the mirror's fetch script copies them into
+ * `specs/`. Editing a model is then an ordinary PR here, and the package
+ * still reads it through its submodule like every other spec.
+ */
+export const MODELS: ScaffoldEntry = ["models", ".meta/models"];
+
+/**
  * Read the file set for every mirror off disk, keyed by repository name.
  *
  * Reading at deploy time rather than importing keeps the fetch scripts as
@@ -187,6 +194,17 @@ export const loadScaffolds = Effect.gen(function* () {
     const files: Record<string, string> = { ...shared };
     for (const [source, target] of PER_REPO) {
       files[target] = yield* read("spec-repos", specRepo.package, source);
+    }
+    const models = path.join(import.meta.dirname, "spec-repos", specRepo.package, MODELS[0]);
+    if (yield* fs.exists(models)) {
+      for (const name of (yield* fs.readDirectory(models)).sort()) {
+        files[`${MODELS[1]}/${name}`] = yield* read(
+          "spec-repos",
+          specRepo.package,
+          MODELS[0],
+          name,
+        );
+      }
     }
     scaffolds[repositoryName(specRepo)] = files;
   }
