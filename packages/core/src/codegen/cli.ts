@@ -253,8 +253,11 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
           return yield* Effect.die(new Error(`${failedModels.length} model(s) failed to generate`));
         }
 
-        const date = yield* Effect.sync(() => stampGeneratedAt(root));
-        yield* Console.log(`   package.json distilled.generatedAt = ${date}`);
+        const stamp = yield* Effect.sync(() => stampGeneratedAt(root));
+        yield* Console.log(`   package.json distilled.generatedAt = ${stamp.generatedAt}`);
+        yield* Console.log(
+          `   package.json distilled.specUpdatedAt = ${stamp.specUpdatedAt ?? "(unknown, unchanged)"}`,
+        );
       }),
   ).pipe(Command.withDescription(options.description));
 
