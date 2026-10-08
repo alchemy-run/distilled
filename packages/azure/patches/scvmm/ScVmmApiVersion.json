@@ -23,462 +23,462 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#CreateGuestAgent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsCreate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#CreateGuestAgent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsCreate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#CreateInventoryItem/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsCreate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#CreateInventoryItem/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsCreate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#CreateVirtualMachineInstanceCheckpoint/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesCreateCheckpoint/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#CreateVirtualMachineInstanceCheckpoint/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesCreateCheckpoint/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteAvailabilitySet/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteAvailabilitySet/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteGuestAgent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteGuestAgent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteInventoryItem/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteInventoryItem/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualMachineInstanceCheckpoint/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesDeleteCheckpoint/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualMachineInstanceCheckpoint/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesDeleteCheckpoint/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualMachineTemplate/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualMachineTemplate/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualNetwork/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVirtualNetwork/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVmmServer/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersDelete/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#DeleteVmmServer/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetAvailabilitySet/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetAvailabilitySet/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetGuestAgent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetGuestAgent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetInventoryItem/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetInventoryItem/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVirtualMachineTemplate/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVirtualMachineTemplate/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVirtualNetwork/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVirtualNetwork/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVmInstanceHybridIdentityMetadatas/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmInstanceHybridIdentityMetadatasGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVmInstanceHybridIdentityMetadatas/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmInstanceHybridIdentityMetadatasGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVmmServer/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersGet/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#GetVmmServer/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersGet/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListAvailabilitySetByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListAvailabilitySetByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListAvailabilitySetBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListAvailabilitySetBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListCloudByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListCloudByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListCloudBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListCloudBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListGuestAgentByVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsListByVirtualMachineInstance/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListGuestAgentByVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#GuestAgentsListByVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListInventoryItemByVmmServer/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsListByVmmServer/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListInventoryItemByVmmServer/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#InventoryItemsListByVmmServer/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListOperations/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#OperationsList/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListOperations/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#OperationsList/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualMachineInstances/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesList/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualMachineInstances/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesList/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualMachineTemplateByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualMachineTemplateByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualMachineTemplateBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualMachineTemplateBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualNetworkByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualNetworkByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualNetworkBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVirtualNetworkBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmInstanceHybridIdentityMetadatasListByVirtualMachineInstance/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmInstanceHybridIdentityMetadatasListByVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVmmServerByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVmmServerByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVmmServerBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#ListVmmServerBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#RestartVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesRestart/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#RestartVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesRestart/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#RestoreVirtualMachineInstanceCheckpoint/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesRestoreCheckpoint/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#RestoreVirtualMachineInstanceCheckpoint/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesRestoreCheckpoint/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#StartVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesStart/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#StartVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesStart/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#StopVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesStop/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#StopVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesStop/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateAvailabilitySet/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateAvailabilitySet/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#AvailabilitySetsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateCloud/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateCloud/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#CloudsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVirtualMachineInstance/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVirtualMachineInstance/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineInstancesUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVirtualMachineTemplate/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVirtualMachineTemplate/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualMachineTemplatesUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVirtualNetwork/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVirtualNetwork/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VirtualNetworksUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVmmServer/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersUpdate/traits/smithy.api#http/apiVersion",
       "value": "2024-06-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.scvmm#UpdateVmmServer/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.scvmm#VmmServersUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2024-06-01"
     },
     {

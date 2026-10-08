@@ -3,2922 +3,1024 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}~1push/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}~1merge/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}~1reset/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}~1restore/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1branches~1{branch_id_or_ref}~1diff/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1oauth~1token/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1oauth~1revoke/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1snippets~1{id}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1actions/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1actions~1{run_id}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1actions~1{run_id}~1status/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1actions~1{run_id}~1logs/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys~1legacy/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys~1legacy/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys~1{id}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys~1{id}/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1api-keys~1{id}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1branches/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1branches/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1branches/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1branches~1{name}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1custom-hostname/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1custom-hostname/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1custom-hostname~1initialize/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1custom-hostname~1reverify/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1custom-hostname~1activate/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1jit-access/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1jit-access/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1network-bans~1retrieve/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1network-bans~1retrieve~1enriched/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1network-bans/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1network-restrictions/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1network-restrictions/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1network-restrictions~1apply/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1pgsodium/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1pgsodium/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1postgrest/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1postgrest/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1secrets/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1secrets/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1secrets/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1ssl-enforcement/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1ssl-enforcement/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1types~1typescript/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1vanity-subdomain/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1upgrade/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1upgrade~1eligibility/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1upgrade~1status/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1readonly/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1readonly~1temporary-disable/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1read-replicas~1setup/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1read-replicas~1remove/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1health/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys~1legacy/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys~1legacy/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys~1{id}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys~1{id}/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1signing-keys~1{id}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1third-party-auth/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1third-party-auth/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1third-party-auth~1{tpa_id}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1third-party-auth~1{tpa_id}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1pause/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1restore/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1restore/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1restore~1cancel/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1billing~1addons/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1billing~1addons/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1billing~1addons~1{addon_variant}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1claim-token/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1claim-token/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1claim-token/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1advisors~1performance/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1advisors~1security/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1analytics~1endpoints~1usage.api-counts/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1analytics~1endpoints~1usage.api-requests-count/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1analytics~1endpoints~1functions.combined-stats/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1cli~1login-role/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1cli~1login-role/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1migrations/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1migrations/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1migrations/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1migrations/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1migrations~1{version}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1migrations~1{version}/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1query/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1query~1read-only/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1webhooks~1enable/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1context/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1password/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1jit/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1jit/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1jit/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1jit~1list/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1jit~1{user_id}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions~1deploy/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions~1{function_slug}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions~1{function_slug}/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions~1{function_slug}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions~1{function_slug}~1body/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1storage~1buckets/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1disk/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1disk/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1disk~1util/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1disk~1autoscale/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1storage/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1storage/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1database~1pgbouncer/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1database~1pooler/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1database~1pooler/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1database~1postgres/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1database~1postgres/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1realtime/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1realtime/patch/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1realtime~1shutdown/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1sso~1providers/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1sso~1providers/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1sso~1providers~1{provider_id}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1sso~1providers~1{provider_id}/put/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1config~1auth~1sso~1providers~1{provider_id}/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1backups/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1backups~1restore-pitr/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1backups~1restore-point/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1backups~1restore-point/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1database~1backups~1undo/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations~1{slug}~1members/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations~1{slug}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations~1{slug}~1project-claim~1{token}/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations~1{slug}~1project-claim~1{token}/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations~1{slug}~1projects/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
+      "path": "/shapes/com.supabase.api#V1GetABranchConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateABranchConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1PushABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1MergeABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ResetABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RestoreABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DiffABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateAProject/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateAnOrganization/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ExchangeOauthToken/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RevokeToken/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetASnippet/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListActionRuns/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetActionRun/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateActionRunStatus/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetActionRunLogs/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectApiKeys/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateProjectApiKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectLegacyApiKeys/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateProjectLegacyApiKeys/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectApiKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateProjectApiKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteProjectApiKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllBranches/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DisablePreviewBranching/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetABranch/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetHostnameConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteHostnameConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateHostnameConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1VerifyDnsConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ActivateCustomHostname/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetJitAccessConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateJitAccessConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllNetworkBans/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllNetworkBansEnriched/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteNetworkBans/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetNetworkRestrictions/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1PatchNetworkRestrictions/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateNetworkRestrictions/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPgsodiumConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdatePgsodiumConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPostgrestServiceConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdatePostgrestServiceConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProject/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateAProject/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteAProject/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllSecrets/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1BulkCreateSecrets/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1BulkDeleteSecrets/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetSslEnforcementConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateSslEnforcementConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GenerateTypescriptTypes/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeactivateVanitySubdomainConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpgradePostgresVersion/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPostgresUpgradeEligibility/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPostgresUpgradeStatus/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetReadonlyModeStatus/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DisableReadonlyModeTemporarily/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1SetupAReadReplica/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RemoveAReadReplica/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetServicesHealth/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetLegacySigningKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateLegacySigningKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectSigningKeys/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateProjectSigningKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectSigningKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateProjectSigningKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RemoveProjectSigningKey/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetAuthServiceConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateAuthServiceConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListProjectTpaIntegrations/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateProjectTpaIntegration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectTpaIntegration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteProjectTpaIntegration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1PauseAProject/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAvailableRestoreVersions/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RestoreAProject/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CancelAProjectRestoration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListProjectAddons/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ApplyProjectAddon/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RemoveProjectAddon/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectClaimToken/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateProjectClaimToken/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteProjectClaimToken/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPerformanceAdvisors/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetSecurityAdvisors/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectUsageApiCount/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectUsageRequestCount/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectFunctionCombinedStats/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateLoginRole/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteLoginRoles/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListMigrationHistory/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ApplyAMigration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpsertAMigration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RollbackMigrations/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetAMigration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1PatchAMigration/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RunAQuery/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ReadOnlyQuery/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1EnableDatabaseWebhook/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetDatabaseMetadata/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateDatabasePassword/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetJitAccess/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1AuthorizeJitAccess/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateJitAccess/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListJitAccess/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteJitAccess/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllFunctions/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1BulkUpdateFunctions/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeployAFunction/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetAFunction/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateAFunction/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteAFunction/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetAFunctionBody/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllBuckets/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetDatabaseDisk/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ModifyDatabaseDisk/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetDiskUtilization/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectDiskAutoscaleConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetStorageConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateStorageConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetProjectPgbouncerConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPoolerConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdatePoolerConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetPostgresConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdatePostgresConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetRealtimeConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateRealtimeConfig/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ShutdownRealtime/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllSsoProvider/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateASsoProvider/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetASsoProvider/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1UpdateASsoProvider/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1DeleteASsoProvider/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListAllBackups/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1RestorePitrBackup/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetRestorePoint/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateRestorePoint/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1Undo/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ListOrganizationMembers/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetAnOrganization/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetOrganizationProjectClaim/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1ClaimProjectForOrganization/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1GetAllProjectsForOrganization/errors/0",
+      "value": {
+        "target": "com.supabase.api#BadRequest"
       }
     }
   ]

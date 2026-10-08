@@ -13097,6 +13097,18 @@
             "smithy.api#documentation": "Type of the Storage Connector. Not mutable once the Storage Connector is created.\"",
             "smithy.api#required": {}
           }
+        },
+        "connection": {
+          "target": "com.azure.storage#StorageConnectorConnection",
+          "traits": {
+            "smithy.api#documentation": "Details for how to connect to the backing data store. Not mutable once created."
+          }
+        },
+        "authProperties": {
+          "target": "com.azure.storage#StorageConnectorAuthProperties",
+          "traits": {
+            "smithy.api#documentation": "Details for how to authenticate to the backing data store."
+          }
         }
       },
       "traits": {
@@ -13255,6 +13267,12 @@
           "traits": {
             "smithy.api#documentation": "Type of the Storage Connector. Not mutable once the Storage Connector is created.\"",
             "smithy.api#required": {}
+          }
+        },
+        "authProperties": {
+          "target": "com.azure.storage#StorageConnectorAuthProperties",
+          "traits": {
+            "smithy.api#documentation": "Details for how to authenticate to the backing data store."
           }
         }
       },
@@ -14465,6 +14483,14 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "The name of the blob container within the specified storage account. Blob container names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The entity state (ETag) version of the immutability policy to abort. A value of \"*\" applies to all."
           }
         }
       },
@@ -25183,6 +25209,48 @@
       "traits": {
         "smithy.api#title": "Azure Storage",
         "smithy.api#documentation": "Azure Storage API — merged from the storage resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.storage#StorageConnectorConnection": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the connection, e.g. `DataShare`. Not mutable once the Storage Connector is created.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataShareUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI of the backing DataShare, in the format `azds://<region>:<DataShareName>:<DataShareIdentifier>`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The connection properties of the backing data source"
+      }
+    },
+    "com.azure.storage#StorageConnectorAuthProperties": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the authentication properties, e.g. `ManagedIdentity`.",
+            "smithy.api#required": {}
+          }
+        },
+        "identityResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource ID of the managed identity used to authenticate to the backing data source."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The authentication properties of the backing data source"
       }
     }
   }

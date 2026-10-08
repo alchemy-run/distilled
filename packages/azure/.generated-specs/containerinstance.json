@@ -1224,10 +1224,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/stop",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "Stops all container groups in the specified NGroups resource.\n\nStops all container groups in the specified NGroups resource. Compute resources will be deallocated and billing will stop.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#StopNGroupRequest": {
@@ -1275,10 +1275,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/start",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "Starts all container groups in the specified NGroups resource.\n\nStarts all container groups in the specified NGroups resource. Compute resources will be allocated and billing will start.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#StartNGroupRequest": {
@@ -1326,10 +1326,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/restart",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "Restarts all container groups in the specified NGroups resource.\n\nRestarts all container groups in the specified NGroups resource in place. If container image has updates, new image will be downloaded.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#RestartNGroupRequest": {
@@ -1377,10 +1377,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "NGroups Delete REST API\n\nDeletes the NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#DeleteNGroupRequest": {
@@ -1428,10 +1428,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "NGroups PATCH REST API\n\nUpdate a specified NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#UpdateNGroupResponse": {
@@ -2406,10 +2406,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "NGroup PUT REST API\n\nCreate or update a NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#NGroupsCreateOrUpdateResponse": {
@@ -2591,10 +2591,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "NGroups GET REST API\n\nGet the properties of the specified NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#GetNGroupResponse": {
@@ -2725,10 +2725,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "GET NGroups under a resource group REST API.\n\nGets a list of all NGroups resources under a resource group.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#NGroupsListResult": {
@@ -8069,10 +8069,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/ngroups",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2024-11-01-preview"
         },
         "smithy.api#documentation": "List NGroups in a subscription.\n\nGets a list of all NGroups resources under a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2024-11-01-preview"
       }
     },
     "com.azure.containerinstance#ListNGroupsRequest": {

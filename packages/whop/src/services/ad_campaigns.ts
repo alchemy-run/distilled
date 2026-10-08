@@ -81,8 +81,10 @@ export interface CreateAdCampaignRequest {
   account_id?: string;
   /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Only for campaigns that own the budget. */
   bid_type?: CreateAdCampaignRequestBidType | (string & {});
-  /** The campaign's budget, in the ad account's currency. Required when budget_optimization is `ad_campaign`; omit when each ad group sets its own budget. */
+  /** The campaign's budget in USD, which is what it is stored and billed in. Required when budget_optimization is `ad_campaign` (or send budget_amount_local instead); omit when each ad group sets its own budget. */
   budget_amount?: number;
+  /** The campaign's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount. Provide this or budget_amount, not both. */
+  budget_amount_local?: number;
   /** Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Defaults to `ad_group`. */
   budget_optimization?: CreateAdCampaignRequestBudgetOptimization | (string & {});
   /** Whether the budget is spent per day (`daily`) or over the campaign's full run (`lifetime`). Defaults to `daily`. */
@@ -109,6 +111,7 @@ export const CreateAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String),
     bid_type: S.optional(CreateAdCampaignRequestBidType),
     budget_amount: S.optional(S.Number),
+    budget_amount_local: S.optional(S.Number),
     budget_optimization: S.optional(CreateAdCampaignRequestBudgetOptimization),
     budget_type: S.optional(CreateAdCampaignRequestBudgetType),
     desired_cost_per_result: S.optional(S.Number),
@@ -134,9 +137,10 @@ export const AdCampaignBudgetOptimization = S.String;
 export type AdCampaignBudgetType = "daily" | "lifetime";
 export const AdCampaignBudgetType = S.String;
 
-/** Whether the campaign's ads are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned. */
+/** Whether the campaign's ads are delivering right now, and if not, why. Account billing failures set payment_failed without changing the configured status. Successful payment retry clears that block and recalculates delivery. When several states apply at once, the highest-precedence one is returned. */
 export type AdCampaignDeliveryStatus =
   | "payment_failed"
+  | "in_appeal"
   | "all_ads_rejected"
   | "draft"
   | "no_ad_groups"
@@ -183,7 +187,7 @@ export type AdCampaignObjective = "awareness" | "traffic" | "engagement" | "lead
 export const AdCampaignObjective = S.String;
 
 /** The ad network the campaign runs on. */
-export type AdCampaignPlatform = "meta" | "tiktok";
+export type AdCampaignPlatform = "meta" | "tiktok" | "google";
 export const AdCampaignPlatform = S.String;
 
 /** The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event. */
@@ -213,7 +217,7 @@ export const AdCampaignSpecialAdCategoriesList = /*@__PURE__*/ S.Array(
   AdCampaignSpecialAdCategoriesItem,
 ) as any as S.Schema<AdCampaignSpecialAdCategoriesList>;
 
-/** The lifecycle status of the ad campaign. */
+/** The configured lifecycle status of the ad campaign. Billing failures preserve active or paused here and set delivery_status to payment_failed. */
 export type AdCampaignStatus =
   | "active"
   | "paused"
@@ -236,8 +240,12 @@ export interface AdCampaign {
   added_to_carts: number;
   /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, and `maximum_target` never bids above a cap. */
   bid_type?: AdCampaignBidType | null;
-  /** The campaign's budget, in the ad account's currency. `null` when each ad group sets its own budget instead. */
+  /** The campaign's budget in USD, which is what it is stored and billed in. `null` when each ad group sets its own budget instead. */
   budget_amount: number | null;
+  /** The same budget stated in `budget_currency` at today's exchange rate, for display in the account's ads reporting currency. `null` when `budget_amount` is. */
+  budget_amount_local: number | null;
+  /** The ISO 4217 code `budget_amount_local` is in: the account's `ads_reporting_currency` preference. `usd` unless the account changed it. */
+  budget_currency: string;
   /** Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). */
   budget_optimization: AdCampaignBudgetOptimization | null;
   /** Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`). */
@@ -286,8 +294,12 @@ export interface AdCampaign {
   custom_event_counts: unknown;
   /** Conversion value attributed to each custom event, keyed by event name like custom_event_counts. Sums the value passed to whop.track, normalized to USD; events fired without a value contribute 0. */
   custom_event_values: unknown;
-  /** Whether the campaign's ads are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned. */
+  /** Whether the campaign's ads are delivering right now, and if not, why. Account billing failures set payment_failed without changing the configured status. Successful payment retry clears that block and recalculates delivery. When several states apply at once, the highest-precedence one is returned. */
   delivery_status: AdCampaignDeliveryStatus;
+  /** Google only: the target cost per conversion in USD when `bid_type` is `average_target`. `null` otherwise. */
+  desired_cost_per_result?: number | null;
+  /** Google only: when the campaign stops delivering, as an ISO 8601 timestamp. `null` runs it until paused. */
+  ends_at?: string | null;
   /** Platform-reported impressions divided by reach. */
   frequency: number | null;
   /** Unique identifier for the ad campaign, prefixed `adcamp_`. */
@@ -299,6 +311,8 @@ export interface AdCampaign {
   lead_value: number;
   /** Whop pixel-attributed leads, last-click. */
   leads: number;
+  /** Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad. */
+  link_clicks: number;
   /** The goal the campaign optimizes toward. */
   objective: AdCampaignObjective | null;
   /** The event the campaign optimizes for when a single goal is set campaign-wide. `null` when each ad group sets its own optimization_goal. */
@@ -328,7 +342,9 @@ export interface AdCampaign {
   spend: number;
   /** The ISO 4217 currency code of all monetary metrics. */
   spend_currency: string | null;
-  /** The lifecycle status of the ad campaign. */
+  /** Google only: when the campaign starts delivering, as an ISO 8601 timestamp. `null` starts it as soon as it launches. */
+  starts_at?: string | null;
+  /** The configured lifecycle status of the ad campaign. Billing failures preserve active or paused here and set delivery_status to payment_failed. */
   status: AdCampaignStatus;
   /** USD value attributed to submit-application events. Sums the value sent with each event, normalized to USD; events without a value contribute 0. */
   submitted_application_value: number;
@@ -353,6 +369,8 @@ export const AdCampaign = /*@__PURE__*/ S.suspend(() =>
     added_to_carts: S.Number,
     bid_type: S.optional(S.NullOr(AdCampaignBidType)),
     budget_amount: S.NullOr(S.Number),
+    budget_amount_local: S.NullOr(S.Number),
+    budget_currency: S.String,
     budget_optimization: S.NullOr(AdCampaignBudgetOptimization),
     budget_type: S.NullOr(AdCampaignBudgetType),
     click_through_rate: S.Number,
@@ -378,12 +396,15 @@ export const AdCampaign = /*@__PURE__*/ S.suspend(() =>
     custom_event_counts: S.Unknown,
     custom_event_values: S.Unknown,
     delivery_status: AdCampaignDeliveryStatus,
+    desired_cost_per_result: S.optional(S.NullOr(S.Number)),
+    ends_at: S.optional(S.NullOr(S.String)),
     frequency: S.NullOr(S.Number),
     id: S.String,
     impressions: S.Number,
     issues: AdCampaignIssuesList,
     lead_value: S.Number,
     leads: S.Number,
+    link_clicks: S.Number,
     objective: S.NullOr(AdCampaignObjective),
     optimization_goal: S.NullOr(S.String),
     platform: AdCampaignPlatform,
@@ -399,6 +420,7 @@ export const AdCampaign = /*@__PURE__*/ S.suspend(() =>
     special_ad_categories: AdCampaignSpecialAdCategoriesList,
     spend: S.Number,
     spend_currency: S.NullOr(S.String),
+    starts_at: S.optional(S.NullOr(S.String)),
     status: AdCampaignStatus,
     submitted_application_value: S.Number,
     submitted_applications: S.Number,
@@ -506,6 +528,7 @@ export type ListAdCampaignsRequestOrder =
   | "impressions"
   | "reach"
   | "clicks"
+  | "link_clicks"
   | "unique_clicks"
   | "frequency"
   | "click_through_rate"
@@ -545,13 +568,13 @@ export interface ListAdCampaignsRequest {
   time_zone?: string;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
   attribution_model?: ListAdCampaignsRequestAttributionModel | (string & {});
-  /** The number of campaigns to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of campaigns to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListAdCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -620,21 +643,6 @@ export const PauseAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/pause", code: 200 })),
 ).annotate({ identifier: "PauseAdCampaignRequest" }) as any as S.Schema<PauseAdCampaignRequest>;
 
-export interface RetryAdCampaignPaymentRequest {
-  /** The ad campaign ID. */
-  id: string;
-  /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
-}
-export const RetryAdCampaignPaymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.Label()),
-    idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(T.Http({ method: "POST", uri: "/ad_campaigns/{id}/retry_payment", code: 200 })),
-).annotate({
-  identifier: "RetryAdCampaignPaymentRequest",
-}) as any as S.Schema<RetryAdCampaignPaymentRequest>;
-
 export interface UnpauseAdCampaignRequest {
   /** The ad campaign ID. */
   id: string;
@@ -684,8 +692,10 @@ export interface UpdateAdCampaignRequest {
   id: string;
   /** How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Switching to `minimum_cost` clears the cap amounts stored on the campaign's ad groups. Only for campaigns that own the budget. */
   bid_type?: UpdateAdCampaignRequestBidType | (string & {});
-  /** The campaign budget, in the account's currency. Interpreted as daily or lifetime per the campaign's budget type, including a budget_type sent in the same request. */
+  /** The campaign budget in USD, which is what it is stored and billed in. Interpreted as daily or lifetime per the campaign's budget type, including a budget_type sent in the same request. */
   budget_amount?: number;
+  /** The campaign budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
+  budget_amount_local?: number;
   /** Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Only changeable before the campaign is live on the ad network; switching to `ad_campaign` requires budget_amount in the same request, and switching to `ad_group` clears the campaign budget. */
   budget_optimization?: UpdateAdCampaignRequestBudgetOptimization | (string & {});
   /** Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`). Only changeable while the campaign is a draft; send budget_amount in the same request so the amount lands on the new type. */
@@ -706,6 +716,7 @@ export const UpdateAdCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     bid_type: S.optional(UpdateAdCampaignRequestBidType),
     budget_amount: S.optional(S.Number),
+    budget_amount_local: S.optional(S.Number),
     budget_optimization: S.optional(UpdateAdCampaignRequestBudgetOptimization),
     budget_type: S.optional(UpdateAdCampaignRequestBudgetType),
     ends_at: S.optional(S.String),
@@ -818,23 +829,8 @@ export const pauseAdCampaign: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RetryAdCampaignPaymentError = BadRequest | Conflict | WhopOpError;
-/** Retry a Failed Ad Campaign Payment Retries billing for an ad campaign whose payment previously failed. */
-export const retryAdCampaignPayment: API.OperationMethod<
-  RetryAdCampaignPaymentRequest,
-  AdCampaign,
-  RetryAdCampaignPaymentError,
-  WhopOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetryAdCampaignPaymentRequest,
-  output: AdCampaign,
-  errors: [BadRequest, Conflict],
-  protocol: WhopProtocol,
-  retry: Retry.Retry,
-}));
-
 export type UnpauseAdCampaignError = Conflict | WhopOpError;
-/** Unpause an Ad Campaign Resumes a paused ad campaign. */
+/** Unpause an Ad Campaign Resumes a paused ad campaign. Requires an ads payment method on the account. */
 export const unpauseAdCampaign: API.OperationMethod<
   UnpauseAdCampaignRequest,
   AdCampaign,

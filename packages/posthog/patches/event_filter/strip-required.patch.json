@@ -1,0 +1,37 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#EventFilterConfig/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#EventFilterConfig/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#EventFilterConfig/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#AppMetricsResponse/members/labels/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#AppMetricsResponse/members/series/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#AppMetricSeries/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#AppMetricSeries/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.event_filter#AppMetricsTotalsResponse/members/totals/traits"
+    }
+  ]
+}

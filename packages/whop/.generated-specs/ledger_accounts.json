@@ -81,6 +81,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "payout_quote_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a payout from this account must be confirmed against a provider-backed quote first. When true, create a quote with POST /payouts/quotes and send its quote_token when creating the payout.",
+            "smithy.api#required": {}
+          }
+        },
         "settlement_time_at": {
           "target": "smithy.api#String",
           "traits": {
@@ -110,7 +117,7 @@
         "smithy.api#documentation": "A ledger account represents a financial account on Whop that can hold many balances."
       }
     },
-    "com.whop.ledger_accounts#Currencies": {
+    "com.whop.ledger_accounts#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {
@@ -669,7 +676,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.ledger_accounts#Currencies",
+          "target": "com.whop.ledger_accounts#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The currency of the balance.",
             "smithy.api#required": {}
@@ -1347,7 +1354,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.ledger_accounts#Currencies",
+          "target": "com.whop.ledger_accounts#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The currency of the balance.",
             "smithy.api#required": {}

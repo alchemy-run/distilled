@@ -2788,6 +2788,12 @@
           "traits": {
             "smithy.api#documentation": "Specifies the location of the resource."
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel."
+          }
         }
       },
       "traits": {
@@ -3853,6 +3859,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Specifies the location of the resource."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel."
           }
         }
       },

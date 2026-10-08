@@ -7,8 +7,12 @@
       "value": {
         "type": "structure",
         "members": {
-          "code": { "target": "smithy.api#Integer" },
-          "message": { "target": "smithy.api#String" }
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -17,7 +21,9 @@
           "com.distilled.openapi#errorMatchers": [
             {
               "status": 500,
-              "message": { "includes": "still has ownership of repositories" }
+              "message": {
+                "includes": "still has ownership of repositories"
+              }
             }
           ]
         }
@@ -25,7 +31,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.forgejo.organization#DeleteOrg/errors/-",
+      "path": "/shapes/com.forgejo.organization#OrgDelete/errors/-",
       "value": {
         "target": "com.forgejo.organization#OrganizationOwnsRepositories"
       }

@@ -318,8 +318,7 @@
         "status": {
           "target": "com.azure.datashare#OperationResponseStatus",
           "traits": {
-            "smithy.api#documentation": "Operation state of the long running operation.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Operation state of the long running operation."
           }
         }
       },
@@ -514,6 +513,12 @@
             "smithy.api#documentation": "Kind of synchronization on trigger.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`."
+          }
         }
       },
       "traits": {
@@ -582,6 +587,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of synchronization on trigger.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`."
           }
         }
       },
@@ -654,6 +665,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of synchronization on trigger.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`."
           }
         }
       },
@@ -991,6 +1008,12 @@
             "smithy.api#documentation": "Kind of synchronization setting.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`."
+          }
         }
       },
       "traits": {
@@ -1059,6 +1082,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of synchronization setting.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`."
           }
         }
       },
@@ -1131,6 +1160,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of synchronization setting.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`."
           }
         }
       },
@@ -5783,6 +5818,12 @@
             "smithy.api#documentation": "Kind of data set mapping.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
+          }
         }
       },
       "traits": {
@@ -5917,6 +5958,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of data set mapping.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
           }
         }
       },
@@ -6055,6 +6102,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of data set mapping.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
           }
         }
       },
@@ -6550,6 +6603,12 @@
             "smithy.api#documentation": "Kind of data set.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
+          }
         }
       },
       "traits": {
@@ -6696,6 +6755,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of data set.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
           }
         }
       },
@@ -6846,6 +6911,12 @@
           "traits": {
             "smithy.api#documentation": "Kind of data set.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
           }
         }
       },

@@ -103,28 +103,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of API keys to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns API keys after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of API keys to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns API keys before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         },
         "order": {
@@ -411,6 +411,132 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "2026-08-25-2"
+          }
+        },
+        "_2026_08_31": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-31"
+          }
+        },
+        "_2026_09_02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02"
+          }
+        },
+        "_2026_09_02_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02-1"
+          }
+        },
+        "_2026_09_02_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02-2"
+          }
+        },
+        "_2026_09_04": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-04"
+          }
+        },
+        "_2026_09_06": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-06"
+          }
+        },
+        "_2026_09_09": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-09"
+          }
+        },
+        "_2026_09_09_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-09-1"
+          }
+        },
+        "_2026_09_11": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-11"
+          }
+        },
+        "_2026_09_11_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-11-1"
+          }
+        },
+        "_2026_09_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-13"
+          }
+        },
+        "_2026_09_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-15"
+          }
+        },
+        "_2026_09_22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22"
+          }
+        },
+        "_2026_09_22_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-1"
+          }
+        },
+        "_2026_09_22_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-2"
+          }
+        },
+        "_2026_09_22_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-3"
+          }
+        },
+        "_2026_09_22_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-4"
+          }
+        },
+        "_2026_09_23": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-23"
+          }
+        },
+        "_2026_09_24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-24"
+          }
+        },
+        "_2026_09_24_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-24-1"
+          }
+        },
+        "_2026_09_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-25"
           }
         }
       },
@@ -794,6 +920,132 @@
           "traits": {
             "smithy.api#enumValue": "2026-08-25-2"
           }
+        },
+        "_2026_08_31": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-31"
+          }
+        },
+        "_2026_09_02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02"
+          }
+        },
+        "_2026_09_02_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02-1"
+          }
+        },
+        "_2026_09_02_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02-2"
+          }
+        },
+        "_2026_09_04": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-04"
+          }
+        },
+        "_2026_09_06": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-06"
+          }
+        },
+        "_2026_09_09": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-09"
+          }
+        },
+        "_2026_09_09_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-09-1"
+          }
+        },
+        "_2026_09_11": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-11"
+          }
+        },
+        "_2026_09_11_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-11-1"
+          }
+        },
+        "_2026_09_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-13"
+          }
+        },
+        "_2026_09_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-15"
+          }
+        },
+        "_2026_09_22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22"
+          }
+        },
+        "_2026_09_22_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-1"
+          }
+        },
+        "_2026_09_22_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-2"
+          }
+        },
+        "_2026_09_22_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-3"
+          }
+        },
+        "_2026_09_22_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-4"
+          }
+        },
+        "_2026_09_23": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-23"
+          }
+        },
+        "_2026_09_24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-24"
+          }
+        },
+        "_2026_09_24_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-24-1"
+          }
+        },
+        "_2026_09_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-25"
+          }
         }
       },
       "traits": {
@@ -1126,6 +1378,12 @@
           "traits": {
             "smithy.api#enumValue": "advertiser"
           }
+        },
+        "PARTNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner"
+          }
         }
       },
       "traits": {
@@ -1431,6 +1689,132 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "2026-08-25-2"
+          }
+        },
+        "_2026_08_31": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-31"
+          }
+        },
+        "_2026_09_02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02"
+          }
+        },
+        "_2026_09_02_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02-1"
+          }
+        },
+        "_2026_09_02_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-02-2"
+          }
+        },
+        "_2026_09_04": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-04"
+          }
+        },
+        "_2026_09_06": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-06"
+          }
+        },
+        "_2026_09_09": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-09"
+          }
+        },
+        "_2026_09_09_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-09-1"
+          }
+        },
+        "_2026_09_11": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-11"
+          }
+        },
+        "_2026_09_11_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-11-1"
+          }
+        },
+        "_2026_09_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-13"
+          }
+        },
+        "_2026_09_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-15"
+          }
+        },
+        "_2026_09_22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22"
+          }
+        },
+        "_2026_09_22_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-1"
+          }
+        },
+        "_2026_09_22_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-2"
+          }
+        },
+        "_2026_09_22_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-3"
+          }
+        },
+        "_2026_09_22_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-22-4"
+          }
+        },
+        "_2026_09_23": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-23"
+          }
+        },
+        "_2026_09_24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-24"
+          }
+        },
+        "_2026_09_24_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-24-1"
+          }
+        },
+        "_2026_09_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-09-25"
           }
         }
       },

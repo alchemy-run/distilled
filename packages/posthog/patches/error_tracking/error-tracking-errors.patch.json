@@ -1,0 +1,263 @@
+{
+  "description": "From error-tracking-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"error_tracking\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingReleasesHashRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsDownloadRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsFinishUploadUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsBulkDeleteCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsBulkFinishUploadCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#ErrorTrackingSymbolSetsBulkStartUploadCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.error_tracking#BadRequest"
+        },
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#BadRequest",
+      "before": "com.posthog.error_tracking#ErrorTracking",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.error_tracking#Forbidden",
+      "before": "com.posthog.error_tracking#ErrorTracking",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

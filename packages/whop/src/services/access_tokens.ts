@@ -52,7 +52,7 @@ export const CreateAccessTokenRequestScopedActionsList = /*@__PURE__*/ S.Array(
 
 export interface CreateAccessTokenRequest {
   /** The unique identifier of the company to generate the token for, starting with 'biz_'. The API key must have permission to access this company. */
-  company_id?: string | null;
+  account_id?: string | null;
   /** The expiration timestamp for the access token. Defaults to 1 hour from now, with a maximum of 3 hours. */
   expires_at?: string | null;
   /** An array of permission scopes to grant to the access token. If empty or omitted, all permissions from the authenticating credential are inherited. Must be a subset of the credential's permissions. */
@@ -62,7 +62,7 @@ export interface CreateAccessTokenRequest {
 }
 export const CreateAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.optional(S.NullOr(S.String)),
+    account_id: S.optional(S.NullOr(S.String)),
     expires_at: S.optional(S.NullOr(S.String)),
     scoped_actions: S.optional(S.NullOr(CreateAccessTokenRequestScopedActionsList)),
     user_id: S.optional(S.NullOr(S.String)),
@@ -89,7 +89,7 @@ export type CreateAccessTokenError =
   | NotFound
   | UnprocessableEntity
   | WhopOpError;
-/** Create access token [Legacy API — https://docs.whop.com/api-reference] Create a short-lived access token for authenticating API requests. When using API key authentication, provide company_id or user_id. When using OAuth, the user is derived from the token. Use this token with Whop's web and mobile embedded components. */
+/** Create access token [Legacy API — https://docs.whop.com/api-reference] Create a short-lived access token for authenticating API requests. When using API key authentication, provide account_id or user_id. When using OAuth, the user is derived from the token. Use this token with Whop's web and mobile embedded components. */
 export const createAccessToken: API.OperationMethod<
   CreateAccessTokenRequest,
   AccessToken,

@@ -40,26 +40,162 @@ export class NotFound
 export type CreateCheckoutConfigurationRequestMode = "payment" | "setup";
 export const CreateCheckoutConfigurationRequestMode = S.String;
 
-/** Payment methods explicitly disabled for checkout. */
-export type CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList =
-  Array<string>;
+/** The different types of payment methods that can be used. */
+export type PaymentMethodTypes =
+  | "acss_debit"
+  | "addi"
+  | "affirm"
+  | "afterpay_clearpay"
+  | "alipay"
+  | "alipayhk"
+  | "alma"
+  | "amazon_pay"
+  | "apple"
+  | "apple_pay"
+  | "au_bank_transfer"
+  | "au_becs_debit"
+  | "bacs_debit"
+  | "bancolombia"
+  | "bancontact"
+  | "bank_wire"
+  | "billie"
+  | "blik"
+  | "boleto"
+  | "bre_b"
+  | "ca_bank_transfer"
+  | "capchase_pay"
+  | "card"
+  | "card_installments_three"
+  | "card_installments_six"
+  | "card_installments_twelve"
+  | "cashapp"
+  | "claritypay"
+  | "coinbase"
+  | "crypto"
+  | "custom"
+  | "customer_balance"
+  | "demo_pay"
+  | "efecty"
+  | "eps"
+  | "eu_bank_transfer"
+  | "fpx"
+  | "flex_pay"
+  | "gb_bank_transfer"
+  | "gcash"
+  | "giropay"
+  | "google_pay"
+  | "gopay"
+  | "grabpay"
+  | "id_bank_transfer"
+  | "ideal"
+  | "interac"
+  | "kakao_pay"
+  | "klarna"
+  | "klarna_pay_now"
+  | "konbini"
+  | "kr_card"
+  | "kr_market"
+  | "kriya"
+  | "kueski"
+  | "link"
+  | "mb_way"
+  | "m_pesa"
+  | "mercado_pago"
+  | "mercado_pago_ar"
+  | "mercado_pago_mx"
+  | "mobilepay"
+  | "modo"
+  | "mondu"
+  | "multibanco"
+  | "naver_pay"
+  | "nequi"
+  | "netbanking"
+  | "ng_bank"
+  | "ng_bank_transfer"
+  | "ng_card"
+  | "ng_market"
+  | "ng_ussd"
+  | "ng_wallet"
+  | "nupay"
+  | "nz_bank_account"
+  | "oney"
+  | "oney_3x"
+  | "oney_4x"
+  | "opay"
+  | "oxxo"
+  | "p24"
+  | "pago_efectivo"
+  | "pse"
+  | "pay_by_bank"
+  | "payco"
+  | "paynow"
+  | "paypal"
+  | "paypay"
+  | "payto"
+  | "pix"
+  | "platform_balance"
+  | "promptpay"
+  | "qris"
+  | "rapipago"
+  | "rechnung"
+  | "revolut_pay"
+  | "samsung_pay"
+  | "satispay"
+  | "scalapay"
+  | "sencillito"
+  | "sepa_debit"
+  | "sequra"
+  | "servipag"
+  | "sezzle"
+  | "shop_pay"
+  | "shopeepay"
+  | "sofort"
+  | "south_korea_market"
+  | "spei"
+  | "splitit"
+  | "sunbit"
+  | "swish"
+  | "tabby"
+  | "tamara"
+  | "touch_n_go"
+  | "twint"
+  | "upi"
+  | "us_bank_account"
+  | "us_bank_transfer"
+  | "venmo"
+  | "verve"
+  | "vipps"
+  | "webpay"
+  | "wechat_pay"
+  | "yape"
+  | "zip"
+  | "coinflow"
+  | "unknown";
+export const PaymentMethodTypes = S.String;
+
+/** Payment method types explicitly disabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList =
   /*@__PURE__*/ S.Array(
-    S.String,
+    PaymentMethodTypes,
   ) as any as S.Schema<CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList>;
 
-/** Payment methods explicitly enabled for checkout. */
-export type CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList = Array<string>;
+/** Payment method types explicitly enabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList =
   /*@__PURE__*/ S.Array(
-    S.String,
+    PaymentMethodTypes,
   ) as any as S.Schema<CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList>;
 
 /** Payment method overrides for this checkout. `null` uses the plan or platform defaults. */
 export interface CreateCheckoutConfigurationRequestPaymentMethodConfiguration {
-  /** Payment methods explicitly disabled for checkout. */
+  /** Payment method types explicitly disabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   disabled?: CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList;
-  /** Payment methods explicitly enabled for checkout. */
+  /** Payment method types explicitly enabled for checkout — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   enabled?: CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList;
   /** Whether platform default payment methods are included. */
   include_platform_defaults?: boolean;
@@ -77,27 +213,29 @@ export const CreateCheckoutConfigurationRequestPaymentMethodConfiguration = /*@_
   identifier: "CreateCheckoutConfigurationRequestPaymentMethodConfiguration",
 }) as any as S.Schema<CreateCheckoutConfigurationRequestPaymentMethodConfiguration>;
 
-/** Payment methods explicitly disabled for this plan. */
-export type CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList =
-  Array<string>;
+/** Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList =
   /*@__PURE__*/ S.Array(
-    S.String,
+    PaymentMethodTypes,
   ) as any as S.Schema<CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList>;
 
-/** Payment methods explicitly enabled for this plan. */
-export type CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList =
-  Array<string>;
+/** Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList =
   /*@__PURE__*/ S.Array(
-    S.String,
+    PaymentMethodTypes,
   ) as any as S.Schema<CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList>;
 
 /** Payment method overrides for the inline plan. `null` uses platform defaults. */
 export interface CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration {
-  /** Payment methods explicitly disabled for this plan. */
+  /** Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   disabled?: CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList;
-  /** Payment methods explicitly enabled for this plan. */
+  /** Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   enabled?: CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList;
   /** Whether platform default payment methods are included. */
   include_platform_defaults?: boolean;
@@ -125,10 +263,11 @@ export const CreateCheckoutConfigurationRequestPlanPlanType = S.String;
 export type CreateCheckoutConfigurationRequestPlanReleaseMethod = "buy_now" | "waitlist";
 export const CreateCheckoutConfigurationRequestPlanReleaseMethod = S.String;
 
-/** 3D Secure behavior for the inline plan, or `null` to use the account default. */
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
 export type CreateCheckoutConfigurationRequestPlanThreeDsLevel =
   | "mandate_challenge"
-  | "frictionless";
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const CreateCheckoutConfigurationRequestPlanThreeDsLevel = S.String;
 
 /** Whether the plan is visible to customers or hidden from public view. */
@@ -171,7 +310,7 @@ export interface CreateCheckoutConfigurationRequestPlan {
   renewal_price?: number | null;
   /** Units available for purchase. */
   stock?: number | null;
-  /** 3D Secure behavior for the inline plan, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
   three_ds_level?: CreateCheckoutConfigurationRequestPlanThreeDsLevel | (string & {}) | null;
   /** Plan display name shown to customers. */
   title?: string | null;
@@ -211,8 +350,11 @@ export const CreateCheckoutConfigurationRequestPlan = /*@__PURE__*/ S.suspend(()
   identifier: "CreateCheckoutConfigurationRequestPlan",
 }) as any as S.Schema<CreateCheckoutConfigurationRequestPlan>;
 
-/** 3D Secure behavior for this checkout. */
-export type CreateCheckoutConfigurationRequestThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
+export type CreateCheckoutConfigurationRequestThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const CreateCheckoutConfigurationRequestThreeDsLevel = S.String;
 
 export interface CreateCheckoutConfigurationRequest {
@@ -234,7 +376,7 @@ export interface CreateCheckoutConfigurationRequest {
   plan_id?: string | null;
   /** URL customers are sent to after checkout. */
   redirect_url?: string | null;
-  /** 3D Secure behavior for this checkout. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
   three_ds_level?: CreateCheckoutConfigurationRequestThreeDsLevel | (string & {}) | null;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
@@ -349,10 +491,11 @@ export const CreateCheckoutConfigurationResponsePlanPlanType = S.String;
 export type CreateCheckoutConfigurationResponsePlanReleaseMethod = "buy_now" | "waitlist";
 export const CreateCheckoutConfigurationResponsePlanReleaseMethod = S.String;
 
-/** 3D Secure behavior for this plan, or `null` to use the account default. */
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
 export type CreateCheckoutConfigurationResponsePlanThreeDsLevel =
   | "mandate_challenge"
-  | "frictionless";
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const CreateCheckoutConfigurationResponsePlanThreeDsLevel = S.String;
 
 /** Whether the plan is visible to customers or hidden from public view. */
@@ -383,7 +526,7 @@ export interface CreateCheckoutConfigurationResponsePlan {
   release_method: CreateCheckoutConfigurationResponsePlanReleaseMethod;
   /** Recurring price charged each billing period. */
   renewal_price: number;
-  /** 3D Secure behavior for this plan, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
   three_ds_level: CreateCheckoutConfigurationResponsePlanThreeDsLevel | null;
   /** Free trial days before the first renewal charge. */
   trial_period_days: number | null;
@@ -409,8 +552,11 @@ export const CreateCheckoutConfigurationResponsePlan = /*@__PURE__*/ S.suspend((
   identifier: "CreateCheckoutConfigurationResponsePlan",
 }) as any as S.Schema<CreateCheckoutConfigurationResponsePlan>;
 
-/** 3D Secure behavior for this checkout, or `null` to use the account default. */
-export type CreateCheckoutConfigurationResponseThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
+export type CreateCheckoutConfigurationResponseThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const CreateCheckoutConfigurationResponseThreeDsLevel = S.String;
 
 export interface CreateCheckoutConfigurationResponse {
@@ -438,7 +584,7 @@ export interface CreateCheckoutConfigurationResponse {
   purchase_url?: string | null;
   /** URL customers are sent to after checkout, or `null` when no redirect is configured. */
   redirect_url?: string | null;
-  /** 3D Secure behavior for this checkout, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
   three_ds_level?: CreateCheckoutConfigurationResponseThreeDsLevel | null;
   /** When the checkout configuration was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
@@ -593,8 +739,11 @@ export const GetCheckoutConfigurationResponsePlanPlanType = S.String;
 export type GetCheckoutConfigurationResponsePlanReleaseMethod = "buy_now" | "waitlist";
 export const GetCheckoutConfigurationResponsePlanReleaseMethod = S.String;
 
-/** 3D Secure behavior for this plan, or `null` to use the account default. */
-export type GetCheckoutConfigurationResponsePlanThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
+export type GetCheckoutConfigurationResponsePlanThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const GetCheckoutConfigurationResponsePlanThreeDsLevel = S.String;
 
 /** Whether the plan is visible to customers or hidden from public view. */
@@ -625,7 +774,7 @@ export interface GetCheckoutConfigurationResponsePlan {
   release_method: GetCheckoutConfigurationResponsePlanReleaseMethod;
   /** Recurring price charged each billing period. */
   renewal_price: number;
-  /** 3D Secure behavior for this plan, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
   three_ds_level: GetCheckoutConfigurationResponsePlanThreeDsLevel | null;
   /** Free trial days before the first renewal charge. */
   trial_period_days: number | null;
@@ -651,8 +800,11 @@ export const GetCheckoutConfigurationResponsePlan = /*@__PURE__*/ S.suspend(() =
   identifier: "GetCheckoutConfigurationResponsePlan",
 }) as any as S.Schema<GetCheckoutConfigurationResponsePlan>;
 
-/** 3D Secure behavior for this checkout, or `null` to use the account default. */
-export type GetCheckoutConfigurationResponseThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
+export type GetCheckoutConfigurationResponseThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const GetCheckoutConfigurationResponseThreeDsLevel = S.String;
 
 export interface GetCheckoutConfigurationResponse {
@@ -680,7 +832,7 @@ export interface GetCheckoutConfigurationResponse {
   purchase_url?: string | null;
   /** URL customers are sent to after checkout, or `null` when no redirect is configured. */
   redirect_url?: string | null;
-  /** 3D Secure behavior for this checkout, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
   three_ds_level?: GetCheckoutConfigurationResponseThreeDsLevel | null;
   /** When the checkout configuration was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
@@ -729,9 +881,9 @@ export interface ListCheckoutConfigurationsRequest {
   order?: ListCheckoutConfigurationsRequestOrder | (string & {});
   /** Sort direction. Defaults to `desc`. */
   direction?: ListCheckoutConfigurationsRequestDirection | (string & {});
-  /** Number of checkout configurations to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor for the next page of results. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListCheckoutConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -841,10 +993,11 @@ export const ListCheckoutConfigurationsResponseDataItemPlanPlanType = S.String;
 export type ListCheckoutConfigurationsResponseDataItemPlanReleaseMethod = "buy_now" | "waitlist";
 export const ListCheckoutConfigurationsResponseDataItemPlanReleaseMethod = S.String;
 
-/** 3D Secure behavior for this plan, or `null` to use the account default. */
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
 export type ListCheckoutConfigurationsResponseDataItemPlanThreeDsLevel =
   | "mandate_challenge"
-  | "frictionless";
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const ListCheckoutConfigurationsResponseDataItemPlanThreeDsLevel = S.String;
 
 /** Whether the plan is visible to customers or hidden from public view. */
@@ -875,7 +1028,7 @@ export interface ListCheckoutConfigurationsResponseDataItemPlan {
   release_method: ListCheckoutConfigurationsResponseDataItemPlanReleaseMethod;
   /** Recurring price charged each billing period. */
   renewal_price: number;
-  /** 3D Secure behavior for this plan, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
   three_ds_level: ListCheckoutConfigurationsResponseDataItemPlanThreeDsLevel | null;
   /** Free trial days before the first renewal charge. */
   trial_period_days: number | null;
@@ -901,10 +1054,11 @@ export const ListCheckoutConfigurationsResponseDataItemPlan = /*@__PURE__*/ S.su
   identifier: "ListCheckoutConfigurationsResponseDataItemPlan",
 }) as any as S.Schema<ListCheckoutConfigurationsResponseDataItemPlan>;
 
-/** 3D Secure behavior for this checkout, or `null` to use the account default. */
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
 export type ListCheckoutConfigurationsResponseDataItemThreeDsLevel =
   | "mandate_challenge"
-  | "frictionless";
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const ListCheckoutConfigurationsResponseDataItemThreeDsLevel = S.String;
 
 export interface ListCheckoutConfigurationsResponseDataItem {
@@ -932,7 +1086,7 @@ export interface ListCheckoutConfigurationsResponseDataItem {
   purchase_url?: string | null;
   /** URL customers are sent to after checkout, or `null` when no redirect is configured. */
   redirect_url?: string | null;
-  /** 3D Secure behavior for this checkout, or `null` to use the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Applies in setup mode; `null` uses frictionless 3DS. Payment mode uses the plan policy. */
   three_ds_level?: ListCheckoutConfigurationsResponseDataItemThreeDsLevel | null;
   /** When the checkout configuration was last updated, as an ISO 8601 timestamp. */
   updated_at: string;

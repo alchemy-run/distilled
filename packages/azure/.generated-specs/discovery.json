@@ -7209,6 +7209,24 @@
             "smithy.api#documentation": "The storage store kind.",
             "smithy.api#required": {}
           }
+        },
+        "storageAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AzureStorageBlob: the associated Azure Storage account ID."
+          }
+        },
+        "netAppVolumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AzureNetAppFiles: the associated Azure NetApp Files volume ID."
+          }
+        },
+        "mountProtocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Protocol used to mount the store: `NFS` or `BlobfuseCaching` (blob only)."
+          }
         }
       },
       "traits": {

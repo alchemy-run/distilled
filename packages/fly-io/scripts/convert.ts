@@ -4,26 +4,27 @@
  *
  *   machines  OpenAPI  specs/spec-mirror-fly-io/specs/openapi.json
  *             → .generated-specs/machines.json
- *             patches: patches/*.patch.json then patches/machines/*.patch.json
+ *             patches: patches/machines/*.patch.json (Smithy)
  *             operationNaming: verbNoun (not JSON-pointer patches)
  *
  *   sprites   OpenAPI  specs/sprites/openapi.json (hand-authored; no
  *             published OpenAPI at api.sprites.dev)
  *             → .generated-specs/sprites.json
- *             patches: patches/sprites/*.patch.json
+ *             patches: patches/sprites/*.patch.json (Smithy)
  *
  *   mpg       OpenAPI  specs/mpg/openapi.json (hand-authored from flyctl
  *             UI-EX REST /api/v1/.../postgresv2)
  *             → .generated-specs/mpg.json
- *             patches: patches/mpg/*.patch.json
+ *             patches: patches/mpg/*.patch.json (Smithy)
  *
  *   addons    GraphQL  specs/addons/schema.json (thin flyctl add-on
  *             introspection for Tigris + Upstash Redis)
  *             → .generated-specs/addons.json
  *             patches: patches/addons/*.patch.json (Smithy)
  *
- * `scripts/generate.ts` only compiles `.generated-specs`; every patch and
- * model stamp applies here.
+ * Every patch is a Smithy op on upstream names, applied by the
+ * finalizeConvert at the end. `scripts/generate.ts` only compiles
+ * `.generated-specs`.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
@@ -34,12 +35,7 @@ import {
 } from "@distilled.cloud/core/codegen/graphql";
 import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import {
-  applyRfc6902Files,
-  finalizeConvert,
-  isSmithyPatchPath,
-  listRfc6902PatchFiles,
-} from "@distilled.cloud/core/codegen/patches";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";
 
 const resourceIndex = process.argv.indexOf("--resource");
@@ -49,7 +45,6 @@ if (machinesOnly && process.argv[resourceIndex + 1] !== "machines") {
 }
 
 const root = `${import.meta.dirname}/..`;
-const patchesRoot = path.join(root, "patches");
 const generatedDir = path.join(root, ".generated-specs");
 
 const STATUS_TO_ERROR = {
@@ -64,16 +59,8 @@ const STATUS_TO_ERROR = {
 const DEFAULT_ERROR_STATUSES = ["401", "429", "500", "502", "503", "504"];
 
 // ---------------------------------------------------------------------------
-// machines — existing dual-layer OpenAPI patch walk
+// machines — patches/machines/ apply in the finalizeConvert below
 // ---------------------------------------------------------------------------
-
-// Flat `patches/*.patch.json` are Machines-wide error responses; the
-// per-operation ones live under `patches/machines/`. OpenAPI pointers target
-// `/v1/…` spec-mirror paths; Smithy pointers apply in finalizeConvert.
-const machinesPatchFiles = [
-  ...(await listRfc6902PatchFiles(patchesRoot)).filter((f) => f.endsWith(".patch.json")),
-  ...(await listRfc6902PatchFiles(path.join(patchesRoot, "machines"))),
-];
 
 await runOpenApiConvert({
   root,
@@ -81,19 +68,6 @@ await runOpenApiConvert({
     {
       name: "machines",
       specPath: "specs/spec-mirror-fly-io/specs/openapi.json",
-      preprocess: async (spec) => {
-        const applied = await applyRfc6902Files(spec, machinesPatchFiles, {
-          include: (op) => !isSmithyPatchPath(op.path),
-          label: (f) => path.relative(patchesRoot, f),
-        });
-        if (applied.errors.length) {
-          for (const b of applied.errors) console.error(`❌ bad patch: ${b}`);
-          throw new Error(
-            `${applied.errors.length} machines patch operation(s) failed — fix the JSON pointers (paths are /v1/… on the spec-mirror) or delete the patch`,
-          );
-        }
-        console.log(`   applied ${applied.files} OpenAPI patch file(s) (flat + patches/machines)`);
-      },
     },
   ],
   patchesDir: false,
@@ -174,14 +148,13 @@ await runOpenApiConvert({
   },
 });
 
-// Stamp cursor pagination on listSprites (continuation_token). The OpenAPI
-// converter's auto-detect looks for next_token / NextToken, not Sprites'
-// next_continuation_token.
-{
-  const spritesPath = path.join(generatedDir, "sprites.json");
-  const model = JSON.parse(await fs.readFile(spritesPath, "utf8")) as {
-    shapes: Record<string, any>;
-  };
+// Sprites fixes the converter cannot derive. They name final shapes, so they
+// run in finalizeConvert's transform, after the deferred verbNoun rename.
+const stampSprites = (model: { shapes: Record<string, any> }): string => {
+  const notes: string[] = [];
+  // Cursor pagination on listSprites (continuation_token). The OpenAPI
+  // converter's auto-detect looks for next_token / NextToken, not Sprites'
+  // next_continuation_token.
   const op = model.shapes["com.flyio.sprites#ListSprites"];
   if (op?.type === "operation") {
     op.traits = {
@@ -194,8 +167,7 @@ await runOpenApiConvert({
         mode: "cursor",
       },
     };
-    await fs.writeFile(spritesPath, JSON.stringify(model, null, 2) + "\n");
-    console.log("   stamped listSprites cursor pagination");
+    notes.push("listSprites cursor pagination");
   } else {
     console.warn("   ⚠️  com.flyio.sprites#ListSprites not found — pagination not stamped");
   }
@@ -217,7 +189,7 @@ await runOpenApiConvert({
         ...(required ? { "smithy.api#required": {} } : {}),
       },
     };
-    console.log(`   stamped ${shapeId} blob httpPayload`);
+    notes.push(`${shapeId} blob httpPayload`);
   };
   stampBlobBody("com.flyio.sprites#ExecCommandRequest", false);
   stampBlobBody("com.flyio.sprites#WriteFileRequest", true);
@@ -230,12 +202,12 @@ await runOpenApiConvert({
       return;
     }
     http.bodyMediaType = "application/octet-stream";
-    console.log(`   stamped ${opId} bodyMediaType application/octet-stream`);
+    notes.push(`${opId} bodyMediaType application/octet-stream`);
   };
   stampOctetStream("com.flyio.sprites#ExecCommand");
   stampOctetStream("com.flyio.sprites#WriteFile");
-  await fs.writeFile(spritesPath, JSON.stringify(model, null, 2) + "\n");
-}
+  return `stamped ${notes.join(", ")}`;
+};
 
 // ---------------------------------------------------------------------------
 // addons — GraphQL thin client
@@ -286,6 +258,7 @@ console.log(
 await finalizeConvert({
   root,
   transform: (model, resource) => {
+    if (resource === "sprites") return stampSprites(model);
     if (resource !== "addons") return;
     let n = 0;
     for (const def of Object.values(model.shapes ?? {}) as any[]) {

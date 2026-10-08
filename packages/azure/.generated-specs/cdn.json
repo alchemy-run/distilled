@@ -1281,6 +1281,18 @@
             "smithy.api#documentation": "The type of the Security policy to create.",
             "smithy.api#required": {}
           }
+        },
+        "wafPolicy": {
+          "target": "com.azure.cdn#ResourceReference",
+          "traits": {
+            "smithy.api#documentation": "WebApplicationFirewall: the Front Door WAF policy (Microsoft.Network/frontDoorWebApplicationFirewallPolicies)."
+          }
+        },
+        "associations": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "WebApplicationFirewall: domains (`{ domains: [{ id }], patternsToMatch: string[] }[]`) the policy applies to."
+          }
         }
       },
       "traits": {
@@ -1916,6 +1928,60 @@
             "smithy.api#documentation": "The type of the secret resource.",
             "smithy.api#required": {}
           }
+        },
+        "secretSource": {
+          "target": "com.azure.cdn#ResourceReference",
+          "traits": {
+            "smithy.api#documentation": "UrlSigningKey / CustomerCertificate / MtlsCertificateChain / AzureFirstPartyManagedCertificate: Key Vault secret reference."
+          }
+        },
+        "secretVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the Key Vault secret."
+          }
+        },
+        "useLatestVersion": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "CustomerCertificate / MtlsCertificateChain: use the latest secret version automatically."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UrlSigningKey: key id used to sign URLs."
+          }
+        },
+        "subjectAlternativeNames": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "CustomerCertificate: list of subject alternative names (string array)."
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate subject (read-only)."
+          }
+        },
+        "expirationDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate expiration date (read-only)."
+          }
+        },
+        "certificateAuthority": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate issuing authority (read-only)."
+          }
+        },
+        "thumbprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate thumbprint (read-only)."
+          }
         }
       },
       "traits": {
@@ -2466,6 +2532,12 @@
             "smithy.api#documentation": "The name of the action for the delivery rule.",
             "smithy.api#required": {}
           }
+        },
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Action parameters (polymorphic on `name`, discriminated by `parameters.typeName`)."
+          }
         }
       },
       "traits": {
@@ -2563,6 +2635,12 @@
           "traits": {
             "smithy.api#documentation": "The name of the condition for the delivery rule.",
             "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Condition parameters (polymorphic on `name`, discriminated by `parameters.typeName`)."
           }
         }
       },

@@ -1,0 +1,276 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersGithubLoginRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersHedgehogConfigRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersHedgehogConfigPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersScenePersonalisationCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersStart2faSetupRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorBackupCodesCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorDisableCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorStartSetupRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorStatusRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorValidateCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersValidate2faCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersCancelEmailChangeRequestPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersRequestEmailVerificationCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersVerifyEmailCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    }
+  ]
+}

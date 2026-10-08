@@ -8,32 +8,32 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#GetAgentApplication/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentApplicationsGet/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#DeleteAgentApplication/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentApplicationsDelete/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#ListAgentApplications/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentApplicationsList/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#EnableAgentApplication/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentApplicationsEnable/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#DisableAgentApplication/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentApplicationsDisable/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#ListAgentApplicationAgents/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentApplicationsListAgents/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
@@ -43,27 +43,27 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#GetAgentDeployment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentDeploymentsGet/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#DeleteAgentDeployment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentDeploymentsDelete/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#ListAgentDeployments/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentDeploymentsList/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#StartAgentDeployment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentDeploymentsStart/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.cognitiveservices#StopAgentDeployment/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.cognitiveservices#AgentDeploymentsStop/traits/smithy.api#http/apiVersion",
       "value": "2026-07-15-preview"
     }
   ]

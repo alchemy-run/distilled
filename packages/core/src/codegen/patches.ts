@@ -1,18 +1,11 @@
 /**
- * RFC-6902 patch application (dev-time only), at one of two stages a
- * package declares in its package.json (`distilled.patches`, see
- * {@link patchStage}):
- *
- *   convert   (default) OpenAPI ops (`/paths`, `/components`, …) apply to
- *             the spec before conversion; Smithy ops (`/shapes`,
- *             `/metadata`, `/smithy`) apply to the model after it.
- *             `.generated-specs` is the patched model.
- *   generate  `patches/<model>/*.json` are Smithy ops applied by the
- *             generator to `.generated-specs/<model>.json`, which stays the
- *             unpatched convert output. A fix lands by regenerating, without
- *             the spec mirror.
+ * RFC-6902 patch application (dev-time only). Every package's convert ends
+ * in {@link finalizeConvert}, which applies the Smithy ops (`/shapes`,
+ * `/metadata`, `/smithy`) of `patches/<model>/` to the freshly converted
+ * model, under the names the spec gives, then the deferred names; so
+ * `.generated-specs` is the patched model and generate never patches.
  */
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import {
@@ -21,7 +14,12 @@ import {
   type JsonPatchOperation,
   type PatchFile,
 } from "../json-patch.ts";
-import { verbNounSmithyModel } from "./rewrite-operation-ids.ts";
+import { diffModels } from "./model-diff.ts";
+import {
+  applyDeferredRename,
+  RENAME_METADATA_KEY,
+  verbNounSmithyModel,
+} from "./rewrite-operation-ids.ts";
 
 export type OnStalePatch = "fail" | "warn";
 
@@ -181,57 +179,6 @@ export const applyRfc6902Files = async (
   return result;
 };
 
-/** Where a package applies its patches; see the module comment. */
-export type PatchStage = "convert" | "generate";
-
-/** The stage `<root>/package.json` declares under `distilled.patches`. */
-export const patchStage = (root: string): PatchStage => {
-  const manifest = path.join(root, "package.json");
-  if (!existsSync(manifest)) return "convert";
-  const stage = JSON.parse(readFileSync(manifest, "utf8"))?.distilled?.patches;
-  if (stage === undefined || stage === "convert") return "convert";
-  if (stage === "generate") return stage;
-  throw new Error(`${manifest}: distilled.patches must be "convert" or "generate", got ${stage}`);
-};
-
-/**
- * Apply a generate-stage model's patches: every `*.json` in `dir`
- * (`*.manual.json` last), honouring {@link SKIP_PATCHES_ENV}. A stale or
- * failing op throws — a generate run must not drop a patch silently.
- * Returns the number of ops applied; a missing dir applies none.
- */
-export const applyModelPatches = (model: unknown, dir: string): number => {
-  if (!existsSync(dir)) return 0;
-  const skip = skipList();
-  let applied = 0;
-  const files = readdirSync(dir)
-    .filter((f) => f.endsWith(".json"))
-    .sort(
-      (a, b) =>
-        Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
-        a.localeCompare(b),
-    )
-    .map((f) => path.join(dir, f));
-  for (const file of files) {
-    if (skipsFile(skip, file)) continue;
-    const parsed = JSON.parse(readFileSync(file, "utf8")) as PatchFile;
-    for (const [index, op] of (parsed.patches ?? []).entries()) {
-      if (skipsOp(skip, file, index)) continue;
-      try {
-        applyOperation(model, op);
-        applied++;
-      } catch (e) {
-        const kind = isStaleTargetError(e) ? "stale target" : "failed";
-        const label = `${path.basename(dir)}/${path.basename(file)}`;
-        throw new Error(
-          `${label} [${op.op} ${op.path}]: ${kind}: ${e instanceof Error ? e.message : String(e)}`,
-        );
-      }
-    }
-  }
-  return applied;
-};
-
 /**
  * An RFC-6902 `move` that renames an operation shape leaves the service's
  * `operations` list pointing at the old id. Drop entries whose target no
@@ -286,6 +233,159 @@ export const danglingTargets = (model: { shapes?: Record<string, any> }): string
   return out;
 };
 
+export interface FinalizeOptions {
+  readonly root: string;
+  readonly outDir?: string;
+  readonly patchesDir?: string | false;
+  /**
+   * The directory holding a model's patches, relative to `patchesDir`.
+   * Default `<resource>`; `""` for a single-model package whose patches sit
+   * at the root of `patchesDir`; `undefined` for none.
+   */
+  readonly patchesFor?: (resource: string) => string | undefined;
+  readonly exclude?: (file: string) => boolean;
+  readonly include?: (resource: string) => boolean;
+  readonly transform?: (model: any, resource: string) => string | void;
+  readonly operationNaming?: "as-is" | "verbNoun";
+  readonly onStalePatch?: OnStalePatch;
+}
+
+/** A patch file read once, with only its Smithy ops. */
+interface LoadedPatchFile {
+  /** Path relative to the patches dir, `/`-separated — the audit's key. */
+  readonly key: string;
+  readonly file: string;
+  readonly ops: readonly JsonPatchOperation[];
+}
+
+const loadSmithyPatches = async (
+  patchesDir: string,
+  dir: string | undefined,
+): Promise<LoadedPatchFile[]> => {
+  if (dir === undefined) return [];
+  const out: LoadedPatchFile[] = [];
+  for (const file of await listRfc6902PatchFiles(path.join(patchesDir, dir))) {
+    const parsed = JSON.parse(await fs.readFile(file, "utf8")) as PatchFile;
+    const key = path.relative(patchesDir, file).split(path.sep).join("/");
+    const spec = (parsed.patches ?? []).find((op) => !isSmithyPatchPath(op.path));
+    if (spec) {
+      // Patches edit the converted model under upstream names, never the
+      // spec: one kind of patch, and one the audit can judge in memory.
+      throw new Error(
+        `patches/${key} [${spec.op} ${spec.path}]: patches target the Smithy model (/shapes, /metadata), not the spec — see the distilled-sdk-patch skill`,
+      );
+    }
+    out.push({ key, file, ops: parsed.patches ?? [] });
+  }
+  return out;
+};
+
+type FinalizeRun =
+  | { readonly ok: true; readonly model: any }
+  | { readonly ok: false; readonly stage: "patch" | "rename" | "dangling"; readonly error: string };
+
+/**
+ * One model through the finalize steps: Smithy patches, verbNoun names,
+ * the package's transform, the service operation list, and the reference
+ * check. `skip` leaves out a patch file (`key`) or one of its ops
+ * (`key:index`); `quiet` silences the progress lines for audit re-runs.
+ */
+const finalizeModel = (
+  model: any,
+  resource: string,
+  patches: readonly LoadedPatchFile[],
+  o: FinalizeOptions,
+  skip: { readonly key: string; readonly index?: number } | undefined,
+  quiet: boolean,
+): FinalizeRun => {
+  const log = quiet ? () => {} : console.log;
+  const deferred = model.metadata?.[RENAME_METADATA_KEY];
+  if (deferred && !quiet) recordRename(resource, deferred);
+  const envSkip = skipList();
+  let files = 0;
+  let applied = 0;
+  let stale = 0;
+  const errors: string[] = [];
+  for (const p of patches) {
+    if (skip && skip.key === p.key && skip.index === undefined) continue;
+    files++;
+    for (const [index, op] of p.ops.entries()) {
+      if (skip && skip.key === p.key && skip.index === index) continue;
+      if (skipsOp(envSkip, p.file, index)) continue;
+      try {
+        // A cloned op: `add`/`replace` insert the value by reference, and
+        // the audit applies the same parsed ops to many fresh models.
+        applyOperation(model, structuredClone(op));
+        applied++;
+      } catch (e) {
+        const line = `${p.key} [${op.op} ${op.path}]`;
+        const msg = e instanceof Error ? e.message : String(e);
+        if (isStaleTargetError(e) && o.onStalePatch === "warn") {
+          stale++;
+          if (!quiet) console.warn(`   ⚠️  stale: ${line}`);
+        } else {
+          errors.push(`${line}: ${isStaleTargetError(e) ? `stale target (${msg})` : msg}`);
+        }
+      }
+    }
+  }
+  if (errors.length) {
+    if (!quiet) for (const err of errors) console.error(`❌ bad patch: ${err}`);
+    return {
+      ok: false,
+      stage: "patch",
+      error: `${errors.length} patch operation(s) failed for ${resource}: ${errors[0]}`,
+    };
+  }
+  if (applied > 0) {
+    log(
+      `   patched ${resource}: ${files} file(s), ${applied} op(s)` +
+        (stale ? `, ${stale} stale` : ""),
+    );
+  }
+
+  try {
+    const renamed = applyDeferredRename(model);
+    if (renamed > 0) log(`   named ${resource}: ${renamed} shape(s)`);
+  } catch (e) {
+    const error = `${resource}: ${e instanceof Error ? e.message : String(e)}`;
+    if (!quiet) console.error(`❌ ${error}`);
+    return { ok: false, stage: "rename", error };
+  }
+
+  if ((o.operationNaming ?? "verbNoun") === "verbNoun") {
+    const { renamed, collisions } = verbNounSmithyModel(model);
+    if (renamed > 0) log(`   verbNoun ${resource}: renamed ${renamed} operation(s)`);
+    if (!quiet) {
+      for (const c of collisions) {
+        console.warn(`   ⚠️  verbNoun collision ${resource}: ${c} (kept original)`);
+      }
+    }
+  }
+
+  const note = o.transform?.(model, resource);
+  if (note) log(`   ${note}`);
+
+  syncServiceOperations(model);
+
+  const dangling = danglingTargets(model);
+  if (dangling.length) {
+    if (!quiet) {
+      for (const d of dangling.slice(0, 5)) console.error(`   ❌ ${d}`);
+      if (dangling.length > 5) console.error(`   … ${dangling.length - 5} more`);
+    }
+    return {
+      ok: false,
+      stage: "dangling",
+      error: `${resource}: ${dangling.length} dangling target(s), e.g. ${dangling[0]}`,
+    };
+  }
+  model.metadata = { ...model.metadata, [FINALIZED_KEY]: true };
+  return { ok: true, model };
+};
+
+const modelText = (model: unknown): string => `${JSON.stringify(model, null, 2)}\n`;
+
 /**
  * Last step of every convert: Smithy RFC-6902 patches, then verbNoun
  * operation names, then an optional model transform, then a reference
@@ -296,22 +396,17 @@ export const danglingTargets = (model: { shapes?: Record<string, any> }): string
  * ops that are not idempotent, and a `transform` may not be either, so
  * running this over a model that already went through it is an error —
  * re-run the package's `convert` instead.
+ *
+ * Under {@link PATCH_AUDIT_ENV} it also judges the requested patch files
+ * in memory (see `./patch-audit.ts`).
  */
-export const finalizeConvert = async (o: {
-  readonly root: string;
-  readonly outDir?: string;
-  readonly patchesDir?: string | false;
-  readonly exclude?: (file: string) => boolean;
-  readonly include?: (resource: string) => boolean;
-  readonly transform?: (model: any, resource: string) => string | void;
-  readonly operationNaming?: "as-is" | "verbNoun";
-  readonly onStalePatch?: OnStalePatch;
-}): Promise<void> => {
+export const finalizeConvert = async (o: FinalizeOptions): Promise<void> => {
+  const specsRoot = path.resolve(o.root, ".generated-specs");
   const specsDir = path.resolve(o.root, o.outDir ?? ".generated-specs");
   if (!(await exists(specsDir))) return;
   const patchesDir =
     o.patchesDir === false ? undefined : path.resolve(o.root, o.patchesDir ?? "patches");
-  const naming = o.operationNaming ?? "verbNoun";
+  const audit = patchesDir ? await readAuditRequest() : undefined;
 
   const walk = async (dir: string): Promise<string[]> => {
     const out: string[] = [];
@@ -331,67 +426,151 @@ export const finalizeConvert = async (o: {
   for (const modelPath of files) {
     const resource = path.basename(modelPath, ".json");
     if (o.include && !o.include(resource)) continue;
-    const model = JSON.parse(await fs.readFile(modelPath, "utf8"));
+    const text = await fs.readFile(modelPath, "utf8");
+    const model = JSON.parse(text);
     if (model.metadata?.[FINALIZED_KEY]) {
       throw new Error(
         `${path.relative(o.root, modelPath)} was already finalized — finalizeConvert is not idempotent; re-run this package's convert from the spec instead`,
       );
     }
-    if (patchesDir) {
-      const patchFiles = await listRfc6902PatchFiles(path.join(patchesDir, resource));
-      const applied = await applyRfc6902Files(model, patchFiles, {
-        onStalePatch: o.onStalePatch,
-        include: (op) => isSmithyPatchPath(op.path),
-        label: (f) => `${resource}/${path.basename(f)}`,
-      });
-      if (applied.errors.length) {
-        for (const err of applied.errors) console.error(`❌ bad patch: ${err}`);
-        throw new Error(
-          `${applied.errors.length} patch operation(s) failed for ${resource} — fix the pointers or delete the patch`,
-        );
+    const patches = patchesDir
+      ? await loadSmithyPatches(patchesDir, o.patchesFor ? o.patchesFor(resource) : resource)
+      : [];
+    const run = finalizeModel(model, resource, patches, o, undefined, false);
+    const label = path.relative(specsRoot, modelPath).split(path.sep).join("/");
+    if (!run.ok) {
+      if (audit) auditModel(audit, label, resource, text, patches, o, run);
+      if (run.stage === "patch") {
+        throw new Error(`${run.error.split(": ")[0]} — fix the pointers or delete the patch`);
       }
-      if (applied.applied > 0) {
-        console.log(
-          `   patched ${resource}: ${applied.files} file(s), ${applied.applied} op(s)` +
-            (applied.stale ? `, ${applied.stale} stale` : ""),
-        );
+      if (run.stage === "rename") {
+        throw new Error(`${run.error} — a patch added a shape under a name the rename needs`);
       }
-    }
-
-    if (naming === "verbNoun") {
-      const { renamed, collisions } = verbNounSmithyModel(model);
-      if (renamed > 0) {
-        console.log(`   verbNoun ${resource}: renamed ${renamed} operation(s)`);
-      }
-      for (const c of collisions) {
-        console.warn(`   ⚠️  verbNoun collision ${resource}: ${c} (kept original)`);
-      }
-    }
-
-    const note = o.transform?.(model, resource);
-    if (note) console.log(`   ${note}`);
-
-    syncServiceOperations(model);
-
-    const dangling = danglingTargets(model);
-    if (dangling.length) {
-      broken.push(`${resource}: ${dangling.length} dangling target(s)`);
-      for (const d of dangling.slice(0, 5)) console.error(`   ❌ ${d}`);
-      if (dangling.length > 5) {
-        console.error(`   … ${dangling.length - 5} more`);
-      }
+      broken.push(run.error.split(", e.g.")[0]!);
       // Leave the unfinalized model on disk for inspection; never stamp
       // a model that generate cannot compile.
       continue;
     }
-
-    model.metadata = { ...model.metadata, [FINALIZED_KEY]: true };
-    await fs.writeFile(modelPath, `${JSON.stringify(model, null, 2)}\n`);
+    const finalized = modelText(run.model);
+    await fs.writeFile(modelPath, finalized);
+    if (audit) auditModel(audit, label, resource, text, patches, o, { ok: true, text: finalized });
   }
   if (broken.length) {
     throw new Error(
       `finalizeConvert: ${broken.length} model(s) reference shapes that do not exist:\n  ${broken.join("\n  ")}`,
     );
+  }
+};
+
+/**
+ * Path of a JSON file finalizeConvert adds each model's deferred rename to
+ * (`{ <model>: { <upstream id>: <final id> } }`). Set by
+ * `pnpm patches:names`, which tells a patch author the upstream name of a
+ * shape they see in `.generated-specs`.
+ */
+export const RENAME_MAP_ENV = "DISTILLED_RENAME_MAP";
+
+const recordRename = (resource: string, rename: Record<string, string>): void => {
+  const file = process.env[RENAME_MAP_ENV];
+  if (!file) return;
+  const all = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : {};
+  all[resource] = { ...all[resource], ...rename };
+  writeFileSync(file, JSON.stringify(all));
+};
+
+// ---------------------------------------------------------------------------
+// in-memory patch audit
+
+/**
+ * Path of a JSON request (`{ keys: string[], ops: boolean }`) asking
+ * finalizeConvert to judge those patch files in memory. Set only by
+ * `pnpm patches:audit` on a scratch copy of the package; the models it
+ * writes are the normal, fully patched ones.
+ *
+ * Each verdict is printed to stdout as one line, {@link PATCH_AUDIT_MARKER}
+ * followed by JSON. A requested key no finalizeConvert call owns (its ops
+ * are applied somewhere else, e.g. before conversion) gets no line, and the
+ * audit judges it by re-running convert.
+ */
+export const PATCH_AUDIT_ENV = "DISTILLED_PATCH_AUDIT";
+export const PATCH_AUDIT_MARKER = "@@distilled-patch-audit ";
+
+interface AuditRequest {
+  readonly keys: ReadonlySet<string>;
+  readonly ops: boolean;
+}
+
+/** One finalizeConvert's answer for one patch file. */
+export interface InMemoryVerdict {
+  readonly key: string;
+  /** Path of the model relative to the package's `.generated-specs`. */
+  readonly model: string;
+  readonly verdict:
+    | { readonly kind: "unused" }
+    | { readonly kind: "needed"; readonly diff: readonly string[] }
+    | { readonly kind: "depended"; readonly error: string }
+    | { readonly kind: "baseline"; readonly error: string };
+  readonly deadOps: readonly number[];
+}
+
+const readAuditRequest = async (): Promise<AuditRequest | undefined> => {
+  const file = process.env[PATCH_AUDIT_ENV];
+  if (!file) return undefined;
+  const raw = JSON.parse(await fs.readFile(file, "utf8")) as { keys: string[]; ops?: boolean };
+  return { keys: new Set(raw.keys), ops: raw.ops === true };
+};
+
+const emitVerdict = (v: InMemoryVerdict): void => {
+  process.stdout.write(`${PATCH_AUDIT_MARKER}${JSON.stringify(v)}\n`);
+};
+
+const auditModel = (
+  audit: AuditRequest,
+  model: string,
+  resource: string,
+  text: string,
+  patches: readonly LoadedPatchFile[],
+  o: FinalizeOptions,
+  baseline:
+    | { readonly ok: true; readonly text: string }
+    | { readonly ok: false; readonly error: string },
+): void => {
+  const owned = patches.filter((p) => audit.keys.has(p.key) && p.ops.length > 0);
+  for (const p of owned) {
+    if (!baseline.ok) {
+      emitVerdict({
+        key: p.key,
+        model,
+        verdict: { kind: "baseline", error: baseline.error },
+        deadOps: [],
+      });
+      continue;
+    }
+    const judge = (index?: number): InMemoryVerdict["verdict"] => {
+      const run = finalizeModel(
+        JSON.parse(text),
+        resource,
+        patches,
+        o,
+        { key: p.key, index },
+        true,
+      );
+      if (!run.ok) return { kind: "depended", error: run.error };
+      const without = modelText(run.model);
+      if (without === baseline.text) return { kind: "unused" };
+      const diff = diffModels(new Map([[model, baseline.text]]), new Map([[model, without]]));
+      // The committed model is compared byte for byte, so a patch that only
+      // orders keys (`before`, a `move` onto itself) is needed too.
+      return { kind: "needed", diff: diff.length === 0 ? ["(key order only)"] : diff };
+    };
+    const verdict = judge();
+    const deadOps: number[] = [];
+    if (audit.ops && verdict.kind === "needed" && p.ops.length > 1) {
+      for (let index = 0; index < p.ops.length; index++) {
+        if (judge(index).kind === "unused") deadOps.push(index);
+      }
+    }
+    emitVerdict({ key: p.key, model, verdict, deadOps });
   }
 };
 

@@ -108,7 +108,7 @@ export const DisputeAttachment = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DisputeAttachment" }) as any as S.Schema<DisputeAttachment>;
 
-/** The uploaded file's MIME type. Uploads are restricted to the types the processor accepts. */
+/** The uploaded file's MIME type. Uploads are restricted to the types the processor accepts, and rejected without one — never null. */
 export type DisputeEvidenceDocumentContentType =
   | "application/pdf"
   | "application/json"
@@ -117,17 +117,20 @@ export type DisputeEvidenceDocumentContentType =
   | "image/webp";
 export const DisputeEvidenceDocumentContentType = S.String;
 
-/** What kind of evidence the document is. */
+/** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent. */
 export type DisputeEvidenceDocumentDocumentType =
   | "return_policy"
   | "shipping_policy"
+  | "cancellation_policy"
+  | "terms_of_service"
   | "physical_fulfillment"
   | "customer_order_history"
   | "product_image"
   | "prior_transactions"
   | "customer_session"
   | "digital_fulfillment"
-  | "subscription";
+  | "subscription"
+  | "customer_communication";
 export const DisputeEvidenceDocumentDocumentType = S.String;
 
 export interface FileMultipartUrl {
@@ -157,11 +160,11 @@ export type DisputeEvidenceDocumentVisibility = "public" | "private";
 export const DisputeEvidenceDocumentVisibility = S.String;
 
 export interface DisputeEvidenceDocument {
-  /** The uploaded file's MIME type. Uploads are restricted to the types the processor accepts. */
+  /** The uploaded file's MIME type. Uploads are restricted to the types the processor accepts, and rejected without one — never null. */
   content_type: DisputeEvidenceDocumentContentType | null;
   /** When the file was created, as an ISO 8601 timestamp. */
   created_at: string;
-  /** What kind of evidence the document is. */
+  /** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent. */
   document_type: DisputeEvidenceDocumentDocumentType;
   /** The original filename, including its extension. */
   filename: string | null;
@@ -217,7 +220,7 @@ export interface DisputeEvidence {
   access_activity_log: string | null;
   /** The billing address the customer provided at checkout. */
   billing_address: string | null;
-  /** The cancellation policy document. Falls back to Whop's platform policy when the seller has not uploaded their own. */
+  /** The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, then its return policy, then Whop's platform policy. */
   cancellation_policy_attachment: DisputeAttachment | null;
   /** How the cancellation policy was shown to the customer before purchase. */
   cancellation_policy_disclosure: string | null;
@@ -232,7 +235,7 @@ export interface DisputeEvidence {
   notes: string | null;
   /** What the customer purchased, in the seller's own words. */
   product_description: string | null;
-  /** The refund policy document. Falls back to Whop's platform policy when the seller has not uploaded their own. */
+  /** The refund policy document. Defaults to the account's return policy, then its terms of service, then Whop's platform policy. */
   refund_policy_attachment: DisputeAttachment | null;
   /** How the refund policy was shown to the customer before purchase. */
   refund_policy_disclosure: string | null;
@@ -288,15 +291,79 @@ export const DisputeIssuerCommentsList = /*@__PURE__*/ S.Array(
   DisputeIssuerComment,
 ) as any as S.Schema<DisputeIssuerCommentsList>;
 
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+export interface ReceiptLineItem {
+  /** Line item ID, prefixed `li_`. Null when the payment predates item snapshots and the item is read from the payment's plan. */
+  id: string | null;
+  /** The item's name as shown at checkout — the product title, else the plan title. */
+  label: string | null;
+  /** The plan bought, prefixed `plan_`. Null when the plan has since been deleted. */
+  plan_id: string | null;
+  /** The plan's current title, or `null` when the plan has been deleted or has no title. */
+  plan_title: string | null;
+  /** The product the plan belongs to, prefixed `prod_`. On a payment that predates item snapshots this falls back to the plan's product, so it can be set where the parent's own `product_id` is null. Null for a plan with no product. */
+  product_id: string | null;
+  /** The product's current title, or `null` when the item has no product. */
+  product_title: string | null;
+  /** How many units were bought. */
+  quantity: number;
+  /** The recorded amount for this item's full quantity, before discounts, tax, and fees, in its purchase currency. Returns `null` when no item amount was recorded. */
+  subtotal: Money | null;
+}
+export const ReceiptLineItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    label: S.NullOr(S.String),
+    plan_id: S.NullOr(S.String),
+    plan_title: S.NullOr(S.String),
+    product_id: S.NullOr(S.String),
+    product_title: S.NullOr(S.String),
+    quantity: S.Number,
+    subtotal: S.NullOr(Money),
+  }),
+).annotate({ identifier: "ReceiptLineItem" }) as any as S.Schema<ReceiptLineItem>;
+
+export type DisputeLineItemsList = Array<ReceiptLineItem>;
+export const DisputeLineItemsList = /*@__PURE__*/ S.Array(
+  ReceiptLineItem,
+) as any as S.Schema<DisputeLineItemsList>;
+
 export interface PaymentInstrumentCard {
-  /** The network identifier (`visa`, `amex`, …), matching `card.networks` entries and saved card payment methods. */
-  brand: string;
+  /** The network identifier (`visa`, `amex`, …), matching `card.networks` entries and saved card payment methods. Null when the vault did not record the network. */
+  brand: string | null;
+  /** The card's expiry month, 1 to 12. Null when the vault did not record it. */
+  exp_month: number | null;
+  /** The card's four-digit expiry year. Null when the vault did not record it. */
+  exp_year: number | null;
+  /** The issuer identification number, also called the BIN: the card's leading six or eight digits, which identify the issuing bank. Null when the processor did not report it. */
+  issuer_identification_number: string | null;
   /** The card's last four digits, when captured. */
   last4: string | null;
 }
 export const PaymentInstrumentCard = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    brand: S.String,
+    brand: S.NullOr(S.String),
+    exp_month: S.NullOr(S.Number),
+    exp_year: S.NullOr(S.Number),
+    issuer_identification_number: S.NullOr(S.String),
     last4: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "PaymentInstrumentCard" }) as any as S.Schema<PaymentInstrumentCard>;
@@ -349,7 +416,7 @@ export const PaymentMethodIcons = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PaymentMethodIcons" }) as any as S.Schema<PaymentMethodIcons>;
 
 export interface PaymentInstrument {
-  /** Card payments only: the card's network and last four. */
+  /** Card payments only: the card's network, last four, and issuer identification number. */
   card: PaymentInstrumentCard | null;
   /** Buyer-facing instrument name — "Visa •••• 4242" when the card surfaced, else the method's own name ("Klarna"). */
   display_name: string;
@@ -387,7 +454,7 @@ export interface DisputePayment {
   payment_instrument: PaymentInstrument | null;
   /** How the customer paid, such as `card` or `paypal`. */
   payment_method_type: string | null;
-  /** The processor that handled the payment, such as `stripe`. */
+  /** Deprecated: no longer populated. Always `null`. DEPRECATED: No longer populated. Always null. */
   payment_processor: string | null;
 }
 export const DisputePayment = /*@__PURE__*/ S.suspend(() =>
@@ -404,7 +471,7 @@ export const DisputePayment = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DisputePayment" }) as any as S.Schema<DisputePayment>;
 
-/** Why the customer says they are disputing, normalized across card networks. `other` covers a code Whop has not categorized yet — read `reason_code` for the raw value. */
+/** Why the customer says they are disputing, normalized across processors and card networks. `other` covers a processor reason Whop has not categorized yet. */
 export type DisputeReason =
   | "fraudulent"
   | "unrecognized"
@@ -420,8 +487,16 @@ export type DisputeReason =
   | "other";
 export const DisputeReason = S.String;
 
-/** Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed. */
-export type DisputeStatus = "needs_response" | "under_review" | "won" | "lost" | "closed";
+/** Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. The `warning_` statuses are the same stages for an inquiry, which moves no funds. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed. */
+export type DisputeStatus =
+  | "needs_response"
+  | "warning_needs_response"
+  | "under_review"
+  | "warning_under_review"
+  | "won"
+  | "lost"
+  | "closed"
+  | "warning_closed";
 export const DisputeStatus = S.String;
 
 export interface Dispute {
@@ -430,14 +505,14 @@ export interface Dispute {
   /** The disputed amount, in whole units of `currency`. */
   amount: number;
   /** The customer who filed the dispute. */
-  buyer: DisputeBuyer | null;
+  buyer: DisputeBuyer;
   /** When the dispute was opened, as an ISO 8601 timestamp. */
   created_at: string;
   /** Three-letter ISO currency code of the disputed amount. */
   currency: string;
   /** The evidence packet sent to the processor to contest the dispute. */
   evidence: DisputeEvidence;
-  /** The deadline to submit evidence, as an ISO 8601 timestamp. Whop reserves the last 24 hours before the processor's own cutoff to forward the submission. */
+  /** The deadline to submit evidence, as an ISO 8601 timestamp. `null` when the network already auto-resolved the dispute (Visa RDR) with no evidence round, or when the processor hasn't reported a deadline for this dispute. */
   evidence_due_at: string | null;
   /** Whether `evidence` can still be changed and submitted. */
   evidence_editable: boolean;
@@ -445,26 +520,23 @@ export interface Dispute {
   evidence_locked_reason: DisputeEvidenceLockedReason | null;
   /** When the evidence was submitted to the processor, as an ISO 8601 timestamp. */
   evidence_submitted_at: string | null;
-  /** The AI-generated representment document filed with the processor on the seller's behalf, once ready. Null until generation completes, and for disputes not using Whop Dispute Fighter. */
-  generated_response_attachment: DisputeAttachment | null;
   /** Dispute ID, prefixed `dspt_`. */
   id: string;
   /** Whether this is a pre-dispute inquiry rather than a formal chargeback. Inquiries follow the same lifecycle but move no funds unless one escalates. */
   inquiry: boolean;
   issuer_comments: DisputeIssuerCommentsList;
+  line_items: DisputeLineItemsList;
   /** The payment being disputed. */
-  payment: DisputePayment | null;
+  payment: DisputePayment;
   /** The plan the disputed payment was made on, prefixed `plan_`. */
   plan_id: string | null;
   /** The product the disputed payment was for, prefixed `prod_`. */
   product_id: string | null;
-  /** Whether Visa Rapid Dispute Resolution settled this automatically. These refund the customer without an evidence round. */
-  rapid_dispute_resolution: boolean;
-  /** Why the customer says they are disputing, normalized across card networks. `other` covers a code Whop has not categorized yet — read `reason_code` for the raw value. */
+  /** Why the customer says they are disputing, normalized across processors and card networks. `other` covers a processor reason Whop has not categorized yet. */
   reason: DisputeReason;
-  /** The raw card-network or processor reason code, such as `10.4`. */
+  /** The raw card-network or processor reason code, such as `10.4`. Informational only — `reason` is not derived from it. */
   reason_code: string | null;
-  /** Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed. */
+  /** Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. The `warning_` statuses are the same stages for an inquiry, which moves no funds. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed. */
   status: DisputeStatus;
   /** When the dispute was last changed, as an ISO 8601 timestamp. */
   updated_at: string;
@@ -473,7 +545,7 @@ export const Dispute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.NullOr(S.String),
     amount: S.Number,
-    buyer: S.NullOr(DisputeBuyer),
+    buyer: DisputeBuyer,
     created_at: S.String,
     currency: S.String,
     evidence: DisputeEvidence,
@@ -481,14 +553,13 @@ export const Dispute = /*@__PURE__*/ S.suspend(() =>
     evidence_editable: S.Boolean,
     evidence_locked_reason: S.NullOr(DisputeEvidenceLockedReason),
     evidence_submitted_at: S.NullOr(S.String),
-    generated_response_attachment: S.NullOr(DisputeAttachment),
     id: S.String,
     inquiry: S.Boolean,
     issuer_comments: DisputeIssuerCommentsList,
-    payment: S.NullOr(DisputePayment),
+    line_items: DisputeLineItemsList,
+    payment: DisputePayment,
     plan_id: S.NullOr(S.String),
     product_id: S.NullOr(S.String),
-    rapid_dispute_resolution: S.Boolean,
     reason: DisputeReason,
     reason_code: S.NullOr(S.String),
     status: DisputeStatus,
@@ -508,10 +579,13 @@ export const GetDisputeSummaryRequestGroupsList = /*@__PURE__*/ S.Array(
 
 export type GetDisputeSummaryRequestStatusItem =
   | "needs_response"
+  | "warning_needs_response"
   | "under_review"
+  | "warning_under_review"
   | "won"
   | "lost"
-  | "closed";
+  | "closed"
+  | "warning_closed";
 export const GetDisputeSummaryRequestStatusItem = S.String;
 
 export type GetDisputeSummaryRequestStatusList = Array<
@@ -559,6 +633,9 @@ export interface GetDisputeSummaryResponseGroupsStatus {
   lost: number;
   needs_response: number;
   under_review: number;
+  warning_closed: number;
+  warning_needs_response: number;
+  warning_under_review: number;
   won: number;
 }
 export const GetDisputeSummaryResponseGroupsStatus = /*@__PURE__*/ S.suspend(() =>
@@ -567,6 +644,9 @@ export const GetDisputeSummaryResponseGroupsStatus = /*@__PURE__*/ S.suspend(() 
     lost: S.Number,
     needs_response: S.Number,
     under_review: S.Number,
+    warning_closed: S.Number,
+    warning_needs_response: S.Number,
+    warning_under_review: S.Number,
     won: S.Number,
   }),
 ).annotate({
@@ -612,10 +692,13 @@ export const ListDisputesRequestDirection = S.String;
 
 export type ListDisputesRequestStatusItem =
   | "needs_response"
+  | "warning_needs_response"
   | "under_review"
+  | "warning_under_review"
   | "won"
   | "lost"
-  | "closed";
+  | "closed"
+  | "warning_closed";
 export const ListDisputesRequestStatusItem = S.String;
 
 export type ListDisputesRequestStatusList = Array<ListDisputesRequestStatusItem | (string & {})>;
@@ -626,19 +709,19 @@ export const ListDisputesRequestStatusList = /*@__PURE__*/ S.Array(
 export interface ListDisputesRequest {
   /** Only disputes filed against this account (`biz_` tag). Omit it to cover every account you can read. */
   account_id?: string;
-  /** The number of disputes to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns disputes after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of disputes to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns disputes before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort disputes by. */
   order?: ListDisputesRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListDisputesRequestDirection | (string & {});
-  /** Only disputes in these statuses. Repeat the parameter to pass several — one paginated list covers all of them. Covers both chargebacks and inquiries at each stage. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead. */
+  /** Only disputes in these statuses. Repeat the parameter to pass several — one paginated list covers all of them. Inquiries match only the `warning_` statuses. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead. */
   status?: ListDisputesRequestStatusList;
   /** Only disputes in this three-letter ISO currency. */
   currency?: string;
@@ -758,7 +841,7 @@ export const LegacyDisputeCompany = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LegacyDisputeCompany" }) as any as S.Schema<LegacyDisputeCompany>;
 
 /** The available currencies on the platform */
-export type Currencies =
+export type LegacyCurrencies =
   | "usd"
   | "sgd"
   | "inr"
@@ -849,7 +932,7 @@ export type Currencies =
   | "awg"
   | "whop_usd"
   | "xau";
-export const Currencies = S.String;
+export const LegacyCurrencies = S.String;
 
 /** Evidence of customer communication or product usage, uploaded as a dispute attachment. Null if not provided. */
 export type LegacyDisputeCustomerCommunicationAttachment =
@@ -858,14 +941,14 @@ export const LegacyDisputeCustomerCommunicationAttachment =
   LegacyDisputeCancellationPolicyAttachment;
 
 /** The reason why a specific payment was billed */
-export type BillingReasons =
+export type LegacyBillingReasons =
   | "subscription_create"
   | "subscription_cycle"
   | "subscription_update"
   | "one_time"
   | "manual"
   | "subscription";
-export const BillingReasons = S.String;
+export const LegacyBillingReasons = S.String;
 
 /** Possible card brands that a payment token can have */
 export type CardBrands =
@@ -1033,12 +1116,13 @@ export const LegacyDisputePaymentPaymentInstrument = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<LegacyDisputePaymentPaymentInstrument>;
 
 /** The different types of payment methods that can be used. */
-export type PaymentMethodTypes =
+export type LegacyPaymentMethodTypes =
   | "acss_debit"
   | "addi"
   | "affirm"
   | "afterpay_clearpay"
   | "alipay"
+  | "alipayhk"
   | "alma"
   | "amazon_pay"
   | "apple"
@@ -1050,7 +1134,6 @@ export type PaymentMethodTypes =
   | "bancontact"
   | "bank_wire"
   | "billie"
-  | "bizum"
   | "blik"
   | "boleto"
   | "bre_b"
@@ -1071,7 +1154,9 @@ export type PaymentMethodTypes =
   | "eps"
   | "eu_bank_transfer"
   | "fpx"
+  | "flex_pay"
   | "gb_bank_transfer"
+  | "gcash"
   | "giropay"
   | "google_pay"
   | "gopay"
@@ -1091,6 +1176,8 @@ export type PaymentMethodTypes =
   | "mb_way"
   | "m_pesa"
   | "mercado_pago"
+  | "mercado_pago_ar"
+  | "mercado_pago_mx"
   | "mobilepay"
   | "modo"
   | "mondu"
@@ -1104,7 +1191,12 @@ export type PaymentMethodTypes =
   | "ng_market"
   | "ng_ussd"
   | "ng_wallet"
+  | "nupay"
   | "nz_bank_account"
+  | "oney"
+  | "oney_3x"
+  | "oney_4x"
+  | "opay"
   | "oxxo"
   | "p24"
   | "pago_efectivo"
@@ -1138,12 +1230,15 @@ export type PaymentMethodTypes =
   | "splitit"
   | "sunbit"
   | "swish"
+  | "tabby"
   | "tamara"
+  | "touch_n_go"
   | "twint"
   | "upi"
   | "us_bank_account"
   | "us_bank_transfer"
   | "venmo"
+  | "verve"
   | "vipps"
   | "webpay"
   | "wechat_pay"
@@ -1151,7 +1246,7 @@ export type PaymentMethodTypes =
   | "zip"
   | "coinflow"
   | "unknown";
-export const PaymentMethodTypes = S.String;
+export const LegacyPaymentMethodTypes = S.String;
 
 /** The user that made this payment. */
 export interface LegacyDisputePaymentUser {
@@ -1176,7 +1271,7 @@ export const LegacyDisputePaymentUser = /*@__PURE__*/ S.suspend(() =>
 /** The original payment that was disputed. */
 export interface LegacyDisputePayment {
   /** The machine-readable reason this charge was created, such as initial subscription purchase, renewal cycle, or one-time payment. */
-  billing_reason: BillingReasons | null;
+  billing_reason: LegacyBillingReasons | null;
   /** Card network reported by the processor (e.g., 'visa', 'mastercard', 'amex'). Present only when the payment method type is 'card'. */
   card_brand: CardBrands | null;
   /** The last four digits of the card used to make this payment. Null if the payment was not made with a card. */
@@ -1184,7 +1279,7 @@ export interface LegacyDisputePayment {
   /** The datetime the payment was created. */
   created_at: string;
   /** The three-letter ISO currency code for this payment (e.g., 'usd', 'eur'). */
-  currency: Currencies;
+  currency: LegacyCurrencies;
   /** When an alert came in that this transaction will be disputed */
   dispute_alerted_at: string | null;
   /** The unique identifier for the payment. */
@@ -1198,7 +1293,7 @@ export interface LegacyDisputePayment {
   /** The instrument this payment was made with, shaped for display: the method type, a buyer-facing name, the standard icon set, and the card facts when it was a card. Null when the receipt names no payment method. */
   payment_instrument: LegacyDisputePaymentPaymentInstrument | null;
   /** The type of payment instrument used for this payment (e.g., card, Cash App, iDEAL, Klarna, crypto). Null when the processor does not supply a type. */
-  payment_method_type: PaymentMethodTypes | null;
+  payment_method_type: LegacyPaymentMethodTypes | null;
   /** The subtotal to show to the creator (excluding buyer fees). */
   subtotal: number | null;
   /** The total to show to the creator (excluding buyer fees). */
@@ -1210,18 +1305,18 @@ export interface LegacyDisputePayment {
 }
 export const LegacyDisputePayment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billing_reason: S.NullOr(BillingReasons),
+    billing_reason: S.NullOr(LegacyBillingReasons),
     card_brand: S.NullOr(CardBrands),
     card_last4: S.NullOr(S.String),
     created_at: S.String,
-    currency: Currencies,
+    currency: LegacyCurrencies,
     dispute_alerted_at: S.NullOr(S.String),
     id: S.String,
     member: S.NullOr(LegacyDisputePaymentMember),
     membership: S.NullOr(LegacyDisputePaymentMembership),
     paid_at: S.NullOr(S.String),
     payment_instrument: S.NullOr(LegacyDisputePaymentPaymentInstrument),
-    payment_method_type: S.NullOr(PaymentMethodTypes),
+    payment_method_type: S.NullOr(LegacyPaymentMethodTypes),
     subtotal: S.NullOr(S.Number),
     total: S.NullOr(S.Number),
     usd_total: S.NullOr(S.Number),
@@ -1292,7 +1387,7 @@ export interface LegacyDispute {
   /** The datetime the dispute was created. */
   created_at: string | null;
   /** The three-letter ISO currency code for the disputed amount. */
-  currency: Currencies;
+  currency: LegacyCurrencies;
   /** Evidence of customer communication or product usage, uploaded as a dispute attachment. Null if not provided. */
   customer_communication_attachment: LegacyDisputeCancellationPolicyAttachment | null;
   /** The customer's email address from their payment details, included in the evidence packet sent to the payment processor. Editable before submission. */
@@ -1343,7 +1438,7 @@ export const LegacyDispute = /*@__PURE__*/ S.suspend(() =>
     cancellation_policy_disclosure: S.NullOr(S.String),
     company: S.NullOr(LegacyDisputeCompany),
     created_at: S.NullOr(S.String),
-    currency: Currencies,
+    currency: LegacyCurrencies,
     customer_communication_attachment: S.NullOr(LegacyDisputeCancellationPolicyAttachment),
     customer_email_address: S.NullOr(S.String),
     customer_name: S.NullOr(S.String),
@@ -1367,7 +1462,7 @@ export const LegacyDispute = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LegacyDispute" }) as any as S.Schema<LegacyDispute>;
 
-/** The cancellation policy document. */
+/** The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, when not set. */
 export interface UpdateDisputeRequestEvidenceCancellationPolicyAttachment {
   /** The ID returned by a direct upload. */
   direct_upload_id?: string;
@@ -1390,7 +1485,51 @@ export type UpdateDisputeRequestEvidenceCustomerCommunicationAttachment =
 export const UpdateDisputeRequestEvidenceCustomerCommunicationAttachment =
   UpdateDisputeRequestEvidenceCancellationPolicyAttachment;
 
-/** The refund policy document. */
+/** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent. */
+export type UpdateDisputeRequestEvidenceDocumentsItemDocumentType =
+  | "return_policy"
+  | "shipping_policy"
+  | "cancellation_policy"
+  | "terms_of_service"
+  | "physical_fulfillment"
+  | "customer_order_history"
+  | "product_image"
+  | "prior_transactions"
+  | "customer_session"
+  | "digital_fulfillment"
+  | "subscription"
+  | "customer_communication";
+export const UpdateDisputeRequestEvidenceDocumentsItemDocumentType = S.String;
+
+export interface UpdateDisputeRequestEvidenceDocumentsItem {
+  /** The ID returned by a direct upload. */
+  direct_upload_id?: string;
+  /** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent. */
+  document_type: UpdateDisputeRequestEvidenceDocumentsItemDocumentType | (string & {});
+  /** The file itself. Send it as a file part to upload and attach in one call, or use `id`/`direct_upload_id` for a file that is already stored. */
+  file?: string;
+  /** The ID of a file already stored on Whop, prefixed `file_`. */
+  id?: string;
+}
+export const UpdateDisputeRequestEvidenceDocumentsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    direct_upload_id: S.optional(S.String),
+    document_type: UpdateDisputeRequestEvidenceDocumentsItemDocumentType,
+    file: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateDisputeRequestEvidenceDocumentsItem",
+}) as any as S.Schema<UpdateDisputeRequestEvidenceDocumentsItem>;
+
+/** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
+export type UpdateDisputeRequestEvidenceDocumentsList =
+  Array<UpdateDisputeRequestEvidenceDocumentsItem>;
+export const UpdateDisputeRequestEvidenceDocumentsList = /*@__PURE__*/ S.Array(
+  UpdateDisputeRequestEvidenceDocumentsItem,
+) as any as S.Schema<UpdateDisputeRequestEvidenceDocumentsList>;
+
+/** The refund policy document. Defaults to the account's return policy when not set. */
 export type UpdateDisputeRequestEvidenceRefundPolicyAttachment =
   UpdateDisputeRequestEvidenceCancellationPolicyAttachment;
 export const UpdateDisputeRequestEvidenceRefundPolicyAttachment =
@@ -1408,7 +1547,7 @@ export interface UpdateDisputeRequestEvidence {
   access_activity_log?: string | null;
   /** The billing address the customer provided at checkout. */
   billing_address?: string | null;
-  /** The cancellation policy document. */
+  /** The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, when not set. */
   cancellation_policy_attachment?: UpdateDisputeRequestEvidenceCancellationPolicyAttachment | null;
   /** How the cancellation policy was shown to the customer before purchase. */
   cancellation_policy_disclosure?: string | null;
@@ -1418,11 +1557,13 @@ export interface UpdateDisputeRequestEvidence {
   customer_email_address?: string | null;
   /** The customer's name as given at checkout. */
   customer_name?: string | null;
+  /** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
+  documents?: UpdateDisputeRequestEvidenceDocumentsList;
   /** Any additional context for the processor reviewing the dispute. */
   notes?: string | null;
   /** What the customer purchased, in the seller's own words. */
   product_description?: string | null;
-  /** The refund policy document. */
+  /** The refund policy document. Defaults to the account's return policy when not set. */
   refund_policy_attachment?: UpdateDisputeRequestEvidenceCancellationPolicyAttachment | null;
   /** How the refund policy was shown to the customer before purchase. */
   refund_policy_disclosure?: string | null;
@@ -1446,6 +1587,7 @@ export const UpdateDisputeRequestEvidence = /*@__PURE__*/ S.suspend(() =>
     ),
     customer_email_address: S.optional(S.NullOr(S.String)),
     customer_name: S.optional(S.NullOr(S.String)),
+    documents: S.optional(UpdateDisputeRequestEvidenceDocumentsList),
     notes: S.optional(S.NullOr(S.String)),
     product_description: S.optional(S.NullOr(S.String)),
     refund_policy_attachment: S.optional(
@@ -1569,23 +1711,26 @@ export const UpdateEvidenceDisputeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateEvidenceDisputeRequest",
 }) as any as S.Schema<UpdateEvidenceDisputeRequest>;
 
-/** What kind of evidence the document is. */
+/** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent. */
 export type UploadDisputeEvidenceRequestDocumentsItemDocumentType =
   | "return_policy"
   | "shipping_policy"
+  | "cancellation_policy"
+  | "terms_of_service"
   | "physical_fulfillment"
   | "customer_order_history"
   | "product_image"
   | "prior_transactions"
   | "customer_session"
   | "digital_fulfillment"
-  | "subscription";
+  | "subscription"
+  | "customer_communication";
 export const UploadDisputeEvidenceRequestDocumentsItemDocumentType = S.String;
 
 export interface UploadDisputeEvidenceRequestDocumentsItem {
   /** The ID returned by a direct upload. */
   direct_upload_id?: string;
-  /** What kind of evidence the document is. */
+  /** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent. */
   document_type: UploadDisputeEvidenceRequestDocumentsItemDocumentType | (string & {});
   /** The file itself. Send it as a file part to upload and attach in one call, or use `id`/`direct_upload_id` for a file that is already stored. */
   file?: string;
@@ -1603,7 +1748,7 @@ export const UploadDisputeEvidenceRequestDocumentsItem = /*@__PURE__*/ S.suspend
   identifier: "UploadDisputeEvidenceRequestDocumentsItem",
 }) as any as S.Schema<UploadDisputeEvidenceRequestDocumentsItem>;
 
-/** The full set of evidence documents the dispute should carry. Replaces all previously uploaded documents. */
+/** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
 export type UploadDisputeEvidenceRequestDocumentsList =
   Array<UploadDisputeEvidenceRequestDocumentsItem>;
 export const UploadDisputeEvidenceRequestDocumentsList = /*@__PURE__*/ S.Array(
@@ -1613,7 +1758,7 @@ export const UploadDisputeEvidenceRequestDocumentsList = /*@__PURE__*/ S.Array(
 export interface UploadDisputeEvidenceRequest {
   /** The dispute ID (`dspt_` tag). */
   id: string;
-  /** The full set of evidence documents the dispute should carry. Replaces all previously uploaded documents. */
+  /** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
   documents: UploadDisputeEvidenceRequestDocumentsList;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
@@ -1721,7 +1866,7 @@ export const submitEvidenceDispute: API.OperationMethod<
 }));
 
 export type UpdateDisputeError = BadRequest | NotFound | WhopOpError;
-/** Update Dispute Edits a dispute's evidence, while it is still editable. Sending it is a separate call. */
+/** Update Dispute Edits a dispute's evidence, while it is still editable. Sending it is a separate call. `evidence.documents`, when provided, replaces the full set of documents beyond the four fixed evidence slots — see its own description. */
 export const updateDispute: API.OperationMethod<
   UpdateDisputeRequest,
   Dispute,
@@ -1756,7 +1901,7 @@ export const updateEvidenceDispute: API.OperationMethod<
 }));
 
 export type UploadDisputeEvidenceError = BadRequest | NotFound | Conflict | WhopOpError;
-/** Upload Dispute Evidence Replaces the full set of uploaded evidence documents on a dispute, beyond the four fixed evidence slots. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Send every document the packet should carry — up to 10, 10MB each and 25MB in total; an empty list removes them all. Accepted content types: application/pdf, application/json, image/jpeg, image/png, image/webp — any other type is rejected. */
+/** Upload Dispute Evidence Prefer `PATCH /disputes/{id}` with `evidence.documents` — it does the same replace alongside every other evidence field in one call. Replaces the full set of uploaded evidence documents on a dispute, beyond the four fixed evidence slots. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Send every document the packet should carry — up to 10, 10MB each and 25MB in total; an empty list removes them all. Accepted content types: application/pdf, application/json, image/jpeg, image/png, image/webp — any other type is rejected. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
 export const uploadDisputeEvidence: API.OperationMethod<
   UploadDisputeEvidenceRequest,
   Dispute,

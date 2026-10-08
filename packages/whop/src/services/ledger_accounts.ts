@@ -55,7 +55,7 @@ export const GetLedgerAccountRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetLedgerAccountRequest" }) as any as S.Schema<GetLedgerAccountRequest>;
 
 /** The available currencies on the platform */
-export type Currencies =
+export type LegacyCurrencies =
   | "usd"
   | "sgd"
   | "inr"
@@ -146,14 +146,14 @@ export type Currencies =
   | "awg"
   | "whop_usd"
   | "xau";
-export const Currencies = S.String;
+export const LegacyCurrencies = S.String;
 
 /** A cached balance for a LedgerAccount in respect to a currency. */
 export interface LedgerAccountBalancesItem {
   /** The amount of the balance. */
   balance: number;
   /** The currency of the balance. */
-  currency: Currencies;
+  currency: LegacyCurrencies;
   /** The amount of the balance that is pending. */
   pending_balance: number;
   /** The amount of the balance that is reserved. */
@@ -162,7 +162,7 @@ export interface LedgerAccountBalancesItem {
 export const LedgerAccountBalancesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     balance: S.Number,
-    currency: Currencies,
+    currency: LegacyCurrencies,
     pending_balance: S.Number,
     reserve_balance: S.Number,
   }),
@@ -396,7 +396,7 @@ export interface LedgerAccountTreasuryBalance {
   /** The balance converted to USD. */
   balance_usd: number;
   /** The currency of the balance. */
-  currency: Currencies;
+  currency: LegacyCurrencies;
   /** The amount of the balance that is pending. */
   pending_balance: number;
   /** The amount of the balance that is reserved. */
@@ -408,7 +408,7 @@ export const LedgerAccountTreasuryBalance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     balance: S.Number,
     balance_usd: S.Number,
-    currency: Currencies,
+    currency: LegacyCurrencies,
     pending_balance: S.Number,
     reserve_balance: S.Number,
     total_withdrawable_balance: S.Number,
@@ -431,6 +431,8 @@ export interface LedgerAccount {
   payments_approval_status: PaymentsApprovalStatuses | null;
   /** The payout account associated with the LedgerAccount, if any. */
   payout_account_details: LedgerAccountPayoutAccountDetails | null;
+  /** Whether a payout from this account must be confirmed against a provider-backed quote first. When true, create a quote with POST /payouts/quotes and send its quote_token when creating the payout. */
+  payout_quote_required: boolean;
   /** The settlement batch most recently posted to this account's available balance, at midnight UTC. Every payment settling in that batch carries the same `settlement_time_at`. */
   settlement_time_at: string | null;
   /** The fee for transfers, if applicable. */
@@ -446,6 +448,7 @@ export const LedgerAccount = /*@__PURE__*/ S.suspend(() =>
     owner: LedgerAccountOwner,
     payments_approval_status: S.NullOr(PaymentsApprovalStatuses),
     payout_account_details: S.NullOr(LedgerAccountPayoutAccountDetails),
+    payout_quote_required: S.Boolean,
     settlement_time_at: S.NullOr(S.String),
     transfer_fee: S.NullOr(S.Number),
     treasury_balance: S.NullOr(LedgerAccountTreasuryBalance),

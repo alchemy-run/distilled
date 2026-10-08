@@ -1515,6 +1515,13 @@
         "InvalidVpcID.NotFound",
         "ClientVpnEndpointLimitExceeded",
         "UnauthorizedOperation"
+      ],
+      "syntheticErrors": [
+        {
+          "name": "ClientVpnEndpointCreationInProgress",
+          "from": "OperationNotPermitted",
+          "message": { "includes": "another endpoint is being created" }
+        }
       ]
     },
     "createVerifiedAccessInstance": {

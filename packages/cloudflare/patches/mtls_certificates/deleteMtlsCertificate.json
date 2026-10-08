@@ -1,5 +1,5 @@
 {
-  "description": "Align mtls_certificates#Delete with distilled cloudflare/mtls-certificates deleteMtlsCertificate",
+  "description": "Align mtls_certificates#Delete with distilled cloudflare/mtls-certificates deleteMtlsCertificate, and type the 400 `Certificate cannot be deleted while in use.` that the delete returns while a Cloudflare service still references the certificate. Cloudflare keeps returning it for a short while after the last Worker bound to the certificate is deleted, even once the certificate's association list is empty (observed 2026-10 on alchemy destroy; alchemy-run/alchemy#2080).",
   "patches": [
     {
       "op": "move",
@@ -35,6 +35,9 @@
         },
         {
           "target": "com.cloudflare.mtls_certificates#CertificateAlreadyDeleted"
+        },
+        {
+          "target": "com.cloudflare.mtls_certificates#CertificateInUse"
         }
       ]
     }

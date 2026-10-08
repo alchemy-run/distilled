@@ -1,0 +1,3293 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Breakdown/members/property/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ElementPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ElementPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventMetadataPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventMetadataPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CohortPropertyFilter/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RecordingPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RecordingPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogEntryPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogEntryPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FeaturePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FeaturePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FlagPropertyFilter/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FlagPropertyFilter/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehousePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehousePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehousePersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehousePersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogPropertyFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SpanPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SpanPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SpanPropertyFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RevenueAnalyticsPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RevenueAnalyticsPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WorkflowVariablePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WorkflowVariablePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActionsNode/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelRule/members/channel_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelRule/members/combiner/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelRule/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelRule/members/items/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelCondition/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelCondition/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomChannelCondition/members/op/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseEventsModifier/members/distinct_id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseEventsModifier/members/id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseEventsModifier/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseEventsModifier/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseNode/members/distinct_id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseNode/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseNode/members/id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseNode/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseNode/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsDataWarehouseNode/members/aggregation_target_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsDataWarehouseNode/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsDataWarehouseNode/members/id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsDataWarehouseNode/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsDataWarehouseNode/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleDataWarehouseNode/members/aggregation_target_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleDataWarehouseNode/members/created_at_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleDataWarehouseNode/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleDataWarehouseNode/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleDataWarehouseNode/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsQuery/members/select/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyGroupFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyGroupFilter/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyGroupFilterValue/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyGroupFilterValue/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsQueryResponse/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsQueryResponse/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsQueryResponse/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryStatus/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryStatus/members/team_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ClickhouseQueryProgress/members/active_cpu_time/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ClickhouseQueryProgress/members/bytes_read/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ClickhouseQueryProgress/members/estimated_rows_total/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ClickhouseQueryProgress/members/rows_read/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ClickhouseQueryProgress/members/time_elapsed/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ResolvedDateRangeResponse/members/date_from/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ResolvedDateRangeResponse/members/date_to/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryTiming/members/k/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryTiming/members/t/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#InsightActorsQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsQueryResponse/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsQueryResponse/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsQueryResponse/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsQueryResponse/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TrendsQuery/members/series/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActionConversionGoal/members/actionId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CustomEventConversionGoal/members/customEventName/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TrendsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/day/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/max/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/mean/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/median/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/min/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/p25/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BoxPlotDatum/members/p75/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupNode/members/nodes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupNode/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TrendsFormulaNode/members/formula/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GoalLine/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GoalLine/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsQuery/members/series/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelExclusionEventsNode/members/funnelFromStep/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelExclusionEventsNode/members/funnelToStep/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelExclusionActionsNode/members/funnelFromStep/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelExclusionActionsNode/members/funnelToStep/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelExclusionActionsNode/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RetentionQuery/members/retentionFilter/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RetentionQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RetentionResult/members/date/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RetentionResult/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RetentionResult/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RetentionValue/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PathsQuery/members/pathsFilter/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelPathsFilter/members/funnelSource/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PathsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PathsLink/members/average_conversion_time/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PathsLink/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PathsLink/members/target/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PathsLink/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StickinessQuery/members/series/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StickinessQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StickinessCriteria/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StickinessCriteria/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleQuery/members/series/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LifecycleQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebStatsTableQuery/members/breakdownBy/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebStatsTableQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebStatsTableQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SamplingRate/members/numerator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebOverviewQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebOverviewQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebOverviewItem/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebOverviewItem/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionsQuery/members/select/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionsQueryResponse/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionsQueryResponse/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionsQueryResponse/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelsActorsQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelCorrelationActorsQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelCorrelationQuery/members/funnelCorrelationType/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelCorrelationQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelCorrelationResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelCorrelationResult/members/events/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FunnelCorrelationResult/members/skewed/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventOddsRatioSerialized/members/correlation_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventOddsRatioSerialized/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventOddsRatioSerialized/members/failure_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventOddsRatioSerialized/members/odds_ratio/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventOddsRatioSerialized/members/success_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventDefinition/members/elements/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventDefinition/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventDefinition/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentActorsQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentEventExposureConfig/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentEventExposureConfig/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentQuery/members/metric/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentMeanMetric/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentDataWarehouseNode/members/data_warehouse_join_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentDataWarehouseNode/members/events_join_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentDataWarehouseNode/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentDataWarehouseNode/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelMetric/members/series/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRatioMetric/members/denominator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRatioMetric/members/numerator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRetentionMetric/members/completion_event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRetentionMetric/members/retention_window_end/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRetentionMetric/members/retention_window_start/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRetentionMetric/members/retention_window_unit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRetentionMetric/members/start_event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentRetentionMetric/members/start_handling/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentStatsBaseValidated/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentStatsBaseValidated/members/number_of_samples/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentStatsBaseValidated/members/sum/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentStatsBaseValidated/members/sum_squares/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionData/members/event_uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionData/members/person_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionData/members/session_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionData/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentBreakdownResult/members/baseline/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentBreakdownResult/members/breakdown_value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentBreakdownResult/members/variants/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultFrequentist/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultFrequentist/members/number_of_samples/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultFrequentist/members/sum/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultFrequentist/members/sum_squares/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultBayesian/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultBayesian/members/number_of_samples/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultBayesian/members/sum/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantResultBayesian/members/sum_squares/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantTrendsBaseStats/members/absolute_exposure/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantTrendsBaseStats/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantTrendsBaseStats/members/exposure/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantTrendsBaseStats/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantFunnelsBaseStats/members/failure_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantFunnelsBaseStats/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentVariantFunnelsBaseStats/members/success_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StickinessActorsQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLQuery/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLMetadataResponse/members/errors/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLMetadataResponse/members/notices/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLMetadataResponse/members/warnings/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLNotice/members/message/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLVariable/members/code_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLVariable/members/variableId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQuery/members/group_type_index/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQueryResponse/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQueryResponse/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQueryResponse/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQueryResponse/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#GroupsQueryResponse/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#InsightActorsQueryOptions/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BreakdownItem/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BreakdownItem/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MultipleBreakdownOptions/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CompareItem/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CompareItem/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DayItem/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DayItem/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#IntervalItem/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#IntervalItem/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Series/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Series/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StatusItem/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#StatusItem/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionsTimelineQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TimelineEntry/members/events/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventType/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventType/members/elements/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventType/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventType/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventType/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventType/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ElementType/members/attributes/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ElementType/members/tag_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Person/members/distinct_ids/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Person/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLMetadata/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLMetadata/members/query/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLAutocomplete/members/endPosition/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLAutocomplete/members/language/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLAutocomplete/members/query/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLAutocomplete/members/startPosition/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLAutocompleteResponse/members/incomplete_list/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HogQLAutocompleteResponse/members/suggestions/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#AutocompleteCompletionItem/members/insertText/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#AutocompleteCompletionItem/members/kind/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#AutocompleteCompletionItem/members/label/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MarketingAnalyticsTableQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter1/members/conversion_goal_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter1/members/conversion_goal_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter1/members/schema_map/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter2/members/conversion_goal_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter2/members/conversion_goal_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter2/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter2/members/schema_map/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/conversion_goal_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/conversion_goal_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/distinct_id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/id_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/schema_map/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/table_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConversionGoalFilter3/members/timestamp_field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MarketingAnalyticsTableQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MarketingAnalyticsItem/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MarketingAnalyticsItem/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MarketingAnalyticsAggregatedQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MarketingAnalyticsAggregatedQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebExternalClicksTableQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebExternalClicksTableQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebGoalsQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebGoalsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsQuery/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownQuery/members/metric/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownQuery/members/percentile/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownQuery/members/thresholds/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownResult/members/good/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownResult/members/needs_improvements/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownResult/members/poor/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownResultItem/members/path/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebVitalsPathBreakdownResultItem/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebPageURLSearchQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebPageURLSearchQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PageURL/members/url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebAnalyticsExternalSummaryQuery/members/dateRange/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebAnalyticsExternalSummaryQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebAnalyticsExternalSummaryQueryResponse/members/data/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebAnalyticsExternalSummaryQueryResponse/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExternalQueryError/members/code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExternalQueryError/members/detail/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangesQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangesQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/current_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/dimension_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/dimension_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/impact_score/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/metric/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/percent_change/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#WebNotableChangeItem/members/previous_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionAttributionExplorerQuery/members/groupBy/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionAttributionExplorerQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingQuery/members/dateRange/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingQuery/members/orderBy/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingQuery/members/volumeResolution/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueAssignee/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueAssignee/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingPendingFingerprintIssueStateUpdate/members/fingerprint/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingPendingFingerprintIssueStateUpdate/members/first_seen/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingPendingFingerprintIssueStateUpdate/members/is_deleted/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingPendingFingerprintIssueStateUpdate/members/issue_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingPendingFingerprintIssueStateUpdate/members/issue_status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingPendingFingerprintIssueStateUpdate/members/version/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssue/members/first_seen/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssue/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssue/members/last_seen/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssue/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueAggregations/members/occurrences/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueAggregations/members/sessions/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueAggregations/members/users/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueAggregations/members/volume_buckets/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#VolumeBucket/members/label/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#VolumeBucket/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueCohort/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueCohort/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReference/members/external_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReference/members/external_url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReference/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReference/members/integration/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReference/members/title/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReferenceIntegration/members/display_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReferenceIntegration/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingExternalReferenceIntegration/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FirstEvent/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FirstEvent/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FirstEvent/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#FirstEvent/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LastEvent/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LastEvent/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LastEvent/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LastEvent/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingSimilarIssuesQuery/members/issueId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingSimilarIssuesQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SimilarIssue/members/description/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SimilarIssue/members/distance/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SimilarIssue/members/first_seen/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SimilarIssue/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SimilarIssue/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SimilarIssue/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingBreakdownsQuery/members/breakdownProperties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingBreakdownsQuery/members/issueId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingBreakdownsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Results/members/total_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Results/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BreakdownValue/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#BreakdownValue/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueCorrelationQuery/members/events/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingIssueCorrelationQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/first_seen/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/last_seen/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/odds_ratio/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/population/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ErrorTrackingCorrelatedIssue/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Population/members/both/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Population/members/exception_only/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Population/members/neither/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Population/members/success_only/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogsQuery/members/dateRange/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogsQuery/members/filterGroup/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogsQuery/members/serviceNames/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogsQuery/members/severityLevels/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogAttributesQuery/members/attributeType/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogAttributesQueryResponse/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogAttributesQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogValuesQuery/members/attributeKey/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogValuesQuery/members/attributeType/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogValuesQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogValueResult/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LogValueResult/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TraceSpansQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQuery/members/funnels_query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/credible_intervals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/expected_loss/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/probability/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/significance_code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/significant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentFunnelsQueryResponse/members/variants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQuery/members/count_query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/credible_intervals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/p_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/probability/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/significance_code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/significant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentTrendsQueryResponse/members/variants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CalendarHeatmapQuery/members/series/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#CalendarHeatmapResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapStructuredResult/members/allAggregations/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapStructuredResult/members/columnAggregations/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapStructuredResult/members/data/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapStructuredResult/members/rowAggregations/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapColumnAggregationResult/members/column/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapColumnAggregationResult/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapDataResult/members/column/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapDataResult/members/row/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapDataResult/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapRowAggregationResult/members/row/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventsHeatMapRowAggregationResult/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RecordingsQueryResponse/members/has_next/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#RecordingsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/end_time/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/recording_duration/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/snapshot_source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/start_time/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/viewed/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingType/members/viewers/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingExternalReference/members/external_url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingExternalReference/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingExternalReference/members/integration/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingExternalReference/members/issue_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SessionRecordingExternalReference/members/title/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Integration/members/display_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Integration/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Integration/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MatchedRecording/members/events/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MatchedRecordingEvent/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MatchedRecordingEvent/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PersonType/members/distinct_ids/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PersonType/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TracesQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTrace/members/createdAt/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTrace/members/distinctId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTrace/members/events/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTrace/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTraceEvent/members/createdAt/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTraceEvent/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTraceEvent/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTraceEvent/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTracePerson/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTracePerson/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTracePerson/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#LLMTracePerson/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TraceQuery/members/traceId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TraceQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TraceNeighborsQuery/members/timestamp/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TraceNeighborsQuery/members/traceId/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#VectorSearchQuery/members/embedding/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#VectorSearchQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#VectorSearchResponseItem/members/distance/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#VectorSearchResponseItem/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetricsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/display/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/format/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/interval/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/previous/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UsageMetric/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EndpointsUsageOverviewQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EndpointsUsageOverviewItem/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EndpointsUsageTableQuery/members/breakdownBy/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EndpointsUsageTableQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EndpointsUsageTrendsQuery/members/metric/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EndpointsUsageTrendsQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureQuery/members/experiment_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureQuery/members/feature_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentHoldoutType/members/filters/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentHoldoutType/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentHoldoutType/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UserBasicType/members/distinct_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UserBasicType/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UserBasicType/members/first_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UserBasicType/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#UserBasicType/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#MinimalHedgehogConfig/members/use_as_profile/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureQueryResponse/members/date_range/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureQueryResponse/members/timeseries/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureQueryResponse/members/total_exposures/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SampleRatioMismatch/members/expected/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SampleRatioMismatch/members/p_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureTimeSeries/members/days/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureTimeSeries/members/exposure_counts/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ExperimentExposureTimeSeries/members/variant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/dateRange/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/distance_func/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/document_types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/model/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/order_by/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/order_direction/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/origin/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/products/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQuery/members/renderings/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddedDocument/members/document_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddedDocument/members/document_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddedDocument/members/product/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddedDocument/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DocumentSimilarityQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingDistance/members/distance/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingDistance/members/result/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingRecord/members/document_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingRecord/members/document_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingRecord/members/model_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingRecord/members/product/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingRecord/members/rendering/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EmbeddingRecord/members/timestamp/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataVisualizationNode/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HeatmapGradientStop/members/color/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#HeatmapGradientStop/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ChartAxis/members/column/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConditionalFormattingRule/members/bytecode/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConditionalFormattingRule/members/color/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConditionalFormattingRule/members/columnName/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConditionalFormattingRule/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConditionalFormattingRule/members/input/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ConditionalFormattingRule/members/templateId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataTableNode/members/source/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataTableNodeViewPropsContext/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response1/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response1/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response1/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response1/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response1/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response2/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response2/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response2/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response2/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response2/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response2/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response3/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response4/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response5/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response6/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response8/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response9/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response10/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response11/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response11/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response11/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response11/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response12/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response13/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response14/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response15/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/credible_intervals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/expected_loss/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/probability/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/significance_code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/significant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response16/members/variants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response18/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response20/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response21/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response21/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response21/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response21/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response21/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response21/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response22/members/hasMore/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response22/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response22/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#Response22/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SavedInsightNode/members/shortId/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#InsightVizNode/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaQueryResponse/members/joins/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaQueryResponse/members/tables/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DataWarehouseViewLink/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaPostHogTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaPostHogTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaPostHogTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaField/members/hogql_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaField/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaField/members/schema_valid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaField/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSystemTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSystemTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSystemTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaDataWarehouseTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaDataWarehouseTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaDataWarehouseTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSchema/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSchema/members/incremental/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSchema/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSchema/members/should_sync/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSource/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSource/members/prefix/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSource/members/source_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaSource/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaViewTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaViewTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaViewTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaViewTable/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaManagedViewTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaManagedViewTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaManagedViewTable/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaManagedViewTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaManagedViewTable/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaBatchExportTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaBatchExportTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaBatchExportTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaMaterializedViewTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaMaterializedViewTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaMaterializedViewTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaMaterializedViewTable/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaEndpointTable/members/fields/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaEndpointTable/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaEndpointTable/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#DatabaseSchemaEndpointTable/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#SuggestedQuestionsQueryResponse/members/questions/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TeamTaxonomyQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TeamTaxonomyItem/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#TeamTaxonomyItem/members/event/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventTaxonomyQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventTaxonomyItem/members/property/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventTaxonomyItem/members/sample_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#EventTaxonomyItem/members/sample_values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsPropertyTaxonomyQuery/members/properties/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsPropertyTaxonomyQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsPropertyTaxonomyResponse/members/sample_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#ActorsPropertyTaxonomyResponse/members/sample_values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyValuesQuery/members/property_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyValuesQuery/members/property_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#PropertyValuesQueryResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryCreateRequest/members/query/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative1/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative1/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative1/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative1/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative2/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative2/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative2/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative2/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative3/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative3/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative3/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative3/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative3/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative4/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative4/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative4/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative4/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative4/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative4/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative6/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative7/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative8/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative9/members/errors/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative9/members/notices/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative9/members/warnings/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative10/members/incomplete_list/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative10/members/suggestions/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative11/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative14/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative15/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/bucket_seconds/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/buckets/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/date_from/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/date_to/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/namespaces/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/other/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/other_release_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/release_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/release_count_truncated/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/results/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/total/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative16/members/unattributed/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative17/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/credible_intervals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/expected_loss/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/probability/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/significance_code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/significant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative18/members/variants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/credible_intervals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/p_value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/probability/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/significance_code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/significant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative19/members/variants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative21/members/date_range/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative21/members/timeseries/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative21/members/total_exposures/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative22/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative23/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative24/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative25/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative28/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative29/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative30/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative31/members/data/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative31/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative32/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative33/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative34/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/allowsMultipleConversionsPerVisitor/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/attributionWindowDays/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/hasValue/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/models/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/totalConversions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative35/members/unattributedConversions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative36/members/attributedConversions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative36/members/attributionWindowDays/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative36/members/hasValue/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative36/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative36/members/totalConversions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/interval/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/intervalCount/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/labels/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/otherBreakdownCount/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/totalCohortSize/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative37/members/truncatedCohorts/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative38/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative39/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative39/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative39/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative39/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative40/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative40/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative40/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative40/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative40/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative41/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative41/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative41/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative41/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative41/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative41/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative42/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative43/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative44/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative45/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative47/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative48/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative49/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative50/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative50/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative50/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative50/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative51/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative52/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative53/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative54/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/credible_intervals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/expected_loss/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/insight/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/probability/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/significance_code/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/significant/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative55/members/variants/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative57/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative59/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative60/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative60/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative60/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative60/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative60/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative60/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative62/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative63/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative64/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative65/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative66/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative67/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative69/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative70/members/joins/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative70/members/tables/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative72/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative73/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative73/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative74/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative75/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative76/members/bounds/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative76/members/counts/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative76/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative76/members/times/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative77/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative78/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative79/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative80/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative81/members/questions/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative82/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative83/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative89/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative90/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/columns/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/limit/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/offset/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/types/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryStatusResponse/members/query_status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryUpgradeCreateRequest/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.query#QueryUpgradeResponse/members/query/traits"
+    }
+  ]
+}

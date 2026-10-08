@@ -97,7 +97,7 @@ export interface CreateAppRequest {
   name: string;
   /** The whitelisted OAuth callback URLs that users are redirected to after authorizing the app. */
   redirect_uris?: CreateAppRequestRedirectUrisList;
-  /** The subdomain route where the app's hosted web builds are served, such as `myapp` for myapp.whop.app. */
+  /** The subdomain route where the app's hosted web builds are served, such as `myapp` for myapp.whop.site. */
   route?: string | null;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
@@ -115,7 +115,29 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/apps", code: 200 })),
 ).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
+export interface AccountParentFeesValue {
+  /** Fixed markup in US dollars per transaction. */
+  fixed_fee_usd: number;
+  /** Percentage of the transaction charged as markup. */
+  percentage_fee: number;
+}
+export const AccountParentFeesValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed_fee_usd: S.Number,
+    percentage_fee: S.Number,
+  }),
+).annotate({ identifier: "AccountParentFeesValue" }) as any as S.Schema<AccountParentFeesValue>;
+
+/** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
+export type AccountParentFeesMap = { [key: string]: AccountParentFeesValue | undefined };
+export const AccountParentFeesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AccountParentFeesValue,
+) as any as S.Schema<AccountParentFeesMap>;
+
 export interface AccountParent {
+  /** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
+  fees?: AccountParentFeesMap;
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Account logo image URL. */
@@ -127,6 +149,7 @@ export interface AccountParent {
 }
 export const AccountParent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    fees: S.optional(AccountParentFeesMap),
     id: S.String,
     logo_url: S.NullOr(S.String),
     route: S.String,
@@ -265,6 +288,35 @@ export const AppDeployment = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AppDeployment" }) as any as S.Schema<AppDeployment>;
 
+/** Domain lifecycle status, matching the domain resource. */
+export type AppDomainStatus =
+  | "pending_verification"
+  | "provisioning"
+  | "active"
+  | "action_required"
+  | "deleting"
+  | "removed";
+export const AppDomainStatus = S.String;
+
+export interface AppDomain {
+  /** Normalized hostname assigned to this app. */
+  domain: string;
+  /** Domain ID, prefixed `dom_`. */
+  id: string;
+  /** Domain lifecycle status, matching the domain resource. */
+  status: AppDomainStatus;
+}
+export const AppDomain = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    id: S.String,
+    status: AppDomainStatus,
+  }),
+).annotate({ identifier: "AppDomain" }) as any as S.Schema<AppDomain>;
+
+export type AppDomainsList = Array<AppDomain>;
+export const AppDomainsList = /*@__PURE__*/ S.Array(AppDomain) as any as S.Schema<AppDomainsList>;
+
 /** Whop Elements the app's production web build mounts, as `<namespace>.<element>` keys (sub-controller children take a third segment, e.g. `payments.cardFields.cardNumber`). A bare namespace means the build reaches that namespace but the individual elements could not be resolved. Empty when the build mounts none, when it has not been scanned yet, or when the app has no production web build. */
 export type AppElementsUsedItem =
   | "ads"
@@ -326,6 +378,11 @@ export const AppMarketplaceStatus = S.String;
 /** How the app authenticates at the OAuth token endpoint. */
 export type AppOauthClientType = "public" | "confidential";
 export const AppOauthClientType = S.String;
+
+export type AppPreviousHostedUrlsList = Array<string>;
+export const AppPreviousHostedUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AppPreviousHostedUrlsList>;
 
 /** The build's review status. */
 export type AppProductionBuildStatus = "draft" | "pending" | "approved" | "rejected";
@@ -437,6 +494,7 @@ export interface App {
   discover_path: string | null;
   /** Subdomain identifier for the app's proxied URL, forming https://{domain_id}.apps.whop.com. */
   domain_id: string;
+  domains: AppDomainsList | null;
   elements_used: AppElementsUsedList;
   /** URL path for the member-facing hub view, or `null` when not configured. */
   experience_path: string | null;
@@ -456,6 +514,9 @@ export interface App {
   openapi_path: string | null;
   /** Full origin URL of the app's proxied domain, for example https://ab1c2d3e4f.apps.whop.com. */
   origin: string | null;
+  /** A short-lived signed pass scoping the caller to this app's gated preview hosts — every build preview and the live dev-server sandbox. Add it to a preview host as the `__whop_preview` query param (or `x-whop-preview-token` header). `null` unless the caller is a team member who can read the app's developer settings. */
+  preview_token: string | null;
+  previous_hosted_urls: AppPreviousHostedUrlsList;
   /** ID of the app's product listing on the Whop app store, or `null` when the app has no associated product. */
   product_id: string | null;
   /** The approved build currently served on Android, or `null` when none is deployed. */
@@ -467,7 +528,7 @@ export interface App {
   redirect_uris: AppRedirectUrisList;
   requested_permissions: AppRequestedPermissionsList;
   required_scopes: AppRequiredScopesList;
-  /** Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.app), or `null` if no route is claimed. */
+  /** Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.site), or `null` if no route is claimed. */
   route: string | null;
   /** The app's production secrets as an object of string values, injected into the hosted server runtime. `null` when the caller lacks the `developer:update_app` permission. */
   secrets: unknown | null;
@@ -495,6 +556,7 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     discover_path: S.NullOr(S.String),
     domain_id: S.String,
+    domains: S.NullOr(AppDomainsList),
     elements_used: AppElementsUsedList,
     experience_path: S.NullOr(S.String),
     hosted_url: S.NullOr(S.String),
@@ -505,6 +567,8 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     oauth_client_type: AppOauthClientType,
     openapi_path: S.NullOr(S.String),
     origin: S.NullOr(S.String),
+    preview_token: S.NullOr(S.String),
+    previous_hosted_urls: AppPreviousHostedUrlsList,
     product_id: S.NullOr(S.String),
     production_android_build: S.NullOr(AppProductionBuild),
     production_ios_build: S.NullOr(AppProductionBuild),
@@ -521,7 +585,7 @@ export const App = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "App" }) as any as S.Schema<App>;
 
 export interface DeleteAppRequest {
-  /** App ID (prefixed `app_`), the app's claimed route, or its proxy domain id. */
+  /** App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id. */
   id: string;
 }
 export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
@@ -560,7 +624,7 @@ export const DeployAppRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DeployAppRequest" }) as any as S.Schema<DeployAppRequest>;
 
 export interface GetAppRequest {
-  /** App ID (prefixed `app_`), the app's claimed route, or its proxy domain id. */
+  /** App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id. */
   id: string;
 }
 export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
@@ -585,11 +649,11 @@ export interface ListAppLogsRequest {
   created_after?: string;
   /** End of the time window as an ISO 8601 timestamp. Defaults to now. */
   created_before?: string;
-  /** The number of log lines to return (max 500). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor for fetching logs after a previous page. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** A cursor for fetching logs before a later page. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListAppLogsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -728,17 +792,17 @@ export interface ListAppsRequest {
   recommended?: boolean;
   /** A search string matched against app names. */
   query?: string;
-  /** The field to sort apps by. Defaults to discoverable_at, showing the most recently published apps first. `template_usage` ranks Whop-verified apps first, then apps with a banner image, then by how many apps were created from each app as a template. */
+  /** The field to sort apps by. Defaults to discoverable_at, showing the most recently published apps first. `template_usage` ranks Whop-verified apps first, then by how many businesses created apps from each app as a template. */
   order?: ListAppsRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListAppsRequestDirection | (string & {});
-  /** The number of apps to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns apps after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of apps to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns apps before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -768,6 +832,16 @@ export const AppListItemBusinessesCreatedLogoUrlsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AppListItemBusinessesCreatedLogoUrlsList>;
 
+export type AppListItemDomainsList = Array<AppDomain>;
+export const AppListItemDomainsList = /*@__PURE__*/ S.Array(
+  AppDomain,
+) as any as S.Schema<AppListItemDomainsList>;
+
+export type AppListItemPreviousHostedUrlsList = Array<string>;
+export const AppListItemPreviousHostedUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AppListItemPreviousHostedUrlsList>;
+
 /** Visibility on the Whop app store: `live` is publicly discoverable, `unlisted` is accessible only via direct link, `hidden` is not visible anywhere. */
 export type AppListItemStatus = "live" | "unlisted" | "hidden";
 export const AppListItemStatus = S.String;
@@ -794,6 +868,7 @@ export interface AppListItem {
   discover_path: string | null;
   /** Subdomain identifier for the app's proxied URL, forming https://{domain_id}.apps.whop.com. */
   domain_id: string;
+  domains: AppListItemDomainsList | null;
   /** URL path for the member-facing hub view, or `null` when not configured. */
   experience_path: string | null;
   /** Full URL where the app's hosted web build is served, or `null` if no route is claimed. */
@@ -808,7 +883,8 @@ export interface AppListItem {
   openapi_path: string | null;
   /** Full origin URL of the app's proxied domain, for example https://ab1c2d3e4f.apps.whop.com. */
   origin: string | null;
-  /** Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.app), or `null` if no route is claimed. */
+  previous_hosted_urls: AppListItemPreviousHostedUrlsList;
+  /** Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.site), or `null` if no route is claimed. */
   route: string | null;
   /** URL path to the app's skills directory, or `null` when not configured. */
   skills_path: string | null;
@@ -830,6 +906,7 @@ export const AppListItem = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     discover_path: S.NullOr(S.String),
     domain_id: S.String,
+    domains: S.NullOr(AppListItemDomainsList),
     experience_path: S.NullOr(S.String),
     hosted_url: S.NullOr(S.String),
     icon: AppIcon,
@@ -837,6 +914,7 @@ export const AppListItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     openapi_path: S.NullOr(S.String),
     origin: S.NullOr(S.String),
+    previous_hosted_urls: AppListItemPreviousHostedUrlsList,
     route: S.NullOr(S.String),
     skills_path: S.NullOr(S.String),
     status: AppListItemStatus,
@@ -909,7 +987,7 @@ export type UpdateAppRequestStatus = "live" | "unlisted" | "hidden";
 export const UpdateAppRequestStatus = S.String;
 
 export interface UpdateAppRequest {
-  /** App ID (prefixed `app_`), the app's claimed route, or its proxy domain id. */
+  /** App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id. */
   id: string;
   /** The detailed description shown on the app store's in-depth app view page. */
   app_store_description?: string;
@@ -1108,7 +1186,7 @@ export const deployApp: API.OperationMethod<
 }));
 
 export type GetAppError = NotFound | WhopOpError;
-/** Retrieve App Retrieves an app by ID, claimed route, or proxy domain id. Credential fields (api_key, default_api_key, secrets) render `null` unless the caller has the corresponding developer permission on the owning account. */
+/** Retrieve App Retrieves an app by ID, claimed route, active verified custom hostname, or proxy domain id. Custom hostnames return 404 for inactive assignments, suspended accounts, or deleted apps. Credential fields (api_key, default_api_key, secrets) render `null` unless the caller has the corresponding developer permission on the owning account. */
 export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, WhopOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: GetAppRequest,
@@ -1119,7 +1197,7 @@ export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, WhopOp
   }));
 
 export type ListAppLogsError = Forbidden | NotFound | WhopOpError;
-/** List App Logs Lists a hosted app's server runtime logs, most recent first: console output, uncaught exceptions, and failed-request summaries captured on whop.app hosting. Logs are retained for 7 days. */
+/** List App Logs Lists a hosted app's server runtime logs, most recent first: console output, uncaught exceptions, and failed-request summaries captured on whop.site hosting. Logs are retained for 7 days. */
 export const listAppLogs: API.PaginatedOperationMethod<
   ListAppLogsRequest,
   ListAppLogsResponse,

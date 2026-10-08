@@ -140,6 +140,61 @@ export const ResolutionBuyer = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResolutionBuyer" }) as any as S.Schema<ResolutionBuyer>;
 
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+export interface ReceiptLineItem {
+  /** Line item ID, prefixed `li_`. Null when the payment predates item snapshots and the item is read from the payment's plan. */
+  id: string | null;
+  /** The item's name as shown at checkout — the product title, else the plan title. */
+  label: string | null;
+  /** The plan bought, prefixed `plan_`. Null when the plan has since been deleted. */
+  plan_id: string | null;
+  /** The plan's current title, or `null` when the plan has been deleted or has no title. */
+  plan_title: string | null;
+  /** The product the plan belongs to, prefixed `prod_`. On a payment that predates item snapshots this falls back to the plan's product, so it can be set where the parent's own `product_id` is null. Null for a plan with no product. */
+  product_id: string | null;
+  /** The product's current title, or `null` when the item has no product. */
+  product_title: string | null;
+  /** How many units were bought. */
+  quantity: number;
+  /** The recorded amount for this item's full quantity, before discounts, tax, and fees, in its purchase currency. Returns `null` when no item amount was recorded. */
+  subtotal: Money | null;
+}
+export const ReceiptLineItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    label: S.NullOr(S.String),
+    plan_id: S.NullOr(S.String),
+    plan_title: S.NullOr(S.String),
+    product_id: S.NullOr(S.String),
+    product_title: S.NullOr(S.String),
+    quantity: S.Number,
+    subtotal: S.NullOr(Money),
+  }),
+).annotate({ identifier: "ReceiptLineItem" }) as any as S.Schema<ReceiptLineItem>;
+
+export type ResolutionCenterCaseLineItemsList = Array<ReceiptLineItem>;
+export const ResolutionCenterCaseLineItemsList = /*@__PURE__*/ S.Array(
+  ReceiptLineItem,
+) as any as S.Schema<ResolutionCenterCaseLineItemsList>;
+
 /** Who prevailed on the claim. `null` until the case closes. Read `refund` for whether any money actually moved. */
 export type ResolutionCenterCaseOutcome = "customer_won" | "merchant_won" | "withdrawn";
 export const ResolutionCenterCaseOutcome = S.String;
@@ -205,6 +260,7 @@ export interface ResolutionCenterCase {
   escalated: boolean;
   /** Resolution center case ID, prefixed `reso_`. */
   id: string;
+  line_items: ResolutionCenterCaseLineItemsList;
   /** Who prevailed on the claim. `null` until the case closes. Read `refund` for whether any money actually moved. */
   outcome: ResolutionCenterCaseOutcome | null;
   /** The payment the case was opened against. */
@@ -235,6 +291,7 @@ export const ResolutionCenterCase = /*@__PURE__*/ S.suspend(() =>
     customer_appealed: S.Boolean,
     escalated: S.Boolean,
     id: S.String,
+    line_items: ResolutionCenterCaseLineItemsList,
     outcome: S.NullOr(ResolutionCenterCaseOutcome),
     payment: ResolutionPayment,
     plan_id: S.NullOr(S.String),
@@ -544,13 +601,13 @@ export const GetResolutionCenterCaseSummaryResponse = /*@__PURE__*/ S.suspend(()
 export interface ListResolutionCenterCaseEventsRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
-  /** The number of events to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns events after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of events to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns events before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListResolutionCenterCaseEventsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -726,13 +783,13 @@ export interface ListResolutionCenterCasesRequest {
   account_id?: string;
   /** Only cases opened by this customer — a `user_` tag, or `me` for the calling user. It narrows what you can already read, so `me` lists the cases you opened without the ones on accounts you are a team member of. */
   user_id?: string;
-  /** The number of cases to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns cases after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of cases to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns cases before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort cases by. */
   order?: ListResolutionCenterCasesRequestOrder | (string & {});

@@ -9,11 +9,15 @@
         "members": {
           "code": {
             "target": "smithy.api#String",
-            "traits": { "smithy.api#documentation": "Error code, e.g. `VMSSNotSupported`." }
+            "traits": {
+              "smithy.api#documentation": "Error code, e.g. `VMSSNotSupported`."
+            }
           },
           "message": {
             "target": "smithy.api#String",
-            "traits": { "smithy.api#documentation": "Error message." }
+            "traits": {
+              "smithy.api#documentation": "Error message."
+            }
           }
         },
         "traits": {
@@ -23,11 +27,11 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.azure.guestconfiguration#GetGuestConfigurationAssignmentsVMSSResponse/members/name/traits/smithy.api#required"
+      "path": "/shapes/com.azure.guestconfiguration#GuestConfigurationAssignmentsVMSSGetResponse/members/name/traits/smithy.api#required"
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.guestconfiguration#GetGuestConfigurationAssignmentsVMSSResponse/members/error",
+      "path": "/shapes/com.azure.guestconfiguration#GuestConfigurationAssignmentsVMSSGetResponse/members/error",
       "value": {
         "target": "com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError",
         "traits": {

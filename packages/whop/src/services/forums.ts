@@ -112,8 +112,8 @@ export interface ListForumRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
   product_id?: string;
+  account_id: string;
 }
 export const ListForumRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -121,8 +121,8 @@ export const ListForumRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
     product_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/forums", code: 200 })),
 ).annotate({ identifier: "ListForumRequest" }) as any as S.Schema<ListForumRequest>;
 

@@ -58,7 +58,7 @@
         "smithy.api#documentation": "How a payment method will be charged after the buyer leaves — the same vocabulary as a confirmation token's setup_future_usage."
       }
     },
-    "com.whop.payment_methods#PaymentMethodTypes": {
+    "com.whop.payment_methods#LegacyPaymentMethodTypes": {
       "type": "enum",
       "members": {
         "ACSS_DEBIT": {
@@ -89,6 +89,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALIPAYHK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipayhk"
           }
         },
         "ALMA": {
@@ -155,12 +161,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "billie"
-          }
-        },
-        "BIZUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "bizum"
           }
         },
         "BLIK": {
@@ -283,10 +283,22 @@
             "smithy.api#enumValue": "fpx"
           }
         },
+        "FLEX_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flex_pay"
+          }
+        },
         "GB_BANK_TRANSFER": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GCASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcash"
           }
         },
         "GIROPAY": {
@@ -403,6 +415,18 @@
             "smithy.api#enumValue": "mercado_pago"
           }
         },
+        "MERCADO_PAGO_AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_ar"
+          }
+        },
+        "MERCADO_PAGO_MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_mx"
+          }
+        },
         "MOBILEPAY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -481,10 +505,40 @@
             "smithy.api#enumValue": "ng_wallet"
           }
         },
+        "NUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nupay"
+          }
+        },
         "NZ_BANK_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "ONEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney"
+          }
+        },
+        "ONEY_3X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_3x"
+          }
+        },
+        "ONEY_4X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_4x"
+          }
+        },
+        "OPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opay"
           }
         },
         "OXXO": {
@@ -685,10 +739,22 @@
             "smithy.api#enumValue": "swish"
           }
         },
+        "TABBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabby"
+          }
+        },
         "TAMARA": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TOUCH_N_GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "touch_n_go"
           }
         },
         "TWINT": {
@@ -719,6 +785,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
           }
         },
         "VIPPS": {
@@ -771,7 +843,7 @@
     "com.whop.payment_methods#ListPaymentMethodRequestPaymentMethodTypesList": {
       "type": "list",
       "member": {
-        "target": "com.whop.payment_methods#PaymentMethodTypes"
+        "target": "com.whop.payment_methods#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "Only return payment methods of these types. Pass the eligible `type` values from the payment method types catalogue so the list holds nothing the purchase cannot take. An empty list returns no payment methods."
@@ -1138,12 +1210,6 @@
             "smithy.api#httpQuery": "member_id"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "direction": {
           "target": "com.whop.payment_methods#Direction",
           "traits": {
@@ -1202,6 +1268,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "broken"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
@@ -1468,7 +1540,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -1805,7 +1877,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -2087,7 +2159,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -2378,7 +2450,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -2662,7 +2734,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -2955,7 +3027,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -3099,16 +3171,16 @@
             "smithy.api#documentation": "The unique identifier of the payment method."
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "member_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "member_id"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
@@ -3375,7 +3447,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -3712,7 +3784,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -3994,7 +4066,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -4285,7 +4357,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -4569,7 +4641,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -4862,7 +4934,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "target": "com.whop.payment_methods#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
             "smithy.api#required": {}
@@ -4930,7 +5002,7 @@
           "uri": "/payment_methods/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve payment method\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing payment method. Addresses a member's wallet when member_id or company_id is given, otherwise your own.\n\nRequired permissions:\n - `member:payment_methods:read`"
+        "smithy.api#documentation": "Retrieve payment method\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing payment method. Addresses a member's wallet when member_id or account_id is given, otherwise your own.\n\nRequired permissions:\n - `member:payment_methods:read`"
       }
     },
     "com.whop.payment_methods#DeletePaymentMethodRequest": {
@@ -4944,16 +5016,16 @@
             "smithy.api#documentation": "The unique identifier of the payment method to delete."
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "member_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "member_id"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
