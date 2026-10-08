@@ -24394,6 +24394,12 @@
             "smithy.api#documentation": "Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.",
             "smithy.api#required": {}
           }
+        },
+        "properties": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
+          }
         }
       },
       "traits": {
@@ -24438,6 +24444,12 @@
           "traits": {
             "smithy.api#documentation": "Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
           }
         }
       },
@@ -24496,6 +24508,12 @@
           "traits": {
             "smithy.api#documentation": "Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
           }
         }
       },
@@ -24608,6 +24626,12 @@
           "traits": {
             "smithy.api#documentation": "Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.",
             "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
+          "traits": {
+            "smithy.api#documentation": "properties for Arc-enabled edge device with HCI OS."
           }
         }
       },
@@ -35521,6 +35545,121 @@
       "traits": {
         "smithy.api#title": "Azure Azurestackhci",
         "smithy.api#documentation": "Azure Azurestackhci API — merged from the azurestackhci resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.azurestackhci#HciEdgeDeviceNicDetail": {
+      "type": "structure",
+      "members": {
+        "adapterName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Adapter Name of NIC"
+          }
+        },
+        "interfaceDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interface Description of NIC"
+          }
+        },
+        "componentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Component Id of NIC"
+          }
+        },
+        "driverVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Driver Version of NIC"
+          }
+        },
+        "ip4Address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IPv4 address of NIC"
+          }
+        },
+        "subnetMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subnet Mask of NIC"
+          }
+        },
+        "defaultGateway": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default Gateway of NIC"
+          }
+        },
+        "dnsServers": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceStringList",
+          "traits": {
+            "smithy.api#documentation": "DNS Servers for NIC"
+          }
+        },
+        "defaultIsolationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default Isolation of Management NIC"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "NIC Details of device"
+      }
+    },
+    "com.azure.azurestackhci#HciEdgeDeviceStringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.azurestackhci#HciEdgeDeviceNicDetailList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.azurestackhci#HciEdgeDeviceNicDetail"
+      }
+    },
+    "com.azure.azurestackhci#HciEdgeDeviceConfiguration": {
+      "type": "structure",
+      "members": {
+        "nicDetails": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceNicDetailList",
+          "traits": {
+            "smithy.api#documentation": "NIC Details of device"
+          }
+        },
+        "deviceMetadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device metadata details."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The device Configuration of an edge device."
+      }
+    },
+    "com.azure.azurestackhci#HciEdgeDeviceProperties": {
+      "type": "structure",
+      "members": {
+        "deviceConfiguration": {
+          "target": "com.azure.azurestackhci#HciEdgeDeviceConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Device Configuration"
+          }
+        },
+        "provisioningState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provisioning state of edgeDevice resource"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of an HCI edge device."
       }
     }
   }

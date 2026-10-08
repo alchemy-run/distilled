@@ -651,6 +651,24 @@
           "traits": {
             "smithy.api#documentation": "List of tags that can be used for describing the trigger."
           }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific trigger properties (polymorphic on `type`)."
+          }
+        },
+        "pipelines": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Pipelines that need to be started (MultiplePipelineTrigger subtypes)."
+          }
+        },
+        "pipeline": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Pipeline for which runs are created (TumblingWindowTrigger / ChainingTrigger)."
+          }
         }
       },
       "traits": {
@@ -3457,6 +3475,36 @@
           "traits": {
             "smithy.api#documentation": "Activity user properties."
           }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific activity properties (polymorphic on `type`)."
+          }
+        },
+        "linkedServiceName": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Linked service reference (ExecutionActivity subtypes)."
+          }
+        },
+        "policy": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Activity policy (ExecutionActivity subtypes)."
+          }
+        },
+        "inputs": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "List of inputs for the activity (Copy / data movement activities)."
+          }
+        },
+        "outputs": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "List of outputs for the activity (Copy / data movement activities)."
+          }
         }
       },
       "traits": {
@@ -4403,6 +4451,24 @@
           "traits": {
             "smithy.api#documentation": "The managed private endpoint provisioning state"
           }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provisioning failure message when provisioningState is Failed."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource ID of the backing private endpoint in the Data Factory managed subscription."
+          }
+        },
+        "ipAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private IP address of the endpoint in the managed virtual network."
+          }
         }
       },
       "traits": {
@@ -5322,6 +5388,12 @@
           "target": "com.azure.datafactory#LinkedServiceAnnotationsList",
           "traits": {
             "smithy.api#documentation": "List of tags that can be used for describing the linked service."
+          }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific linked service properties (polymorphic on `type`)."
           }
         }
       },
@@ -7627,6 +7699,18 @@
           "traits": {
             "smithy.api#documentation": "Integration runtime description."
           }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific integration runtime properties (polymorphic on `type`)."
+          }
+        },
+        "managedVirtualNetwork": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Managed Virtual Network reference (Managed integration runtimes)."
+          }
         }
       },
       "traits": {
@@ -9542,6 +9626,12 @@
           "traits": {
             "smithy.api#documentation": "The folder that this Dataset is in. If not specified, Dataset will appear at the root level."
           }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific dataset properties (polymorphic on `type`)."
+          }
         }
       },
       "traits": {
@@ -10064,6 +10154,12 @@
           "traits": {
             "smithy.api#documentation": "The folder that this data flow is in. If not specified, Data flow will appear at the root level."
           }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific data flow properties (polymorphic on `type`)."
+          }
         }
       },
       "traits": {
@@ -10513,6 +10609,12 @@
           "target": "com.azure.datafactory#CredentialAnnotationsList",
           "traits": {
             "smithy.api#documentation": "List of tags that can be used for describing the Credential."
+          }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific credential properties (polymorphic on `type`)."
           }
         }
       },

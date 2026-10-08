@@ -3,12 +3,12 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.relationships#DeleteServiceGroupMemberRelationship/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.relationships#DeleteServiceGroupMemberRelationship/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01-preview"
     }
   ]

@@ -31,10 +31,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}/updateState",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Update configuration group schema state.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ConfigurationGroupSchemaVersionUpdateState": {
@@ -142,10 +142,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes a specified configuration group schema.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteConfigurationGroupSchemaRequest": {
@@ -201,10 +201,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a configuration group schema resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateConfigurationGroupSchemaResponse": {
@@ -537,10 +537,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a configuration group schema.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ConfigurationGroupSchemasCreateOrUpdateResponse": {
@@ -710,10 +710,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified configuration group schema.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetConfigurationGroupSchemaResponse": {
@@ -832,10 +832,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information of the configuration group schemas under a publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ConfigurationGroupSchemaListResult": {
@@ -975,10 +975,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the hybrid network configurationGroupValues in a resource group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ConfigurationGroupValueListResult": {
@@ -1106,6 +1106,12 @@
             "smithy.api#documentation": "The value which indicates if configuration values are secrets",
             "smithy.api#required": {}
           }
+        },
+        "configurationValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration values as a JSON string (`configurationType: Open`)."
+          }
         }
       },
       "traits": {
@@ -1146,6 +1152,12 @@
           "traits": {
             "smithy.api#documentation": "The resource reference arm id type.",
             "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource id of the referenced resource."
           }
         }
       },
@@ -1304,10 +1316,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/configurationGroupValues",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all sites in the configuration group value in a subscription.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListConfigurationGroupValueBySubscriptionRequest": {
@@ -1339,10 +1351,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified hybrid configuration group value.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteConfigurationGroupValueRequest": {
@@ -1390,10 +1402,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a hybrid configuration group tags.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateConfigurationGroupValueTagsResponse": {
@@ -1522,10 +1534,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a hybrid configuration group value.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ConfigurationGroupValuesCreateOrUpdateResponse": {
@@ -1663,6 +1675,19 @@
             "smithy.api#documentation": "The value which indicates if configuration values are secrets",
             "smithy.api#required": {}
           }
+        },
+        "configurationValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration values as a JSON string (`configurationType: Open`)."
+          }
+        },
+        "secretConfigurationValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret configuration values as a JSON string (`configurationType: Secret`).",
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {
@@ -1677,6 +1702,12 @@
           "traits": {
             "smithy.api#documentation": "The resource reference arm id type.",
             "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource id of the referenced resource."
           }
         }
       },
@@ -1729,10 +1760,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified hybrid configuration group values.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetConfigurationGroupValueResponse": {
@@ -1843,10 +1874,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the component resources in a network function.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ComponentListResult": {
@@ -2593,10 +2624,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components/{componentName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified application instance resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetComponentResponse": {
@@ -2690,10 +2721,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/executeRequest",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Execute a request to services on a containerized network function.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ExecuteNetworkFunctionRequestRequest": {
@@ -2834,10 +2865,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the network function resources in a resource group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionListResult": {
@@ -3103,6 +3134,12 @@
           "traits": {
             "smithy.api#documentation": "The role configuration override values from the user."
           }
+        },
+        "deploymentValues": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deployment values as a JSON string (`configurationType: Open`)."
+          }
         }
       },
       "traits": {
@@ -3184,6 +3221,12 @@
           "traits": {
             "smithy.api#documentation": "The resource reference arm id type.",
             "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource id of the referenced resource."
           }
         }
       },
@@ -3316,10 +3359,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctions",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the network functions in a subscription.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListNetworkFunctionBySubscriptionRequest": {
@@ -3351,10 +3394,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified network function resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkFunctionRequest": {
@@ -3402,10 +3445,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates the tags for the network function resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateNetworkFunctionTagsResponse": {
@@ -3578,10 +3621,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network function resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionsCreateOrUpdateResponse": {
@@ -3862,6 +3905,19 @@
           "traits": {
             "smithy.api#documentation": "The role configuration override values from the user."
           }
+        },
+        "deploymentValues": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deployment values as a JSON string (`configurationType: Open`)."
+          }
+        },
+        "secretDeploymentValues": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret deployment values as a JSON string (`configurationType: Secret`).",
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {
@@ -3918,6 +3974,12 @@
             "smithy.api#documentation": "The resource reference arm id type.",
             "smithy.api#required": {}
           }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource id of the referenced resource."
+          }
         }
       },
       "traits": {
@@ -3969,10 +4031,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified network function resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetNetworkFunctionResponse": {
@@ -4127,10 +4189,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions/{networkFunctionDefinitionVersionName}/updateState",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Update network function definition version state.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionDefinitionVersionUpdateState": {
@@ -4258,10 +4320,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about a list of network function definition versions under a network function definition group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionDefinitionVersionListResult": {
@@ -4376,6 +4438,12 @@
           "traits": {
             "smithy.api#documentation": "The network function type.",
             "smithy.api#required": {}
+          }
+        },
+        "networkFunctionTemplate": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Network function template (polymorphic on `nfviType`)."
           }
         }
       },
@@ -4530,10 +4598,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions/{networkFunctionDefinitionVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified network function definition version.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersionRequest": {
@@ -4597,10 +4665,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions/{networkFunctionDefinitionVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a network function definition version resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionVersionResponse": {
@@ -4745,10 +4813,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions/{networkFunctionDefinitionVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network function definition version.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsCreateOrUpdateResponse": {
@@ -4902,6 +4970,12 @@
             "smithy.api#documentation": "The network function type.",
             "smithy.api#required": {}
           }
+        },
+        "networkFunctionTemplate": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Network function template (polymorphic on `nfviType`)."
+          }
         }
       },
       "traits": {
@@ -4959,10 +5033,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}/networkFunctionDefinitionVersions/{networkFunctionDefinitionVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about a network function definition version.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetNetworkFunctionDefinitionVersionResponse": {
@@ -5089,10 +5163,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes a specified network function definition group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroupRequest": {
@@ -5148,10 +5222,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a network function definition group resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionGroupResponse": {
@@ -5364,10 +5438,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network function definition group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsCreateOrUpdateResponse": {
@@ -5531,10 +5605,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups/{networkFunctionDefinitionGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified networkFunctionDefinition group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetNetworkFunctionDefinitionGroupResponse": {
@@ -5653,10 +5727,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkFunctionDefinitionGroups",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information of the network function definition groups under a publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkFunctionDefinitionGroupListResult": {
@@ -5796,10 +5870,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions/{networkServiceDesignVersionName}/updateState",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Update network service design version state.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkServiceDesignVersionUpdateState": {
@@ -5915,10 +5989,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about a list of network service design versions under a network service design group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkServiceDesignVersionListResult": {
@@ -6074,6 +6148,12 @@
           "target": "com.azure.hybridnetwork#ResourceElementTemplateDependsOnProfile",
           "traits": {
             "smithy.api#documentation": "Depends on profile definition."
+          }
+        },
+        "configuration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific template configuration (polymorphic on `type`)."
           }
         }
       },
@@ -6339,10 +6419,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions/{networkServiceDesignVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified network service design version.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkServiceDesignVersionRequest": {
@@ -6406,10 +6486,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions/{networkServiceDesignVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a network service design version resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateNetworkServiceDesignVersionResponse": {
@@ -6554,10 +6634,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions/{networkServiceDesignVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network service design version.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkServiceDesignVersionsCreateOrUpdateResponse": {
@@ -6794,10 +6874,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}/networkServiceDesignVersions/{networkServiceDesignVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about a network service design version.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetNetworkServiceDesignVersionResponse": {
@@ -6924,10 +7004,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes a specified network service design group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkServiceDesignGroupRequest": {
@@ -6983,10 +7063,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a network service design groups resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateNetworkServiceDesignGroupResponse": {
@@ -7199,10 +7279,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network service design group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkServiceDesignGroupsCreateOrUpdateResponse": {
@@ -7366,10 +7446,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified networkServiceDesign group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetNetworkServiceDesignGroupResponse": {
@@ -7488,10 +7568,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information of the network service design groups under a publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#NetworkServiceDesignGroupListResult": {
@@ -7631,10 +7711,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.HybridNetwork/operations",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets a list of the operations.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListOperationsResponse": {
@@ -7789,10 +7869,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/updateState",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Update state for artifact manifest.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactManifestUpdateState": {
@@ -7920,10 +8000,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/listCredential",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "List credential for publishing artifacts defined in artifact manifest.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListArtifactManifestCredentialResponse": {
@@ -7934,6 +8014,49 @@
           "traits": {
             "smithy.api#documentation": "The credential type.",
             "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username of the ACR scoped token (`AzureContainerRegistryScopedToken`)."
+          }
+        },
+        "acrToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ACR scoped token password (`AzureContainerRegistryScopedToken`).",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "acrServerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ACR login server URL (`AzureContainerRegistryScopedToken`)."
+          }
+        },
+        "repositories": {
+          "target": "com.azure.hybridnetwork#NetworkFunctionPropertiesFormatRoleOverrideValuesList",
+          "traits": {
+            "smithy.api#documentation": "The repositories the token may push to (`AzureContainerRegistryScopedToken`)."
+          }
+        },
+        "expiry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UTC time when the credential expires."
+          }
+        },
+        "containerCredentials": {
+          "target": "com.azure.hybridnetwork#ArtifactManifestContainerCredentialList",
+          "traits": {
+            "smithy.api#documentation": "The container SAS credentials (`AzureStorageAccountToken`)."
+          }
+        },
+        "storageAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The storage account ARM ID (`AzureStorageAccountToken`)."
           }
         }
       },
@@ -8028,10 +8151,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified artifact manifest.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteArtifactManifestRequest": {
@@ -8095,10 +8218,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a artifact manifest resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateArtifactManifestResponse": {
@@ -8398,10 +8521,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a artifact manifest.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactManifestsCreateOrUpdateResponse": {
@@ -8582,10 +8705,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about a artifact manifest resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetArtifactManifestResponse": {
@@ -8712,10 +8835,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the artifact manifest.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactManifestListResult": {
@@ -8863,10 +8986,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/listPrivateEndPoints",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "List manual private endpoints on artifact stores",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactStorePrivateEndPointsListResult": {
@@ -8988,10 +9111,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/removePrivateEndPoints",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Remove manual private endpoints on artifact stores",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPointsRequest": {
@@ -9076,10 +9199,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/approvePrivateEndPoints",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Approve manual private endpoints on artifact stores",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPointsRequest": {
@@ -9164,10 +9287,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/listNetworkFabricControllerPrivateEndPoints",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "List network fabric controllers to artifact stores",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactStoreNetworkFabricControllerEndPointsList": {
@@ -9289,10 +9412,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/deleteNetworkFabricControllerEndPoints",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Delete network fabric controllers on artifact stores",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPointsRequest": {
@@ -9377,10 +9500,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/addNetworkFabricControllerEndPoints",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Add network fabric controllers to artifact stores",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPointsRequest": {
@@ -9465,10 +9588,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified artifact store.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteArtifactStoreRequest": {
@@ -9524,10 +9647,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Update artifact store resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateArtifactStoreResponse": {
@@ -9845,10 +9968,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a artifact store.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactStoresCreateOrUpdateResponse": {
@@ -10111,10 +10234,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified artifact store.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetArtifactStoreResponse": {
@@ -10233,10 +10356,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information of the ArtifactStores under publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ArtifactStoreListResult": {
@@ -10376,10 +10499,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeletePublisherRequest": {
@@ -10427,10 +10550,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Update a publisher resource.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdatePublisherResponse": {
@@ -10693,10 +10816,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#PublishersCreateOrUpdateResponse": {
@@ -10936,10 +11059,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified publisher.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetPublisherResponse": {
@@ -11088,10 +11211,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the publishers in a resource group.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#PublisherListResult": {
@@ -11261,10 +11384,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/publishers",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the publishers in a subscription.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListPublisherBySubscriptionRequest": {
@@ -11296,10 +11419,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions/{artifactVersionName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Change artifact state defined in artifact store.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateProxyArtifactStateResponse": {
@@ -11523,10 +11646,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Get a Artifact overview information.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ProxyArtifactVersionsOverviewListResult": {
@@ -11657,10 +11780,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifacts",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all the available artifacts in the parent Artifact Store.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ProxyArtifactOverviewListResult": {
@@ -11777,10 +11900,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all sites in the network service.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#SiteListResult": {
@@ -11936,6 +12059,18 @@
             "smithy.api#documentation": "The NFVI type.",
             "smithy.api#required": {}
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location of the Azure core NFVI (`AzureCore` only)."
+          }
+        },
+        "customLocationReference": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Reference `{ id }` to the custom location (`AzureArcKubernetes` / `AzureOperatorNexus`)."
+          }
         }
       },
       "traits": {
@@ -12079,10 +12214,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/sites",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all sites in the network service in a subscription.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListSiteBySubscriptionRequest": {
@@ -12114,10 +12249,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified network site.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteSiteRequest": {
@@ -12165,10 +12300,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a site update tags.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateSiteTagsResponse": {
@@ -12297,10 +12432,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network site.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#SitesCreateOrUpdateResponse": {
@@ -12465,10 +12600,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified network site.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetSiteResponse": {
@@ -12579,10 +12714,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all site network services.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#SiteNetworkServiceListResult": {
@@ -12911,6 +13046,12 @@
             "smithy.api#documentation": "The resource reference arm id type.",
             "smithy.api#required": {}
           }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource id of the referenced resource."
+          }
         }
       },
       "traits": {
@@ -13076,10 +13217,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/siteNetworkServices",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Lists all sites in the network service in a subscription.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#ListSiteNetworkServiceBySubscriptionRequest": {
@@ -13111,10 +13252,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Deletes the specified site network service.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#DeleteSiteNetworkServiceRequest": {
@@ -13162,10 +13303,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Updates a site update tags.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#UpdateSiteNetworkServiceTagsResponse": {
@@ -13338,10 +13479,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Creates or updates a network site.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#SiteNetworkServicesCreateOrUpdateResponse": {
@@ -13642,6 +13783,12 @@
             "smithy.api#documentation": "The resource reference arm id type.",
             "smithy.api#required": {}
           }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM resource id of the referenced resource."
+          }
         }
       },
       "traits": {
@@ -13727,10 +13874,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
           "code": 200,
-          "apiVersion": "2024-04-15"
+          "apiVersion": "2023-09-01"
         },
         "smithy.api#documentation": "Gets information about the specified site network service.",
-        "com.distilled.openapi#apiVersion": "2024-04-15"
+        "com.distilled.openapi#apiVersion": "2023-09-01"
       }
     },
     "com.azure.hybridnetwork#GetSiteNetworkServiceResponse": {
@@ -14129,6 +14276,42 @@
       "traits": {
         "smithy.api#title": "Azure Hybridnetwork",
         "smithy.api#documentation": "Azure Hybridnetwork API — merged from the hybridnetwork resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.hybridnetwork#ArtifactManifestContainerCredential": {
+      "type": "structure",
+      "members": {
+        "containerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The storage container name."
+          }
+        },
+        "containerSasUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The container SAS URI.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "expiry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UTC time when the container SAS expires."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A storage container push credential (`AzureStorageAccountToken`)."
+      }
+    },
+    "com.azure.hybridnetwork#ArtifactManifestContainerCredentialList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.hybridnetwork#ArtifactManifestContainerCredential"
+      },
+      "traits": {
+        "smithy.api#documentation": "Storage container push credentials."
       }
     }
   }

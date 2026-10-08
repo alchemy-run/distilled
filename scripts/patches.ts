@@ -19,13 +19,12 @@ import { join } from "node:path";
  *   depended on the build fails without it — a later patch targets what it
  *               adds, so the two go together
  *
- * A convert-stage package is audited by running its `convert` on scratch
- * copies (`packages/.audit-<pkg>-<n>`), which needs its spec mirror
- * (`specs:fetch`); without it the package is reported as skipped. Files
- * that only patch the Smithy model are judged in memory after one convert;
- * files that patch the spec cost one convert each. `--jobs` sets how many
- * copies convert at once (default: from cores and free memory). A generate-stage package (`distilled.patches: "generate"`) is
- * audited against the committed `.generated-specs` and needs nothing else.
+ * A package is audited by running its `convert` on scratch copies
+ * (`packages/.audit-<pkg>-<n>`), which needs its spec mirror (`specs:fetch`);
+ * without it the package is reported as skipped. Files that only patch the
+ * Smithy model are judged in memory after one convert; files that patch the
+ * spec cost one convert each. `--jobs` sets how many copies convert at once
+ * (default: from cores and free memory).
  *
  * `--ops` repeats the experiment for every op inside each needed file, so a
  * file that is only partly stale can be slimmed rather than kept whole.
@@ -154,7 +153,7 @@ for (const pkg of packages) {
       toSlim.push(`packages/${pkg}/patches/${file.key} (op ${deadOps.join(", ")})`);
   }
   console.log(
-    `${result.files.length} file(s) [${result.stage} stage]: ${counts.needed} needed, ${counts.depended} depended on, ${counts.unused} with no effect`,
+    `${result.files.length} file(s): ${counts.needed} needed, ${counts.depended} depended on, ${counts.unused} with no effect`,
   );
   console.log(
     `   ${result.judged.inMemory} judged in memory, ${result.judged.perFile} by one convert each, in ${((Date.now() - started) / 1000).toFixed(1)}s`,

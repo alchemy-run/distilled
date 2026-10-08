@@ -67,7 +67,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.azure_kusto#UpdateDatabaseRequest/members/properties",
+      "path": "/shapes/com.azure.azure_kusto#DatabasesUpdateRequest/members/properties",
       "value": {
         "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
         "traits": {
@@ -87,7 +87,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.azure_kusto#UpdateDatabaseResponse/members/properties",
+      "path": "/shapes/com.azure.azure_kusto#DatabasesUpdateResponse/members/properties",
       "value": {
         "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
         "traits": {
@@ -97,7 +97,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.azure_kusto#GetDatabaseResponse/members/properties",
+      "path": "/shapes/com.azure.azure_kusto#DatabasesGetResponse/members/properties",
       "value": {
         "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
         "traits": {
@@ -111,7 +111,7 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.azure.azure_kusto#UpdateDatabaseResponse/members/kind/traits/smithy.api#required"
+      "path": "/shapes/com.azure.azure_kusto#DatabasesUpdateResponse/members/kind/traits/smithy.api#required"
     }
   ]
 }

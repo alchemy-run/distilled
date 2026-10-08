@@ -97,6 +97,83 @@
             "smithy.api#documentation": "Managed identity properties for the time series database connection resource.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "adxResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the Azure Data Explorer cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxEndpointUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxDatabaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer database.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxTableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxTwinLifecycleEventsTableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxRelationshipLifecycleEventsTableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubEndpointUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubEntityPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The EventHub name in the EventHub namespace for identity-based authentication.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubNamespaceResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the EventHub namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubConsumerGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recordPropertyAndItemRemovals": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether to record property and item removals ('true' / 'false'). Defaults to 'false'.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -534,6 +611,83 @@
           "target": "com.azure.digitaltwins#ManagedIdentityReference",
           "traits": {
             "smithy.api#documentation": "Managed identity properties for the time series database connection resource.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the Azure Data Explorer cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxEndpointUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxDatabaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer database.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxTableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxTwinLifecycleEventsTableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adxRelationshipLifecycleEventsTableName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubEndpointUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubEntityPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The EventHub name in the EventHub namespace for identity-based authentication.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubNamespaceResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the EventHub namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eventHubConsumerGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recordPropertyAndItemRemovals": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether to record property and item removals ('true' / 'false'). Defaults to 'false'.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -2258,6 +2412,69 @@
             "smithy.api#documentation": "Managed identity properties for the endpoint.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "connectionStringPrimaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub (KeyBased): primary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "connectionStringSecondaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub (KeyBased): secondary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "primaryConnectionString": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServiceBus (KeyBased): primary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secondaryConnectionString": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServiceBus (KeyBased): secondary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "endpointUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "entityPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "TopicEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventGrid: the topic endpoint URL.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accessKey1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventGrid: primary access key. Obfuscated on read.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accessKey2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventGrid: secondary access key. Obfuscated on read.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -2569,6 +2786,69 @@
           "target": "com.azure.digitaltwins#ManagedIdentityReference",
           "traits": {
             "smithy.api#documentation": "Managed identity properties for the endpoint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "connectionStringPrimaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub (KeyBased): primary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "connectionStringSecondaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub (KeyBased): secondary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "primaryConnectionString": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServiceBus (KeyBased): primary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secondaryConnectionString": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServiceBus (KeyBased): secondary connection string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "endpointUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "entityPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "TopicEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventGrid: the topic endpoint URL.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accessKey1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventGrid: primary access key. Obfuscated on read.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accessKey2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventGrid: secondary access key. Obfuscated on read.",
             "com.distilled.openapi#nullable": {}
           }
         }

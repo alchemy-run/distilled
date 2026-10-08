@@ -31,10 +31,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements inventoryItem DELETE method.\n\nDeletes an inventoryItem.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteInventoryItemRequest": {
@@ -90,10 +90,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements InventoryItem PUT method.\n\nCreate Or Update InventoryItem.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#CreateInventoryItemResponse": {
@@ -455,10 +455,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET InventoryItem method.\n\nShows an inventory item.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetInventoryItemResponse": {
@@ -558,10 +558,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET for the list of Inventory Items in the VMMServer.\n\nReturns the list of inventoryItems in the given VmmServer.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#InventoryItemListResult": {
@@ -683,10 +683,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VmmServers DELETE method.\n\nRemoves the SCVmm fabric from Azure.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteVmmServerRequest": {
@@ -759,10 +759,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VmmServers PATCH method.\n\nUpdates the VmmServers resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#UpdateVmmServerResponse": {
@@ -996,10 +996,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VmmServers PUT method.\n\nOnboards the SCVmm fabric as an Azure VmmServer resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VmmServersCreateOrUpdateResponse": {
@@ -1182,10 +1182,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets a VMMServer.\n\nImplements VmmServer GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetVmmServerResponse": {
@@ -1303,10 +1303,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET VmmServers in a resource group.\n\nList of VmmServers in a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VmmServerListResult": {
@@ -1446,10 +1446,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VirtualNetwork DELETE method.\n\nDeregisters the ScVmm virtual network from Azure.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteVirtualNetworkRequest": {
@@ -1522,10 +1522,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the VirtualNetworks PATCH method.\n\nUpdates the VirtualNetworks resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#UpdateVirtualNetworkResponse": {
@@ -1699,10 +1699,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VirtualNetworks PUT method.\n\nOnboards the ScVmm virtual network as an Azure virtual network resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VirtualNetworksCreateOrUpdateResponse": {
@@ -1884,10 +1884,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets a VirtualNetwork.\n\nImplements VirtualNetwork GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetVirtualNetworkResponse": {
@@ -2005,10 +2005,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET VirtualNetworks in a resource group.\n\nList of VirtualNetworks in a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VirtualNetworkListResult": {
@@ -2148,10 +2148,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VirtualMachineTemplate DELETE method.\n\nDeregisters the ScVmm VM Template from Azure.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteVirtualMachineTemplateRequest": {
@@ -2224,10 +2224,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the VirtualMachineTemplate PATCH method.\n\nUpdates the VirtualMachineTemplate resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#UpdateVirtualMachineTemplateResponse": {
@@ -2847,10 +2847,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements VirtualMachineTemplates PUT method.\n\nOnboards the ScVmm VM Template as an Azure VM Template resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VirtualMachineTemplatesCreateOrUpdateResponse": {
@@ -3032,10 +3032,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets a VirtualMachineTemplate.\n\nImplements VirtualMachineTemplate GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetVirtualMachineTemplateResponse": {
@@ -3153,10 +3153,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET VirtualMachineTemplates in a resource group.\n\nList of VirtualMachineTemplates in a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VirtualMachineTemplateListResult": {
@@ -3296,10 +3296,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements Cloud resource DELETE method.\n\nDeregisters the ScVmm fabric cloud from Azure.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteCloudRequest": {
@@ -3372,10 +3372,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the Clouds PATCH method.\n\nUpdates the Clouds resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#UpdateCloudResponse": {
@@ -3646,10 +3646,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements Clouds PUT method.\n\nOnboards the ScVmm fabric cloud as an Azure cloud resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#CloudsCreateOrUpdateResponse": {
@@ -3831,10 +3831,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets a Cloud.\n\nImplements Cloud GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetCloudResponse": {
@@ -3952,10 +3952,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET Clouds in a resource group.\n\nList of Clouds in a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#CloudListResult": {
@@ -4095,10 +4095,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements AvailabilitySet DELETE method.\n\nDeregisters the ScVmm availability set from Azure.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteAvailabilitySetRequest": {
@@ -4171,10 +4171,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the AvailabilitySets PATCH method.\n\nUpdates the AvailabilitySets resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#UpdateAvailabilitySetResponse": {
@@ -4336,10 +4336,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements AvailabilitySets PUT method.\n\nOnboards the ScVmm availability set as an Azure resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#AvailabilitySetsCreateOrUpdateResponse": {
@@ -4515,10 +4515,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets an AvailabilitySet.\n\nImplements AvailabilitySet GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetAvailabilitySetResponse": {
@@ -4636,10 +4636,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET AvailabilitySets in a resource group.\n\nList of AvailabilitySets in a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#AvailabilitySetListResult": {
@@ -4779,10 +4779,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/vmmServers",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET VmmServers in a subscription.\n\nList of VmmServers in a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#ListVmmServerBySubscriptionRequest": {
@@ -4814,10 +4814,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualNetworks",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET VirtualNetworks in a subscription.\n\nList of VirtualNetworks in a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#ListVirtualNetworkBySubscriptionRequest": {
@@ -4849,10 +4849,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualMachineTemplates",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET VirtualMachineTemplates in a subscription.\n\nList of VirtualMachineTemplates in a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#ListVirtualMachineTemplateBySubscriptionRequest": {
@@ -4884,10 +4884,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/clouds",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET Clouds in a subscription.\n\nList of Clouds in a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#ListCloudBySubscriptionRequest": {
@@ -4919,10 +4919,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/availabilitySets",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET AvailabilitySets in a subscription.\n\nList of AvailabilitySets in a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#ListAvailabilitySetBySubscriptionRequest": {
@@ -4954,10 +4954,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.ScVmm/operations",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#ListOperationsResponse": {
@@ -5112,10 +5112,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the operation to stop a virtual machine.\n\nThe operation to power off (stop) a virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#StopVirtualMachineInstanceRequest": {
@@ -5173,10 +5173,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the operation to start a virtual machine.\n\nThe operation to start a virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#StartVirtualMachineInstanceRequest": {
@@ -5208,10 +5208,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the operation to restores to a checkpoint in a virtual machine instance.\n\nRestores to a checkpoint in virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#RestoreVirtualMachineInstanceCheckpointRequest": {
@@ -5249,10 +5249,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the operation to restart a virtual machine.\n\nThe operation to restart a virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#RestartVirtualMachineInstanceRequest": {
@@ -5284,10 +5284,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets HybridIdentityMetadata.\n\nImplements HybridIdentityMetadata GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetVmInstanceHybridIdentityMetadatasResponse": {
@@ -5383,10 +5383,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET HybridIdentityMetadata in a vm.\n\nReturns the list of HybridIdentityMetadata of the given VM.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VmInstanceHybridIdentityMetadataListResult": {
@@ -5486,10 +5486,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Deletes a GuestAgent resource.\n\nImplements GuestAgent DELETE method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteGuestAgentRequest": {
@@ -5521,10 +5521,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GuestAgent PUT method.\n\nCreate Or Update GuestAgent.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#CreateGuestAgentResponse": {
@@ -5751,10 +5751,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets GuestAgent.\n\nImplements GuestAgent GET method.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetGuestAgentResponse": {
@@ -5824,10 +5824,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements GET GuestAgent in a vm.\n\nReturns the list of GuestAgent of the given vm.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GuestAgentListResult": {
@@ -5927,10 +5927,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the operation to delete a checkpoint in a virtual machine instance.\n\nDeletes a checkpoint in virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteVirtualMachineInstanceCheckpointRequest": {
@@ -5968,10 +5968,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements the operation to creates a checkpoint in a virtual machine instance.\n\nCreates a checkpoint in virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#CreateVirtualMachineInstanceCheckpointRequest": {
@@ -6015,10 +6015,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Deletes an virtual machine.\n\nThe operation to delete a virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#DeleteVirtualMachineInstanceRequest": {
@@ -6100,10 +6100,10 @@
           "method": "PATCH",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Updates a virtual machine.\n\nThe operation to update a virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#UpdateVirtualMachineInstanceResponse": {
@@ -6827,10 +6827,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements virtual machine PUT method.\n\nThe operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VirtualMachineInstancesCreateOrUpdateResponse": {
@@ -7269,10 +7269,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Gets a virtual machine.\n\nRetrieves information about a virtual machine instance.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#GetVirtualMachineInstanceResponse": {
@@ -7349,10 +7349,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances",
           "code": 200,
-          "apiVersion": "2025-03-13"
+          "apiVersion": "2024-06-01"
         },
         "smithy.api#documentation": "Implements List virtual machine instances.\n\nLists all of the virtual machine instances within the specified parent resource.",
-        "com.distilled.openapi#apiVersion": "2025-03-13"
+        "com.distilled.openapi#apiVersion": "2024-06-01"
       }
     },
     "com.azure.scvmm#VirtualMachineInstanceListResult": {

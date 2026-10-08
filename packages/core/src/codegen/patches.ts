@@ -1,18 +1,11 @@
 /**
- * RFC-6902 patch application (dev-time only), at one of two stages a
- * package declares in its package.json (`distilled.patches`, see
- * {@link patchStage}):
- *
- *   convert   (default) OpenAPI ops (`/paths`, `/components`, …) apply to
- *             the spec before conversion; Smithy ops (`/shapes`,
- *             `/metadata`, `/smithy`) apply to the model after it.
- *             `.generated-specs` is the patched model.
- *   generate  `patches/<model>/*.json` are Smithy ops applied by the
- *             generator to `.generated-specs/<model>.json`, which stays the
- *             unpatched convert output. A fix lands by regenerating, without
- *             the spec mirror.
+ * RFC-6902 patch application (dev-time only). Every package's convert ends
+ * in {@link finalizeConvert}, which applies the Smithy ops (`/shapes`,
+ * `/metadata`, `/smithy`) of `patches/<model>/` to the freshly converted
+ * model, under the names the spec gives, then the deferred names; so
+ * `.generated-specs` is the patched model and generate never patches.
  */
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import {
@@ -184,57 +177,6 @@ export const applyRfc6902Files = async (
     }
   }
   return result;
-};
-
-/** Where a package applies its patches; see the module comment. */
-export type PatchStage = "convert" | "generate";
-
-/** The stage `<root>/package.json` declares under `distilled.patches`. */
-export const patchStage = (root: string): PatchStage => {
-  const manifest = path.join(root, "package.json");
-  if (!existsSync(manifest)) return "convert";
-  const stage = JSON.parse(readFileSync(manifest, "utf8"))?.distilled?.patches;
-  if (stage === undefined || stage === "convert") return "convert";
-  if (stage === "generate") return stage;
-  throw new Error(`${manifest}: distilled.patches must be "convert" or "generate", got ${stage}`);
-};
-
-/**
- * Apply a generate-stage model's patches: every `*.json` in `dir`
- * (`*.manual.json` last), honouring {@link SKIP_PATCHES_ENV}. A stale or
- * failing op throws — a generate run must not drop a patch silently.
- * Returns the number of ops applied; a missing dir applies none.
- */
-export const applyModelPatches = (model: unknown, dir: string): number => {
-  if (!existsSync(dir)) return 0;
-  const skip = skipList();
-  let applied = 0;
-  const files = readdirSync(dir)
-    .filter((f) => f.endsWith(".json"))
-    .sort(
-      (a, b) =>
-        Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
-        a.localeCompare(b),
-    )
-    .map((f) => path.join(dir, f));
-  for (const file of files) {
-    if (skipsFile(skip, file)) continue;
-    const parsed = JSON.parse(readFileSync(file, "utf8")) as PatchFile;
-    for (const [index, op] of (parsed.patches ?? []).entries()) {
-      if (skipsOp(skip, file, index)) continue;
-      try {
-        applyOperation(model, op);
-        applied++;
-      } catch (e) {
-        const kind = isStaleTargetError(e) ? "stale target" : "failed";
-        const label = `${path.basename(dir)}/${path.basename(file)}`;
-        throw new Error(
-          `${label} [${op.op} ${op.path}]: ${kind}: ${e instanceof Error ? e.message : String(e)}`,
-        );
-      }
-    }
-  }
-  return applied;
 };
 
 /**

@@ -3031,10 +3031,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Deletes the service details to the target resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#DeleteServiceConfigurationRequest": {
@@ -3082,10 +3082,10 @@
           "method": "PATCH",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Update the service details in the service configurations of the target resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#UpdateServiceConfigurationResponse": {
@@ -3282,10 +3282,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Create or update a service in serviceConfiguration for the endpoint resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#CreateServiceConfigurationOrupdateResponse": {
@@ -3404,10 +3404,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Gets the details about the service to the resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#GetServiceConfigurationResponse": {
@@ -3493,10 +3493,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Lists of all the services associated with endpoint resource.\n\nAPI to enumerate registered services in service configurations under a Endpoint Resource",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#ServiceConfigurationList": {
@@ -3604,10 +3604,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Fetches the managed proxy details",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#ManagedProxyResource": {
@@ -3688,10 +3688,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Gets the ingress gateway endpoint credentials",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#IngressGatewayResource": {
@@ -3855,10 +3855,10 @@
           "method": "POST",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Gets the endpoint access credentials to the resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#EndpointAccessResource": {
@@ -3925,10 +3925,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Deletes the endpoint access to the target resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#DeleteEndpointRequest": {
@@ -3968,10 +3968,10 @@
           "method": "PATCH",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Update the endpoint to the target resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#UpdateEndpointResponse": {
@@ -4123,10 +4123,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Create or update the endpoint to the target resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#EndpointsCreateOrUpdateResponse": {
@@ -4210,10 +4210,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "Gets the endpoint to the resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#GetEndpointResponse": {
@@ -4291,10 +4291,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints",
           "code": 200,
-          "apiVersion": "2027-01-01"
+          "apiVersion": "2024-12-01"
         },
         "smithy.api#documentation": "List of endpoints to the target resource.",
-        "com.distilled.openapi#apiVersion": "2027-01-01"
+        "com.distilled.openapi#apiVersion": "2024-12-01"
       }
     },
     "com.azure.hybridconnectivity#EndpointsList": {

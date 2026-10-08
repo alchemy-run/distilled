@@ -2432,6 +2432,74 @@
           "traits": {
             "smithy.api#documentation": "Optional. Indicates how to configure authentication. If optInAllAuth, service linker configures authentication such as enabling identity on source resource and granting RBAC roles. If optOutAllAuth, opt out authentication setup. Default is optInAllAuth."
           }
+        },
+        "userName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username created in the database mapped to the identity/user (identity, userAccount, servicePrincipal* auth types)."
+          }
+        },
+        "deleteOrUpdateBehavior": {
+          "target": "com.azure.servicelinker#DeleteOrUpdateBehavior",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether to clean up previous operation when Linker is updating or deleting."
+          }
+        },
+        "roles": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Optional, the RBAC role names to grant on the target (string array)."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client Id of the user-assigned identity or service principal (`userAssignedIdentity`, `servicePrincipal*`)."
+          }
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subscription id of the user-assigned identity (`userAssignedIdentity`)."
+          }
+        },
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Principal Id of the service principal or user (`servicePrincipal*`, `userAccount`)."
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret of the service principal (`servicePrincipalSecret`).",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ServicePrincipal certificate (`servicePrincipalCertificate`).",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username or account name for secret auth (`secret`)."
+          }
+        },
+        "secretInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Password or key vault secret for secret auth (`secret`), polymorphic on `secretType`: `{ secretType: \"rawValue\", value }`, `{ secretType: \"keyVaultSecretReference\", name, version }`, `{ secretType: \"keyVaultSecretUri\", value }`."
+          }
+        },
+        "permissions": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Permissions of the accessKey (`accessKey`): string array of `Read`, `Write`, `Listen`, `Send`, `Manage`."
+          }
         }
       },
       "traits": {
@@ -2466,6 +2534,24 @@
           "traits": {
             "smithy.api#documentation": "The target service type.",
             "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Id of the target Azure resource (`type: AzureResource`)."
+          }
+        },
+        "resourceProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Additional target resource properties (`type: AzureResource`), polymorphic on `type`, e.g. `{ type: \"KeyVault\", connectAsKubernetesCsiDriver: true }`."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The endpoint of the service (`type: ConfluentBootstrapServer | ConfluentSchemaRegistry | SelfHostedServer`)."
           }
         }
       },

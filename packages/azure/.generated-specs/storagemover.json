@@ -3093,6 +3093,96 @@
           "traits": {
             "smithy.api#documentation": "The provisioning state of this resource."
           }
+        },
+        "storageAccountResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+          }
+        },
+        "blobContainerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob container name (AzureStorageBlobContainer)."
+          }
+        },
+        "fileShareName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+          }
+        },
+        "enableCrossTenantTransfer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare)."
+          }
+        },
+        "allowedStorageAccounts": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Storage account ARM IDs allowed for cross-tenant transfers (string array)."
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host name or IP address of the server (NfsMount, SmbMount)."
+          }
+        },
+        "nfsVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount)."
+          }
+        },
+        "export": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Directory exported from the NFS server (NfsMount)."
+          }
+        },
+        "shareName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SMB share name (SmbMount)."
+          }
+        },
+        "sourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC)."
+          }
+        },
+        "credentials": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC)."
+          }
+        },
+        "multiCloudConnectorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the multi-cloud connector (AzureMultiCloudConnector)."
+          }
+        },
+        "awsS3BucketId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the AWS S3 bucket (AzureMultiCloudConnector)."
+          }
+        },
+        "sourceUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source URI (S3WithHMAC)."
+          }
+        },
+        "otherSourceTypeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of an `Other` source type (S3WithHMAC)."
+          }
         }
       },
       "traits": {
@@ -3274,6 +3364,24 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A description for the Endpoint."
+          }
+        },
+        "credentials": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC)."
+          }
+        },
+        "enableCrossTenantTransfer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare)."
+          }
+        },
+        "allowedStorageAccounts": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Storage account ARM IDs allowed for cross-tenant transfers (string array)."
           }
         }
       },
@@ -3470,6 +3578,96 @@
           "target": "com.azure.storagemover#EndpointKind",
           "traits": {
             "smithy.api#documentation": "The Endpoint resource kind source or target."
+          }
+        },
+        "storageAccountResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+          }
+        },
+        "blobContainerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob container name (AzureStorageBlobContainer)."
+          }
+        },
+        "fileShareName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+          }
+        },
+        "enableCrossTenantTransfer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare)."
+          }
+        },
+        "allowedStorageAccounts": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Storage account ARM IDs allowed for cross-tenant transfers (string array)."
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host name or IP address of the server (NfsMount, SmbMount)."
+          }
+        },
+        "nfsVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount)."
+          }
+        },
+        "export": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Directory exported from the NFS server (NfsMount)."
+          }
+        },
+        "shareName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SMB share name (SmbMount)."
+          }
+        },
+        "sourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC)."
+          }
+        },
+        "credentials": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC)."
+          }
+        },
+        "multiCloudConnectorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the multi-cloud connector (AzureMultiCloudConnector)."
+          }
+        },
+        "awsS3BucketId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the AWS S3 bucket (AzureMultiCloudConnector)."
+          }
+        },
+        "sourceUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source URI (S3WithHMAC)."
+          }
+        },
+        "otherSourceTypeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of an `Other` source type (S3WithHMAC)."
           }
         }
       },

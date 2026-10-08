@@ -6298,6 +6298,18 @@
             "smithy.api#documentation": "Application Group Policy types",
             "smithy.api#required": {}
           }
+        },
+        "rateLimitThreshold": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "ThrottlingPolicy: the threshold limit above which the application group will be throttled. Rate limit is always per second."
+          }
+        },
+        "metricId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ThrottlingPolicy: metric to throttle on (IncomingBytes, OutgoingBytes, IncomingMessages, OutgoingMessages)."
+          }
         }
       },
       "traits": {

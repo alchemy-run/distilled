@@ -416,6 +416,80 @@
             "smithy.api#documentation": "Type of the storage class.",
             "smithy.api#required": {}
           }
+        },
+        "backingStorageClassName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The backing storageclass used to create new storageclass"
+          }
+        },
+        "azureStorageAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure Storage Account Name"
+          }
+        },
+        "azureStorageAccountKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure Storage Account Key",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "server": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NFS Server"
+          }
+        },
+        "share": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NFS share"
+          }
+        },
+        "subDir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sub directory under share. If the sub directory doesn't exist, driver will create it"
+          }
+        },
+        "mountPermissions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount"
+          }
+        },
+        "onDelete": {
+          "target": "com.azure.kubernetesruntime#NfsDirectoryActionOnVolumeDeletion",
+          "traits": {
+            "smithy.api#documentation": "The action to take when a NFS volume is deleted. Default is Delete"
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SMB Source"
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server username"
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server password",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server domain"
+          }
         }
       },
       "traits": {
@@ -855,7 +929,8 @@
         "azureStorageAccountKey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Azure Storage Account Key"
+            "smithy.api#documentation": "Azure Storage Account Key",
+            "smithy.api#sensitive": {}
           }
         },
         "server": {
