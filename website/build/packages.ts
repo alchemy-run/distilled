@@ -128,7 +128,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ],
   [
     "Business & analytics",
-    ["google-workspace", "squarespace", "porkbun", "metabase", "apache-superset"],
+    ["google-workspace", "notion", "squarespace", "porkbun", "metabase", "apache-superset"],
   ],
 ];
 
@@ -196,6 +196,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   kubernetes: "k8s",
   "expo-eas": "react native builds",
   "google-workspace": "gmail drive calendar",
+  notion: "docs wiki pages databases blocks",
   porkbun: "domains dns",
   hetzner: "servers",
   ovh: "servers",

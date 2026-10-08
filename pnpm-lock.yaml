@@ -968,6 +968,19 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/notion:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/okta:
     dependencies:
       '@distilled.cloud/core':

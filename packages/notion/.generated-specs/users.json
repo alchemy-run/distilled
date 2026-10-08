@@ -1,0 +1,659 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.users#GetSelfResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.users#BotInfoResponse": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "com.notion.users#BotInfoResponseOwner",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the bot's workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_limits": {
+          "target": "com.notion.users#BotInfoResponseWorkspaceLimits",
+          "traits": {
+            "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bot's workspace.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.users#BotInfoResponseOwnerCase0UserCase0Person": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person info of the user."
+      }
+    },
+    "com.notion.users#BotInfoResponseOwnerCase0UserCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "person": {
+          "target": "com.notion.users#BotInfoResponseOwnerCase0UserCase0Person",
+          "traits": {
+            "smithy.api#documentation": "The person info of the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.users#PartialUserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.users#BotInfoResponseOwnerCase0User": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.users#BotInfoResponseOwnerCase0UserCase0"
+        },
+        "PartialUserObjectResponse": {
+          "target": "com.notion.users#PartialUserObjectResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration."
+      }
+    },
+    "com.notion.users#BotInfoResponseOwnerCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.users#BotInfoResponseOwnerCase0User",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.users#BotInfoResponseOwnerCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `workspace`",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `workspace`. This means the bot is for an internal integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.users#BotInfoResponseOwner": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.users#BotInfoResponseOwnerCase0"
+        },
+        "Case1": {
+          "target": "com.notion.users#BotInfoResponseOwnerCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot."
+      }
+    },
+    "com.notion.users#BotInfoResponseWorkspaceLimits": {
+      "type": "structure",
+      "members": {
+        "max_file_upload_size_in_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum allowable size of a file upload, in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace"
+      }
+    },
+    "com.notion.users#GetSelfResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.users#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.users#GetSelfResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.users#GetSelfResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.users#GetSelfResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.users#GetSelf": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.notion.users#GetSelfResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/users/me",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve your token's bot user"
+      }
+    },
+    "com.notion.users#GetUserRequest": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.users#GetUserResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.users#GetUserResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.users#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.users#GetUserResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.users#GetUserResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.users#GetUserResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.users#GetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.users#GetUserRequest"
+      },
+      "output": {
+        "target": "com.notion.users#GetUserResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a user"
+      }
+    },
+    "com.notion.users#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_cursor"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.users#UserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.users#UserObjectResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.users#UserObjectResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.users#UserObjectResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.users#UserObjectResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.users#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.users#ListUsersResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.users#UserObjectResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.users#ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.notion.users#ListUsersResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.users#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.users#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.notion.users#ListUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/users",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all users",
+        "smithy.api#paginated": {
+          "inputToken": "start_cursor",
+          "outputToken": "next_cursor",
+          "items": "results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.notion.users#Users": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.users#GetSelf"
+        },
+        {
+          "target": "com.notion.users#GetUser"
+        },
+        {
+          "target": "com.notion.users#ListUsers"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}
