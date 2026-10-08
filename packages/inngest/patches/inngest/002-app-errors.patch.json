@@ -2,16 +2,6 @@
   "description": "Type the live-observed app/function failures. Inngest returns { errors: [{ code, message }] } with a string code, so matchers address /errors/0/code. getV2App/getV2Function answer 404 not_found for a missing app or function; syncV2App answers 422 with app_mismatch (the SDK served at the URL reports a different app id), unknown + \"We could not reach your URL\" (host unreachable), or unauthorized (the host signs with a different signing key). The spec documents the 422 body as SyncAppResponse; the wire body is the error envelope.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/paths/~1apps~1{appId}~1syncs/post/responses/422/content/application~1json/schema/$ref",
-      "value": "#/components/schemas/v2ErrorResponse"
-    },
-    {
-      "op": "replace",
-      "path": "/paths/~1apps~1{appId}~1syncs/post/responses/422/description",
-      "value": "Unprocessable Entity - sync failed. The body is the error envelope with a coded error (app_mismatch, unauthorized, unknown)."
-    },
-    {
       "op": "add",
       "path": "/shapes/com.inngest.api#AppNotFound",
       "value": {
@@ -144,7 +134,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.inngest.api#GetV2App/errors",
+      "path": "/shapes/com.inngest.api#V2GetApp/errors",
       "value": [
         {
           "target": "com.inngest.api#AppNotFound"
@@ -153,7 +143,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.inngest.api#GetV2Function/errors",
+      "path": "/shapes/com.inngest.api#V2GetFunction/errors",
       "value": [
         {
           "target": "com.inngest.api#FunctionNotFound"
@@ -162,21 +152,21 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.inngest.api#SyncV2App/errors/-",
+      "path": "/shapes/com.inngest.api#V2SyncApp/errors/-",
       "value": {
         "target": "com.inngest.api#AppIdMismatch"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.inngest.api#SyncV2App/errors/-",
+      "path": "/shapes/com.inngest.api#V2SyncApp/errors/-",
       "value": {
         "target": "com.inngest.api#AppUnreachable"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.inngest.api#SyncV2App/errors/-",
+      "path": "/shapes/com.inngest.api#V2SyncApp/errors/-",
       "value": {
         "target": "com.inngest.api#AppUnauthorized"
       }

@@ -28,7 +28,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.inngest.api#PatchV2Env/errors/-",
+      "path": "/shapes/com.inngest.api#V2PatchEnv/errors/-",
       "value": {
         "target": "com.inngest.api#EnvironmentNotFound"
       }

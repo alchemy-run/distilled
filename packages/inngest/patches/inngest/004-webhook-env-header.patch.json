@@ -2,14 +2,12 @@
   "description": "The spec marks X-Inngest-Env required on GET and POST /env/webhooks, but the key already scopes the request: live probes against https://api.inngest.com/v2 on 2026-10-07 list and create webhooks without the header using both a production API key and a branch-environment signing key, and branch environments share one set of webhooks.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/paths/~1env~1webhooks/get/parameters/2/required",
-      "value": false
+      "op": "remove",
+      "path": "/shapes/com.inngest.api#V2ListWebhooksRequest/members/xInngestEnv/traits/smithy.api#required"
     },
     {
-      "op": "replace",
-      "path": "/paths/~1env~1webhooks/post/parameters/0/required",
-      "value": false
+      "op": "remove",
+      "path": "/shapes/com.inngest.api#V2CreateWebhookRequest/members/xInngestEnv/traits/smithy.api#required"
     }
   ]
 }
