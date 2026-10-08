@@ -21131,6 +21131,9 @@
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
+        },
+        {
+          "target": "aws.synthetic#ClientVpnEndpointCreationInProgress"
         }
       ]
     },
@@ -156923,6 +156926,18 @@
       "type": "structure",
       "members": {},
       "traits": {}
+    },
+    "aws.synthetic#ClientVpnEndpointCreationInProgress": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "OperationNotPermitted",
+          "message": {
+            "includes": "another endpoint is being created"
+          }
+        }
+      }
     },
     "aws.patched#VerifiedAccessInstanceLimitExceeded": {
       "type": "structure",

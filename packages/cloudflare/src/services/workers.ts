@@ -3343,13 +3343,23 @@ export const BetaWorkersVersionsCreateRequestCompatibilityFlagsList = /*@__PURE_
   S.String,
 ) as any as S.Schema<BetaWorkersVersionsCreateRequestCompatibilityFlagsList>;
 
+export type ContainerImageMap = { [key: string]: string | undefined };
+export const ContainerImageMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ContainerImageMap>;
+
 export interface BetaWorkersVersionsCreateRequestContainersItem {
   /** Select which Durable Object class should get this container attached. */
   className: string;
+  name?: string;
+  images?: ContainerImageMap;
 }
 export const BetaWorkersVersionsCreateRequestContainersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     className: S.String.pipe(T.Body("class_name")),
+    name: S.optional(S.String),
+    images: S.optional(ContainerImageMap.pipe(T.KeyDictionary({}))),
   }),
 ).annotate({
   identifier: "BetaWorkersVersionsCreateRequestContainersItem",
@@ -5387,15 +5397,26 @@ export const BetaWorkersVersionsCreateResponseCompatibilityFlagsList = /*@__PURE
   S.String,
 ) as any as S.Schema<BetaWorkersVersionsCreateResponseCompatibilityFlagsList>;
 
-export type BetaWorkersVersionsCreateResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
-export const BetaWorkersVersionsCreateResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+export interface BetaWorkersVersionsCreateResponseContainersItem {
+  /** Select which Durable Object class should get this container attached. */
+  className: string;
+  name?: string | null;
+  images?: ContainerImageMap | null;
+}
+export const BetaWorkersVersionsCreateResponseContainersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    className: S.String.pipe(T.Body("class_name")),
+    name: S.optional(S.NullOr(S.String)),
+    images: S.optional(S.NullOr(ContainerImageMap).pipe(T.KeyDictionary({}))),
+  }),
+).annotate({
+  identifier: "BetaWorkersVersionsCreateResponseContainersItem",
+}) as any as S.Schema<BetaWorkersVersionsCreateResponseContainersItem>;
 
 export type BetaWorkersVersionsCreateResponseContainersList =
-  Array<BetaWorkersVersionsCreateRequestContainersItem>;
+  Array<BetaWorkersVersionsCreateResponseContainersItem>;
 export const BetaWorkersVersionsCreateResponseContainersList = /*@__PURE__*/ S.Array(
-  BetaWorkersVersionsCreateRequestContainersItem,
+  BetaWorkersVersionsCreateResponseContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsCreateResponseContainersList>;
 
 export type BetaWorkersVersionsCreateResponseExportsValueWorkerType = "worker";
@@ -8218,10 +8239,14 @@ export const CreatePreviewDeploymentMetadataCompatibilityFlagsList = /*@__PURE__
 
 export interface CreatePreviewDeploymentMetadataContainer {
   className: string;
+  name?: string;
+  images?: ContainerImageMap;
 }
 export const CreatePreviewDeploymentMetadataContainer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     className: S.String.pipe(T.Body("class_name")),
+    name: S.optional(S.String),
+    images: S.optional(ContainerImageMap.pipe(T.KeyDictionary({}))),
   }),
 ).annotate({
   identifier: "CreatePreviewDeploymentMetadataContainer",
@@ -11959,6 +11984,7 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntime {
   migrationTag?: string | null;
   /** Usage model for the Worker invocations. */
   usageModel?: ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel | null;
+  containers?: BetaWorkersVersionsCreateResponseContainersList | null;
 }
 export const ScriptsVersionsCreateResponseResourcesScriptRuntime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11976,6 +12002,7 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntime = /*@__PURE__*/
         T.Body("usage_model"),
       ),
     ),
+    containers: S.optional(S.NullOr(BetaWorkersVersionsCreateResponseContainersList)),
   }),
 ).annotate({
   identifier: "ScriptsVersionsCreateResponseResourcesScriptRuntime",
@@ -14706,14 +14733,14 @@ export const BetaWorkersVersionsGetResponseCompatibilityFlagsList = /*@__PURE__*
 ) as any as S.Schema<BetaWorkersVersionsGetResponseCompatibilityFlagsList>;
 
 export type BetaWorkersVersionsGetResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 export const BetaWorkersVersionsGetResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 
 export type BetaWorkersVersionsGetResponseContainersList =
-  Array<BetaWorkersVersionsCreateRequestContainersItem>;
+  Array<BetaWorkersVersionsCreateResponseContainersItem>;
 export const BetaWorkersVersionsGetResponseContainersList = /*@__PURE__*/ S.Array(
-  BetaWorkersVersionsCreateRequestContainersItem,
+  BetaWorkersVersionsCreateResponseContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsGetResponseContainersList>;
 
 export type BetaWorkersVersionsGetResponseExportsValueWorkerType = "worker";
@@ -21166,6 +21193,7 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntime {
   migrationTag?: string | null;
   /** Usage model for the Worker invocations. */
   usageModel?: ScriptsVersionsGetResponseResourcesScriptRuntimeUsageModel | null;
+  containers?: BetaWorkersVersionsGetResponseContainersList | null;
 }
 export const ScriptsVersionsGetResponseResourcesScriptRuntime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -21183,6 +21211,7 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntime = /*@__PURE__*/ S.
         T.Body("usage_model"),
       ),
     ),
+    containers: S.optional(S.NullOr(BetaWorkersVersionsGetResponseContainersList)),
   }),
 ).annotate({
   identifier: "ScriptsVersionsGetResponseResourcesScriptRuntime",
@@ -23572,14 +23601,14 @@ export const BetaWorkersVersionsListResultItemCompatibilityFlagsList = /*@__PURE
 ) as any as S.Schema<BetaWorkersVersionsListResultItemCompatibilityFlagsList>;
 
 export type BetaWorkersVersionsListResultItemContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 export const BetaWorkersVersionsListResultItemContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 
 export type BetaWorkersVersionsListResultItemContainersList =
-  Array<BetaWorkersVersionsCreateRequestContainersItem>;
+  Array<BetaWorkersVersionsCreateResponseContainersItem>;
 export const BetaWorkersVersionsListResultItemContainersList = /*@__PURE__*/ S.Array(
-  BetaWorkersVersionsCreateRequestContainersItem,
+  BetaWorkersVersionsCreateResponseContainersItem,
 ) as any as S.Schema<BetaWorkersVersionsListResultItemContainersList>;
 
 export type BetaWorkersVersionsListResultItemExportsValueWorkerType = "worker";
