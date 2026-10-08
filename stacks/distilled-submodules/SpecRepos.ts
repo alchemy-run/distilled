@@ -42,6 +42,7 @@ export const mirrorId = (specRepo: SpecRepo) => specRepo.mirror ?? specRepo.pack
 export const repositoryName = (specRepo: SpecRepo) => `spec-mirror-${mirrorId(specRepo)}`;
 
 export const SPEC_REPOS: readonly SpecRepo[] = [
+  { package: "acme" },
   { package: "adyen" },
   { package: "apache-superset" },
   { package: "archil" },

@@ -423,3 +423,8 @@ path = packages/zerossl/specs/spec-mirror-zerossl
 url = https://github.com/distilled-mirror/spec-mirror-zerossl.git
 ignore = dirty
 shallow = true
+[submodule "packages/acme/specs/spec-mirror-acme"]
+path = packages/acme/specs/spec-mirror-acme
+url = https://github.com/distilled-mirror/spec-mirror-acme.git
+ignore = dirty
+shallow = true

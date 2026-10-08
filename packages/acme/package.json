@@ -67,6 +67,8 @@
   "scripts": {
     "build": "tsc -b",
     "generate": "node --conditions=bun scripts/generate.ts",
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-acme",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-acme",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
