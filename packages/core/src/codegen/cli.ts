@@ -18,6 +18,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import { barrel } from "./emit.ts";
 import { formatGenerated } from "./format.ts";
+import { stampGeneratedAt } from "./generated-at.ts";
 import { generateService, type SdkSpec } from "./generator.ts";
 
 export interface GeneratorCliOptions {
@@ -251,6 +252,9 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
           for (const f of failedModels) yield* Console.error(`   ${f}`);
           return yield* Effect.die(new Error(`${failedModels.length} model(s) failed to generate`));
         }
+
+        const date = yield* Effect.sync(() => stampGeneratedAt(root));
+        yield* Console.log(`   package.json distilled.generatedAt = ${date}`);
       }),
   ).pipe(Command.withDescription(options.description));
 
