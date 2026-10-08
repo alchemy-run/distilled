@@ -45,17 +45,17 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id",
-            "smithy.api#required": {}
-          }
-        },
         "product_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "product_id"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {}
           }
         }
       },
@@ -83,7 +83,7 @@
         "banned_words": {
           "target": "com.whop.chat_channels#ChatChannelListItemBannedWordsList",
           "traits": {
-            "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat.",
+            "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat.",
             "smithy.api#required": {}
           }
         },
@@ -134,7 +134,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat."
+        "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat."
       }
     },
     "com.whop.chat_channels#ChatChannelListItemExperience": {
@@ -343,7 +343,7 @@
         "banned_words": {
           "target": "com.whop.chat_channels#ChatChannelBannedWordsList",
           "traits": {
-            "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat.",
+            "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat.",
             "smithy.api#required": {}
           }
         },
@@ -394,7 +394,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat."
+        "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat."
       }
     },
     "com.whop.chat_channels#ChatChannelExperience": {
@@ -494,7 +494,7 @@
         "user_posts_cooldown_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The minimum number of seconds a user must wait between sending messages in this chat channel.",
+            "smithy.api#documentation": "The minimum number of seconds a user must wait between sending messages in this chat channel. Pass null or 0 to remove the cooldown.",
             "com.distilled.openapi#nullable": {}
           }
         },

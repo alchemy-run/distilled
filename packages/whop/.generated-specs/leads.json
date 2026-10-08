@@ -54,13 +54,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id",
-            "smithy.api#required": {}
-          }
-        },
         "created_after": {
           "target": "smithy.api#String",
           "traits": {
@@ -77,6 +70,13 @@
           "target": "com.whop.leads#ListLeadRequestProductIdsList",
           "traits": {
             "smithy.api#httpQuery": "product_ids"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {}
           }
         }
       },
@@ -362,7 +362,7 @@
     "com.whop.leads#CreateLeadRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the company to create the lead for, starting with 'biz_'.",

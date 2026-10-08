@@ -50,6 +50,12 @@
           "traits": {
             "smithy.api#enumValue": "people_filter"
           }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
         }
       },
       "traits": {}
@@ -76,28 +82,28 @@
           "target": "com.whop.audiences#ListAudiencesRequestAudienceType",
           "traits": {
             "smithy.api#httpQuery": "audience_type",
-            "smithy.api#documentation": "Filter by audience type: `custom` (uploaded lists) or `lookalike`."
+            "smithy.api#documentation": "Filter by custom or lookalike audiences."
           }
         },
         "source_type": {
           "target": "com.whop.audiences#ListAudiencesRequestSourceType",
           "traits": {
             "smithy.api#httpQuery": "source_type",
-            "smithy.api#documentation": "Filter by member source: `csv_upload` (uploaded lists) or `people_filter` (automatic audiences built from saved People filters)."
+            "smithy.api#documentation": "Filter by uploaded customer lists, Whop People filters, or social engagement."
           }
         },
         "first": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of audiences to return. Defaults to 20; maximum 100."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor for the next page of audiences."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         }
       },
@@ -111,14 +117,14 @@
         "audience_type": {
           "target": "com.whop.audiences#AudienceAudienceType",
           "traits": {
-            "smithy.api#documentation": "`custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience.",
+            "smithy.api#documentation": "Whether the audience targets a defined group of people or people similar to an existing audience.",
             "smithy.api#required": {}
           }
         },
         "auto_refresh": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether membership keeps updating. `true` rebuilds it from the saved filters twice a day, so people join and leave as they start and stop matching. `false` keeps whoever matched when it was built and never rebuilds. Always `false` for uploaded lists and lookalikes.",
+            "smithy.api#documentation": "Whether Whop rebuilds membership from saved People filters twice a day. When `false`, People audiences keep the members matched at creation. Always `false` for uploaded lists, lookalikes, and engagement audiences. Engagement membership is maintained by Meta.",
             "smithy.api#required": {}
           }
         },
@@ -127,6 +133,14 @@
           "traits": {
             "smithy.api#documentation": "When the audience was created, as an ISO 8601 timestamp.",
             "smithy.api#required": {}
+          }
+        },
+        "engagement": {
+          "target": "com.whop.audiences#AudienceEngagement",
+          "traits": {
+            "smithy.api#documentation": "Social engagement rules maintained by the ad platform. `null` for other audience sources.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "error_message": {
@@ -140,7 +154,7 @@
         "filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "For audiences built from People filters: the filters that define membership, keyed exactly as `GET /people` accepts them — for example `{\"os\": \"iOS\", \"country\": \"US\"}`. `null` for uploaded lists and lookalikes.",
+            "smithy.api#documentation": "Saved Whop People filters that define membership, using the same keys as `GET /people`. `null` for uploaded lists, engagement audiences, and lookalikes.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -185,7 +199,7 @@
         "matched_rows": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Members successfully uploaded to connected ad accounts. Always 0 for lookalikes.",
+            "smithy.api#documentation": "Members successfully uploaded to connected ad accounts. Always 0 for lookalikes and engagement audiences.",
             "smithy.api#required": {}
           }
         },
@@ -205,7 +219,7 @@
         "processed_rows": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Members processed from the source so far. Always 0 for lookalikes.",
+            "smithy.api#documentation": "Members processed from the source so far. Always 0 for lookalikes and engagement audiences.",
             "smithy.api#required": {}
           }
         },
@@ -227,21 +241,21 @@
         "source_type": {
           "target": "com.whop.audiences#AudienceSourceType",
           "traits": {
-            "smithy.api#documentation": "Where members come from. `csv_upload` = an uploaded customer list; `people_filter` = built from saved People filters. See `auto_refresh` for whether a `people_filter` audience keeps updating.",
+            "smithy.api#documentation": "Membership source: an uploaded CSV, Whop People filters, or social engagement.",
             "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.whop.audiences#AudienceStatus",
           "traits": {
-            "smithy.api#documentation": "Current state of the audience import. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong.",
+            "smithy.api#documentation": "Current state of audience creation. For engagement audiences, `ready` means the rules were created on Meta; membership may still be populating. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong.",
             "smithy.api#required": {}
           }
         },
         "total_rows": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Total members detected in the source — CSV rows for uploaded lists, matching people for automatic audiences. Always 0 for lookalikes.",
+            "smithy.api#documentation": "Total members detected in the source — CSV rows for uploaded lists, matching people for automatic audiences. Always 0 for lookalikes and engagement audiences.",
             "smithy.api#required": {}
           }
         },
@@ -272,7 +286,538 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "`custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience."
+        "smithy.api#documentation": "Whether the audience targets a defined group of people or people similar to an existing audience."
+      }
+    },
+    "com.whop.audiences#AudienceEngagement": {
+      "type": "structure",
+      "members": {
+        "exclude": {
+          "target": "com.whop.audiences#AudienceEngagementExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Exclude anyone matching any exclusion rule. Supply 0–10 rules. Video audiences do not support exclusions; use a separate audience in ad-group exclusions.",
+            "smithy.api#required": {}
+          }
+        },
+        "include": {
+          "target": "com.whop.audiences#AudienceEngagementIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Match any inclusion rule. Supply 1–10 rules. Video rules must share a retention window and cannot be combined with other sources.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.audiences#AudienceEngagementPlatform",
+          "traits": {
+            "smithy.api#documentation": "Ad platform that maintains membership.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementRule": {
+      "type": "union",
+      "members": {
+        "AudienceEngagementVideoRule": {
+          "target": "com.whop.audiences#AudienceEngagementVideoRule"
+        },
+        "AudienceEngagementLeadFormRule": {
+          "target": "com.whop.audiences#AudienceEngagementLeadFormRule"
+        },
+        "AudienceEngagementInstagramProfileRule": {
+          "target": "com.whop.audiences#AudienceEngagementInstagramProfileRule"
+        },
+        "AudienceEngagementFacebookPageRule": {
+          "target": "com.whop.audiences#AudienceEngagementFacebookPageRule"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementVideoRule": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.whop.audiences#AudienceEngagementVideoRuleEvent",
+          "traits": {
+            "smithy.api#documentation": "Interaction that qualifies a person for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.audiences#AudienceEngagementVideoRuleObject",
+          "traits": {
+            "smithy.api#documentation": "Engagement source.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_video_ids": {
+          "target": "com.whop.audiences#AudienceEngagementVideoRulePlatformVideoIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rolling membership window in days, from 1 to 365.",
+            "smithy.api#required": {}
+          }
+        },
+        "social_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connected social account ID, prefixed `sacc_`, with advertising access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementVideoRuleEvent": {
+      "type": "enum",
+      "members": {
+        "WATCHED_3_SECONDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_3_seconds"
+          }
+        },
+        "WATCHED_10_SECONDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_10_seconds"
+          }
+        },
+        "WATCHED_15_SECONDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_15_seconds"
+          }
+        },
+        "WATCHED_25_PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_25_percent"
+          }
+        },
+        "WATCHED_50_PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_50_percent"
+          }
+        },
+        "WATCHED_75_PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_75_percent"
+          }
+        },
+        "WATCHED_95_PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watched_95_percent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Interaction that qualifies a person for this rule."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementVideoRuleObject": {
+      "type": "enum",
+      "members": {
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Engagement source."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementVideoRulePlatformVideoIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementLeadFormRule": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.whop.audiences#AudienceEngagementLeadFormRuleEvent",
+          "traits": {
+            "smithy.api#documentation": "Interaction that qualifies a person for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.audiences#AudienceEngagementLeadFormRuleObject",
+          "traits": {
+            "smithy.api#documentation": "Engagement source.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_form_ids": {
+          "target": "com.whop.audiences#AudienceEngagementLeadFormRulePlatformFormIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rolling membership window in days, from 1 to 90.",
+            "smithy.api#required": {}
+          }
+        },
+        "social_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connected social account ID, prefixed `sacc_`, with advertising access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementLeadFormRuleEvent": {
+      "type": "enum",
+      "members": {
+        "OPENED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opened"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "NOT_SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_submitted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Interaction that qualifies a person for this rule."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementLeadFormRuleObject": {
+      "type": "enum",
+      "members": {
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Engagement source."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementLeadFormRulePlatformFormIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementInstagramProfileRule": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.whop.audiences#AudienceEngagementInstagramProfileRuleEvent",
+          "traits": {
+            "smithy.api#documentation": "Interaction that qualifies a person for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.audiences#AudienceEngagementInstagramProfileRuleObject",
+          "traits": {
+            "smithy.api#documentation": "Engagement source.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rolling membership window in days, from 1 to 730.",
+            "smithy.api#required": {}
+          }
+        },
+        "social_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connected social account ID, prefixed `sacc_`, with advertising access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementInstagramProfileRuleEvent": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "ENGAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engaged"
+          }
+        },
+        "VISITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visited"
+          }
+        },
+        "MESSAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaged"
+          }
+        },
+        "SAVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saved"
+          }
+        },
+        "AD_LIKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_liked"
+          }
+        },
+        "AD_COMMENTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_commented"
+          }
+        },
+        "AD_SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_shared"
+          }
+        },
+        "AD_SAVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_saved"
+          }
+        },
+        "AD_CTA_CLICKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_cta_clicked"
+          }
+        },
+        "AD_CAROUSEL_SWIPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_carousel_swiped"
+          }
+        },
+        "ORGANIC_LIKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_liked"
+          }
+        },
+        "ORGANIC_COMMENTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_commented"
+          }
+        },
+        "ORGANIC_SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_shared"
+          }
+        },
+        "ORGANIC_SAVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_saved"
+          }
+        },
+        "ORGANIC_SWIPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_swiped"
+          }
+        },
+        "ORGANIC_CAROUSEL_SWIPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_carousel_swiped"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Interaction that qualifies a person for this rule."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementInstagramProfileRuleObject": {
+      "type": "enum",
+      "members": {
+        "INSTAGRAM_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_profile"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Engagement source."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementFacebookPageRule": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.whop.audiences#AudienceEngagementFacebookPageRuleEvent",
+          "traits": {
+            "smithy.api#documentation": "Interaction that qualifies a person for this rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.audiences#AudienceEngagementFacebookPageRuleObject",
+          "traits": {
+            "smithy.api#documentation": "Engagement source.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rolling membership window in days, from 1 to 730. Use 0 for `liked`, which tracks current likes and cannot be combined with other events.",
+            "smithy.api#required": {}
+          }
+        },
+        "social_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connected social account ID, prefixed `sacc_`, with advertising access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceEngagementFacebookPageRuleEvent": {
+      "type": "enum",
+      "members": {
+        "ENGAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engaged"
+          }
+        },
+        "VISITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visited"
+          }
+        },
+        "LIKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "liked"
+          }
+        },
+        "MESSAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaged"
+          }
+        },
+        "CTA_CLICKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cta_clicked"
+          }
+        },
+        "SAVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saved"
+          }
+        },
+        "POST_INTERACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_interaction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Interaction that qualifies a person for this rule."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementFacebookPageRuleObject": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Engagement source."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#AudienceEngagementRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exclude anyone matching any exclusion rule. Supply 0–10 rules. Video audiences do not support exclusions; use a separate audience in ad-group exclusions."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#AudienceEngagementRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match any inclusion rule. Supply 1–10 rules. Video rules must share a retention window and cannot be combined with other sources."
+      }
+    },
+    "com.whop.audiences#AudienceEngagementPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ad platform that maintains membership."
       }
     },
     "com.whop.audiences#AudienceMatchRate": {
@@ -380,10 +925,16 @@
           "traits": {
             "smithy.api#enumValue": "people_filter"
           }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Where members come from. `csv_upload` = an uploaded customer list; `people_filter` = built from saved People filters. See `auto_refresh` for whether a `people_filter` audience keeps updating."
+        "smithy.api#documentation": "Membership source: an uploaded CSV, Whop People filters, or social engagement."
       }
     },
     "com.whop.audiences#AudienceStatus": {
@@ -427,7 +978,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Current state of the audience import. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong."
+        "smithy.api#documentation": "Current state of audience creation. For engagement audiences, `ready` means the rules were created on Meta; membership may still be populating. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong."
       }
     },
     "com.whop.audiences#ListAudiencesResponseDataList": {
@@ -503,7 +1054,7 @@
           "uri": "/audiences",
           "code": 200
         },
-        "smithy.api#documentation": "List Audiences\n\nLists uploaded customer-list audiences for an account. Pass `audience_id` to return a specific audience.",
+        "smithy.api#documentation": "List Audiences\n\nList custom and lookalike audiences for an account. Pass `audience_id` to return a specific audience.",
         "smithy.api#paginated": {
           "mode": "relay",
           "inputToken": "after",
@@ -531,7 +1082,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "What to create. Defaults to `custom` (CSV upload)."
+        "smithy.api#documentation": "Audience type. Defaults to `custom`."
       }
     },
     "com.whop.audiences#CreateAudienceRequestColumnMapping": {
@@ -575,7 +1126,93 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Custom audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`."
+        "smithy.api#documentation": "CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestEngagementExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#AudienceEngagementRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestEngagementIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#AudienceEngagementRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match any inclusion rule. Video rules must share a retention window and cannot be combined with other sources."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestEngagementPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ad platform that maintains membership."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestEngagement": {
+      "type": "structure",
+      "members": {
+        "exclude": {
+          "target": "com.whop.audiences#CreateAudienceRequestEngagementExcludeList",
+          "traits": {
+            "smithy.api#documentation": "Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions."
+          }
+        },
+        "include": {
+          "target": "com.whop.audiences#CreateAudienceRequestEngagementIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Match any inclusion rule. Video rules must share a retention window and cannot be combined with other sources.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.audiences#CreateAudienceRequestEngagementPlatform",
+          "traits": {
+            "smithy.api#documentation": "Ad platform that maintains membership.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Rules for membership based on social engagement. Requires a connected social account with advertising access."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestSourceType": {
+      "type": "enum",
+      "members": {
+        "CSV_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv_upload"
+          }
+        },
+        "PEOPLE_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people_filter"
+          }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom audience source. Inferred from `engagement`, then `filters`, otherwise defaults to `csv_upload`. Supply only the fields for the selected source."
       }
     },
     "com.whop.audiences#CreateAudienceRequest": {
@@ -591,7 +1228,7 @@
         "audience_type": {
           "target": "com.whop.audiences#CreateAudienceRequestAudienceType",
           "traits": {
-            "smithy.api#documentation": "What to create. Defaults to `custom` (CSV upload)."
+            "smithy.api#documentation": "Audience type. Defaults to `custom`."
           }
         },
         "auto_refresh": {
@@ -603,7 +1240,7 @@
         "column_mapping": {
           "target": "com.whop.audiences#CreateAudienceRequestColumnMapping",
           "traits": {
-            "smithy.api#documentation": "Custom audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`."
+            "smithy.api#documentation": "CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`."
           }
         },
         "count": {
@@ -612,16 +1249,22 @@
             "smithy.api#documentation": "Lookalikes only. Number of lookalike audiences to create (1–6)."
           }
         },
+        "engagement": {
+          "target": "com.whop.audiences#CreateAudienceRequestEngagement",
+          "traits": {
+            "smithy.api#documentation": "Rules for membership based on social engagement. Requires a connected social account with advertising access."
+          }
+        },
         "file_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom audiences only. The uploaded customer CSV — a file id (`file_...`) returned by `POST /files`."
+            "smithy.api#documentation": "CSV audiences only. The uploaded customer CSV — a file id (`file_...`) returned by `POST /files`."
           }
         },
         "filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them — for example `{\"os\": \"iOS\", \"country\": \"US\"}`. Date filters must be rolling windows — `first_seen_within_days` or `last_seen_within_days` — so the audience re-anchors on every refresh; fixed dates such as `first_seen_after` are rejected. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard."
+            "smithy.api#documentation": "Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them — for example `{\"os\": \"iOS\", \"country\": \"US\"}`. Activity dates `event_from` and `event_to` are inclusive and remain fixed on refresh. Use `event_within_days`, `first_seen_within_days` or `last_seen_within_days` for a rolling window. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard."
           }
         },
         "name": {
@@ -633,13 +1276,19 @@
         "percentage": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Lookalikes only. Total similarity reach as a whole percent (1–20), sliced evenly across `count` — must be divisible by `count`."
+            "smithy.api#documentation": "Lookalikes only. Total similarity reach as a whole percent (1–20), sliced evenly across `count` — must be divisible by `count`. For example, 3 audiences at 6% creates 0–2%, 2–4%, and 4–6% bands."
           }
         },
         "source_audience_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Lookalikes only. The ready custom audience (`adaud_`) to build from; it needs at least 100 matched people."
+            "smithy.api#documentation": "Lookalikes only. The ready custom audience (`adaud_`) to build from; uploaded and People audiences need at least 100 matched people. Meta validates engagement audience eligibility when creating the lookalike."
+          }
+        },
+        "source_type": {
+          "target": "com.whop.audiences#CreateAudienceRequestSourceType",
+          "traits": {
+            "smithy.api#documentation": "Custom audience source. Inferred from `engagement`, then `filters`, otherwise defaults to `csv_upload`. Supply only the fields for the selected source."
           }
         },
         "idempotency_key": {
@@ -710,6 +1359,9 @@
       },
       "errors": [
         {
+          "target": "com.whop.audiences#BadRequest"
+        },
+        {
           "target": "com.whop.audiences#Conflict"
         }
       ],
@@ -719,7 +1371,7 @@
           "uri": "/audiences",
           "code": 200
         },
-        "smithy.api#documentation": "Create Audience\n\nCreates an audience. Default (`audience_type` omitted or `custom`): creates one audience from an uploaded customer identity CSV file (`name`, `column_mapping`, and `file_id` required) and starts processing it; responds with the audience object. With `filters`: creates an audience from saved People filters (`name` required) — membership is built from the account's People data, and `auto_refresh` decides whether it keeps tracking the filters or keeps whoever matched at creation. With `audience_type: lookalike`: creates a ladder of Meta lookalike audiences from an existing ready custom audience (`source_audience_id`, `count`, and `percentage` required) — `count` equal similarity bands slicing the top `percentage`% (3 audiences at 6% = 0–2%, 2–4%, 4–6%), each returned as its own audience in a `{ data: [...] }` envelope."
+        "smithy.api#documentation": "Create Audience\n\nCreate an audience from a customer list, your account's Whop People data, or engagement with videos, lead forms, Instagram profiles, or Facebook pages. Create lookalike audiences to reach people similar to an existing audience. Processing runs asynchronously. Custom creation returns one audience; lookalike creation returns the requested similarity bands in `data`."
       }
     },
     "com.whop.audiences#UpdateAudienceRequest": {
@@ -864,6 +1516,19 @@
           "code": 200
         },
         "smithy.api#documentation": "Add People\n\nAdds users from a new CSV file to an existing uploaded custom audience. The file uses the audience's saved column mapping, processing happens in the background, and existing audience members remain unchanged."
+      }
+    },
+    "com.whop.audiences#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
       }
     },
     "com.whop.audiences#Conflict": {

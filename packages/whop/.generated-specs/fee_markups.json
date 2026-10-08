@@ -45,10 +45,10 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "company_id",
+            "smithy.api#httpQuery": "account_id",
             "smithy.api#required": {}
           }
         }
@@ -148,6 +148,36 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "digital_wallet_withdrawal_markup"
+          }
+        },
+        "TRANSFER_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer_markup"
+          }
+        },
+        "CRYPTO_DEPOSIT_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_deposit_markup"
+          }
+        },
+        "BANK_DEPOSIT_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit_markup"
+          }
+        },
+        "CRYPTO_SWAP_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_swap_markup"
+          }
+        },
+        "PAYMENT_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_markup"
           }
         }
       },
@@ -278,7 +308,7 @@
     "com.whop.fee_markups#CreateFeeMarkupRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the company to create or update the fee markup for.",

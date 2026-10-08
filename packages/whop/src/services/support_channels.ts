@@ -47,7 +47,7 @@ export class UnprocessableEntity
 
 export interface CreateSupportChannelRequest {
   /** The unique identifier of the company to create the support channel in. */
-  company_id: string;
+  account_id: string;
   /** Optional custom display name for the support channel. */
   custom_name?: string | null;
   /** Whether Whop app notifications are enabled for this support channel. Webhooks still fire. */
@@ -57,7 +57,7 @@ export interface CreateSupportChannelRequest {
 }
 export const CreateSupportChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.String,
+    account_id: S.String,
     custom_name: S.optional(S.NullOr(S.String)),
     notifications_enabled: S.optional(S.NullOr(S.Boolean)),
     user_id: S.String,
@@ -87,7 +87,9 @@ export const SupportChannelCustomerUser = /*@__PURE__*/ S.suspend(() =>
 
 /** A messaging channel that can be a one-on-one DM, group chat, company support conversation, or platform-level direct message. */
 export interface SupportChannel {
-  /** The unique identifier of the company associated with this channel. Null if this is not a support or company-scoped conversation. */
+  /** The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation. */
+  account_id: string | null;
+  /** The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation. */
   company_id: string | null;
   /** A custom display name assigned to this channel by the user. Null if no custom name has been set. */
   custom_name: string | null;
@@ -102,6 +104,7 @@ export interface SupportChannel {
 }
 export const SupportChannel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    account_id: S.NullOr(S.String),
     company_id: S.NullOr(S.String),
     custom_name: S.NullOr(S.String),
     customer_user: S.NullOr(SupportChannelCustomerUser),
@@ -138,11 +141,11 @@ export interface ListSupportChannelRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id?: string;
   view?: SupportChannelView | (string & {});
   open?: boolean;
   direction?: Direction | (string & {});
   order?: MessageChannelOrder | (string & {});
+  account_id?: string;
 }
 export const ListSupportChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -150,11 +153,11 @@ export const ListSupportChannelRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
     view: S.optional(SupportChannelView.pipe(T.Query())),
     open: S.optional(S.Boolean.pipe(T.Query())),
     direction: S.optional(Direction.pipe(T.Query())),
     order: S.optional(MessageChannelOrder.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/support_channels", code: 200 })),
 ).annotate({
   identifier: "ListSupportChannelRequest",
@@ -166,7 +169,9 @@ export const SupportChannelListItemCustomerUser = SupportChannelCustomerUser;
 
 /** A messaging channel that can be a one-on-one DM, group chat, company support conversation, or platform-level direct message. */
 export interface SupportChannelListItem {
-  /** The unique identifier of the company associated with this channel. Null if this is not a support or company-scoped conversation. */
+  /** The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation. */
+  account_id: string | null;
+  /** The unique identifier of the account associated with this channel. Null if this is not a support or account-scoped conversation. */
   company_id: string | null;
   /** A custom display name assigned to this channel by the user. Null if no custom name has been set. */
   custom_name: string | null;
@@ -181,6 +186,7 @@ export interface SupportChannelListItem {
 }
 export const SupportChannelListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    account_id: S.NullOr(S.String),
     company_id: S.NullOr(S.String),
     custom_name: S.NullOr(S.String),
     customer_user: S.NullOr(SupportChannelCustomerUser),

@@ -9,4 +9,4 @@
  *
  * @see https://docs.whop.com/developer/api/versioning
  */
-export const API_VERSION_DATE = "2026-08-25-2";
+export const API_VERSION_DATE = "2026-09-25";

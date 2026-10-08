@@ -1,0 +1,612 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.economic_intelligence#ListEconomicIntelligenceRequestStatus": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "EXECUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "executed"
+          }
+        },
+        "SUPERSEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.economic_intelligence#ListEconomicIntelligenceRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the API key's own account; omit for personal onboarding."
+          }
+        },
+        "status": {
+          "target": "com.whop.economic_intelligence#ListEconomicIntelligenceRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter recommendations by their current status."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "input",
+            "smithy.api#documentation": "What you want recommendations for, in your own words. Up to 1000 characters. Narrows the list to the recommendations that address it."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of results to return from the start of the range."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of results to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.economic_intelligence#EconomicIntelligence2": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the account this recommendation is for, prefixed `biz_`, or null for personal onboarding.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "action_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of action recommended, or `null` when no type is assigned. New values may be added; handle unknown types gracefully.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ai_chat_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The chat to resume after its initial message is accepted, or null before a chat is ready.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the recommendation was created, as an ISO 8601 timestamp, or null for an unsaved recommendation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "executed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the recommendation was approved, as an ISO 8601 timestamp, or `null` if it has not been approved.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expected_tool_calls": {
+          "target": "com.whop.economic_intelligence#EconomicIntelligenceExpectedToolCallsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recommendation ID, prefixed `reca_`, or `create_business` for an unsaved setup recommendation. Authenticate and list again before executing an unsaved recommendation.",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What you requested, in your own words, or `null` for recommendations generated without your input.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Step-by-step instructions for Whop AI, or `null` when no instructions are available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Evidence and metrics supporting the recommendation, or `null` when no reasoning was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sentiment": {
+          "target": "com.whop.economic_intelligence#EconomicIntelligenceSentiment",
+          "traits": {
+            "smithy.api#documentation": "How the user rated this recommendation, or `null` if they have not rated it",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.economic_intelligence#EconomicIntelligenceStatus",
+          "traits": {
+            "smithy.api#documentation": "`queued` when awaiting generation; `pending` while generating; `ready` when available for approval; `executed` when approved; `superseded` when rejected or replaced.",
+            "smithy.api#required": {}
+          }
+        },
+        "superseded_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the recommendation was rejected or replaced, as an ISO 8601 timestamp, or `null` if neither has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "target_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Website URL selected for pixel setup, or `null` when no website was captured for this recommendation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recommended action and its expected benefit, or `null` until generated.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_feedback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's written feedback, or `null` if they have not provided any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.economic_intelligence#EconomicIntelligenceOperation": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Concise description of the operation and affected resource, or null for older recommendations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tool_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "API operation or assistant tool name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.economic_intelligence#EconomicIntelligenceExpectedToolCallsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.economic_intelligence#EconomicIntelligenceOperation"
+      },
+      "traits": {}
+    },
+    "com.whop.economic_intelligence#EconomicIntelligenceSentiment": {
+      "type": "enum",
+      "members": {
+        "POSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "positive"
+          }
+        },
+        "NEGATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "negative"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the user rated this recommendation, or `null` if they have not rated it"
+      }
+    },
+    "com.whop.economic_intelligence#EconomicIntelligenceStatus": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "EXECUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "executed"
+          }
+        },
+        "SUPERSEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`queued` when awaiting generation; `pending` while generating; `ready` when available for approval; `executed` when approved; `superseded` when rejected or replaced."
+      }
+    },
+    "com.whop.economic_intelligence#ListEconomicIntelligenceResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.economic_intelligence#EconomicIntelligence2"
+      },
+      "traits": {}
+    },
+    "com.whop.economic_intelligence#ListEconomicIntelligenceResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.economic_intelligence#ListEconomicIntelligenceResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.economic_intelligence#ListEconomicIntelligenceResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.economic_intelligence#ListEconomicIntelligenceResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.economic_intelligence#ListEconomicIntelligence": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.economic_intelligence#ListEconomicIntelligenceRequest"
+      },
+      "output": {
+        "target": "com.whop.economic_intelligence#ListEconomicIntelligenceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.economic_intelligence#BadRequest"
+        },
+        {
+          "target": "com.whop.economic_intelligence#Forbidden"
+        },
+        {
+          "target": "com.whop.economic_intelligence#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/economic_intelligence",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Economic Intelligence\n\nLists an account's recommendations and generation requests, newest first. Without an account, signed-out visitors receive a business-setup template and eligible users receive their saved setup recommendation.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.economic_intelligence#UpdateEconomicIntelligenceRequestSentiment": {
+      "type": "enum",
+      "members": {
+        "POSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "positive"
+          }
+        },
+        "NEGATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "negative"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A signed-in user can rate a recommendation as `positive` or `negative`. Can be sent alone or together with status."
+      }
+    },
+    "com.whop.economic_intelligence#UpdateEconomicIntelligenceRequestStatus": {
+      "type": "enum",
+      "members": {
+        "EXECUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "executed"
+          }
+        },
+        "SUPERSEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use `executed` to record approval, or `superseded` to reject the recommendation."
+      }
+    },
+    "com.whop.economic_intelligence#UpdateEconomicIntelligenceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Recommendation ID, prefixed `reca_`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the API key's own account."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What you want the replacement recommendation for, in your own words. Up to 1000 characters. Sent when superseding, it directs the generation that replaces the rejected recommendation."
+          }
+        },
+        "sentiment": {
+          "target": "com.whop.economic_intelligence#UpdateEconomicIntelligenceRequestSentiment",
+          "traits": {
+            "smithy.api#documentation": "A signed-in user can rate a recommendation as `positive` or `negative`. Can be sent alone or together with status."
+          }
+        },
+        "status": {
+          "target": "com.whop.economic_intelligence#UpdateEconomicIntelligenceRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Use `executed` to record approval, or `superseded` to reject the recommendation."
+          }
+        },
+        "user_feedback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional explanation of the rating or rejection. Negative feedback informs replacement recommendations."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.economic_intelligence#UpdateEconomicIntelligence": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.economic_intelligence#UpdateEconomicIntelligenceRequest"
+      },
+      "output": {
+        "target": "com.whop.economic_intelligence#EconomicIntelligence2"
+      },
+      "errors": [
+        {
+          "target": "com.whop.economic_intelligence#BadRequest"
+        },
+        {
+          "target": "com.whop.economic_intelligence#Forbidden"
+        },
+        {
+          "target": "com.whop.economic_intelligence#NotFound"
+        },
+        {
+          "target": "com.whop.economic_intelligence#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/economic_intelligence/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Recommendation\n\nUpdates a recommendation status, records feedback, or both. Send `sentiment` to rate it. Include `status: superseded` to retire it and request replacements; a rating alone leaves its status unchanged."
+      }
+    },
+    "com.whop.economic_intelligence#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.economic_intelligence#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.economic_intelligence#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.economic_intelligence#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.economic_intelligence#EconomicIntelligence": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.economic_intelligence#ListEconomicIntelligence"
+        },
+        {
+          "target": "com.whop.economic_intelligence#UpdateEconomicIntelligence"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -109,12 +109,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "profile_type": {
           "target": "com.whop.identity_profiles#IdentityProfileKinds",
           "traits": {
@@ -125,6 +119,12 @@
           "target": "com.whop.identity_profiles#IdentityProfileStatuses",
           "traits": {
             "smithy.api#httpQuery": "status"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
@@ -867,7 +867,7 @@
           "uri": "/identity_profiles",
           "code": 200
         },
-        "smithy.api#documentation": "List identity profiles\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of identity profiles. When company_id is provided, lists IPs currently linked to that company's ledger. When omitted, lists IPs linked to any ledger the actor can read (including child companies under a parent).\n\nRequired permissions:\n - `identity:read`",
+        "smithy.api#documentation": "List identity profiles\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of identity profiles. When account_id is provided, lists IPs currently linked to that account's ledger. When omitted, lists IPs linked to any ledger the actor can read (including child accounts under a parent).\n\nRequired permissions:\n - `identity:read`",
         "smithy.api#paginated": {
           "mode": "relay",
           "inputToken": "after",

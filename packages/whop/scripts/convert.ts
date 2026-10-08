@@ -4,7 +4,8 @@
  * .generated-specs.
  *
  * Whop documents ONE HTTP API through TWO reference surfaces, each with its
- * own OpenAPI 3.1 document (both downloaded by `scripts/download-spec.ts`):
+ * own OpenAPI 3.1 document (both snapshotted daily by the spec mirror,
+ * `specs/spec-mirror-whop`):
  *
  *   • VERSIONED — `specs/api-v1-native.json`, the `/api-reference/beta`
  *     reference. Whop calls it "the default reference for new integrations".
@@ -54,9 +55,10 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
-const specDir = path.join(rootDir, "specs");
+const specDir = resolveSpecPath(rootDir, "specs/spec-mirror-whop/specs");
 const outDir = path.join(rootDir, ".generated-specs");
 
 /** Generated: the version pin `src/credentials.ts` defaults to. */
@@ -138,7 +140,7 @@ for (const surface of SURFACES) {
   const specPath = path.join(specDir, surface.file);
   if (!fs.existsSync(specPath)) {
     throw new Error(
-      `${specPath} not found — run \`pnpm run spec:download\` to fetch the OpenAPI documents`,
+      `${specPath} not found — run \`pnpm --filter @distilled.cloud/whop run specs:fetch\``,
     );
   }
   documents.set(surface.id, JSON.parse(fs.readFileSync(specPath, "utf-8")));

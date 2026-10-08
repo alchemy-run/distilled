@@ -30,7 +30,7 @@
     "com.whop.access_tokens#CreateAccessTokenRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the company to generate the token for, starting with 'biz_'. The API key must have permission to access this company.",
@@ -113,7 +113,7 @@
           "uri": "/access_tokens",
           "code": 200
         },
-        "smithy.api#documentation": "Create access token\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a short-lived access token for authenticating API requests. When using API key authentication, provide company_id or user_id. When using OAuth, the user is derived from the token. Use this token with Whop's web and mobile embedded components."
+        "smithy.api#documentation": "Create access token\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a short-lived access token for authenticating API requests. When using API key authentication, provide account_id or user_id. When using OAuth, the user is derived from the token. Use this token with Whop's web and mobile embedded components."
       }
     },
     "com.whop.access_tokens#BadRequest": {

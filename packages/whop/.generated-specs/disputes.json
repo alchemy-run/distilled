@@ -69,10 +69,22 @@
             "smithy.api#enumValue": "needs_response"
           }
         },
+        "WARNING_NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_needs_response"
+          }
+        },
         "UNDER_REVIEW": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WARNING_UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_under_review"
           }
         },
         "WON": {
@@ -91,6 +103,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "closed"
+          }
+        },
+        "WARNING_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_closed"
           }
         }
       },
@@ -117,28 +135,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of disputes to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns disputes after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of disputes to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns disputes before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         },
         "order": {
@@ -159,7 +177,7 @@
           "target": "com.whop.disputes#ListDisputesRequestStatusList",
           "traits": {
             "smithy.api#httpQuery": "status",
-            "smithy.api#documentation": "Only disputes in these statuses. Repeat the parameter to pass several — one paginated list covers all of them. Covers both chargebacks and inquiries at each stage. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead."
+            "smithy.api#documentation": "Only disputes in these statuses. Repeat the parameter to pass several — one paginated list covers all of them. Inquiries match only the `warning_` statuses. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead."
           }
         },
         "currency": {
@@ -210,8 +228,7 @@
           "target": "com.whop.disputes#DisputeBuyer",
           "traits": {
             "smithy.api#documentation": "The customer who filed the dispute.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "created_at": {
@@ -238,7 +255,7 @@
         "evidence_due_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The deadline to submit evidence, as an ISO 8601 timestamp. Whop reserves the last 24 hours before the processor's own cutoff to forward the submission.",
+            "smithy.api#documentation": "The deadline to submit evidence, as an ISO 8601 timestamp. `null` when the network already auto-resolved the dispute (Visa RDR) with no evidence round, or when the processor hasn't reported a deadline for this dispute.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -266,14 +283,6 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "generated_response_attachment": {
-          "target": "com.whop.disputes#DisputeAttachment",
-          "traits": {
-            "smithy.api#documentation": "The AI-generated representment document filed with the processor on the seller's behalf, once ready. Null until generation completes, and for disputes not using Whop Dispute Fighter.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -294,12 +303,17 @@
             "smithy.api#required": {}
           }
         },
+        "line_items": {
+          "target": "com.whop.disputes#DisputeLineItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "payment": {
           "target": "com.whop.disputes#DisputePayment",
           "traits": {
             "smithy.api#documentation": "The payment being disputed.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "plan_id": {
@@ -318,24 +332,17 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "rapid_dispute_resolution": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether Visa Rapid Dispute Resolution settled this automatically. These refund the customer without an evidence round.",
-            "smithy.api#required": {}
-          }
-        },
         "reason": {
           "target": "com.whop.disputes#DisputeReason",
           "traits": {
-            "smithy.api#documentation": "Why the customer says they are disputing, normalized across card networks. `other` covers a code Whop has not categorized yet — read `reason_code` for the raw value.",
+            "smithy.api#documentation": "Why the customer says they are disputing, normalized across processors and card networks. `other` covers a processor reason Whop has not categorized yet.",
             "smithy.api#required": {}
           }
         },
         "reason_code": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The raw card-network or processor reason code, such as `10.4`.",
+            "smithy.api#documentation": "The raw card-network or processor reason code, such as `10.4`. Informational only — `reason` is not derived from it.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -343,7 +350,7 @@
         "status": {
           "target": "com.whop.disputes#DisputeStatus",
           "traits": {
-            "smithy.api#documentation": "Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed.",
+            "smithy.api#documentation": "Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. The `warning_` statuses are the same stages for an inquiry, which moves no funds. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed.",
             "smithy.api#required": {}
           }
         },
@@ -425,7 +432,7 @@
         "cancellation_policy_attachment": {
           "target": "com.whop.disputes#DisputeAttachment",
           "traits": {
-            "smithy.api#documentation": "The cancellation policy document. Falls back to Whop's platform policy when the seller has not uploaded their own.",
+            "smithy.api#documentation": "The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, then its return policy, then Whop's platform policy.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -487,7 +494,7 @@
         "refund_policy_attachment": {
           "target": "com.whop.disputes#DisputeAttachment",
           "traits": {
-            "smithy.api#documentation": "The refund policy document. Falls back to Whop's platform policy when the seller has not uploaded their own.",
+            "smithy.api#documentation": "The refund policy document. Defaults to the account's return policy, then its terms of service, then Whop's platform policy.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -578,7 +585,7 @@
         "content_type": {
           "target": "com.whop.disputes#DisputeEvidenceDocumentContentType",
           "traits": {
-            "smithy.api#documentation": "The uploaded file's MIME type. Uploads are restricted to the types the processor accepts.",
+            "smithy.api#documentation": "The uploaded file's MIME type. Uploads are restricted to the types the processor accepts, and rejected without one — never null.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -593,7 +600,7 @@
         "document_type": {
           "target": "com.whop.disputes#DisputeEvidenceDocumentDocumentType",
           "traits": {
-            "smithy.api#documentation": "What kind of evidence the document is.",
+            "smithy.api#documentation": "What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent.",
             "smithy.api#required": {}
           }
         },
@@ -720,7 +727,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The uploaded file's MIME type. Uploads are restricted to the types the processor accepts."
+        "smithy.api#documentation": "The uploaded file's MIME type. Uploads are restricted to the types the processor accepts, and rejected without one — never null."
       }
     },
     "com.whop.disputes#DisputeEvidenceDocumentDocumentType": {
@@ -736,6 +743,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "shipping_policy"
+          }
+        },
+        "CANCELLATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancellation_policy"
+          }
+        },
+        "TERMS_OF_SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "terms_of_service"
           }
         },
         "PHYSICAL_FULFILLMENT": {
@@ -779,10 +798,16 @@
           "traits": {
             "smithy.api#enumValue": "subscription"
           }
+        },
+        "CUSTOMER_COMMUNICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_communication"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "What kind of evidence the document is."
+        "smithy.api#documentation": "What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent."
       }
     },
     "com.whop.disputes#FileMultipartUrl": {
@@ -925,6 +950,116 @@
       },
       "traits": {}
     },
+    "com.whop.disputes#ReceiptLineItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Line item ID, prefixed `li_`. Null when the payment predates item snapshots and the item is read from the payment's plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The item's name as shown at checkout — the product title, else the plan title.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan bought, prefixed `plan_`. Null when the plan has since been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan's current title, or `null` when the plan has been deleted or has no title.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product the plan belongs to, prefixed `prod_`. On a payment that predates item snapshots this falls back to the plan's product, so it can be set where the parent's own `product_id` is null. Null for a plan with no product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product's current title, or `null` when the item has no product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How many units were bought.",
+            "smithy.api#required": {}
+          }
+        },
+        "subtotal": {
+          "target": "com.whop.disputes#Money",
+          "traits": {
+            "smithy.api#documentation": "The recorded amount for this item's full quantity, before discounts, tax, and fees, in its purchase currency. Returns `null` when no item amount was recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#ReceiptLineItem"
+      },
+      "traits": {}
+    },
     "com.whop.disputes#DisputePayment": {
       "type": "structure",
       "members": {
@@ -993,7 +1128,7 @@
         "payment_processor": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The processor that handled the payment, such as `stripe`.",
+            "smithy.api#documentation": "Deprecated: no longer populated. Always `null`.\nDEPRECATED: No longer populated. Always null.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1007,7 +1142,7 @@
         "card": {
           "target": "com.whop.disputes#PaymentInstrumentCard",
           "traits": {
-            "smithy.api#documentation": "Card payments only: the card's network and last four.",
+            "smithy.api#documentation": "Card payments only: the card's network, last four, and issuer identification number.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1050,8 +1185,33 @@
         "brand": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The network identifier (`visa`, `amex`, …), matching `card.networks` entries and saved card payment methods.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The network identifier (`visa`, `amex`, …), matching `card.networks` entries and saved card payment methods. Null when the vault did not record the network.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_month": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The card's expiry month, 1 to 12. Null when the vault did not record it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_year": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The card's four-digit expiry year. Null when the vault did not record it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "issuer_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The issuer identification number, also called the BIN: the card's leading six or eight digits, which identify the issuing bank. Null when the processor did not report it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "last4": {
@@ -1216,7 +1376,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Why the customer says they are disputing, normalized across card networks. `other` covers a code Whop has not categorized yet — read `reason_code` for the raw value."
+        "smithy.api#documentation": "Why the customer says they are disputing, normalized across processors and card networks. `other` covers a processor reason Whop has not categorized yet."
       }
     },
     "com.whop.disputes#DisputeStatus": {
@@ -1228,10 +1388,22 @@
             "smithy.api#enumValue": "needs_response"
           }
         },
+        "WARNING_NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_needs_response"
+          }
+        },
         "UNDER_REVIEW": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WARNING_UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_under_review"
           }
         },
         "WON": {
@@ -1251,10 +1423,16 @@
           "traits": {
             "smithy.api#enumValue": "closed"
           }
+        },
+        "WARNING_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_closed"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed."
+        "smithy.api#documentation": "Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. The `warning_` statuses are the same stages for an inquiry, which moves no funds. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed."
       }
     },
     "com.whop.disputes#ListDisputesResponseDataList": {
@@ -1383,10 +1561,22 @@
             "smithy.api#enumValue": "needs_response"
           }
         },
+        "WARNING_NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_needs_response"
+          }
+        },
         "UNDER_REVIEW": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WARNING_UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_under_review"
           }
         },
         "WON": {
@@ -1405,6 +1595,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "closed"
+          }
+        },
+        "WARNING_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_closed"
           }
         }
       },
@@ -1501,6 +1697,24 @@
           }
         },
         "under_review": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "warning_closed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "warning_needs_response": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "warning_under_review": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
@@ -1636,7 +1850,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The cancellation policy document."
+        "smithy.api#documentation": "The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, when not set."
       }
     },
     "com.whop.disputes#UpdateDisputeRequestEvidenceCustomerCommunicationAttachment": {
@@ -1659,6 +1873,126 @@
         "smithy.api#documentation": "Correspondence with the customer, or proof they used the product."
       }
     },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceDocumentsItemDocumentType": {
+      "type": "enum",
+      "members": {
+        "RETURN_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_policy"
+          }
+        },
+        "SHIPPING_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipping_policy"
+          }
+        },
+        "CANCELLATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancellation_policy"
+          }
+        },
+        "TERMS_OF_SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "terms_of_service"
+          }
+        },
+        "PHYSICAL_FULFILLMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical_fulfillment"
+          }
+        },
+        "CUSTOMER_ORDER_HISTORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_order_history"
+          }
+        },
+        "PRODUCT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_image"
+          }
+        },
+        "PRIOR_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prior_transactions"
+          }
+        },
+        "CUSTOMER_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_session"
+          }
+        },
+        "DIGITAL_FULFILLMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "digital_fulfillment"
+          }
+        },
+        "SUBSCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription"
+          }
+        },
+        "CUSTOMER_COMMUNICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_communication"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceDocumentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID returned by a direct upload."
+          }
+        },
+        "document_type": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidenceDocumentsItemDocumentType",
+          "traits": {
+            "smithy.api#documentation": "What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file itself. Send it as a file part to upload and attach in one call, or use `id`/`direct_upload_id` for a file that is already stored."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of a file already stored on Whop, prefixed `file_`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#UpdateDisputeRequestEvidenceDocumentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot."
+      }
+    },
     "com.whop.disputes#UpdateDisputeRequestEvidenceRefundPolicyAttachment": {
       "type": "structure",
       "members": {
@@ -1676,7 +2010,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The refund policy document."
+        "smithy.api#documentation": "The refund policy document. Defaults to the account's return policy when not set."
       }
     },
     "com.whop.disputes#UpdateDisputeRequestEvidenceUncategorizedAttachment": {
@@ -1719,7 +2053,7 @@
         "cancellation_policy_attachment": {
           "target": "com.whop.disputes#UpdateDisputeRequestEvidenceCancellationPolicyAttachment",
           "traits": {
-            "smithy.api#documentation": "The cancellation policy document.",
+            "smithy.api#documentation": "The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, when not set.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1751,6 +2085,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "documents": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidenceDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot."
+          }
+        },
         "notes": {
           "target": "smithy.api#String",
           "traits": {
@@ -1768,7 +2108,7 @@
         "refund_policy_attachment": {
           "target": "com.whop.disputes#UpdateDisputeRequestEvidenceRefundPolicyAttachment",
           "traits": {
-            "smithy.api#documentation": "The refund policy document.",
+            "smithy.api#documentation": "The refund policy document. Defaults to the account's return policy when not set.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1849,7 +2189,7 @@
           "uri": "/disputes/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update Dispute\n\nEdits a dispute's evidence, while it is still editable. Sending it is a separate call."
+        "smithy.api#documentation": "Update Dispute\n\nEdits a dispute's evidence, while it is still editable. Sending it is a separate call. `evidence.documents`, when provided, replaces the full set of documents beyond the four fixed evidence slots — see its own description."
       }
     },
     "com.whop.disputes#SubmitDisputeRequest": {
@@ -1918,6 +2258,18 @@
             "smithy.api#enumValue": "shipping_policy"
           }
         },
+        "CANCELLATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancellation_policy"
+          }
+        },
+        "TERMS_OF_SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "terms_of_service"
+          }
+        },
         "PHYSICAL_FULFILLMENT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1959,10 +2311,16 @@
           "traits": {
             "smithy.api#enumValue": "subscription"
           }
+        },
+        "CUSTOMER_COMMUNICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_communication"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "What kind of evidence the document is."
+        "smithy.api#documentation": "What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent."
       }
     },
     "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItem": {
@@ -1977,7 +2335,7 @@
         "document_type": {
           "target": "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItemDocumentType",
           "traits": {
-            "smithy.api#documentation": "What kind of evidence the document is.",
+            "smithy.api#documentation": "What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents — uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer — a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics — IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence — renewals, cancellation, reminders sent.",
             "smithy.api#required": {}
           }
         },
@@ -2002,7 +2360,7 @@
         "target": "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The full set of evidence documents the dispute should carry. Replaces all previously uploaded documents."
+        "smithy.api#documentation": "The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot."
       }
     },
     "com.whop.disputes#UploadDisputeEvidenceRequest": {
@@ -2019,7 +2377,7 @@
         "documents": {
           "target": "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsList",
           "traits": {
-            "smithy.api#documentation": "The full set of evidence documents the dispute should carry. Replaces all previously uploaded documents.",
+            "smithy.api#documentation": "The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot.",
             "smithy.api#required": {}
           }
         },
@@ -2060,7 +2418,7 @@
           "uri": "/disputes/{id}/upload_evidence",
           "code": 200
         },
-        "smithy.api#documentation": "Upload Dispute Evidence\n\nReplaces the full set of uploaded evidence documents on a dispute, beyond the four fixed evidence slots. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Send every document the packet should carry — up to 10, 10MB each and 25MB in total; an empty list removes them all. Accepted content types: application/pdf, application/json, image/jpeg, image/png, image/webp — any other type is rejected."
+        "smithy.api#documentation": "Upload Dispute Evidence\n\nPrefer `PATCH /disputes/{id}` with `evidence.documents` — it does the same replace alongside every other evidence field in one call. Replaces the full set of uploaded evidence documents on a dispute, beyond the four fixed evidence slots. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Send every document the packet should carry — up to 10, 10MB each and 25MB in total; an empty list removes them all. Accepted content types: application/pdf, application/json, image/jpeg, image/png, image/webp — any other type is rejected. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot."
       }
     },
     "com.whop.disputes#SubmitEvidenceDisputeRequest": {
@@ -2138,7 +2496,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.disputes#Currencies",
+          "target": "com.whop.disputes#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for the disputed amount.",
             "smithy.api#required": {}
@@ -2367,7 +2725,7 @@
         "smithy.api#documentation": "The company that the dispute was filed against."
       }
     },
-    "com.whop.disputes#Currencies": {
+    "com.whop.disputes#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {
@@ -2954,7 +3312,7 @@
         "smithy.api#documentation": "Evidence of customer communication or product usage, uploaded as a dispute attachment. Null if not provided."
       }
     },
-    "com.whop.disputes#BillingReasons": {
+    "com.whop.disputes#LegacyBillingReasons": {
       "type": "enum",
       "members": {
         "SUBSCRIPTION_CREATE": {
@@ -3493,7 +3851,7 @@
         "smithy.api#documentation": "The instrument this payment was made with, shaped for display: the method type, a buyer-facing name, the standard icon set, and the card facts when it was a card. Null when the receipt names no payment method."
       }
     },
-    "com.whop.disputes#PaymentMethodTypes": {
+    "com.whop.disputes#LegacyPaymentMethodTypes": {
       "type": "enum",
       "members": {
         "ACSS_DEBIT": {
@@ -3524,6 +3882,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALIPAYHK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipayhk"
           }
         },
         "ALMA": {
@@ -3590,12 +3954,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "billie"
-          }
-        },
-        "BIZUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "bizum"
           }
         },
         "BLIK": {
@@ -3718,10 +4076,22 @@
             "smithy.api#enumValue": "fpx"
           }
         },
+        "FLEX_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flex_pay"
+          }
+        },
         "GB_BANK_TRANSFER": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GCASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcash"
           }
         },
         "GIROPAY": {
@@ -3838,6 +4208,18 @@
             "smithy.api#enumValue": "mercado_pago"
           }
         },
+        "MERCADO_PAGO_AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_ar"
+          }
+        },
+        "MERCADO_PAGO_MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_mx"
+          }
+        },
         "MOBILEPAY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3916,10 +4298,40 @@
             "smithy.api#enumValue": "ng_wallet"
           }
         },
+        "NUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nupay"
+          }
+        },
         "NZ_BANK_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "ONEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney"
+          }
+        },
+        "ONEY_3X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_3x"
+          }
+        },
+        "ONEY_4X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_4x"
+          }
+        },
+        "OPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opay"
           }
         },
         "OXXO": {
@@ -4120,10 +4532,22 @@
             "smithy.api#enumValue": "swish"
           }
         },
+        "TABBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabby"
+          }
+        },
         "TAMARA": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TOUCH_N_GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "touch_n_go"
           }
         },
         "TWINT": {
@@ -4154,6 +4578,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
           }
         },
         "VIPPS": {
@@ -4245,7 +4675,7 @@
       "type": "structure",
       "members": {
         "billing_reason": {
-          "target": "com.whop.disputes#BillingReasons",
+          "target": "com.whop.disputes#LegacyBillingReasons",
           "traits": {
             "smithy.api#documentation": "The machine-readable reason this charge was created, such as initial subscription purchase, renewal cycle, or one-time payment.",
             "smithy.api#required": {},
@@ -4276,7 +4706,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.disputes#Currencies",
+          "target": "com.whop.disputes#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for this payment (e.g., 'usd', 'eur').",
             "smithy.api#required": {}
@@ -4330,7 +4760,7 @@
           }
         },
         "payment_method_type": {
-          "target": "com.whop.disputes#PaymentMethodTypes",
+          "target": "com.whop.disputes#LegacyPaymentMethodTypes",
           "traits": {
             "smithy.api#documentation": "The type of payment instrument used for this payment (e.g., card, Cash App, iDEAL, Klarna, crypto). Null when the processor does not supply a type.",
             "smithy.api#required": {},

@@ -18,7 +18,7 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.whop.topups#Currencies": {
+    "com.whop.topups#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {
@@ -569,6 +569,13 @@
     "com.whop.topups#CreateTopupRequest": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to add funds to, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
         "amount": {
           "target": "smithy.api#Double",
           "traits": {
@@ -576,15 +583,8 @@
             "smithy.api#required": {}
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to add funds to, starting with 'biz_'.",
-            "smithy.api#required": {}
-          }
-        },
         "currency": {
-          "target": "com.whop.topups#Currencies",
+          "target": "com.whop.topups#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The currency for the top-up amount, such as 'usd'.",
             "smithy.api#required": {}
@@ -613,7 +613,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.topups#Currencies",
+          "target": "com.whop.topups#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for this payment (e.g., 'usd', 'eur').",
             "smithy.api#required": {},
@@ -644,7 +644,7 @@
           }
         },
         "status": {
-          "target": "com.whop.topups#ReceiptStatus",
+          "target": "com.whop.topups#LegacyReceiptStatus",
           "traits": {
             "smithy.api#documentation": "The current lifecycle state of this payment (e.g., 'draft', 'open', 'paid', 'void').",
             "smithy.api#required": {},
@@ -664,7 +664,7 @@
         "smithy.api#documentation": "A payment represents a completed or attempted charge. Payments track the amount, status, currency, and payment method used."
       }
     },
-    "com.whop.topups#ReceiptStatus": {
+    "com.whop.topups#LegacyReceiptStatus": {
       "type": "enum",
       "members": {
         "DRAFT": {
@@ -677,6 +677,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "open"
+          }
+        },
+        "AUTHORIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized"
           }
         },
         "PAID": {

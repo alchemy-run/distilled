@@ -53,7 +53,7 @@ export const CreateDmChannelRequestWithUserIdsList = /*@__PURE__*/ S.Array(
 
 export interface CreateDmChannelRequest {
   /** The unique identifier of the company to scope this DM channel to. When set, the channel is visible only within that company context. */
-  company_id?: string | null;
+  account_id?: string | null;
   /** A custom display name for the DM channel. For example, 'Project Discussion'. */
   custom_name?: string | null;
   /** Whether Whop app notifications are enabled for this direct message channel. Webhooks still fire. */
@@ -63,7 +63,7 @@ export interface CreateDmChannelRequest {
 }
 export const CreateDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.optional(S.NullOr(S.String)),
+    account_id: S.optional(S.NullOr(S.String)),
     custom_name: S.optional(S.NullOr(S.String)),
     notifications_enabled: S.optional(S.NullOr(S.Boolean)),
     with_user_ids: CreateDmChannelRequestWithUserIdsList,
@@ -120,7 +120,7 @@ export interface ListDmChannelRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id?: string;
+  account_id?: string;
 }
 export const ListDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -128,7 +128,7 @@ export const ListDmChannelRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dm_channels", code: 200 })),
 ).annotate({ identifier: "ListDmChannelRequest" }) as any as S.Schema<ListDmChannelRequest>;
 

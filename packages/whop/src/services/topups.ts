@@ -45,7 +45,7 @@ export class UnprocessableEntity
   ) {}
 
 /** The available currencies on the platform */
-export type Currencies =
+export type LegacyCurrencies =
   | "usd"
   | "sgd"
   | "inr"
@@ -136,44 +136,45 @@ export type Currencies =
   | "awg"
   | "whop_usd"
   | "xau";
-export const Currencies = S.String;
+export const LegacyCurrencies = S.String;
 
 export interface CreateTopupRequest {
+  /** The unique identifier of the company to add funds to, starting with 'biz_'. */
+  account_id: string;
   /** The amount to add to the balance in the specified currency. For example, 50.00 for $50.00 USD. */
   amount: number;
-  /** The unique identifier of the company to add funds to, starting with 'biz_'. */
-  company_id: string;
   /** The currency for the top-up amount, such as 'usd'. */
-  currency: Currencies | (string & {});
+  currency: LegacyCurrencies | (string & {});
   /** The unique identifier of the stored payment method to charge for the top-up. */
   payment_method_id: string;
 }
 export const CreateTopupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    account_id: S.String,
     amount: S.Number,
-    company_id: S.String,
-    currency: Currencies,
+    currency: LegacyCurrencies,
     payment_method_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/topups", code: 200 })),
 ).annotate({ identifier: "CreateTopupRequest" }) as any as S.Schema<CreateTopupRequest>;
 
 /** The status of a receipt */
-export type ReceiptStatus =
+export type LegacyReceiptStatus =
   | "draft"
   | "open"
+  | "authorized"
   | "paid"
   | "pending"
   | "uncollectible"
   | "unresolved"
   | "void";
-export const ReceiptStatus = S.String;
+export const LegacyReceiptStatus = S.String;
 
 /** A payment represents a completed or attempted charge. Payments track the amount, status, currency, and payment method used. */
 export interface Topup {
   /** The datetime the payment was created. */
   created_at: string;
   /** The three-letter ISO currency code for this payment (e.g., 'usd', 'eur'). */
-  currency: Currencies | null;
+  currency: LegacyCurrencies | null;
   /** If the payment failed, the reason for the failure. */
   failure_message: string | null;
   /** The unique identifier for the payment. */
@@ -181,18 +182,18 @@ export interface Topup {
   /** The time at which this payment was successfully collected. Null if the payment has not yet succeeded. As a Unix timestamp. */
   paid_at: string | null;
   /** The current lifecycle state of this payment (e.g., 'draft', 'open', 'paid', 'void'). */
-  status: ReceiptStatus | null;
+  status: LegacyReceiptStatus | null;
   /** The total to show to the creator (excluding buyer fees). */
   total: number | null;
 }
 export const Topup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created_at: S.String,
-    currency: S.NullOr(Currencies),
+    currency: S.NullOr(LegacyCurrencies),
     failure_message: S.NullOr(S.String),
     id: S.String,
     paid_at: S.NullOr(S.String),
-    status: S.NullOr(ReceiptStatus),
+    status: S.NullOr(LegacyReceiptStatus),
     total: S.NullOr(S.Number),
   }),
 ).annotate({ identifier: "Topup" }) as any as S.Schema<Topup>;
