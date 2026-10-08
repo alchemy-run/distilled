@@ -3,79 +3,29 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/400",
-      "value": {
-        "description": "Bad Request - invalid organization, group, or scopes",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": { "type": "string", "description": "The error message" }
-              }
-            }
-          }
+      "path": "/shapes/com.turso.api#CreateAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.turso.api#BadRequest"
+        },
+        {
+          "target": "com.turso.api#NotFound"
+        },
+        {
+          "target": "com.turso.api#Conflict"
         }
-      }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/404",
-      "value": {
-        "description": "Group not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "description": "The error message",
-                  "example": "group my-group not found"
-                }
-              }
-            }
-          }
+      "path": "/shapes/com.turso.api#RevokeOrganizationAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.turso.api#NotFound"
         }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1auth~1api-tokens~1{tokenName}/post/responses/409",
-      "value": {
-        "description": "An API token with this name already exists",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "description": "The error message",
-                  "example": "token my-token already exists"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1organizations~1{organizationSlug}~1api-tokens~1{tokenId}/delete/responses/404",
-      "value": {
-        "description": "API token not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": { "type": "string", "description": "The error message" }
-              }
-            }
-          }
-        }
-      }
+      ]
     }
   ]
 }

@@ -3,10 +3,12 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/schemas/Database/properties/allow_attach",
+      "path": "/shapes/com.turso.api#Database/members/allow_attach",
       "value": {
-        "type": "boolean",
-        "description": "Whether other databases may be attached to this database with `ATTACH`."
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether other databases may be attached to this database with `ATTACH`."
+        }
       }
     }
   ]
