@@ -3,7 +3,7 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.azure.deviceprovisioningservices#DeleteDpsCertificateRequest/members/ifMatch",
+      "path": "/shapes/com.azure.deviceprovisioningservices#DpsCertificateDeleteRequest/members/ifMatch",
       "value": {
         "target": "smithy.api#String",
         "traits": {

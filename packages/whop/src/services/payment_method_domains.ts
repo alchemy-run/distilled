@@ -46,7 +46,7 @@ export class NotFound
   ) {}
 
 export interface CreatePaymentMethodDomainRequest {
-  /** Account to register the domain for (`biz_` tag). Defaults to the caller's account. */
+  /** Account to register the domain for (`biz_` tag). Required when authenticating as a user; an account API key supplies its own account. */
   account_id?: string;
   /** Hostname to register (e.g. `checkout.shinetime.example`). */
   hostname: string;
@@ -165,13 +165,13 @@ export interface ListPaymentMethodDomainsRequest {
   order?: ListPaymentMethodDomainsRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListPaymentMethodDomainsRequestDirection | (string & {});
-  /** Number of domains to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of domains to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListPaymentMethodDomainsRequest = /*@__PURE__*/ S.suspend(() =>

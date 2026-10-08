@@ -535,9 +535,15 @@ export interface ListPeopleRequest {
   event_name?: ListPeopleRequestEventNameList;
   /** Only include people who fired this custom pixel event. */
   custom_event?: string;
-  /** With event_to plus an event or source filter, switches to exact-population mode: person ids are resolved and paginated on the events side within this window (the same query the people metric counts), then hydrated per page. */
+  /** Match activity within a rolling number of days. Cannot be combined with event_from/event_to. */
+  event_within_days?: number;
+  /** Inclusive activity-window start. Alias for event_from. */
+  from?: string;
+  /** Inclusive activity-window end. Alias for event_to. */
+  to?: string;
+  /** The inclusive start of the matching activity window. */
   event_from?: string;
-  /** The inclusive end of the event window for exact-population mode. */
+  /** The inclusive end of the matching activity window, for both stats drilldowns and saved audiences. */
   event_to?: string;
   /** Only include people in this audience. An audience that keeps itself up to date resolves to the People filters that define it, so this always reflects who matches now; uploaded lists and point-in-time snapshots match their recorded members. */
   audience_id?: string;
@@ -547,7 +553,7 @@ export interface ListPeopleRequest {
   email?: string;
   /** Only include the person linked to this phone number. */
   phone?: string;
-  /** Only include people whose most recent visit came from this ISO 3166-1 alpha-2 country code. */
+  /** Only include people with activity from this ISO 3166-1 alpha-2 country code. */
   country?: string;
   /** true for customers only, false for people who have never purchased. */
   has_purchased?: boolean;
@@ -565,11 +571,43 @@ export interface ListPeopleRequest {
   last_seen_after?: string;
   /** Only include people last seen before this ISO 8601 timestamp. */
   last_seen_before?: string;
-  /** The number of people to return (default 100, max 100). */
+  /** Select people whose lifetime ltv is greater than this value. LTV and AOV are in USD. */
+  ltv_gt?: number;
+  /** Select people whose lifetime ltv is at least this value. LTV and AOV are in USD. */
+  ltv_gte?: number;
+  /** Select people whose lifetime ltv is less than this value. LTV and AOV are in USD. */
+  ltv_lt?: number;
+  /** Select people whose lifetime ltv is at most this value. LTV and AOV are in USD. */
+  ltv_lte?: number;
+  /** Select people whose lifetime aov is greater than this value. LTV and AOV are in USD. */
+  aov_gt?: number;
+  /** Select people whose lifetime aov is at least this value. LTV and AOV are in USD. */
+  aov_gte?: number;
+  /** Select people whose lifetime aov is less than this value. LTV and AOV are in USD. */
+  aov_lt?: number;
+  /** Select people whose lifetime aov is at most this value. LTV and AOV are in USD. */
+  aov_lte?: number;
+  /** Select people whose lifetime purchase_count is greater than this value. LTV and AOV are in USD. */
+  purchase_count_gt?: number;
+  /** Select people whose lifetime purchase_count is at least this value. LTV and AOV are in USD. */
+  purchase_count_gte?: number;
+  /** Select people whose lifetime purchase_count is less than this value. LTV and AOV are in USD. */
+  purchase_count_lt?: number;
+  /** Select people whose lifetime purchase_count is at most this value. LTV and AOV are in USD. */
+  purchase_count_lte?: number;
+  /** Select people whose lifetime event_count is greater than this value. LTV and AOV are in USD. */
+  event_count_gt?: number;
+  /** Select people whose lifetime event_count is at least this value. LTV and AOV are in USD. */
+  event_count_gte?: number;
+  /** Select people whose lifetime event_count is less than this value. LTV and AOV are in USD. */
+  event_count_lt?: number;
+  /** Select people whose lifetime event_count is at most this value. LTV and AOV are in USD. */
+  event_count_lte?: number;
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor for fetching people after a previous page. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** A cursor for fetching people before a later page. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** Column to sort by. Defaults to last_seen_at. */
   order?: ListPeopleRequestOrder | (string & {});
@@ -584,6 +622,9 @@ export const ListPeopleRequest = /*@__PURE__*/ S.suspend(() =>
     attribution_model: S.optional(ListPeopleRequestAttributionModel.pipe(T.Query())),
     event_name: S.optional(ListPeopleRequestEventNameList.pipe(T.Query())),
     custom_event: S.optional(S.String.pipe(T.Query())),
+    event_within_days: S.optional(S.Number.pipe(T.Query())),
+    from: S.optional(S.String.pipe(T.Query())),
+    to: S.optional(S.String.pipe(T.Query())),
     event_from: S.optional(S.String.pipe(T.Query())),
     event_to: S.optional(S.String.pipe(T.Query())),
     audience_id: S.optional(S.String.pipe(T.Query())),
@@ -599,6 +640,22 @@ export const ListPeopleRequest = /*@__PURE__*/ S.suspend(() =>
     first_seen_before: S.optional(S.String.pipe(T.Query())),
     last_seen_after: S.optional(S.String.pipe(T.Query())),
     last_seen_before: S.optional(S.String.pipe(T.Query())),
+    ltv_gt: S.optional(S.Number.pipe(T.Query())),
+    ltv_gte: S.optional(S.Number.pipe(T.Query())),
+    ltv_lt: S.optional(S.Number.pipe(T.Query())),
+    ltv_lte: S.optional(S.Number.pipe(T.Query())),
+    aov_gt: S.optional(S.Number.pipe(T.Query())),
+    aov_gte: S.optional(S.Number.pipe(T.Query())),
+    aov_lt: S.optional(S.Number.pipe(T.Query())),
+    aov_lte: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_gt: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_gte: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_lt: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_lte: S.optional(S.Number.pipe(T.Query())),
+    event_count_gt: S.optional(S.Number.pipe(T.Query())),
+    event_count_gte: S.optional(S.Number.pipe(T.Query())),
+    event_count_lt: S.optional(S.Number.pipe(T.Query())),
+    event_count_lte: S.optional(S.Number.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),

@@ -3743,6 +3743,18 @@
             "smithy.api#documentation": "The limit object type.",
             "smithy.api#required": {}
           }
+        },
+        "value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The quota limit value (`LimitValue` subtype)."
+          }
+        },
+        "limitType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The quota limit type, e.g. `Independent` or `Shared` (`LimitValue` subtype)."
+          }
         }
       },
       "traits": {

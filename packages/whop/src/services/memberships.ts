@@ -99,7 +99,7 @@ export const LegacyMembershipCompany = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LegacyMembershipCompany" }) as any as S.Schema<LegacyMembershipCompany>;
 
 /** The available currencies on the platform */
-export type Currencies =
+export type LegacyCurrencies =
   | "usd"
   | "sgd"
   | "inr"
@@ -190,7 +190,7 @@ export type Currencies =
   | "awg"
   | "whop_usd"
   | "xau";
-export const Currencies = S.String;
+export const LegacyCurrencies = S.String;
 
 /** The response from a custom field on checkout */
 export interface LegacyMembershipCustomFieldResponsesItem {
@@ -349,7 +349,7 @@ export interface LegacyMembership {
   /** The datetime the membership was created. */
   created_at: string;
   /** The three-letter ISO currency code for this membership's billing. Null if the membership is free. */
-  currency: Currencies | null;
+  currency: LegacyCurrencies | null;
   /** The customer's responses to custom checkout questions configured on the product at the time of purchase. */
   custom_field_responses: LegacyMembershipCustomFieldResponsesList;
   /** The recurring renewal price for this membership, formatted with currency symbol and billing interval. Null if the membership is not recurring. */
@@ -397,7 +397,7 @@ export const LegacyMembership = /*@__PURE__*/ S.suspend(() =>
     checkout_configuration_id: S.NullOr(S.String),
     company: LegacyMembershipCompany,
     created_at: S.String,
-    currency: S.NullOr(Currencies),
+    currency: S.NullOr(LegacyCurrencies),
     custom_field_responses: LegacyMembershipCustomFieldResponsesList,
     formatted_renewal_price: S.NullOr(S.String),
     id: S.String,
@@ -438,24 +438,24 @@ export const CancelMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/cancel", code: 200 })),
 ).annotate({ identifier: "CancelMembershipRequest" }) as any as S.Schema<CancelMembershipRequest>;
 
-export interface MembershipAccount {
+export interface StorefrontAccount {
   /** Account ID, prefixed `biz_`. */
   id: string;
-  /** Account logo image URL. */
+  /** Account logo image URL. `null` when the account has not set one. */
   logo_url: string | null;
   /** Account public route identifier — the `whop.com/{route}` storefront path. */
   route: string;
   /** Account display name. */
   title: string;
 }
-export const MembershipAccount = /*@__PURE__*/ S.suspend(() =>
+export const StorefrontAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     logo_url: S.NullOr(S.String),
     route: S.String,
     title: S.String,
   }),
-).annotate({ identifier: "MembershipAccount" }) as any as S.Schema<MembershipAccount>;
+).annotate({ identifier: "StorefrontAccount" }) as any as S.Schema<StorefrontAccount>;
 
 /** What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed. */
 export type MembershipMemberAccessLevel = "no_access" | "admin" | "customer";
@@ -490,21 +490,31 @@ export const MembershipStatus = S.String;
 
 export interface Membership {
   /** The account (seller) this membership belongs to. */
-  account: MembershipAccount;
+  account: StorefrontAccount;
   /** Whether the membership is set to cancel when the current billing period ends. Only meaningful for recurring plans. */
   cancel_at_period_end: boolean;
+  /** When cancellation was requested, or when the membership was canceled if no request time is recorded, as an ISO 8601 timestamp. `null` when neither is recorded. */
+  canceled_at: string | null;
+  /** Free-text explanation provided when canceling. `null` when no reason was provided. */
+  cancellation_reason: string | null;
   /** When the membership was created, as an ISO 8601 timestamp. */
   created_at: string;
   /** When the current billing period renews, or when a non-renewing membership expires, as an ISO 8601 timestamp. `null` for one-time purchases with no expiration. */
   current_period_end: string | null;
+  /** When the current billing period started, as an ISO 8601 timestamp. `null` when no billing period is recorded. */
+  current_period_start: string | null;
   /** Membership ID, prefixed `mem_`. */
   id: string;
   /** The software license key for this membership. Only present when the product includes a software licensing experience. */
   license_key: string | null;
+  /** URL where the buyer can sign in to manage billing. `null` without a member record or unless the caller is the buyer or has `member:manage` on the account. */
+  manage_url: string | null;
   /** The caller's member row on the account. Present only when the membership belongs to the caller; `null` on seller-side reads. */
   member: MembershipMember | null;
   /** Custom key-value pairs stored on the membership, commonly used for software licensing. */
   metadata: unknown;
+  /** The buyer's phone number recorded for this membership, or `null`. The number collected (or verified) at checkout when the seller's phone collection is on; falls back to the buyer's account number when they have shared one with this seller. */
+  phone_number: string | null;
   /** The plan the buyer purchased, prefixed `plan_`. */
   plan_id: string;
   /** The product this membership grants access to, prefixed `prod_`. */
@@ -516,14 +526,19 @@ export interface Membership {
 }
 export const Membership = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    account: MembershipAccount,
+    account: StorefrontAccount,
     cancel_at_period_end: S.Boolean,
+    canceled_at: S.NullOr(S.String),
+    cancellation_reason: S.NullOr(S.String),
     created_at: S.String,
     current_period_end: S.NullOr(S.String),
+    current_period_start: S.NullOr(S.String),
     id: S.String,
     license_key: S.NullOr(S.String),
+    manage_url: S.NullOr(S.String),
     member: S.NullOr(MembershipMember),
     metadata: S.Unknown,
+    phone_number: S.NullOr(S.String),
     plan_id: S.String,
     product_id: S.String,
     status: MembershipStatus,
@@ -621,13 +636,13 @@ export interface ListMembershipsRequest {
   order?: ListMembershipsRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListMembershipsRequestDirection | (string & {});
-  /** Number of memberships to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of memberships to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListMembershipsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -697,6 +712,24 @@ export const PauseMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/pause", code: 200 })),
 ).annotate({ identifier: "PauseMembershipRequest" }) as any as S.Schema<PauseMembershipRequest>;
 
+export interface ReactivateMembershipRequest {
+  /** Membership ID (`mem_` tag). */
+  id: string;
+  /** Days of access from now (1-1095), which sets `current_period_end`. Omit to keep the original `current_period_end`; required once it has passed. Ignored for lifetime memberships. */
+  days?: number;
+  /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
+  idempotency_key?: string;
+}
+export const ReactivateMembershipRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    days: S.optional(S.Number),
+    idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+  }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/reactivate", code: 200 })),
+).annotate({
+  identifier: "ReactivateMembershipRequest",
+}) as any as S.Schema<ReactivateMembershipRequest>;
+
 export interface ResumeMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
@@ -711,12 +744,15 @@ export const ResumeMembershipRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ResumeMembershipRequest" }) as any as S.Schema<ResumeMembershipRequest>;
 
 export interface ResyncAccessMembershipRequest {
-  /** The unique identifier of the membership to resync access for. */
+  /** Membership ID (`mem_` tag). */
   id: string;
+  /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
+  idempotency_key?: string;
 }
 export const ResyncAccessMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
+    idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/memberships/{id}/resync_access", code: 200 })),
 ).annotate({
   identifier: "ResyncAccessMembershipRequest",
@@ -768,12 +804,15 @@ export interface UpdateMembershipRequest {
   cancel_at_period_end?: boolean;
   /** Key-value pairs to merge into the membership's metadata. Pass an empty object to clear it. */
   metadata?: unknown;
+  /** The ID of a payment method the customer has saved with your account. Future renewals charge it, and an open past-due payment is retried on it right away. Requires the `member:payment_methods:manage` permission. */
+  payment_method_id?: string;
 }
 export const UpdateMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     cancel_at_period_end: S.optional(S.Boolean),
     metadata: S.optional(S.Unknown),
+    payment_method_id: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/memberships/{id}", code: 200 })),
 ).annotate({ identifier: "UpdateMembershipRequest" }) as any as S.Schema<UpdateMembershipRequest>;
 
@@ -899,6 +938,21 @@ export const pauseMembership: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ReactivateMembershipError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
+/** Reactivate Membership Restores access to a `canceled` or `expired` membership that contains only one-time purchases and sets its `status` to `completed`. Lifetime memberships regain lifetime access. For memberships with an expiration, `days` sets `current_period_end` that many days from now; without it the original `current_period_end` is kept, so `days` is required once that has passed. Active and recurring memberships cannot be reactivated. */
+export const reactivateMembership: API.OperationMethod<
+  ReactivateMembershipRequest,
+  Membership,
+  ReactivateMembershipError,
+  WhopOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReactivateMembershipRequest,
+  output: Membership,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: WhopProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ResumeMembershipError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Resume Membership Resumes a previously paused membership's recurring payment collection. Billing resumes on the next cycle. */
 export const resumeMembership: API.OperationMethod<
@@ -914,22 +968,17 @@ export const resumeMembership: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ResyncAccessMembershipError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | WhopOpError;
-/** Resync access membership [Legacy API — https://docs.whop.com/api-reference] Re-run access fulfillment for a membership. Recomputes the member's content access on Whop, re-validates their Discord link (re-adding them to the server and re-assigning roles if needed), and re-fulfills TradingView indicator access. Telegram access is invite-based and cannot be resynced here. The outcome is written to the membership's logs. Required permissions: - `membership:resync_access` - `member:email:read` - `member:basic:read` */
+export type ResyncAccessMembershipError = BadRequest | Forbidden | Conflict | WhopOpError;
+/** Resync Membership Access Re-runs access fulfillment for a membership: recomputes the member's content access on Whop, re-validates their Discord link (re-adding them to the server and re-assigning roles if needed), and re-fulfills TradingView indicator access. Telegram access is invite-based and is not resynced. The work runs in the background and the outcome is written to the membership's logs. */
 export const resyncAccessMembership: API.OperationMethod<
   ResyncAccessMembershipRequest,
-  LegacyMembership,
+  Membership,
   ResyncAccessMembershipError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ResyncAccessMembershipRequest,
-  output: LegacyMembership,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  output: Membership,
+  errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));
@@ -970,7 +1019,7 @@ export const uncancelMembership: API.OperationMethod<
 }));
 
 export type UpdateMembershipError = BadRequest | Forbidden | WhopOpError;
-/** Update Membership Updates a membership: merge metadata key-value pairs, or toggle `cancel_at_period_end` — `true` schedules the cancellation for the end of the current billing period, `false` reverses a pending one. */
+/** Update Membership Updates a membership: merge metadata key-value pairs, toggle `cancel_at_period_end` — `true` schedules the cancellation for the end of the current billing period, `false` reverses a pending one — or move future renewals to another of the customer's saved payment methods with `payment_method_id`. */
 export const updateMembership: API.OperationMethod<
   UpdateMembershipRequest,
   Membership,

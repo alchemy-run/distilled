@@ -1,0 +1,1517 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestPlatform": {
+      "type": "enum",
+      "members": {
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        },
+        "platform": {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestPlatform",
+          "traits": {
+            "smithy.api#httpQuery": "platform"
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#documentation": "Campaign, ad group, or ad ID. Return rules covering this item, its ancestors, or its descendants."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of results to return from the start of the range."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of results to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
+          }
+        },
+        "order": {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order"
+          }
+        },
+        "direction": {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRule": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business that owns this shared, editable rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "adjustment_type": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleAdjustmentType",
+          "traits": {
+            "smithy.api#documentation": "Set a fixed amount or change the original value by a signed percentage.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the rule was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "events": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleEventsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fixed_value": {
+          "target": "com.whop.ad_conversion_value_rules#Money",
+          "traits": {
+            "smithy.api#documentation": "Amount sent for a fixed rule. Null for a percentage rule.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Conversion value rule ID, prefixed adcvr_.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Free-form string keys and values for the caller.",
+            "smithy.api#required": {}
+          }
+        },
+        "percentage_change": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Signed percent change: 20 increases by 20%, negative 20 decreases by 20%. The sent value cannot go below zero. Null for a fixed rule.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether this rule is active or paused.",
+            "smithy.api#required": {}
+          }
+        },
+        "targets": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleTargetsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the rule was edited, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleAdjustmentType": {
+      "type": "enum",
+      "members": {
+        "FIXED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fixed"
+          }
+        },
+        "PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set a fixed amount or change the original value by a signed percentage."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleEvent": {
+      "type": "structure",
+      "members": {
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact custom event name. Null for standard events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_name": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleEventEventName",
+          "traits": {
+            "smithy.api#documentation": "Event to adjust. Purchase includes Whop purchases and external purchase events.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleEventEventName": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "START_TRIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_trial"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "VIEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_content"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event to adjust. Purchase includes Whop purchases and external purchase events."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleEvent"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether this rule is active or paused."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleTarget": {
+      "type": "structure",
+      "members": {
+        "platform": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleTargetPlatform",
+          "traits": {
+            "smithy.api#documentation": "Ad platform that receives the adjusted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Selected campaign, ad group, or ad ID. Null for a business target.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the selected item. Null when it is no longer available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scope": {
+          "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleTargetScope",
+          "traits": {
+            "smithy.api#documentation": "Business, campaign, ad group, or ad covered by this target.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleTargetPlatform": {
+      "type": "enum",
+      "members": {
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ad platform that receives the adjusted value."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleTargetScope": {
+      "type": "enum",
+      "members": {
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        },
+        "CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Business, campaign, ad group, or ad covered by this target."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRuleTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRuleTarget"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRule"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#ListAdConversionValueRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_conversion_value_rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "List conversion value rules\n\nList saved rules the caller can read. Filter by business with account_id.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestAdjustmentType": {
+      "type": "enum",
+      "members": {
+        "FIXED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fixed"
+          }
+        },
+        "PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestEventsItemEventName": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "START_TRIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_trial"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "VIEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_content"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestEventsItem": {
+      "type": "structure",
+      "members": {
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact custom event name. Required for custom events; null for standard events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_name": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestEventsItemEventName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestEventsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Events adjusted on every selected target. Every platform must support every selected event."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestFixedValue": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Decimal amount with at most 2 decimal places. Fixed values must be greater than 0 and at most 99999999.99.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestReplaceRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact IDs of active rules whose overlapping selections will be replaced. Other selections keep their values; remaining selections may split into separate rules. Broader rules remain as fallbacks for other items. Stale or incomplete conflict selections fail."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Initial rule status. Defaults to active."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsItemPlatform": {
+      "type": "enum",
+      "members": {
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsItemScope": {
+      "type": "enum",
+      "members": {
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        },
+        "CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsItem": {
+      "type": "structure",
+      "members": {
+        "platform": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsItemPlatform",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Campaign, ad group, or ad ID. Null for a business target.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scope": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsItemScope",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business that owns the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "adjustment_type": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestAdjustmentType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "events": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestEventsList",
+          "traits": {
+            "smithy.api#documentation": "Events adjusted on every selected target. Every platform must support every selected event.",
+            "smithy.api#required": {}
+          }
+        },
+        "fixed_value": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestFixedValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestMetadataMap"
+        },
+        "percentage_change": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Signed percent change from negative 100 to 10000. The sent value cannot go below zero.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replace_rule_ids": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestReplaceRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Exact IDs of active rules whose overlapping selections will be replaced. Other selections keep their values; remaining selections may split into separate rules. Broader rules remain as fallbacks for other items. Stale or incomplete conflict selections fail."
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Initial rule status. Defaults to active."
+          }
+        },
+        "targets": {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#CreateAdConversionValueRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_conversion_value_rules#Forbidden"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_conversion_value_rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a conversion value rule\n\nCreate one rule covering every selected target and event combination. Active rules cannot overlap for the same platform and event. Customer prices and Whop revenue stay unchanged."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#GetAdConversionValueRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Conversion value rule ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#GetAdConversionValueRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#GetAdConversionValueRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_conversion_value_rules/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a conversion value rule"
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestAdjustmentType": {
+      "type": "enum",
+      "members": {
+        "FIXED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fixed"
+          }
+        },
+        "PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestEventsItemEventName": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "START_TRIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_trial"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "VIEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_content"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestEventsItem": {
+      "type": "structure",
+      "members": {
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact custom event name. Required for custom events; null for standard events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_name": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestEventsItemEventName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestEventsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Events adjusted on every selected target. Every platform must support every selected event."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestFixedValue": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Decimal amount with at most 2 decimal places. Fixed values must be greater than 0 and at most 99999999.99.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestReplaceRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact IDs of active rules whose overlapping selections will be replaced. Other selections keep their values; remaining selections may split into separate rules. Broader rules remain as fallbacks for other items. Stale or incomplete conflict selections fail."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsItemPlatform": {
+      "type": "enum",
+      "members": {
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsItemScope": {
+      "type": "enum",
+      "members": {
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        },
+        "CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsItem": {
+      "type": "structure",
+      "members": {
+        "platform": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsItemPlatform",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Campaign, ad group, or ad ID. Null for a business target.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scope": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsItemScope",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Conversion value rule ID."
+          }
+        },
+        "adjustment_type": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestAdjustmentType"
+        },
+        "events": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestEventsList",
+          "traits": {
+            "smithy.api#documentation": "Events adjusted on every selected target. Every platform must support every selected event."
+          }
+        },
+        "fixed_value": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestFixedValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestMetadataMap"
+        },
+        "percentage_change": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Signed percent change from negative 100 to 10000. The sent value cannot go below zero.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replace_rule_ids": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestReplaceRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Exact IDs of active rules whose overlapping selections will be replaced. Other selections keep their values; remaining selections may split into separate rules. Broader rules remain as fallbacks for other items. Stale or incomplete conflict selections fail."
+          }
+        },
+        "targets": {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/ad_conversion_value_rules/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a conversion value rule\n\nEdit a rule without changing its status. Supplied targets or events replace that selection in full. Omitted fields stay unchanged. All changes succeed or fail together."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#DeleteAdConversionValueRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Conversion value rule ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#DeleteAdConversionValueRuleResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#DeleteAdConversionValueRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#DeleteAdConversionValueRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#DeleteAdConversionValueRuleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/ad_conversion_value_rules/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a conversion value rule\n\nSoft-delete a rule and deactivate all its coverage. Preserve its stored settings."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#PauseAdConversionValueRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Conversion value rule ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#PauseAdConversionValueRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#PauseAdConversionValueRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_conversion_value_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_conversion_value_rules/{id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause a conversion value rule\n\nPause the rule across all selected targets and events."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UnpauseAdConversionValueRuleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Conversion value rule ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_conversion_value_rules#UnpauseAdConversionValueRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_conversion_value_rules#UnpauseAdConversionValueRuleRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_conversion_value_rules#AdConversionValueRule"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_conversion_value_rules#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_conversion_value_rules/{id}/unpause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unpause a conversion value rule\n\nResume the rule and automatically replace overlapping selections in the same transaction. Other selections keep their values, and broader rules remain as defaults. Rules with no remaining selections are paused. Resuming an already-active rule makes no changes."
+      }
+    },
+    "com.whop.ad_conversion_value_rules#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.ad_conversion_value_rules#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.ad_conversion_value_rules#AdConversionValueRules": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ad_conversion_value_rules#ListAdConversionValueRules"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#CreateAdConversionValueRule"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#GetAdConversionValueRule"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#UpdateAdConversionValueRule"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#DeleteAdConversionValueRule"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#PauseAdConversionValueRule"
+        },
+        {
+          "target": "com.whop.ad_conversion_value_rules#UnpauseAdConversionValueRule"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

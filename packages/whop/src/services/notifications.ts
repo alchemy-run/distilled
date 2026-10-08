@@ -257,9 +257,9 @@ export interface ListNotificationsRequest {
   account_id?: string;
   /** Only return notifications that mention the user directly. */
   mentions?: boolean;
-  /** The number of notifications to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor (a notification `id` from a previous page); returns notifications older than it. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -314,9 +314,9 @@ export const ListNotificationTopicsRequestTopicType = S.String;
 export interface ListNotificationTopicsRequest {
   /** Only return topics of this scope: `user` (member notifications) or `account_team` (team notifications). */
   topic_type?: ListNotificationTopicsRequestTopicType | (string & {});
-  /** The number of topics to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns topics after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListNotificationTopicsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -496,7 +496,7 @@ export const listNotificationBadges: API.OperationMethod<
 }));
 
 export type ListNotificationsError = BadRequest | Forbidden | WhopOpError;
-/** List Notifications Lists the authenticated user's notifications, newest first. Requires a user credential — an account API key has no notification feed. Without filters the feed spans every experience the user belongs to plus the teams they are a member of. */
+/** List Notifications Lists the authenticated user's notifications, newest first. Requires a user credential — an account API key has no notification feed. Without filters the feed spans every experience the user belongs to plus the teams they are a member of. The `after` cursor is a notification `id` from a previous response; subsequent pages contain older notifications. */
 export const listNotifications: API.PaginatedOperationMethod<
   ListNotificationsRequest,
   ListNotificationsResponse,

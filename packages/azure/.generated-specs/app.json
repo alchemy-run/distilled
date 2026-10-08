@@ -1980,6 +1980,12 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives."
+          }
         }
       },
       "traits": {
@@ -2087,6 +2093,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The geo-location where the resource lives; must match the sandbox group's location."
+          }
         }
       },
       "traits": {
@@ -2143,6 +2156,12 @@
           "target": "com.azure.app#VnetConnectionProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives."
           }
         }
       },
@@ -2270,6 +2289,12 @@
           "target": "com.azure.app#VnetConnectionProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives."
           }
         }
       },
@@ -2447,6 +2472,18 @@
         },
         "provisioningState": {
           "target": "com.azure.app#SandboxGroupProvisioningState"
+        },
+        "managementEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regional data-plane endpoint for managing sandboxes in the group."
+          }
+        },
+        "enableDetailedMetrics": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether detailed sandbox metrics are emitted."
+          }
         }
       },
       "traits": {
@@ -7490,10 +7527,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Delete a .NET Component.\n\nDeletes a .NET component from a managed environment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#DeleteDotNetComponentRequest": {
@@ -7549,10 +7586,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Update properties of a .NET Component\n\nPatches a .NET Component using JSON Merge Patch",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#UpdateDotNetComponentResponse": {
@@ -7794,10 +7831,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Creates or updates a .NET Component.\n\nCreates or updates a .NET Component in a Managed Environment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#DotNetComponentsCreateOrUpdateResponse": {
@@ -7897,10 +7934,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Get a .NET Component.\n\nGets the details of a .NET component in a managed environment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#GetDotNetComponentResponse": {
@@ -7994,10 +8031,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Get the .NET Components for a managed environment.\n\nLists the .NET components in a managed environment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#DotNetComponentsCollection": {
@@ -9643,10 +9680,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Delete a Dapr component resiliency policy.\n\nDelete a resiliency policy for a Dapr component.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#DeleteDaprComponentResiliencyPolicyRequest": {
@@ -9710,10 +9747,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Creates or updates a Dapr component resiliency policy.\n\nCreates or updates a resiliency policy for a Dapr component.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#DaprComponentResiliencyPoliciesCreateOrUpdateResponse": {
@@ -9947,10 +9984,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Get a Dapr component resiliency policy.\n\nGets the details of a resiliency policy for a Dapr component.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#GetDaprComponentResiliencyPolicyResponse": {
@@ -10052,10 +10089,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-03-02-preview"
         },
         "smithy.api#documentation": "Get the resiliency policies for a Dapr component.\n\nLists the resiliency policies configured for a Dapr component.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-03-02-preview"
       }
     },
     "com.azure.app#DaprComponentResiliencyPoliciesCollection": {
@@ -20844,6 +20881,12 @@
           "traits": {
             "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Logic App extension properties (opaque)."
+          }
         }
       },
       "traits": {
@@ -20883,6 +20926,12 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Name of the Logic App, the extension resource."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Logic App extension properties (opaque)."
           }
         }
       },
@@ -20934,6 +20983,12 @@
           "target": "com.azure.app#SystemData",
           "traits": {
             "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Logic App extension properties (opaque)."
           }
         }
       },

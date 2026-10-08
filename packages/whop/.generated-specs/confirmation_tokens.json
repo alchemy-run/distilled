@@ -1,0 +1,442 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.confirmation_tokens#GetConfirmationTokenRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Confirmation token ID, prefixed `ctok_`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account (biz_) the token was minted for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.confirmation_tokens#ConfirmationToken": {
+      "type": "structure",
+      "members": {
+        "billing_address": {
+          "target": "com.whop.confirmation_tokens#PaymentAddress",
+          "traits": {
+            "smithy.api#documentation": "The collected billing address, including the name on the address. Null when not collected or without bearer authentication with payment:basic:read on the token’s account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_details": {
+          "target": "com.whop.confirmation_tokens#PaymentBillingDetailsPreview",
+          "traits": {
+            "smithy.api#documentation": "Billing preview supplied at collection: email, name, country and postal code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the token was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the token expires, as an ISO 8601 timestamp. Tokens are single-use and short-lived.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `confirmation_token`.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_preview": {
+          "target": "com.whop.confirmation_tokens#PaymentMethodDisplay",
+          "traits": {
+            "smithy.api#documentation": "Display-only preview of the collected method — never the underlying token.",
+            "smithy.api#required": {}
+          }
+        },
+        "setup_future_usage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Save-consent state the element displayed at collection: `off_session`, `on_session`, or `null`. Confirm may vault only if attested here.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.confirmation_tokens#ConfirmationTokenStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending` until it is used, then `consumed`; `expired` once its short lifetime elapses. Only a `pending` token can be charged.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.confirmation_tokens#PaymentAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 3166-1 alpha-2 country code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first street address line.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The second street address line.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name on the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal or ZIP code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state, province or region.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.confirmation_tokens#PaymentBillingDetailsPreview": {
+      "type": "structure",
+      "members": {
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email supplied when the method was collected.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name on the payment method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.confirmation_tokens#PaymentMethodDisplay": {
+      "type": "structure",
+      "members": {
+        "bank_debit": {
+          "target": "com.whop.confirmation_tokens#PaymentMethodDisplayPreview",
+          "traits": {
+            "smithy.api#documentation": "Present when the category is `bank_debit`. Empty until the account is charged."
+          }
+        },
+        "card": {
+          "target": "com.whop.confirmation_tokens#PaymentMethodDisplayPreview",
+          "traits": {
+            "smithy.api#documentation": "Details of the card, when the category is `card`."
+          }
+        },
+        "category": {
+          "target": "com.whop.confirmation_tokens#PaymentMethodDisplayCategory",
+          "traits": {
+            "smithy.api#documentation": "The family the type belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable label for the method, e.g. `Visa •••• 4242`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The saved payment method this preview came from, or `null` when the buyer supplied a new one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "saved": {
+          "target": "com.whop.confirmation_tokens#PaymentMethodDisplayPreview",
+          "traits": {
+            "smithy.api#documentation": "Details of the stored card, when the category is `saved`. Absent for a balance."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment method type, e.g. `card`, `apple_pay`, `klarna`.",
+            "smithy.api#required": {}
+          }
+        },
+        "wallet": {
+          "target": "com.whop.confirmation_tokens#PaymentMethodDisplayPreview",
+          "traits": {
+            "smithy.api#documentation": "Details of the network token the wallet supplied, when the category is `wallet`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.confirmation_tokens#PaymentMethodDisplayPreview": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lowercase card brand, such as `visa` or `mastercard`."
+          }
+        },
+        "fingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies this particular card number. Matches the `fingerprint` on any payment method saved from this token, so you can recognize a card across attempts. For a wallet, this identifies the network token rather than the underlying card."
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.confirmation_tokens#PaymentMethodDisplayCategory": {
+      "type": "enum",
+      "members": {
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet"
+          }
+        },
+        "BANK_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_debit"
+          }
+        },
+        "BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_transfer"
+          }
+        },
+        "VOUCHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "voucher"
+          }
+        },
+        "REDIRECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirect"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "balance"
+          }
+        },
+        "IN_APP_PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_app_purchase"
+          }
+        },
+        "SAVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saved"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The family the type belongs to."
+      }
+    },
+    "com.whop.confirmation_tokens#ConfirmationTokenStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "CONSUMED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consumed"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending` until it is used, then `consumed`; `expired` once its short lifetime elapses. Only a `pending` token can be charged."
+      }
+    },
+    "com.whop.confirmation_tokens#GetConfirmationToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.confirmation_tokens#GetConfirmationTokenRequest"
+      },
+      "output": {
+        "target": "com.whop.confirmation_tokens#ConfirmationToken"
+      },
+      "errors": [
+        {
+          "target": "com.whop.confirmation_tokens#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/confirmation_tokens/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Confirmation Token\n\nRetrieves a token's payment method and billing details — never the underlying payment credential. Public and rate-limited: the account_id query param must match the account the token was minted for. A bearer credential with payment:basic:read on that account also receives the collected billing address."
+      }
+    },
+    "com.whop.confirmation_tokens#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.confirmation_tokens#ConfirmationTokens": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.confirmation_tokens#GetConfirmationToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

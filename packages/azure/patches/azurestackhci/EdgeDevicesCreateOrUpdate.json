@@ -158,7 +158,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.azurestackhci#GetEdgeDeviceResponse/members/properties",
+      "path": "/shapes/com.azure.azurestackhci#EdgeDevicesGetResponse/members/properties",
       "value": {
         "target": "com.azure.azurestackhci#HciEdgeDeviceProperties",
         "traits": {

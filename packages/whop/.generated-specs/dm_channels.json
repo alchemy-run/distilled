@@ -45,10 +45,10 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "company_id"
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
@@ -214,7 +214,7 @@
     "com.whop.dm_channels#CreateDmChannelRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the company to scope this DM channel to. When set, the channel is visible only within that company context.",

@@ -570,6 +570,12 @@
           "traits": {
             "smithy.api#documentation": "Resource properties."
           }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified ARM resource ID of the private endpoint connection. Required by the service."
+          }
         }
       },
       "traits": {
@@ -599,7 +605,14 @@
     },
     "com.azure.attestation#PrivateEndpointInput": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ARM identifier for Private Endpoint."
+          }
+        }
+      },
       "traits": {
         "smithy.api#documentation": "The Private Endpoint resource."
       }

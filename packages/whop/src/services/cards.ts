@@ -52,7 +52,7 @@ export const CreateCardRequestSpendLimitFrequency = S.String;
 export interface CreateCardRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
   account_id?: string;
-  /** The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts. */
+  /** The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts, and whenever a company API key files an account's first card application. */
   assigned_user_id?: string;
   /** A display name for the card. */
   name?: string;
@@ -577,13 +577,13 @@ export interface ListCardTransactionsRequest {
   order?: ListCardTransactionsRequestOrder | (string & {});
   /** The sort direction. Defaults to `desc`. */
   direction?: ListCardTransactionsRequestDirection | (string & {});
-  /** The number of card transactions to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns card transactions after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of card transactions to return, counting back from the end. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns card transactions before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListCardTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -641,7 +641,7 @@ export const ListCardTransactionsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCardTransactionsResponse",
 }) as any as S.Schema<ListCardTransactionsResponse>;
 
-/** New billing address. Requires line1, city, region, postal_code, and country_code. On an invited card, passing billing alone (as the invited user) completes onboarding and starts card provisioning. */
+/** The billing address. On an issued card this replaces the card's billing address and region is also required. On an invited card, sending it as the invited user completes onboarding and starts card provisioning. */
 export interface UpdateCardRequestBilling {
   /** Billing city. */
   city: string;
@@ -653,8 +653,8 @@ export interface UpdateCardRequestBilling {
   line2?: string;
   /** Billing postal code. */
   postal_code: string;
-  /** Billing region or state. */
-  region: string;
+  /** Billing region or state. Required when updating an issued card's billing address. */
+  region?: string;
 }
 export const UpdateCardRequestBilling = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -663,9 +663,31 @@ export const UpdateCardRequestBilling = /*@__PURE__*/ S.suspend(() =>
     line1: S.String,
     line2: S.optional(S.String),
     postal_code: S.String,
-    region: S.String,
+    region: S.optional(S.String),
   }),
 ).annotate({ identifier: "UpdateCardRequestBilling" }) as any as S.Schema<UpdateCardRequestBilling>;
+
+/** Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not. */
+export interface UpdateCardRequestCardholder {
+  /** Email address for the invited cardholder. */
+  email?: string;
+  /** Legal first name of the invited cardholder. */
+  first_name?: string;
+  /** Legal last name of the invited cardholder. */
+  last_name?: string;
+  /** Phone number for the invited cardholder. */
+  phone?: string;
+}
+export const UpdateCardRequestCardholder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.optional(S.String),
+    first_name: S.optional(S.String),
+    last_name: S.optional(S.String),
+    phone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateCardRequestCardholder",
+}) as any as S.Schema<UpdateCardRequestCardholder>;
 
 /** The window the spend limit applies to. */
 export type UpdateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
@@ -676,10 +698,12 @@ export interface UpdateCardRequest {
   id: string;
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
   account_id?: string;
-  /** New billing address. Requires line1, city, region, postal_code, and country_code. On an invited card, passing billing alone (as the invited user) completes onboarding and starts card provisioning. */
+  /** The billing address. On an issued card this replaces the card's billing address and region is also required. On an invited card, sending it as the invited user completes onboarding and starts card provisioning. */
   billing?: UpdateCardRequestBilling;
   /** Pass `true` to permanently cancel the card. A canceled card cannot be uncanceled. Cannot be combined with other fields. */
   canceled?: boolean;
+  /** Details for the invited cardholder, accepted only while completing onboarding on an invited card. The legal name comes from an approved identity verification when the invited user has one, and from these fields when they do not. */
+  cardholder?: UpdateCardRequestCardholder;
   /** Pass `true` to freeze the card, `false` to unfreeze it. The assigned cardholder may freeze their own card without the payout:account:update scope. */
   frozen?: boolean;
   /** A display name for the card. */
@@ -703,6 +727,7 @@ export const UpdateCardRequest = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String),
     billing: S.optional(UpdateCardRequestBilling),
     canceled: S.optional(S.Boolean),
+    cardholder: S.optional(UpdateCardRequestCardholder),
     frozen: S.optional(S.Boolean),
     name: S.optional(S.String),
     pin: S.optional(S.String),
@@ -808,7 +833,7 @@ export const UpdateCardResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UpdateCardResponse" }) as any as S.Schema<UpdateCardResponse>;
 
 export type CreateCardError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
-/** Create Card Issue a virtual card, or apply for card issuing. */
+/** Create Card Issue a virtual card, or apply for card issuing. An account with no application files one here and gets back a `202`; call again to issue the card once it is approved. */
 export const createCard: API.OperationMethod<
   CreateCardRequest,
   CreateCardResponse,

@@ -89,47 +89,77 @@ export interface CreateAdRequestCreativesItem {
   format?: CreateAdRequestCreativesItemFormat | (string & {});
   /** Uploaded file ID, prefixed `file_`. */
   id?: string;
+  /** ISO 639 code of the language this image or video is shown for, such as `es`. Required on every entry of an ad with `translations`, where the ad's own creative uses `translations.source_language`. Another language's creative is the same type as the ad's own, with no format. Leave it out on an ad without translations. */
+  language?: string;
 }
 export const CreateAdRequestCreativesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crop: S.optional(CreateAdRequestCreativesItemCrop),
     format: S.optional(CreateAdRequestCreativesItemFormat),
     id: S.optional(S.String),
+    language: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateAdRequestCreativesItem",
 }) as any as S.Schema<CreateAdRequestCreativesItem>;
 
-/** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Two or more entries with no format become a carousel (2-10 attachments), in order, sharing the ad's copy. */
+/** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Entries with no format become a carousel's ordered cards, sharing the ad's copy — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
 export type CreateAdRequestCreativesList = Array<CreateAdRequestCreativesItem>;
 export const CreateAdRequestCreativesList = /*@__PURE__*/ S.Array(
   CreateAdRequestCreativesItem,
 ) as any as S.Schema<CreateAdRequestCreativesList>;
 
-/** The description variants shown on the ad. */
-export type CreateAdRequestDescriptionsList = Array<string>;
+export interface CreateAdRequestDescriptionsItem {
+  /** ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations. */
+  language?: string | null;
+  /** The text shown to viewers. */
+  text: string;
+}
+export const CreateAdRequestDescriptionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    language: S.optional(S.NullOr(S.String)),
+    text: S.String,
+  }),
+).annotate({
+  identifier: "CreateAdRequestDescriptionsItem",
+}) as any as S.Schema<CreateAdRequestDescriptionsItem>;
+
+/** The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
+export type CreateAdRequestDescriptionsList = Array<CreateAdRequestDescriptionsItem>;
 export const CreateAdRequestDescriptionsList = /*@__PURE__*/ S.Array(
-  S.String,
+  CreateAdRequestDescriptionsItem,
 ) as any as S.Schema<CreateAdRequestDescriptionsList>;
 
-/** The headline variants shown on the ad. */
-export type CreateAdRequestHeadlinesList = Array<string>;
+export type CreateAdRequestHeadlinesItem = CreateAdRequestDescriptionsItem;
+export const CreateAdRequestHeadlinesItem = CreateAdRequestDescriptionsItem;
+
+/** The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
+export type CreateAdRequestHeadlinesList = Array<CreateAdRequestDescriptionsItem>;
 export const CreateAdRequestHeadlinesList = /*@__PURE__*/ S.Array(
-  S.String,
+  CreateAdRequestDescriptionsItem,
 ) as any as S.Schema<CreateAdRequestHeadlinesList>;
 
-/** Optional completion screen shown after submission; url sets the follow-up website button. */
+export type CreateAdRequestLeadFormCompletionButtonType = "website" | "call" | "download";
+export const CreateAdRequestLeadFormCompletionButtonType = S.String;
+
+/** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
 export interface CreateAdRequestLeadFormCompletion {
   button_text?: string;
+  button_type?: CreateAdRequestLeadFormCompletionButtonType | (string & {});
   description?: string;
+  file_url?: string;
   headline?: string;
+  phone_number?: string;
   url?: string;
 }
 export const CreateAdRequestLeadFormCompletion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     button_text: S.optional(S.String),
+    button_type: S.optional(CreateAdRequestLeadFormCompletionButtonType),
     description: S.optional(S.String),
+    file_url: S.optional(S.String),
     headline: S.optional(S.String),
+    phone_number: S.optional(S.String),
     url: S.optional(S.String),
   }),
 ).annotate({
@@ -304,7 +334,7 @@ export const CreateAdRequestLeadFormQuestionsList = /*@__PURE__*/ S.Array(
 
 /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
 export interface CreateAdRequestLeadForm {
-  /** Optional completion screen shown after submission; url sets the follow-up website button. */
+  /** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
   completion?: CreateAdRequestLeadFormCompletion;
   /** Optional custom consent disclaimer with checkboxes. */
   disclaimer?: CreateAdRequestLeadFormDisclaimer;
@@ -348,14 +378,28 @@ export const CreateAdRequestMessagingConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAdRequestMessagingConfig",
 }) as any as S.Schema<CreateAdRequestMessagingConfig>;
 
+/** The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Required for TikTok carousels (image creatives); TikTok-only. */
+export interface CreateAdRequestMusic {
+  /** Uploaded MP3 file ID, prefixed `file_`. */
+  id: string;
+}
+export const CreateAdRequestMusic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }),
+).annotate({ identifier: "CreateAdRequestMusic" }) as any as S.Schema<CreateAdRequestMusic>;
+
 /** Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted. */
 export type CreateAdRequestPostSource = "facebook" | "instagram";
 export const CreateAdRequestPostSource = S.String;
 
-/** The primary text variants shown in the ad body. */
-export type CreateAdRequestPrimaryTextsList = Array<string>;
+export type CreateAdRequestPrimaryTextsItem = CreateAdRequestDescriptionsItem;
+export const CreateAdRequestPrimaryTextsItem = CreateAdRequestDescriptionsItem;
+
+/** The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`. */
+export type CreateAdRequestPrimaryTextsList = Array<CreateAdRequestDescriptionsItem>;
 export const CreateAdRequestPrimaryTextsList = /*@__PURE__*/ S.Array(
-  S.String,
+  CreateAdRequestDescriptionsItem,
 ) as any as S.Schema<CreateAdRequestPrimaryTextsList>;
 
 export interface CreateAdRequestSocialAccountsItem {
@@ -376,6 +420,28 @@ export const CreateAdRequestSocialAccountsList = /*@__PURE__*/ S.Array(
   CreateAdRequestSocialAccountsItem,
 ) as any as S.Schema<CreateAdRequestSocialAccountsList>;
 
+/** ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`. */
+export type CreateAdRequestTranslationsAutomaticLanguagesList = Array<string>;
+export const CreateAdRequestTranslationsAutomaticLanguagesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateAdRequestTranslationsAutomaticLanguagesList>;
+
+/** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
+export interface CreateAdRequestTranslations {
+  /** ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`. */
+  automatic_languages?: CreateAdRequestTranslationsAutomaticLanguagesList;
+  /** ISO 639 code the ad's own copy is written in, such as `en`. */
+  source_language: string;
+}
+export const CreateAdRequestTranslations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    automatic_languages: S.optional(CreateAdRequestTranslationsAutomaticLanguagesList),
+    source_language: S.String,
+  }),
+).annotate({
+  identifier: "CreateAdRequestTranslations",
+}) as any as S.Schema<CreateAdRequestTranslations>;
+
 export interface CreateAdRequest {
   /** An inline ad group to create (same shape as POST /ad_groups, including ad_campaign_id). Creates the ad group and the ad together. Provide this OR ad_group_id. */
   ad_group?: unknown;
@@ -383,13 +449,13 @@ export interface CreateAdRequest {
   ad_group_id?: string;
   /** The call-to-action button shown on the ad. */
   call_to_action?: CreateAdRequestCallToAction | (string & {});
-  /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Two or more entries with no format become a carousel (2-10 attachments), in order, sharing the ad's copy. */
+  /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Entries with no format become a carousel's ordered cards, sharing the ad's copy — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
   creatives?: CreateAdRequestCreativesList;
-  /** The description variants shown on the ad. */
+  /** The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
   descriptions?: CreateAdRequestDescriptionsList;
   /** Promote a post you already published instead of uploading creatives — a Facebook post or Instagram media id. Mutually exclusive with creatives. Pair with post_source. */
   existing_post_id?: string;
-  /** The headline variants shown on the ad. */
+  /** The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
   headlines?: CreateAdRequestHeadlinesList;
   /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
   lead_form?: CreateAdRequestLeadForm;
@@ -399,17 +465,21 @@ export interface CreateAdRequest {
   messaging_config?: CreateAdRequestMessagingConfig;
   /** Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true. */
   multi_advertiser_ads?: boolean;
+  /** The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Required for TikTok carousels (image creatives); TikTok-only. */
+  music?: CreateAdRequestMusic | null;
   /** Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted. */
   post_source?: CreateAdRequestPostSource | (string & {});
-  /** The primary text variants shown in the ad body. */
+  /** The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`. */
   primary_texts?: CreateAdRequestPrimaryTextsList;
   /** The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile. */
   social_accounts?: CreateAdRequestSocialAccountsList;
   /** The display name of the ad. */
   title?: string;
+  /** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
+  translations?: CreateAdRequestTranslations | null;
   /** The URL the ad links to. Query parameters are merged into url_parameters, so the stored URL is always bare. */
   url?: string;
-  /** Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid). */
+  /** Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network — Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid. */
   url_parameters?: unknown;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
@@ -427,10 +497,12 @@ export const CreateAdRequest = /*@__PURE__*/ S.suspend(() =>
     lead_form_id: S.optional(S.String),
     messaging_config: S.optional(CreateAdRequestMessagingConfig),
     multi_advertiser_ads: S.optional(S.Boolean),
+    music: S.optional(S.NullOr(CreateAdRequestMusic)),
     post_source: S.optional(CreateAdRequestPostSource),
     primary_texts: S.optional(CreateAdRequestPrimaryTextsList),
     social_accounts: S.optional(CreateAdRequestSocialAccountsList),
     title: S.optional(S.String),
+    translations: S.optional(S.NullOr(CreateAdRequestTranslations)),
     url: S.optional(S.String),
     url_parameters: S.optional(S.Unknown),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -512,6 +584,8 @@ export interface AdCreative {
   format: AdCreativeFormat | null;
   /** The creative attachment's file id. */
   id: string;
+  /** ISO 639 code of the language this image or video is shown for, such as `es`. On an ad with translations, the ad's own creative carries `translations.source_language`. It's `null` on an ad without translations. */
+  language: string | null;
   /** The kind of asset, image or video. */
   media_type: string | null;
   /** CDN url of the asset. */
@@ -522,6 +596,7 @@ export const AdCreative = /*@__PURE__*/ S.suspend(() =>
     crop: S.NullOr(AdCreativeCrop),
     format: S.NullOr(AdCreativeFormat),
     id: S.String,
+    language: S.NullOr(S.String),
     media_type: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
@@ -534,6 +609,7 @@ export const AdCreativesList = /*@__PURE__*/ S.Array(
 
 /** Whether the ad is delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned. */
 export type AdDeliveryStatus =
+  | "in_appeal"
   | "rejected"
   | "in_review"
   | "draft"
@@ -548,13 +624,26 @@ export type AdDeliveryStatus =
   | "active";
 export const AdDeliveryStatus = S.String;
 
-export type AdDescriptionsList = Array<string>;
+export interface AdText {
+  /** ISO 639 code of the language this text is in, such as `es`. On an ad with translations, the ad's own copy carries `translations.source_language`. It's `null` on an ad without translations. */
+  language: string | null;
+  /** The text shown to viewers. */
+  text: string;
+}
+export const AdText = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    language: S.NullOr(S.String),
+    text: S.String,
+  }),
+).annotate({ identifier: "AdText" }) as any as S.Schema<AdText>;
+
+export type AdDescriptionsList = Array<AdText>;
 export const AdDescriptionsList = /*@__PURE__*/ S.Array(
-  S.String,
+  AdText,
 ) as any as S.Schema<AdDescriptionsList>;
 
-export type AdHeadlinesList = Array<string>;
-export const AdHeadlinesList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<AdHeadlinesList>;
+export type AdHeadlinesList = Array<AdText>;
+export const AdHeadlinesList = /*@__PURE__*/ S.Array(AdText) as any as S.Schema<AdHeadlinesList>;
 
 /** The type of resource the issue is attached to. */
 export type AdPlatformIssueResourceType = "ad_campaign" | "ad_group" | "ad";
@@ -582,21 +671,34 @@ export const AdPlatformIssue = /*@__PURE__*/ S.suspend(() =>
 export type AdIssuesList = Array<AdPlatformIssue>;
 export const AdIssuesList = /*@__PURE__*/ S.Array(AdPlatformIssue) as any as S.Schema<AdIssuesList>;
 
+/** What the follow-up button does. `null` on forms saved before the button was configurable. */
+export type AdLeadFormCompletionButtonType = "website" | "call" | "download";
+export const AdLeadFormCompletionButtonType = S.String;
+
 export interface AdLeadFormCompletion {
   /** Text of the follow-up button. */
   button_text: string | null;
+  /** What the follow-up button does. `null` on forms saved before the button was configurable. */
+  button_type: AdLeadFormCompletionButtonType | null;
   /** Body text under the headline. */
   description: string | null;
+  /** File the follow-up button opens. Set when `button_type` is `download`. */
+  file_url: string | null;
   /** Headline of the completion screen. */
   headline: string | null;
-  /** Website the follow-up button opens. `null` when the screen has no button. */
+  /** Number the follow-up button calls. Set when `button_type` is `call`. */
+  phone_number: string | null;
+  /** Website the follow-up button opens. Set when `button_type` is `website`. */
   url: string | null;
 }
 export const AdLeadFormCompletion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     button_text: S.NullOr(S.String),
+    button_type: S.NullOr(AdLeadFormCompletionButtonType),
     description: S.NullOr(S.String),
+    file_url: S.NullOr(S.String),
     headline: S.NullOr(S.String),
+    phone_number: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "AdLeadFormCompletion" }) as any as S.Schema<AdLeadFormCompletion>;
@@ -779,13 +881,33 @@ export const AdMessagingConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AdMessagingConfig" }) as any as S.Schema<AdMessagingConfig>;
 
+export interface AdMusic {
+  /** The music attachment's file id. */
+  id: string;
+  /** The uploaded file's name. */
+  name: string | null;
+  /** CDN url of the MP3. */
+  url: string | null;
+}
+export const AdMusic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.NullOr(S.String),
+    url: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "AdMusic" }) as any as S.Schema<AdMusic>;
+
+/** The ad platform this ad runs on. */
+export type AdPlatform = "meta" | "tiktok" | "google";
+export const AdPlatform = S.String;
+
 /** Identifies the network that owns `existing_post_id`; `null` when the ad uses uploaded creatives. */
 export type AdPostSource = "facebook" | "instagram";
 export const AdPostSource = S.String;
 
-export type AdPrimaryTextsList = Array<string>;
+export type AdPrimaryTextsList = Array<AdText>;
 export const AdPrimaryTextsList = /*@__PURE__*/ S.Array(
-  S.String,
+  AdText,
 ) as any as S.Schema<AdPrimaryTextsList>;
 
 /** The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event. */
@@ -810,6 +932,23 @@ export const AdSocialAccountsList = /*@__PURE__*/ S.Array(
 /** Whether the ad is enabled. `active` and `paused` are set by you; `in_review` and `rejected` come from ad review. */
 export type AdStatus = "active" | "paused" | "in_review" | "rejected";
 export const AdStatus = S.String;
+
+export type AdTranslationsAutomaticLanguagesList = Array<string>;
+export const AdTranslationsAutomaticLanguagesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AdTranslationsAutomaticLanguagesList>;
+
+export interface AdTranslations {
+  automatic_languages: AdTranslationsAutomaticLanguagesList;
+  /** ISO 639 code of the language the ad's own copy is written in, such as `en`. Viewers whose language has no version of its own see the ad's own copy. */
+  source_language: string;
+}
+export const AdTranslations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    automatic_languages: AdTranslationsAutomaticLanguagesList,
+    source_language: S.String,
+  }),
+).annotate({ identifier: "AdTranslations" }) as any as S.Schema<AdTranslations>;
 
 export interface Ad {
   /** The ad campaign this ad belongs to. */
@@ -888,10 +1027,16 @@ export interface Ad {
   lead_value: number;
   /** Whop pixel-attributed leads, last-click. */
   leads: number;
+  /** Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad. */
+  link_clicks: number;
   /** Welcome message for click-to-message ads, shown when the conversation opens. `null` when the ad has none. */
   messaging_config?: AdMessagingConfig | null;
   /** Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true. */
   multi_advertiser_ads?: boolean;
+  /** The advertiser-uploaded MP3 a TikTok carousel ad plays. TikTok-only; `null` elsewhere and for non-carousel ads. */
+  music?: AdMusic | null;
+  /** The ad platform this ad runs on. */
+  platform: AdPlatform;
   /** The post the ad network serves for this ad, as `pageID_postID` on Meta — the post Meta created for an uploaded creative, or the post being promoted. Use it to open the live post, or to promote the same post from another ad. `null` until the network has created the post. */
   post_id: string | null;
   /** Identifies the network that owns `existing_post_id`; `null` when the ad uses uploaded creatives. */
@@ -930,6 +1075,8 @@ export interface Ad {
   submitted_applications: number;
   /** Display title of the ad. */
   title: string | null;
+  /** The languages a Meta ad runs in besides its own. Each viewer sees the version for their language, or the ad's own copy. `null` when the ad runs in one language. */
+  translations?: AdTranslations | null;
   /** Unique clicks divided by impressions, between 0 and 1. */
   unique_click_through_rate: number | null;
   /** People who clicked, reported by the Whop pixel, counted once per person. */
@@ -938,7 +1085,7 @@ export interface Ad {
   updated_at: string;
   /** The URL the ad links to, without its query string. Parameters belong in `url_parameters`; any you send on `url` are moved there. */
   url: string | null;
-  /** Every query parameter appended to the URL, keyed by parameter name — including any you sent on `url` itself. Whop adds its own click-attribution parameters on top; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid). */
+  /** Every query parameter appended to the URL, keyed by parameter name — including any you sent on `url` itself. Whop adds its own click-attribution parameters on top; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network — Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid. */
   url_parameters: unknown;
   /** USD value attributed to view-content events. Sums the value sent with each event, normalized to USD; events without a value contribute 0. */
   viewed_content_value: number;
@@ -987,8 +1134,11 @@ export const Ad = /*@__PURE__*/ S.suspend(() =>
     lead_form_id: S.optional(S.NullOr(S.String)),
     lead_value: S.Number,
     leads: S.Number,
+    link_clicks: S.Number,
     messaging_config: S.optional(S.NullOr(AdMessagingConfig)),
     multi_advertiser_ads: S.optional(S.Boolean),
+    music: S.optional(S.NullOr(AdMusic)),
+    platform: AdPlatform,
     post_id: S.NullOr(S.String),
     post_source: S.NullOr(AdPostSource),
     post_thumbnail_url: S.NullOr(S.String),
@@ -1009,6 +1159,7 @@ export const Ad = /*@__PURE__*/ S.suspend(() =>
     submitted_application_value: S.Number,
     submitted_applications: S.Number,
     title: S.NullOr(S.String),
+    translations: S.optional(S.NullOr(AdTranslations)),
     unique_click_through_rate: S.NullOr(S.Number),
     unique_clicks: S.Number,
     updated_at: S.String,
@@ -1123,6 +1274,7 @@ export type ListAdsRequestOrder =
   | "impressions"
   | "reach"
   | "clicks"
+  | "link_clicks"
   | "unique_clicks"
   | "frequency"
   | "click_through_rate"
@@ -1170,13 +1322,13 @@ export interface ListAdsRequest {
   time_zone?: string;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
   attribution_model?: ListAdsRequestAttributionModel | (string & {});
-  /** The number of ads to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of ads to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListAdsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1299,38 +1451,70 @@ export interface UpdateAdRequestCreativesItem {
   format?: UpdateAdRequestCreativesItemFormat | (string & {});
   /** Uploaded file ID, prefixed `file_`. */
   id?: string;
+  /** ISO 639 code of the language this image or video is shown for, such as `es`. Required on every entry of an ad with `translations`, where the ad's own creative uses `translations.source_language`. Another language's creative is the same type as the ad's own, with no format. Leave it out on an ad without translations. */
+  language?: string;
 }
 export const UpdateAdRequestCreativesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crop: S.optional(CreateAdRequestCreativesItemCrop),
     format: S.optional(UpdateAdRequestCreativesItemFormat),
     id: S.optional(S.String),
+    language: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UpdateAdRequestCreativesItem",
 }) as any as S.Schema<UpdateAdRequestCreativesItem>;
 
-/** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Two or more entries with no format replace it with a carousel (2-10 attachments), in order, sharing the ad's copy. */
+/** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Entries with no format replace it with a carousel's ordered cards — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
 export type UpdateAdRequestCreativesList = Array<UpdateAdRequestCreativesItem>;
 export const UpdateAdRequestCreativesList = /*@__PURE__*/ S.Array(
   UpdateAdRequestCreativesItem,
 ) as any as S.Schema<UpdateAdRequestCreativesList>;
 
-/** The description variants shown on the ad. */
-export type UpdateAdRequestDescriptionsList = Array<string>;
+export type UpdateAdRequestDescriptionsItem = CreateAdRequestDescriptionsItem;
+export const UpdateAdRequestDescriptionsItem = CreateAdRequestDescriptionsItem;
+
+/** The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
+export type UpdateAdRequestDescriptionsList = Array<CreateAdRequestDescriptionsItem>;
 export const UpdateAdRequestDescriptionsList = /*@__PURE__*/ S.Array(
-  S.String,
+  CreateAdRequestDescriptionsItem,
 ) as any as S.Schema<UpdateAdRequestDescriptionsList>;
 
-/** The headline variants shown on the ad. */
-export type UpdateAdRequestHeadlinesList = Array<string>;
+export type UpdateAdRequestHeadlinesItem = CreateAdRequestDescriptionsItem;
+export const UpdateAdRequestHeadlinesItem = CreateAdRequestDescriptionsItem;
+
+/** The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
+export type UpdateAdRequestHeadlinesList = Array<CreateAdRequestDescriptionsItem>;
 export const UpdateAdRequestHeadlinesList = /*@__PURE__*/ S.Array(
-  S.String,
+  CreateAdRequestDescriptionsItem,
 ) as any as S.Schema<UpdateAdRequestHeadlinesList>;
 
-/** Optional completion screen shown after submission; url sets the follow-up website button. */
-export type UpdateAdRequestLeadFormCompletion = CreateAdRequestLeadFormCompletion;
-export const UpdateAdRequestLeadFormCompletion = CreateAdRequestLeadFormCompletion;
+export type UpdateAdRequestLeadFormCompletionButtonType = "website" | "call" | "download";
+export const UpdateAdRequestLeadFormCompletionButtonType = S.String;
+
+/** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
+export interface UpdateAdRequestLeadFormCompletion {
+  button_text?: string;
+  button_type?: UpdateAdRequestLeadFormCompletionButtonType | (string & {});
+  description?: string;
+  file_url?: string;
+  headline?: string;
+  phone_number?: string;
+  url?: string;
+}
+export const UpdateAdRequestLeadFormCompletion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    button_text: S.optional(S.String),
+    button_type: S.optional(UpdateAdRequestLeadFormCompletionButtonType),
+    description: S.optional(S.String),
+    file_url: S.optional(S.String),
+    headline: S.optional(S.String),
+    phone_number: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateAdRequestLeadFormCompletion",
+}) as any as S.Schema<UpdateAdRequestLeadFormCompletion>;
 
 export type UpdateAdRequestLeadFormDisclaimerCheckboxesItem =
   CreateAdRequestLeadFormDisclaimerCheckboxesItem;
@@ -1468,8 +1652,8 @@ export const UpdateAdRequestLeadFormQuestionsList = /*@__PURE__*/ S.Array(
 
 /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
 export interface UpdateAdRequestLeadForm {
-  /** Optional completion screen shown after submission; url sets the follow-up website button. */
-  completion?: CreateAdRequestLeadFormCompletion;
+  /** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
+  completion?: UpdateAdRequestLeadFormCompletion;
   /** Optional custom consent disclaimer with checkboxes. */
   disclaimer?: UpdateAdRequestLeadFormDisclaimer;
   /** more_volume (default) is quickest to submit; higher_intent adds a confirmation step. */
@@ -1487,7 +1671,7 @@ export interface UpdateAdRequestLeadForm {
 }
 export const UpdateAdRequestLeadForm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    completion: S.optional(CreateAdRequestLeadFormCompletion),
+    completion: S.optional(UpdateAdRequestLeadFormCompletion),
     disclaimer: S.optional(UpdateAdRequestLeadFormDisclaimer),
     form_type: S.optional(UpdateAdRequestLeadFormFormType),
     intro: S.optional(CreateAdRequestLeadFormIntro),
@@ -1502,14 +1686,21 @@ export const UpdateAdRequestLeadForm = /*@__PURE__*/ S.suspend(() =>
 export type UpdateAdRequestMessagingConfig = CreateAdRequestMessagingConfig;
 export const UpdateAdRequestMessagingConfig = CreateAdRequestMessagingConfig;
 
+/** The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Omitted leaves the ad's music untouched. Null removes it before launch; a submitted carousel takes a replacement track instead. TikTok-only. */
+export type UpdateAdRequestMusic = CreateAdRequestMusic;
+export const UpdateAdRequestMusic = CreateAdRequestMusic;
+
 /** Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted. */
 export type UpdateAdRequestPostSource = "facebook" | "instagram";
 export const UpdateAdRequestPostSource = S.String;
 
-/** The primary text variants shown in the ad body. */
-export type UpdateAdRequestPrimaryTextsList = Array<string>;
+export type UpdateAdRequestPrimaryTextsItem = CreateAdRequestDescriptionsItem;
+export const UpdateAdRequestPrimaryTextsItem = CreateAdRequestDescriptionsItem;
+
+/** The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`. */
+export type UpdateAdRequestPrimaryTextsList = Array<CreateAdRequestDescriptionsItem>;
 export const UpdateAdRequestPrimaryTextsList = /*@__PURE__*/ S.Array(
-  S.String,
+  CreateAdRequestDescriptionsItem,
 ) as any as S.Schema<UpdateAdRequestPrimaryTextsList>;
 
 export type UpdateAdRequestSocialAccountsItem = CreateAdRequestSocialAccountsItem;
@@ -1521,18 +1712,40 @@ export const UpdateAdRequestSocialAccountsList = /*@__PURE__*/ S.Array(
   CreateAdRequestSocialAccountsItem,
 ) as any as S.Schema<UpdateAdRequestSocialAccountsList>;
 
+/** ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`. */
+export type UpdateAdRequestTranslationsAutomaticLanguagesList = Array<string>;
+export const UpdateAdRequestTranslationsAutomaticLanguagesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateAdRequestTranslationsAutomaticLanguagesList>;
+
+/** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
+export interface UpdateAdRequestTranslations {
+  /** ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`. */
+  automatic_languages?: UpdateAdRequestTranslationsAutomaticLanguagesList;
+  /** ISO 639 code the ad's own copy is written in, such as `en`. */
+  source_language: string;
+}
+export const UpdateAdRequestTranslations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    automatic_languages: S.optional(UpdateAdRequestTranslationsAutomaticLanguagesList),
+    source_language: S.String,
+  }),
+).annotate({
+  identifier: "UpdateAdRequestTranslations",
+}) as any as S.Schema<UpdateAdRequestTranslations>;
+
 export interface UpdateAdRequest {
   /** The ad ID. */
   id: string;
   /** The call-to-action button shown on the ad. */
   call_to_action?: UpdateAdRequestCallToAction | (string & {});
-  /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Two or more entries with no format replace it with a carousel (2-10 attachments), in order, sharing the ad's copy. */
+  /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Entries with no format replace it with a carousel's ordered cards — 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
   creatives?: UpdateAdRequestCreativesList;
-  /** The description variants shown on the ad. */
+  /** The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
   descriptions?: UpdateAdRequestDescriptionsList;
   /** Promote a post you already published instead of uploading creatives — a Facebook post or Instagram media id. Mutually exclusive with creatives. Pair with post_source. */
   existing_post_id?: string;
-  /** The headline variants shown on the ad. */
+  /** The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
   headlines?: UpdateAdRequestHeadlinesList;
   /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
   lead_form?: UpdateAdRequestLeadForm;
@@ -1542,17 +1755,21 @@ export interface UpdateAdRequest {
   messaging_config?: CreateAdRequestMessagingConfig;
   /** Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true. */
   multi_advertiser_ads?: boolean;
+  /** The looping track a TikTok carousel ad plays — an MP3 you uploaded, no larger than 10MB. Omitted leaves the ad's music untouched. Null removes it before launch; a submitted carousel takes a replacement track instead. TikTok-only. */
+  music?: CreateAdRequestMusic | null;
   /** Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted. */
   post_source?: UpdateAdRequestPostSource | (string & {});
-  /** The primary text variants shown in the ad body. */
+  /** The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`. */
   primary_texts?: UpdateAdRequestPrimaryTextsList;
   /** The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile. */
   social_accounts?: UpdateAdRequestSocialAccountsList;
   /** The display name of the ad. */
   title?: string;
+  /** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
+  translations?: UpdateAdRequestTranslations | null;
   /** The URL the ad links to. Query parameters are merged into url_parameters, so the stored URL is always bare. */
   url?: string;
-  /** Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid). */
+  /** Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network — Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid. */
   url_parameters?: unknown;
 }
 export const UpdateAdRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1567,17 +1784,19 @@ export const UpdateAdRequest = /*@__PURE__*/ S.suspend(() =>
     lead_form_id: S.optional(S.String),
     messaging_config: S.optional(CreateAdRequestMessagingConfig),
     multi_advertiser_ads: S.optional(S.Boolean),
+    music: S.optional(S.NullOr(CreateAdRequestMusic)),
     post_source: S.optional(UpdateAdRequestPostSource),
     primary_texts: S.optional(UpdateAdRequestPrimaryTextsList),
     social_accounts: S.optional(UpdateAdRequestSocialAccountsList),
     title: S.optional(S.String),
+    translations: S.optional(S.NullOr(UpdateAdRequestTranslations)),
     url: S.optional(S.String),
     url_parameters: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "PATCH", uri: "/ads/{id}", code: 200 })),
 ).annotate({ identifier: "UpdateAdRequest" }) as any as S.Schema<UpdateAdRequest>;
 
 export type CreateAdError = BadRequest | NotFound | Conflict | WhopOpError;
-/** Create an Ad Creates an ad in an ad group. */
+/** Create an Ad Creates an ad in an ad group. Any campaign status other than `draft` launches the campaign, which requires an ads payment method on the account. */
 export const createAd: API.OperationMethod<CreateAdRequest, Ad, CreateAdError, WhopOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: CreateAdRequest,

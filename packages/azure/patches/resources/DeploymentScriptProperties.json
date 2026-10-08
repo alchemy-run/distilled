@@ -350,7 +350,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.resources#CreateDeploymentScriptRequest/members/properties",
+      "path": "/shapes/com.azure.resources#DeploymentScriptsCreateRequest/members/properties",
       "value": {
         "target": "com.azure.resources#DeploymentScriptProperties",
         "traits": {
@@ -360,7 +360,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.resources#CreateDeploymentScriptResponse/members/properties",
+      "path": "/shapes/com.azure.resources#DeploymentScriptsCreateResponse/members/properties",
       "value": {
         "target": "com.azure.resources#DeploymentScriptProperties",
         "traits": {
@@ -370,7 +370,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.resources#GetDeploymentScriptResponse/members/properties",
+      "path": "/shapes/com.azure.resources#DeploymentScriptsGetResponse/members/properties",
       "value": {
         "target": "com.azure.resources#DeploymentScriptProperties",
         "traits": {
@@ -380,7 +380,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.resources#UpdateDeploymentScriptResponse/members/properties",
+      "path": "/shapes/com.azure.resources#DeploymentScriptsUpdateResponse/members/properties",
       "value": {
         "target": "com.azure.resources#DeploymentScriptProperties",
         "traits": {

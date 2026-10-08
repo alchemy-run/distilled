@@ -1,0 +1,310 @@
+{
+  "description": "From feature-flags-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"feature_flags\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsActivityRetrieve/errors/0",
+      "value": {
+        "target": "com.posthog.feature_flags#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsActivityRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreateStaticCohortForFlagCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsDependentFlagsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsRemoteConfigRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsStatusRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsVersionsRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsAllActivityRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkDeleteCreate/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkDeleteCreate/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkKeysRetrieve/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkKeysRetrieve/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkUpdateTagsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsEvaluationReasonsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsMatchingIdsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsMyFlagsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsUserBlastRadiusCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#Forbidden",
+      "before": "com.posthog.feature_flags#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

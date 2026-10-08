@@ -396,7 +396,7 @@
         "smithy.api#documentation": "A list of file attachments to include with the post, such as images or videos."
       }
     },
-    "com.whop.forum_posts#Currencies": {
+    "com.whop.forum_posts#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {
@@ -1013,17 +1013,17 @@
     "com.whop.forum_posts#CreateForumPostRequest": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company whose public forum to post in. Required when experience_id is 'public'. For example, 'biz_xxxxx'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "attachments": {
           "target": "com.whop.forum_posts#CreateForumPostRequestAttachmentsList",
           "traits": {
             "smithy.api#documentation": "A list of file attachments to include with the post, such as images or videos.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company whose public forum to post in. Required when experience_id is 'public'. For example, 'biz_xxxxx'.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1037,7 +1037,7 @@
         "experience_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the experience to create this post in. For example, 'exp_xxxxx'. Pass 'public' along with company_id to automatically use the company's public forum.",
+            "smithy.api#documentation": "The unique identifier of the experience to create this post in. For example, 'exp_xxxxx'. Pass 'public' along with account_id to automatically use the account's public forum.",
             "smithy.api#required": {}
           }
         },
@@ -1063,7 +1063,7 @@
           }
         },
         "paywall_currency": {
-          "target": "com.whop.forum_posts#Currencies",
+          "target": "com.whop.forum_posts#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The currency for the paywall price on this post. When set along with paywall_amount, users must purchase access to view the post content.",
             "com.distilled.openapi#nullable": {}
@@ -1326,7 +1326,7 @@
           "uri": "/forum_posts",
           "code": 200
         },
-        "smithy.api#documentation": "Create forum post\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a new forum post or comment within an experience. Supports text content, attachments, polls, paywalling, and pinning. Pass experience_id 'public' with a company_id to post to a company's public forum.\n\nRequired permissions:\n - `forum:post:create`"
+        "smithy.api#documentation": "Create forum post\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a new forum post or comment within an experience. Supports text content, attachments, polls, paywalling, and pinning. Pass experience_id 'public' with an account_id to post to an account's public forum.\n\nRequired permissions:\n - `forum:post:create`"
       }
     },
     "com.whop.forum_posts#GetForumPostRequest": {

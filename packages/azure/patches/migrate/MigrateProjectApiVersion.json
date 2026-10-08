@@ -43,79 +43,79 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListProjects/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#ProjectsList/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListProjects/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#ProjectsList/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListProjectBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#ProjectsListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListProjectBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#ProjectsListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#CreateSolutionsController/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerCreate/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#CreateSolutionsController/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerCreate/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetSolutionsControllerSolution/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerGetSolution/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#GetSolutionsControllerSolution/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerGetSolution/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#UpdateSolutionsController/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerUpdate/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#UpdateSolutionsController/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#DeleteSolutionsControllerSolution/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerDeleteSolution/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#DeleteSolutionsControllerSolution/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerDeleteSolution/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListSolutionsControllerSolutions/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerListSolutions/traits/smithy.api#http/apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.migrate#ListSolutionsControllerSolutions/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.migrate#SolutionsControllerListSolutions/traits/com.distilled.openapi#apiVersion",
       "value": "2020-05-01"
     },
     {
       "op": "add",
       "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPutMigrateProjectRequest/members/tags",
       "value": {
-        "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+        "target": "com.azure.migrate#AssessmentProjectsOperationsCreateRequestTagsMap",
         "traits": {
           "smithy.api#documentation": "Resource tags."
         }
@@ -125,7 +125,7 @@
       "op": "add",
       "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPatchMigrateProjectRequest/members/tags",
       "value": {
-        "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+        "target": "com.azure.migrate#AssessmentProjectsOperationsCreateRequestTagsMap",
         "traits": {
           "smithy.api#documentation": "Resource tags."
         }
@@ -135,7 +135,7 @@
       "op": "add",
       "path": "/shapes/com.azure.migrate#MigrateProject/members/tags",
       "value": {
-        "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+        "target": "com.azure.migrate#AssessmentProjectsOperationsCreateRequestTagsMap",
         "traits": {
           "smithy.api#documentation": "Resource tags."
         }

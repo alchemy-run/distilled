@@ -492,13 +492,13 @@ export interface ListPromoCodesRequest {
   order?: ListPromoCodesRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListPromoCodesRequestDirection | (string & {});
-  /** Number of promo codes to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of promo codes to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListPromoCodesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -756,7 +756,7 @@ export const LegacyPromoCodeCompany = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LegacyPromoCodeCompany" }) as any as S.Schema<LegacyPromoCodeCompany>;
 
 /** The available currencies on the platform */
-export type Currencies =
+export type LegacyCurrencies =
   | "usd"
   | "sgd"
   | "inr"
@@ -847,7 +847,7 @@ export type Currencies =
   | "awg"
   | "whop_usd"
   | "xau";
-export const Currencies = S.String;
+export const LegacyCurrencies = S.String;
 
 /** The duration setting for the promo code */
 export type PromoDurations = "forever" | "once" | "repeating";
@@ -888,7 +888,7 @@ export interface LegacyPromoCode {
   /** The datetime the promo code was created. */
   created_at: string;
   /** The monetary currency of the promo code. */
-  currency: Currencies;
+  currency: LegacyCurrencies;
   /** The duration of the promo. */
   duration: PromoDurations | null;
   /** Restricts promo use to only be applied to already purchased memberships. */
@@ -923,7 +923,7 @@ export const LegacyPromoCode = /*@__PURE__*/ S.suspend(() =>
     code: S.NullOr(S.String),
     company: LegacyPromoCodeCompany,
     created_at: S.String,
-    currency: Currencies,
+    currency: LegacyCurrencies,
     duration: S.NullOr(PromoDurations),
     existing_memberships_only: S.Boolean,
     expires_at: S.NullOr(S.String),

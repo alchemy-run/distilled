@@ -103,28 +103,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of transfers to return from the start of the window."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "Number of transfers to return from the end of the window."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -210,7 +210,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
+        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
       }
     },
     "com.whop.transfers#ListTransferResponseDataItem": {
@@ -318,7 +318,7 @@
         "status": {
           "target": "com.whop.transfers#ListTransferResponseDataItemStatus",
           "traits": {
-            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
+            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
             "smithy.api#required": {}
           }
         }
@@ -416,6 +416,50 @@
         }
       }
     },
+    "com.whop.transfers#CreateTransferRequestFeedType": {
+      "type": "enum",
+      "members": {
+        "DMS_FEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dms_feed"
+          }
+        },
+        "CHAT_FEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat_feed"
+          }
+        },
+        "FORUM_FEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forum_feed"
+          }
+        },
+        "LIVESTREAM_FEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream_feed"
+          }
+        },
+        "UNIVERSAL_POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "universal_post"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ledger transfers only. The type of the feed named by `feed_id`."
+      }
+    },
     "com.whop.transfers#CreateTransferRequestMetadataMap": {
       "type": "map",
       "key": {
@@ -480,6 +524,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "claim_link only. Link expiry as an ISO 8601 timestamp. Defaults to 24 hours from creation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ledger transfers only. The feed the transfer was initiated from. Given with `feed_type`, the payment receipt posts into that feed instead of a direct message.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "feed_type": {
+          "target": "com.whop.transfers#CreateTransferRequestFeedType",
+          "traits": {
+            "smithy.api#documentation": "Ledger transfers only. The type of the feed named by `feed_id`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -819,7 +877,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
+        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
       }
     },
     "com.whop.transfers#CreateTransferResponseBodyCase0": {
@@ -941,7 +999,7 @@
         "status": {
           "target": "com.whop.transfers#CreateTransferResponseBodyCase0Status",
           "traits": {
-            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
+            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
             "smithy.api#required": {}
           }
         }
@@ -1217,21 +1275,21 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "query",
-            "smithy.api#documentation": "Search anyone on Whop by name or username, plus your own accounts by name or ID. Omit it to get the team around the balance, the people you follow, and your own accounts. The list is the same whether the balance belongs to a company or to you. Searching from a `biz_` origin additionally requires the member:basic:read scope. A credential scoped to a single company is the exception to the search itself: it only ever sees that company's own people. Complete email addresses return no matches."
+            "smithy.api#documentation": "Search anyone on Whop by name or username, plus your own accounts by name or ID. An exact business ID (`biz_`) returns that business first. Omit it to get the team around the balance, the people you follow, and your own accounts. The list is the same whether the balance belongs to a company or to you. Searching from a `biz_` origin additionally requires the member:basic:read scope. A credential scoped to a single company is the exception to the search itself: it only ever sees that company's own people. Complete email addresses return no matches. Search results are limited to 20 recipients."
           }
         },
         "first": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "Number of recipients per page. Search queries preserve the dashboard's 20-result maximum."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         }
       },
@@ -1756,7 +1814,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
+        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
       }
     },
     "com.whop.transfers#GetTransferResponse": {
@@ -1878,7 +1936,7 @@
         "status": {
           "target": "com.whop.transfers#GetTransferResponseStatus",
           "traits": {
-            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
+            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
             "smithy.api#required": {}
           }
         }

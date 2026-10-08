@@ -1461,7 +1461,6 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The password of the cluster role.",
-            "smithy.api#required": {},
             "smithy.api#sensitive": {}
           }
         },

@@ -9,6 +9,15 @@ import * as T from "../traits.ts";
 
 export type { WhopOpError, WhopOpContext };
 
+export class BadRequest
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400 }],
+  ) {}
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -34,9 +43,209 @@ export const AddAudiencePeopleRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/audiences/{id}/add_people", code: 200 })),
 ).annotate({ identifier: "AddAudiencePeopleRequest" }) as any as S.Schema<AddAudiencePeopleRequest>;
 
-/** `custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience. */
+/** Whether the audience targets a defined group of people or people similar to an existing audience. */
 export type AudienceAudienceType = "custom" | "lookalike";
 export const AudienceAudienceType = S.String;
+
+/** Interaction that qualifies a person for this rule. */
+export type AudienceEngagementVideoRuleEvent =
+  | "watched_3_seconds"
+  | "watched_10_seconds"
+  | "watched_15_seconds"
+  | "watched_25_percent"
+  | "watched_50_percent"
+  | "watched_75_percent"
+  | "watched_95_percent";
+export const AudienceEngagementVideoRuleEvent = S.String;
+
+/** Engagement source. */
+export type AudienceEngagementVideoRuleObject = "video";
+export const AudienceEngagementVideoRuleObject = S.String;
+
+export type AudienceEngagementVideoRulePlatformVideoIdsList = Array<string>;
+export const AudienceEngagementVideoRulePlatformVideoIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AudienceEngagementVideoRulePlatformVideoIdsList>;
+
+export interface AudienceEngagementVideoRule {
+  /** Interaction that qualifies a person for this rule. */
+  event: AudienceEngagementVideoRuleEvent | (string & {});
+  /** Engagement source. */
+  object: AudienceEngagementVideoRuleObject;
+  platform_video_ids: AudienceEngagementVideoRulePlatformVideoIdsList;
+  /** Rolling membership window in days, from 1 to 365. */
+  retention_days: number;
+  /** Connected social account ID, prefixed `sacc_`, with advertising access. */
+  social_account_id: string;
+}
+export const AudienceEngagementVideoRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    event: AudienceEngagementVideoRuleEvent,
+    object: AudienceEngagementVideoRuleObject,
+    platform_video_ids: AudienceEngagementVideoRulePlatformVideoIdsList,
+    retention_days: S.Number,
+    social_account_id: S.String,
+  }),
+).annotate({
+  identifier: "AudienceEngagementVideoRule",
+}) as any as S.Schema<AudienceEngagementVideoRule>;
+
+/** Interaction that qualifies a person for this rule. */
+export type AudienceEngagementLeadFormRuleEvent = "opened" | "submitted" | "not_submitted";
+export const AudienceEngagementLeadFormRuleEvent = S.String;
+
+/** Engagement source. */
+export type AudienceEngagementLeadFormRuleObject = "lead_form";
+export const AudienceEngagementLeadFormRuleObject = S.String;
+
+export type AudienceEngagementLeadFormRulePlatformFormIdsList = Array<string>;
+export const AudienceEngagementLeadFormRulePlatformFormIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AudienceEngagementLeadFormRulePlatformFormIdsList>;
+
+export interface AudienceEngagementLeadFormRule {
+  /** Interaction that qualifies a person for this rule. */
+  event: AudienceEngagementLeadFormRuleEvent | (string & {});
+  /** Engagement source. */
+  object: AudienceEngagementLeadFormRuleObject;
+  platform_form_ids: AudienceEngagementLeadFormRulePlatformFormIdsList;
+  /** Rolling membership window in days, from 1 to 90. */
+  retention_days: number;
+  /** Connected social account ID, prefixed `sacc_`, with advertising access. */
+  social_account_id: string;
+}
+export const AudienceEngagementLeadFormRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    event: AudienceEngagementLeadFormRuleEvent,
+    object: AudienceEngagementLeadFormRuleObject,
+    platform_form_ids: AudienceEngagementLeadFormRulePlatformFormIdsList,
+    retention_days: S.Number,
+    social_account_id: S.String,
+  }),
+).annotate({
+  identifier: "AudienceEngagementLeadFormRule",
+}) as any as S.Schema<AudienceEngagementLeadFormRule>;
+
+/** Interaction that qualifies a person for this rule. */
+export type AudienceEngagementInstagramProfileRuleEvent =
+  | "all"
+  | "engaged"
+  | "visited"
+  | "messaged"
+  | "saved"
+  | "ad_liked"
+  | "ad_commented"
+  | "ad_shared"
+  | "ad_saved"
+  | "ad_cta_clicked"
+  | "ad_carousel_swiped"
+  | "organic_liked"
+  | "organic_commented"
+  | "organic_shared"
+  | "organic_saved"
+  | "organic_swiped"
+  | "organic_carousel_swiped";
+export const AudienceEngagementInstagramProfileRuleEvent = S.String;
+
+/** Engagement source. */
+export type AudienceEngagementInstagramProfileRuleObject = "instagram_profile";
+export const AudienceEngagementInstagramProfileRuleObject = S.String;
+
+export interface AudienceEngagementInstagramProfileRule {
+  /** Interaction that qualifies a person for this rule. */
+  event: AudienceEngagementInstagramProfileRuleEvent | (string & {});
+  /** Engagement source. */
+  object: AudienceEngagementInstagramProfileRuleObject;
+  /** Rolling membership window in days, from 1 to 730. */
+  retention_days: number;
+  /** Connected social account ID, prefixed `sacc_`, with advertising access. */
+  social_account_id: string;
+}
+export const AudienceEngagementInstagramProfileRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    event: AudienceEngagementInstagramProfileRuleEvent,
+    object: AudienceEngagementInstagramProfileRuleObject,
+    retention_days: S.Number,
+    social_account_id: S.String,
+  }),
+).annotate({
+  identifier: "AudienceEngagementInstagramProfileRule",
+}) as any as S.Schema<AudienceEngagementInstagramProfileRule>;
+
+/** Interaction that qualifies a person for this rule. */
+export type AudienceEngagementFacebookPageRuleEvent =
+  | "engaged"
+  | "visited"
+  | "liked"
+  | "messaged"
+  | "cta_clicked"
+  | "saved"
+  | "post_interaction";
+export const AudienceEngagementFacebookPageRuleEvent = S.String;
+
+/** Engagement source. */
+export type AudienceEngagementFacebookPageRuleObject = "facebook_page";
+export const AudienceEngagementFacebookPageRuleObject = S.String;
+
+export interface AudienceEngagementFacebookPageRule {
+  /** Interaction that qualifies a person for this rule. */
+  event: AudienceEngagementFacebookPageRuleEvent | (string & {});
+  /** Engagement source. */
+  object: AudienceEngagementFacebookPageRuleObject;
+  /** Rolling membership window in days, from 1 to 730. Use 0 for `liked`, which tracks current likes and cannot be combined with other events. */
+  retention_days: number;
+  /** Connected social account ID, prefixed `sacc_`, with advertising access. */
+  social_account_id: string;
+}
+export const AudienceEngagementFacebookPageRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    event: AudienceEngagementFacebookPageRuleEvent,
+    object: AudienceEngagementFacebookPageRuleObject,
+    retention_days: S.Number,
+    social_account_id: S.String,
+  }),
+).annotate({
+  identifier: "AudienceEngagementFacebookPageRule",
+}) as any as S.Schema<AudienceEngagementFacebookPageRule>;
+
+export type AudienceEngagementRule =
+  | AudienceEngagementVideoRule
+  | AudienceEngagementLeadFormRule
+  | AudienceEngagementInstagramProfileRule
+  | AudienceEngagementFacebookPageRule;
+export const AudienceEngagementRule = S.Unknown as any as S.Schema<AudienceEngagementRule>;
+
+/** Exclude anyone matching any exclusion rule. Supply 0–10 rules. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
+export type AudienceEngagementExcludeList = Array<AudienceEngagementRule>;
+export const AudienceEngagementExcludeList = /*@__PURE__*/ S.Array(
+  AudienceEngagementRule,
+) as any as S.Schema<AudienceEngagementExcludeList>;
+
+/** Match any inclusion rule. Supply 1–10 rules. Video rules must share a retention window and cannot be combined with other sources. */
+export type AudienceEngagementIncludeList = Array<AudienceEngagementRule>;
+export const AudienceEngagementIncludeList = /*@__PURE__*/ S.Array(
+  AudienceEngagementRule,
+) as any as S.Schema<AudienceEngagementIncludeList>;
+
+/** Ad platform that maintains membership. */
+export type AudienceEngagementPlatform = "meta";
+export const AudienceEngagementPlatform = S.String;
+
+export interface AudienceEngagement {
+  /** Exclude anyone matching any exclusion rule. Supply 0–10 rules. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
+  exclude: AudienceEngagementExcludeList;
+  /** Match any inclusion rule. Supply 1–10 rules. Video rules must share a retention window and cannot be combined with other sources. */
+  include: AudienceEngagementIncludeList;
+  /** Ad platform that maintains membership. */
+  platform: AudienceEngagementPlatform;
+}
+export const AudienceEngagement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exclude: AudienceEngagementExcludeList,
+    include: AudienceEngagementIncludeList,
+    platform: AudienceEngagementPlatform,
+  }),
+).annotate({ identifier: "AudienceEngagement" }) as any as S.Schema<AudienceEngagement>;
 
 /** The ad platform that provided the match-rate estimate. */
 export type AudienceMatchRatePlatform = "meta";
@@ -75,24 +284,26 @@ export const AudiencePlatformAudienceIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AudiencePlatformAudienceIdsList>;
 
-/** Where members come from. `csv_upload` = an uploaded customer list; `people_filter` = built from saved People filters. See `auto_refresh` for whether a `people_filter` audience keeps updating. */
-export type AudienceSourceType = "csv_upload" | "people_filter";
+/** Membership source: an uploaded CSV, Whop People filters, or social engagement. */
+export type AudienceSourceType = "csv_upload" | "people_filter" | "engagement";
 export const AudienceSourceType = S.String;
 
-/** Current state of the audience import. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong. */
+/** Current state of audience creation. For engagement audiences, `ready` means the rules were created on Meta; membership may still be populating. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong. */
 export type AudienceStatus = "pending" | "processing" | "syncing" | "ready" | "partial" | "failed";
 export const AudienceStatus = S.String;
 
 export interface Audience {
-  /** `custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience. */
+  /** Whether the audience targets a defined group of people or people similar to an existing audience. */
   audience_type: AudienceAudienceType;
-  /** Whether membership keeps updating. `true` rebuilds it from the saved filters twice a day, so people join and leave as they start and stop matching. `false` keeps whoever matched when it was built and never rebuilds. Always `false` for uploaded lists and lookalikes. */
+  /** Whether Whop rebuilds membership from saved People filters twice a day. When `false`, People audiences keep the members matched at creation. Always `false` for uploaded lists, lookalikes, and engagement audiences. Engagement membership is maintained by Meta. */
   auto_refresh: boolean;
   /** When the audience was created, as an ISO 8601 timestamp. */
   created_at: string;
+  /** Social engagement rules maintained by the ad platform. `null` for other audience sources. */
+  engagement: AudienceEngagement | null;
   /** Processing error message. `null` unless processing is partial or failed. */
   error_message: string | null;
-  /** For audiences built from People filters: the filters that define membership, keyed exactly as `GET /people` accepts them — for example `{"os": "iOS", "country": "US"}`. `null` for uploaded lists and lookalikes. */
+  /** Saved Whop People filters that define membership, using the same keys as `GET /people`. `null` for uploaded lists, engagement audiences, and lookalikes. */
   filters: unknown | null;
   /** Audience ID, prefixed `adaud_`. */
   id: string;
@@ -103,22 +314,22 @@ export interface Audience {
   /** For lookalikes: the lower bound of the similarity band as a fraction. `null` for custom audiences and first-tier lookalikes. */
   lookalike_starting_ratio: number | null;
   match_rates: AudienceMatchRatesList;
-  /** Members successfully uploaded to connected ad accounts. Always 0 for lookalikes. */
+  /** Members successfully uploaded to connected ad accounts. Always 0 for lookalikes and engagement audiences. */
   matched_rows: number;
   /** Audience display name. */
   name: string;
   platform_audience_ids: AudiencePlatformAudienceIdsList;
-  /** Members processed from the source so far. Always 0 for lookalikes. */
+  /** Members processed from the source so far. Always 0 for lookalikes and engagement audiences. */
   processed_rows: number;
   /** Processing progress from 0 to 100. */
   progress_percent: number;
   /** For lookalikes: the audience this lookalike was built from. `null` for custom audiences. */
   source_audience_id: string | null;
-  /** Where members come from. `csv_upload` = an uploaded customer list; `people_filter` = built from saved People filters. See `auto_refresh` for whether a `people_filter` audience keeps updating. */
+  /** Membership source: an uploaded CSV, Whop People filters, or social engagement. */
   source_type: AudienceSourceType;
-  /** Current state of the audience import. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong. */
+  /** Current state of audience creation. For engagement audiences, `ready` means the rules were created on Meta; membership may still be populating. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong. */
   status: AudienceStatus;
-  /** Total members detected in the source — CSV rows for uploaded lists, matching people for automatic audiences. Always 0 for lookalikes. */
+  /** Total members detected in the source — CSV rows for uploaded lists, matching people for automatic audiences. Always 0 for lookalikes and engagement audiences. */
   total_rows: number;
   /** When the audience was last updated, as an ISO 8601 timestamp. */
   updated_at: string;
@@ -128,6 +339,7 @@ export const Audience = /*@__PURE__*/ S.suspend(() =>
     audience_type: AudienceAudienceType,
     auto_refresh: S.Boolean,
     created_at: S.String,
+    engagement: S.NullOr(AudienceEngagement),
     error_message: S.NullOr(S.String),
     filters: S.NullOr(S.Unknown),
     id: S.String,
@@ -148,11 +360,11 @@ export const Audience = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Audience" }) as any as S.Schema<Audience>;
 
-/** What to create. Defaults to `custom` (CSV upload). */
+/** Audience type. Defaults to `custom`. */
 export type CreateAudienceRequestAudienceType = "custom" | "lookalike";
 export const CreateAudienceRequestAudienceType = S.String;
 
-/** Custom audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
+/** CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
 export interface CreateAudienceRequestColumnMapping {
   /** CSV header for ISO 3166-1 alpha-2 country codes, such as `US`. */
   country?: string;
@@ -180,27 +392,70 @@ export const CreateAudienceRequestColumnMapping = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAudienceRequestColumnMapping",
 }) as any as S.Schema<CreateAudienceRequestColumnMapping>;
 
+/** Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
+export type CreateAudienceRequestEngagementExcludeList = Array<AudienceEngagementRule>;
+export const CreateAudienceRequestEngagementExcludeList = /*@__PURE__*/ S.Array(
+  AudienceEngagementRule,
+) as any as S.Schema<CreateAudienceRequestEngagementExcludeList>;
+
+/** Match any inclusion rule. Video rules must share a retention window and cannot be combined with other sources. */
+export type CreateAudienceRequestEngagementIncludeList = Array<AudienceEngagementRule>;
+export const CreateAudienceRequestEngagementIncludeList = /*@__PURE__*/ S.Array(
+  AudienceEngagementRule,
+) as any as S.Schema<CreateAudienceRequestEngagementIncludeList>;
+
+/** Ad platform that maintains membership. */
+export type CreateAudienceRequestEngagementPlatform = "meta";
+export const CreateAudienceRequestEngagementPlatform = S.String;
+
+/** Rules for membership based on social engagement. Requires a connected social account with advertising access. */
+export interface CreateAudienceRequestEngagement {
+  /** Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
+  exclude?: CreateAudienceRequestEngagementExcludeList;
+  /** Match any inclusion rule. Video rules must share a retention window and cannot be combined with other sources. */
+  include: CreateAudienceRequestEngagementIncludeList;
+  /** Ad platform that maintains membership. */
+  platform: CreateAudienceRequestEngagementPlatform | (string & {});
+}
+export const CreateAudienceRequestEngagement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exclude: S.optional(CreateAudienceRequestEngagementExcludeList),
+    include: CreateAudienceRequestEngagementIncludeList,
+    platform: CreateAudienceRequestEngagementPlatform,
+  }),
+).annotate({
+  identifier: "CreateAudienceRequestEngagement",
+}) as any as S.Schema<CreateAudienceRequestEngagement>;
+
+/** Custom audience source. Inferred from `engagement`, then `filters`, otherwise defaults to `csv_upload`. Supply only the fields for the selected source. */
+export type CreateAudienceRequestSourceType = "csv_upload" | "people_filter" | "engagement";
+export const CreateAudienceRequestSourceType = S.String;
+
 export interface CreateAudienceRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
-  /** What to create. Defaults to `custom` (CSV upload). */
+  /** Audience type. Defaults to `custom`. */
   audience_type?: CreateAudienceRequestAudienceType | (string & {});
   /** Filter audiences only, and set only at creation. `true` (the default) rebuilds membership from the filters twice a day. `false` keeps whoever matched at creation and never rebuilds. */
   auto_refresh?: boolean;
-  /** Custom audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
+  /** CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
   column_mapping?: CreateAudienceRequestColumnMapping;
   /** Lookalikes only. Number of lookalike audiences to create (1–6). */
   count?: number;
-  /** Custom audiences only. The uploaded customer CSV — a file id (`file_...`) returned by `POST /files`. */
+  /** Rules for membership based on social engagement. Requires a connected social account with advertising access. */
+  engagement?: CreateAudienceRequestEngagement;
+  /** CSV audiences only. The uploaded customer CSV — a file id (`file_...`) returned by `POST /files`. */
   file_id?: string;
-  /** Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them — for example `{"os": "iOS", "country": "US"}`. Date filters must be rolling windows — `first_seen_within_days` or `last_seen_within_days` — so the audience re-anchors on every refresh; fixed dates such as `first_seen_after` are rejected. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard. */
+  /** Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them — for example `{"os": "iOS", "country": "US"}`. Activity dates `event_from` and `event_to` are inclusive and remain fixed on refresh. Use `event_within_days`, `first_seen_within_days` or `last_seen_within_days` for a rolling window. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard. */
   filters?: unknown;
   /** Audience display name. Required for custom audiences; lookalike names are generated from the source audience. */
   name?: string;
-  /** Lookalikes only. Total similarity reach as a whole percent (1–20), sliced evenly across `count` — must be divisible by `count`. */
+  /** Lookalikes only. Total similarity reach as a whole percent (1–20), sliced evenly across `count` — must be divisible by `count`. For example, 3 audiences at 6% creates 0–2%, 2–4%, and 4–6% bands. */
   percentage?: number;
-  /** Lookalikes only. The ready custom audience (`adaud_`) to build from; it needs at least 100 matched people. */
+  /** Lookalikes only. The ready custom audience (`adaud_`) to build from; uploaded and People audiences need at least 100 matched people. Meta validates engagement audience eligibility when creating the lookalike. */
   source_audience_id?: string;
+  /** Custom audience source. Inferred from `engagement`, then `filters`, otherwise defaults to `csv_upload`. Supply only the fields for the selected source. */
+  source_type?: CreateAudienceRequestSourceType | (string & {});
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
 }
@@ -211,11 +466,13 @@ export const CreateAudienceRequest = /*@__PURE__*/ S.suspend(() =>
     auto_refresh: S.optional(S.Boolean),
     column_mapping: S.optional(CreateAudienceRequestColumnMapping),
     count: S.optional(S.Number),
+    engagement: S.optional(CreateAudienceRequestEngagement),
     file_id: S.optional(S.String),
     filters: S.optional(S.Unknown),
     name: S.optional(S.String),
     percentage: S.optional(S.Number),
     source_audience_id: S.optional(S.String),
+    source_type: S.optional(CreateAudienceRequestSourceType),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/audiences", code: 200 })),
 ).annotate({ identifier: "CreateAudienceRequest" }) as any as S.Schema<CreateAudienceRequest>;
@@ -266,7 +523,7 @@ export const DeleteAudienceResponse = /*@__PURE__*/ S.suspend(() =>
 export type ListAudiencesRequestAudienceType = "custom" | "lookalike";
 export const ListAudiencesRequestAudienceType = S.String;
 
-export type ListAudiencesRequestSourceType = "csv_upload" | "people_filter";
+export type ListAudiencesRequestSourceType = "csv_upload" | "people_filter" | "engagement";
 export const ListAudiencesRequestSourceType = S.String;
 
 export interface ListAudiencesRequest {
@@ -274,13 +531,13 @@ export interface ListAudiencesRequest {
   account_id: string;
   /** Audience ID, prefixed `adaud_`, used to filter the response to one audience. */
   audience_id?: string;
-  /** Filter by audience type: `custom` (uploaded lists) or `lookalike`. */
+  /** Filter by custom or lookalike audiences. */
   audience_type?: ListAudiencesRequestAudienceType | (string & {});
-  /** Filter by member source: `csv_upload` (uploaded lists) or `people_filter` (automatic audiences built from saved People filters). */
+  /** Filter by uploaded customer lists, Whop People filters, or social engagement. */
   source_type?: ListAudiencesRequestSourceType | (string & {});
-  /** Number of audiences to return. Defaults to 20; maximum 100. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor for the next page of audiences. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListAudiencesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -358,8 +615,8 @@ export const addAudiencePeople: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateAudienceError = Conflict | WhopOpError;
-/** Create Audience Creates an audience. Default (`audience_type` omitted or `custom`): creates one audience from an uploaded customer identity CSV file (`name`, `column_mapping`, and `file_id` required) and starts processing it; responds with the audience object. With `filters`: creates an audience from saved People filters (`name` required) — membership is built from the account's People data, and `auto_refresh` decides whether it keeps tracking the filters or keeps whoever matched at creation. With `audience_type: lookalike`: creates a ladder of Meta lookalike audiences from an existing ready custom audience (`source_audience_id`, `count`, and `percentage` required) — `count` equal similarity bands slicing the top `percentage`% (3 audiences at 6% = 0–2%, 2–4%, 4–6%), each returned as its own audience in a `{ data: [...] }` envelope. */
+export type CreateAudienceError = BadRequest | Conflict | WhopOpError;
+/** Create Audience Create an audience from a customer list, your account's Whop People data, or engagement with videos, lead forms, Instagram profiles, or Facebook pages. Create lookalike audiences to reach people similar to an existing audience. Processing runs asynchronously. Custom creation returns one audience; lookalike creation returns the requested similarity bands in `data`. */
 export const createAudience: API.OperationMethod<
   CreateAudienceRequest,
   CreateAudienceResponse,
@@ -368,7 +625,7 @@ export const createAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAudienceRequest,
   output: CreateAudienceResponse,
-  errors: [Conflict],
+  errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));
@@ -389,7 +646,7 @@ export const deleteAudience: API.OperationMethod<
 }));
 
 export type ListAudiencesError = WhopOpError;
-/** List Audiences Lists uploaded customer-list audiences for an account. Pass `audience_id` to return a specific audience. */
+/** List Audiences List custom and lookalike audiences for an account. Pass `audience_id` to return a specific audience. */
 export const listAudiences: API.PaginatedOperationMethod<
   ListAudiencesRequest,
   ListAudiencesResponse,

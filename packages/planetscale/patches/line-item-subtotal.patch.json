@@ -3,11 +3,13 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/definitions/PaginatedLineItem/properties/data/items/properties/subtotal",
-      "value": {
-        "type": "string",
-        "description": "The total for the line item, as a stringified decimal to preserve precision"
-      }
+      "path": "/shapes/com.planetscale.api#PaginatedLineItemDataItem/members/subtotal/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.planetscale.api#PaginatedLineItemDataItem/members/subtotal/traits/smithy.api#documentation",
+      "value": "The total for the line item, as a stringified decimal to preserve precision"
     }
   ]
 }

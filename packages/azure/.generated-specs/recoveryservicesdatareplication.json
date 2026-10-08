@@ -144,9 +144,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#PolicyModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Policy model custom properties.",
+            "smithy.api#documentation": "Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -378,9 +378,9 @@
       "type": "structure",
       "members": {
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#PolicyModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Policy model custom properties.",
+            "smithy.api#documentation": "Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -731,9 +731,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#ReplicationExtensionModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Replication extension model custom properties.",
+            "smithy.api#documentation": "Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -807,9 +807,9 @@
       "type": "structure",
       "members": {
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#ReplicationExtensionModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Replication extension model custom properties.",
+            "smithy.api#documentation": "Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -1744,9 +1744,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#ProtectedItemModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Protected item model custom properties.",
+            "smithy.api#documentation": "Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -2512,9 +2512,9 @@
       "type": "structure",
       "members": {
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#ProtectedItemModelCustomPropertiesUpdate",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Protected item model custom properties update."
+            "smithy.api#documentation": "Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI)."
           }
         }
       },
@@ -2658,9 +2658,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#ProtectedItemModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Protected item model custom properties.",
+            "smithy.api#documentation": "Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -6408,9 +6408,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#FabricAgentModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric agent model custom properties.",
+            "smithy.api#documentation": "Fabric agent model custom properties. Polymorphic on `instanceType` (VMware).",
             "smithy.api#required": {}
           }
         }
@@ -6564,9 +6564,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#FabricAgentModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric agent model custom properties.",
+            "smithy.api#documentation": "Fabric agent model custom properties. Polymorphic on `instanceType` (VMware).",
             "smithy.api#required": {}
           }
         }
@@ -6946,9 +6946,9 @@
           }
         },
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#FabricModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric model custom properties.",
+            "smithy.api#documentation": "Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI).",
             "smithy.api#required": {}
           }
         }
@@ -7041,9 +7041,9 @@
       "type": "structure",
       "members": {
         "customProperties": {
-          "target": "com.azure.recoveryservicesdatareplication#FabricModelCustomProperties",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Fabric model custom properties.",
+            "smithy.api#documentation": "Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI).",
             "smithy.api#required": {}
           }
         }

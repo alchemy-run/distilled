@@ -1,0 +1,197 @@
+{
+  "description": "From drop-dashboard-only-ops.patch.json: Remove 16 PostHog endpoints that PostHog's backend explicitly rejects with `Forbidden: This action does not support personal API key access`. PostHog publishes these in their OpenAPI spec but enforces a server-side allowlist that limits them to dashboard-session cookie auth only — there is no API credential (personal API key, project ingestion token, anything) that can call them. Dropping them from the spec means the SDK never generates an unusable typed surface for them.\n\nIf PostHog ever opens these to API auth, drop this patch and regenerate.\n\nObserved-Forbidden operations (path + method):\n  - POST   /api/projects/{project_id}/actions/bulk_update_tags/\n  - GET    /api/projects/{project_id}/conversations/tickets/unread_count/\n  - GET    /api/projects/{project_id}/dashboard_templates/json_schema/\n  - PATCH  /api/projects/{project_id}/dashboards/{id}/move_tile/\n  - POST   /api/projects/{project_id}/dashboards/bulk_update_tags/\n  - POST   /api/projects/{project_id}/dashboards/create_from_template_json/\n  - POST   /api/projects/{project_id}/dashboards/create_unlisted_dashboard/\n  - GET    /api/projects/{project_id}/event_definitions/{id}/metrics/\n  - POST   /api/projects/{project_id}/event_definitions/bulk_update_tags/\n  - POST   /api/projects/{project_id}/file_system/{id}/count/\n  - POST   /api/projects/{project_id}/file_system/{id}/link/\n  - POST   /api/projects/{project_id}/file_system/{id}/move/\n  - POST   /api/projects/{project_id}/file_system/count_by_path/\n  - GET    /api/projects/{project_id}/file_system/log_view/\n  - POST   /api/projects/{project_id}/file_system/log_view/\n  - GET    /api/projects/{project_id}/file_system/unfiled/",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsMoveTilePartialUpdateRequestFormat"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsMoveTilePartialUpdateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsMoveTilePartialUpdate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsBulkUpdateTagsCreateRequestFormat"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsBulkUpdateTagsCreateRequestIdsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsActionEnum"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsBulkUpdateTagsCreateRequestTagsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsBulkUpdateTagsCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsItemTagsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsResponseUpdatedList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsError"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#BulkUpdateTagsResponseSkippedList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsBulkUpdateTagsCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateFromTemplateJsonCreateRequestFormat"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateFromTemplateJsonCreateRequestBreakdownColorsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateFromTemplateJsonCreateRequestTagsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateFromTemplateJsonCreateRequestQuickFilterIdsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateFromTemplateJsonCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateFromTemplateJsonCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateUnlistedDashboardCreateRequestFormat"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateUnlistedDashboardCreateRequestBreakdownColorsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateUnlistedDashboardCreateRequestTagsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateUnlistedDashboardCreateRequestQuickFilterIdsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateUnlistedDashboardCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCreateUnlistedDashboardCreate"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.posthog.dashboards#Dashboards/operations",
+      "value": [
+        {
+          "target": "com.posthog.dashboards#DashboardsList"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsCollaboratorsList"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsCollaboratorsCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsCollaboratorsDestroy"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsSharingList"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsSharingPasswordsCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsSharingPasswordsDestroy"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsSharingRefreshCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsRetrieve"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsUpdate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsPartialUpdate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsDestroy"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsCopyTileCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsCreateTextTileCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsDeleteTile"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsMoveTileCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsReorderTilesCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsRunInsightsRetrieve"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsRunWidgetsRetrieve"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsStreamTilesRetrieve"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsSubscribeNudgeCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsUpdateTextTileCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsWidgetsBatchCreate"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsUpdateWidgetsBatch"
+        },
+        {
+          "target": "com.posthog.dashboards#DashboardsWidgetCatalogRetrieve"
+        }
+      ]
+    }
+  ]
+}

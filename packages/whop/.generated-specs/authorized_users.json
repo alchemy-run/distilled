@@ -33,6 +33,12 @@
             "smithy.api#enumValue": "admin"
           }
         },
+        "PARTNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner"
+          }
+        },
         "SALES_MANAGER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -113,12 +119,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "user_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -141,6 +141,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "created_after"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
@@ -424,6 +430,12 @@
             "smithy.api#enumValue": "admin"
           }
         },
+        "PARTNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner"
+          }
+        },
         "SALES_MANAGER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -450,7 +462,7 @@
     "com.whop.authorized_users#CreateAuthorizedUserRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the company to add the authorized user to.",
@@ -675,10 +687,10 @@
             "smithy.api#documentation": "The ID of the authorized user or user to remove."
           }
         },
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "company_id"
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },

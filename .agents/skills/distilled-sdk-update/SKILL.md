@@ -51,29 +51,26 @@ telling you something moved: either upstream now has what the op added
 pnpm patches:audit <pkg>          # one verdict per file
 pnpm patches:audit <pkg> --ops    # also one per op inside every needed file
 pnpm patches:audit <pkg> --only <substring>
+pnpm patches:audit <pkg> --jobs <n>   # parallel converts; default from cores and free memory
 ```
 
 Run the audit only after the mirror has moved (step 1): it answers which
 patches the new spec has absorbed, and nothing else. Always name the
-package. For a convert-stage package it rebuilds the whole model once per
-patch file, so `cloudflare` (about 2,850 files) takes hours; a scoped
-`--only` run still rebuilds the full model twice per file. To check what one
-patch you just wrote or edited does, read the generated diff instead
-(`distilled-sdk-patch`, step 5).
+package. To check what one patch you just wrote or edited does, read the
+generated diff instead (`distilled-sdk-patch`, step 5).
 
 The audit (`@distilled.cloud/core/codegen/patch-audit`) builds the model
-once with every patch, then once per patch with that patch left out
-(`DISTILLED_SKIP_PATCHES`, a dev-time seam in
-`@distilled.cloud/core/codegen/patches`), and diffs the result. How it
-builds the model depends on the package's patch stage (`distilled.patches`
-in package.json, see the `distilled-sdk-patch` skill):
-
-- **convert** — re-runs `convert`, so the spec mirror must be fetched
-  (step 1); without it the package is reported as skipped.
-- **generate** — applies `patches/<model>/` to the committed
-  `.generated-specs` in memory. No mirror, seconds per package, and CI
-  runs it on every PR (`packages/core/src/sdks.test.ts`), so a patch the
-  model no longer needs fails the PR that made it dead.
+once with every patch, then once per patch with that patch left out, and
+diffs the result. It runs `convert` on scratch copies of the package
+(`packages/.audit-<pkg>-<n>`, removed on exit; the package itself is never
+written), so the spec mirror must be fetched (step 1); without it the
+package is reported as skipped. Patches are Smithy ops applied in
+`finalizeConvert`, so each file is judged in memory: one convert, then only
+the finalize steps re-run per file. All of `cloudflare` (about 2,850 files)
+takes under two minutes, `posthog` and `azure` well under a minute, most
+packages seconds. Railway's GraphQL patches apply outside
+`finalizeConvert` and cost one convert each (`DISTILLED_SKIP_PATCHES`),
+spread over `--jobs` copies.
 
 | Verdict | Meaning | Do |
 | --- | --- | --- |

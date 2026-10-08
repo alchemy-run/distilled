@@ -3,12 +3,12 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteDiagnostic/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteDiagnostic/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
@@ -23,42 +23,42 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetDiagnostic/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetDiagnostic/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDiagnosticByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDiagnosticByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDiagnosticBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDiagnosticBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateDiagnostic/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateDiagnostic/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DiagnosticsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     }
   ]

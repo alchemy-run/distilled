@@ -3606,6 +3606,24 @@
           "traits": {
             "smithy.api#documentation": "Integration runtime description."
           }
+        },
+        "typeProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Type-specific integration runtime properties (polymorphic on `type`)."
+          }
+        },
+        "managedVirtualNetwork": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Managed Virtual Network reference (Managed integration runtimes)."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Integration runtime state (read-only, Managed integration runtimes)."
+          }
         }
       },
       "traits": {

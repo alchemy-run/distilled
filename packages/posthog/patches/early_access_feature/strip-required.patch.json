@@ -1,0 +1,129 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#PaginatedEarlyAccessFeatureList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#PaginatedEarlyAccessFeatureList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/feature_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/stage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/payload/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/assignee/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeature2/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#MinimalFeatureFlag/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#MinimalFeatureFlag/members/team_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#MinimalFeatureFlag/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#MinimalFeatureFlag/members/evaluation_contexts/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureCreateRequest/members/stage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/stage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/assignee/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/feature_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureUpdateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.early_access_feature#EarlyAccessFeatureUpdateRequest/members/stage/traits/smithy.api#required"
+    }
+  ]
+}

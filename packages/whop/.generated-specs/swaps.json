@@ -25,8 +25,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "account_id",
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Business or user account ID (biz_* / user_*)."
+            "smithy.api#documentation": "Business account whose swaps to list, prefixed `biz_`. Provide this or `user_id`."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The caller's own user ID, prefixed `user_`, to list swaps in their personal account. Provide this or `account_id`."
           }
         }
       },
@@ -93,7 +99,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID that owns the wallet used for the swap.",
+            "smithy.api#documentation": "Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account.",
             "smithy.api#required": {}
           }
         },
@@ -129,6 +135,14 @@
           "traits": {
             "smithy.api#documentation": "On-chain transaction hashes produced by the swap.",
             "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User whose personal account owns the swap, prefixed `user_`. Null for a business account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -214,8 +228,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Business or user account ID (biz_* / user_*).",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Business account that makes the swap, prefixed `biz_`. Provide this or `user_id`."
           }
         },
         "amount": {
@@ -265,6 +278,12 @@
           "traits": {
             "smithy.api#documentation": "Destination token contract address or ticker symbol, such as \"XAUT\".",
             "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller's own user ID, prefixed `user_`, to swap in their personal account. Provide this or `account_id`."
           }
         },
         "idempotency_key": {
@@ -351,7 +370,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID that owns the wallet used for the swap.",
+            "smithy.api#documentation": "Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account.",
             "smithy.api#required": {}
           }
         },
@@ -423,6 +442,14 @@
           "target": "com.whop.swaps#CreateSwapResponseToToken",
           "traits": {
             "smithy.api#documentation": "Fiat pairs only: the destination currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User whose personal account owns the swap, prefixed `user_`. Null for a business account.",
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -828,7 +855,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID that owns the wallet used for the swap.",
+            "smithy.api#documentation": "Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account.",
             "smithy.api#required": {}
           }
         },
@@ -864,6 +891,14 @@
           "traits": {
             "smithy.api#documentation": "On-chain transaction hashes produced by the swap.",
             "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User whose personal account owns the swap, prefixed `user_`. Null for a business account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
