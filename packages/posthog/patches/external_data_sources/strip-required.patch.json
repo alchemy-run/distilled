@@ -1,0 +1,297 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#PaginatedExternalDataSourceSerializersListOutput/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#PaginatedExternalDataSourceSerializersListOutput/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/source_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/latest_error/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/access_method/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/engine/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/last_run_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/schemas/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/revenue_analytics_config/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/supports_webhooks/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/supports_column_selection/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/api_version/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceSerializersOutput/members/api_version_deprecation/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCreateRequest/members/source_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCreateRequest/members/payload/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceBulkUpdateSchema/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/label/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/table/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/last_synced_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/latest_error/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/incremental/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/next_full_refresh_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/incremental_sync_blocked/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/available_columns/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/source_column_metadata_available/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/source/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/api_version_deprecation/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSchema/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCheckCdcPrerequisitesForSourceCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCheckCdcPrerequisitesForSourceCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCreateWebhookCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCreateWebhookCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDeleteWebhookCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDeleteWebhookCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDisableCdcCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDisableCdcCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesEnableCdcCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesEnableCdcCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesRefreshSchemasCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesRefreshSchemasCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesReloadCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesReloadCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateCdcSettingsCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateCdcSettingsCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateWebhookInputsCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateWebhookInputsCreateRequest/members/account_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#InputsItem/members/bytecode/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#InputsItem/members/bytecode_contract/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#InputsItem/members/order/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#InputsItem/members/transpiled/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/schema_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/prefix/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/engine/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/source_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/access_method/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/supports_hogql/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/is_builtin_managed_warehouse/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourceConnectionOption/members/description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDatabaseSchemaCreateRequest/members/source_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesSourcePrefixCreateRequest/members/client_secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesSourcePrefixCreateRequest/members/account_id/traits"
+    }
+  ]
+}

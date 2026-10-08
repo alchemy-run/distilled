@@ -1,0 +1,11 @@
+{
+  "description": "Keeps the shape order the converter wrote while these fixes were OpenAPI spec patches: the spec patches changed which error class an operation used first, and so the order the converter created the shapes in.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.posthog.signals#Forbidden",
+      "path": "/shapes/com.posthog.signals#Forbidden",
+      "before": "com.posthog.signals#NotFound"
+    }
+  ]
+}

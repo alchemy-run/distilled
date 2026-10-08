@@ -1,0 +1,121 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#PaginatedIntegrationConfigList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#PaginatedIntegrationConfigList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/errors/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/display_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/files_write_requestable/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/installation_shared/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationConfig/members/installation_status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationsCreateRequest/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationsEmailVerifyCreateRequest/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubBranchesResponse/members/branches/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubBranchesResponse/members/has_more/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubReposResponse/members/repositories/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubReposResponse/members/has_more/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubReposResponse/members/next_offset/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubReposResponse/members/total/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubRepo/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubRepo/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubRepo/members/full_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubReposRefreshResponse/members/repositories/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#GitHubReposRefreshResponse/members/installation_status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.integrations#IntegrationsDomainConnectApplyUrlCreateRequest/members/kind/traits"
+    }
+  ]
+}

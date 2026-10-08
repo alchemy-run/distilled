@@ -1,0 +1,149 @@
+{
+  "description": "From experiment-holdouts-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"experiment_holdouts\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#BadRequest",
+      "before": "com.posthog.experiment_holdouts#ExperimentHoldouts",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#Forbidden",
+      "before": "com.posthog.experiment_holdouts#ExperimentHoldouts",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#NotFound",
+      "before": "com.posthog.experiment_holdouts#ExperimentHoldouts",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

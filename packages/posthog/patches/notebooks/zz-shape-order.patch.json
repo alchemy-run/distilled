@@ -1,0 +1,17 @@
+{
+  "description": "Keeps the shape order the converter wrote while these fixes were OpenAPI spec patches: the spec patches changed which error class an operation used first, and so the order the converter created the shapes in.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.posthog.notebooks#Conflict",
+      "path": "/shapes/com.posthog.notebooks#Conflict",
+      "before": "com.posthog.notebooks#Notebooks"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.posthog.notebooks#NotFound",
+      "path": "/shapes/com.posthog.notebooks#NotFound",
+      "before": "com.posthog.notebooks#Conflict"
+    }
+  ]
+}

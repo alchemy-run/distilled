@@ -612,7 +612,9 @@ const auditModel = (
       const without = modelText(run.model);
       if (without === baseline.text) return { kind: "unused" };
       const diff = diffModels(new Map([[model, baseline.text]]), new Map([[model, without]]));
-      return diff.length === 0 ? { kind: "unused" } : { kind: "needed", diff };
+      // The committed model is compared byte for byte, so a patch that only
+      // orders keys (`before`, a `move` onto itself) is needed too.
+      return { kind: "needed", diff: diff.length === 0 ? ["(key order only)"] : diff };
     };
     const verdict = judge();
     const deadOps: number[] = [];

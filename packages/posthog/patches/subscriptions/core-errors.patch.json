@@ -1,0 +1,162 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#BadRequest"
+        },
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#BadRequest"
+        },
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#BadRequest"
+        },
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#BadRequest"
+        },
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#SubscriptionsTestDeliveryCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.subscriptions#Forbidden"
+        },
+        {
+          "target": "com.posthog.subscriptions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#BadRequest",
+      "before": "com.posthog.subscriptions#Subscriptions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#Forbidden",
+      "before": "com.posthog.subscriptions#Subscriptions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.subscriptions#NotFound",
+      "before": "com.posthog.subscriptions#Subscriptions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

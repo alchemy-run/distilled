@@ -1,0 +1,177 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#PaginatedApprovalPolicyList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#PaginatedApprovalPolicyList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPolicy/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPolicy/members/action_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPolicy/members/approver_config/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPolicy/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPolicy/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPolicy/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPoliciesCreateRequest/members/action_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPoliciesCreateRequest/members/approver_config/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPoliciesUpdateRequest/members/action_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ApprovalPoliciesUpdateRequest/members/approver_config/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#PaginatedChangeRequestList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#PaginatedChangeRequestList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/action_key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/action_version/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/resource_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/resource_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/intent/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/intent_display/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/policy_snapshot/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/validation_status/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/validation_errors/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/validated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/state/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/applied_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/expires_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/applied_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/apply_error/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/result_data/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/approvals/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/can_approve/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/can_cancel/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/is_requester/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.platform_features#ChangeRequest/members/user_decision/traits/smithy.api#required"
+    }
+  ]
+}

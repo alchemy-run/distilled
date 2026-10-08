@@ -3,98 +3,23 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1projects~1{id}/delete/responses/409",
+      "path": "/shapes/com.prisma#PostV1Connections/errors/1",
       "value": {
-        "description": "The project still owns resources that block deletion.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "hint": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["code", "message"]
-                }
-              },
-              "required": ["error"]
-            }
-          }
-        }
+        "target": "com.prisma#Conflict"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1connections/post/responses/409",
+      "path": "/shapes/com.prisma#DeleteV1ProjectsById/errors/2",
       "value": {
-        "description": "A connection with the same name already exists on the database.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "hint": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["code", "message"]
-                }
-              },
-              "required": ["error"]
-            }
-          }
-        }
+        "target": "com.prisma#Conflict"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1projects~1{projectId}~1databases/post/responses/409",
+      "path": "/shapes/com.prisma#PostV1ProjectsByProjectIdDatabases/errors/3",
       "value": {
-        "description": "The project already has a default database, or a database with the same name.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "hint": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["code", "message"]
-                }
-              },
-              "required": ["error"]
-            }
-          }
-        }
+        "target": "com.prisma#Conflict"
       }
     }
   ]

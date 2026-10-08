@@ -1,0 +1,201 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#PaginatedSessionRecordingPlaylistListOutput/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#PaginatedSessionRecordingPlaylistListOutput/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/short_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/last_modified_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/last_modified_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/recordings_counts/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecordingPlaylistOutput/members/is_synthetic/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#PaginatedSessionRecordingList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#PaginatedSessionRecordingList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/distinct_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/viewed/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/viewers/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/recording_duration/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/active_seconds/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/inactive_seconds/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/start_time/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/end_time/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/click_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/keypress_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/mouse_activity_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/console_log_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/console_warn_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/console_error_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/start_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/retention_period_days/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/expiry_time/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/recording_ttl/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/snapshot_source/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/snapshot_library/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/ongoing/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/activity_score/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/external_references/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/matches_filters/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/total_size/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#SessionRecording/members/event_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#MinimalPerson/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#MinimalPerson/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#MinimalPerson/members/distinct_ids/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#MinimalPerson/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#MinimalPerson/members/uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.replay#MinimalPerson/members/last_seen_at/traits/smithy.api#required"
+    }
+  ]
+}

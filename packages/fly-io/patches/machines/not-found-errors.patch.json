@@ -1,0 +1,474 @@
+{
+  "description": "From not-found-errors.patch.json: Add 404 Not Found responses to all operations with path parameters. Discovered via real API testing: the Fly.io API returns {\"error\": \"app not found\"}, {\"error\": \"machine not found\"}, {\"error\": \"volume not found\"} with HTTP 404.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsShow/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesAcmeCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCustomCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesShow/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesAcmeDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCheck/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCustomDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCreateDeployToken/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesShow/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUpdate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCordon/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesListEvents/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesExec/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesShowLease/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCreateLease/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesReleaseLease/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesGetMemory/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesSetMemoryLimit/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesReclaimMemory/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesShowMetadata/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUpdateMetadata/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUpsertMetadata/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesDeleteMetadata/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesListProcesses/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesRestart/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesSignal/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesStop/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesSuspend/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUncordon/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesListVersions/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesWait/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeysList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyGet/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeySet/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyDecrypt/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyEncrypt/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyGenerate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeySign/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyVerify/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretsList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretsUpdate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretGet/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesCreate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesGetById/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesUpdate/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumeDelete/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesExtend/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesListSnapshots/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateVolumeSnapshot/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesOrgList/errors/1",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#TokensRequestKms/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#TokensRequestOIDC/errors/2",
+      "value": {
+        "target": "com.flyio.machines#NotFound"
+      }
+    }
+  ]
+}

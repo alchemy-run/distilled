@@ -2,38 +2,228 @@
   "description": "Database: many spec-required fields are omitted on list/get (counts, feature flags, plan). Keep the fields that every response actually includes.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/definitions/Database/required",
-      "value": [
-        "id",
-        "url",
-        "branches_url",
-        "region",
-        "html_url",
-        "name",
-        "state",
-        "created_at",
-        "updated_at",
-        "kind",
-        "ready"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/branches_count/traits/smithy.api#required"
     },
     {
-      "op": "replace",
-      "path": "/definitions/PaginatedDatabase/properties/data/items/required",
-      "value": [
-        "id",
-        "url",
-        "branches_url",
-        "region",
-        "html_url",
-        "name",
-        "state",
-        "created_at",
-        "updated_at",
-        "kind",
-        "ready"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/open_schema_recommendations_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/development_branches_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/development_branches_limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/production_branches_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/multiple_admins_required_for_deletion/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/at_backup_restore_branches_limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/at_development_branch_usage_limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/sharded/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/default_branch_shard_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/default_branch_read_only_regions_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/default_branch_table_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/default_branch/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/require_approval_for_deploy/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/deletion_protected/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/resizing/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/resize_queued/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/config_changing/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/config_change_queued/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/allow_data_branching/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/foreign_keys_enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/restrict_branch_region/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/prefer_instant/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/insights_raw_queries/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/plan/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/insights_enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/production_branch_web_console/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedDatabaseDataItem/members/schema_last_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/branches_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/open_schema_recommendations_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/development_branches_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/development_branches_limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/production_branches_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/multiple_admins_required_for_deletion/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/at_backup_restore_branches_limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/at_development_branch_usage_limit/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/sharded/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/default_branch_shard_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/default_branch_read_only_regions_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/default_branch_table_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/default_branch/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/require_approval_for_deploy/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/deletion_protected/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/resizing/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/resize_queued/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/config_changing/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/config_change_queued/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/allow_data_branching/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/foreign_keys_enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/restrict_branch_region/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/prefer_instant/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/insights_raw_queries/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/plan/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/insights_enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/production_branch_web_console/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#Database/members/schema_last_updated_at/traits/smithy.api#required"
     }
   ]
 }
