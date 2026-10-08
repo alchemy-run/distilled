@@ -94,5 +94,8 @@
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-10-08"
   }
 }

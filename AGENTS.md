@@ -84,6 +84,9 @@ same condition. Tests use vitest: `pnpm vitest run
 - **Never diff a regeneration before formatting.** Generated output is
   committed formatted; `pnpm generate` formats at the end for this reason. Diff
   before that and every file looks changed.
+- **Every successful generate stamps `distilled.generatedAt`** (UTC
+  `YYYY-MM-DD`) in the package's `package.json`. Commit it with the
+  regenerated code; it is how we know when each SDK was last generated.
 - **Patch the model, not the generated TypeScript.** Edits under
   `packages/*/src/services/` are erased by the next `pnpm generate`. Patches
   live in `packages/<pkg>/patches/` as RFC-6902 ops on the converted Smithy
