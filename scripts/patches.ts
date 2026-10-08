@@ -4,7 +4,7 @@ import { join } from "node:path";
 /**
  * patches — find RFC-6902 patches a package's spec no longer needs.
  *
- *   pnpm patches:audit <pkg>… [--ops] [--only <substring>]
+ *   pnpm patches:audit <pkg>… [--ops] [--only <substring>] [--jobs <n>]
  *
  * Name the packages to audit; a convert-stage audit re-runs convert once
  * per patch file, so it is never run across the whole repo. The engine is
@@ -15,9 +15,12 @@ import { join } from "node:path";
  *   depended on the build fails without it — a later patch targets what it
  *               adds, so the two go together
  *
- * A convert-stage package is audited by re-running its `convert`, which
- * needs its spec mirror (`specs:fetch`); without it the package is reported
- * as skipped. A generate-stage package (`distilled.patches: "generate"`) is
+ * A convert-stage package is audited by running its `convert` on scratch
+ * copies (`packages/.audit-<pkg>-<n>`), which needs its spec mirror
+ * (`specs:fetch`); without it the package is reported as skipped. Files
+ * that only patch the Smithy model are judged in memory after one convert;
+ * files that patch the spec cost one convert each. `--jobs` sets how many
+ * copies convert at once (default: from cores and free memory). A generate-stage package (`distilled.patches: "generate"`) is
  * audited against the committed `.generated-specs` and needs nothing else.
  *
  * `--ops` repeats the experiment for every op inside each needed file, so a
@@ -57,15 +60,27 @@ const printFile = ({ file, verdict, deadOps }: FileVerdict): void => {
 
 const args = process.argv.slice(2);
 const [command] = args;
-if (command !== "audit") die("usage: patches.ts audit [<package>…] [--ops] [--only <substring>]");
-const onlyAt = args.indexOf("--only");
-const only = onlyAt === -1 ? undefined : args[onlyAt + 1];
+const usage = "usage: patches.ts audit <package>… [--ops] [--only <substring>] [--jobs <n>]";
+if (command !== "audit") die(usage);
+const valueOf = (flag: string): string | undefined => {
+  const at = args.indexOf(flag);
+  return at === -1 ? undefined : args[at + 1];
+};
+const only = valueOf("--only");
+const jobsArg = valueOf("--jobs");
+const jobs = jobsArg === undefined ? undefined : Number(jobsArg);
+if (jobs !== undefined && !(Number.isInteger(jobs) && jobs > 0))
+  die("--jobs takes a positive integer");
 const ops = args.includes("--ops");
-const named = args
-  .slice(1)
-  .filter((a, i) => !a.startsWith("--") && (onlyAt === -1 || i + 1 !== onlyAt + 1));
+const flagValues = new Set(
+  ["--only", "--jobs"]
+    .map((f) => args.indexOf(f))
+    .filter((i) => i !== -1)
+    .map((i) => i + 1),
+);
+const named = args.slice(1).filter((a, i) => !a.startsWith("--") && !flagValues.has(i + 1));
 
-if (named.length === 0) die("usage: patches.ts audit <package>… [--ops] [--only <substring>]");
+if (named.length === 0) die(usage);
 const packages = named;
 
 const toDelete: string[] = [];
@@ -75,7 +90,22 @@ for (const pkg of packages) {
   const pkgDir = join(ROOT, "packages", pkg);
   if (!existsSync(join(pkgDir, "package.json"))) die(`packages/${pkg} does not exist`);
   console.log(`\n🔍 ${pkg}`);
-  const result = auditPackage(pkgDir, { ops, only, onFile: printFile });
+  const started = Date.now();
+  let judged = 0;
+  const progress = process.stderr.isTTY
+    ? () => process.stderr.write(`\r   ${++judged} judged…`)
+    : () => {};
+  const result = await auditPackage(pkgDir, {
+    ops,
+    only,
+    jobs,
+    onProgress: progress,
+    onFile: (v) => {
+      if (process.stderr.isTTY) process.stderr.write("\r\x1b[K");
+      printFile(v);
+    },
+  });
+  if (process.stderr.isTTY) process.stderr.write("\r\x1b[K");
   if (result.kind === "skipped") {
     console.log(`⏭  skipped: ${result.reason}`);
     skipped.push(`${pkg}: ${result.reason.split("\n")[0]}`);
@@ -94,6 +124,9 @@ for (const pkg of packages) {
   }
   console.log(
     `${result.files.length} file(s) [${result.stage} stage]: ${counts.needed} needed, ${counts.depended} depended on, ${counts.unused} with no effect`,
+  );
+  console.log(
+    `   ${result.judged.inMemory} judged in memory, ${result.judged.perFile} by one convert each, in ${((Date.now() - started) / 1000).toFixed(1)}s`,
   );
 }
 

@@ -93,8 +93,8 @@ describe.each(sdks.filter((pkg) => patchStage(join(PACKAGES, pkg)) === "generate
   (pkg) => {
     // Generate-stage patches apply to the committed model, so their audit
     // needs no spec mirror and runs here on every PR.
-    test("every patch file still changes the model", () => {
-      const result = auditPackage(join(PACKAGES, pkg));
+    test("every patch file still changes the model", async () => {
+      const result = await auditPackage(join(PACKAGES, pkg));
       if (result.kind === "skipped") throw new Error(result.reason);
       const unused = result.files.filter((f) => f.verdict.kind === "unused").map((f) => f.file.key);
       expect(unused, `delete these from packages/${pkg}/patches/`).toEqual([]);

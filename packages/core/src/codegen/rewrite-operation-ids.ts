@@ -1084,20 +1084,48 @@ export const verbNounSmithyModel = (model: {
 }): { renamed: number; collisions: string[] } => {
   const shapes = model.shapes ?? {};
   const mapping = new Map<string, string>();
+  const mappedTo = new Set<string>();
   const collisions: string[] = [];
-  const taken = new Set(Object.keys(shapes));
+  const ids = Object.keys(shapes);
+  const taken = new Set(ids);
+  const order = new Map(ids.map((id, i) => [id, i]));
+
+  const split = (id: string): [ns: string, local: string] => {
+    const hash = id.indexOf("#");
+    return hash >= 0 ? [id.slice(0, hash), id.slice(hash + 1)] : ["", id];
+  };
+  // Local names per namespace in code-unit order, so the shapes whose name
+  // starts with an operation's are one contiguous run (found by binary
+  // search) instead of a scan of every shape per operation.
+  const localsByNs = new Map<string, string[]>();
+  for (const id of ids) {
+    const [ns, local] = split(id);
+    const list = localsByNs.get(ns);
+    if (list) list.push(local);
+    else localsByNs.set(ns, [local]);
+  }
+  for (const list of localsByNs.values()) list.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+  const withPrefix = (ns: string, prefix: string): string[] => {
+    const list = localsByNs.get(ns) ?? [];
+    let lo = 0;
+    let hi = list.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >>> 1;
+      if (list[mid]! < prefix) lo = mid + 1;
+      else hi = mid;
+    }
+    const out: string[] = [];
+    for (let i = lo; i < list.length && list[i]!.startsWith(prefix); i++) {
+      out.push(ns ? `${ns}#${list[i]}` : list[i]!);
+    }
+    // Model order, as a scan of every shape would visit them.
+    return out.sort((a, b) => order.get(a)! - order.get(b)!);
+  };
 
   const ops = Object.entries(shapes).filter(([, def]) => def?.type === "operation");
-  const opLocals = new Set<string>();
-  for (const [id] of ops) {
-    const hash = id.indexOf("#");
-    opLocals.add(hash >= 0 ? id.slice(hash + 1) : id);
-  }
 
   for (const [id] of ops) {
-    const hash = id.indexOf("#");
-    const ns = hash >= 0 ? id.slice(0, hash) : "";
-    const local = hash >= 0 ? id.slice(hash + 1) : id;
+    const [ns, local] = split(id);
     const camel = toVerbNoun(local);
     const nextLocal = camel.charAt(0).toUpperCase() + camel.slice(1);
     if (nextLocal === local) continue;
@@ -1106,24 +1134,21 @@ export const verbNounSmithyModel = (model: {
       collisions.push(`${local} → ${nextLocal}`);
       continue;
     }
-    if ([...mapping.values()].includes(nextId)) {
+    if (mappedTo.has(nextId)) {
       collisions.push(`${local} → ${nextLocal}`);
       continue;
     }
     mapping.set(id, nextId);
+    mappedTo.add(nextId);
     taken.add(nextId);
 
     // Companions: `<Op>Request`, `<Op>Response…`, and anything derived
     // from them by the converters' `${opName}Request${Member}` naming.
     // Skip prefixes that are themselves another operation's name
     // (`Get` vs `GetObject`) — only exact suffix matches count there.
-    for (const candidate of Object.keys(shapes)) {
+    for (const candidate of withPrefix(ns, local)) {
       if (candidate === id || mapping.has(candidate)) continue;
-      const cHash = candidate.indexOf("#");
-      const cNs = cHash >= 0 ? candidate.slice(0, cHash) : "";
-      const cLocal = cHash >= 0 ? candidate.slice(cHash + 1) : candidate;
-      if (cNs !== ns || !cLocal.startsWith(local)) continue;
-      const tail = cLocal.slice(local.length);
+      const tail = split(candidate)[1].slice(local.length);
       if (tail === "") continue;
       const suffixed = COMPANION_SUFFIXES.some((s) => tail.startsWith(s));
       if (!suffixed) continue;
@@ -1132,6 +1157,7 @@ export const verbNounSmithyModel = (model: {
       const to = ns ? `${ns}#${nextLocal}${tail}` : `${nextLocal}${tail}`;
       if (taken.has(to)) continue;
       mapping.set(candidate, to);
+      mappedTo.add(to);
       taken.add(to);
     }
   }
