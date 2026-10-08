@@ -69,15 +69,15 @@ export const DocumentMap = /*@__PURE__*/ S.Record(
 
 /** Request message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
-  /** The command message to execute, represented as a Struct. */
-  params?: DocumentMap;
   /** The command name to execute, represented by the fully qualified protobuf message name. */
   command?: string;
+  /** The command message to execute, represented as a Struct. */
+  params?: DocumentMap;
 }
 export const GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    params: S.optional(DocumentMap),
     command: S.optional(S.String),
+    params: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest",
@@ -159,21 +159,21 @@ export const GoogleHomeEnterpriseSdmV1ParentRelationList = /*@__PURE__*/ S.Array
 
 /** Device resource represents an instance of enterprise managed device in the property. */
 export interface GoogleHomeEnterpriseSdmV1Device {
-  /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
-  name?: string;
-  /** Assignee details of the device. */
-  parentRelations?: GoogleHomeEnterpriseSdmV1ParentRelationList;
   /** Output only. Device traits. */
   traits?: DocumentMap;
+  /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
+  name?: string;
   /** Output only. Type of the device for general display purposes. For example: "THERMOSTAT". The device type should not be used to deduce or infer functionality of the actual device it is assigned to. Instead, use the returned traits for the device. */
   type?: string;
+  /** Assignee details of the device. */
+  parentRelations?: GoogleHomeEnterpriseSdmV1ParentRelationList;
 }
 export const GoogleHomeEnterpriseSdmV1Device = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    parentRelations: S.optional(GoogleHomeEnterpriseSdmV1ParentRelationList),
     traits: S.optional(DocumentMap),
+    name: S.optional(S.String),
     type: S.optional(S.String),
+    parentRelations: S.optional(GoogleHomeEnterpriseSdmV1ParentRelationList),
   }),
 ).annotate({
   identifier: "GoogleHomeEnterpriseSdmV1Device",
@@ -233,15 +233,15 @@ export const GetEnterprisesStructuresRoomsRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Room resource represents an instance of sub-space within a structure such as rooms in a hotel suite or rental apartment. */
 export interface GoogleHomeEnterpriseSdmV1Room {
-  /** Room traits. */
-  traits?: DocumentMap;
   /** Output only. The resource name of the room. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
   name?: string;
+  /** Room traits. */
+  traits?: DocumentMap;
 }
 export const GoogleHomeEnterpriseSdmV1Room = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    traits: S.optional(DocumentMap),
     name: S.optional(S.String),
+    traits: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleHomeEnterpriseSdmV1Room",

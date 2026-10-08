@@ -76,17 +76,17 @@ export const DetectLanguageRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DetectLanguageRequest" }) as any as S.Schema<DetectLanguageRequest>;
 
 export interface DetectDetectionsRequest {
-  /** OAuth bearer token. */
-  bearer_token?: string;
   /** Pretty-print response. */
   pp?: boolean;
+  /** OAuth bearer token. */
+  bearer_token?: string;
   /** Request body */
   body?: DetectLanguageRequest;
 }
 export const DetectDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
+    bearer_token: S.optional(S.String.pipe(T.Query())),
     body: S.optional(DetectLanguageRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -135,17 +135,17 @@ export const DetectionsListResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DetectionsListResponse" }) as any as S.Schema<DetectionsListResponse>;
 
 export interface ListDetectionsRequest {
-  /** OAuth bearer token. */
-  bearer_token?: string;
   /** Pretty-print response. */
   pp?: boolean;
+  /** OAuth bearer token. */
+  bearer_token?: string;
   /** The input text upon which to perform language detection. Repeat this parameter to perform language detection on multiple text inputs. */
   q: StringList;
 }
 export const ListDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
+    bearer_token: S.optional(S.String.pipe(T.Query())),
     q: StringList.pipe(T.Query()),
   }).pipe(
     T.Http({
@@ -157,21 +157,21 @@ export const ListDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListDetectionsRequest" }) as any as S.Schema<ListDetectionsRequest>;
 
 export interface ListLanguagesRequest {
-  /** OAuth bearer token. */
-  bearer_token?: string;
   /** Pretty-print response. */
   pp?: boolean;
-  /** The language to use to return localized, human readable names of supported languages. */
-  target?: string;
+  /** OAuth bearer token. */
+  bearer_token?: string;
   /** The model type for which supported languages should be returned. */
   model?: string;
+  /** The language to use to return localized, human readable names of supported languages. */
+  target?: string;
 }
 export const ListLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
-    target: S.optional(S.String.pipe(T.Query())),
+    bearer_token: S.optional(S.String.pipe(T.Query())),
     model: S.optional(S.String.pipe(T.Query())),
+    target: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -182,15 +182,15 @@ export const ListLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListLanguagesRequest" }) as any as S.Schema<ListLanguagesRequest>;
 
 export interface LanguagesResource {
-  /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
-  language?: string;
   /** Human readable name of the language localized to the target language. */
   name?: string;
+  /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
+  language?: string;
 }
 export const LanguagesResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    language: S.optional(S.String),
     name: S.optional(S.String),
+    language: S.optional(S.String),
   }),
 ).annotate({ identifier: "LanguagesResource" }) as any as S.Schema<LanguagesResource>;
 
@@ -213,33 +213,33 @@ export type ListTranslationsFormatEnum = "html" | "text";
 export const ListTranslationsFormatEnum = S.String;
 
 export interface ListTranslationsRequest {
-  /** OAuth bearer token. */
-  bearer_token?: string;
   /** Pretty-print response. */
   pp?: boolean;
+  /** OAuth bearer token. */
+  bearer_token?: string;
+  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
+  target: string;
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
   model?: string;
   /** The customization id for translate */
   cid?: StringList;
+  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
+  q: StringList;
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
   format?: ListTranslationsFormatEnum | (string & {});
   /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
   source?: string;
-  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
-  target: string;
-  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
-  q: StringList;
 }
 export const ListTranslationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
+    bearer_token: S.optional(S.String.pipe(T.Query())),
+    target: S.String.pipe(T.Query()),
     model: S.optional(S.String.pipe(T.Query())),
     cid: S.optional(StringList.pipe(T.Query())),
+    q: StringList.pipe(T.Query()),
     format: S.optional(ListTranslationsFormatEnum.pipe(T.Query())),
     source: S.optional(S.String.pipe(T.Query())),
-    target: S.String.pipe(T.Query()),
-    q: StringList.pipe(T.Query()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -252,16 +252,16 @@ export const ListTranslationsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface TranslationsResource {
   /** The source language of the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language will not occur and this field will be empty. */
   detectedSourceLanguage?: string;
-  /** The `model` type used for this translation. Valid values are listed in public documentation. Can be different from requested `model`. Present only if specific model type was explicitly requested. */
-  model?: string;
   /** Text translated into the target language. */
   translatedText?: string;
+  /** The `model` type used for this translation. Valid values are listed in public documentation. Can be different from requested `model`. Present only if specific model type was explicitly requested. */
+  model?: string;
 }
 export const TranslationsResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     detectedSourceLanguage: S.optional(S.String),
-    model: S.optional(S.String),
     translatedText: S.optional(S.String),
+    model: S.optional(S.String),
   }),
 ).annotate({ identifier: "TranslationsResource" }) as any as S.Schema<TranslationsResource>;
 
@@ -283,39 +283,39 @@ export const TranslationsListResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The main translation request message for the Cloud Translation API. */
 export interface TranslateTextRequest {
-  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
-  target?: string;
-  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
-  /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
-  format?: string;
   /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
   q?: StringList;
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
   model?: string;
+  /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
+  format?: string;
+  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
+  source?: string;
+  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
+  target?: string;
 }
 export const TranslateTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    target: S.optional(S.String),
-    source: S.optional(S.String),
-    format: S.optional(S.String),
     q: S.optional(StringList),
     model: S.optional(S.String),
+    format: S.optional(S.String),
+    source: S.optional(S.String),
+    target: S.optional(S.String),
   }),
 ).annotate({ identifier: "TranslateTextRequest" }) as any as S.Schema<TranslateTextRequest>;
 
 export interface TranslateTranslationsRequest {
-  /** OAuth bearer token. */
-  bearer_token?: string;
   /** Pretty-print response. */
   pp?: boolean;
+  /** OAuth bearer token. */
+  bearer_token?: string;
   /** Request body */
   body?: TranslateTextRequest;
 }
 export const TranslateTranslationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
+    bearer_token: S.optional(S.String.pipe(T.Query())),
     body: S.optional(TranslateTextRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

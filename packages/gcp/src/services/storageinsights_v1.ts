@@ -94,47 +94,8 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type DocumentMapList = Array<DocumentMap>;
-export const DocumentMapList = /*@__PURE__*/ S.Array(
-  DocumentMap,
-) as any as S.Schema<DocumentMapList>;
-
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-}
-export const Status = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.Number),
-    message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
-  }),
-).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Specifies a set of folders to include in the dataset */
-export interface SourceFolders {
-  /** Optional. The list of folder numbers to include in the dataset. */
-  folderNumbers?: StringList;
-}
-export const SourceFolders = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    folderNumbers: S.optional(StringList),
-  }),
-).annotate({ identifier: "SourceFolders" }) as any as S.Schema<SourceFolders>;
 
 /** Collection of project numbers */
 export interface SourceProjects {
@@ -147,8 +108,36 @@ export const SourceProjects = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SourceProjects" }) as any as S.Schema<SourceProjects>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+/** Collection of Cloud Storage locations. */
+export interface CloudStorageLocations {
+  /** Optional. List of Cloud Storage locations. */
+  locations?: StringList;
+}
+export const CloudStorageLocations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locations: S.optional(StringList),
+  }),
+).annotate({ identifier: "CloudStorageLocations" }) as any as S.Schema<CloudStorageLocations>;
+
+export type IdentityTypeEnum =
+  | "IDENTITY_TYPE_UNSPECIFIED"
+  | "IDENTITY_TYPE_PER_CONFIG"
+  | "IDENTITY_TYPE_PER_PROJECT";
+export const IdentityTypeEnum = S.String;
+
+/** Identity lets the user provide the type of identity to use, and outputs the identity string that can be used for IAM policy changes. */
+export interface Identity {
+  /** Output only. Name of the identity. */
+  name?: string;
+  /** Optional. Type of identity to use for the datasetConfig. */
+  type?: IdentityTypeEnum | (string & {});
+}
+export const Identity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(IdentityTypeEnum),
+  }),
+).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 
 /** Defines the details about the linked dataset. */
 export interface Link {
@@ -163,6 +152,17 @@ export const Link = /*@__PURE__*/ S.suspend(() =>
     linked: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Link" }) as any as S.Schema<Link>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export type DatasetConfigDatasetConfigStateEnum =
+  | "CONFIG_STATE_UNSPECIFIED"
+  | "CONFIG_STATE_ACTIVE"
+  | "CONFIG_STATE_VERIFICATION_IN_PROGRESS"
+  | "CONFIG_STATE_CREATED"
+  | "CONFIG_STATE_PROCESSING";
+export const DatasetConfigDatasetConfigStateEnum = S.String;
 
 /** Defines the bucket by its name or a regex pattern to match buckets. */
 export interface CloudStorageBucket {
@@ -194,137 +194,137 @@ export const CloudStorageBuckets = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CloudStorageBuckets" }) as any as S.Schema<CloudStorageBuckets>;
 
-export type IdentityTypeEnum =
-  | "IDENTITY_TYPE_UNSPECIFIED"
-  | "IDENTITY_TYPE_PER_CONFIG"
-  | "IDENTITY_TYPE_PER_PROJECT";
-export const IdentityTypeEnum = S.String;
-
-/** Identity lets the user provide the type of identity to use, and outputs the identity string that can be used for IAM policy changes. */
-export interface Identity {
-  /** Output only. Name of the identity. */
-  name?: string;
-  /** Optional. Type of identity to use for the datasetConfig. */
-  type?: IdentityTypeEnum | (string & {});
+/** Specifies a set of folders to include in the dataset */
+export interface SourceFolders {
+  /** Optional. The list of folder numbers to include in the dataset. */
+  folderNumbers?: StringList;
 }
-export const Identity = /*@__PURE__*/ S.suspend(() =>
+export const SourceFolders = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(IdentityTypeEnum),
+    folderNumbers: S.optional(StringList),
   }),
-).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
+).annotate({ identifier: "SourceFolders" }) as any as S.Schema<SourceFolders>;
 
-/** Collection of Cloud Storage locations. */
-export interface CloudStorageLocations {
-  /** Optional. List of Cloud Storage locations. */
-  locations?: StringList;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
-export const CloudStorageLocations = /*@__PURE__*/ S.suspend(() =>
+export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(StringList),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
-).annotate({ identifier: "CloudStorageLocations" }) as any as S.Schema<CloudStorageLocations>;
-
-export type DatasetConfigDatasetConfigStateEnum =
-  | "CONFIG_STATE_UNSPECIFIED"
-  | "CONFIG_STATE_ACTIVE"
-  | "CONFIG_STATE_VERIFICATION_IN_PROGRESS"
-  | "CONFIG_STATE_CREATED"
-  | "CONFIG_STATE_PROCESSING";
-export const DatasetConfigDatasetConfigStateEnum = S.String;
+).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** Message describing the dataset configuration properties. For more information, see [Dataset configuration properties](https://cloud.google.com/storage/docs/insights/datasets#dataset-config). */
 export interface DatasetConfig {
-  /** Output only. Status of the `datasetConfig`. */
-  status?: Status;
-  /** Output only. System generated unique identifier for the resource. */
-  uid?: string;
-  /** Defines the options for providing source folders for the dataset. */
-  sourceFolders?: SourceFolders;
   /** Defines the options for providing source projects for the dataset. */
   sourceProjects?: SourceProjects;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error. */
-  skipVerificationAndIngest?: boolean;
-  /** Output only. Details of the linked dataset. */
-  link?: Link;
-  /** Identifier. name of resource */
-  name?: string;
-  /** Cloud Storage buckets to include in the dataset. */
-  includeCloudStorageBuckets?: CloudStorageBuckets;
-  /** Optional. Identity used by this `datasetConfig`. */
-  identity?: Identity;
-  /** Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters. */
-  description?: string;
-  /** Cloud Storage locations to include in the dataset. */
-  includeCloudStorageLocations?: CloudStorageLocations;
   /** Cloud Storage locations to exclude from the dataset. */
   excludeCloudStorageLocations?: CloudStorageLocations;
-  /** Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated. */
-  updateTime?: string;
-  /** Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset. */
-  organizationNumber?: string;
-  /** Output only. State of the `datasetConfig`. */
-  datasetConfigState?: DatasetConfigDatasetConfigStateEnum | (string & {});
+  /** Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error. */
+  skipVerificationAndIngest?: boolean;
+  /** Optional. Identity used by this `datasetConfig`. */
+  identity?: Identity;
+  /** Cloud Storage locations to include in the dataset. */
+  includeCloudStorageLocations?: CloudStorageLocations;
+  /** Output only. Details of the linked dataset. */
+  link?: Link;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
   /** Output only. The UTC time at which the dataset configuration was created. This is auto-populated. */
   createTime?: string;
-  /** Input only. Cloud Storage object path containing a list of project or folder numbers to include in the dataset; it cannot contain a mix of project and folders. The object must be a text file where each line has one of the following entries: - Project number, formatted as `projects/{project_number}`, for example, `projects/1234567890`. - Folder identifier, formatted as `folders/{folder_number}`, for example, `folders/9876543210`. Path must be in the format `gs://{bucket_name}/{object_name}`. */
-  cloudStorageObjectPath?: string;
+  /** Output only. State of the `datasetConfig`. */
+  datasetConfigState?: DatasetConfigDatasetConfigStateEnum | (string & {});
+  /** Cloud Storage buckets to include in the dataset. */
+  includeCloudStorageBuckets?: CloudStorageBuckets;
+  /** Output only. System generated unique identifier for the resource. */
+  uid?: string;
+  /** Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters. */
+  description?: string;
   /** Optional. Number of days of history that must be retained. */
   retentionPeriodDays?: number;
-  /** Cloud Storage buckets to exclude from the dataset. */
-  excludeCloudStorageBuckets?: CloudStorageBuckets;
   /** Optional. If set to `true`, the request includes all the newly created buckets in the dataset that meet the inclusion and exclusion rules. */
   includeNewlyCreatedBuckets?: boolean;
+  /** Cloud Storage buckets to exclude from the dataset. */
+  excludeCloudStorageBuckets?: CloudStorageBuckets;
+  /** Input only. Cloud Storage object path containing a list of project or folder numbers to include in the dataset; it cannot contain a mix of project and folders. The object must be a text file where each line has one of the following entries: - Project number, formatted as `projects/{project_number}`, for example, `projects/1234567890`. - Folder identifier, formatted as `folders/{folder_number}`, for example, `folders/9876543210`. Path must be in the format `gs://{bucket_name}/{object_name}`. */
+  cloudStorageObjectPath?: string;
+  /** Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset. */
+  organizationNumber?: string;
   /** Optional. When set, overrides the retention period for activity data. Otherwise, the `retention_period_days` value is used for activity data as well. */
   activityDataRetentionPeriodDays?: number;
+  /** Identifier. name of resource */
+  name?: string;
+  /** Defines the options for providing source folders for the dataset. */
+  sourceFolders?: SourceFolders;
+  /** Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated. */
+  updateTime?: string;
   /** Defines the options for providing a source organization for the dataset. */
   organizationScope?: boolean;
+  /** Output only. Status of the `datasetConfig`. */
+  status?: Status;
 }
 export const DatasetConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(Status),
-    uid: S.optional(S.String),
-    sourceFolders: S.optional(SourceFolders),
     sourceProjects: S.optional(SourceProjects),
-    labels: S.optional(StringMap),
-    skipVerificationAndIngest: S.optional(S.Boolean),
-    link: S.optional(Link),
-    name: S.optional(S.String),
-    includeCloudStorageBuckets: S.optional(CloudStorageBuckets),
-    identity: S.optional(Identity),
-    description: S.optional(S.String),
-    includeCloudStorageLocations: S.optional(CloudStorageLocations),
     excludeCloudStorageLocations: S.optional(CloudStorageLocations),
-    updateTime: S.optional(S.String),
-    organizationNumber: S.optional(S.String),
-    datasetConfigState: S.optional(DatasetConfigDatasetConfigStateEnum),
+    skipVerificationAndIngest: S.optional(S.Boolean),
+    identity: S.optional(Identity),
+    includeCloudStorageLocations: S.optional(CloudStorageLocations),
+    link: S.optional(Link),
+    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
-    cloudStorageObjectPath: S.optional(S.String),
+    datasetConfigState: S.optional(DatasetConfigDatasetConfigStateEnum),
+    includeCloudStorageBuckets: S.optional(CloudStorageBuckets),
+    uid: S.optional(S.String),
+    description: S.optional(S.String),
     retentionPeriodDays: S.optional(S.Number),
-    excludeCloudStorageBuckets: S.optional(CloudStorageBuckets),
     includeNewlyCreatedBuckets: S.optional(S.Boolean),
+    excludeCloudStorageBuckets: S.optional(CloudStorageBuckets),
+    cloudStorageObjectPath: S.optional(S.String),
+    organizationNumber: S.optional(S.String),
     activityDataRetentionPeriodDays: S.optional(S.Number),
+    name: S.optional(S.String),
+    sourceFolders: S.optional(SourceFolders),
+    updateTime: S.optional(S.String),
     organizationScope: S.optional(S.Boolean),
+    status: S.optional(Status),
   }),
 ).annotate({ identifier: "DatasetConfig" }) as any as S.Schema<DatasetConfig>;
 
 export interface CreateProjectsLocationsDatasetConfigsRequest {
-  /** Required. Value for parent. */
-  parent: string;
   /** Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens. */
   datasetConfigId?: string;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Value for parent. */
+  parent: string;
   /** Request body */
   body?: DatasetConfig;
 }
 export const CreateProjectsLocationsDatasetConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     datasetConfigId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(DatasetConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -339,41 +339,41 @@ export const CreateProjectsLocationsDatasetConfigsRequest = /*@__PURE__*/ S.susp
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    response: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    done: S.optional(S.Boolean),
     error: S.optional(Status),
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Storageinsights_Date {
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
 }
 export const Storageinsights_Date = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    day: S.optional(S.Number),
     year: S.optional(S.Number),
     month: S.optional(S.Number),
-    day: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Storageinsights_Date" }) as any as S.Schema<Storageinsights_Date>;
 
@@ -384,16 +384,16 @@ export const FrequencyOptionsFrequencyEnum = S.String;
 export interface FrequencyOptions {
   /** Optional. The UTC date to stop generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
   endDate?: Storageinsights_Date;
-  /** Optional. The UTC date to start generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
-  startDate?: Storageinsights_Date;
   /** Optional. Frequency of inventory report generation. */
   frequency?: FrequencyOptionsFrequencyEnum | (string & {});
+  /** Optional. The UTC date to start generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
+  startDate?: Storageinsights_Date;
 }
 export const FrequencyOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endDate: S.optional(Storageinsights_Date),
-    startDate: S.optional(Storageinsights_Date),
     frequency: S.optional(FrequencyOptionsFrequencyEnum),
+    startDate: S.optional(Storageinsights_Date),
   }),
 ).annotate({ identifier: "FrequencyOptions" }) as any as S.Schema<FrequencyOptions>;
 
@@ -401,18 +401,33 @@ export const FrequencyOptions = /*@__PURE__*/ S.suspend(() =>
 export interface CSVOptions {
   /** Optional. Record separator characters in CSV. */
   recordSeparator?: string;
-  /** Optional. Delimiter characters in CSV. */
-  delimiter?: string;
   /** Optional. If set, includes a header row in the CSV report. */
   headerRequired?: boolean;
+  /** Optional. Delimiter characters in CSV. */
+  delimiter?: string;
 }
 export const CSVOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recordSeparator: S.optional(S.String),
-    delimiter: S.optional(S.String),
     headerRequired: S.optional(S.Boolean),
+    delimiter: S.optional(S.String),
   }),
 ).annotate({ identifier: "CSVOptions" }) as any as S.Schema<CSVOptions>;
+
+/** Options to configure inventory reports in Parquet format. */
+export type ParquetOptions = CancelOperationRequest;
+export const ParquetOptions = CancelOperationRequest;
+
+/** Filters buckets to generate inventory reports for Cloud Storage. */
+export interface CloudStorageFilters {
+  /** Optional. Bucket for which the inventory report is generated. */
+  bucket?: string;
+}
+export const CloudStorageFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucket: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloudStorageFilters" }) as any as S.Schema<CloudStorageFilters>;
 
 /** Options to store inventory reports in Cloud Storage. */
 export interface CloudStorageDestinationOptions {
@@ -430,87 +445,72 @@ export const CloudStorageDestinationOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudStorageDestinationOptions",
 }) as any as S.Schema<CloudStorageDestinationOptions>;
 
-/** Filters buckets to generate inventory reports for Cloud Storage. */
-export interface CloudStorageFilters {
-  /** Optional. Bucket for which the inventory report is generated. */
-  bucket?: string;
-}
-export const CloudStorageFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudStorageFilters" }) as any as S.Schema<CloudStorageFilters>;
-
 /** Options for including metadata in an inventory report. */
 export interface ObjectMetadataReportOptions {
   /** Optional. The metadata fields included in an inventory report. */
   metadataFields?: StringList;
-  /** Options to store reports in Cloud Storage. */
-  storageDestinationOptions?: CloudStorageDestinationOptions;
   /** Filters buckets to generate inventory reports for Cloud Storage. */
   storageFilters?: CloudStorageFilters;
+  /** Options to store reports in Cloud Storage. */
+  storageDestinationOptions?: CloudStorageDestinationOptions;
 }
 export const ObjectMetadataReportOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadataFields: S.optional(StringList),
-    storageDestinationOptions: S.optional(CloudStorageDestinationOptions),
     storageFilters: S.optional(CloudStorageFilters),
+    storageDestinationOptions: S.optional(CloudStorageDestinationOptions),
   }),
 ).annotate({
   identifier: "ObjectMetadataReportOptions",
 }) as any as S.Schema<ObjectMetadataReportOptions>;
 
-/** Options to configure inventory reports in Parquet format. */
-export type ParquetOptions = CancelOperationRequest;
-export const ParquetOptions = CancelOperationRequest;
-
 /** Message describing the `ReportConfig` object. `ReportConfig` is the configuration used to generate inventory reports. For information about how to set various fields, see [Create an inventory report configuration](https://cloud.google.com/storage/docs/insights/using-inventory-reports#create-report-config). */
 export interface ReportConfig {
   /** Optional. The frequency of the inventory report generation. */
   frequencyOptions?: FrequencyOptions;
-  /** Output only. The UTC time at which the inventory report configuration was updated. This is auto-populated. */
-  updateTime?: string;
   /** Options for CSV formatted reports. */
   csvOptions?: CSVOptions;
-  /** Options for including object metadata in an inventory report. */
-  objectMetadataReportOptions?: ObjectMetadataReportOptions;
+  /** Options for Parquet formatted reports. */
+  parquetOptions?: CancelOperationRequest;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
   /** Optional. User provided display name that can be empty and limited to 256 characters that is editable.. */
   displayName?: string;
+  /** Output only. The UTC time at which the inventory report configuration was updated. This is auto-populated. */
+  updateTime?: string;
   /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
   name?: string;
   /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
   createTime?: string;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Options for Parquet formatted reports. */
-  parquetOptions?: CancelOperationRequest;
+  /** Options for including object metadata in an inventory report. */
+  objectMetadataReportOptions?: ObjectMetadataReportOptions;
 }
 export const ReportConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     frequencyOptions: S.optional(FrequencyOptions),
-    updateTime: S.optional(S.String),
     csvOptions: S.optional(CSVOptions),
-    objectMetadataReportOptions: S.optional(ObjectMetadataReportOptions),
+    parquetOptions: S.optional(CancelOperationRequest),
+    labels: S.optional(StringMap),
     displayName: S.optional(S.String),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
     createTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    parquetOptions: S.optional(CancelOperationRequest),
+    objectMetadataReportOptions: S.optional(ObjectMetadataReportOptions),
   }),
 ).annotate({ identifier: "ReportConfig" }) as any as S.Schema<ReportConfig>;
 
 export interface CreateProjectsLocationsReportConfigsRequest {
-  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Value for parent. */
   parent: string;
+  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: ReportConfig;
 }
 export const CreateProjectsLocationsReportConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ReportConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -563,17 +563,17 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsReportConfigsRequest {
-  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Name of the resource */
   name: string;
+  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Optional. If set, all the inventory report details associated with this report configuration are deleted. */
   force?: boolean;
 }
 export const DeleteProjectsLocationsReportConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -606,24 +606,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locationId: S.optional(S.String),
     labels: S.optional(StringMap),
     name: S.optional(S.String),
-    displayName: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    displayName: S.optional(S.String),
+    locationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -701,50 +701,50 @@ export const GetProjectsLocationsReportConfigsReportDetailsRequest = /*@__PURE__
 
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
   /** IANA Time Zone Database time zone. For example "America/New_York". */
   id?: string;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
 }
 export const TimeZone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.String),
     id: S.optional(S.String),
+    version: S.optional(S.String),
   }),
 ).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
 
 /** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
 export interface DateTime {
-  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number;
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number;
-  /** Time zone. */
-  timeZone?: TimeZone;
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number;
-  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string;
   /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
   month?: number;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number;
+  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
+  nanos?: number;
+  /** Time zone. */
+  timeZone?: TimeZone;
   /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number;
-  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
-  day?: number;
+  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
+  utcOffset?: string;
   /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
   year?: number;
+  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
+  day?: number;
 }
 export const DateTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nanos: S.optional(S.Number),
-    minutes: S.optional(S.Number),
-    timeZone: S.optional(TimeZone),
     seconds: S.optional(S.Number),
-    utcOffset: S.optional(S.String),
     month: S.optional(S.Number),
+    minutes: S.optional(S.Number),
+    nanos: S.optional(S.Number),
+    timeZone: S.optional(TimeZone),
     hours: S.optional(S.Number),
-    day: S.optional(S.Number),
+    utcOffset: S.optional(S.String),
     year: S.optional(S.Number),
+    day: S.optional(S.Number),
   }),
 ).annotate({ identifier: "DateTime" }) as any as S.Schema<DateTime>;
 
@@ -761,33 +761,33 @@ export const Metrics = /*@__PURE__*/ S.suspend(() =>
 
 /** Message describing the `ReportDetail` object. `ReportDetail` represents the metadata of the generated inventory report for a report configuration. */
 export interface ReportDetail {
-  /** Labels as key value pairs */
-  labels?: StringMap;
-  /** The snapshot time. All the inventory report data is referenced at this point of time. */
-  snapshotTime?: string;
   /** The date and time of the inventory report generation. This field is auto-populated. The time part of `target_datetime` is always `0`. */
   targetDatetime?: DateTime;
-  /** Metrics of the inventory report. */
-  reportMetrics?: Metrics;
-  /** Name of resource. Format: `projects/{project_number}/locations/{location}/reportConfigs/{report-config-id}/reportDetails/{report-detail-id}`. */
-  name?: string;
-  /** Total shards generated for the inventory report. */
-  shardsCount?: string;
+  /** The snapshot time. All the inventory report data is referenced at this point of time. */
+  snapshotTime?: string;
   /** Status of the inventory report. */
   status?: Status;
+  /** Name of resource. Format: `projects/{project_number}/locations/{location}/reportConfigs/{report-config-id}/reportDetails/{report-detail-id}`. */
+  name?: string;
+  /** Metrics of the inventory report. */
+  reportMetrics?: Metrics;
   /** Prefix of the object name of each report's shard. This has the full prefix except the `extension` and `shard_id`. For example, if the `destination_path` is `{report-config-id}/dt={datetime}`, then the shard object name is `gs://my-insights/1A34-F2E456-12B456-1C3D/dt=2022-05-20T06:35/1A34-F2E456-12B456-1C3D_2022-05-20T06:35_5.csv` and the value of `reportPathPrefix` field is `gs://my-insights/1A34-F2E456-12B456-1C3D/dt=2022-05-20T06:35/1A34-F2E456-12B456-1C3D_2022-05-20T06:35_`. */
   reportPathPrefix?: string;
+  /** Total shards generated for the inventory report. */
+  shardsCount?: string;
+  /** Labels as key value pairs */
+  labels?: StringMap;
 }
 export const ReportDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    snapshotTime: S.optional(S.String),
     targetDatetime: S.optional(DateTime),
-    reportMetrics: S.optional(Metrics),
-    name: S.optional(S.String),
-    shardsCount: S.optional(S.String),
+    snapshotTime: S.optional(S.String),
     status: S.optional(Status),
+    name: S.optional(S.String),
+    reportMetrics: S.optional(Metrics),
     reportPathPrefix: S.optional(S.String),
+    shardsCount: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "ReportDetail" }) as any as S.Schema<ReportDetail>;
 
@@ -817,24 +817,24 @@ export const LinkDatasetProjectsLocationsDatasetConfigsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<LinkDatasetProjectsLocationsDatasetConfigsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -851,37 +851,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsDatasetConfigsRequest {
   /** Optional. Filtering results */
   filter?: string;
-  /** Optional. Requested page size. Server might return fewer items than requested. If unspecified, server picks an appropriate default. */
-  pageSize?: number;
-  /** Required. Parent value for ListDatasetConfigsRequest */
-  parent: string;
   /** Optional. Hint for how to order the results */
   orderBy?: string;
+  /** Optional. Requested page size. Server might return fewer items than requested. If unspecified, server picks an appropriate default. */
+  pageSize?: number;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Required. Parent value for ListDatasetConfigsRequest */
+  parent: string;
 }
 export const ListProjectsLocationsDatasetConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -900,42 +900,42 @@ export const DatasetConfigList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListDatasetConfigs` */
 export interface ListDatasetConfigsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** The list of `DatasetConfigs` */
-  datasetConfigs?: DatasetConfigList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of `DatasetConfigs` */
+  datasetConfigs?: DatasetConfigList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListDatasetConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    datasetConfigs: S.optional(DatasetConfigList),
     nextPageToken: S.optional(S.String),
+    datasetConfigs: S.optional(DatasetConfigList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListDatasetConfigsResponse",
 }) as any as S.Schema<ListDatasetConfigsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The standard list filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -952,40 +952,40 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    operations: S.optional(OperationList),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsReportConfigsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server picks the default value. */
-  pageSize?: number;
   /** Required. Parent value for `ListReportConfigsRequest` */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server picks the default value. */
+  pageSize?: number;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Optional. Filtering results */
   filter?: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
 }
 export const ListProjectsLocationsReportConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1004,42 +1004,42 @@ export const ReportConfigList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListReportConfigs` */
 export interface ListReportConfigsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of `ReportConfig` */
   reportConfigs?: ReportConfigList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const ListReportConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     reportConfigs: S.optional(ReportConfigList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListReportConfigsResponse",
 }) as any as S.Schema<ListReportConfigsResponse>;
 
 export interface ListProjectsLocationsReportConfigsReportDetailsRequest {
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Optional. Filtering results */
   filter?: string;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks the default value. */
-  pageSize?: number;
   /** Required. Parent value for `ListReportDetailsRequest` */
   parent: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks the default value. */
+  pageSize?: number;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsReportConfigsReportDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1058,17 +1058,17 @@ export const ReportDetailList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListReportDetails`. */
 export interface ListReportDetailsResponse {
-  /** The list of `ReportDetail` */
-  reportDetails?: ReportDetailList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of `ReportDetail` */
+  reportDetails?: ReportDetailList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
 }
 export const ListReportDetailsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportDetails: S.optional(ReportDetailList),
     unreachable: S.optional(StringList),
+    reportDetails: S.optional(ReportDetailList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -1103,20 +1103,20 @@ export const PatchProjectsLocationsDatasetConfigsRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<PatchProjectsLocationsDatasetConfigsRequest>;
 
 export interface PatchProjectsLocationsReportConfigsRequest {
+  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
+  name: string;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. A mask specifying a list of fields to be updated in the `ReportConfig` resource. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. The `update_mask` is required. */
   updateMask?: string;
-  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
-  name: string;
   /** Request body */
   body?: ReportConfig;
 }
 export const PatchProjectsLocationsReportConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     body: S.optional(ReportConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

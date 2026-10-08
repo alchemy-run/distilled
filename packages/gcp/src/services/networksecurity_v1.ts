@@ -80,15 +80,15 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Request used by the AddAddressGroupItems method. */
 export interface AddAddressGroupItemsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. List of items to add. */
   items?: StringList;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const AddAddressGroupItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
     items: S.optional(StringList),
+    requestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AddAddressGroupItemsRequest",
@@ -128,40 +128,40 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    response: S.optional(DocumentMap),
-    metadata: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
     error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
@@ -315,39 +315,39 @@ export const AddressGroupPurposeItemEnumList = /*@__PURE__*/ S.Array(
 
 /** AddressGroup is a resource that specifies how a collection of IP/DNS used in Firewall Policy. */
 export interface AddressGroup {
-  /** Optional. List of items. */
-  items?: StringList;
-  /** Required. The type of the Address Group. Possible values are "IPv4" or "IPV6". */
-  type?: AddressGroupTypeEnum | (string & {});
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Optional. Free-text description of the resource. */
-  description?: string;
-  /** Optional. Set of label tags associated with the AddressGroup resource. */
-  labels?: StringMap;
   /** Required. Capacity of the Address Group */
   capacity?: number;
-  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
-  name?: string;
-  /** Output only. Server-defined fully-qualified URL for this resource. */
-  selfLink?: string;
-  /** Optional. List of supported purposes of the Address Group. */
-  purpose?: AddressGroupPurposeItemEnumList;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
+  /** Optional. Free-text description of the resource. */
+  description?: string;
+  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
+  name?: string;
+  /** Required. The type of the Address Group. Possible values are "IPv4" or "IPV6". */
+  type?: AddressGroupTypeEnum | (string & {});
+  /** Output only. Server-defined fully-qualified URL for this resource. */
+  selfLink?: string;
+  /** Optional. Set of label tags associated with the AddressGroup resource. */
+  labels?: StringMap;
+  /** Optional. List of items. */
+  items?: StringList;
+  /** Optional. List of supported purposes of the Address Group. */
+  purpose?: AddressGroupPurposeItemEnumList;
 }
 export const AddressGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(StringList),
-    type: S.optional(AddressGroupTypeEnum),
     createTime: S.optional(S.String),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
     capacity: S.optional(S.Number),
-    name: S.optional(S.String),
-    selfLink: S.optional(S.String),
-    purpose: S.optional(AddressGroupPurposeItemEnumList),
     updateTime: S.optional(S.String),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(AddressGroupTypeEnum),
+    selfLink: S.optional(S.String),
+    labels: S.optional(StringMap),
+    items: S.optional(StringList),
+    purpose: S.optional(AddressGroupPurposeItemEnumList),
   }),
 ).annotate({ identifier: "AddressGroup" }) as any as S.Schema<AddressGroup>;
 
@@ -418,6 +418,37 @@ export const FirewallEndpointEndpointSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "FirewallEndpointEndpointSettings",
 }) as any as S.Schema<FirewallEndpointEndpointSettings>;
 
+export type FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum =
+  | "WILDFIRE_INLINE_CLOUD_ANALYSIS_TIMEOUT_ACTION_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY";
+export const FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum =
+  S.String;
+
+/** Settings for WildFire inline cloud analysis. */
+export interface FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings {
+  /** Optional. Action to take when WildFire inline cloud analysis times out. Default value is ALLOW. */
+  timeoutAction?:
+    | FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum
+    | (string & {});
+  /** Optional. Timeout in milliseconds on a file being held while WildFire inline cloud analysis is performed. Value between 1 to 240000 is valid. Default value is 30000. */
+  maxAnalysisDuration?: string;
+  /** Optional. Whether to disable WildFire submission log generation for files that timeout during WildFire inline cloud analysis. */
+  submissionTimeoutLoggingDisabled?: boolean;
+}
+export const FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      timeoutAction: S.optional(
+        FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum,
+      ),
+      maxAnalysisDuration: S.optional(S.String),
+      submissionTimeoutLoggingDisabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings",
+  }) as any as S.Schema<FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings>;
+
 export type FirewallEndpointWildfireSettingsWildfireRegionEnum =
   | "WILDFIRE_REGION_UNSPECIFIED"
   | "CANADA"
@@ -446,79 +477,56 @@ export type FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionE
   | "DENY";
 export const FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum = S.String;
 
-export type FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum =
-  | "WILDFIRE_INLINE_CLOUD_ANALYSIS_TIMEOUT_ACTION_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY";
-export const FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum =
-  S.String;
-
-/** Settings for WildFire inline cloud analysis. */
-export interface FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings {
-  /** Optional. Whether to disable WildFire submission log generation for files that timeout during WildFire inline cloud analysis. */
-  submissionTimeoutLoggingDisabled?: boolean;
-  /** Optional. Action to take when WildFire inline cloud analysis times out. Default value is ALLOW. */
-  timeoutAction?:
-    | FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum
-    | (string & {});
-  /** Optional. Timeout in milliseconds on a file being held while WildFire inline cloud analysis is performed. Value between 1 to 240000 is valid. Default value is 30000. */
-  maxAnalysisDuration?: string;
-}
-export const FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      submissionTimeoutLoggingDisabled: S.optional(S.Boolean),
-      timeoutAction: S.optional(
-        FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum,
-      ),
-      maxAnalysisDuration: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings",
-  }) as any as S.Schema<FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings>;
-
 /** Settings for WildFire analysis. */
 export interface FirewallEndpointWildfireSettings {
-  /** Optional. The region where WildFire analysis will be performed. Palo Alto Networks supports regions: https://docs.paloaltonetworks.com/advanced-wildfire/administration/advanced-wildfire-overview/advanced-wildfire-deployments/advanced-wildfire-global-cloud */
-  wildfireRegion?: FirewallEndpointWildfireSettingsWildfireRegionEnum | (string & {});
-  /** Optional. Action to take on WildFire real time signature lookup timeout. Default value is ALLOW. */
-  wildfireRealtimeLookupTimeoutAction?:
-    | FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum
-    | (string & {});
-  /** Optional. Indicates whether WildFire analysis is enabled. Default value is false. */
-  enabled?: boolean;
   /** Optional. Settings for WildFire inline cloud analysis. */
   wildfireInlineCloudAnalysisSettings?: FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings;
   /** Optional. Duration in milliseconds on a file being held while the WildFire real time signature cloud performs a signature lookup. Value between 1 to 5000 is valid. Default value is 1000. */
   wildfireRealtimeLookupDuration?: string;
+  /** Optional. The region where WildFire analysis will be performed. Palo Alto Networks supports regions: https://docs.paloaltonetworks.com/advanced-wildfire/administration/advanced-wildfire-overview/advanced-wildfire-deployments/advanced-wildfire-global-cloud */
+  wildfireRegion?: FirewallEndpointWildfireSettingsWildfireRegionEnum | (string & {});
+  /** Optional. Indicates whether WildFire analysis is enabled. Default value is false. */
+  enabled?: boolean;
+  /** Optional. Action to take on WildFire real time signature lookup timeout. Default value is ALLOW. */
+  wildfireRealtimeLookupTimeoutAction?:
+    | FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum
+    | (string & {});
 }
 export const FirewallEndpointWildfireSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    wildfireRegion: S.optional(FirewallEndpointWildfireSettingsWildfireRegionEnum),
-    wildfireRealtimeLookupTimeoutAction: S.optional(
-      FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum,
-    ),
-    enabled: S.optional(S.Boolean),
     wildfireInlineCloudAnalysisSettings: S.optional(
       FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings,
     ),
     wildfireRealtimeLookupDuration: S.optional(S.String),
+    wildfireRegion: S.optional(FirewallEndpointWildfireSettingsWildfireRegionEnum),
+    enabled: S.optional(S.Boolean),
+    wildfireRealtimeLookupTimeoutAction: S.optional(
+      FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum,
+    ),
   }),
 ).annotate({
   identifier: "FirewallEndpointWildfireSettings",
 }) as any as S.Schema<FirewallEndpointWildfireSettings>;
 
+export type FirewallEndpointStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "INACTIVE";
+export const FirewallEndpointStateEnum = S.String;
+
 /** This is a subset of the FirewallEndpointAssociation message, containing fields to be used by the consumer. */
 export interface FirewallEndpointAssociationReference {
-  /** Output only. The VPC network associated. Format: projects/{project}/global/networks/{name}. */
-  network?: string;
   /** Output only. The resource name of the FirewallEndpointAssociation. Format: projects/{project}/locations/{location}/firewallEndpointAssociations/{id} */
   name?: string;
+  /** Output only. The VPC network associated. Format: projects/{project}/global/networks/{name}. */
+  network?: string;
 }
 export const FirewallEndpointAssociationReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    network: S.optional(S.String),
     name: S.optional(S.String),
+    network: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FirewallEndpointAssociationReference",
@@ -529,82 +537,74 @@ export const FirewallEndpointAssociationReferenceList = /*@__PURE__*/ S.Array(
   FirewallEndpointAssociationReference,
 ) as any as S.Schema<FirewallEndpointAssociationReferenceList>;
 
-export type FirewallEndpointStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "INACTIVE";
-export const FirewallEndpointStateEnum = S.String;
-
 /** Message describing Endpoint object. */
 export interface FirewallEndpoint {
-  /** Output only. Update time stamp */
-  updateTime?: string;
   /** Optional. Settings for the endpoint. */
   endpointSettings?: FirewallEndpointEndpointSettings;
-  /** Output only. Whether reconciling is in progress, recommended per https://google.aip.dev/128. */
-  reconciling?: boolean;
-  /** Output only. Create time stamp. */
-  createTime?: string;
-  /** Optional. Settings for WildFire analysis. */
-  wildfireSettings?: FirewallEndpointWildfireSettings;
-  /** Output only. List of FirewallEndpointAssociations that are associated to this endpoint. An association will only appear in this list after traffic routing is fully configured. */
-  associations?: FirewallEndpointAssociationReferenceList;
   /** Output only. Deprecated: List of networks that are associated with this endpoint in the local zone. This is a projection of the FirewallEndpointAssociations pointing at this endpoint. A network will only appear in this list after traffic routing is fully configured. Format: projects/{project}/global/networks/{name}. */
   associatedNetworks?: StringList;
-  /** Optional. Description of the firewall endpoint. Max length 2048 characters. */
-  description?: string;
   /** Output only. [Output Only] Reserved for future use. */
   satisfiesPzi?: boolean;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Output only. Current state of the endpoint. */
-  state?: FirewallEndpointStateEnum | (string & {});
+  /** Output only. Whether reconciling is in progress, recommended per https://google.aip.dev/128. */
+  reconciling?: boolean;
   /** Output only. [Output Only] Reserved for future use. */
   satisfiesPzs?: boolean;
   /** Immutable. Identifier. Name of resource. */
   name?: string;
+  /** Optional. Description of the firewall endpoint. Max length 2048 characters. */
+  description?: string;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
+  /** Output only. Update time stamp */
+  updateTime?: string;
+  /** Output only. Create time stamp. */
+  createTime?: string;
+  /** Optional. Settings for WildFire analysis. */
+  wildfireSettings?: FirewallEndpointWildfireSettings;
+  /** Output only. Current state of the endpoint. */
+  state?: FirewallEndpointStateEnum | (string & {});
   /** Optional. Project to charge for the deployed firewall endpoint. This field must be specified when creating the endpoint in the organization scope, and should be omitted otherwise. */
   billingProjectId?: string;
+  /** Output only. List of FirewallEndpointAssociations that are associated to this endpoint. An association will only appear in this list after traffic routing is fully configured. */
+  associations?: FirewallEndpointAssociationReferenceList;
 }
 export const FirewallEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
     endpointSettings: S.optional(FirewallEndpointEndpointSettings),
-    reconciling: S.optional(S.Boolean),
-    createTime: S.optional(S.String),
-    wildfireSettings: S.optional(FirewallEndpointWildfireSettings),
-    associations: S.optional(FirewallEndpointAssociationReferenceList),
     associatedNetworks: S.optional(StringList),
-    description: S.optional(S.String),
     satisfiesPzi: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    state: S.optional(FirewallEndpointStateEnum),
+    reconciling: S.optional(S.Boolean),
     satisfiesPzs: S.optional(S.Boolean),
     name: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    wildfireSettings: S.optional(FirewallEndpointWildfireSettings),
+    state: S.optional(FirewallEndpointStateEnum),
     billingProjectId: S.optional(S.String),
+    associations: S.optional(FirewallEndpointAssociationReferenceList),
   }),
 ).annotate({ identifier: "FirewallEndpoint" }) as any as S.Schema<FirewallEndpoint>;
 
 export interface CreateOrganizationsLocationsFirewallEndpointsRequest {
-  /** Optional. If set, validate the request and preview the endpoint, but do not actually create it. */
-  validateOnly?: boolean;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
-  firewallEndpointId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
+  firewallEndpointId?: string;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Optional. If set, validate the request and preview the endpoint, but do not actually create it. */
+  validateOnly?: boolean;
   /** Request body */
   body?: FirewallEndpoint;
 }
 export const CreateOrganizationsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    firewallEndpointId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    firewallEndpointId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(FirewallEndpoint.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -617,13 +617,13 @@ export const CreateOrganizationsLocationsFirewallEndpointsRequest = /*@__PURE__*
   identifier: "CreateOrganizationsLocationsFirewallEndpointsRequest",
 }) as any as S.Schema<CreateOrganizationsLocationsFirewallEndpointsRequest>;
 
-export type WildfireVerdictChangeRequestNewVerdictEnum =
+export type WildfireVerdictChangeRequestFinalVerdictEnum =
   | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
   | "BENIGN"
   | "MALWARE"
   | "GRAYWARE"
   | "PHISHING";
-export const WildfireVerdictChangeRequestNewVerdictEnum = S.String;
+export const WildfireVerdictChangeRequestFinalVerdictEnum = S.String;
 
 export type WildfireVerdictChangeRequestOldVerdictEnum =
   | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
@@ -633,14 +633,6 @@ export type WildfireVerdictChangeRequestOldVerdictEnum =
   | "PHISHING";
 export const WildfireVerdictChangeRequestOldVerdictEnum = S.String;
 
-export type WildfireVerdictChangeRequestFinalVerdictEnum =
-  | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
-  | "BENIGN"
-  | "MALWARE"
-  | "GRAYWARE"
-  | "PHISHING";
-export const WildfireVerdictChangeRequestFinalVerdictEnum = S.String;
-
 export type WildfireVerdictChangeRequestStateEnum =
   | "VERDICT_CHANGE_REQUEST_STATE_UNSPECIFIED"
   | "OPEN"
@@ -648,53 +640,61 @@ export type WildfireVerdictChangeRequestStateEnum =
   | "PENDING";
 export const WildfireVerdictChangeRequestStateEnum = S.String;
 
+export type WildfireVerdictChangeRequestNewVerdictEnum =
+  | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
+  | "BENIGN"
+  | "MALWARE"
+  | "GRAYWARE"
+  | "PHISHING";
+export const WildfireVerdictChangeRequestNewVerdictEnum = S.String;
+
 /** Message for a WildfireVerdictChangeRequest. */
 export interface WildfireVerdictChangeRequest {
-  /** Output only. The timestamp when the WildfireVerdictChangeRequest was created. */
-  createTime?: string;
-  /** Required. The suggested verdict to apply to the Malware Sample. */
-  newVerdict?: WildfireVerdictChangeRequestNewVerdictEnum | (string & {});
-  /** Output only. The original verdict of the Malware Sample. */
-  oldVerdict?: WildfireVerdictChangeRequestOldVerdictEnum | (string & {});
+  /** Output only. The final verdict of the Malware Sample. */
+  finalVerdict?: WildfireVerdictChangeRequestFinalVerdictEnum | (string & {});
   /** Output only. The region of the file associated with the Malware Sample. */
   sourceRegion?: string;
+  /** Output only. The timestamp when the WildfireVerdictChangeRequest was last updated. */
+  updateTime?: string;
+  /** Output only. The timestamp when the WildfireVerdictChangeRequest was created. */
+  createTime?: string;
+  /** Output only. The file type of the Malware Sample. */
+  fileType?: string;
+  /** Output only. The original verdict of the Malware Sample. */
+  oldVerdict?: WildfireVerdictChangeRequestOldVerdictEnum | (string & {});
+  /** Required. The justification for the verdict change request. Max length 2048 characters. */
+  comment?: string;
+  /** Output only. The review state of the WildfireVerdictChangeRequest. */
+  state?: WildfireVerdictChangeRequestStateEnum | (string & {});
+  /** Output only. The file name of the Malware Sample. */
+  fileName?: string;
+  /** Output only. The timestamp when the WildfireVerdictChangeRequest was resolved. */
+  resolutionTime?: string;
   /** Output only. Identifier. The relative name of the WildfireVerdictChangeRequest. Output only. This is a unique identifier generated by the third party API. Format: organizations|projects/{project_or_organization}/locations/{location}/firewallEndpoints/{firewall_endpoint}/wildfireVerdictChangeRequests/{wildfire_verdict_change_request_id} Where {wildfire_verdict_change_request_id} is the ID in the format: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ */
   name?: string;
   /** Required. The SHA256 hash of the Malware Sample to change the verdict of. */
   sha256?: string;
-  /** Output only. The timestamp when the WildfireVerdictChangeRequest was last updated. */
-  updateTime?: string;
-  /** Output only. The timestamp when the WildfireVerdictChangeRequest was resolved. */
-  resolutionTime?: string;
-  /** Output only. The file name of the Malware Sample. */
-  fileName?: string;
   /** Output only. The ID of the WildfireVerdictChangeRequest. This is a unique identifier generated by the third party API. Format: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ */
   wildfireVerdictChangeRequestId?: string;
-  /** Output only. The final verdict of the Malware Sample. */
-  finalVerdict?: WildfireVerdictChangeRequestFinalVerdictEnum | (string & {});
-  /** Output only. The file type of the Malware Sample. */
-  fileType?: string;
-  /** Output only. The review state of the WildfireVerdictChangeRequest. */
-  state?: WildfireVerdictChangeRequestStateEnum | (string & {});
-  /** Required. The justification for the verdict change request. Max length 2048 characters. */
-  comment?: string;
+  /** Required. The suggested verdict to apply to the Malware Sample. */
+  newVerdict?: WildfireVerdictChangeRequestNewVerdictEnum | (string & {});
 }
 export const WildfireVerdictChangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    newVerdict: S.optional(WildfireVerdictChangeRequestNewVerdictEnum),
-    oldVerdict: S.optional(WildfireVerdictChangeRequestOldVerdictEnum),
+    finalVerdict: S.optional(WildfireVerdictChangeRequestFinalVerdictEnum),
     sourceRegion: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    fileType: S.optional(S.String),
+    oldVerdict: S.optional(WildfireVerdictChangeRequestOldVerdictEnum),
+    comment: S.optional(S.String),
+    state: S.optional(WildfireVerdictChangeRequestStateEnum),
+    fileName: S.optional(S.String),
+    resolutionTime: S.optional(S.String),
     name: S.optional(S.String),
     sha256: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    resolutionTime: S.optional(S.String),
-    fileName: S.optional(S.String),
     wildfireVerdictChangeRequestId: S.optional(S.String),
-    finalVerdict: S.optional(WildfireVerdictChangeRequestFinalVerdictEnum),
-    fileType: S.optional(S.String),
-    state: S.optional(WildfireVerdictChangeRequestStateEnum),
-    comment: S.optional(S.String),
+    newVerdict: S.optional(WildfireVerdictChangeRequestNewVerdictEnum),
   }),
 ).annotate({
   identifier: "WildfireVerdictChangeRequest",
@@ -724,45 +724,45 @@ export const CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeR
 
 /** SecurityProfileGroup is a resource that defines the behavior for various ProfileTypes. */
 export interface SecurityProfileGroup {
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. Last resource update timestamp. */
-  updateTime?: string;
-  /** Optional. Reference to a SecurityProfile with the CustomIntercept configuration. */
-  customInterceptProfile?: string;
+  /** Immutable. Identifier. Name of the SecurityProfileGroup resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfileGroups/{security_profile_group}`. */
+  name?: string;
+  /** Optional. Reference to a SecurityProfile with the UrlFiltering configuration. */
+  urlFilteringProfile?: string;
   /** Optional. Reference to a SecurityProfile with the CustomMirroring configuration. */
   customMirroringProfile?: string;
   /** Output only. Identifier used by the data-path. Unique within `{container, location}`. */
   dataPathId?: string;
-  /** Optional. An optional description of the profile group. Max length 2048 characters. */
-  description?: string;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
-  /** Optional. Reference to a SecurityProfile with the ThreatPrevention configuration. */
-  threatPreventionProfile?: string;
-  /** Optional. Reference to a SecurityProfile with the UrlFiltering configuration. */
-  urlFilteringProfile?: string;
-  /** Immutable. Identifier. Name of the SecurityProfileGroup resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfileGroups/{security_profile_group}`. */
-  name?: string;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
   /** Optional. Reference to a SecurityProfile with the WildFire configuration. */
   wildfireAnalysisProfile?: string;
+  /** Output only. Last resource update timestamp. */
+  updateTime?: string;
+  /** Optional. Reference to a SecurityProfile with the ThreatPrevention configuration. */
+  threatPreventionProfile?: string;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap;
   /** Output only. Resource creation timestamp. */
   createTime?: string;
+  /** Optional. Reference to a SecurityProfile with the CustomIntercept configuration. */
+  customInterceptProfile?: string;
+  /** Optional. An optional description of the profile group. Max length 2048 characters. */
+  description?: string;
 }
 export const SecurityProfileGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    customInterceptProfile: S.optional(S.String),
+    name: S.optional(S.String),
+    urlFilteringProfile: S.optional(S.String),
     customMirroringProfile: S.optional(S.String),
     dataPathId: S.optional(S.String),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
-    threatPreventionProfile: S.optional(S.String),
-    urlFilteringProfile: S.optional(S.String),
-    name: S.optional(S.String),
+    etag: S.optional(S.String),
     wildfireAnalysisProfile: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    threatPreventionProfile: S.optional(S.String),
+    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
+    customInterceptProfile: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "SecurityProfileGroup" }) as any as S.Schema<SecurityProfileGroup>;
 
@@ -791,16 +791,14 @@ export const CreateOrganizationsLocationsSecurityProfileGroupsRequest = /*@__PUR
   identifier: "CreateOrganizationsLocationsSecurityProfileGroupsRequest",
 }) as any as S.Schema<CreateOrganizationsLocationsSecurityProfileGroupsRequest>;
 
-/** CustomMirroringProfile defines out-of-band integration behavior (mirroring). It is used by mirroring rules with a MIRROR action. */
-export interface CustomMirroringProfile {
-  /** Required. Immutable. The target MirroringEndpointGroup. When a mirroring rule with this security profile attached matches a packet, a replica will be mirrored to the location-local target in this group. */
-  mirroringEndpointGroup?: string;
-}
-export const CustomMirroringProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mirroringEndpointGroup: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomMirroringProfile" }) as any as S.Schema<CustomMirroringProfile>;
+export type SecurityProfileTypeEnum =
+  | "PROFILE_TYPE_UNSPECIFIED"
+  | "THREAT_PREVENTION"
+  | "CUSTOM_MIRRORING"
+  | "CUSTOM_INTERCEPT"
+  | "URL_FILTERING"
+  | "WILDFIRE_ANALYSIS";
+export const SecurityProfileTypeEnum = S.String;
 
 /** CustomInterceptProfile defines in-band integration behavior (intercept). It is used by firewall rules with an APPLY_SECURITY_PROFILE_GROUP action. */
 export interface CustomInterceptProfile {
@@ -813,224 +811,135 @@ export const CustomInterceptProfile = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CustomInterceptProfile" }) as any as S.Schema<CustomInterceptProfile>;
 
-export type WildfireThreatOverrideActionEnum =
-  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
-  | "WILDFIRE_DEFAULT_ACTION"
-  | "WILDFIRE_ALLOW"
-  | "WILDFIRE_ALERT"
-  | "WILDFIRE_DENY";
-export const WildfireThreatOverrideActionEnum = S.String;
+export type AntivirusOverrideProtocolEnum =
+  | "PROTOCOL_UNSPECIFIED"
+  | "SMTP"
+  | "SMB"
+  | "POP3"
+  | "IMAP"
+  | "HTTP2"
+  | "HTTP"
+  | "FTP";
+export const AntivirusOverrideProtocolEnum = S.String;
 
-/** Defines what action to take for a specific WildFire threat_id match. */
-export interface WildfireThreatOverride {
-  /** Required. Threat action override. */
-  action?: WildfireThreatOverrideActionEnum | (string & {});
-  /** Required. Threat ID to match. */
+export type AntivirusOverrideActionEnum =
+  | "THREAT_ACTION_UNSPECIFIED"
+  | "DEFAULT_ACTION"
+  | "ALLOW"
+  | "ALERT"
+  | "DENY";
+export const AntivirusOverrideActionEnum = S.String;
+
+/** Defines what action to take for antivirus threats per protocol. */
+export interface AntivirusOverride {
+  /** Required. Protocol to match. */
+  protocol?: AntivirusOverrideProtocolEnum | (string & {});
+  /** Required. Threat action override. For some threat types, only a subset of actions applies. */
+  action?: AntivirusOverrideActionEnum | (string & {});
+}
+export const AntivirusOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    protocol: S.optional(AntivirusOverrideProtocolEnum),
+    action: S.optional(AntivirusOverrideActionEnum),
+  }),
+).annotate({ identifier: "AntivirusOverride" }) as any as S.Schema<AntivirusOverride>;
+
+export type AntivirusOverrideList = Array<AntivirusOverride>;
+export const AntivirusOverrideList = /*@__PURE__*/ S.Array(
+  AntivirusOverride,
+) as any as S.Schema<AntivirusOverrideList>;
+
+export type ThreatOverrideActionEnum =
+  | "THREAT_ACTION_UNSPECIFIED"
+  | "DEFAULT_ACTION"
+  | "ALLOW"
+  | "ALERT"
+  | "DENY";
+export const ThreatOverrideActionEnum = S.String;
+
+export type ThreatOverrideTypeEnum =
+  | "THREAT_TYPE_UNSPECIFIED"
+  | "UNKNOWN"
+  | "VULNERABILITY"
+  | "ANTIVIRUS"
+  | "SPYWARE"
+  | "DNS";
+export const ThreatOverrideTypeEnum = S.String;
+
+/** Defines what action to take for a specific threat_id match. */
+export interface ThreatOverride {
+  /** Required. Threat action override. For some threat types, only a subset of actions applies. */
+  action?: ThreatOverrideActionEnum | (string & {});
+  /** Output only. Type of the threat (read only). */
+  type?: ThreatOverrideTypeEnum | (string & {});
+  /** Required. Vendor-specific ID of a threat to override. */
   threatId?: string;
 }
-export const WildfireThreatOverride = /*@__PURE__*/ S.suspend(() =>
+export const ThreatOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    action: S.optional(WildfireThreatOverrideActionEnum),
+    action: S.optional(ThreatOverrideActionEnum),
+    type: S.optional(ThreatOverrideTypeEnum),
     threatId: S.optional(S.String),
   }),
-).annotate({ identifier: "WildfireThreatOverride" }) as any as S.Schema<WildfireThreatOverride>;
+).annotate({ identifier: "ThreatOverride" }) as any as S.Schema<ThreatOverride>;
 
-export type WildfireThreatOverrideList = Array<WildfireThreatOverride>;
-export const WildfireThreatOverrideList = /*@__PURE__*/ S.Array(
-  WildfireThreatOverride,
-) as any as S.Schema<WildfireThreatOverrideList>;
+export type ThreatOverrideList = Array<ThreatOverride>;
+export const ThreatOverrideList = /*@__PURE__*/ S.Array(
+  ThreatOverride,
+) as any as S.Schema<ThreatOverrideList>;
 
-export type WildfireInlineCloudAnalysisRuleDirectionEnum =
-  | "DIRECTION_UNSPECIFIED"
-  | "UPLOAD"
-  | "DOWNLOAD"
-  | "BOTH";
-export const WildfireInlineCloudAnalysisRuleDirectionEnum = S.String;
+export type SeverityOverrideSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "INFORMATIONAL"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+export const SeverityOverrideSeverityEnum = S.String;
 
-export type WildfireInlineCloudAnalysisRuleActionEnum =
-  | "WILDFIRE_INLINE_CLOUD_ANALYSIS_ACTION_UNSPECIFIED"
+export type SeverityOverrideActionEnum =
+  | "THREAT_ACTION_UNSPECIFIED"
+  | "DEFAULT_ACTION"
   | "ALLOW"
-  | "DENY"
-  | "ALERT";
-export const WildfireInlineCloudAnalysisRuleActionEnum = S.String;
-
-export type WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum =
-  | "FILE_TYPE_UNSPECIFIED"
-  | "PE";
-export const WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum = S.String;
-
-export type WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList = Array<
-  WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum | (string & {})
->;
-export const WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList =
-  /*@__PURE__*/ S.Array(
-    WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum,
-  ) as any as S.Schema<WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList>;
-
-/** The options to submit a custom list of file types for scan. */
-export interface WildfireInlineCloudAnalysisRuleCustomFileTypes {
-  /** Required. File types to be submitted for WildFire inline cloud analysis. */
-  fileTypes?: WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList;
-}
-export const WildfireInlineCloudAnalysisRuleCustomFileTypes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fileTypes: S.optional(WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList),
-  }),
-).annotate({
-  identifier: "WildfireInlineCloudAnalysisRuleCustomFileTypes",
-}) as any as S.Schema<WildfireInlineCloudAnalysisRuleCustomFileTypes>;
-
-export type WildfireInlineCloudAnalysisRuleFileSelectionModeEnum =
-  | "FILE_SELECTION_MODE_UNSPECIFIED"
-  | "ALL_FILE_TYPES"
-  | "CUSTOM_FILE_TYPES";
-export const WildfireInlineCloudAnalysisRuleFileSelectionModeEnum = S.String;
-
-/** The list of file type configurations to be scanned by WildFire Inline Cloud Analysis. */
-export interface WildfireInlineCloudAnalysisRule {
-  /** Required. Direction for the file to be analyzed by WildFire Inline Cloud Analysis. */
-  direction?: WildfireInlineCloudAnalysisRuleDirectionEnum | (string & {});
-  /** Required. Action to take when a threat is detected using WildFire Inline Cloud Analysis. The default Value is DENY. */
-  action?: WildfireInlineCloudAnalysisRuleActionEnum | (string & {});
-  /** Submit a custom list of file types for WildFire analysis. */
-  customFileTypes?: WildfireInlineCloudAnalysisRuleCustomFileTypes;
-  /** Required. File selection mode for WildFire inline cloud analysis. */
-  fileSelectionMode?: WildfireInlineCloudAnalysisRuleFileSelectionModeEnum | (string & {});
-}
-export const WildfireInlineCloudAnalysisRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    direction: S.optional(WildfireInlineCloudAnalysisRuleDirectionEnum),
-    action: S.optional(WildfireInlineCloudAnalysisRuleActionEnum),
-    customFileTypes: S.optional(WildfireInlineCloudAnalysisRuleCustomFileTypes),
-    fileSelectionMode: S.optional(WildfireInlineCloudAnalysisRuleFileSelectionModeEnum),
-  }),
-).annotate({
-  identifier: "WildfireInlineCloudAnalysisRule",
-}) as any as S.Schema<WildfireInlineCloudAnalysisRule>;
-
-export type WildfireInlineCloudAnalysisRuleList = Array<WildfireInlineCloudAnalysisRule>;
-export const WildfireInlineCloudAnalysisRuleList = /*@__PURE__*/ S.Array(
-  WildfireInlineCloudAnalysisRule,
-) as any as S.Schema<WildfireInlineCloudAnalysisRuleList>;
-
-export type WildfireInlineMlSettingsInlineMlConfigFileTypeEnum =
-  | "INLINE_ML_CONFIG_UNSPECIFIED"
-  | "WINDOWS_EXECUTABLE"
-  | "POWERSHELL_SCRIPT1"
-  | "POWERSHELL_SCRIPT2"
-  | "ELF"
-  | "MS_OFFICE"
-  | "SHELL"
-  | "OOXML"
-  | "MACHO";
-export const WildfireInlineMlSettingsInlineMlConfigFileTypeEnum = S.String;
-
-export type WildfireInlineMlSettingsInlineMlConfigActionEnum =
-  | "INLINE_ML_ACTION_UNSPECIFIED"
-  | "DISABLE"
   | "ALERT"
-  | "ENABLE";
-export const WildfireInlineMlSettingsInlineMlConfigActionEnum = S.String;
+  | "DENY";
+export const SeverityOverrideActionEnum = S.String;
 
-/** Configuration for WildFire Inline ML analysis per file type. */
-export interface WildfireInlineMlSettingsInlineMlConfig {
-  /** Required. File type to configure Inline ML for. */
-  fileType?: WildfireInlineMlSettingsInlineMlConfigFileTypeEnum | (string & {});
-  /** Required. Action to take when a threat is detected using Inline ML. */
-  action?: WildfireInlineMlSettingsInlineMlConfigActionEnum | (string & {});
+/** Defines what action to take for a specific severity match. */
+export interface SeverityOverride {
+  /** Required. Severity level to match. */
+  severity?: SeverityOverrideSeverityEnum | (string & {});
+  /** Required. Threat action override. */
+  action?: SeverityOverrideActionEnum | (string & {});
 }
-export const WildfireInlineMlSettingsInlineMlConfig = /*@__PURE__*/ S.suspend(() =>
+export const SeverityOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileType: S.optional(WildfireInlineMlSettingsInlineMlConfigFileTypeEnum),
-    action: S.optional(WildfireInlineMlSettingsInlineMlConfigActionEnum),
+    severity: S.optional(SeverityOverrideSeverityEnum),
+    action: S.optional(SeverityOverrideActionEnum),
   }),
-).annotate({
-  identifier: "WildfireInlineMlSettingsInlineMlConfig",
-}) as any as S.Schema<WildfireInlineMlSettingsInlineMlConfig>;
+).annotate({ identifier: "SeverityOverride" }) as any as S.Schema<SeverityOverride>;
 
-export type WildfireInlineMlSettingsInlineMlConfigList =
-  Array<WildfireInlineMlSettingsInlineMlConfig>;
-export const WildfireInlineMlSettingsInlineMlConfigList = /*@__PURE__*/ S.Array(
-  WildfireInlineMlSettingsInlineMlConfig,
-) as any as S.Schema<WildfireInlineMlSettingsInlineMlConfigList>;
+export type SeverityOverrideList = Array<SeverityOverride>;
+export const SeverityOverrideList = /*@__PURE__*/ S.Array(
+  SeverityOverride,
+) as any as S.Schema<SeverityOverrideList>;
 
-/** Defines the file to exclude from WildFire Inline ML analysis. */
-export interface WildfireInlineMlFileException {
-  /** Required. Machine learning partial hash of the file to exclude from WildFire Inline ML analysis. */
-  partialHash?: string;
-  /** Optional. Name of the file to exclude from WildFire Inline ML analysis. */
-  filename?: string;
+/** ThreatPreventionProfile defines an action for specific threat signatures or severity levels. */
+export interface ThreatPreventionProfile {
+  /** Optional. Configuration for overriding antivirus actions per protocol. */
+  antivirusOverrides?: AntivirusOverrideList;
+  /** Optional. Configuration for overriding threats actions by threat_id match. If a threat is matched both by configuration provided in severity_overrides and threat_overrides, the threat_overrides action is applied. */
+  threatOverrides?: ThreatOverrideList;
+  /** Optional. Configuration for overriding threats actions by severity match. */
+  severityOverrides?: SeverityOverrideList;
 }
-export const WildfireInlineMlFileException = /*@__PURE__*/ S.suspend(() =>
+export const ThreatPreventionProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partialHash: S.optional(S.String),
-    filename: S.optional(S.String),
+    antivirusOverrides: S.optional(AntivirusOverrideList),
+    threatOverrides: S.optional(ThreatOverrideList),
+    severityOverrides: S.optional(SeverityOverrideList),
   }),
-).annotate({
-  identifier: "WildfireInlineMlFileException",
-}) as any as S.Schema<WildfireInlineMlFileException>;
-
-export type WildfireInlineMlFileExceptionList = Array<WildfireInlineMlFileException>;
-export const WildfireInlineMlFileExceptionList = /*@__PURE__*/ S.Array(
-  WildfireInlineMlFileException,
-) as any as S.Schema<WildfireInlineMlFileExceptionList>;
-
-/** Defines the settings for WildFire Inline ML analysis. */
-export interface WildfireInlineMlSettings {
-  /** Optional. List of Inline ML configs to enable in WildFire Inline ML analysis. */
-  inlineMlConfigs?: WildfireInlineMlSettingsInlineMlConfigList;
-  /** Optional. List of files to exclude from WildFire Inline ML analysis. */
-  fileExceptions?: WildfireInlineMlFileExceptionList;
-}
-export const WildfireInlineMlSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inlineMlConfigs: S.optional(WildfireInlineMlSettingsInlineMlConfigList),
-    fileExceptions: S.optional(WildfireInlineMlFileExceptionList),
-  }),
-).annotate({ identifier: "WildfireInlineMlSettings" }) as any as S.Schema<WildfireInlineMlSettings>;
-
-export type WildfireInlineMlOverrideProtocolEnum =
-  | "WILDFIRE_PROTOCOL_UNSPECIFIED"
-  | "WILDFIRE_SMTP"
-  | "WILDFIRE_SMB"
-  | "WILDFIRE_POP3"
-  | "WILDFIRE_IMAP"
-  | "WILDFIRE_HTTP2"
-  | "WILDFIRE_HTTP"
-  | "WILDFIRE_FTP";
-export const WildfireInlineMlOverrideProtocolEnum = S.String;
-
-export type WildfireInlineMlOverrideActionEnum =
-  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
-  | "WILDFIRE_DEFAULT_ACTION"
-  | "WILDFIRE_ALLOW"
-  | "WILDFIRE_ALERT"
-  | "WILDFIRE_DENY";
-export const WildfireInlineMlOverrideActionEnum = S.String;
-
-/** Defines what action to take for WildFire Inline ML threats per protocol. */
-export interface WildfireInlineMlOverride {
-  /** Required. Protocol to match for WildFire Inline ML override. */
-  protocol?: WildfireInlineMlOverrideProtocolEnum | (string & {});
-  /** Required. The action to take for WildFire Inline ML override. */
-  action?: WildfireInlineMlOverrideActionEnum | (string & {});
-}
-export const WildfireInlineMlOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    protocol: S.optional(WildfireInlineMlOverrideProtocolEnum),
-    action: S.optional(WildfireInlineMlOverrideActionEnum),
-  }),
-).annotate({ identifier: "WildfireInlineMlOverride" }) as any as S.Schema<WildfireInlineMlOverride>;
-
-export type WildfireInlineMlOverrideList = Array<WildfireInlineMlOverride>;
-export const WildfireInlineMlOverrideList = /*@__PURE__*/ S.Array(
-  WildfireInlineMlOverride,
-) as any as S.Schema<WildfireInlineMlOverrideList>;
-
-export type WildfireInlineMlSettingsList = Array<WildfireInlineMlSettings>;
-export const WildfireInlineMlSettingsList = /*@__PURE__*/ S.Array(
-  WildfireInlineMlSettings,
-) as any as S.Schema<WildfireInlineMlSettingsList>;
+).annotate({ identifier: "ThreatPreventionProfile" }) as any as S.Schema<ThreatPreventionProfile>;
 
 export type WildfireSubmissionRuleDirectionEnum =
   | "DIRECTION_UNSPECIFIED"
@@ -1101,6 +1010,14 @@ export const WildfireSubmissionRuleList = /*@__PURE__*/ S.Array(
   WildfireSubmissionRule,
 ) as any as S.Schema<WildfireSubmissionRuleList>;
 
+export type WildfireOverrideActionEnum =
+  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
+  | "WILDFIRE_DEFAULT_ACTION"
+  | "WILDFIRE_ALLOW"
+  | "WILDFIRE_ALERT"
+  | "WILDFIRE_DENY";
+export const WildfireOverrideActionEnum = S.String;
+
 export type WildfireOverrideProtocolEnum =
   | "WILDFIRE_PROTOCOL_UNSPECIFIED"
   | "WILDFIRE_SMTP"
@@ -1112,25 +1029,17 @@ export type WildfireOverrideProtocolEnum =
   | "WILDFIRE_FTP";
 export const WildfireOverrideProtocolEnum = S.String;
 
-export type WildfireOverrideActionEnum =
-  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
-  | "WILDFIRE_DEFAULT_ACTION"
-  | "WILDFIRE_ALLOW"
-  | "WILDFIRE_ALERT"
-  | "WILDFIRE_DENY";
-export const WildfireOverrideActionEnum = S.String;
-
 /** Defines what action to take for WildFire threats per protocol. */
 export interface WildfireOverride {
-  /** Required. Protocol to match. */
-  protocol?: WildfireOverrideProtocolEnum | (string & {});
   /** Required. Threat action override. For some threat types, only a subset of actions applies. */
   action?: WildfireOverrideActionEnum | (string & {});
+  /** Required. Protocol to match. */
+  protocol?: WildfireOverrideProtocolEnum | (string & {});
 }
 export const WildfireOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    protocol: S.optional(WildfireOverrideProtocolEnum),
     action: S.optional(WildfireOverrideActionEnum),
+    protocol: S.optional(WildfireOverrideProtocolEnum),
   }),
 ).annotate({ identifier: "WildfireOverride" }) as any as S.Schema<WildfireOverride>;
 
@@ -1139,184 +1048,273 @@ export const WildfireOverrideList = /*@__PURE__*/ S.Array(
   WildfireOverride,
 ) as any as S.Schema<WildfireOverrideList>;
 
+export type WildfireInlineCloudAnalysisRuleFileSelectionModeEnum =
+  | "FILE_SELECTION_MODE_UNSPECIFIED"
+  | "ALL_FILE_TYPES"
+  | "CUSTOM_FILE_TYPES";
+export const WildfireInlineCloudAnalysisRuleFileSelectionModeEnum = S.String;
+
+export type WildfireInlineCloudAnalysisRuleActionEnum =
+  | "WILDFIRE_INLINE_CLOUD_ANALYSIS_ACTION_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY"
+  | "ALERT";
+export const WildfireInlineCloudAnalysisRuleActionEnum = S.String;
+
+export type WildfireInlineCloudAnalysisRuleDirectionEnum =
+  | "DIRECTION_UNSPECIFIED"
+  | "UPLOAD"
+  | "DOWNLOAD"
+  | "BOTH";
+export const WildfireInlineCloudAnalysisRuleDirectionEnum = S.String;
+
+export type WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum =
+  | "FILE_TYPE_UNSPECIFIED"
+  | "PE";
+export const WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum = S.String;
+
+export type WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList = Array<
+  WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum | (string & {})
+>;
+export const WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum,
+  ) as any as S.Schema<WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList>;
+
+/** The options to submit a custom list of file types for scan. */
+export interface WildfireInlineCloudAnalysisRuleCustomFileTypes {
+  /** Required. File types to be submitted for WildFire inline cloud analysis. */
+  fileTypes?: WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList;
+}
+export const WildfireInlineCloudAnalysisRuleCustomFileTypes = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileTypes: S.optional(WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList),
+  }),
+).annotate({
+  identifier: "WildfireInlineCloudAnalysisRuleCustomFileTypes",
+}) as any as S.Schema<WildfireInlineCloudAnalysisRuleCustomFileTypes>;
+
+/** The list of file type configurations to be scanned by WildFire Inline Cloud Analysis. */
+export interface WildfireInlineCloudAnalysisRule {
+  /** Required. File selection mode for WildFire inline cloud analysis. */
+  fileSelectionMode?: WildfireInlineCloudAnalysisRuleFileSelectionModeEnum | (string & {});
+  /** Required. Action to take when a threat is detected using WildFire Inline Cloud Analysis. The default Value is DENY. */
+  action?: WildfireInlineCloudAnalysisRuleActionEnum | (string & {});
+  /** Required. Direction for the file to be analyzed by WildFire Inline Cloud Analysis. */
+  direction?: WildfireInlineCloudAnalysisRuleDirectionEnum | (string & {});
+  /** Submit a custom list of file types for WildFire analysis. */
+  customFileTypes?: WildfireInlineCloudAnalysisRuleCustomFileTypes;
+}
+export const WildfireInlineCloudAnalysisRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileSelectionMode: S.optional(WildfireInlineCloudAnalysisRuleFileSelectionModeEnum),
+    action: S.optional(WildfireInlineCloudAnalysisRuleActionEnum),
+    direction: S.optional(WildfireInlineCloudAnalysisRuleDirectionEnum),
+    customFileTypes: S.optional(WildfireInlineCloudAnalysisRuleCustomFileTypes),
+  }),
+).annotate({
+  identifier: "WildfireInlineCloudAnalysisRule",
+}) as any as S.Schema<WildfireInlineCloudAnalysisRule>;
+
+export type WildfireInlineCloudAnalysisRuleList = Array<WildfireInlineCloudAnalysisRule>;
+export const WildfireInlineCloudAnalysisRuleList = /*@__PURE__*/ S.Array(
+  WildfireInlineCloudAnalysisRule,
+) as any as S.Schema<WildfireInlineCloudAnalysisRuleList>;
+
+export type WildfireInlineMlOverrideActionEnum =
+  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
+  | "WILDFIRE_DEFAULT_ACTION"
+  | "WILDFIRE_ALLOW"
+  | "WILDFIRE_ALERT"
+  | "WILDFIRE_DENY";
+export const WildfireInlineMlOverrideActionEnum = S.String;
+
+export type WildfireInlineMlOverrideProtocolEnum =
+  | "WILDFIRE_PROTOCOL_UNSPECIFIED"
+  | "WILDFIRE_SMTP"
+  | "WILDFIRE_SMB"
+  | "WILDFIRE_POP3"
+  | "WILDFIRE_IMAP"
+  | "WILDFIRE_HTTP2"
+  | "WILDFIRE_HTTP"
+  | "WILDFIRE_FTP";
+export const WildfireInlineMlOverrideProtocolEnum = S.String;
+
+/** Defines what action to take for WildFire Inline ML threats per protocol. */
+export interface WildfireInlineMlOverride {
+  /** Required. The action to take for WildFire Inline ML override. */
+  action?: WildfireInlineMlOverrideActionEnum | (string & {});
+  /** Required. Protocol to match for WildFire Inline ML override. */
+  protocol?: WildfireInlineMlOverrideProtocolEnum | (string & {});
+}
+export const WildfireInlineMlOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(WildfireInlineMlOverrideActionEnum),
+    protocol: S.optional(WildfireInlineMlOverrideProtocolEnum),
+  }),
+).annotate({ identifier: "WildfireInlineMlOverride" }) as any as S.Schema<WildfireInlineMlOverride>;
+
+export type WildfireInlineMlOverrideList = Array<WildfireInlineMlOverride>;
+export const WildfireInlineMlOverrideList = /*@__PURE__*/ S.Array(
+  WildfireInlineMlOverride,
+) as any as S.Schema<WildfireInlineMlOverrideList>;
+
+export type WildfireInlineMlSettingsInlineMlConfigFileTypeEnum =
+  | "INLINE_ML_CONFIG_UNSPECIFIED"
+  | "WINDOWS_EXECUTABLE"
+  | "POWERSHELL_SCRIPT1"
+  | "POWERSHELL_SCRIPT2"
+  | "ELF"
+  | "MS_OFFICE"
+  | "SHELL"
+  | "OOXML"
+  | "MACHO";
+export const WildfireInlineMlSettingsInlineMlConfigFileTypeEnum = S.String;
+
+export type WildfireInlineMlSettingsInlineMlConfigActionEnum =
+  | "INLINE_ML_ACTION_UNSPECIFIED"
+  | "DISABLE"
+  | "ALERT"
+  | "ENABLE";
+export const WildfireInlineMlSettingsInlineMlConfigActionEnum = S.String;
+
+/** Configuration for WildFire Inline ML analysis per file type. */
+export interface WildfireInlineMlSettingsInlineMlConfig {
+  /** Required. File type to configure Inline ML for. */
+  fileType?: WildfireInlineMlSettingsInlineMlConfigFileTypeEnum | (string & {});
+  /** Required. Action to take when a threat is detected using Inline ML. */
+  action?: WildfireInlineMlSettingsInlineMlConfigActionEnum | (string & {});
+}
+export const WildfireInlineMlSettingsInlineMlConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileType: S.optional(WildfireInlineMlSettingsInlineMlConfigFileTypeEnum),
+    action: S.optional(WildfireInlineMlSettingsInlineMlConfigActionEnum),
+  }),
+).annotate({
+  identifier: "WildfireInlineMlSettingsInlineMlConfig",
+}) as any as S.Schema<WildfireInlineMlSettingsInlineMlConfig>;
+
+export type WildfireInlineMlSettingsInlineMlConfigList =
+  Array<WildfireInlineMlSettingsInlineMlConfig>;
+export const WildfireInlineMlSettingsInlineMlConfigList = /*@__PURE__*/ S.Array(
+  WildfireInlineMlSettingsInlineMlConfig,
+) as any as S.Schema<WildfireInlineMlSettingsInlineMlConfigList>;
+
+/** Defines the file to exclude from WildFire Inline ML analysis. */
+export interface WildfireInlineMlFileException {
+  /** Optional. Name of the file to exclude from WildFire Inline ML analysis. */
+  filename?: string;
+  /** Required. Machine learning partial hash of the file to exclude from WildFire Inline ML analysis. */
+  partialHash?: string;
+}
+export const WildfireInlineMlFileException = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filename: S.optional(S.String),
+    partialHash: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WildfireInlineMlFileException",
+}) as any as S.Schema<WildfireInlineMlFileException>;
+
+export type WildfireInlineMlFileExceptionList = Array<WildfireInlineMlFileException>;
+export const WildfireInlineMlFileExceptionList = /*@__PURE__*/ S.Array(
+  WildfireInlineMlFileException,
+) as any as S.Schema<WildfireInlineMlFileExceptionList>;
+
+/** Defines the settings for WildFire Inline ML analysis. */
+export interface WildfireInlineMlSettings {
+  /** Optional. List of Inline ML configs to enable in WildFire Inline ML analysis. */
+  inlineMlConfigs?: WildfireInlineMlSettingsInlineMlConfigList;
+  /** Optional. List of files to exclude from WildFire Inline ML analysis. */
+  fileExceptions?: WildfireInlineMlFileExceptionList;
+}
+export const WildfireInlineMlSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inlineMlConfigs: S.optional(WildfireInlineMlSettingsInlineMlConfigList),
+    fileExceptions: S.optional(WildfireInlineMlFileExceptionList),
+  }),
+).annotate({ identifier: "WildfireInlineMlSettings" }) as any as S.Schema<WildfireInlineMlSettings>;
+
+export type WildfireInlineMlSettingsList = Array<WildfireInlineMlSettings>;
+export const WildfireInlineMlSettingsList = /*@__PURE__*/ S.Array(
+  WildfireInlineMlSettings,
+) as any as S.Schema<WildfireInlineMlSettingsList>;
+
+export type WildfireThreatOverrideActionEnum =
+  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
+  | "WILDFIRE_DEFAULT_ACTION"
+  | "WILDFIRE_ALLOW"
+  | "WILDFIRE_ALERT"
+  | "WILDFIRE_DENY";
+export const WildfireThreatOverrideActionEnum = S.String;
+
+/** Defines what action to take for a specific WildFire threat_id match. */
+export interface WildfireThreatOverride {
+  /** Required. Threat ID to match. */
+  threatId?: string;
+  /** Required. Threat action override. */
+  action?: WildfireThreatOverrideActionEnum | (string & {});
+}
+export const WildfireThreatOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    threatId: S.optional(S.String),
+    action: S.optional(WildfireThreatOverrideActionEnum),
+  }),
+).annotate({ identifier: "WildfireThreatOverride" }) as any as S.Schema<WildfireThreatOverride>;
+
+export type WildfireThreatOverrideList = Array<WildfireThreatOverride>;
+export const WildfireThreatOverrideList = /*@__PURE__*/ S.Array(
+  WildfireThreatOverride,
+) as any as S.Schema<WildfireThreatOverrideList>;
+
 /** WildfireAnalysisProfile defines Palo Alto Networks WildFire behavior. */
 export interface WildfireAnalysisProfile {
-  /** Optional. Configuration for overriding WildFire threats action by threat_id match. */
-  wildfireThreatOverrides?: WildfireThreatOverrideList;
-  /** Optional. Whether to hold the transfer of a file while the WildFire real-time signature cloud performs a signature lookup. Default value is false. */
-  wildfireRealtimeLookup?: boolean;
-  /** Optional. Configuration for WildFire inline cloud analysis. */
-  wildfireInlineCloudAnalysisRules?: WildfireInlineCloudAnalysisRuleList;
-  /** Optional. Settings for WildFire Inline ML analysis. */
-  wildfireInlineMlSetting?: WildfireInlineMlSettings;
-  /** Optional. Configuration for overriding inline ML WildFire actions per protocol. */
-  wildfireInlineMlOverrides?: WildfireInlineMlOverrideList;
-  /** Optional. Settings for WildFire Inline ML analysis. */
-  wildfireInlineMlSettings?: WildfireInlineMlSettingsList;
   /** Optional. Configurations for WildFire file submissions. */
   wildfireSubmissionRules?: WildfireSubmissionRuleList;
   /** Optional. Configuration for overriding WildFire actions per protocol. */
   wildfireOverrides?: WildfireOverrideList;
+  /** Optional. Configuration for WildFire inline cloud analysis. */
+  wildfireInlineCloudAnalysisRules?: WildfireInlineCloudAnalysisRuleList;
+  /** Optional. Configuration for overriding inline ML WildFire actions per protocol. */
+  wildfireInlineMlOverrides?: WildfireInlineMlOverrideList;
+  /** Optional. Settings for WildFire Inline ML analysis. */
+  wildfireInlineMlSetting?: WildfireInlineMlSettings;
+  /** Optional. Settings for WildFire Inline ML analysis. */
+  wildfireInlineMlSettings?: WildfireInlineMlSettingsList;
+  /** Optional. Whether to hold the transfer of a file while the WildFire real-time signature cloud performs a signature lookup. Default value is false. */
+  wildfireRealtimeLookup?: boolean;
+  /** Optional. Configuration for overriding WildFire threats action by threat_id match. */
+  wildfireThreatOverrides?: WildfireThreatOverrideList;
 }
 export const WildfireAnalysisProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    wildfireThreatOverrides: S.optional(WildfireThreatOverrideList),
-    wildfireRealtimeLookup: S.optional(S.Boolean),
-    wildfireInlineCloudAnalysisRules: S.optional(WildfireInlineCloudAnalysisRuleList),
-    wildfireInlineMlSetting: S.optional(WildfireInlineMlSettings),
-    wildfireInlineMlOverrides: S.optional(WildfireInlineMlOverrideList),
-    wildfireInlineMlSettings: S.optional(WildfireInlineMlSettingsList),
     wildfireSubmissionRules: S.optional(WildfireSubmissionRuleList),
     wildfireOverrides: S.optional(WildfireOverrideList),
+    wildfireInlineCloudAnalysisRules: S.optional(WildfireInlineCloudAnalysisRuleList),
+    wildfireInlineMlOverrides: S.optional(WildfireInlineMlOverrideList),
+    wildfireInlineMlSetting: S.optional(WildfireInlineMlSettings),
+    wildfireInlineMlSettings: S.optional(WildfireInlineMlSettingsList),
+    wildfireRealtimeLookup: S.optional(S.Boolean),
+    wildfireThreatOverrides: S.optional(WildfireThreatOverrideList),
   }),
 ).annotate({ identifier: "WildfireAnalysisProfile" }) as any as S.Schema<WildfireAnalysisProfile>;
-
-export type SeverityOverrideSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "INFORMATIONAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-export const SeverityOverrideSeverityEnum = S.String;
-
-export type SeverityOverrideActionEnum =
-  | "THREAT_ACTION_UNSPECIFIED"
-  | "DEFAULT_ACTION"
-  | "ALLOW"
-  | "ALERT"
-  | "DENY";
-export const SeverityOverrideActionEnum = S.String;
-
-/** Defines what action to take for a specific severity match. */
-export interface SeverityOverride {
-  /** Required. Severity level to match. */
-  severity?: SeverityOverrideSeverityEnum | (string & {});
-  /** Required. Threat action override. */
-  action?: SeverityOverrideActionEnum | (string & {});
-}
-export const SeverityOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    severity: S.optional(SeverityOverrideSeverityEnum),
-    action: S.optional(SeverityOverrideActionEnum),
-  }),
-).annotate({ identifier: "SeverityOverride" }) as any as S.Schema<SeverityOverride>;
-
-export type SeverityOverrideList = Array<SeverityOverride>;
-export const SeverityOverrideList = /*@__PURE__*/ S.Array(
-  SeverityOverride,
-) as any as S.Schema<SeverityOverrideList>;
-
-export type ThreatOverrideTypeEnum =
-  | "THREAT_TYPE_UNSPECIFIED"
-  | "UNKNOWN"
-  | "VULNERABILITY"
-  | "ANTIVIRUS"
-  | "SPYWARE"
-  | "DNS";
-export const ThreatOverrideTypeEnum = S.String;
-
-export type ThreatOverrideActionEnum =
-  | "THREAT_ACTION_UNSPECIFIED"
-  | "DEFAULT_ACTION"
-  | "ALLOW"
-  | "ALERT"
-  | "DENY";
-export const ThreatOverrideActionEnum = S.String;
-
-/** Defines what action to take for a specific threat_id match. */
-export interface ThreatOverride {
-  /** Required. Vendor-specific ID of a threat to override. */
-  threatId?: string;
-  /** Output only. Type of the threat (read only). */
-  type?: ThreatOverrideTypeEnum | (string & {});
-  /** Required. Threat action override. For some threat types, only a subset of actions applies. */
-  action?: ThreatOverrideActionEnum | (string & {});
-}
-export const ThreatOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    threatId: S.optional(S.String),
-    type: S.optional(ThreatOverrideTypeEnum),
-    action: S.optional(ThreatOverrideActionEnum),
-  }),
-).annotate({ identifier: "ThreatOverride" }) as any as S.Schema<ThreatOverride>;
-
-export type ThreatOverrideList = Array<ThreatOverride>;
-export const ThreatOverrideList = /*@__PURE__*/ S.Array(
-  ThreatOverride,
-) as any as S.Schema<ThreatOverrideList>;
-
-export type AntivirusOverrideProtocolEnum =
-  | "PROTOCOL_UNSPECIFIED"
-  | "SMTP"
-  | "SMB"
-  | "POP3"
-  | "IMAP"
-  | "HTTP2"
-  | "HTTP"
-  | "FTP";
-export const AntivirusOverrideProtocolEnum = S.String;
-
-export type AntivirusOverrideActionEnum =
-  | "THREAT_ACTION_UNSPECIFIED"
-  | "DEFAULT_ACTION"
-  | "ALLOW"
-  | "ALERT"
-  | "DENY";
-export const AntivirusOverrideActionEnum = S.String;
-
-/** Defines what action to take for antivirus threats per protocol. */
-export interface AntivirusOverride {
-  /** Required. Protocol to match. */
-  protocol?: AntivirusOverrideProtocolEnum | (string & {});
-  /** Required. Threat action override. For some threat types, only a subset of actions applies. */
-  action?: AntivirusOverrideActionEnum | (string & {});
-}
-export const AntivirusOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    protocol: S.optional(AntivirusOverrideProtocolEnum),
-    action: S.optional(AntivirusOverrideActionEnum),
-  }),
-).annotate({ identifier: "AntivirusOverride" }) as any as S.Schema<AntivirusOverride>;
-
-export type AntivirusOverrideList = Array<AntivirusOverride>;
-export const AntivirusOverrideList = /*@__PURE__*/ S.Array(
-  AntivirusOverride,
-) as any as S.Schema<AntivirusOverrideList>;
-
-/** ThreatPreventionProfile defines an action for specific threat signatures or severity levels. */
-export interface ThreatPreventionProfile {
-  /** Optional. Configuration for overriding threats actions by severity match. */
-  severityOverrides?: SeverityOverrideList;
-  /** Optional. Configuration for overriding threats actions by threat_id match. If a threat is matched both by configuration provided in severity_overrides and threat_overrides, the threat_overrides action is applied. */
-  threatOverrides?: ThreatOverrideList;
-  /** Optional. Configuration for overriding antivirus actions per protocol. */
-  antivirusOverrides?: AntivirusOverrideList;
-}
-export const ThreatPreventionProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    severityOverrides: S.optional(SeverityOverrideList),
-    threatOverrides: S.optional(ThreatOverrideList),
-    antivirusOverrides: S.optional(AntivirusOverrideList),
-  }),
-).annotate({ identifier: "ThreatPreventionProfile" }) as any as S.Schema<ThreatPreventionProfile>;
 
 export type UrlFilterFilteringActionEnum = "URL_FILTERING_ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
 export const UrlFilterFilteringActionEnum = S.String;
 
 /** A URL filter defines an action to take for some URL match. */
 export interface UrlFilter {
-  /** Required. The priority of this filter within the URL Filtering Profile. Lower integers indicate higher priorities. The priority of a filter must be unique within a URL Filtering Profile. */
-  priority?: number;
   /** Required. The list of strings that a URL must match with for this filter to be applied. */
   urls?: StringList;
+  /** Required. The priority of this filter within the URL Filtering Profile. Lower integers indicate higher priorities. The priority of a filter must be unique within a URL Filtering Profile. */
+  priority?: number;
   /** Required. The action taken when this filter is applied. */
   filteringAction?: UrlFilterFilteringActionEnum | (string & {});
 }
 export const UrlFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    priority: S.optional(S.Number),
     urls: S.optional(StringList),
+    priority: S.optional(S.Number),
     filteringAction: S.optional(UrlFilterFilteringActionEnum),
   }),
 ).annotate({ identifier: "UrlFilter" }) as any as S.Schema<UrlFilter>;
@@ -1335,56 +1333,58 @@ export const UrlFilteringProfile = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UrlFilteringProfile" }) as any as S.Schema<UrlFilteringProfile>;
 
-export type SecurityProfileTypeEnum =
-  | "PROFILE_TYPE_UNSPECIFIED"
-  | "THREAT_PREVENTION"
-  | "CUSTOM_MIRRORING"
-  | "CUSTOM_INTERCEPT"
-  | "URL_FILTERING"
-  | "WILDFIRE_ANALYSIS";
-export const SecurityProfileTypeEnum = S.String;
+/** CustomMirroringProfile defines out-of-band integration behavior (mirroring). It is used by mirroring rules with a MIRROR action. */
+export interface CustomMirroringProfile {
+  /** Required. Immutable. The target MirroringEndpointGroup. When a mirroring rule with this security profile attached matches a packet, a replica will be mirrored to the location-local target in this group. */
+  mirroringEndpointGroup?: string;
+}
+export const CustomMirroringProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mirroringEndpointGroup: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomMirroringProfile" }) as any as S.Schema<CustomMirroringProfile>;
 
 /** SecurityProfile is a resource that defines the behavior for one of many ProfileTypes. */
 export interface SecurityProfile {
-  /** Immutable. Identifier. Name of the SecurityProfile resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfiles/{security_profile}`. */
-  name?: string;
-  /** Optional. An optional description of the profile. Max length 512 characters. */
-  description?: string;
   /** Output only. Last resource update timestamp. */
   updateTime?: string;
-  /** The custom Packet Mirroring v2 configuration for the SecurityProfile. */
-  customMirroringProfile?: CustomMirroringProfile;
-  /** The custom TPPI configuration for the SecurityProfile. */
-  customInterceptProfile?: CustomInterceptProfile;
-  /** The WildFire Analysis configurations for SecurityProfile. */
-  wildfireAnalysisProfile?: WildfireAnalysisProfile;
-  /** The threat prevention configuration for the SecurityProfile. */
-  threatPreventionProfile?: ThreatPreventionProfile;
   /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
-  /** The URL filtering configuration for the SecurityProfile. */
-  urlFilteringProfile?: UrlFilteringProfile;
   /** Immutable. The single ProfileType that the SecurityProfile resource configures. */
   type?: SecurityProfileTypeEnum | (string & {});
   /** Output only. Resource creation timestamp. */
   createTime?: string;
+  /** The custom TPPI configuration for the SecurityProfile. */
+  customInterceptProfile?: CustomInterceptProfile;
+  /** The threat prevention configuration for the SecurityProfile. */
+  threatPreventionProfile?: ThreatPreventionProfile;
   /** Optional. Labels as key value pairs. */
   labels?: StringMap;
+  /** Immutable. Identifier. Name of the SecurityProfile resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfiles/{security_profile}`. */
+  name?: string;
+  /** The WildFire Analysis configurations for SecurityProfile. */
+  wildfireAnalysisProfile?: WildfireAnalysisProfile;
+  /** The URL filtering configuration for the SecurityProfile. */
+  urlFilteringProfile?: UrlFilteringProfile;
+  /** The custom Packet Mirroring v2 configuration for the SecurityProfile. */
+  customMirroringProfile?: CustomMirroringProfile;
+  /** Optional. An optional description of the profile. Max length 512 characters. */
+  description?: string;
 }
 export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
     updateTime: S.optional(S.String),
-    customMirroringProfile: S.optional(CustomMirroringProfile),
-    customInterceptProfile: S.optional(CustomInterceptProfile),
-    wildfireAnalysisProfile: S.optional(WildfireAnalysisProfile),
-    threatPreventionProfile: S.optional(ThreatPreventionProfile),
     etag: S.optional(S.String),
-    urlFilteringProfile: S.optional(UrlFilteringProfile),
     type: S.optional(SecurityProfileTypeEnum),
     createTime: S.optional(S.String),
+    customInterceptProfile: S.optional(CustomInterceptProfile),
+    threatPreventionProfile: S.optional(ThreatPreventionProfile),
     labels: S.optional(StringMap),
+    name: S.optional(S.String),
+    wildfireAnalysisProfile: S.optional(WildfireAnalysisProfile),
+    urlFilteringProfile: S.optional(UrlFilteringProfile),
+    customMirroringProfile: S.optional(CustomMirroringProfile),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
@@ -1413,20 +1413,20 @@ export const CreateOrganizationsLocationsSecurityProfilesRequest = /*@__PURE__*/
 }) as any as S.Schema<CreateOrganizationsLocationsSecurityProfilesRequest>;
 
 export interface CreateProjectsLocationsAddressGroupsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. Short name of the AddressGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
   addressGroupId?: string;
   /** Required. The parent resource of the AddressGroup. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: AddressGroup;
 }
 export const CreateProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestId: S.optional(S.String.pipe(T.Query())),
     addressGroupId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(AddressGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1441,54 +1441,54 @@ export const CreateProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspe
 
 /** Specification of traffic source attributes. */
 export interface Source {
-  /** Optional. List of peer identities to match for authorization. At least one principal should match. Each peer can be an exact match, or a prefix match (example, "namespace/*") or a suffix match (example, "*\/service-account") or a presence match "*". Authorization based on the principal name without certificate validation (configured by ServerTlsPolicy resource) is considered insecure. */
-  principals?: StringList;
   /** Optional. List of CIDR ranges to match based on source IP address. At least one IP block should match. Single IP (e.g., "1.2.3.4") and CIDR (e.g., "1.2.3.0/24") are supported. Authorization based on source IP alone should be avoided. The IP addresses of any load balancers or proxies should be considered untrusted. */
   ipBlocks?: StringList;
+  /** Optional. List of peer identities to match for authorization. At least one principal should match. Each peer can be an exact match, or a prefix match (example, "namespace/*") or a suffix match (example, "*\/service-account") or a presence match "*". Authorization based on the principal name without certificate validation (configured by ServerTlsPolicy resource) is considered insecure. */
+  principals?: StringList;
 }
 export const Source = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    principals: S.optional(StringList),
     ipBlocks: S.optional(StringList),
+    principals: S.optional(StringList),
   }),
 ).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 
 export type SourceList = Array<Source>;
 export const SourceList = /*@__PURE__*/ S.Array(Source) as any as S.Schema<SourceList>;
 
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
 /** Specification of HTTP header match attributes. */
 export interface HttpHeaderMatch {
-  /** Required. The name of the HTTP header to match. For matching against the HTTP request's authority, use a headerMatch with the header name ":authority". For matching a request's method, use the headerName ":method". */
-  headerName?: string;
   /** Required. The value of the header must match the regular expression specified in regexMatch. For regular expression grammar, please see: en.cppreference.com/w/cpp/regex/ecmascript For matching against a port specified in the HTTP request, use a headerMatch with headerName set to Host and a regular expression that satisfies the RFC2616 Host header's port specifier. */
   regexMatch?: string;
+  /** Required. The name of the HTTP header to match. For matching against the HTTP request's authority, use a headerMatch with the header name ":authority". For matching a request's method, use the headerName ":method". */
+  headerName?: string;
 }
 export const HttpHeaderMatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headerName: S.optional(S.String),
     regexMatch: S.optional(S.String),
+    headerName: S.optional(S.String),
   }),
 ).annotate({ identifier: "HttpHeaderMatch" }) as any as S.Schema<HttpHeaderMatch>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
 
 /** Specification of traffic destination attributes. */
 export interface Destination {
   /** Required. List of host names to match. Matched against the ":authority" header in http requests. At least one host should match. Each host can be an exact match, or a prefix match (example "mydomain.*") or a suffix match (example "*.myorg.com") or a presence (any) match "*". */
   hosts?: StringList;
-  /** Required. List of destination ports to match. At least one port should match. */
-  ports?: IntegerList;
   /** Optional. Match against key:value pair in http header. Provides a flexible match based on HTTP headers, for potentially advanced use cases. At least one header should match. Avoid using header matches to make authorization decisions unless there is a strong guarantee that requests arrive through a trusted client or proxy. */
   httpHeaderMatch?: HttpHeaderMatch;
+  /** Required. List of destination ports to match. At least one port should match. */
+  ports?: IntegerList;
   /** Optional. A list of HTTP methods to match. At least one method should match. Should not be set for gRPC services. */
   methods?: StringList;
 }
 export const Destination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hosts: S.optional(StringList),
-    ports: S.optional(IntegerList),
     httpHeaderMatch: S.optional(HttpHeaderMatch),
+    ports: S.optional(IntegerList),
     methods: S.optional(StringList),
   }),
 ).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
@@ -1520,45 +1520,45 @@ export const AuthorizationPolicyActionEnum = S.String;
 
 /** AuthorizationPolicy is a resource that specifies how a server should authorize incoming connections. This resource in itself does not change the configuration unless it's attached to a target https proxy or endpoint config selector resource. */
 export interface AuthorizationPolicy {
+  /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
+  name?: string;
+  /** Optional. Set of label tags associated with the AuthorizationPolicy resource. */
+  labels?: StringMap;
+  /** Optional. List of rules to match. Note that at least one of the rules must match in order for the action specified in the 'action' field to be taken. A rule is a match if there is a matching source and destination. If left blank, the action specified in the `action` field will be applied on every request. */
+  rules?: RuleList;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
   /** Optional. Free-text description of the resource. */
   description?: string;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
-  /** Optional. Set of label tags associated with the AuthorizationPolicy resource. */
-  labels?: StringMap;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. List of rules to match. Note that at least one of the rules must match in order for the action specified in the 'action' field to be taken. A rule is a match if there is a matching source and destination. If left blank, the action specified in the `action` field will be applied on every request. */
-  rules?: RuleList;
   /** Required. The action to take when a rule match is found. Possible values are "ALLOW" or "DENY". */
   action?: AuthorizationPolicyActionEnum | (string & {});
-  /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
-  name?: string;
 }
 export const AuthorizationPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    rules: S.optional(RuleList),
+    updateTime: S.optional(S.String),
     description: S.optional(S.String),
     createTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    updateTime: S.optional(S.String),
-    rules: S.optional(RuleList),
     action: S.optional(AuthorizationPolicyActionEnum),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuthorizationPolicy" }) as any as S.Schema<AuthorizationPolicy>;
 
 export interface CreateProjectsLocationsAuthorizationPoliciesRequest {
-  /** Required. Short name of the AuthorizationPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
-  authorizationPolicyId?: string;
   /** Required. The parent resource of the AuthorizationPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the AuthorizationPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
+  authorizationPolicyId?: string;
   /** Request body */
   body?: AuthorizationPolicy;
 }
 export const CreateProjectsLocationsAuthorizationPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authorizationPolicyId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    authorizationPolicyId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(AuthorizationPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1571,63 +1571,158 @@ export const CreateProjectsLocationsAuthorizationPoliciesRequest = /*@__PURE__*/
   identifier: "CreateProjectsLocationsAuthorizationPoliciesRequest",
 }) as any as S.Schema<CreateProjectsLocationsAuthorizationPoliciesRequest>;
 
-/** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
-export type AuthzPolicyCustomProviderCloudIap = CancelOperationRequest;
-export const AuthzPolicyCustomProviderCloudIap = CancelOperationRequest;
-
-/** Optional. Delegate authorization decision to user authored extension. Only one of cloudIap or authzExtension can be specified. */
-export interface AuthzPolicyCustomProviderAuthzExtension {
-  /** Required. A list of references to authorization extensions that will be invoked for requests matching this policy. Limited to 1 custom provider. */
-  resources?: StringList;
-}
-export const AuthzPolicyCustomProviderAuthzExtension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resources: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "AuthzPolicyCustomProviderAuthzExtension",
-}) as any as S.Schema<AuthzPolicyCustomProviderAuthzExtension>;
-
-/** Allows delegating authorization decisions to Cloud IAP or to Service Extensions. */
-export interface AuthzPolicyCustomProvider {
-  /** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
-  cloudIap?: CancelOperationRequest;
-  /** Optional. Delegate authorization decision to user authored Service Extension. Only one of cloudIap or authzExtension can be specified. */
-  authzExtension?: AuthzPolicyCustomProviderAuthzExtension;
-}
-export const AuthzPolicyCustomProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudIap: S.optional(CancelOperationRequest),
-    authzExtension: S.optional(AuthzPolicyCustomProviderAuthzExtension),
-  }),
-).annotate({
-  identifier: "AuthzPolicyCustomProvider",
-}) as any as S.Schema<AuthzPolicyCustomProvider>;
+export type AuthzPolicyPolicyProfileEnum =
+  | "POLICY_PROFILE_UNSPECIFIED"
+  | "REQUEST_AUTHZ"
+  | "CONTENT_AUTHZ";
+export const AuthzPolicyPolicyProfileEnum = S.String;
 
 /** Determines how a string value should be matched. */
 export interface AuthzPolicyAuthzRuleStringMatch {
+  /** The input string must have the suffix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
+  suffix?: string;
+  /** If true, indicates the exact/prefix/suffix/contains matching should be case insensitive. For example, the matcher ``data`` will match both input string ``Data`` and ``data`` if set to true. */
+  ignoreCase?: boolean;
   /** The input string must match exactly the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
   exact?: string;
   /** The input string must have the substring specified here. Note: empty contains match is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc.def`` */
   contains?: string;
   /** The input string must have the prefix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
   prefix?: string;
-  /** The input string must have the suffix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
-  suffix?: string;
-  /** If true, indicates the exact/prefix/suffix/contains matching should be case insensitive. For example, the matcher ``data`` will match both input string ``Data`` and ``data`` if set to true. */
-  ignoreCase?: boolean;
 }
 export const AuthzPolicyAuthzRuleStringMatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    suffix: S.optional(S.String),
+    ignoreCase: S.optional(S.Boolean),
     exact: S.optional(S.String),
     contains: S.optional(S.String),
     prefix: S.optional(S.String),
-    suffix: S.optional(S.String),
-    ignoreCase: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AuthzPolicyAuthzRuleStringMatch",
 }) as any as S.Schema<AuthzPolicyAuthzRuleStringMatch>;
+
+/** Describes a set of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
+export interface AuthzPolicyAuthzRuleRequestResourceTagValueIdSet {
+  /** Required. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. The match follows AND semantics which means all the ids must match. Limited to 5 ids in the Tag value id set. */
+  ids?: StringList;
+}
+export const AuthzPolicyAuthzRuleRequestResourceTagValueIdSet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ids: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "AuthzPolicyAuthzRuleRequestResourceTagValueIdSet",
+}) as any as S.Schema<AuthzPolicyAuthzRuleRequestResourceTagValueIdSet>;
+
+/** Describes the properties of a client VM resource accessing the internal application load balancers. */
+export interface AuthzPolicyAuthzRuleRequestResource {
+  /** Optional. An IAM service account to match against the source service account of the VM sending the request. */
+  iamServiceAccount?: AuthzPolicyAuthzRuleStringMatch;
+  /** Optional. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
+  tagValueIdSet?: AuthzPolicyAuthzRuleRequestResourceTagValueIdSet;
+}
+export const AuthzPolicyAuthzRuleRequestResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    iamServiceAccount: S.optional(AuthzPolicyAuthzRuleStringMatch),
+    tagValueIdSet: S.optional(AuthzPolicyAuthzRuleRequestResourceTagValueIdSet),
+  }),
+).annotate({
+  identifier: "AuthzPolicyAuthzRuleRequestResource",
+}) as any as S.Schema<AuthzPolicyAuthzRuleRequestResource>;
+
+export type AuthzPolicyAuthzRuleRequestResourceList = Array<AuthzPolicyAuthzRuleRequestResource>;
+export const AuthzPolicyAuthzRuleRequestResourceList = /*@__PURE__*/ S.Array(
+  AuthzPolicyAuthzRuleRequestResource,
+) as any as S.Schema<AuthzPolicyAuthzRuleRequestResourceList>;
+
+/** Represents a range of IP Addresses. */
+export interface AuthzPolicyAuthzRuleIpBlock {
+  /** Required. The length of the address range. */
+  length?: number;
+  /** Required. The address prefix. */
+  prefix?: string;
+}
+export const AuthzPolicyAuthzRuleIpBlock = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    length: S.optional(S.Number),
+    prefix: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthzPolicyAuthzRuleIpBlock",
+}) as any as S.Schema<AuthzPolicyAuthzRuleIpBlock>;
+
+export type AuthzPolicyAuthzRuleIpBlockList = Array<AuthzPolicyAuthzRuleIpBlock>;
+export const AuthzPolicyAuthzRuleIpBlockList = /*@__PURE__*/ S.Array(
+  AuthzPolicyAuthzRuleIpBlock,
+) as any as S.Schema<AuthzPolicyAuthzRuleIpBlockList>;
+
+export type AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum =
+  | "PRINCIPAL_SELECTOR_UNSPECIFIED"
+  | "CLIENT_CERT_URI_SAN"
+  | "CLIENT_CERT_DNS_NAME_SAN"
+  | "CLIENT_CERT_COMMON_NAME";
+export const AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum = S.String;
+
+/** Describes the properties of a principal to be matched against. */
+export interface AuthzPolicyAuthzRulePrincipal {
+  /** Required. A non-empty string whose value is matched against the principal value based on the principal_selector. Only exact match can be applied for CLIENT_CERT_URI_SAN, CLIENT_CERT_DNS_NAME_SAN, CLIENT_CERT_COMMON_NAME selectors. */
+  principal?: AuthzPolicyAuthzRuleStringMatch;
+  /** Optional. An enum to decide what principal value the principal rule will match against. If not specified, the PrincipalSelector is CLIENT_CERT_URI_SAN. */
+  principalSelector?: AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum | (string & {});
+}
+export const AuthzPolicyAuthzRulePrincipal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principal: S.optional(AuthzPolicyAuthzRuleStringMatch),
+    principalSelector: S.optional(AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum),
+  }),
+).annotate({
+  identifier: "AuthzPolicyAuthzRulePrincipal",
+}) as any as S.Schema<AuthzPolicyAuthzRulePrincipal>;
+
+export type AuthzPolicyAuthzRulePrincipalList = Array<AuthzPolicyAuthzRulePrincipal>;
+export const AuthzPolicyAuthzRulePrincipalList = /*@__PURE__*/ S.Array(
+  AuthzPolicyAuthzRulePrincipal,
+) as any as S.Schema<AuthzPolicyAuthzRulePrincipalList>;
+
+/** Describes the properties of a single source. */
+export interface AuthzPolicyAuthzRuleFromRequestSource {
+  /** Optional. A list of resources to match against the resource of the source VM of a request. Limited to 10 resources per Authorization Policy. */
+  resources?: AuthzPolicyAuthzRuleRequestResourceList;
+  /** Optional. A list of IP addresses or IP address ranges to match against the source IP address of the request. Limited to 10 ip_blocks per Authorization Policy */
+  ipBlocks?: AuthzPolicyAuthzRuleIpBlockList;
+  /** Optional. A list of identities derived from the client's certificate. This field will not match on a request unless frontend mutual TLS is enabled for the forwarding rule or Gateway and the client certificate has been successfully validated by mTLS. Each identity is a string whose value is matched against a list of URI SANs, DNS Name SANs, or the common name in the client's certificate. A match happens when any principal matches with the rule. Limited to 50 principals per Authorization Policy for regional internal Application Load Balancers, regional external Application Load Balancers, cross-region internal Application Load Balancers, and Cloud Service Mesh while 25 principals per Authorization Policy for global external Application Load Balancers. */
+  principals?: AuthzPolicyAuthzRulePrincipalList;
+}
+export const AuthzPolicyAuthzRuleFromRequestSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resources: S.optional(AuthzPolicyAuthzRuleRequestResourceList),
+    ipBlocks: S.optional(AuthzPolicyAuthzRuleIpBlockList),
+    principals: S.optional(AuthzPolicyAuthzRulePrincipalList),
+  }),
+).annotate({
+  identifier: "AuthzPolicyAuthzRuleFromRequestSource",
+}) as any as S.Schema<AuthzPolicyAuthzRuleFromRequestSource>;
+
+export type AuthzPolicyAuthzRuleFromRequestSourceList =
+  Array<AuthzPolicyAuthzRuleFromRequestSource>;
+export const AuthzPolicyAuthzRuleFromRequestSourceList = /*@__PURE__*/ S.Array(
+  AuthzPolicyAuthzRuleFromRequestSource,
+) as any as S.Schema<AuthzPolicyAuthzRuleFromRequestSourceList>;
+
+/** Describes properties of one or more sources of a request. */
+export interface AuthzPolicyAuthzRuleFrom {
+  /** Optional. Describes the negated properties of request sources. Matches requests from sources that do not match the criteria specified in this field. At least one of sources or notSources must be specified. */
+  notSources?: AuthzPolicyAuthzRuleFromRequestSourceList;
+  /** Optional. Describes the properties of a request's sources. At least one of sources or notSources must be specified. Limited to 1 source. A match occurs when ANY source (in sources or notSources) matches the request. Within a single source, the match follows AND semantics across fields and OR semantics within a single field, i.e. a match occurs when ANY principal matches AND ANY ipBlocks match. */
+  sources?: AuthzPolicyAuthzRuleFromRequestSourceList;
+}
+export const AuthzPolicyAuthzRuleFrom = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notSources: S.optional(AuthzPolicyAuthzRuleFromRequestSourceList),
+    sources: S.optional(AuthzPolicyAuthzRuleFromRequestSourceList),
+  }),
+).annotate({ identifier: "AuthzPolicyAuthzRuleFrom" }) as any as S.Schema<AuthzPolicyAuthzRuleFrom>;
 
 export type AuthzPolicyAuthzRuleStringMatchList = Array<AuthzPolicyAuthzRuleStringMatch>;
 export const AuthzPolicyAuthzRuleStringMatchList = /*@__PURE__*/ S.Array(
@@ -1642,15 +1737,15 @@ export const AuthzPolicyAuthzRuleToRequestOperationMCPBaseProtocolMethodsOptionE
 
 /** Describes a set of MCP methods to match against. */
 export interface AuthzPolicyAuthzRuleToRequestOperationMCPMethod {
-  /** Optional. A list of MCP method parameters to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 MCP method parameters per Authorization Policy. */
-  params?: AuthzPolicyAuthzRuleStringMatchList;
   /** Required. The MCP method to match against. Allowed values include: 1. `tools`, `prompts`, `resources` - these will match against all sub methods under the respective methods. 2. `prompts/list`, `tools/list`, `resources/list`, `resources/templates/list` 3. `prompts/get`, `tools/call`, `resources/subscribe`, `resources/unsubscribe`, `resources/read` Params cannot be specified for categories 1 and 2. */
   name?: string;
+  /** Optional. A list of MCP method parameters to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 MCP method parameters per Authorization Policy. */
+  params?: AuthzPolicyAuthzRuleStringMatchList;
 }
 export const AuthzPolicyAuthzRuleToRequestOperationMCPMethod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    params: S.optional(AuthzPolicyAuthzRuleStringMatchList),
     name: S.optional(S.String),
+    params: S.optional(AuthzPolicyAuthzRuleStringMatchList),
   }),
 ).annotate({
   identifier: "AuthzPolicyAuthzRuleToRequestOperationMCPMethod",
@@ -1720,25 +1815,25 @@ export const AuthzPolicyAuthzRuleToRequestOperationHeaderSet = /*@__PURE__*/ S.s
 export interface AuthzPolicyAuthzRuleToRequestOperation {
   /** Optional. A list of HTTP Hosts to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 hosts per Authorization Policy. */
   hosts?: AuthzPolicyAuthzRuleStringMatchList;
-  /** Optional. A list of HTTP methods to match against. Each entry must be a valid HTTP method name (GET, PUT, POST, HEAD, PATCH, DELETE, OPTIONS). It only allows exact match and is always case sensitive. Limited to 10 methods per Authorization Policy. */
-  methods?: StringList;
-  /** Optional. A list of paths to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 paths per Authorization Policy. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
-  paths?: AuthzPolicyAuthzRuleStringMatchList;
-  /** Optional. A list of SNIs to match against. The match can be one of exact, prefix, suffix, or contains (substring match). If there is no SNI (i.e. plaintext HTTP traffic), the request will be denied. Matches are always case sensitive unless the ignoreCase is set. Limited to 10 SNIs per Authorization Policy. */
-  snis?: AuthzPolicyAuthzRuleStringMatchList;
   /** Optional. Defines the MCP protocol attributes to match on. If the MCP payload in the request body cannot be successfully parsed, the request will be denied. This field can be set only for AuthzPolicies targeting AgentGateway resources. */
   mcp?: AuthzPolicyAuthzRuleToRequestOperationMCP;
+  /** Optional. A list of HTTP methods to match against. Each entry must be a valid HTTP method name (GET, PUT, POST, HEAD, PATCH, DELETE, OPTIONS). It only allows exact match and is always case sensitive. Limited to 10 methods per Authorization Policy. */
+  methods?: StringList;
   /** Optional. A list of headers to match against in http header. */
   headerSet?: AuthzPolicyAuthzRuleToRequestOperationHeaderSet;
+  /** Optional. A list of SNIs to match against. The match can be one of exact, prefix, suffix, or contains (substring match). If there is no SNI (i.e. plaintext HTTP traffic), the request will be denied. Matches are always case sensitive unless the ignoreCase is set. Limited to 10 SNIs per Authorization Policy. */
+  snis?: AuthzPolicyAuthzRuleStringMatchList;
+  /** Optional. A list of paths to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 paths per Authorization Policy. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
+  paths?: AuthzPolicyAuthzRuleStringMatchList;
 }
 export const AuthzPolicyAuthzRuleToRequestOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hosts: S.optional(AuthzPolicyAuthzRuleStringMatchList),
-    methods: S.optional(StringList),
-    paths: S.optional(AuthzPolicyAuthzRuleStringMatchList),
-    snis: S.optional(AuthzPolicyAuthzRuleStringMatchList),
     mcp: S.optional(AuthzPolicyAuthzRuleToRequestOperationMCP),
+    methods: S.optional(StringList),
     headerSet: S.optional(AuthzPolicyAuthzRuleToRequestOperationHeaderSet),
+    snis: S.optional(AuthzPolicyAuthzRuleStringMatchList),
+    paths: S.optional(AuthzPolicyAuthzRuleStringMatchList),
   }),
 ).annotate({
   identifier: "AuthzPolicyAuthzRuleToRequestOperation",
@@ -1752,154 +1847,32 @@ export const AuthzPolicyAuthzRuleToRequestOperationList = /*@__PURE__*/ S.Array(
 
 /** Describes properties of one or more targets of a request. */
 export interface AuthzPolicyAuthzRuleTo {
-  /** Optional. Describes the negated properties of the targets of a request. Matches requests for operations that do not match the criteria specified in this field. At least one of operations or notOperations must be specified. */
-  notOperations?: AuthzPolicyAuthzRuleToRequestOperationList;
   /** Optional. Describes properties of one or more targets of a request. At least one of operations or notOperations must be specified. Limited to 1 operation. A match occurs when ANY operation (in operations or notOperations) matches. Within an operation, the match follows AND semantics across fields and OR semantics within a field, i.e. a match occurs when ANY path matches AND ANY header matches and ANY method matches. */
   operations?: AuthzPolicyAuthzRuleToRequestOperationList;
+  /** Optional. Describes the negated properties of the targets of a request. Matches requests for operations that do not match the criteria specified in this field. At least one of operations or notOperations must be specified. */
+  notOperations?: AuthzPolicyAuthzRuleToRequestOperationList;
 }
 export const AuthzPolicyAuthzRuleTo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notOperations: S.optional(AuthzPolicyAuthzRuleToRequestOperationList),
     operations: S.optional(AuthzPolicyAuthzRuleToRequestOperationList),
+    notOperations: S.optional(AuthzPolicyAuthzRuleToRequestOperationList),
   }),
 ).annotate({ identifier: "AuthzPolicyAuthzRuleTo" }) as any as S.Schema<AuthzPolicyAuthzRuleTo>;
 
-export type AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum =
-  | "PRINCIPAL_SELECTOR_UNSPECIFIED"
-  | "CLIENT_CERT_URI_SAN"
-  | "CLIENT_CERT_DNS_NAME_SAN"
-  | "CLIENT_CERT_COMMON_NAME";
-export const AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum = S.String;
-
-/** Describes the properties of a principal to be matched against. */
-export interface AuthzPolicyAuthzRulePrincipal {
-  /** Required. A non-empty string whose value is matched against the principal value based on the principal_selector. Only exact match can be applied for CLIENT_CERT_URI_SAN, CLIENT_CERT_DNS_NAME_SAN, CLIENT_CERT_COMMON_NAME selectors. */
-  principal?: AuthzPolicyAuthzRuleStringMatch;
-  /** Optional. An enum to decide what principal value the principal rule will match against. If not specified, the PrincipalSelector is CLIENT_CERT_URI_SAN. */
-  principalSelector?: AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum | (string & {});
-}
-export const AuthzPolicyAuthzRulePrincipal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principal: S.optional(AuthzPolicyAuthzRuleStringMatch),
-    principalSelector: S.optional(AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum),
-  }),
-).annotate({
-  identifier: "AuthzPolicyAuthzRulePrincipal",
-}) as any as S.Schema<AuthzPolicyAuthzRulePrincipal>;
-
-export type AuthzPolicyAuthzRulePrincipalList = Array<AuthzPolicyAuthzRulePrincipal>;
-export const AuthzPolicyAuthzRulePrincipalList = /*@__PURE__*/ S.Array(
-  AuthzPolicyAuthzRulePrincipal,
-) as any as S.Schema<AuthzPolicyAuthzRulePrincipalList>;
-
-/** Represents a range of IP Addresses. */
-export interface AuthzPolicyAuthzRuleIpBlock {
-  /** Required. The address prefix. */
-  prefix?: string;
-  /** Required. The length of the address range. */
-  length?: number;
-}
-export const AuthzPolicyAuthzRuleIpBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    prefix: S.optional(S.String),
-    length: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AuthzPolicyAuthzRuleIpBlock",
-}) as any as S.Schema<AuthzPolicyAuthzRuleIpBlock>;
-
-export type AuthzPolicyAuthzRuleIpBlockList = Array<AuthzPolicyAuthzRuleIpBlock>;
-export const AuthzPolicyAuthzRuleIpBlockList = /*@__PURE__*/ S.Array(
-  AuthzPolicyAuthzRuleIpBlock,
-) as any as S.Schema<AuthzPolicyAuthzRuleIpBlockList>;
-
-/** Describes a set of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
-export interface AuthzPolicyAuthzRuleRequestResourceTagValueIdSet {
-  /** Required. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. The match follows AND semantics which means all the ids must match. Limited to 5 ids in the Tag value id set. */
-  ids?: StringList;
-}
-export const AuthzPolicyAuthzRuleRequestResourceTagValueIdSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ids: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "AuthzPolicyAuthzRuleRequestResourceTagValueIdSet",
-}) as any as S.Schema<AuthzPolicyAuthzRuleRequestResourceTagValueIdSet>;
-
-/** Describes the properties of a client VM resource accessing the internal application load balancers. */
-export interface AuthzPolicyAuthzRuleRequestResource {
-  /** Optional. An IAM service account to match against the source service account of the VM sending the request. */
-  iamServiceAccount?: AuthzPolicyAuthzRuleStringMatch;
-  /** Optional. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
-  tagValueIdSet?: AuthzPolicyAuthzRuleRequestResourceTagValueIdSet;
-}
-export const AuthzPolicyAuthzRuleRequestResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    iamServiceAccount: S.optional(AuthzPolicyAuthzRuleStringMatch),
-    tagValueIdSet: S.optional(AuthzPolicyAuthzRuleRequestResourceTagValueIdSet),
-  }),
-).annotate({
-  identifier: "AuthzPolicyAuthzRuleRequestResource",
-}) as any as S.Schema<AuthzPolicyAuthzRuleRequestResource>;
-
-export type AuthzPolicyAuthzRuleRequestResourceList = Array<AuthzPolicyAuthzRuleRequestResource>;
-export const AuthzPolicyAuthzRuleRequestResourceList = /*@__PURE__*/ S.Array(
-  AuthzPolicyAuthzRuleRequestResource,
-) as any as S.Schema<AuthzPolicyAuthzRuleRequestResourceList>;
-
-/** Describes the properties of a single source. */
-export interface AuthzPolicyAuthzRuleFromRequestSource {
-  /** Optional. A list of identities derived from the client's certificate. This field will not match on a request unless frontend mutual TLS is enabled for the forwarding rule or Gateway and the client certificate has been successfully validated by mTLS. Each identity is a string whose value is matched against a list of URI SANs, DNS Name SANs, or the common name in the client's certificate. A match happens when any principal matches with the rule. Limited to 50 principals per Authorization Policy for regional internal Application Load Balancers, regional external Application Load Balancers, cross-region internal Application Load Balancers, and Cloud Service Mesh while 25 principals per Authorization Policy for global external Application Load Balancers. */
-  principals?: AuthzPolicyAuthzRulePrincipalList;
-  /** Optional. A list of IP addresses or IP address ranges to match against the source IP address of the request. Limited to 10 ip_blocks per Authorization Policy */
-  ipBlocks?: AuthzPolicyAuthzRuleIpBlockList;
-  /** Optional. A list of resources to match against the resource of the source VM of a request. Limited to 10 resources per Authorization Policy. */
-  resources?: AuthzPolicyAuthzRuleRequestResourceList;
-}
-export const AuthzPolicyAuthzRuleFromRequestSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principals: S.optional(AuthzPolicyAuthzRulePrincipalList),
-    ipBlocks: S.optional(AuthzPolicyAuthzRuleIpBlockList),
-    resources: S.optional(AuthzPolicyAuthzRuleRequestResourceList),
-  }),
-).annotate({
-  identifier: "AuthzPolicyAuthzRuleFromRequestSource",
-}) as any as S.Schema<AuthzPolicyAuthzRuleFromRequestSource>;
-
-export type AuthzPolicyAuthzRuleFromRequestSourceList =
-  Array<AuthzPolicyAuthzRuleFromRequestSource>;
-export const AuthzPolicyAuthzRuleFromRequestSourceList = /*@__PURE__*/ S.Array(
-  AuthzPolicyAuthzRuleFromRequestSource,
-) as any as S.Schema<AuthzPolicyAuthzRuleFromRequestSourceList>;
-
-/** Describes properties of one or more sources of a request. */
-export interface AuthzPolicyAuthzRuleFrom {
-  /** Optional. Describes the properties of a request's sources. At least one of sources or notSources must be specified. Limited to 1 source. A match occurs when ANY source (in sources or notSources) matches the request. Within a single source, the match follows AND semantics across fields and OR semantics within a single field, i.e. a match occurs when ANY principal matches AND ANY ipBlocks match. */
-  sources?: AuthzPolicyAuthzRuleFromRequestSourceList;
-  /** Optional. Describes the negated properties of request sources. Matches requests from sources that do not match the criteria specified in this field. At least one of sources or notSources must be specified. */
-  notSources?: AuthzPolicyAuthzRuleFromRequestSourceList;
-}
-export const AuthzPolicyAuthzRuleFrom = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sources: S.optional(AuthzPolicyAuthzRuleFromRequestSourceList),
-    notSources: S.optional(AuthzPolicyAuthzRuleFromRequestSourceList),
-  }),
-).annotate({ identifier: "AuthzPolicyAuthzRuleFrom" }) as any as S.Schema<AuthzPolicyAuthzRuleFrom>;
-
 /** Conditions to match against the incoming request. */
 export interface AuthzPolicyAuthzRule {
-  /** Optional. Describes properties of a target of a request. */
-  to?: AuthzPolicyAuthzRuleTo;
   /** Optional. CEL expression that describes the conditions to be satisfied for the action. The result of the CEL expression is ANDed with the from and to. Refer to the CEL language reference for a list of available attributes. */
   when?: string;
   /** Optional. Describes properties of a source of a request. */
   from?: AuthzPolicyAuthzRuleFrom;
+  /** Optional. Describes properties of a target of a request. */
+  to?: AuthzPolicyAuthzRuleTo;
 }
 export const AuthzPolicyAuthzRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    to: S.optional(AuthzPolicyAuthzRuleTo),
     when: S.optional(S.String),
     from: S.optional(AuthzPolicyAuthzRuleFrom),
+    to: S.optional(AuthzPolicyAuthzRuleTo),
   }),
 ).annotate({ identifier: "AuthzPolicyAuthzRule" }) as any as S.Schema<AuthzPolicyAuthzRule>;
 
@@ -1908,11 +1881,46 @@ export const AuthzPolicyAuthzRuleList = /*@__PURE__*/ S.Array(
   AuthzPolicyAuthzRule,
 ) as any as S.Schema<AuthzPolicyAuthzRuleList>;
 
-export type AuthzPolicyPolicyProfileEnum =
-  | "POLICY_PROFILE_UNSPECIFIED"
-  | "REQUEST_AUTHZ"
-  | "CONTENT_AUTHZ";
-export const AuthzPolicyPolicyProfileEnum = S.String;
+export type AuthzPolicyActionEnum =
+  | "AUTHZ_ACTION_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY"
+  | "CUSTOM"
+  | "DENY_BY_DEFAULT";
+export const AuthzPolicyActionEnum = S.String;
+
+/** Optional. Delegate authorization decision to user authored extension. Only one of cloudIap or authzExtension can be specified. */
+export interface AuthzPolicyCustomProviderAuthzExtension {
+  /** Required. A list of references to authorization extensions that will be invoked for requests matching this policy. Limited to 1 custom provider. */
+  resources?: StringList;
+}
+export const AuthzPolicyCustomProviderAuthzExtension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resources: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "AuthzPolicyCustomProviderAuthzExtension",
+}) as any as S.Schema<AuthzPolicyCustomProviderAuthzExtension>;
+
+/** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
+export type AuthzPolicyCustomProviderCloudIap = CancelOperationRequest;
+export const AuthzPolicyCustomProviderCloudIap = CancelOperationRequest;
+
+/** Allows delegating authorization decisions to Cloud IAP or to Service Extensions. */
+export interface AuthzPolicyCustomProvider {
+  /** Optional. Delegate authorization decision to user authored Service Extension. Only one of cloudIap or authzExtension can be specified. */
+  authzExtension?: AuthzPolicyCustomProviderAuthzExtension;
+  /** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
+  cloudIap?: CancelOperationRequest;
+}
+export const AuthzPolicyCustomProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authzExtension: S.optional(AuthzPolicyCustomProviderAuthzExtension),
+    cloudIap: S.optional(CancelOperationRequest),
+  }),
+).annotate({
+  identifier: "AuthzPolicyCustomProvider",
+}) as any as S.Schema<AuthzPolicyCustomProvider>;
 
 export type AuthzPolicyTargetLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
@@ -1935,70 +1943,62 @@ export const AuthzPolicyTarget = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AuthzPolicyTarget" }) as any as S.Schema<AuthzPolicyTarget>;
 
-export type AuthzPolicyActionEnum =
-  | "AUTHZ_ACTION_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY"
-  | "CUSTOM"
-  | "DENY_BY_DEFAULT";
-export const AuthzPolicyActionEnum = S.String;
-
 /** `AuthzPolicy` is a resource that allows to forward traffic to a callout backend designed to scan the traffic for security purposes. */
 export interface AuthzPolicy {
-  /** Optional. Required if the action is `CUSTOM`. Allows delegating authorization decisions to Cloud IAP or to Service Extensions. One of `cloudIap` or `authzExtension` must be specified. */
-  customProvider?: AuthzPolicyCustomProvider;
-  /** Optional. Set of labels associated with the `AuthzPolicy` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
-  labels?: StringMap;
-  /** Optional. A human-readable description of the resource. */
-  description?: string;
-  /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
-  name?: string;
+  /** Optional. Immutable. Defines the type of authorization being performed. If not specified, `REQUEST_AUTHZ` is applied. This field cannot be changed once AuthzPolicy is created. */
+  policyProfile?: AuthzPolicyPolicyProfileEnum | (string & {});
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
   /** Optional. A list of authorization HTTP rules to match against the incoming request. A policy match occurs when at least one HTTP rule matches the request or when no HTTP rules are specified in the policy. At least one HTTP Rule is required for Allow or Deny Action. Limited to 5 rules. */
   httpRules?: AuthzPolicyAuthzRuleList;
-  /** Optional. A list of authorization network rules to match against the incoming request. A policy match occurs when at least one network rule matches the request. At least one network rule is required for Allow or Deny Action if no HTTP rules are provided. Network rules are mutually exclusive with HTTP rules. Limited to 5 rules. */
-  networkRules?: AuthzPolicyAuthzRuleList;
-  /** Optional. Immutable. Defines the type of authorization being performed. If not specified, `REQUEST_AUTHZ` is applied. This field cannot be changed once AuthzPolicy is created. */
-  policyProfile?: AuthzPolicyPolicyProfileEnum | (string & {});
-  /** Required. Specifies the set of resources to which this policy should be applied to. */
-  target?: AuthzPolicyTarget;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string;
   /** Required. Can be one of `ALLOW`, `DENY`, `CUSTOM`, `DENY_BY_DEFAULT`. When the action is `CUSTOM`, `customProvider` must be specified. When the action is `ALLOW`, only requests matching the policy will be allowed. When the action is `DENY`, only requests matching the policy will be denied. When the action is `DENY_BY_DEFAULT`, no `http_rules` or `network_rules` can be specified. When a request arrives, the policies are evaluated in the following order: 1. If there is a `CUSTOM` policy that matches the request, the `CUSTOM` policy is evaluated using the custom authorization providers and the request is denied if the provider rejects the request. 2. If there are any `DENY` policies that match the request, the request is denied. 3. If any of the `ALLOW` policies match the request, the request is allowed. 4. If a `DENY_BY_DEFAULT` policy is applied to the resource, the request is denied (unless it was explicitly allowed by a `CUSTOM` or `ALLOW` policy). 5. Else, the request is allowed by default if no other policies are configured. */
   action?: AuthzPolicyActionEnum | (string & {});
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Optional. Set of labels associated with the `AuthzPolicy` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap;
+  /** Optional. Required if the action is `CUSTOM`. Allows delegating authorization decisions to Cloud IAP or to Service Extensions. One of `cloudIap` or `authzExtension` must be specified. */
+  customProvider?: AuthzPolicyCustomProvider;
+  /** Required. Specifies the set of resources to which this policy should be applied to. */
+  target?: AuthzPolicyTarget;
+  /** Optional. A list of authorization network rules to match against the incoming request. A policy match occurs when at least one network rule matches the request. At least one network rule is required for Allow or Deny Action if no HTTP rules are provided. Network rules are mutually exclusive with HTTP rules. Limited to 5 rules. */
+  networkRules?: AuthzPolicyAuthzRuleList;
+  /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
+  name?: string;
 }
 export const AuthzPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customProvider: S.optional(AuthzPolicyCustomProvider),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
+    policyProfile: S.optional(AuthzPolicyPolicyProfileEnum),
     updateTime: S.optional(S.String),
     httpRules: S.optional(AuthzPolicyAuthzRuleList),
-    networkRules: S.optional(AuthzPolicyAuthzRuleList),
-    policyProfile: S.optional(AuthzPolicyPolicyProfileEnum),
-    target: S.optional(AuthzPolicyTarget),
     createTime: S.optional(S.String),
     action: S.optional(AuthzPolicyActionEnum),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    customProvider: S.optional(AuthzPolicyCustomProvider),
+    target: S.optional(AuthzPolicyTarget),
+    networkRules: S.optional(AuthzPolicyAuthzRuleList),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuthzPolicy" }) as any as S.Schema<AuthzPolicy>;
 
 export interface CreateProjectsLocationsAuthzPoliciesRequest {
+  /** Required. The parent resource of the `AuthzPolicy` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Required. User-provided ID of the `AuthzPolicy` resource to be created. */
   authzPolicyId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The parent resource of the `AuthzPolicy` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Request body */
   body?: AuthzPolicy;
 }
 export const CreateProjectsLocationsAuthzPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     authzPolicyId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     body: S.optional(AuthzPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2019,54 +2019,54 @@ export const BackendAuthenticationConfigWellKnownRootsEnum = S.String;
 
 /** BackendAuthenticationConfig message groups the TrustConfig together with other settings that control how the load balancer authenticates, and expresses its identity to, the backend: * `trustConfig` is the attached TrustConfig. * `wellKnownRoots` indicates whether the load balance should trust backend server certificates that are issued by public certificate authorities, in addition to certificates trusted by the TrustConfig. * `clientCertificate` is a client certificate that the load balancer uses to express its identity to the backend, if the connection to the backend uses mTLS. You can attach the BackendAuthenticationConfig to the load balancer's BackendService directly determining how that BackendService negotiates TLS. */
 export interface BackendAuthenticationConfig {
-  /** Optional. Free-text description of the resource. */
-  description?: string;
-  /** Output only. Etag of the resource. */
-  etag?: string;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Set of label tags associated with the resource. */
-  labels?: StringMap;
-  /** Optional. A reference to a TrustConfig resource from the certificatemanager.googleapis.com namespace. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". A BackendService uses the chain of trust represented by this TrustConfig, if specified, to validate the server certificates presented by the backend. Required unless wellKnownRoots is set to PUBLIC_ROOTS. */
-  trustConfig?: string;
-  /** Required. Name of the BackendAuthenticationConfig resource. It matches the pattern `projects/*\/locations/{location}/backendAuthenticationConfigs/{backend_authentication_config}` */
-  name?: string;
-  /** Well known roots to use for server certificate validation. */
-  wellKnownRoots?: BackendAuthenticationConfigWellKnownRootsEnum | (string & {});
-  /** Optional. A reference to a certificatemanager.googleapis.com.Certificate resource. This is a relative resource path following the form "projects/{project}/locations/{location}/certificates/{certificate}". Used by a BackendService to negotiate mTLS when the backend connection uses TLS and the backend requests a client certificate. Must have a CLIENT_AUTH scope. */
-  clientCertificate?: string;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Well known roots to use for server certificate validation. */
+  wellKnownRoots?: BackendAuthenticationConfigWellKnownRootsEnum | (string & {});
+  /** Optional. Free-text description of the resource. */
+  description?: string;
+  /** Optional. A reference to a TrustConfig resource from the certificatemanager.googleapis.com namespace. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". A BackendService uses the chain of trust represented by this TrustConfig, if specified, to validate the server certificates presented by the backend. Required unless wellKnownRoots is set to PUBLIC_ROOTS. */
+  trustConfig?: string;
+  /** Set of label tags associated with the resource. */
+  labels?: StringMap;
+  /** Output only. Etag of the resource. */
+  etag?: string;
+  /** Optional. A reference to a certificatemanager.googleapis.com.Certificate resource. This is a relative resource path following the form "projects/{project}/locations/{location}/certificates/{certificate}". Used by a BackendService to negotiate mTLS when the backend connection uses TLS and the backend requests a client certificate. Must have a CLIENT_AUTH scope. */
+  clientCertificate?: string;
+  /** Required. Name of the BackendAuthenticationConfig resource. It matches the pattern `projects/*\/locations/{location}/backendAuthenticationConfigs/{backend_authentication_config}` */
+  name?: string;
 }
 export const BackendAuthenticationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    etag: S.optional(S.String),
-    createTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    trustConfig: S.optional(S.String),
-    name: S.optional(S.String),
-    wellKnownRoots: S.optional(BackendAuthenticationConfigWellKnownRootsEnum),
-    clientCertificate: S.optional(S.String),
     updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    wellKnownRoots: S.optional(BackendAuthenticationConfigWellKnownRootsEnum),
+    description: S.optional(S.String),
+    trustConfig: S.optional(S.String),
+    labels: S.optional(StringMap),
+    etag: S.optional(S.String),
+    clientCertificate: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BackendAuthenticationConfig",
 }) as any as S.Schema<BackendAuthenticationConfig>;
 
 export interface CreateProjectsLocationsBackendAuthenticationConfigsRequest {
-  /** Required. The parent resource of the BackendAuthenticationConfig. Must be in the format `projects/*\/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the BackendAuthenticationConfig resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "backend-auth-config". */
   backendAuthenticationConfigId?: string;
+  /** Required. The parent resource of the BackendAuthenticationConfig. Must be in the format `projects/*\/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: BackendAuthenticationConfig;
 }
 export const CreateProjectsLocationsBackendAuthenticationConfigsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       backendAuthenticationConfigId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(BackendAuthenticationConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2078,19 +2078,6 @@ export const CreateProjectsLocationsBackendAuthenticationConfigsRequest = /*@__P
 ).annotate({
   identifier: "CreateProjectsLocationsBackendAuthenticationConfigsRequest",
 }) as any as S.Schema<CreateProjectsLocationsBackendAuthenticationConfigsRequest>;
-
-/** Specification of a TLS certificate provider instance. Workloads may have one or more CertificateProvider instances (plugins) and one of them is enabled and configured by specifying this message. Workloads use the values from this message to locate and load the CertificateProvider instance configuration. */
-export interface CertificateProviderInstance {
-  /** Required. Plugin instance name, used to locate and load CertificateProvider instance configuration. Set to "google_cloud_private_spiffe" to use Certificate Authority Service certificate provider instance. */
-  pluginInstance?: string;
-}
-export const CertificateProviderInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pluginInstance: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CertificateProviderInstance",
-}) as any as S.Schema<CertificateProviderInstance>;
 
 /** Specification of the GRPC Endpoint. */
 export interface GoogleCloudNetworksecurityV1GrpcEndpoint {
@@ -2105,33 +2092,30 @@ export const GoogleCloudNetworksecurityV1GrpcEndpoint = /*@__PURE__*/ S.suspend(
   identifier: "GoogleCloudNetworksecurityV1GrpcEndpoint",
 }) as any as S.Schema<GoogleCloudNetworksecurityV1GrpcEndpoint>;
 
-/** Specification of certificate provider. Defines the mechanism to obtain the certificate and private key for peer to peer authentication. */
-export interface GoogleCloudNetworksecurityV1CertificateProvider {
-  /** The certificate provider instance specification that will be passed to the data plane, which will be used to load necessary credential information. */
-  certificateProviderInstance?: CertificateProviderInstance;
-  /** gRPC specific configuration to access the gRPC server to obtain the cert and private key. */
-  grpcEndpoint?: GoogleCloudNetworksecurityV1GrpcEndpoint;
+/** Specification of a TLS certificate provider instance. Workloads may have one or more CertificateProvider instances (plugins) and one of them is enabled and configured by specifying this message. Workloads use the values from this message to locate and load the CertificateProvider instance configuration. */
+export interface CertificateProviderInstance {
+  /** Required. Plugin instance name, used to locate and load CertificateProvider instance configuration. Set to "google_cloud_private_spiffe" to use Certificate Authority Service certificate provider instance. */
+  pluginInstance?: string;
 }
-export const GoogleCloudNetworksecurityV1CertificateProvider = /*@__PURE__*/ S.suspend(() =>
+export const CertificateProviderInstance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    certificateProviderInstance: S.optional(CertificateProviderInstance),
-    grpcEndpoint: S.optional(GoogleCloudNetworksecurityV1GrpcEndpoint),
+    pluginInstance: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudNetworksecurityV1CertificateProvider",
-}) as any as S.Schema<GoogleCloudNetworksecurityV1CertificateProvider>;
+  identifier: "CertificateProviderInstance",
+}) as any as S.Schema<CertificateProviderInstance>;
 
 /** Specification of ValidationCA. Defines the mechanism to obtain the Certificate Authority certificate to validate the peer certificate. */
 export interface ValidationCA {
-  /** The certificate provider instance specification that will be passed to the data plane, which will be used to load necessary credential information. */
-  certificateProviderInstance?: CertificateProviderInstance;
   /** gRPC specific configuration to access the gRPC server to obtain the CA certificate. */
   grpcEndpoint?: GoogleCloudNetworksecurityV1GrpcEndpoint;
+  /** The certificate provider instance specification that will be passed to the data plane, which will be used to load necessary credential information. */
+  certificateProviderInstance?: CertificateProviderInstance;
 }
 export const ValidationCA = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    certificateProviderInstance: S.optional(CertificateProviderInstance),
     grpcEndpoint: S.optional(GoogleCloudNetworksecurityV1GrpcEndpoint),
+    certificateProviderInstance: S.optional(CertificateProviderInstance),
   }),
 ).annotate({ identifier: "ValidationCA" }) as any as S.Schema<ValidationCA>;
 
@@ -2140,35 +2124,51 @@ export const ValidationCAList = /*@__PURE__*/ S.Array(
   ValidationCA,
 ) as any as S.Schema<ValidationCAList>;
 
+/** Specification of certificate provider. Defines the mechanism to obtain the certificate and private key for peer to peer authentication. */
+export interface GoogleCloudNetworksecurityV1CertificateProvider {
+  /** gRPC specific configuration to access the gRPC server to obtain the cert and private key. */
+  grpcEndpoint?: GoogleCloudNetworksecurityV1GrpcEndpoint;
+  /** The certificate provider instance specification that will be passed to the data plane, which will be used to load necessary credential information. */
+  certificateProviderInstance?: CertificateProviderInstance;
+}
+export const GoogleCloudNetworksecurityV1CertificateProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    grpcEndpoint: S.optional(GoogleCloudNetworksecurityV1GrpcEndpoint),
+    certificateProviderInstance: S.optional(CertificateProviderInstance),
+  }),
+).annotate({
+  identifier: "GoogleCloudNetworksecurityV1CertificateProvider",
+}) as any as S.Schema<GoogleCloudNetworksecurityV1CertificateProvider>;
+
 /** ClientTlsPolicy is a resource that specifies how a client should authenticate connections to backends of a service. This resource itself does not affect configuration unless it is attached to a backend service resource. */
 export interface ClientTlsPolicy {
-  /** Optional. Server Name Indication string to present to the server during TLS handshake. E.g: "secure.example.com". */
-  sni?: string;
-  /** Optional. Free-text description of the resource. */
-  description?: string;
-  /** Optional. Set of label tags associated with the resource. */
-  labels?: StringMap;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. Defines a mechanism to provision client identity (public and private keys) for peer to peer authentication. The presence of this dictates mTLS. */
-  clientCertificate?: GoogleCloudNetworksecurityV1CertificateProvider;
-  /** Optional. Defines the mechanism to obtain the Certificate Authority certificate to validate the server certificate. If empty, client does not validate the server certificate. */
-  serverValidationCa?: ValidationCAList;
-  /** Required. Name of the ClientTlsPolicy resource. It matches the pattern `projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}` */
-  name?: string;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string;
+  /** Optional. Defines the mechanism to obtain the Certificate Authority certificate to validate the server certificate. If empty, client does not validate the server certificate. */
+  serverValidationCa?: ValidationCAList;
+  /** Optional. Free-text description of the resource. */
+  description?: string;
+  /** Required. Name of the ClientTlsPolicy resource. It matches the pattern `projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}` */
+  name?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Server Name Indication string to present to the server during TLS handshake. E.g: "secure.example.com". */
+  sni?: string;
+  /** Optional. Defines a mechanism to provision client identity (public and private keys) for peer to peer authentication. The presence of this dictates mTLS. */
+  clientCertificate?: GoogleCloudNetworksecurityV1CertificateProvider;
+  /** Optional. Set of label tags associated with the resource. */
+  labels?: StringMap;
 }
 export const ClientTlsPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sni: S.optional(S.String),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
-    createTime: S.optional(S.String),
-    clientCertificate: S.optional(GoogleCloudNetworksecurityV1CertificateProvider),
-    serverValidationCa: S.optional(ValidationCAList),
-    name: S.optional(S.String),
     updateTime: S.optional(S.String),
+    serverValidationCa: S.optional(ValidationCAList),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    sni: S.optional(S.String),
+    clientCertificate: S.optional(GoogleCloudNetworksecurityV1CertificateProvider),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "ClientTlsPolicy" }) as any as S.Schema<ClientTlsPolicy>;
 
@@ -2207,21 +2207,21 @@ export interface DnsThreatDetector {
   excludedNetworks?: StringList;
   /** Immutable. Identifier. Name of the DnsThreatDetector resource. */
   name?: string;
-  /** Output only. Update time stamp. */
-  updateTime?: string;
-  /** Optional. Any labels associated with the DnsThreatDetector, listed as key value pairs. */
-  labels?: StringMap;
   /** Output only. Create time stamp. */
   createTime?: string;
+  /** Optional. Any labels associated with the DnsThreatDetector, listed as key value pairs. */
+  labels?: StringMap;
+  /** Output only. Update time stamp. */
+  updateTime?: string;
 }
 export const DnsThreatDetector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provider: S.optional(DnsThreatDetectorProviderEnum),
     excludedNetworks: S.optional(StringList),
     name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "DnsThreatDetector" }) as any as S.Schema<DnsThreatDetector>;
 
@@ -2260,39 +2260,39 @@ export const FirewallEndpointAssociationStateEnum = S.String;
 
 /** Message describing Association object */
 export interface FirewallEndpointAssociation {
-  /** Output only. Create time stamp */
-  createTime?: string;
-  /** Output only. Whether reconciling is in progress, recommended per https://google.aip.dev/128. */
-  reconciling?: boolean;
   /** Optional. The URL of the TlsInspectionPolicy that is being associated. */
   tlsInspectionPolicy?: string;
-  /** Optional. Whether the association is disabled. True indicates that traffic won't be intercepted */
-  disabled?: boolean;
-  /** Immutable. Identifier. name of resource */
-  name?: string;
-  /** Required. The URL of the network that is being associated. */
-  network?: string;
-  /** Required. The URL of the FirewallEndpoint that is being associated. */
-  firewallEndpoint?: string;
-  /** Output only. Update time stamp */
-  updateTime?: string;
+  /** Output only. Create time stamp */
+  createTime?: string;
   /** Output only. Current state of the association. */
   state?: FirewallEndpointAssociationStateEnum | (string & {});
   /** Optional. Labels as key value pairs */
   labels?: StringMap;
+  /** Output only. Update time stamp */
+  updateTime?: string;
+  /** Required. The URL of the network that is being associated. */
+  network?: string;
+  /** Immutable. Identifier. name of resource */
+  name?: string;
+  /** Optional. Whether the association is disabled. True indicates that traffic won't be intercepted */
+  disabled?: boolean;
+  /** Required. The URL of the FirewallEndpoint that is being associated. */
+  firewallEndpoint?: string;
+  /** Output only. Whether reconciling is in progress, recommended per https://google.aip.dev/128. */
+  reconciling?: boolean;
 }
 export const FirewallEndpointAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
     tlsInspectionPolicy: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    network: S.optional(S.String),
-    firewallEndpoint: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
     state: S.optional(FirewallEndpointAssociationStateEnum),
     labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    network: S.optional(S.String),
+    name: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
+    firewallEndpoint: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "FirewallEndpointAssociation",
@@ -2327,23 +2327,23 @@ export const CreateProjectsLocationsFirewallEndpointAssociationsRequest = /*@__P
 }) as any as S.Schema<CreateProjectsLocationsFirewallEndpointAssociationsRequest>;
 
 export interface CreateProjectsLocationsFirewallEndpointsRequest {
-  /** Optional. If set, validate the request and preview the endpoint, but do not actually create it. */
-  validateOnly?: boolean;
   /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
   firewallEndpointId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Value for parent. */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. If set, validate the request and preview the endpoint, but do not actually create it. */
+  validateOnly?: boolean;
   /** Request body */
   body?: FirewallEndpoint;
 }
 export const CreateProjectsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     firewallEndpointId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(FirewallEndpoint.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2380,24 +2380,24 @@ export const CreateProjectsLocationsFirewallEndpointsWildfireVerdictChangeReques
 
 /** The GatewaySecurityPolicy resource contains a collection of GatewaySecurityPolicyRules and associated metadata. */
 export interface GatewaySecurityPolicy {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
   /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy} gateway_security_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name?: string;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional. Free-text description of the resource. */
-  description?: string;
   /** Optional. Name of a TLS Inspection Policy resource that defines how TLS inspection will be performed for any rule(s) which enables it. */
   tlsInspectionPolicy?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. Free-text description of the resource. */
+  description?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
 }
 export const GatewaySecurityPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
     name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    description: S.optional(S.String),
     tlsInspectionPolicy: S.optional(S.String),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "GatewaySecurityPolicy" }) as any as S.Schema<GatewaySecurityPolicy>;
 
@@ -2433,57 +2433,57 @@ export const GatewaySecurityPolicyRuleBasicProfileEnum = S.String;
 
 /** The GatewaySecurityPolicyRule resource is in a nested collection within a GatewaySecurityPolicy and represents a traffic matching condition and associated action to perform. */
 export interface GatewaySecurityPolicyRule {
-  /** Required. Immutable. Name of the resource. ame is the full resource name so projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy}/rules/{rule} rule should match the pattern: (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name?: string;
-  /** Output only. Time when the rule was created. */
-  createTime?: string;
-  /** Optional. Flag to enable TLS inspection of traffic matching on , can only be true if the parent GatewaySecurityPolicy references a TLSInspectionConfig. */
-  tlsInspectionEnabled?: boolean;
-  /** Required. Priority of the rule. Lower number corresponds to higher precedence. */
-  priority?: number;
-  /** Optional. Free-text description of the resource. */
-  description?: string;
-  /** Output only. Time when the rule was updated. */
-  updateTime?: string;
-  /** Required. CEL expression for matching on session criteria. */
-  sessionMatcher?: string;
-  /** Required. Profile which tells what the primitive action should be. */
-  basicProfile?: GatewaySecurityPolicyRuleBasicProfileEnum | (string & {});
-  /** Required. Whether the rule is enforced. */
-  enabled?: boolean;
   /** Optional. CEL expression for matching on L7/application level criteria. */
   applicationMatcher?: string;
+  /** Required. CEL expression for matching on session criteria. */
+  sessionMatcher?: string;
+  /** Required. Whether the rule is enforced. */
+  enabled?: boolean;
+  /** Optional. Free-text description of the resource. */
+  description?: string;
+  /** Output only. Time when the rule was created. */
+  createTime?: string;
+  /** Output only. Time when the rule was updated. */
+  updateTime?: string;
+  /** Required. Priority of the rule. Lower number corresponds to higher precedence. */
+  priority?: number;
+  /** Required. Immutable. Name of the resource. ame is the full resource name so projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy}/rules/{rule} rule should match the pattern: (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name?: string;
+  /** Optional. Flag to enable TLS inspection of traffic matching on , can only be true if the parent GatewaySecurityPolicy references a TLSInspectionConfig. */
+  tlsInspectionEnabled?: boolean;
+  /** Required. Profile which tells what the primitive action should be. */
+  basicProfile?: GatewaySecurityPolicyRuleBasicProfileEnum | (string & {});
 }
 export const GatewaySecurityPolicyRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    tlsInspectionEnabled: S.optional(S.Boolean),
-    priority: S.optional(S.Number),
-    description: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    sessionMatcher: S.optional(S.String),
-    basicProfile: S.optional(GatewaySecurityPolicyRuleBasicProfileEnum),
-    enabled: S.optional(S.Boolean),
     applicationMatcher: S.optional(S.String),
+    sessionMatcher: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    priority: S.optional(S.Number),
+    name: S.optional(S.String),
+    tlsInspectionEnabled: S.optional(S.Boolean),
+    basicProfile: S.optional(GatewaySecurityPolicyRuleBasicProfileEnum),
   }),
 ).annotate({
   identifier: "GatewaySecurityPolicyRule",
 }) as any as S.Schema<GatewaySecurityPolicyRule>;
 
 export interface CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest {
-  /** Required. The parent where this rule will be created. Format : projects/{project}/location/{location}/gatewaySecurityPolicies/* */
-  parent: string;
   /** The ID to use for the rule, which will become the final component of the rule's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   gatewaySecurityPolicyRuleId?: string;
+  /** Required. The parent where this rule will be created. Format : projects/{project}/location/{location}/gatewaySecurityPolicies/* */
+  parent: string;
   /** Request body */
   body?: GatewaySecurityPolicyRule;
 }
 export const CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       gatewaySecurityPolicyRuleId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(GatewaySecurityPolicyRule.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2495,54 +2495,6 @@ export const CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest = /*@__P
 ).annotate({
   identifier: "CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest",
 }) as any as S.Schema<CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest>;
-
-export type InterceptDeploymentGroupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING";
-export const InterceptDeploymentGroupStateEnum = S.String;
-
-/** An endpoint group connected to this deployment group. */
-export interface InterceptDeploymentGroupConnectedEndpointGroup {
-  /** Output only. The connected endpoint group's resource name, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
-  name?: string;
-}
-export const InterceptDeploymentGroupConnectedEndpointGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InterceptDeploymentGroupConnectedEndpointGroup",
-}) as any as S.Schema<InterceptDeploymentGroupConnectedEndpointGroup>;
-
-export type InterceptDeploymentGroupConnectedEndpointGroupList =
-  Array<InterceptDeploymentGroupConnectedEndpointGroup>;
-export const InterceptDeploymentGroupConnectedEndpointGroupList = /*@__PURE__*/ S.Array(
-  InterceptDeploymentGroupConnectedEndpointGroup,
-) as any as S.Schema<InterceptDeploymentGroupConnectedEndpointGroupList>;
-
-export type InterceptLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
-export const InterceptLocationStateEnum = S.String;
-
-/** Details about intercept in a specific cloud location. */
-export interface InterceptLocation {
-  /** Output only. The current state of the association in this location. */
-  state?: InterceptLocationStateEnum | (string & {});
-  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
-  location?: string;
-}
-export const InterceptLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(InterceptLocationStateEnum),
-    location: S.optional(S.String),
-  }),
-).annotate({ identifier: "InterceptLocation" }) as any as S.Schema<InterceptLocation>;
-
-export type InterceptLocationList = Array<InterceptLocation>;
-export const InterceptLocationList = /*@__PURE__*/ S.Array(
-  InterceptLocation,
-) as any as S.Schema<InterceptLocationList>;
 
 export type InterceptDeploymentGroupDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2574,52 +2526,100 @@ export const InterceptDeploymentGroupDeploymentList = /*@__PURE__*/ S.Array(
   InterceptDeploymentGroupDeployment,
 ) as any as S.Schema<InterceptDeploymentGroupDeploymentList>;
 
+export type InterceptLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
+export const InterceptLocationStateEnum = S.String;
+
+/** Details about intercept in a specific cloud location. */
+export interface InterceptLocation {
+  /** Output only. The current state of the association in this location. */
+  state?: InterceptLocationStateEnum | (string & {});
+  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
+  location?: string;
+}
+export const InterceptLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(InterceptLocationStateEnum),
+    location: S.optional(S.String),
+  }),
+).annotate({ identifier: "InterceptLocation" }) as any as S.Schema<InterceptLocation>;
+
+export type InterceptLocationList = Array<InterceptLocation>;
+export const InterceptLocationList = /*@__PURE__*/ S.Array(
+  InterceptLocation,
+) as any as S.Schema<InterceptLocationList>;
+
+/** An endpoint group connected to this deployment group. */
+export interface InterceptDeploymentGroupConnectedEndpointGroup {
+  /** Output only. The connected endpoint group's resource name, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
+  name?: string;
+}
+export const InterceptDeploymentGroupConnectedEndpointGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InterceptDeploymentGroupConnectedEndpointGroup",
+}) as any as S.Schema<InterceptDeploymentGroupConnectedEndpointGroup>;
+
+export type InterceptDeploymentGroupConnectedEndpointGroupList =
+  Array<InterceptDeploymentGroupConnectedEndpointGroup>;
+export const InterceptDeploymentGroupConnectedEndpointGroupList = /*@__PURE__*/ S.Array(
+  InterceptDeploymentGroupConnectedEndpointGroup,
+) as any as S.Schema<InterceptDeploymentGroupConnectedEndpointGroupList>;
+
+export type InterceptDeploymentGroupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING";
+export const InterceptDeploymentGroupStateEnum = S.String;
+
 /** A deployment group aggregates many zonal intercept backends (deployments) into a single global intercept service. Consumers can connect this service using an endpoint group. */
 export interface InterceptDeploymentGroup {
-  /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
-  name?: string;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string;
-  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
-  network?: string;
-  /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
-  state?: InterceptDeploymentGroupStateEnum | (string & {});
-  /** Output only. The list of endpoint groups that are connected to this resource. */
-  connectedEndpointGroups?: InterceptDeploymentGroupConnectedEndpointGroupList;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string;
-  /** Output only. The list of locations where the deployment group is present. */
-  locations?: InterceptLocationList;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
-  reconciling?: boolean;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap;
   /** Output only. The list of Intercept Deployments that belong to this group. */
   nestedDeployments?: InterceptDeploymentGroupDeploymentList;
+  /** Output only. The list of locations where the deployment group is present. */
+  locations?: InterceptLocationList;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
+  reconciling?: boolean;
+  /** Output only. The list of endpoint groups that are connected to this resource. */
+  connectedEndpointGroups?: InterceptDeploymentGroupConnectedEndpointGroupList;
+  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
+  network?: string;
+  /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
+  name?: string;
   /** Optional. User-provided description of the deployment group. Used as additional context for the deployment group. */
   description?: string;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string;
+  /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
+  state?: InterceptDeploymentGroupStateEnum | (string & {});
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string;
 }
 export const InterceptDeploymentGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    network: S.optional(S.String),
-    state: S.optional(InterceptDeploymentGroupStateEnum),
-    connectedEndpointGroups: S.optional(InterceptDeploymentGroupConnectedEndpointGroupList),
-    createTime: S.optional(S.String),
-    locations: S.optional(InterceptLocationList),
-    reconciling: S.optional(S.Boolean),
     labels: S.optional(StringMap),
     nestedDeployments: S.optional(InterceptDeploymentGroupDeploymentList),
+    locations: S.optional(InterceptLocationList),
+    reconciling: S.optional(S.Boolean),
+    connectedEndpointGroups: S.optional(InterceptDeploymentGroupConnectedEndpointGroupList),
+    network: S.optional(S.String),
+    name: S.optional(S.String),
     description: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    state: S.optional(InterceptDeploymentGroupStateEnum),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "InterceptDeploymentGroup" }) as any as S.Schema<InterceptDeploymentGroup>;
 
 export interface CreateProjectsLocationsInterceptDeploymentGroupsRequest {
-  /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
-  interceptDeploymentGroupId?: string;
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
+  interceptDeploymentGroupId?: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
   /** Request body */
@@ -2627,8 +2627,8 @@ export interface CreateProjectsLocationsInterceptDeploymentGroupsRequest {
 }
 export const CreateProjectsLocationsInterceptDeploymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    interceptDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    interceptDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(InterceptDeploymentGroup.pipe(T.HttpBody())),
   }).pipe(
@@ -2653,54 +2653,54 @@ export const InterceptDeploymentStateEnum = S.String;
 
 /** A deployment represents a zonal intercept backend ready to accept GENEVE-encapsulated traffic, e.g. a zonal instance group fronted by an internal passthrough load balancer. Deployments are always part of a global deployment group which represents a global intercept service. */
 export interface InterceptDeployment {
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string;
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string;
-  /** Required. Immutable. The regional forwarding rule that fronts the interceptors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
-  forwardingRule?: string;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. linking a new association to the parent group). See https://google.aip.dev/128. */
-  reconciling?: boolean;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap;
+  /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
+  description?: string;
   /** Output only. The current state of the deployment. See https://google.aip.dev/216. */
   state?: InterceptDeploymentStateEnum | (string & {});
   /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/interceptDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
   name?: string;
-  /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
-  description?: string;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap;
+  /** Required. Immutable. The regional forwarding rule that fronts the interceptors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
+  forwardingRule?: string;
   /** Required. Immutable. The deployment group that this deployment is a part of, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
   interceptDeploymentGroup?: string;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. linking a new association to the parent group). See https://google.aip.dev/128. */
+  reconciling?: boolean;
 }
 export const InterceptDeployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
-    forwardingRule: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
+    description: S.optional(S.String),
     state: S.optional(InterceptDeploymentStateEnum),
     name: S.optional(S.String),
-    description: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    forwardingRule: S.optional(S.String),
     interceptDeploymentGroup: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "InterceptDeployment" }) as any as S.Schema<InterceptDeployment>;
 
 export interface CreateProjectsLocationsInterceptDeploymentsRequest {
+  /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
   /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
   interceptDeploymentId?: string;
-  /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Request body */
   body?: InterceptDeployment;
 }
 export const CreateProjectsLocationsInterceptDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     interceptDeploymentId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     body: S.optional(InterceptDeployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2721,15 +2721,15 @@ export const InterceptEndpointGroupAssociationLocationDetailsStateEnum = S.Strin
 
 /** Contains details about the state of an association in a specific cloud location. */
 export interface InterceptEndpointGroupAssociationLocationDetails {
-  /** Output only. The current state of the association in this location. */
-  state?: InterceptEndpointGroupAssociationLocationDetailsStateEnum | (string & {});
   /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
   location?: string;
+  /** Output only. The current state of the association in this location. */
+  state?: InterceptEndpointGroupAssociationLocationDetailsStateEnum | (string & {});
 }
 export const InterceptEndpointGroupAssociationLocationDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(InterceptEndpointGroupAssociationLocationDetailsStateEnum),
     location: S.optional(S.String),
+    state: S.optional(InterceptEndpointGroupAssociationLocationDetailsStateEnum),
   }),
 ).annotate({
   identifier: "InterceptEndpointGroupAssociationLocationDetails",
@@ -2755,40 +2755,40 @@ export const InterceptEndpointGroupAssociationStateEnum = S.String;
 export interface InterceptEndpointGroupAssociation {
   /** Required. Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
   network?: string;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap;
-  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
-  name?: string;
-  /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
-  locationsDetails?: InterceptEndpointGroupAssociationLocationDetailsList;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string;
   /** Output only. The list of locations where the association is configured. This information is retrieved from the linked endpoint group. */
   locations?: InterceptLocationList;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
-  reconciling?: boolean;
-  /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
-  networkCookie?: number;
-  /** Required. Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
-  interceptEndpointGroup?: string;
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string;
+  /** Required. Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
+  interceptEndpointGroup?: string;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
+  reconciling?: boolean;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string;
+  /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
+  locationsDetails?: InterceptEndpointGroupAssociationLocationDetailsList;
+  /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
+  networkCookie?: number;
+  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
+  name?: string;
   /** Output only. Current state of the endpoint group association. */
   state?: InterceptEndpointGroupAssociationStateEnum | (string & {});
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap;
 }
 export const InterceptEndpointGroupAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     network: S.optional(S.String),
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
-    locationsDetails: S.optional(InterceptEndpointGroupAssociationLocationDetailsList),
-    createTime: S.optional(S.String),
     locations: S.optional(InterceptLocationList),
-    reconciling: S.optional(S.Boolean),
-    networkCookie: S.optional(S.Number),
-    interceptEndpointGroup: S.optional(S.String),
     updateTime: S.optional(S.String),
+    interceptEndpointGroup: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
+    locationsDetails: S.optional(InterceptEndpointGroupAssociationLocationDetailsList),
+    networkCookie: S.optional(S.Number),
+    name: S.optional(S.String),
     state: S.optional(InterceptEndpointGroupAssociationStateEnum),
+    labels: S.optional(StringMap),
   }),
 ).annotate({
   identifier: "InterceptEndpointGroupAssociation",
@@ -2797,10 +2797,10 @@ export const InterceptEndpointGroupAssociation = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
   interceptEndpointGroupAssociationId?: string;
-  /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
+  /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Request body */
   body?: InterceptEndpointGroupAssociation;
 }
@@ -2808,8 +2808,8 @@ export const CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       interceptEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(InterceptEndpointGroupAssociation.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2821,6 +2821,16 @@ export const CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest =
   ).annotate({
     identifier: "CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest",
   }) as any as S.Schema<CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest>;
+
+export type InterceptEndpointGroupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CLOSED"
+  | "CREATING"
+  | "DELETING"
+  | "OUT_OF_SYNC"
+  | "DELETE_FAILED";
+export const InterceptEndpointGroupStateEnum = S.String;
 
 /** The endpoint group's view of a connected deployment group. */
 export interface InterceptEndpointGroupConnectedDeploymentGroup {
@@ -2850,17 +2860,17 @@ export const InterceptEndpointGroupAssociationDetailsStateEnum = S.String;
 
 /** The endpoint group's view of a connected association. */
 export interface InterceptEndpointGroupAssociationDetails {
-  /** Output only. Most recent known state of the association. */
-  state?: InterceptEndpointGroupAssociationDetailsStateEnum | (string & {});
   /** Output only. The connected association's resource name, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-ega`. See https://google.aip.dev/124. */
   name?: string;
+  /** Output only. Most recent known state of the association. */
+  state?: InterceptEndpointGroupAssociationDetailsStateEnum | (string & {});
   /** Output only. The associated network, for example: projects/123456789/global/networks/my-network. See https://google.aip.dev/124. */
   network?: string;
 }
 export const InterceptEndpointGroupAssociationDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(InterceptEndpointGroupAssociationDetailsStateEnum),
     name: S.optional(S.String),
+    state: S.optional(InterceptEndpointGroupAssociationDetailsStateEnum),
     network: S.optional(S.String),
   }),
 ).annotate({
@@ -2873,51 +2883,41 @@ export const InterceptEndpointGroupAssociationDetailsList = /*@__PURE__*/ S.Arra
   InterceptEndpointGroupAssociationDetails,
 ) as any as S.Schema<InterceptEndpointGroupAssociationDetailsList>;
 
-export type InterceptEndpointGroupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CLOSED"
-  | "CREATING"
-  | "DELETING"
-  | "OUT_OF_SYNC"
-  | "DELETE_FAILED";
-export const InterceptEndpointGroupStateEnum = S.String;
-
 /** An endpoint group is a consumer frontend for a deployment group (backend). In order to configure intercept for a network, consumers must create: - An association between their network and the endpoint group. - A security profile that points to the endpoint group. - A firewall rule that references the security profile (group). */
 export interface InterceptEndpointGroup {
-  /** Output only. Details about the connected deployment group to this endpoint group. */
-  connectedDeploymentGroup?: InterceptEndpointGroupConnectedDeploymentGroup;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
-  reconciling?: boolean;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string;
   /** Optional. User-provided description of the endpoint group. Used as additional context for the endpoint group. */
   description?: string;
-  /** Output only. List of associations to this endpoint group. */
-  associations?: InterceptEndpointGroupAssociationDetailsList;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap;
   /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
   state?: InterceptEndpointGroupStateEnum | (string & {});
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name?: string;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string;
   /** Required. Immutable. The deployment group that this endpoint group is connected to, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
   interceptDeploymentGroup?: string;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string;
+  /** Output only. Details about the connected deployment group to this endpoint group. */
+  connectedDeploymentGroup?: InterceptEndpointGroupConnectedDeploymentGroup;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
+  reconciling?: boolean;
+  /** Output only. List of associations to this endpoint group. */
+  associations?: InterceptEndpointGroupAssociationDetailsList;
 }
 export const InterceptEndpointGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connectedDeploymentGroup: S.optional(InterceptEndpointGroupConnectedDeploymentGroup),
-    reconciling: S.optional(S.Boolean),
-    createTime: S.optional(S.String),
     description: S.optional(S.String),
-    associations: S.optional(InterceptEndpointGroupAssociationDetailsList),
     labels: S.optional(StringMap),
     state: S.optional(InterceptEndpointGroupStateEnum),
     name: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
     interceptDeploymentGroup: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    connectedDeploymentGroup: S.optional(InterceptEndpointGroupConnectedDeploymentGroup),
+    reconciling: S.optional(S.Boolean),
+    associations: S.optional(InterceptEndpointGroupAssociationDetailsList),
   }),
 ).annotate({ identifier: "InterceptEndpointGroup" }) as any as S.Schema<InterceptEndpointGroup>;
 
@@ -2947,6 +2947,28 @@ export const CreateProjectsLocationsInterceptEndpointGroupsRequest = /*@__PURE__
 ).annotate({
   identifier: "CreateProjectsLocationsInterceptEndpointGroupsRequest",
 }) as any as S.Schema<CreateProjectsLocationsInterceptEndpointGroupsRequest>;
+
+export type MirroringLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
+export const MirroringLocationStateEnum = S.String;
+
+/** Details about mirroring in a specific cloud location. */
+export interface MirroringLocation {
+  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
+  location?: string;
+  /** Output only. The current state of the association in this location. */
+  state?: MirroringLocationStateEnum | (string & {});
+}
+export const MirroringLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String),
+    state: S.optional(MirroringLocationStateEnum),
+  }),
+).annotate({ identifier: "MirroringLocation" }) as any as S.Schema<MirroringLocation>;
+
+export type MirroringLocationList = Array<MirroringLocation>;
+export const MirroringLocationList = /*@__PURE__*/ S.Array(
+  MirroringLocation,
+) as any as S.Schema<MirroringLocationList>;
 
 export type MirroringDeploymentGroupDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2978,14 +3000,6 @@ export const MirroringDeploymentGroupDeploymentList = /*@__PURE__*/ S.Array(
   MirroringDeploymentGroupDeployment,
 ) as any as S.Schema<MirroringDeploymentGroupDeploymentList>;
 
-export type MirroringDeploymentGroupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING"
-  | "CLOSED";
-export const MirroringDeploymentGroupStateEnum = S.String;
-
 /** An endpoint group connected to this deployment group. */
 export interface MirroringDeploymentGroupConnectedEndpointGroup {
   /** Output only. The connected endpoint group's resource name, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/124. */
@@ -3005,84 +3019,70 @@ export const MirroringDeploymentGroupConnectedEndpointGroupList = /*@__PURE__*/ 
   MirroringDeploymentGroupConnectedEndpointGroup,
 ) as any as S.Schema<MirroringDeploymentGroupConnectedEndpointGroupList>;
 
-export type MirroringLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
-export const MirroringLocationStateEnum = S.String;
-
-/** Details about mirroring in a specific cloud location. */
-export interface MirroringLocation {
-  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
-  location?: string;
-  /** Output only. The current state of the association in this location. */
-  state?: MirroringLocationStateEnum | (string & {});
-}
-export const MirroringLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String),
-    state: S.optional(MirroringLocationStateEnum),
-  }),
-).annotate({ identifier: "MirroringLocation" }) as any as S.Schema<MirroringLocation>;
-
-export type MirroringLocationList = Array<MirroringLocation>;
-export const MirroringLocationList = /*@__PURE__*/ S.Array(
-  MirroringLocation,
-) as any as S.Schema<MirroringLocationList>;
+export type MirroringDeploymentGroupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "CLOSED";
+export const MirroringDeploymentGroupStateEnum = S.String;
 
 /** A deployment group aggregates many zonal mirroring backends (deployments) into a single global mirroring service. Consumers can connect this service using an endpoint group. */
 export interface MirroringDeploymentGroup {
+  /** Output only. The list of locations where the deployment group is present. */
+  locations?: MirroringLocationList;
+  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
+  network?: string;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap;
+  /** Optional. User-provided description of the deployment group. Used as additional context for the deployment group. */
+  description?: string;
   /** Output only. The list of Mirroring Deployments that belong to this group. */
   nestedDeployments?: MirroringDeploymentGroupDeploymentList;
-  /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
-  state?: MirroringDeploymentGroupStateEnum | (string & {});
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string;
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string;
   /** Output only. The list of endpoint groups that are connected to this resource. */
   connectedEndpointGroups?: MirroringDeploymentGroupConnectedEndpointGroupList;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
-  reconciling?: boolean;
-  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
-  network?: string;
+  /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
+  state?: MirroringDeploymentGroupStateEnum | (string & {});
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name?: string;
-  /** Output only. The list of locations where the deployment group is present. */
-  locations?: MirroringLocationList;
-  /** Optional. User-provided description of the deployment group. Used as additional context for the deployment group. */
-  description?: string;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
+  reconciling?: boolean;
 }
 export const MirroringDeploymentGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    locations: S.optional(MirroringLocationList),
+    network: S.optional(S.String),
     labels: S.optional(StringMap),
+    description: S.optional(S.String),
     nestedDeployments: S.optional(MirroringDeploymentGroupDeploymentList),
-    state: S.optional(MirroringDeploymentGroupStateEnum),
     updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
     connectedEndpointGroups: S.optional(MirroringDeploymentGroupConnectedEndpointGroupList),
-    reconciling: S.optional(S.Boolean),
-    network: S.optional(S.String),
+    state: S.optional(MirroringDeploymentGroupStateEnum),
     name: S.optional(S.String),
-    locations: S.optional(MirroringLocationList),
-    description: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "MirroringDeploymentGroup" }) as any as S.Schema<MirroringDeploymentGroup>;
 
 export interface CreateProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
-  /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
   mirroringDeploymentGroupId?: string;
+  /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Request body */
   body?: MirroringDeploymentGroup;
 }
 export const CreateProjectsLocationsMirroringDeploymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     mirroringDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(MirroringDeploymentGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3106,44 +3106,44 @@ export const MirroringDeploymentStateEnum = S.String;
 
 /** A deployment represents a zonal mirroring backend ready to accept GENEVE-encapsulated replica traffic, e.g. a zonal instance group fronted by an internal passthrough load balancer. Deployments are always part of a global deployment group which represents a global mirroring service. */
 export interface MirroringDeployment {
+  /** Required. Immutable. The regional forwarding rule that fronts the mirroring collectors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
+  forwardingRule?: string;
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap;
-  /** Required. Immutable. The deployment group that this deployment is a part of, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  mirroringDeploymentGroup?: string;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. linking a new association to the parent group). See https://google.aip.dev/128. */
+  reconciling?: boolean;
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string;
   /** Output only. The current state of the deployment. See https://google.aip.dev/216. */
   state?: MirroringDeploymentStateEnum | (string & {});
-  /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
-  name?: string;
   /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
   description?: string;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. linking a new association to the parent group). See https://google.aip.dev/128. */
-  reconciling?: boolean;
-  /** Required. Immutable. The regional forwarding rule that fronts the mirroring collectors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
-  forwardingRule?: string;
+  /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
+  name?: string;
+  /** Required. Immutable. The deployment group that this deployment is a part of, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  mirroringDeploymentGroup?: string;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap;
 }
 export const MirroringDeployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    forwardingRule: S.optional(S.String),
     updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    mirroringDeploymentGroup: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
     createTime: S.optional(S.String),
     state: S.optional(MirroringDeploymentStateEnum),
-    name: S.optional(S.String),
     description: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    forwardingRule: S.optional(S.String),
+    name: S.optional(S.String),
+    mirroringDeploymentGroup: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "MirroringDeployment" }) as any as S.Schema<MirroringDeployment>;
 
 export interface CreateProjectsLocationsMirroringDeploymentsRequest {
-  /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
   mirroringDeploymentId?: string;
+  /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
   /** Request body */
@@ -3151,8 +3151,8 @@ export interface CreateProjectsLocationsMirroringDeploymentsRequest {
 }
 export const CreateProjectsLocationsMirroringDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     mirroringDeploymentId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(MirroringDeployment.pipe(T.HttpBody())),
   }).pipe(
@@ -3206,52 +3206,52 @@ export const MirroringEndpointGroupAssociationStateEnum = S.String;
 
 /** An endpoint group association represents a link between a network and an endpoint group in the organization. Creating an association creates the networking infrastructure linking the network to the endpoint group, but does not enable mirroring by itself. To enable mirroring, the user must also create a network firewall policy containing mirroring rules and associate it with the network. */
 export interface MirroringEndpointGroupAssociation {
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap;
+  /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
+  locationsDetails?: MirroringEndpointGroupAssociationLocationDetailsList;
+  /** Output only. Current state of the endpoint group association. */
+  state?: MirroringEndpointGroupAssociationStateEnum | (string & {});
+  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/mirroringEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
+  name?: string;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string;
+  /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
+  networkCookie?: number;
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string;
+  /** Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
+  network?: string;
   /** Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/124. */
   mirroringEndpointGroup?: string;
   /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
   reconciling?: boolean;
   /** Output only. The list of locations where the association is configured. This information is retrieved from the linked endpoint group. */
   locations?: MirroringLocationList;
-  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/mirroringEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
-  name?: string;
-  /** Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
-  network?: string;
-  /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
-  networkCookie?: number;
-  /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
-  locationsDetails?: MirroringEndpointGroupAssociationLocationDetailsList;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string;
-  /** Output only. Current state of the endpoint group association. */
-  state?: MirroringEndpointGroupAssociationStateEnum | (string & {});
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap;
 }
 export const MirroringEndpointGroupAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(StringMap),
+    locationsDetails: S.optional(MirroringEndpointGroupAssociationLocationDetailsList),
+    state: S.optional(MirroringEndpointGroupAssociationStateEnum),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    networkCookie: S.optional(S.Number),
     createTime: S.optional(S.String),
+    network: S.optional(S.String),
     mirroringEndpointGroup: S.optional(S.String),
     reconciling: S.optional(S.Boolean),
     locations: S.optional(MirroringLocationList),
-    name: S.optional(S.String),
-    network: S.optional(S.String),
-    networkCookie: S.optional(S.Number),
-    locationsDetails: S.optional(MirroringEndpointGroupAssociationLocationDetailsList),
-    updateTime: S.optional(S.String),
-    state: S.optional(MirroringEndpointGroupAssociationStateEnum),
-    labels: S.optional(StringMap),
   }),
 ).annotate({
   identifier: "MirroringEndpointGroupAssociation",
 }) as any as S.Schema<MirroringEndpointGroupAssociation>;
 
 export interface CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
   /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
   mirroringEndpointGroupAssociationId?: string;
   /** Request body */
@@ -3260,8 +3260,8 @@ export interface CreateProjectsLocationsMirroringEndpointGroupAssociationsReques
 export const CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
       mirroringEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(MirroringEndpointGroupAssociation.pipe(T.HttpBody())),
     }).pipe(
@@ -3274,28 +3274,6 @@ export const CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   ).annotate({
     identifier: "CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest",
   }) as any as S.Schema<CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest>;
-
-/** The endpoint group's view of a connected deployment group. */
-export interface MirroringEndpointGroupConnectedDeploymentGroup {
-  /** Output only. The connected deployment group's resource name, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  name?: string;
-  /** Output only. The list of locations where the deployment group is present. */
-  locations?: MirroringLocationList;
-}
-export const MirroringEndpointGroupConnectedDeploymentGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    locations: S.optional(MirroringLocationList),
-  }),
-).annotate({
-  identifier: "MirroringEndpointGroupConnectedDeploymentGroup",
-}) as any as S.Schema<MirroringEndpointGroupConnectedDeploymentGroup>;
-
-export type MirroringEndpointGroupConnectedDeploymentGroupList =
-  Array<MirroringEndpointGroupConnectedDeploymentGroup>;
-export const MirroringEndpointGroupConnectedDeploymentGroupList = /*@__PURE__*/ S.Array(
-  MirroringEndpointGroupConnectedDeploymentGroup,
-) as any as S.Schema<MirroringEndpointGroupConnectedDeploymentGroupList>;
 
 export type MirroringEndpointGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -3342,65 +3320,87 @@ export const MirroringEndpointGroupAssociationDetailsList = /*@__PURE__*/ S.Arra
   MirroringEndpointGroupAssociationDetails,
 ) as any as S.Schema<MirroringEndpointGroupAssociationDetailsList>;
 
+/** The endpoint group's view of a connected deployment group. */
+export interface MirroringEndpointGroupConnectedDeploymentGroup {
+  /** Output only. The list of locations where the deployment group is present. */
+  locations?: MirroringLocationList;
+  /** Output only. The connected deployment group's resource name, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  name?: string;
+}
+export const MirroringEndpointGroupConnectedDeploymentGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locations: S.optional(MirroringLocationList),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MirroringEndpointGroupConnectedDeploymentGroup",
+}) as any as S.Schema<MirroringEndpointGroupConnectedDeploymentGroup>;
+
+export type MirroringEndpointGroupConnectedDeploymentGroupList =
+  Array<MirroringEndpointGroupConnectedDeploymentGroup>;
+export const MirroringEndpointGroupConnectedDeploymentGroupList = /*@__PURE__*/ S.Array(
+  MirroringEndpointGroupConnectedDeploymentGroup,
+) as any as S.Schema<MirroringEndpointGroupConnectedDeploymentGroupList>;
+
 export type MirroringEndpointGroupTypeEnum = "TYPE_UNSPECIFIED" | "DIRECT";
 export const MirroringEndpointGroupTypeEnum = S.String;
 
 /** An endpoint group is a consumer frontend for a deployment group (backend). In order to configure mirroring for a network, consumers must create: - An association between their network and the endpoint group. - A security profile that points to the endpoint group. - A mirroring rule that references the security profile (group). */
 export interface MirroringEndpointGroup {
+  /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
+  state?: MirroringEndpointGroupStateEnum | (string & {});
+  /** Optional. User-provided description of the endpoint group. Used as additional context for the endpoint group. */
+  description?: string;
+  /** Output only. List of associations to this endpoint group. */
+  associations?: MirroringEndpointGroupAssociationDetailsList;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string;
+  /** Output only. List of details about the connected deployment groups to this endpoint group. */
+  connectedDeploymentGroups?: MirroringEndpointGroupConnectedDeploymentGroupList;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string;
+  /** Immutable. The deployment group that this DIRECT endpoint group is connected to, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  mirroringDeploymentGroup?: string;
+  /** Immutable. The type of the endpoint group. If left unspecified, defaults to DIRECT. */
+  type?: MirroringEndpointGroupTypeEnum | (string & {});
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name?: string;
   /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
   reconciling?: boolean;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap;
-  /** Output only. List of details about the connected deployment groups to this endpoint group. */
-  connectedDeploymentGroups?: MirroringEndpointGroupConnectedDeploymentGroupList;
-  /** Optional. User-provided description of the endpoint group. Used as additional context for the endpoint group. */
-  description?: string;
-  /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
-  state?: MirroringEndpointGroupStateEnum | (string & {});
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string;
-  /** Output only. List of associations to this endpoint group. */
-  associations?: MirroringEndpointGroupAssociationDetailsList;
-  /** Immutable. The type of the endpoint group. If left unspecified, defaults to DIRECT. */
-  type?: MirroringEndpointGroupTypeEnum | (string & {});
-  /** Immutable. The deployment group that this DIRECT endpoint group is connected to, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  mirroringDeploymentGroup?: string;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string;
 }
 export const MirroringEndpointGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(MirroringEndpointGroupStateEnum),
+    description: S.optional(S.String),
+    associations: S.optional(MirroringEndpointGroupAssociationDetailsList),
+    updateTime: S.optional(S.String),
+    connectedDeploymentGroups: S.optional(MirroringEndpointGroupConnectedDeploymentGroupList),
+    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    mirroringDeploymentGroup: S.optional(S.String),
+    type: S.optional(MirroringEndpointGroupTypeEnum),
     name: S.optional(S.String),
     reconciling: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    connectedDeploymentGroups: S.optional(MirroringEndpointGroupConnectedDeploymentGroupList),
-    description: S.optional(S.String),
-    state: S.optional(MirroringEndpointGroupStateEnum),
-    updateTime: S.optional(S.String),
-    associations: S.optional(MirroringEndpointGroupAssociationDetailsList),
-    type: S.optional(MirroringEndpointGroupTypeEnum),
-    mirroringDeploymentGroup: S.optional(S.String),
-    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "MirroringEndpointGroup" }) as any as S.Schema<MirroringEndpointGroup>;
 
 export interface CreateProjectsLocationsMirroringEndpointGroupsRequest {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the endpoint group, which will become the final component of the endpoint group's resource name. */
   mirroringEndpointGroupId?: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
   /** Request body */
   body?: MirroringEndpointGroup;
 }
 export const CreateProjectsLocationsMirroringEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     mirroringEndpointGroupId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(MirroringEndpointGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3422,48 +3422,48 @@ export const SACAttachmentStateEnum = S.String;
 
 /** Represents a Secure Access Connect (SAC) attachment resource. A Secure Access Connect attachment enables NCC Gateway to process traffic with an SSE product. */
 export interface SACAttachment {
-  /** Output only. Timestamp when the attachment was last updated. */
-  updateTime?: string;
-  /** Optional. Optional list of labels applied to the resource. */
-  labels?: StringMap;
   /** Output only. Timestamp when the attachment was created. */
   createTime?: string;
   /** Required. SAC Realm which owns the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/sacRealms/{sac_realm}`. */
   sacRealm?: string;
-  /** Required. NCC Gateway associated with the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/spokes/{ncc_gateway}`. */
-  nccGateway?: string;
   /** Identifier. Resource name, in the form `projects/{project}/locations/{location}/sacAttachments/{sac_attachment}`. */
   name?: string;
+  /** Required. NCC Gateway associated with the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/spokes/{ncc_gateway}`. */
+  nccGateway?: string;
   /** Output only. State of the attachment. */
   state?: SACAttachmentStateEnum | (string & {});
+  /** Output only. Timestamp when the attachment was last updated. */
+  updateTime?: string;
+  /** Optional. Optional list of labels applied to the resource. */
+  labels?: StringMap;
 }
 export const SACAttachment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
     sacRealm: S.optional(S.String),
-    nccGateway: S.optional(S.String),
     name: S.optional(S.String),
+    nccGateway: S.optional(S.String),
     state: S.optional(SACAttachmentStateEnum),
+    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "SACAttachment" }) as any as S.Schema<SACAttachment>;
 
 export interface CreateProjectsLocationsSacAttachmentsRequest {
-  /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. ID of the created attachment. The ID must be 1-63 characters long, and comply with RFC1035. Specifically, it must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
   sacAttachmentId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: SACAttachment;
 }
 export const CreateProjectsLocationsSacAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     sacAttachmentId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(SACAttachment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3491,22 +3491,26 @@ export const SACRealmSecurityServiceEnum = S.String;
 
 /** Key to be shared with SSE service provider to establish global handshake. */
 export interface SACRealmPairingKey {
-  /** Output only. Timestamp in UTC of when this resource is considered expired. It expires 7 days after creation. */
-  expireTime?: string;
   /** Output only. Key value. */
   key?: string;
+  /** Output only. Timestamp in UTC of when this resource is considered expired. It expires 7 days after creation. */
+  expireTime?: string;
 }
 export const SACRealmPairingKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expireTime: S.optional(S.String),
     key: S.optional(S.String),
+    expireTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "SACRealmPairingKey" }) as any as S.Schema<SACRealmPairingKey>;
 
 /** Represents a Secure Access Connect (SAC) realm resource. A Secure Access Connect realm establishes a connection between your Google Cloud project and an SSE service. */
 export interface SACRealm {
+  /** Identifier. Resource name, in the form `projects/{project}/locations/global/sacRealms/{sacRealm}`. */
+  name?: string;
   /** Output only. State of the realm. */
   state?: SACRealmStateEnum | (string & {});
+  /** Optional. Optional list of labels applied to the resource. */
+  labels?: StringMap;
   /** Immutable. SSE service provider associated with the realm. */
   securityService?: SACRealmSecurityServiceEnum | (string & {});
   /** Output only. Timestamp when the realm was last updated. */
@@ -3515,20 +3519,16 @@ export interface SACRealm {
   pairingKey?: SACRealmPairingKey;
   /** Output only. Timestamp when the realm was created. */
   createTime?: string;
-  /** Identifier. Resource name, in the form `projects/{project}/locations/global/sacRealms/{sacRealm}`. */
-  name?: string;
-  /** Optional. Optional list of labels applied to the resource. */
-  labels?: StringMap;
 }
 export const SACRealm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     state: S.optional(SACRealmStateEnum),
+    labels: S.optional(StringMap),
     securityService: S.optional(SACRealmSecurityServiceEnum),
     updateTime: S.optional(S.String),
     pairingKey: S.optional(SACRealmPairingKey),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "SACRealm" }) as any as S.Schema<SACRealm>;
 
@@ -3560,17 +3560,17 @@ export const CreateProjectsLocationsSacRealmsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<CreateProjectsLocationsSacRealmsRequest>;
 
 export interface CreateProjectsLocationsSecurityProfileGroupsRequest {
-  /** Required. The parent resource of the SecurityProfileGroup. Must be in the format `projects|organizations/*\/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the SecurityProfileGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "security_profile_group1". */
   securityProfileGroupId?: string;
+  /** Required. The parent resource of the SecurityProfileGroup. Must be in the format `projects|organizations/*\/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: SecurityProfileGroup;
 }
 export const CreateProjectsLocationsSecurityProfileGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     securityProfileGroupId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(SecurityProfileGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3584,17 +3584,17 @@ export const CreateProjectsLocationsSecurityProfileGroupsRequest = /*@__PURE__*/
 }) as any as S.Schema<CreateProjectsLocationsSecurityProfileGroupsRequest>;
 
 export interface CreateProjectsLocationsSecurityProfilesRequest {
-  /** Required. The parent resource of the SecurityProfile. Must be in the format `projects|organizations/*\/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the SecurityProfile resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "security_profile1". */
   securityProfileId?: string;
+  /** Required. The parent resource of the SecurityProfile. Must be in the format `projects|organizations/*\/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: SecurityProfile;
 }
 export const CreateProjectsLocationsSecurityProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     securityProfileId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(SecurityProfile.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3632,33 +3632,33 @@ export const MTLSPolicy = /*@__PURE__*/ S.suspend(() =>
 
 /** ServerTlsPolicy is a resource that specifies how a server should authenticate incoming requests. This resource itself does not affect configuration unless it is attached to a target HTTPS proxy or endpoint config selector resource. ServerTlsPolicy in the form accepted by Application Load Balancers can be attached only to TargetHttpsProxy with an `EXTERNAL`, `EXTERNAL_MANAGED` or `INTERNAL_MANAGED` load balancing scheme. Traffic Director compatible ServerTlsPolicies can be attached to EndpointPolicy and TargetHttpsProxy with Traffic Director `INTERNAL_SELF_MANAGED` load balancing scheme. */
 export interface ServerTlsPolicy {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** This field is required if the policy is used with Application Load Balancers. This field can be empty for Traffic Director. Defines a mechanism to provision peer validation certificates for peer to peer authentication (Mutual TLS - mTLS). If not specified, client certificate will not be requested. The connection is treated as TLS and not mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. */
-  mtlsPolicy?: MTLSPolicy;
   /** This field applies only for Traffic Director policies. It is must be set to false for Application Load Balancer policies. Determines if server allows plaintext connections. If set to true, server allows plain text connections. By default, it is set to false. This setting is not exclusive of other encryption modes. For example, if `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. See documentation of other encryption modes to confirm compatibility. Consider using it if you wish to upgrade in place your deployment to TLS while having mixed TLS and non-TLS traffic reaching port :80. */
   allowOpen?: boolean;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
-  /** Optional if policy is to be used with Traffic Director. For Application Load Balancers must be empty. Defines a mechanism to provision server identity (public and private keys). Cannot be combined with `allow_open` as a permissive mode that allows both plain text and TLS is not supported. */
-  serverCertificate?: GoogleCloudNetworksecurityV1CertificateProvider;
-  /** Set of label tags associated with the resource. */
-  labels?: StringMap;
-  /** Free-text description of the resource. */
-  description?: string;
+  /** This field is required if the policy is used with Application Load Balancers. This field can be empty for Traffic Director. Defines a mechanism to provision peer validation certificates for peer to peer authentication (Mutual TLS - mTLS). If not specified, client certificate will not be requested. The connection is treated as TLS and not mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. */
+  mtlsPolicy?: MTLSPolicy;
   /** Required. Name of the ServerTlsPolicy resource. It matches the pattern `projects/*\/locations/{location}/serverTlsPolicies/{server_tls_policy}` */
   name?: string;
+  /** Free-text description of the resource. */
+  description?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional if policy is to be used with Traffic Director. For Application Load Balancers must be empty. Defines a mechanism to provision server identity (public and private keys). Cannot be combined with `allow_open` as a permissive mode that allows both plain text and TLS is not supported. */
+  serverCertificate?: GoogleCloudNetworksecurityV1CertificateProvider;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Set of label tags associated with the resource. */
+  labels?: StringMap;
 }
 export const ServerTlsPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    mtlsPolicy: S.optional(MTLSPolicy),
     allowOpen: S.optional(S.Boolean),
-    updateTime: S.optional(S.String),
-    serverCertificate: S.optional(GoogleCloudNetworksecurityV1CertificateProvider),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
+    mtlsPolicy: S.optional(MTLSPolicy),
     name: S.optional(S.String),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    serverCertificate: S.optional(GoogleCloudNetworksecurityV1CertificateProvider),
+    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "ServerTlsPolicy" }) as any as S.Schema<ServerTlsPolicy>;
 
@@ -3686,12 +3686,6 @@ export const CreateProjectsLocationsServerTlsPoliciesRequest = /*@__PURE__*/ S.s
   identifier: "CreateProjectsLocationsServerTlsPoliciesRequest",
 }) as any as S.Schema<CreateProjectsLocationsServerTlsPoliciesRequest>;
 
-export type TlsInspectionPolicyCertificateIssuanceModeEnum =
-  | "CERTIFICATE_ISSUANCE_MODE_UNSPECIFIED"
-  | "DIRECT_LEAF_PROVISIONING"
-  | "LOCAL_INTERMEDIATE_CA_SIGNING";
-export const TlsInspectionPolicyCertificateIssuanceModeEnum = S.String;
-
 export type TlsInspectionPolicyMinTlsVersionEnum =
   | "TLS_VERSION_UNSPECIFIED"
   | "TLS_1_0"
@@ -3708,59 +3702,65 @@ export type TlsInspectionPolicyTlsFeatureProfileEnum =
   | "PROFILE_CUSTOM";
 export const TlsInspectionPolicyTlsFeatureProfileEnum = S.String;
 
+export type TlsInspectionPolicyCertificateIssuanceModeEnum =
+  | "CERTIFICATE_ISSUANCE_MODE_UNSPECIFIED"
+  | "DIRECT_LEAF_PROVISIONING"
+  | "LOCAL_INTERMEDIATE_CA_SIGNING";
+export const TlsInspectionPolicyCertificateIssuanceModeEnum = S.String;
+
 /** The TlsInspectionPolicy resource contains references to CA pools in Certificate Authority Service and associated metadata. */
 export interface TlsInspectionPolicy {
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Optional. If FALSE (the default), use our default set of public CAs in addition to any CAs specified in trust_config. These public CAs are currently based on the Mozilla Root Program and are subject to change over time. If TRUE, do not accept our default set of public CAs. Only CAs specified in trust_config will be accepted. This defaults to FALSE (use public CAs in addition to trust_config) for backwards compatibility, but trusting public root CAs is *not recommended* unless the traffic in question is outbound to public web servers. When possible, prefer setting this to "false" and explicitly specifying trusted CAs and certificates in a TrustConfig. Note that Secure Web Proxy does not yet honor this field. */
+  excludePublicCaSet?: boolean;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
+  minTlsVersion?: TlsInspectionPolicyMinTlsVersionEnum | (string & {});
+  /** Optional. The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
+  tlsFeatureProfile?: TlsInspectionPolicyTlsFeatureProfileEnum | (string & {});
+  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name?: string;
+  /** Optional. Free-text description of the resource. */
+  description?: string;
   /** Optional. A TrustConfig resource used when making a connection to the TLS server. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". This is necessary to intercept TLS connections to servers with certificates signed by a private CA or self-signed certificates. Note that Secure Web Proxy does not yet honor this field. */
   trustConfig?: string;
   /** Optional. The mode used to issue certificates (local CA signing vs direct leaf). */
   certificateIssuanceMode?: TlsInspectionPolicyCertificateIssuanceModeEnum | (string & {});
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string;
   /** Required. A CA pool resource used to issue interception certificates. The CA pool string has a relative resource path following the form "projects/{project}/locations/{location}/caPools/{ca_pool}". */
   caPool?: string;
   /** Optional. List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field. */
   customTlsFeatures?: StringList;
-  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name?: string;
-  /** Optional. If FALSE (the default), use our default set of public CAs in addition to any CAs specified in trust_config. These public CAs are currently based on the Mozilla Root Program and are subject to change over time. If TRUE, do not accept our default set of public CAs. Only CAs specified in trust_config will be accepted. This defaults to FALSE (use public CAs in addition to trust_config) for backwards compatibility, but trusting public root CAs is *not recommended* unless the traffic in question is outbound to public web servers. When possible, prefer setting this to "false" and explicitly specifying trusted CAs and certificates in a TrustConfig. Note that Secure Web Proxy does not yet honor this field. */
-  excludePublicCaSet?: boolean;
-  /** Optional. Free-text description of the resource. */
-  description?: string;
-  /** Optional. Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
-  minTlsVersion?: TlsInspectionPolicyMinTlsVersionEnum | (string & {});
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
-  /** Optional. The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
-  tlsFeatureProfile?: TlsInspectionPolicyTlsFeatureProfileEnum | (string & {});
 }
 export const TlsInspectionPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    createTime: S.optional(S.String),
+    excludePublicCaSet: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    minTlsVersion: S.optional(TlsInspectionPolicyMinTlsVersionEnum),
+    tlsFeatureProfile: S.optional(TlsInspectionPolicyTlsFeatureProfileEnum),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
     trustConfig: S.optional(S.String),
     certificateIssuanceMode: S.optional(TlsInspectionPolicyCertificateIssuanceModeEnum),
-    updateTime: S.optional(S.String),
     caPool: S.optional(S.String),
     customTlsFeatures: S.optional(StringList),
-    name: S.optional(S.String),
-    excludePublicCaSet: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    minTlsVersion: S.optional(TlsInspectionPolicyMinTlsVersionEnum),
-    createTime: S.optional(S.String),
-    tlsFeatureProfile: S.optional(TlsInspectionPolicyTlsFeatureProfileEnum),
   }),
 ).annotate({ identifier: "TlsInspectionPolicy" }) as any as S.Schema<TlsInspectionPolicy>;
 
 export interface CreateProjectsLocationsTlsInspectionPoliciesRequest {
-  /** Required. The parent resource of the TlsInspectionPolicy. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the TlsInspectionPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "tls_inspection_policy1". */
   tlsInspectionPolicyId?: string;
+  /** Required. The parent resource of the TlsInspectionPolicy. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: TlsInspectionPolicy;
 }
 export const CreateProjectsLocationsTlsInspectionPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     tlsInspectionPolicyId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(TlsInspectionPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3775,12 +3775,12 @@ export const CreateProjectsLocationsTlsInspectionPoliciesRequest = /*@__PURE__*/
 
 /** UrlList proto helps users to set reusable, independently manageable lists of hosts, host patterns, URLs, URL patterns. */
 export interface UrlList {
-  /** Required. FQDNs and URLs. */
-  values?: StringList;
-  /** Output only. Time when the security policy was created. */
-  createTime?: string;
   /** Output only. Time when the security policy was updated. */
   updateTime?: string;
+  /** Output only. Time when the security policy was created. */
+  createTime?: string;
+  /** Required. FQDNs and URLs. */
+  values?: StringList;
   /** Required. Name of the resource provided by the user. Name is of the form projects/{project}/locations/{location}/urlLists/{url_list} url_list should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name?: string;
   /** Optional. Free-text description of the resource. */
@@ -3788,9 +3788,9 @@ export interface UrlList {
 }
 export const UrlList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    values: S.optional(StringList),
-    createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    values: S.optional(StringList),
     name: S.optional(S.String),
     description: S.optional(S.String),
   }),
@@ -3924,15 +3924,15 @@ export const DeleteOrganizationsLocationsSecurityProfilesRequest = /*@__PURE__*/
 }) as any as S.Schema<DeleteOrganizationsLocationsSecurityProfilesRequest>;
 
 export interface DeleteProjectsLocationsAddressGroupsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. A name of the AddressGroup to delete. Must be in the format `projects/*\/locations/{location}/addressGroups/*`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -4064,15 +4064,15 @@ export const DeleteProjectsLocationsFirewallEndpointAssociationsRequest = /*@__P
 }) as any as S.Schema<DeleteProjectsLocationsFirewallEndpointAssociationsRequest>;
 
 export interface DeleteProjectsLocationsFirewallEndpointsRequest {
-  /** Required. Name of the resource */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Name of the resource */
+  name: string;
 }
 export const DeleteProjectsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -4122,15 +4122,15 @@ export const DeleteProjectsLocationsGatewaySecurityPoliciesRulesRequest = /*@__P
 }) as any as S.Schema<DeleteProjectsLocationsGatewaySecurityPoliciesRulesRequest>;
 
 export interface DeleteProjectsLocationsInterceptDeploymentGroupsRequest {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Required. The deployment group to delete. */
   name: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsInterceptDeploymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -4164,16 +4164,16 @@ export const DeleteProjectsLocationsInterceptDeploymentsRequest = /*@__PURE__*/ 
 }) as any as S.Schema<DeleteProjectsLocationsInterceptDeploymentsRequest>;
 
 export interface DeleteProjectsLocationsInterceptEndpointGroupAssociationsRequest {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Required. The association to delete. */
   name: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsInterceptEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -4228,15 +4228,15 @@ export const DeleteProjectsLocationsMirroringDeploymentGroupsRequest = /*@__PURE
 }) as any as S.Schema<DeleteProjectsLocationsMirroringDeploymentGroupsRequest>;
 
 export interface DeleteProjectsLocationsMirroringDeploymentsRequest {
-  /** Required. Name of the resource */
-  name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
+  /** Required. Name of the resource */
+  name: string;
 }
 export const DeleteProjectsLocationsMirroringDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -4249,16 +4249,16 @@ export const DeleteProjectsLocationsMirroringDeploymentsRequest = /*@__PURE__*/ 
 }) as any as S.Schema<DeleteProjectsLocationsMirroringDeploymentsRequest>;
 
 export interface DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Required. The association to delete. */
   name: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -4271,15 +4271,15 @@ export const DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   }) as any as S.Schema<DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest>;
 
 export interface DeleteProjectsLocationsMirroringEndpointGroupsRequest {
-  /** Required. The endpoint group to delete. */
-  name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
+  /** Required. The endpoint group to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsMirroringEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -4310,15 +4310,15 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsSacAttachmentsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Name of the resource, in the form `projects/{project}/locations/{location}/sacAttachments/{sac_attachment}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsSacAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -4480,15 +4480,15 @@ export const GoogleIamV1AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export const GoogleIamV1AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exemptedMembers: S.optional(StringList),
     logType: S.optional(GoogleIamV1AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleIamV1AuditLogConfig",
@@ -4520,38 +4520,38 @@ export const GoogleIamV1AuditConfigList = /*@__PURE__*/ S.Array(
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    location: S.optional(S.String),
-    expression: S.optional(S.String),
     description: S.optional(S.String),
+    expression: S.optional(S.String),
     title: S.optional(S.String),
+    location: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
 }
 export const GoogleIamV1Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    condition: S.optional(Expr),
     role: S.optional(S.String),
     members: S.optional(StringList),
+    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "GoogleIamV1Binding" }) as any as S.Schema<GoogleIamV1Binding>;
 
@@ -4562,35 +4562,35 @@ export const GoogleIamV1BindingList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: GoogleIamV1AuditConfigList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: GoogleIamV1BindingList;
 }
 export const GoogleIamV1Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditConfigs: S.optional(GoogleIamV1AuditConfigList),
-    bindings: S.optional(GoogleIamV1BindingList),
     version: S.optional(S.Number),
+    auditConfigs: S.optional(GoogleIamV1AuditConfigList),
     etag: S.optional(S.String),
+    bindings: S.optional(GoogleIamV1BindingList),
   }),
 ).annotate({ identifier: "GoogleIamV1Policy" }) as any as S.Schema<GoogleIamV1Policy>;
 
 export interface GetIamPolicyProjectsLocationsAuthorizationPoliciesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsAuthorizationPoliciesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4624,15 +4624,15 @@ export const GetIamPolicyProjectsLocationsAuthzPoliciesRequest = /*@__PURE__*/ S
 }) as any as S.Schema<GetIamPolicyProjectsLocationsAuthzPoliciesRequest>;
 
 export interface GetIamPolicyProjectsLocationsClientTlsPoliciesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsClientTlsPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4685,24 +4685,24 @@ export const GetOrganizationsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    locationId: S.optional(S.String),
     labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
+    name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    locationId: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -5323,24 +5323,24 @@ export const GetProjectsLocationsUrlListsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsLocationsUrlListsRequest>;
 
 export interface ListOrganizationsLocationsRequest {
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
 }
 export const ListOrganizationsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5370,20 +5370,20 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListOrganizationsLocationsAddressGroupsRequest {
-  /** Maximum number of AddressGroups to return per call. */
-  pageSize?: number;
   /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** The value returned by the last `ListAddressGroupsResponse` Indicates that this is a continuation of a prior `ListAddressGroups` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Maximum number of AddressGroups to return per call. */
+  pageSize?: number;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
   returnPartialSuccess?: boolean;
 }
 export const ListOrganizationsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5403,17 +5403,17 @@ export const AddressGroupList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListAddressGroups method. */
 export interface ListAddressGroupsResponse {
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** List of AddressGroups resources. */
   addressGroups?: AddressGroupList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListAddressGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     addressGroups: S.optional(AddressGroupList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
 ).annotate({
@@ -5425,20 +5425,20 @@ export interface ListOrganizationsLocationsFirewallEndpointsRequest {
   filter?: string;
   /** Hint for how to order the results */
   orderBy?: string;
+  /** Required. Parent value for ListEndpointsRequest */
+  parent: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** Required. Parent value for ListEndpointsRequest */
-  parent: string;
 }
 export const ListOrganizationsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5457,40 +5457,40 @@ export const FirewallEndpointList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing Endpoints */
 export interface ListFirewallEndpointsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of Endpoint */
   firewallEndpoints?: FirewallEndpointList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListFirewallEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     firewallEndpoints: S.optional(FirewallEndpointList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListFirewallEndpointsResponse",
 }) as any as S.Schema<ListFirewallEndpointsResponse>;
 
 export interface ListOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest {
+  /** Optional. Filter expression to filter the results. See AIP-160 for filtering syntax. Supported fields are: - `sha256` (string, equality only, e.g. `sha256 = "..."`) - `state` (enum, equality only, e.g. `state = "ACTIVE"`) - `create_time` (timestamp, comparisons, e.g. `create_time > "2026-01-01T00:00:00Z"`) */
+  filter?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
   /** Required. Parent value for ListWildfireVerdictChangeRequestsRequest. The parent is a firewall endpoint resource. Format: organizations|projects/{project_or_organization}/locations/{location}/firewallEndpoints/{firewall_endpoint} */
   parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Optional. Filter expression to filter the results. See AIP-160 for filtering syntax. Supported fields are: - `sha256` (string, equality only, e.g. `sha256 = "..."`) - `state` (enum, equality only, e.g. `state = "ACTIVE"`) - `create_time` (timestamp, comparisons, e.g. `create_time > "2026-01-01T00:00:00Z"`) */
-  filter?: string;
 }
 export const ListOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5509,41 +5509,41 @@ export const WildfireVerdictChangeRequestList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing WildfireVerdictChangeRequests. */
 export interface ListWildfireVerdictChangeRequestsResponse {
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
   /** The list of WildfireVerdictChangeRequests */
   wildfireVerdictChangeRequests?: WildfireVerdictChangeRequestList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListWildfireVerdictChangeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     wildfireVerdictChangeRequests: S.optional(WildfireVerdictChangeRequestList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListWildfireVerdictChangeRequestsResponse",
 }) as any as S.Schema<ListWildfireVerdictChangeRequestsResponse>;
 
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
 }
 export const ListOrganizationsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5563,31 +5563,31 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
+    operations: S.optional(OperationList),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListOrganizationsLocationsSecurityProfileGroupsRequest {
-  /** Optional. The value returned by the last `ListSecurityProfileGroupsResponse` Indicates that this is a continuation of a prior `ListSecurityProfileGroups` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Optional. Maximum number of SecurityProfileGroups to return per call. */
   pageSize?: number;
+  /** Optional. The value returned by the last `ListSecurityProfileGroupsResponse` Indicates that this is a continuation of a prior `ListSecurityProfileGroups` call, and that the system should return the next page of data. */
+  pageToken?: string;
   /** Required. The project or organization and location from which the SecurityProfileGroups should be listed, specified in the format `projects|organizations/*\/locations/{location}`. */
   parent: string;
 }
 export const ListOrganizationsLocationsSecurityProfileGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -5607,15 +5607,15 @@ export const SecurityProfileGroupList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListSecurityProfileGroups method. */
 export interface ListSecurityProfileGroupsResponse {
-  /** List of SecurityProfileGroups resources. */
-  securityProfileGroups?: SecurityProfileGroupList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** List of SecurityProfileGroups resources. */
+  securityProfileGroups?: SecurityProfileGroupList;
 }
 export const ListSecurityProfileGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    securityProfileGroups: S.optional(SecurityProfileGroupList),
     nextPageToken: S.optional(S.String),
+    securityProfileGroups: S.optional(SecurityProfileGroupList),
   }),
 ).annotate({
   identifier: "ListSecurityProfileGroupsResponse",
@@ -5669,22 +5669,22 @@ export const ListSecurityProfilesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5697,21 +5697,21 @@ export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsLocationsRequest>;
 
 export interface ListProjectsLocationsAddressGroupsRequest {
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
-  returnPartialSuccess?: boolean;
   /** The value returned by the last `ListAddressGroupsResponse` Indicates that this is a continuation of a prior `ListAddressGroups` call, and that the system should return the next page of data. */
   pageToken?: string;
-  /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/*\/locations/{location}`. */
-  parent: string;
   /** Maximum number of AddressGroups to return per call. */
   pageSize?: number;
+  /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/*\/locations/{location}`. */
+  parent: string;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5724,17 +5724,17 @@ export const ListProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<ListProjectsLocationsAddressGroupsRequest>;
 
 export interface ListProjectsLocationsAuthorizationPoliciesRequest {
-  /** Required. The project and location from which the AuthorizationPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** The value returned by the last `ListAuthorizationPoliciesResponse` Indicates that this is a continuation of a prior `ListAuthorizationPolicies` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Required. The project and location from which the AuthorizationPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Maximum number of AuthorizationPolicies to return per call. */
   pageSize?: number;
 }
 export const ListProjectsLocationsAuthorizationPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5754,39 +5754,39 @@ export const AuthorizationPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListAuthorizationPolicies method. */
 export interface ListAuthorizationPoliciesResponse {
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** List of AuthorizationPolicies resources. */
   authorizationPolicies?: AuthorizationPolicyList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
 }
 export const ListAuthorizationPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     authorizationPolicies: S.optional(AuthorizationPolicyList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListAuthorizationPoliciesResponse",
 }) as any as S.Schema<ListAuthorizationPoliciesResponse>;
 
 export interface ListProjectsLocationsAuthzPoliciesRequest {
-  /** Optional. Filtering results. */
-  filter?: string;
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number;
   /** Required. The project and location from which the `AuthzPolicy` resources are listed, specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number;
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsAuthzPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5805,18 +5805,18 @@ export const AuthzPolicyList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing `AuthzPolicy` resources. */
 export interface ListAuthzPoliciesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** A token identifying a page of results that the server returns. */
-  nextPageToken?: string;
   /** The list of `AuthzPolicy` resources. */
   authzPolicies?: AuthzPolicyList;
+  /** A token identifying a page of results that the server returns. */
+  nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListAuthzPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     authzPolicies: S.optional(AuthzPolicyList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListAuthzPoliciesResponse",
@@ -5854,36 +5854,36 @@ export const BackendAuthenticationConfigList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListBackendAuthenticationConfigs method. */
 export interface ListBackendAuthenticationConfigsResponse {
+  /** List of BackendAuthenticationConfig resources. */
+  backendAuthenticationConfigs?: BackendAuthenticationConfigList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
-  /** List of BackendAuthenticationConfig resources. */
-  backendAuthenticationConfigs?: BackendAuthenticationConfigList;
 }
 export const ListBackendAuthenticationConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    backendAuthenticationConfigs: S.optional(BackendAuthenticationConfigList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
-    backendAuthenticationConfigs: S.optional(BackendAuthenticationConfigList),
   }),
 ).annotate({
   identifier: "ListBackendAuthenticationConfigsResponse",
 }) as any as S.Schema<ListBackendAuthenticationConfigsResponse>;
 
 export interface ListProjectsLocationsClientTlsPoliciesRequest {
-  /** Required. The project and location from which the ClientTlsPolicies should be listed, specified in the format `projects/*\/locations/{location}`. */
-  parent: string;
-  /** The value returned by the last `ListClientTlsPoliciesResponse` Indicates that this is a continuation of a prior `ListClientTlsPolicies` call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Maximum number of ClientTlsPolicies to return per call. */
   pageSize?: number;
+  /** The value returned by the last `ListClientTlsPoliciesResponse` Indicates that this is a continuation of a prior `ListClientTlsPolicies` call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** Required. The project and location from which the ClientTlsPolicies should be listed, specified in the format `projects/*\/locations/{location}`. */
+  parent: string;
 }
 export const ListProjectsLocationsClientTlsPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5902,32 +5902,32 @@ export const ClientTlsPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListClientTlsPolicies method. */
 export interface ListClientTlsPoliciesResponse {
-  /** List of ClientTlsPolicy resources. */
-  clientTlsPolicies?: ClientTlsPolicyList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** List of ClientTlsPolicy resources. */
+  clientTlsPolicies?: ClientTlsPolicyList;
 }
 export const ListClientTlsPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientTlsPolicies: S.optional(ClientTlsPolicyList),
     nextPageToken: S.optional(S.String),
+    clientTlsPolicies: S.optional(ClientTlsPolicyList),
   }),
 ).annotate({
   identifier: "ListClientTlsPoliciesResponse",
 }) as any as S.Schema<ListClientTlsPoliciesResponse>;
 
 export interface ListProjectsLocationsDnsThreatDetectorsRequest {
-  /** Required. The parent value for `ListDnsThreatDetectorsRequest`. */
-  parent: string;
   /** Optional. The requested page size. The server may return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number;
+  /** Required. The parent value for `ListDnsThreatDetectorsRequest`. */
+  parent: string;
   /** Optional. A page token received from a previous `ListDnsThreatDetectorsRequest` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
 }
 export const ListProjectsLocationsDnsThreatDetectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5947,43 +5947,43 @@ export const DnsThreatDetectorList = /*@__PURE__*/ S.Array(
 
 /** The response message to requesting a list of DnsThreatDetectors. */
 export interface ListDnsThreatDetectorsResponse {
+  /** The list of DnsThreatDetector resources. */
+  dnsThreatDetectors?: DnsThreatDetectorList;
   /** A token, which can be sent as `page_token`, to retrieve the next page. */
   nextPageToken?: string;
   /** Unordered list. Unreachable `DnsThreatDetector` resources. */
   unreachable?: StringList;
-  /** The list of DnsThreatDetector resources. */
-  dnsThreatDetectors?: DnsThreatDetectorList;
 }
 export const ListDnsThreatDetectorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dnsThreatDetectors: S.optional(DnsThreatDetectorList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    dnsThreatDetectors: S.optional(DnsThreatDetectorList),
   }),
 ).annotate({
   identifier: "ListDnsThreatDetectorsResponse",
 }) as any as S.Schema<ListDnsThreatDetectorsResponse>;
 
 export interface ListProjectsLocationsFirewallEndpointAssociationsRequest {
-  /** Optional. Filtering results */
-  filter?: string;
-  /** Hint for how to order the results */
-  orderBy?: string;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Required. Parent value for ListAssociationsRequest */
   parent: string;
+  /** Optional. Filtering results */
+  filter?: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Hint for how to order the results */
+  orderBy?: string;
 }
 export const ListProjectsLocationsFirewallEndpointAssociationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6002,17 +6002,17 @@ export const FirewallEndpointAssociationList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing Associations */
 export interface ListFirewallEndpointAssociationsResponse {
-  /** The list of Association */
-  firewallEndpointAssociations?: FirewallEndpointAssociationList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of Association */
+  firewallEndpointAssociations?: FirewallEndpointAssociationList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListFirewallEndpointAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    firewallEndpointAssociations: S.optional(FirewallEndpointAssociationList),
     nextPageToken: S.optional(S.String),
+    firewallEndpointAssociations: S.optional(FirewallEndpointAssociationList),
     unreachable: S.optional(StringList),
   }),
 ).annotate({
@@ -6020,24 +6020,24 @@ export const ListFirewallEndpointAssociationsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListFirewallEndpointAssociationsResponse>;
 
 export interface ListProjectsLocationsFirewallEndpointsRequest {
-  /** Required. Parent value for ListEndpointsRequest */
-  parent: string;
-  /** Hint for how to order the results */
-  orderBy?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. Filtering results */
-  filter?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. Parent value for ListEndpointsRequest */
+  parent: string;
+  /** Optional. Filtering results */
+  filter?: string;
+  /** Hint for how to order the results */
+  orderBy?: string;
 }
 export const ListProjectsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6050,22 +6050,22 @@ export const ListProjectsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<ListProjectsLocationsFirewallEndpointsRequest>;
 
 export interface ListProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest {
-  /** Optional. Filter expression to filter the results. See AIP-160 for filtering syntax. Supported fields are: - `sha256` (string, equality only, e.g. `sha256 = "..."`) - `state` (enum, equality only, e.g. `state = "ACTIVE"`) - `create_time` (timestamp, comparisons, e.g. `create_time > "2026-01-01T00:00:00Z"`) */
-  filter?: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Required. Parent value for ListWildfireVerdictChangeRequestsRequest. The parent is a firewall endpoint resource. Format: organizations|projects/{project_or_organization}/locations/{location}/firewallEndpoints/{firewall_endpoint} */
-  parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. Parent value for ListWildfireVerdictChangeRequestsRequest. The parent is a firewall endpoint resource. Format: organizations|projects/{project_or_organization}/locations/{location}/firewallEndpoints/{firewall_endpoint} */
+  parent: string;
+  /** Optional. Filter expression to filter the results. See AIP-160 for filtering syntax. Supported fields are: - `sha256` (string, equality only, e.g. `sha256 = "..."`) - `state` (enum, equality only, e.g. `state = "ACTIVE"`) - `create_time` (timestamp, comparisons, e.g. `create_time > "2026-01-01T00:00:00Z"`) */
+  filter?: string;
 }
 export const ListProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6110,35 +6110,35 @@ export const GatewaySecurityPolicyList = /*@__PURE__*/ S.Array(
 export interface ListGatewaySecurityPoliciesResponse {
   /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
   nextPageToken?: string;
-  /** List of GatewaySecurityPolicies resources. */
-  gatewaySecurityPolicies?: GatewaySecurityPolicyList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** List of GatewaySecurityPolicies resources. */
+  gatewaySecurityPolicies?: GatewaySecurityPolicyList;
 }
 export const ListGatewaySecurityPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    gatewaySecurityPolicies: S.optional(GatewaySecurityPolicyList),
     unreachable: S.optional(StringList),
+    gatewaySecurityPolicies: S.optional(GatewaySecurityPolicyList),
   }),
 ).annotate({
   identifier: "ListGatewaySecurityPoliciesResponse",
 }) as any as S.Schema<ListGatewaySecurityPoliciesResponse>;
 
 export interface ListProjectsLocationsGatewaySecurityPoliciesRulesRequest {
-  /** Required. The project, location and GatewaySecurityPolicy from which the GatewaySecurityPolicyRules should be listed, specified in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/{gatewaySecurityPolicy}`. */
-  parent: string;
-  /** The value returned by the last 'ListGatewaySecurityPolicyRulesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicyRules' call, and that the system should return the next page of data. */
-  pageToken?: string;
   /** Maximum number of GatewaySecurityPolicyRules to return per call. */
   pageSize?: number;
+  /** The value returned by the last 'ListGatewaySecurityPolicyRulesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicyRules' call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** Required. The project, location and GatewaySecurityPolicy from which the GatewaySecurityPolicyRules should be listed, specified in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/{gatewaySecurityPolicy}`. */
+  parent: string;
 }
 export const ListProjectsLocationsGatewaySecurityPoliciesRulesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6159,40 +6159,40 @@ export const GatewaySecurityPolicyRuleList = /*@__PURE__*/ S.Array(
 export interface ListGatewaySecurityPolicyRulesResponse {
   /** List of GatewaySecurityPolicyRule resources. */
   gatewaySecurityPolicyRules?: GatewaySecurityPolicyRuleList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListGatewaySecurityPolicyRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gatewaySecurityPolicyRules: S.optional(GatewaySecurityPolicyRuleList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListGatewaySecurityPolicyRulesResponse",
 }) as any as S.Schema<ListGatewaySecurityPolicyRulesResponse>;
 
 export interface ListProjectsLocationsInterceptDeploymentGroupsRequest {
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string;
-  /** Optional. A page token, received from a previous `ListInterceptDeploymentGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptDeploymentGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
-  pageToken?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. A page token, received from a previous `ListInterceptDeploymentGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptDeploymentGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
+  pageToken?: string;
   /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string;
 }
 export const ListProjectsLocationsInterceptDeploymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6226,24 +6226,24 @@ export const ListInterceptDeploymentGroupsResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListInterceptDeploymentGroupsResponse>;
 
 export interface ListProjectsLocationsInterceptDeploymentsRequest {
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListInterceptDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
-  pageToken?: string;
-  /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
-  parent: string;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. A page token, received from a previous `ListInterceptDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
+  pageToken?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number;
+  /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
+  parent: string;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string;
 }
 export const ListProjectsLocationsInterceptDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6262,43 +6262,43 @@ export const InterceptDeploymentList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListInterceptDeployments. */
 export interface ListInterceptDeploymentsResponse {
+  /** The deployments from the specified parent. */
+  interceptDeployments?: InterceptDeploymentList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The deployments from the specified parent. */
-  interceptDeployments?: InterceptDeploymentList;
 }
 export const ListInterceptDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    interceptDeployments: S.optional(InterceptDeploymentList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    interceptDeployments: S.optional(InterceptDeploymentList),
   }),
 ).annotate({
   identifier: "ListInterceptDeploymentsResponse",
 }) as any as S.Schema<ListInterceptDeploymentsResponse>;
 
 export interface ListProjectsLocationsInterceptEndpointGroupAssociationsRequest {
-  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number;
-  /** Required. The parent, which owns this collection of associations. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
-  parent: string;
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string;
   /** Optional. A page token, received from a previous `ListInterceptEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string;
+  /** Required. The parent, which owns this collection of associations. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
+  parent: string;
+  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsInterceptEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6332,23 +6332,23 @@ export const ListInterceptEndpointGroupAssociationsResponse = /*@__PURE__*/ S.su
 }) as any as S.Schema<ListInterceptEndpointGroupAssociationsResponse>;
 
 export interface ListProjectsLocationsInterceptEndpointGroupsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number;
-  /** Required. The parent, which owns this collection of endpoint groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
-  parent: string;
   /** Optional. A page token, received from a previous `ListInterceptEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Required. The parent, which owns this collection of endpoint groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number;
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string;
 }
 export const ListProjectsLocationsInterceptEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -6383,24 +6383,24 @@ export const ListInterceptEndpointGroupsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListInterceptEndpointGroupsResponse>;
 
 export interface ListProjectsLocationsMirroringDeploymentGroupsRequest {
-  /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
-  parent: string;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
+  parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number;
-  /** Optional. A page token, received from a previous `ListMirroringDeploymentGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeploymentGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
-  pageToken?: string;
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string;
+  /** Optional. A page token, received from a previous `ListMirroringDeploymentGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeploymentGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsMirroringDeploymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6419,39 +6419,39 @@ export const MirroringDeploymentGroupList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListMirroringDeploymentGroups. */
 export interface ListMirroringDeploymentGroupsResponse {
-  /** The deployment groups from the specified parent. */
-  mirroringDeploymentGroups?: MirroringDeploymentGroupList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
   nextPageToken?: string;
+  /** The deployment groups from the specified parent. */
+  mirroringDeploymentGroups?: MirroringDeploymentGroupList;
 }
 export const ListMirroringDeploymentGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mirroringDeploymentGroups: S.optional(MirroringDeploymentGroupList),
     nextPageToken: S.optional(S.String),
+    mirroringDeploymentGroups: S.optional(MirroringDeploymentGroupList),
   }),
 ).annotate({
   identifier: "ListMirroringDeploymentGroupsResponse",
 }) as any as S.Schema<ListMirroringDeploymentGroupsResponse>;
 
 export interface ListProjectsLocationsMirroringDeploymentsRequest {
-  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
-  /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListMirroringDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
-  pageToken?: string;
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number;
+  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string;
+  /** Optional. A page token, received from a previous `ListMirroringDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
+  pageToken?: string;
+  /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
+  parent: string;
 }
 export const ListProjectsLocationsMirroringDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6470,17 +6470,17 @@ export const MirroringDeploymentList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListMirroringDeployments. */
 export interface ListMirroringDeploymentsResponse {
-  /** Unordered list. Locations that could not be reached. See https://google.aip.dev/217 for more details. */
-  unreachable?: StringList;
   /** The deployments from the specified parent. */
   mirroringDeployments?: MirroringDeploymentList;
+  /** Unordered list. Locations that could not be reached. See https://google.aip.dev/217 for more details. */
+  unreachable?: StringList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
   nextPageToken?: string;
 }
 export const ListMirroringDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     mirroringDeployments: S.optional(MirroringDeploymentList),
+    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -6488,6 +6488,8 @@ export const ListMirroringDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMirroringDeploymentsResponse>;
 
 export interface ListProjectsLocationsMirroringEndpointGroupAssociationsRequest {
+  /** Optional. A page token, received from a previous `ListMirroringEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
+  pageToken?: string;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
@@ -6496,17 +6498,15 @@ export interface ListProjectsLocationsMirroringEndpointGroupAssociationsRequest 
   filter?: string;
   /** Required. The parent, which owns this collection of associations. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
-  /** Optional. A page token, received from a previous `ListMirroringEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6540,24 +6540,24 @@ export const ListMirroringEndpointGroupAssociationsResponse = /*@__PURE__*/ S.su
 }) as any as S.Schema<ListMirroringEndpointGroupAssociationsResponse>;
 
 export interface ListProjectsLocationsMirroringEndpointGroupsRequest {
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string;
-  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListMirroringEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number;
+  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
   /** Required. The parent, which owns this collection of endpoint groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string;
 }
 export const ListProjectsLocationsMirroringEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6576,38 +6576,38 @@ export const MirroringEndpointGroupList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListMirroringEndpointGroups. */
 export interface ListMirroringEndpointGroupsResponse {
-  /** The endpoint groups from the specified parent. */
-  mirroringEndpointGroups?: MirroringEndpointGroupList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
   nextPageToken?: string;
+  /** The endpoint groups from the specified parent. */
+  mirroringEndpointGroups?: MirroringEndpointGroupList;
 }
 export const ListMirroringEndpointGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mirroringEndpointGroups: S.optional(MirroringEndpointGroupList),
     nextPageToken: S.optional(S.String),
+    mirroringEndpointGroups: S.optional(MirroringEndpointGroupList),
   }),
 ).annotate({
   identifier: "ListMirroringEndpointGroupsResponse",
 }) as any as S.Schema<ListMirroringEndpointGroupsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list filter. */
+  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -6621,24 +6621,24 @@ export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ListProjectsLocationsOperationsRequest>;
 
 export interface ListProjectsLocationsSacAttachmentsRequest {
-  /** Optional. Sort the results by a certain order. */
-  orderBy?: string;
-  /** Optional. An expression that filters the list of results. */
-  filter?: string;
-  /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Sort the results by a certain order. */
+  orderBy?: string;
+  /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An expression that filters the list of results. */
+  filter?: string;
 }
 export const ListProjectsLocationsSacAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6657,42 +6657,42 @@ export const SACAttachmentList = /*@__PURE__*/ S.Array(
 
 /** Response for `ListSACAttachments` method. */
 export interface ListSACAttachmentsResponse {
-  /** The list of SACAttachments. */
-  sacAttachments?: SACAttachmentList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** The list of SACAttachments. */
+  sacAttachments?: SACAttachmentList;
 }
 export const ListSACAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sacAttachments: S.optional(SACAttachmentList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    sacAttachments: S.optional(SACAttachmentList),
   }),
 ).annotate({
   identifier: "ListSACAttachmentsResponse",
 }) as any as S.Schema<ListSACAttachmentsResponse>;
 
 export interface ListProjectsLocationsSacRealmsRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Optional. An expression that filters the list of results. */
-  filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. Sort the results by a certain order. */
-  orderBy?: string;
   /** Required. The parent, in the form `projects/{project}/locations/global`. */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. An expression that filters the list of results. */
+  filter?: string;
+  /** Optional. Sort the results by a certain order. */
+  orderBy?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsSacRealmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6709,18 +6709,18 @@ export const SACRealmList = /*@__PURE__*/ S.Array(SACRealm) as any as S.Schema<S
 
 /** Response for `ListSACRealms` method. */
 export interface ListSACRealmsResponse {
-  /** The list of SACRealms. */
-  sacRealms?: SACRealmList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** The list of SACRealms. */
+  sacRealms?: SACRealmList;
 }
 export const ListSACRealmsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sacRealms: S.optional(SACRealmList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    sacRealms: S.optional(SACRealmList),
   }),
 ).annotate({ identifier: "ListSACRealmsResponse" }) as any as S.Schema<ListSACRealmsResponse>;
 
@@ -6749,18 +6749,18 @@ export const ListProjectsLocationsSecurityProfileGroupsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListProjectsLocationsSecurityProfileGroupsRequest>;
 
 export interface ListProjectsLocationsSecurityProfilesRequest {
+  /** Optional. The value returned by the last `ListSecurityProfilesResponse` Indicates that this is a continuation of a prior `ListSecurityProfiles` call, and that the system should return the next page of data. */
+  pageToken?: string;
   /** Optional. Maximum number of SecurityProfiles to return per call. */
   pageSize?: number;
   /** Required. The project or organization and location from which the SecurityProfiles should be listed, specified in the format `projects|organizations/*\/locations/{location}`. */
   parent: string;
-  /** Optional. The value returned by the last `ListSecurityProfilesResponse` Indicates that this is a continuation of a prior `ListSecurityProfiles` call, and that the system should return the next page of data. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsSecurityProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6773,21 +6773,21 @@ export const ListProjectsLocationsSecurityProfilesRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ListProjectsLocationsSecurityProfilesRequest>;
 
 export interface ListProjectsLocationsServerTlsPoliciesRequest {
-  /** Required. The project and location from which the ServerTlsPolicies should be listed, specified in the format `projects/*\/locations/{location}`. */
-  parent: string;
-  /** Optional. Setting this field to `true` will opt the request into returning the resources that are reachable, and into including the names of those that were unreachable in the [ListServerTlsPoliciesResponse.unreachable] field. This can only be `true` when reading across collections e.g. when `parent` is set to `"projects/example/locations/-"`. */
-  returnPartialSuccess?: boolean;
-  /** Maximum number of ServerTlsPolicies to return per call. */
-  pageSize?: number;
   /** The value returned by the last `ListServerTlsPoliciesResponse` Indicates that this is a continuation of a prior `ListServerTlsPolicies` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Maximum number of ServerTlsPolicies to return per call. */
+  pageSize?: number;
+  /** Optional. Setting this field to `true` will opt the request into returning the resources that are reachable, and into including the names of those that were unreachable in the [ListServerTlsPoliciesResponse.unreachable] field. This can only be `true` when reading across collections e.g. when `parent` is set to `"projects/example/locations/-"`. */
+  returnPartialSuccess?: boolean;
+  /** Required. The project and location from which the ServerTlsPolicies should be listed, specified in the format `projects/*\/locations/{location}`. */
+  parent: string;
 }
 export const ListProjectsLocationsServerTlsPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6806,17 +6806,17 @@ export const ServerTlsPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListServerTlsPolicies method. */
 export interface ListServerTlsPoliciesResponse {
-  /** Unreachable resources. Populated when the request opts into `return_partial_success` and reading across collections e.g. when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** Unreachable resources. Populated when the request opts into `return_partial_success` and reading across collections e.g. when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** List of ServerTlsPolicy resources. */
   serverTlsPolicies?: ServerTlsPolicyList;
 }
 export const ListServerTlsPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
     serverTlsPolicies: S.optional(ServerTlsPolicyList),
   }),
 ).annotate({
@@ -6824,17 +6824,17 @@ export const ListServerTlsPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListServerTlsPoliciesResponse>;
 
 export interface ListProjectsLocationsTlsInspectionPoliciesRequest {
-  /** Maximum number of TlsInspectionPolicies to return per call. */
-  pageSize?: number;
   /** Required. The project and location from which the TlsInspectionPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Maximum number of TlsInspectionPolicies to return per call. */
+  pageSize?: number;
   /** The value returned by the last 'ListTlsInspectionPoliciesResponse' Indicates that this is a continuation of a prior 'ListTlsInspectionPolicies' call, and that the system should return the next page of data. */
   pageToken?: string;
 }
 export const ListProjectsLocationsTlsInspectionPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -6854,36 +6854,36 @@ export const TlsInspectionPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response returned by the ListTlsInspectionPolicies method. */
 export interface ListTlsInspectionPoliciesResponse {
+  /** List of TlsInspectionPolicies resources. */
+  tlsInspectionPolicies?: TlsInspectionPolicyList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
   nextPageToken?: string;
-  /** List of TlsInspectionPolicies resources. */
-  tlsInspectionPolicies?: TlsInspectionPolicyList;
 }
 export const ListTlsInspectionPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    tlsInspectionPolicies: S.optional(TlsInspectionPolicyList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
-    tlsInspectionPolicies: S.optional(TlsInspectionPolicyList),
   }),
 ).annotate({
   identifier: "ListTlsInspectionPoliciesResponse",
 }) as any as S.Schema<ListTlsInspectionPoliciesResponse>;
 
 export interface ListProjectsLocationsUrlListsRequest {
+  /** Maximum number of UrlLists to return per call. */
+  pageSize?: number;
   /** The value returned by the last `ListUrlListsResponse` Indicates that this is a continuation of a prior `ListUrlLists` call, and that the system should return the next page of data. */
   pageToken?: string;
   /** Required. The project and location from which the UrlLists should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Maximum number of UrlLists to return per call. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsUrlListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6916,19 +6916,19 @@ export const ListUrlListsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListUrlListsResponse" }) as any as S.Schema<ListUrlListsResponse>;
 
 export interface ListReferencesOrganizationsLocationsAddressGroupsRequest {
-  /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
-  addressGroup: string;
-  /** The maximum number of references to return. If unspecified, server will pick an appropriate default. Server may return fewer items than requested. A caller should only rely on response's next_page_token to determine if there are more AddressGroupUsers left to be queried. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
+  /** The maximum number of references to return. If unspecified, server will pick an appropriate default. Server may return fewer items than requested. A caller should only rely on response's next_page_token to determine if there are more AddressGroupUsers left to be queried. */
+  pageSize?: number;
+  /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
+  addressGroup: string;
 }
 export const ListReferencesOrganizationsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      addressGroup: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      addressGroup: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6942,18 +6942,18 @@ export const ListReferencesOrganizationsLocationsAddressGroupsRequest = /*@__PUR
 
 /** The Reference of AddressGroup. */
 export interface ListAddressGroupReferencesResponseAddressGroupReference {
-  /** Rule priority of the FirewallPolicy that is using the Address Group. */
-  rulePriority?: number;
-  /** Cloud Armor SecurityPolicy that is using the Address Group. */
-  securityPolicy?: string;
   /** FirewallPolicy that is using the Address Group. */
   firewallPolicy?: string;
+  /** Cloud Armor SecurityPolicy that is using the Address Group. */
+  securityPolicy?: string;
+  /** Rule priority of the FirewallPolicy that is using the Address Group. */
+  rulePriority?: number;
 }
 export const ListAddressGroupReferencesResponseAddressGroupReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rulePriority: S.optional(S.Number),
-    securityPolicy: S.optional(S.String),
     firewallPolicy: S.optional(S.String),
+    securityPolicy: S.optional(S.String),
+    rulePriority: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "ListAddressGroupReferencesResponseAddressGroupReference",
@@ -6982,18 +6982,18 @@ export const ListAddressGroupReferencesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAddressGroupReferencesResponse>;
 
 export interface ListReferencesProjectsLocationsAddressGroupsRequest {
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string;
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
   /** The maximum number of references to return. If unspecified, server will pick an appropriate default. Server may return fewer items than requested. A caller should only rely on response's next_page_token to determine if there are more AddressGroupUsers left to be queried. */
   pageSize?: number;
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
 }
 export const ListReferencesProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     addressGroup: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7008,18 +7008,18 @@ export const ListReferencesProjectsLocationsAddressGroupsRequest = /*@__PURE__*/
 export interface PatchOrganizationsLocationsAddressGroupsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
-  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
+  name: string;
   /** Request body */
   body?: AddressGroup;
 }
 export const PatchOrganizationsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(AddressGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7033,10 +7033,10 @@ export const PatchOrganizationsLocationsAddressGroupsRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<PatchOrganizationsLocationsAddressGroupsRequest>;
 
 export interface PatchOrganizationsLocationsFirewallEndpointsRequest {
-  /** Immutable. Identifier. Name of resource. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Immutable. Identifier. Name of resource. */
+  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
   /** Request body */
@@ -7044,8 +7044,8 @@ export interface PatchOrganizationsLocationsFirewallEndpointsRequest {
 }
 export const PatchOrganizationsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(FirewallEndpoint.pipe(T.HttpBody())),
   }).pipe(
@@ -7084,17 +7084,17 @@ export const PatchOrganizationsLocationsSecurityProfileGroupsRequest = /*@__PURE
 }) as any as S.Schema<PatchOrganizationsLocationsSecurityProfileGroupsRequest>;
 
 export interface PatchOrganizationsLocationsSecurityProfilesRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten in the SecurityProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
-  updateMask?: string;
   /** Immutable. Identifier. Name of the SecurityProfile resource. It matches pattern `projects|organizations/*\/locations/{location}/securityProfiles/{security_profile}`. */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the SecurityProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
+  updateMask?: string;
   /** Request body */
   body?: SecurityProfile;
 }
 export const PatchOrganizationsLocationsSecurityProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(SecurityProfile.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7110,18 +7110,18 @@ export const PatchOrganizationsLocationsSecurityProfilesRequest = /*@__PURE__*/ 
 export interface PatchProjectsLocationsAddressGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
+  name: string;
   /** Request body */
   body?: AddressGroup;
 }
 export const PatchProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(AddressGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7135,17 +7135,17 @@ export const PatchProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<PatchProjectsLocationsAddressGroupsRequest>;
 
 export interface PatchProjectsLocationsAuthorizationPoliciesRequest {
-  /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AuthorizationPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
+  name: string;
   /** Request body */
   body?: AuthorizationPolicy;
 }
 export const PatchProjectsLocationsAuthorizationPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(AuthorizationPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7159,20 +7159,20 @@ export const PatchProjectsLocationsAuthorizationPoliciesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<PatchProjectsLocationsAuthorizationPoliciesRequest>;
 
 export interface PatchProjectsLocationsAuthzPoliciesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. Used to specify the fields to be overwritten in the `AuthzPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
-  updateMask?: string;
   /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
   name: string;
+  /** Required. Used to specify the fields to be overwritten in the `AuthzPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
+  updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: AuthzPolicy;
 }
 export const PatchProjectsLocationsAuthzPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(AuthzPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7235,17 +7235,17 @@ export const PatchProjectsLocationsClientTlsPoliciesRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<PatchProjectsLocationsClientTlsPoliciesRequest>;
 
 export interface PatchProjectsLocationsDnsThreatDetectorsRequest {
-  /** Optional. The field mask is used to specify the fields to be overwritten in the DnsThreatDetector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the mask is not provided then all fields present in the request will be overwritten. */
-  updateMask?: string;
   /** Immutable. Identifier. Name of the DnsThreatDetector resource. */
   name: string;
+  /** Optional. The field mask is used to specify the fields to be overwritten in the DnsThreatDetector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the mask is not provided then all fields present in the request will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: DnsThreatDetector;
 }
 export const PatchProjectsLocationsDnsThreatDetectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(DnsThreatDetector.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7259,21 +7259,21 @@ export const PatchProjectsLocationsDnsThreatDetectorsRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<PatchProjectsLocationsDnsThreatDetectorsRequest>;
 
 export interface PatchProjectsLocationsFirewallEndpointAssociationsRequest {
-  /** Immutable. Identifier. name of resource */
-  name: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the Association resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the Association resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
+  /** Immutable. Identifier. name of resource */
+  name: string;
   /** Request body */
   body?: FirewallEndpointAssociation;
 }
 export const PatchProjectsLocationsFirewallEndpointAssociationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       requestId: S.optional(S.String.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(FirewallEndpointAssociation.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7287,20 +7287,20 @@ export const PatchProjectsLocationsFirewallEndpointAssociationsRequest = /*@__PU
 }) as any as S.Schema<PatchProjectsLocationsFirewallEndpointAssociationsRequest>;
 
 export interface PatchProjectsLocationsFirewallEndpointsRequest {
+  /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Immutable. Identifier. Name of resource. */
   name: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Request body */
   body?: FirewallEndpoint;
 }
 export const PatchProjectsLocationsFirewallEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(FirewallEndpoint.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7365,18 +7365,18 @@ export const PatchProjectsLocationsGatewaySecurityPoliciesRulesRequest = /*@__PU
 export interface PatchProjectsLocationsInterceptDeploymentGroupsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `intercept_deployment_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
-  /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
-  name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
+  /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
+  name: string;
   /** Request body */
   body?: InterceptDeploymentGroup;
 }
 export const PatchProjectsLocationsInterceptDeploymentGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(InterceptDeploymentGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7392,18 +7392,18 @@ export const PatchProjectsLocationsInterceptDeploymentGroupsRequest = /*@__PURE_
 export interface PatchProjectsLocationsInterceptDeploymentsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment (e.g. `description`; *not* `intercept_deployment.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/interceptDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
   name: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
   /** Request body */
   body?: InterceptDeployment;
 }
 export const PatchProjectsLocationsInterceptDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(InterceptDeployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7417,21 +7417,21 @@ export const PatchProjectsLocationsInterceptDeploymentsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<PatchProjectsLocationsInterceptDeploymentsRequest>;
 
 export interface PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest {
-  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
-  name: string;
   /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `intercept_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
+  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
+  name: string;
   /** Request body */
   body?: InterceptEndpointGroupAssociation;
 }
 export const PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
       requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(InterceptEndpointGroupAssociation.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7447,18 +7447,18 @@ export const PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest =
 export interface PatchProjectsLocationsInterceptEndpointGroupsRequest {
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name: string;
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string;
   /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `intercept_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string;
   /** Request body */
   body?: InterceptEndpointGroup;
 }
 export const PatchProjectsLocationsInterceptEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(InterceptEndpointGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7526,21 +7526,21 @@ export const PatchProjectsLocationsMirroringDeploymentsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<PatchProjectsLocationsMirroringDeploymentsRequest>;
 
 export interface PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest {
+  /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `mirroring_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
+  updateMask?: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
   /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/mirroringEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
   name: string;
-  /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `mirroring_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
-  updateMask?: string;
   /** Request body */
   body?: MirroringEndpointGroupAssociation;
 }
 export const PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      updateMask: S.optional(S.String.pipe(T.Query())),
       requestId: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(MirroringEndpointGroupAssociation.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7554,10 +7554,10 @@ export const PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest =
   }) as any as S.Schema<PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest>;
 
 export interface PatchProjectsLocationsMirroringEndpointGroupsRequest {
-  /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `mirroring_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
-  updateMask?: string;
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name: string;
+  /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `mirroring_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
+  updateMask?: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
   /** Request body */
@@ -7565,8 +7565,8 @@ export interface PatchProjectsLocationsMirroringEndpointGroupsRequest {
 }
 export const PatchProjectsLocationsMirroringEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(MirroringEndpointGroup.pipe(T.HttpBody())),
   }).pipe(
@@ -7629,17 +7629,17 @@ export const PatchProjectsLocationsSecurityProfilesRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<PatchProjectsLocationsSecurityProfilesRequest>;
 
 export interface PatchProjectsLocationsServerTlsPoliciesRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the ServerTlsPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Required. Name of the ServerTlsPolicy resource. It matches the pattern `projects/*\/locations/{location}/serverTlsPolicies/{server_tls_policy}` */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the ServerTlsPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: ServerTlsPolicy;
 }
 export const PatchProjectsLocationsServerTlsPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ServerTlsPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7653,17 +7653,17 @@ export const PatchProjectsLocationsServerTlsPoliciesRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<PatchProjectsLocationsServerTlsPoliciesRequest>;
 
 export interface PatchProjectsLocationsTlsInspectionPoliciesRequest {
-  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsInspectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name: string;
   /** Request body */
   body?: TlsInspectionPolicy;
 }
 export const PatchProjectsLocationsTlsInspectionPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(TlsInspectionPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7702,15 +7702,15 @@ export const PatchProjectsLocationsUrlListsRequest = /*@__PURE__*/ S.suspend(() 
 
 /** Request used by the RemoveAddressGroupItems method. */
 export interface RemoveAddressGroupItemsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. List of items to remove. */
   items?: StringList;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const RemoveAddressGroupItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
     items: S.optional(StringList),
+    requestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RemoveAddressGroupItemsRequest",
@@ -7760,15 +7760,15 @@ export const RemoveItemsProjectsLocationsAddressGroupsRequest = /*@__PURE__*/ S.
 
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: GoogleIamV1Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: GoogleIamV1Policy;
 }
 export const GoogleIamV1SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(GoogleIamV1Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(GoogleIamV1Policy),
   }),
 ).annotate({
   identifier: "GoogleIamV1SetIamPolicyRequest",

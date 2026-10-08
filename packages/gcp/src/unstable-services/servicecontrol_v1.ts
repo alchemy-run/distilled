@@ -61,6 +61,9 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 export type QuotaOperationQuotaModeEnum =
   | "UNSPECIFIED"
   | "NORMAL"
@@ -68,9 +71,6 @@ export type QuotaOperationQuotaModeEnum =
   | "CHECK_ONLY"
   | "ADJUST_ONLY";
 export const QuotaOperationQuotaModeEnum = S.String;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
 /** Represents an amount of money with its currency type. */
 export interface Money {
@@ -103,43 +103,6 @@ export const ExplicitBuckets = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ExplicitBuckets" }) as any as S.Schema<ExplicitBuckets>;
 
-/** Describing buckets with exponentially growing width. */
-export interface ExponentialBuckets {
-  /** The i'th exponential bucket covers the interval [scale * growth_factor^(i-1), scale * growth_factor^i) where i ranges from 1 to num_finite_buckets inclusive. Must be larger than 1.0. */
-  growthFactor?: number;
-  /** The i'th exponential bucket covers the interval [scale * growth_factor^(i-1), scale * growth_factor^i) where i ranges from 1 to num_finite_buckets inclusive. Must be > 0. */
-  scale?: number;
-  /** The number of finite buckets. With the underflow and overflow buckets, the total number of buckets is `num_finite_buckets` + 2. See comments on `bucket_options` for details. */
-  numFiniteBuckets?: number;
-}
-export const ExponentialBuckets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    growthFactor: S.optional(S.Number),
-    scale: S.optional(S.Number),
-    numFiniteBuckets: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ExponentialBuckets" }) as any as S.Schema<ExponentialBuckets>;
-
-/** Describing buckets with constant width. */
-export interface LinearBuckets {
-  /** The i'th linear bucket covers the interval [offset + (i-1) * width, offset + i * width) where i ranges from 1 to num_finite_buckets, inclusive. Must be strictly positive. */
-  width?: number;
-  /** The i'th linear bucket covers the interval [offset + (i-1) * width, offset + i * width) where i ranges from 1 to num_finite_buckets, inclusive. */
-  offset?: number;
-  /** The number of finite buckets. With the underflow and overflow buckets, the total number of buckets is `num_finite_buckets` + 2. See comments on `bucket_options` for details. */
-  numFiniteBuckets?: number;
-}
-export const LinearBuckets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    width: S.optional(S.Number),
-    offset: S.optional(S.Number),
-    numFiniteBuckets: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LinearBuckets" }) as any as S.Schema<LinearBuckets>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -171,75 +134,112 @@ export const Exemplar = /*@__PURE__*/ S.suspend(() =>
 export type ExemplarList = Array<Exemplar>;
 export const ExemplarList = /*@__PURE__*/ S.Array(Exemplar) as any as S.Schema<ExemplarList>;
 
+/** Describing buckets with exponentially growing width. */
+export interface ExponentialBuckets {
+  /** The number of finite buckets. With the underflow and overflow buckets, the total number of buckets is `num_finite_buckets` + 2. See comments on `bucket_options` for details. */
+  numFiniteBuckets?: number;
+  /** The i'th exponential bucket covers the interval [scale * growth_factor^(i-1), scale * growth_factor^i) where i ranges from 1 to num_finite_buckets inclusive. Must be > 0. */
+  scale?: number;
+  /** The i'th exponential bucket covers the interval [scale * growth_factor^(i-1), scale * growth_factor^i) where i ranges from 1 to num_finite_buckets inclusive. Must be larger than 1.0. */
+  growthFactor?: number;
+}
+export const ExponentialBuckets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    numFiniteBuckets: S.optional(S.Number),
+    scale: S.optional(S.Number),
+    growthFactor: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ExponentialBuckets" }) as any as S.Schema<ExponentialBuckets>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Describing buckets with constant width. */
+export interface LinearBuckets {
+  /** The i'th linear bucket covers the interval [offset + (i-1) * width, offset + i * width) where i ranges from 1 to num_finite_buckets, inclusive. Must be strictly positive. */
+  width?: number;
+  /** The number of finite buckets. With the underflow and overflow buckets, the total number of buckets is `num_finite_buckets` + 2. See comments on `bucket_options` for details. */
+  numFiniteBuckets?: number;
+  /** The i'th linear bucket covers the interval [offset + (i-1) * width, offset + i * width) where i ranges from 1 to num_finite_buckets, inclusive. */
+  offset?: number;
+}
+export const LinearBuckets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    width: S.optional(S.Number),
+    numFiniteBuckets: S.optional(S.Number),
+    offset: S.optional(S.Number),
+  }),
+).annotate({ identifier: "LinearBuckets" }) as any as S.Schema<LinearBuckets>;
+
 /** Distribution represents a frequency distribution of double-valued sample points. It contains the size of the population of sample points plus additional optional information: * the arithmetic mean of the samples * the minimum and maximum of the samples * the sum-squared-deviation of the samples, used to compute variance * a histogram of the values of the sample points */
 export interface Distribution {
-  /** Buckets with arbitrary user-provided width. */
-  explicitBuckets?: ExplicitBuckets;
-  /** The arithmetic mean of the samples in the distribution. If `count` is zero then this field must be zero. */
-  mean?: number;
-  /** Buckets with exponentially growing width. */
-  exponentialBuckets?: ExponentialBuckets;
-  /** Buckets with constant width. */
-  linearBuckets?: LinearBuckets;
-  /** The number of samples in each histogram bucket. `bucket_counts` are optional. If present, they must sum to the `count` value. The buckets are defined below in `bucket_option`. There are N buckets. `bucket_counts[0]` is the number of samples in the underflow bucket. `bucket_counts[1]` to `bucket_counts[N-1]` are the numbers of samples in each of the finite buckets. And `bucket_counts[N]` is the number of samples in the overflow bucket. See the comments of `bucket_option` below for more details. Any suffix of trailing zeros may be omitted. */
-  bucketCounts?: StringList;
-  /** The total number of samples in the distribution. Must be >= 0. */
-  count?: string;
   /** The sum of squared deviations from the mean: Sum[i=1..count]((x_i - mean)^2) where each x_i is a sample values. If `count` is zero then this field must be zero, otherwise validation of the request fails. */
   sumOfSquaredDeviation?: number;
-  /** The minimum of the population of values. Ignored if `count` is zero. */
-  minimum?: number;
+  /** Buckets with arbitrary user-provided width. */
+  explicitBuckets?: ExplicitBuckets;
   /** The maximum of the population of values. Ignored if `count` is zero. */
   maximum?: number;
   /** Example points. Must be in increasing order of `value` field. */
   exemplars?: ExemplarList;
+  /** The minimum of the population of values. Ignored if `count` is zero. */
+  minimum?: number;
+  /** Buckets with exponentially growing width. */
+  exponentialBuckets?: ExponentialBuckets;
+  /** The arithmetic mean of the samples in the distribution. If `count` is zero then this field must be zero. */
+  mean?: number;
+  /** The number of samples in each histogram bucket. `bucket_counts` are optional. If present, they must sum to the `count` value. The buckets are defined below in `bucket_option`. There are N buckets. `bucket_counts[0]` is the number of samples in the underflow bucket. `bucket_counts[1]` to `bucket_counts[N-1]` are the numbers of samples in each of the finite buckets. And `bucket_counts[N]` is the number of samples in the overflow bucket. See the comments of `bucket_option` below for more details. Any suffix of trailing zeros may be omitted. */
+  bucketCounts?: StringList;
+  /** The total number of samples in the distribution. Must be >= 0. */
+  count?: string;
+  /** Buckets with constant width. */
+  linearBuckets?: LinearBuckets;
 }
 export const Distribution = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    explicitBuckets: S.optional(ExplicitBuckets),
-    mean: S.optional(S.Number),
-    exponentialBuckets: S.optional(ExponentialBuckets),
-    linearBuckets: S.optional(LinearBuckets),
-    bucketCounts: S.optional(StringList),
-    count: S.optional(S.String),
     sumOfSquaredDeviation: S.optional(S.Number),
-    minimum: S.optional(S.Number),
+    explicitBuckets: S.optional(ExplicitBuckets),
     maximum: S.optional(S.Number),
     exemplars: S.optional(ExemplarList),
+    minimum: S.optional(S.Number),
+    exponentialBuckets: S.optional(ExponentialBuckets),
+    mean: S.optional(S.Number),
+    bucketCounts: S.optional(StringList),
+    count: S.optional(S.String),
+    linearBuckets: S.optional(LinearBuckets),
   }),
 ).annotate({ identifier: "Distribution" }) as any as S.Schema<Distribution>;
 
 /** Represents a single metric value. */
 export interface MetricValue {
+  /** The labels describing the metric value. See comments on google.api.servicecontrol.v1.Operation.labels for the overriding relationship. Note that this map must not contain monitored resource labels. */
+  labels?: StringMap;
+  /** A signed 64-bit integer value. */
+  int64Value?: string;
+  /** A double precision floating point value. */
+  doubleValue?: number;
+  /** A money value. */
+  moneyValue?: Money;
+  /** The end of the time period over which this metric value's measurement applies. If not specified, google.api.servicecontrol.v1.Operation.end_time will be used. */
+  endTime?: string;
   /** The start of the time period over which this metric value's measurement applies. The time period has different semantics for different metric types (cumulative, delta, and gauge). See the metric definition documentation in the service configuration for details. If not specified, google.api.servicecontrol.v1.Operation.start_time will be used. */
   startTime?: string;
   /** A boolean value. */
   boolValue?: boolean;
-  /** A money value. */
-  moneyValue?: Money;
   /** A distribution value. */
   distributionValue?: Distribution;
-  /** The end of the time period over which this metric value's measurement applies. If not specified, google.api.servicecontrol.v1.Operation.end_time will be used. */
-  endTime?: string;
-  /** A double precision floating point value. */
-  doubleValue?: number;
-  /** A signed 64-bit integer value. */
-  int64Value?: string;
-  /** The labels describing the metric value. See comments on google.api.servicecontrol.v1.Operation.labels for the overriding relationship. Note that this map must not contain monitored resource labels. */
-  labels?: StringMap;
   /** A text string value. */
   stringValue?: string;
 }
 export const MetricValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(StringMap),
+    int64Value: S.optional(S.String),
+    doubleValue: S.optional(S.Number),
+    moneyValue: S.optional(Money),
+    endTime: S.optional(S.String),
     startTime: S.optional(S.String),
     boolValue: S.optional(S.Boolean),
-    moneyValue: S.optional(Money),
     distributionValue: S.optional(Distribution),
-    endTime: S.optional(S.String),
-    doubleValue: S.optional(S.Number),
-    int64Value: S.optional(S.String),
-    labels: S.optional(StringMap),
     stringValue: S.optional(S.String),
   }),
 ).annotate({ identifier: "MetricValue" }) as any as S.Schema<MetricValue>;
@@ -270,27 +270,27 @@ export const MetricValueSetList = /*@__PURE__*/ S.Array(
 
 /** Represents information regarding a quota operation. */
 export interface QuotaOperation {
-  /** Identity of the consumer for whom this quota operation is being performed. This can be in one of the following formats: project:, project_number:, api_key:. */
-  consumerId?: string;
-  /** Quota mode for this operation. */
-  quotaMode?: QuotaOperationQuotaModeEnum | (string & {});
-  /** Labels describing the operation. */
-  labels?: StringMap;
   /** Identity of the operation. For Allocation Quota, this is expected to be unique within the scope of the service that generated the operation, and guarantees idempotency in case of retries. In order to ensure best performance and latency in the Quota backends, operation_ids are optimally associated with time, so that related operations can be accessed fast in storage. For this reason, the recommended token for services that intend to operate at a high QPS is Unix time in nanos + UUID */
   operationId?: string;
-  /** Fully qualified name of the API method for which this quota operation is requested. This name is used for matching quota rules or metric rules and billing status rules defined in service configuration. This field should not be set if any of the following is true: (1) the quota operation is performed on non-API resources. (2) quota_metrics is set because the caller is doing quota override. Example of an RPC method name: google.example.library.v1.LibraryService.CreateShelf */
-  methodName?: string;
+  /** Labels describing the operation. */
+  labels?: StringMap;
+  /** Quota mode for this operation. */
+  quotaMode?: QuotaOperationQuotaModeEnum | (string & {});
   /** Represents information about this operation. Each MetricValueSet corresponds to a metric defined in the service configuration. The data type used in the MetricValueSet must agree with the data type specified in the metric definition. Within a single operation, it is not allowed to have more than one MetricValue instances that have the same metric names and identical label value combinations. If a request has such duplicated MetricValue instances, the entire request is rejected with an invalid argument error. This field is mutually exclusive with method_name. */
   quotaMetrics?: MetricValueSetList;
+  /** Identity of the consumer for whom this quota operation is being performed. This can be in one of the following formats: project:, project_number:, api_key:. */
+  consumerId?: string;
+  /** Fully qualified name of the API method for which this quota operation is requested. This name is used for matching quota rules or metric rules and billing status rules defined in service configuration. This field should not be set if any of the following is true: (1) the quota operation is performed on non-API resources. (2) quota_metrics is set because the caller is doing quota override. Example of an RPC method name: google.example.library.v1.LibraryService.CreateShelf */
+  methodName?: string;
 }
 export const QuotaOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consumerId: S.optional(S.String),
-    quotaMode: S.optional(QuotaOperationQuotaModeEnum),
-    labels: S.optional(StringMap),
     operationId: S.optional(S.String),
-    methodName: S.optional(S.String),
+    labels: S.optional(StringMap),
+    quotaMode: S.optional(QuotaOperationQuotaModeEnum),
     quotaMetrics: S.optional(MetricValueSetList),
+    consumerId: S.optional(S.String),
+    methodName: S.optional(S.String),
   }),
 ).annotate({ identifier: "QuotaOperation" }) as any as S.Schema<QuotaOperation>;
 
@@ -339,23 +339,6 @@ export const AllocateInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AllocateInfo" }) as any as S.Schema<AllocateInfo>;
 
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-}
-export const Status = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.Number),
-    message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
-  }),
-).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
-
 export type QuotaErrorCodeEnum =
   | "UNSPECIFIED"
   | "RESOURCE_EXHAUSTED"
@@ -373,23 +356,40 @@ export type QuotaErrorCodeEnum =
   | "QUOTA_SYSTEM_UNAVAILABLE";
 export const QuotaErrorCodeEnum = S.String;
 
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+}
+export const Status = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
+
 /** Represents error information for QuotaOperation. */
 export interface QuotaError {
-  /** Contains additional information about the quota error. If available, `status.code` will be non zero. */
-  status?: Status;
   /** Subject to whom this error applies. See the specific enum for more details on this field. For example, "clientip:" or "project:". */
   subject?: string;
   /** Free-form text that provides details on the cause of the error. */
   description?: string;
   /** Error code. */
   code?: QuotaErrorCodeEnum;
+  /** Contains additional information about the quota error. If available, `status.code` will be non zero. */
+  status?: Status;
 }
 export const QuotaError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(Status),
     subject: S.optional(S.String),
     description: S.optional(S.String),
     code: S.optional(QuotaErrorCodeEnum),
+    status: S.optional(Status),
   }),
 ).annotate({ identifier: "QuotaError" }) as any as S.Schema<QuotaError>;
 
@@ -398,155 +398,26 @@ export const QuotaErrorList = /*@__PURE__*/ S.Array(QuotaError) as any as S.Sche
 
 /** Response message for the AllocateQuota method. */
 export interface AllocateQuotaResponse {
-  /** Quota metrics to indicate the result of allocation. Depending on the request, one or more of the following metrics will be included: 1. Per quota group or per quota metric incremental usage will be specified using the following delta metric : "serviceruntime.googleapis.com/api/consumer/quota_used_count" 2. The quota limit reached condition will be specified using the following boolean metric : "serviceruntime.googleapis.com/quota/exceeded" */
-  quotaMetrics?: MetricValueSetList;
-  /** WARNING: DO NOT use this field until this warning message is removed. */
-  allocateInfo?: AllocateInfo;
   /** The same operation_id value used in the AllocateQuotaRequest. Used for logging and diagnostics purposes. */
   operationId?: string;
-  /** ID of the actual config used to process the request. */
-  serviceConfigId?: string;
+  /** WARNING: DO NOT use this field until this warning message is removed. */
+  allocateInfo?: AllocateInfo;
   /** Indicates the decision of the allocate. */
   allocateErrors?: QuotaErrorList;
+  /** Quota metrics to indicate the result of allocation. Depending on the request, one or more of the following metrics will be included: 1. Per quota group or per quota metric incremental usage will be specified using the following delta metric : "serviceruntime.googleapis.com/api/consumer/quota_used_count" 2. The quota limit reached condition will be specified using the following boolean metric : "serviceruntime.googleapis.com/quota/exceeded" */
+  quotaMetrics?: MetricValueSetList;
+  /** ID of the actual config used to process the request. */
+  serviceConfigId?: string;
 }
 export const AllocateQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    quotaMetrics: S.optional(MetricValueSetList),
-    allocateInfo: S.optional(AllocateInfo),
     operationId: S.optional(S.String),
-    serviceConfigId: S.optional(S.String),
+    allocateInfo: S.optional(AllocateInfo),
     allocateErrors: S.optional(QuotaErrorList),
+    quotaMetrics: S.optional(MetricValueSetList),
+    serviceConfigId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AllocateQuotaResponse" }) as any as S.Schema<AllocateQuotaResponse>;
-
-/** Describes a resource associated with this operation. */
-export interface ResourceInfo {
-  /** Name of the resource. This is used for auditing purposes. */
-  resourceName?: string;
-  /** The resource permission required for this request. */
-  permission?: string;
-  /** The identifier of the parent of this resource instance. Must be in one of the following formats: - `projects/` - `folders/` - `organizations/` */
-  resourceContainer?: string;
-  /** The location of the resource. If not empty, the resource will be checked against location policy. The value must be a valid zone, region or multiregion. For example: "europe-west4" or "northamerica-northeast1-a" */
-  resourceLocation?: string;
-}
-export const ResourceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceName: S.optional(S.String),
-    permission: S.optional(S.String),
-    resourceContainer: S.optional(S.String),
-    resourceLocation: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
-
-export type ResourceInfoList = Array<ResourceInfo>;
-export const ResourceInfoList = /*@__PURE__*/ S.Array(
-  ResourceInfo,
-) as any as S.Schema<ResourceInfoList>;
-
-export type TraceSpanSpanKindEnum =
-  | "SPAN_KIND_UNSPECIFIED"
-  | "INTERNAL"
-  | "SERVER"
-  | "CLIENT"
-  | "PRODUCER"
-  | "CONSUMER";
-export const TraceSpanSpanKindEnum = S.String;
-
-/** Represents a string that might be shortened to a specified length. */
-export interface TruncatableString {
-  /** The shortened string. For example, if the original string is 500 bytes long and the limit of the string is 128 bytes, then `value` contains the first 128 bytes of the 500-byte string. Truncation always happens on a UTF8 character boundary. If there are multi-byte characters in the string, then the length of the shortened string might be less than the size limit. */
-  value?: string;
-  /** The number of bytes removed from the original string. If this value is 0, then the string was not shortened. */
-  truncatedByteCount?: number;
-}
-export const TruncatableString = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    truncatedByteCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TruncatableString" }) as any as S.Schema<TruncatableString>;
-
-/** The allowed types for [VALUE] in a `[KEY]:[VALUE]` attribute. */
-export interface AttributeValue {
-  /** A Boolean value represented by `true` or `false`. */
-  boolValue?: boolean;
-  /** A string up to 256 bytes long. */
-  stringValue?: TruncatableString;
-  /** A 64-bit signed integer. */
-  intValue?: string;
-}
-export const AttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    boolValue: S.optional(S.Boolean),
-    stringValue: S.optional(TruncatableString),
-    intValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "AttributeValue" }) as any as S.Schema<AttributeValue>;
-
-export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
-export const AttributeValueMap = /*@__PURE__*/ S.Record(
-  S.String,
-  AttributeValue,
-) as any as S.Schema<AttributeValueMap>;
-
-/** A set of attributes, each in the format `[KEY]:[VALUE]`. */
-export interface Attributes {
-  /** The number of attributes that were discarded. Attributes can be discarded because their keys are too long or because there are too many attributes. If this value is 0 then all attributes are valid. */
-  droppedAttributesCount?: number;
-  /** The set of attributes. Each attribute's key can be up to 128 bytes long. The value can be a string up to 256 bytes, a signed 64-bit integer, or the Boolean values `true` and `false`. For example: "/instance_id": "my-instance" "/http/user_agent": "" "/http/request_bytes": 300 "example.com/myattribute": true */
-  attributeMap?: AttributeValueMap;
-}
-export const Attributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    droppedAttributesCount: S.optional(S.Number),
-    attributeMap: S.optional(AttributeValueMap),
-  }),
-).annotate({ identifier: "Attributes" }) as any as S.Schema<Attributes>;
-
-/** A span represents a single operation within a trace. Spans can be nested to form a trace tree. Often, a trace contains a root span that describes the end-to-end latency, and one or more subspans for its sub-operations. A trace can also contain multiple root spans, or none at all. Spans do not need to be contiguous—there may be gaps or overlaps between spans in a trace. */
-export interface TraceSpan {
-  /** Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `CLIENT` (caller) and `SERVER` (callee) to identify an RPC call. */
-  spanKind?: TraceSpanSpanKindEnum | (string & {});
-  /** The resource name of the span in the following format: projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/SPAN_ID is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. [SPAN_ID] is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. */
-  name?: string;
-  /** An optional number of child spans that were generated while this span was active. If set, allows implementation to detect missing child spans. */
-  childSpanCount?: number;
-  /** (Optional) Set this parameter to indicate whether this span is in the same process as its parent. If you do not set this parameter, Stackdriver Trace is unable to take advantage of this helpful information. */
-  sameProcessAsParentSpan?: boolean;
-  /** The [SPAN_ID] portion of the span's resource name. */
-  spanId?: string;
-  /** The start time of the span. On the client side, this is the time kept by the local machine where the span execution starts. On the server side, this is the time when the server's application handler starts running. */
-  startTime?: string;
-  /** A set of attributes on the span. You can have up to 32 attributes per span. */
-  attributes?: Attributes;
-  /** The [SPAN_ID] of this span's parent span. If this is a root span, then this field must be empty. */
-  parentSpanId?: string;
-  /** The end time of the span. On the client side, this is the time kept by the local machine where the span execution ends. On the server side, this is the time when the server application handler stops running. */
-  endTime?: string;
-  /** A description of the span's operation (up to 128 bytes). Stackdriver Trace displays the description in the Google Cloud Platform Console. For example, the display name can be a qualified method name or a file name and a line number where the operation is called. A best practice is to use the same display name within an application and at the same call point. This makes it easier to correlate spans in different traces. */
-  displayName?: TruncatableString;
-  /** An optional final status for this span. */
-  status?: Status;
-}
-export const TraceSpan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    spanKind: S.optional(TraceSpanSpanKindEnum),
-    name: S.optional(S.String),
-    childSpanCount: S.optional(S.Number),
-    sameProcessAsParentSpan: S.optional(S.Boolean),
-    spanId: S.optional(S.String),
-    startTime: S.optional(S.String),
-    attributes: S.optional(Attributes),
-    parentSpanId: S.optional(S.String),
-    endTime: S.optional(S.String),
-    displayName: S.optional(TruncatableString),
-    status: S.optional(Status),
-  }),
-).annotate({ identifier: "TraceSpan" }) as any as S.Schema<TraceSpan>;
-
-export type TraceSpanList = Array<TraceSpan>;
-export const TraceSpanList = /*@__PURE__*/ S.Array(TraceSpan) as any as S.Schema<TraceSpanList>;
 
 export type QuotaPropertiesQuotaModeEnum = "ACQUIRE" | "ACQUIRE_BEST_EFFORT" | "CHECK";
 export const QuotaPropertiesQuotaModeEnum = S.String;
@@ -565,58 +436,134 @@ export const QuotaProperties = /*@__PURE__*/ S.suspend(() =>
 export type OperationImportanceEnum = "LOW" | "HIGH" | "DEBUG" | "PROMOTED";
 export const OperationImportanceEnum = S.String;
 
-/** A common proto for logging HTTP requests. Only contains semantics defined by the HTTP specification. Product-specific logging information MUST be defined in a separate message. */
-export interface HttpRequest {
-  /** The IP address (IPv4 or IPv6) of the client that issued the HTTP request. Examples: `"192.168.1.1"`, `"FE80::0202:B3FF:FE1E:8329"`. */
-  remoteIp?: string;
-  /** The request method. Examples: `"GET"`, `"HEAD"`, `"PUT"`, `"POST"`. */
-  requestMethod?: string;
-  /** Whether or not a cache lookup was attempted. */
-  cacheLookup?: boolean;
-  /** The size of the HTTP request message in bytes, including the request headers and the request body. */
-  requestSize?: string;
-  /** Whether or not the response was validated with the origin server before being served from cache. This field is only meaningful if `cache_hit` is True. */
-  cacheValidatedWithOriginServer?: boolean;
-  /** The referer URL of the request, as defined in [HTTP/1.1 Header Field Definitions](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). */
-  referer?: string;
-  /** The response code indicating the status of the response. Examples: 200, 404. */
-  status?: number;
-  /** The number of HTTP response bytes inserted into cache. Set only when a cache fill was attempted. */
-  cacheFillBytes?: string;
-  /** The scheme (http, https), the host name, the path, and the query portion of the URL that was requested. Example: `"http://example.com/some/info?color=red"`. */
-  requestUrl?: string;
-  /** The size of the HTTP response message sent back to the client, in bytes, including the response headers and the response body. */
-  responseSize?: string;
-  /** The user agent sent by the client. Example: `"Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET CLR 1.0.3705)"`. */
-  userAgent?: string;
-  /** The IP address (IPv4 or IPv6) of the origin server that the request was sent to. */
-  serverIp?: string;
-  /** Whether or not an entity was served from cache (with or without validation). */
-  cacheHit?: boolean;
-  /** Protocol used for the request. Examples: "HTTP/1.1", "HTTP/2", "websocket" */
-  protocol?: string;
-  /** The request processing latency on the server, from the time the request was received until the response was sent. */
-  latency?: string;
+/** Represents a string that might be shortened to a specified length. */
+export interface TruncatableString {
+  /** The shortened string. For example, if the original string is 500 bytes long and the limit of the string is 128 bytes, then `value` contains the first 128 bytes of the 500-byte string. Truncation always happens on a UTF8 character boundary. If there are multi-byte characters in the string, then the length of the shortened string might be less than the size limit. */
+  value?: string;
+  /** The number of bytes removed from the original string. If this value is 0, then the string was not shortened. */
+  truncatedByteCount?: number;
 }
-export const HttpRequest = /*@__PURE__*/ S.suspend(() =>
+export const TruncatableString = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    remoteIp: S.optional(S.String),
-    requestMethod: S.optional(S.String),
-    cacheLookup: S.optional(S.Boolean),
-    requestSize: S.optional(S.String),
-    cacheValidatedWithOriginServer: S.optional(S.Boolean),
-    referer: S.optional(S.String),
-    status: S.optional(S.Number),
-    cacheFillBytes: S.optional(S.String),
-    requestUrl: S.optional(S.String),
-    responseSize: S.optional(S.String),
-    userAgent: S.optional(S.String),
-    serverIp: S.optional(S.String),
-    cacheHit: S.optional(S.Boolean),
-    protocol: S.optional(S.String),
-    latency: S.optional(S.String),
+    value: S.optional(S.String),
+    truncatedByteCount: S.optional(S.Number),
   }),
-).annotate({ identifier: "HttpRequest" }) as any as S.Schema<HttpRequest>;
+).annotate({ identifier: "TruncatableString" }) as any as S.Schema<TruncatableString>;
+
+/** The allowed types for [VALUE] in a `[KEY]:[VALUE]` attribute. */
+export interface AttributeValue {
+  /** A 64-bit signed integer. */
+  intValue?: string;
+  /** A string up to 256 bytes long. */
+  stringValue?: TruncatableString;
+  /** A Boolean value represented by `true` or `false`. */
+  boolValue?: boolean;
+}
+export const AttributeValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intValue: S.optional(S.String),
+    stringValue: S.optional(TruncatableString),
+    boolValue: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AttributeValue" }) as any as S.Schema<AttributeValue>;
+
+export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
+export const AttributeValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AttributeValue,
+) as any as S.Schema<AttributeValueMap>;
+
+/** A set of attributes, each in the format `[KEY]:[VALUE]`. */
+export interface Attributes {
+  /** The set of attributes. Each attribute's key can be up to 128 bytes long. The value can be a string up to 256 bytes, a signed 64-bit integer, or the Boolean values `true` and `false`. For example: "/instance_id": "my-instance" "/http/user_agent": "" "/http/request_bytes": 300 "example.com/myattribute": true */
+  attributeMap?: AttributeValueMap;
+  /** The number of attributes that were discarded. Attributes can be discarded because their keys are too long or because there are too many attributes. If this value is 0 then all attributes are valid. */
+  droppedAttributesCount?: number;
+}
+export const Attributes = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attributeMap: S.optional(AttributeValueMap),
+    droppedAttributesCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Attributes" }) as any as S.Schema<Attributes>;
+
+export type TraceSpanSpanKindEnum =
+  | "SPAN_KIND_UNSPECIFIED"
+  | "INTERNAL"
+  | "SERVER"
+  | "CLIENT"
+  | "PRODUCER"
+  | "CONSUMER";
+export const TraceSpanSpanKindEnum = S.String;
+
+/** A span represents a single operation within a trace. Spans can be nested to form a trace tree. Often, a trace contains a root span that describes the end-to-end latency, and one or more subspans for its sub-operations. A trace can also contain multiple root spans, or none at all. Spans do not need to be contiguous—there may be gaps or overlaps between spans in a trace. */
+export interface TraceSpan {
+  /** The start time of the span. On the client side, this is the time kept by the local machine where the span execution starts. On the server side, this is the time when the server's application handler starts running. */
+  startTime?: string;
+  /** A set of attributes on the span. You can have up to 32 attributes per span. */
+  attributes?: Attributes;
+  /** The resource name of the span in the following format: projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/SPAN_ID is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. [SPAN_ID] is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. */
+  name?: string;
+  /** A description of the span's operation (up to 128 bytes). Stackdriver Trace displays the description in the Google Cloud Platform Console. For example, the display name can be a qualified method name or a file name and a line number where the operation is called. A best practice is to use the same display name within an application and at the same call point. This makes it easier to correlate spans in different traces. */
+  displayName?: TruncatableString;
+  /** (Optional) Set this parameter to indicate whether this span is in the same process as its parent. If you do not set this parameter, Stackdriver Trace is unable to take advantage of this helpful information. */
+  sameProcessAsParentSpan?: boolean;
+  /** The [SPAN_ID] portion of the span's resource name. */
+  spanId?: string;
+  /** An optional final status for this span. */
+  status?: Status;
+  /** The [SPAN_ID] of this span's parent span. If this is a root span, then this field must be empty. */
+  parentSpanId?: string;
+  /** The end time of the span. On the client side, this is the time kept by the local machine where the span execution ends. On the server side, this is the time when the server application handler stops running. */
+  endTime?: string;
+  /** An optional number of child spans that were generated while this span was active. If set, allows implementation to detect missing child spans. */
+  childSpanCount?: number;
+  /** Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `CLIENT` (caller) and `SERVER` (callee) to identify an RPC call. */
+  spanKind?: TraceSpanSpanKindEnum | (string & {});
+}
+export const TraceSpan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    attributes: S.optional(Attributes),
+    name: S.optional(S.String),
+    displayName: S.optional(TruncatableString),
+    sameProcessAsParentSpan: S.optional(S.Boolean),
+    spanId: S.optional(S.String),
+    status: S.optional(Status),
+    parentSpanId: S.optional(S.String),
+    endTime: S.optional(S.String),
+    childSpanCount: S.optional(S.Number),
+    spanKind: S.optional(TraceSpanSpanKindEnum),
+  }),
+).annotate({ identifier: "TraceSpan" }) as any as S.Schema<TraceSpan>;
+
+export type TraceSpanList = Array<TraceSpan>;
+export const TraceSpanList = /*@__PURE__*/ S.Array(TraceSpan) as any as S.Schema<TraceSpanList>;
+
+/** Describes a resource associated with this operation. */
+export interface ResourceInfo {
+  /** Name of the resource. This is used for auditing purposes. */
+  resourceName?: string;
+  /** The location of the resource. If not empty, the resource will be checked against location policy. The value must be a valid zone, region or multiregion. For example: "europe-west4" or "northamerica-northeast1-a" */
+  resourceLocation?: string;
+  /** The identifier of the parent of this resource instance. Must be in one of the following formats: - `projects/` - `folders/` - `organizations/` */
+  resourceContainer?: string;
+  /** The resource permission required for this request. */
+  permission?: string;
+}
+export const ResourceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceName: S.optional(S.String),
+    resourceLocation: S.optional(S.String),
+    resourceContainer: S.optional(S.String),
+    permission: S.optional(S.String),
+  }),
+).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
+
+export type ResourceInfoList = Array<ResourceInfo>;
+export const ResourceInfoList = /*@__PURE__*/ S.Array(
+  ResourceInfo,
+) as any as S.Schema<ResourceInfoList>;
 
 export type LogEntrySeverityEnum =
   | "DEFAULT"
@@ -630,84 +577,137 @@ export type LogEntrySeverityEnum =
   | "EMERGENCY";
 export const LogEntrySeverityEnum = S.String;
 
+/** A common proto for logging HTTP requests. Only contains semantics defined by the HTTP specification. Product-specific logging information MUST be defined in a separate message. */
+export interface HttpRequest {
+  /** The scheme (http, https), the host name, the path, and the query portion of the URL that was requested. Example: `"http://example.com/some/info?color=red"`. */
+  requestUrl?: string;
+  /** The user agent sent by the client. Example: `"Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET CLR 1.0.3705)"`. */
+  userAgent?: string;
+  /** Whether or not a cache lookup was attempted. */
+  cacheLookup?: boolean;
+  /** The response code indicating the status of the response. Examples: 200, 404. */
+  status?: number;
+  /** The IP address (IPv4 or IPv6) of the client that issued the HTTP request. Examples: `"192.168.1.1"`, `"FE80::0202:B3FF:FE1E:8329"`. */
+  remoteIp?: string;
+  /** Whether or not the response was validated with the origin server before being served from cache. This field is only meaningful if `cache_hit` is True. */
+  cacheValidatedWithOriginServer?: boolean;
+  /** The IP address (IPv4 or IPv6) of the origin server that the request was sent to. */
+  serverIp?: string;
+  /** The request method. Examples: `"GET"`, `"HEAD"`, `"PUT"`, `"POST"`. */
+  requestMethod?: string;
+  /** Whether or not an entity was served from cache (with or without validation). */
+  cacheHit?: boolean;
+  /** Protocol used for the request. Examples: "HTTP/1.1", "HTTP/2", "websocket" */
+  protocol?: string;
+  /** The size of the HTTP request message in bytes, including the request headers and the request body. */
+  requestSize?: string;
+  /** The request processing latency on the server, from the time the request was received until the response was sent. */
+  latency?: string;
+  /** The size of the HTTP response message sent back to the client, in bytes, including the response headers and the response body. */
+  responseSize?: string;
+  /** The number of HTTP response bytes inserted into cache. Set only when a cache fill was attempted. */
+  cacheFillBytes?: string;
+  /** The referer URL of the request, as defined in [HTTP/1.1 Header Field Definitions](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). */
+  referer?: string;
+}
+export const HttpRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requestUrl: S.optional(S.String),
+    userAgent: S.optional(S.String),
+    cacheLookup: S.optional(S.Boolean),
+    status: S.optional(S.Number),
+    remoteIp: S.optional(S.String),
+    cacheValidatedWithOriginServer: S.optional(S.Boolean),
+    serverIp: S.optional(S.String),
+    requestMethod: S.optional(S.String),
+    cacheHit: S.optional(S.Boolean),
+    protocol: S.optional(S.String),
+    requestSize: S.optional(S.String),
+    latency: S.optional(S.String),
+    responseSize: S.optional(S.String),
+    cacheFillBytes: S.optional(S.String),
+    referer: S.optional(S.String),
+  }),
+).annotate({ identifier: "HttpRequest" }) as any as S.Schema<HttpRequest>;
+
+/** Additional information about a potentially long-running operation with which a log entry is associated. */
+export interface LogEntryOperation {
+  /** Optional. Set this to True if this is the last log entry in the operation. */
+  last?: boolean;
+  /** Optional. An arbitrary producer identifier. The combination of `id` and `producer` must be globally unique. Examples for `producer`: `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`. */
+  producer?: string;
+  /** Optional. Set this to True if this is the first log entry in the operation. */
+  first?: boolean;
+  /** Optional. An arbitrary operation identifier. Log entries with the same identifier are assumed to be part of the same operation. */
+  id?: string;
+}
+export const LogEntryOperation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    last: S.optional(S.Boolean),
+    producer: S.optional(S.String),
+    first: S.optional(S.Boolean),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "LogEntryOperation" }) as any as S.Schema<LogEntryOperation>;
+
 /** Additional information about the source code location that produced the log entry. */
 export interface LogEntrySourceLocation {
+  /** Optional. Line within the source file. 1-based; 0 indicates no line number available. */
+  line?: string;
   /** Optional. Human-readable name of the function or method being invoked, with optional context such as the class or package name. This information may be used in contexts such as the logs viewer, where a file and line number are less meaningful. The format can vary by language. For example: `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function` (Python). */
   function?: string;
   /** Optional. Source file name. Depending on the runtime environment, this might be a simple name or a fully-qualified name. */
   file?: string;
-  /** Optional. Line within the source file. 1-based; 0 indicates no line number available. */
-  line?: string;
 }
 export const LogEntrySourceLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    line: S.optional(S.String),
     function: S.optional(S.String),
     file: S.optional(S.String),
-    line: S.optional(S.String),
   }),
 ).annotate({ identifier: "LogEntrySourceLocation" }) as any as S.Schema<LogEntrySourceLocation>;
 
-/** Additional information about a potentially long-running operation with which a log entry is associated. */
-export interface LogEntryOperation {
-  /** Optional. An arbitrary producer identifier. The combination of `id` and `producer` must be globally unique. Examples for `producer`: `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`. */
-  producer?: string;
-  /** Optional. An arbitrary operation identifier. Log entries with the same identifier are assumed to be part of the same operation. */
-  id?: string;
-  /** Optional. Set this to True if this is the last log entry in the operation. */
-  last?: boolean;
-  /** Optional. Set this to True if this is the first log entry in the operation. */
-  first?: boolean;
-}
-export const LogEntryOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    producer: S.optional(S.String),
-    id: S.optional(S.String),
-    last: S.optional(S.Boolean),
-    first: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "LogEntryOperation" }) as any as S.Schema<LogEntryOperation>;
-
 /** An individual log entry. */
 export interface LogEntry {
-  /** A unique ID for the log entry used for deduplication. If omitted, the implementation will generate one based on operation_id. */
-  insertId?: string;
-  /** Optional. Information about the HTTP request associated with this log entry, if applicable. */
-  httpRequest?: HttpRequest;
-  /** The severity of the log entry. The default value is `LogSeverity.DEFAULT`. */
-  severity?: LogEntrySeverityEnum | (string & {});
-  /** Required. The log to which this log entry belongs. Examples: `"syslog"`, `"book_log"`. */
-  name?: string;
   /** A set of user-defined (key, value) data that provides additional information about the log entry. */
   labels?: StringMap;
-  /** Optional. Source code location information associated with the log entry, if any. */
-  sourceLocation?: LogEntrySourceLocation;
-  /** The log entry payload, represented as a structure that is expressed as a JSON object. */
-  structPayload?: DocumentMap;
+  /** The severity of the log entry. The default value is `LogSeverity.DEFAULT`. */
+  severity?: LogEntrySeverityEnum | (string & {});
   /** The log entry payload, represented as a protocol buffer that is expressed as a JSON object. The only accepted type currently is AuditLog. */
   protoPayload?: DocumentMap;
-  /** The time the event described by the log entry occurred. If omitted, defaults to operation start time. */
-  timestamp?: string;
-  /** Optional. Information about an operation associated with the log entry, if applicable. */
-  operation?: LogEntryOperation;
   /** Optional. Resource name of the trace associated with the log entry, if any. If this field contains a relative resource name, you can assume the name is relative to `//tracing.googleapis.com`. Example: `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824` */
   trace?: string;
   /** The log entry payload, represented as a Unicode string (UTF-8). */
   textPayload?: string;
+  /** The log entry payload, represented as a structure that is expressed as a JSON object. */
+  structPayload?: DocumentMap;
+  /** Required. The log to which this log entry belongs. Examples: `"syslog"`, `"book_log"`. */
+  name?: string;
+  /** A unique ID for the log entry used for deduplication. If omitted, the implementation will generate one based on operation_id. */
+  insertId?: string;
+  /** Optional. Information about the HTTP request associated with this log entry, if applicable. */
+  httpRequest?: HttpRequest;
+  /** Optional. Information about an operation associated with the log entry, if applicable. */
+  operation?: LogEntryOperation;
+  /** Optional. Source code location information associated with the log entry, if any. */
+  sourceLocation?: LogEntrySourceLocation;
+  /** The time the event described by the log entry occurred. If omitted, defaults to operation start time. */
+  timestamp?: string;
 }
 export const LogEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    insertId: S.optional(S.String),
-    httpRequest: S.optional(HttpRequest),
-    severity: S.optional(LogEntrySeverityEnum),
-    name: S.optional(S.String),
     labels: S.optional(StringMap),
-    sourceLocation: S.optional(LogEntrySourceLocation),
-    structPayload: S.optional(DocumentMap),
+    severity: S.optional(LogEntrySeverityEnum),
     protoPayload: S.optional(DocumentMap),
-    timestamp: S.optional(S.String),
-    operation: S.optional(LogEntryOperation),
     trace: S.optional(S.String),
     textPayload: S.optional(S.String),
+    structPayload: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    insertId: S.optional(S.String),
+    httpRequest: S.optional(HttpRequest),
+    operation: S.optional(LogEntryOperation),
+    sourceLocation: S.optional(LogEntrySourceLocation),
+    timestamp: S.optional(S.String),
   }),
 ).annotate({ identifier: "LogEntry" }) as any as S.Schema<LogEntry>;
 
@@ -716,48 +716,48 @@ export const LogEntryList = /*@__PURE__*/ S.Array(LogEntry) as any as S.Schema<L
 
 /** Represents information regarding an operation. */
 export interface Operation {
-  /** The resources that are involved in the operation. The maximum supported number of entries in this field is 100. */
-  resources?: ResourceInfoList;
-  /** Private Preview. This feature is only available for approved services. User defined labels for the resource that this operation is associated with. */
-  userLabels?: StringMap;
-  /** Unimplemented. A list of Cloud Trace spans. The span names shall contain the id of the destination project which can be either the produce or the consumer project. */
-  traceSpans?: TraceSpanList;
   /** Represents the properties needed for quota check. Applicable only if this operation is for a quota check request. If this is not specified, no quota check will be performed. */
   quotaProperties?: QuotaProperties;
-  /** Labels describing the operation. Only the following labels are allowed: - Labels describing monitored resources as defined in the service configuration. - Default labels of metric values. When specified, labels defined in the metric value override these default. - The following labels defined by Google Cloud Platform: - `cloud.googleapis.com/location` describing the location where the operation happened, - `servicecontrol.googleapis.com/user_agent` describing the user agent of the API request, - `servicecontrol.googleapis.com/service_agent` describing the service used to handle the API request (e.g. ESP), - `servicecontrol.googleapis.com/platform` describing the platform where the API is served, such as App Engine, Compute Engine, or Kubernetes Engine. */
-  labels?: StringMap;
-  /** DO NOT USE. This is an experimental field. */
-  importance?: OperationImportanceEnum | (string & {});
+  /** Identity of the consumer who is using the service. This field should be filled in for the operations initiated by a consumer, but not for service-initiated operations that are not related to a specific consumer. - This can be in one of the following formats: - project:PROJECT_ID, - project`_`number:PROJECT_NUMBER, - projects/PROJECT_ID or PROJECT_NUMBER, - folders/FOLDER_NUMBER, - organizations/ORGANIZATION_NUMBER, - api`_`key:API_KEY. */
+  consumerId?: string;
+  /** Private Preview. This feature is only available for approved services. User defined labels for the resource that this operation is associated with. */
+  userLabels?: StringMap;
   /** Identity of the operation. This must be unique within the scope of the service that generated the operation. If the service calls Check() and Report() on the same operation, the two calls should carry the same id. UUID version 4 is recommended, though not required. In scenarios where an operation is computed from existing information and an idempotent id is desirable for deduplication purpose, UUID version 5 is recommended. See RFC 4122 for details. */
   operationId?: string;
-  /** Represents information to be logged. */
-  logEntries?: LogEntryList;
+  /** DO NOT USE. This is an experimental field. */
+  importance?: OperationImportanceEnum | (string & {});
   /** Represents information about this operation. Each MetricValueSet corresponds to a metric defined in the service configuration. The data type used in the MetricValueSet must agree with the data type specified in the metric definition. Within a single operation, it is not allowed to have more than one MetricValue instances that have the same metric names and identical label value combinations. If a request has such duplicated MetricValue instances, the entire request is rejected with an invalid argument error. */
   metricValueSets?: MetricValueSetList;
-  /** Required. Start time of the operation. */
-  startTime?: string;
+  /** Unimplemented. A list of Cloud Trace spans. The span names shall contain the id of the destination project which can be either the produce or the consumer project. */
+  traceSpans?: TraceSpanList;
+  /** Labels describing the operation. Only the following labels are allowed: - Labels describing monitored resources as defined in the service configuration. - Default labels of metric values. When specified, labels defined in the metric value override these default. - The following labels defined by Google Cloud Platform: - `cloud.googleapis.com/location` describing the location where the operation happened, - `servicecontrol.googleapis.com/user_agent` describing the user agent of the API request, - `servicecontrol.googleapis.com/service_agent` describing the service used to handle the API request (e.g. ESP), - `servicecontrol.googleapis.com/platform` describing the platform where the API is served, such as App Engine, Compute Engine, or Kubernetes Engine. */
+  labels?: StringMap;
   /** End time of the operation. Required when the operation is used in ServiceController.Report, but optional when the operation is used in ServiceController.Check. */
   endTime?: string;
   /** Fully qualified name of the operation. Reserved for future use. */
   operationName?: string;
-  /** Identity of the consumer who is using the service. This field should be filled in for the operations initiated by a consumer, but not for service-initiated operations that are not related to a specific consumer. - This can be in one of the following formats: - project:PROJECT_ID, - project`_`number:PROJECT_NUMBER, - projects/PROJECT_ID or PROJECT_NUMBER, - folders/FOLDER_NUMBER, - organizations/ORGANIZATION_NUMBER, - api`_`key:API_KEY. */
-  consumerId?: string;
+  /** Required. Start time of the operation. */
+  startTime?: string;
+  /** The resources that are involved in the operation. The maximum supported number of entries in this field is 100. */
+  resources?: ResourceInfoList;
+  /** Represents information to be logged. */
+  logEntries?: LogEntryList;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resources: S.optional(ResourceInfoList),
-    userLabels: S.optional(StringMap),
-    traceSpans: S.optional(TraceSpanList),
     quotaProperties: S.optional(QuotaProperties),
-    labels: S.optional(StringMap),
-    importance: S.optional(OperationImportanceEnum),
+    consumerId: S.optional(S.String),
+    userLabels: S.optional(StringMap),
     operationId: S.optional(S.String),
-    logEntries: S.optional(LogEntryList),
+    importance: S.optional(OperationImportanceEnum),
     metricValueSets: S.optional(MetricValueSetList),
-    startTime: S.optional(S.String),
+    traceSpans: S.optional(TraceSpanList),
+    labels: S.optional(StringMap),
     endTime: S.optional(S.String),
     operationName: S.optional(S.String),
-    consumerId: S.optional(S.String),
+    startTime: S.optional(S.String),
+    resources: S.optional(ResourceInfoList),
+    logEntries: S.optional(LogEntryList),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -767,17 +767,17 @@ export interface CheckRequest {
   operation?: Operation;
   /** Specifies which version of service configuration should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
   serviceConfigId?: string;
-  /** Requests the project settings to be returned as part of the check response. */
-  requestProjectSettings?: boolean;
   /** Indicates if service activation check should be skipped for this request. Default behavior is to perform the check and apply relevant quota. WARNING: Setting this flag to "true" will disable quota enforcement. */
   skipActivationCheck?: boolean;
+  /** Requests the project settings to be returned as part of the check response. */
+  requestProjectSettings?: boolean;
 }
 export const CheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operation: S.optional(Operation),
     serviceConfigId: S.optional(S.String),
-    requestProjectSettings: S.optional(S.Boolean),
     skipActivationCheck: S.optional(S.Boolean),
+    requestProjectSettings: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "CheckRequest" }) as any as S.Schema<CheckRequest>;
 
@@ -800,35 +800,6 @@ export const CheckServicesRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "CheckServicesRequest" }) as any as S.Schema<CheckServicesRequest>;
 
-export type IntegerMap = { [key: string]: number | undefined };
-export const IntegerMap = /*@__PURE__*/ S.Record(S.String, S.Number) as any as S.Schema<IntegerMap>;
-
-export type QuotaInfoQuotaExtractionStateEnum =
-  | "QUOTA_EXTRACTION_STATE_UNSPECIFIED"
-  | "QUOTA_EXTRACTION_STATE_DARK_LAUNCH"
-  | "QUOTA_EXTRACTION_STATE_TRAFFIC_MIGRATION";
-export const QuotaInfoQuotaExtractionStateEnum = S.String;
-
-/** Contains the quota information for a quota check response. */
-export interface QuotaInfo {
-  /** Map of quota group name to the actual number of tokens consumed. If the quota check was not successful, then this will not be populated due to no quota consumption. We are not merging this field with 'quota_metrics' field because of the complexity of scaling in Chemist client code base. For simplicity, we will keep this field for Castor (that scales quota usage) and 'quota_metrics' for SuperQuota (that doesn't scale quota usage). */
-  quotaConsumed?: IntegerMap;
-  /** Quota Metrics that have exceeded quota limits. For QuotaGroup-based quota, this is QuotaGroup.name For QuotaLimit-based quota, this is QuotaLimit.name See: google.api.Quota Deprecated: Use quota_metrics to get per quota group limit exceeded status. */
-  limitExceeded?: StringList;
-  /** Quota metrics to indicate the usage. Depending on the check request, one or more of the following metrics will be included: 1. For rate quota, per quota group or per quota metric incremental usage will be specified using the following delta metric: "serviceruntime.googleapis.com/api/consumer/quota_used_count" 2. For allocation quota, per quota metric total usage will be specified using the following gauge metric: "serviceruntime.googleapis.com/allocation/consumer/quota_used_count" 3. For both rate quota and allocation quota, the quota limit reached condition will be specified using the following boolean metric: "serviceruntime.googleapis.com/quota/exceeded" */
-  quotaMetrics?: MetricValueSetList;
-  /** Output only. Indicates the state of the quota extraction. */
-  quotaExtractionState?: QuotaInfoQuotaExtractionStateEnum;
-}
-export const QuotaInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quotaConsumed: S.optional(IntegerMap),
-    limitExceeded: S.optional(StringList),
-    quotaMetrics: S.optional(MetricValueSetList),
-    quotaExtractionState: S.optional(QuotaInfoQuotaExtractionStateEnum),
-  }),
-).annotate({ identifier: "QuotaInfo" }) as any as S.Schema<QuotaInfo>;
-
 export type ConsumerInfoTypeEnum =
   | "CONSUMER_TYPE_UNSPECIFIED"
   | "PROJECT"
@@ -839,18 +810,18 @@ export const ConsumerInfoTypeEnum = S.String;
 
 /** `ConsumerInfo` provides information about the consumer. */
 export interface ConsumerInfo {
-  /** The consumer identity number, can be Google cloud project number, folder number or organization number e.g. 1234567890. A value of 0 indicates no consumer number is found. */
-  consumerNumber?: string;
-  /** The Google cloud project number, e.g. 1234567890. A value of 0 indicates no project number is found. NOTE: This field is deprecated after Chemist support flexible consumer id. New code should not depend on this field anymore. */
-  projectNumber?: string;
   /** The type of the consumer which should have been defined in [Google Resource Manager](https://cloud.google.com/resource-manager/). */
   type?: ConsumerInfoTypeEnum;
+  /** The Google cloud project number, e.g. 1234567890. A value of 0 indicates no project number is found. NOTE: This field is deprecated after Chemist support flexible consumer id. New code should not depend on this field anymore. */
+  projectNumber?: string;
+  /** The consumer identity number, can be Google cloud project number, folder number or organization number e.g. 1234567890. A value of 0 indicates no consumer number is found. */
+  consumerNumber?: string;
 }
 export const ConsumerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consumerNumber: S.optional(S.String),
-    projectNumber: S.optional(S.String),
     type: S.optional(ConsumerInfoTypeEnum),
+    projectNumber: S.optional(S.String),
+    consumerNumber: S.optional(S.String),
   }),
 ).annotate({ identifier: "ConsumerInfo" }) as any as S.Schema<ConsumerInfo>;
 
@@ -873,6 +844,35 @@ export const CheckInfo = /*@__PURE__*/ S.suspend(() =>
     apiKeyUid: S.optional(S.String),
   }),
 ).annotate({ identifier: "CheckInfo" }) as any as S.Schema<CheckInfo>;
+
+export type QuotaInfoQuotaExtractionStateEnum =
+  | "QUOTA_EXTRACTION_STATE_UNSPECIFIED"
+  | "QUOTA_EXTRACTION_STATE_DARK_LAUNCH"
+  | "QUOTA_EXTRACTION_STATE_TRAFFIC_MIGRATION";
+export const QuotaInfoQuotaExtractionStateEnum = S.String;
+
+export type IntegerMap = { [key: string]: number | undefined };
+export const IntegerMap = /*@__PURE__*/ S.Record(S.String, S.Number) as any as S.Schema<IntegerMap>;
+
+/** Contains the quota information for a quota check response. */
+export interface QuotaInfo {
+  /** Quota metrics to indicate the usage. Depending on the check request, one or more of the following metrics will be included: 1. For rate quota, per quota group or per quota metric incremental usage will be specified using the following delta metric: "serviceruntime.googleapis.com/api/consumer/quota_used_count" 2. For allocation quota, per quota metric total usage will be specified using the following gauge metric: "serviceruntime.googleapis.com/allocation/consumer/quota_used_count" 3. For both rate quota and allocation quota, the quota limit reached condition will be specified using the following boolean metric: "serviceruntime.googleapis.com/quota/exceeded" */
+  quotaMetrics?: MetricValueSetList;
+  /** Quota Metrics that have exceeded quota limits. For QuotaGroup-based quota, this is QuotaGroup.name For QuotaLimit-based quota, this is QuotaLimit.name See: google.api.Quota Deprecated: Use quota_metrics to get per quota group limit exceeded status. */
+  limitExceeded?: StringList;
+  /** Output only. Indicates the state of the quota extraction. */
+  quotaExtractionState?: QuotaInfoQuotaExtractionStateEnum;
+  /** Map of quota group name to the actual number of tokens consumed. If the quota check was not successful, then this will not be populated due to no quota consumption. We are not merging this field with 'quota_metrics' field because of the complexity of scaling in Chemist client code base. For simplicity, we will keep this field for Castor (that scales quota usage) and 'quota_metrics' for SuperQuota (that doesn't scale quota usage). */
+  quotaConsumed?: IntegerMap;
+}
+export const QuotaInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    quotaMetrics: S.optional(MetricValueSetList),
+    limitExceeded: S.optional(StringList),
+    quotaExtractionState: S.optional(QuotaInfoQuotaExtractionStateEnum),
+    quotaConsumed: S.optional(IntegerMap),
+  }),
+).annotate({ identifier: "QuotaInfo" }) as any as S.Schema<QuotaInfo>;
 
 export type CheckErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -918,18 +918,18 @@ export const CheckErrorCodeEnum = S.String;
 export interface CheckError {
   /** The error code. */
   code?: CheckErrorCodeEnum;
-  /** Contains public information about the check error. If available, `status.code` will be non zero and client can propagate it out as public error. */
-  status?: Status;
   /** Free-form text providing details on the error cause of the error. */
   detail?: string;
+  /** Contains public information about the check error. If available, `status.code` will be non zero and client can propagate it out as public error. */
+  status?: Status;
   /** Subject to whom this error applies. See the specific code enum for more details on this field. For example: - "project:" - "folder:" - "organization:" */
   subject?: string;
 }
 export const CheckError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.optional(CheckErrorCodeEnum),
-    status: S.optional(Status),
     detail: S.optional(S.String),
+    status: S.optional(Status),
     subject: S.optional(S.String),
   }),
 ).annotate({ identifier: "CheckError" }) as any as S.Schema<CheckError>;
@@ -939,26 +939,26 @@ export const CheckErrorList = /*@__PURE__*/ S.Array(CheckError) as any as S.Sche
 
 /** Response message for the Check method. */
 export interface CheckResponse {
+  /** Feedback data returned from the server during processing a Check request. */
+  checkInfo?: CheckInfo;
   /** Quota information for the check request associated with this response. */
   quotaInfo?: QuotaInfo;
+  /** The same operation_id value used in the CheckRequest. Used for logging and diagnostics purposes. */
+  operationId?: string;
   /** The actual config id used to process the request. */
   serviceConfigId?: string;
   /** The current service rollout id used to process the request. */
   serviceRolloutId?: string;
-  /** The same operation_id value used in the CheckRequest. Used for logging and diagnostics purposes. */
-  operationId?: string;
-  /** Feedback data returned from the server during processing a Check request. */
-  checkInfo?: CheckInfo;
   /** Indicate the decision of the check. If no check errors are present, the service should process the operation. Otherwise the service should use the list of errors to determine the appropriate action. */
   checkErrors?: CheckErrorList;
 }
 export const CheckResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    checkInfo: S.optional(CheckInfo),
     quotaInfo: S.optional(QuotaInfo),
+    operationId: S.optional(S.String),
     serviceConfigId: S.optional(S.String),
     serviceRolloutId: S.optional(S.String),
-    operationId: S.optional(S.String),
-    checkInfo: S.optional(CheckInfo),
     checkErrors: S.optional(CheckErrorList),
   }),
 ).annotate({ identifier: "CheckResponse" }) as any as S.Schema<CheckResponse>;
@@ -968,15 +968,15 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** Request message for the Report method. */
 export interface ReportRequest {
-  /** Specifies which version of service config should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
-  serviceConfigId?: string;
   /** Operations to be reported. Typically the service should report one operation per request. Putting multiple operations into a single request is allowed, but should be used only when multiple operations are natually available at the time of the report. There is no limit on the number of operations in the same ReportRequest, however the ReportRequest size should be no larger than 1MB. See ReportResponse.report_errors for partial failure behavior. */
   operations?: OperationList;
+  /** Specifies which version of service config should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
+  serviceConfigId?: string;
 }
 export const ReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceConfigId: S.optional(S.String),
     operations: S.optional(OperationList),
+    serviceConfigId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportRequest" }) as any as S.Schema<ReportRequest>;
 
@@ -1001,15 +1001,15 @@ export const ReportServicesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents the processing error of one Operation in the request. */
 export interface ReportError {
-  /** Details of the error when processing the Operation. */
-  status?: Status;
   /** The Operation.operation_id value from the request. */
   operationId?: string;
+  /** Details of the error when processing the Operation. */
+  status?: Status;
 }
 export const ReportError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(Status),
     operationId: S.optional(S.String),
+    status: S.optional(Status),
   }),
 ).annotate({ identifier: "ReportError" }) as any as S.Schema<ReportError>;
 
@@ -1020,17 +1020,17 @@ export const ReportErrorList = /*@__PURE__*/ S.Array(
 
 /** Response message for the Report method. */
 export interface ReportResponse {
-  /** The actual config id used to process the request. */
-  serviceConfigId?: string;
   /** Partial failures, one for each `Operation` in the request that failed processing. There are three possible combinations of the RPC status: 1. The combination of a successful RPC status and an empty `report_errors` list indicates a complete success where all `Operations` in the request are processed successfully. 2. The combination of a successful RPC status and a non-empty `report_errors` list indicates a partial success where some `Operations` in the request succeeded. Each `Operation` that failed processing has a corresponding item in this list. 3. A failed RPC status indicates a general non-deterministic failure. When this happens, it's impossible to know which of the 'Operations' in the request succeeded or failed. */
   reportErrors?: ReportErrorList;
+  /** The actual config id used to process the request. */
+  serviceConfigId?: string;
   /** The current service rollout id used to process the request. */
   serviceRolloutId?: string;
 }
 export const ReportResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceConfigId: S.optional(S.String),
     reportErrors: S.optional(ReportErrorList),
+    serviceConfigId: S.optional(S.String),
     serviceRolloutId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportResponse" }) as any as S.Schema<ReportResponse>;

@@ -8,6 +8,50 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.merchantapi_loyaltycustomers_v1#AddressInfo": {
+      "type": "structure",
+      "members": {
+        "regionCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The Unicode country/region code (CLDR) of the customer, such as \"US\" or \"CH\". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The state or province of the customer."
+          }
+        },
+        "givenName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The given name of the customer."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The city of the customer."
+          }
+        },
+        "familyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The family name of the customer."
+          }
+        },
+        "postalCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The postal code (zip code) of the customer. **Format Rules:** * **United States:** 5-digit zip codes (e.g., \"94108\")."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a customer’s physical address."
+      }
+    },
     "com.gcp.merchantapi_loyaltycustomers_v1#ManageLoyaltyCustomerMatchRequest": {
       "type": "structure",
       "members": {
@@ -22,21 +66,131 @@
         "smithy.api#documentation": "Request message for the ManageLoyaltyCustomerMatch method."
       }
     },
+    "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessage": {
+      "type": "structure",
+      "members": {
+        "changes": {
+          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductChangeList",
+          "traits": {
+            "smithy.api#documentation": "A message to describe the change that happened to the product"
+          }
+        },
+        "managingAccount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}`"
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product name. Format: `accounts/{account}/products/{product}`"
+          }
+        },
+        "attribute": {
+          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageAttributeEnum",
+          "traits": {
+            "smithy.api#documentation": "The attribute in the resource that changed, in this case it will be always `Status`."
+          }
+        },
+        "account": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target account that owns the entity that changed. Format : `accounts/{merchant_id}`"
+          }
+        },
+        "resourceType": {
+          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageResourceTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The resource that changed, in this case it will always be `Product`."
+          }
+        },
+        "eventTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications."
+          }
+        },
+        "expirationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The message that the merchant will receive to notify about product status change event"
+      }
+    },
+    "com.gcp.merchantapi_loyaltycustomers_v1#ProductChangeList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductChange"
+      }
+    },
+    "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageAttributeEnum": {
+      "type": "enum",
+      "members": {
+        "ATTRIBUTE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ATTRIBUTE_UNSPECIFIED"
+          }
+        },
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS"
+          }
+        }
+      }
+    },
+    "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageResourceTypeEnum": {
+      "type": "enum",
+      "members": {
+        "RESOURCE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_UNSPECIFIED"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRODUCT"
+          }
+        },
+        "ACCOUNT_SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACCOUNT_SERVICE"
+          }
+        }
+      }
+    },
+    "com.gcp.merchantapi_loyaltycustomers_v1#ManageLoyaltyCustomerMatchResponse": {
+      "type": "structure",
+      "members": {
+        "loyaltyCustomer": {
+          "target": "com.gcp.merchantapi_loyaltycustomers_v1#LoyaltyCustomer",
+          "traits": {
+            "smithy.api#documentation": "The loyalty customer that was inserted, updated, or removed. If the customer's identifier cannot be matched to a Google account or if the user has not opted into loyalty personalization, this field will contain a default `LoyaltyCustomer` instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for the ManageLoyaltyCustomerMatch method."
+      }
+    },
     "com.gcp.merchantapi_loyaltycustomers_v1#ProductChange": {
       "type": "structure",
       "members": {
-        "regionCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Countries that have the change (if applicable). Represented in the ISO 3166 format."
-          }
-        },
-        "reportingContext": {
-          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductChangeReportingContextEnum",
-          "traits": {
-            "smithy.api#documentation": "Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum)"
-          }
-        },
         "oldValue": {
           "target": "smithy.api#String",
           "traits": {
@@ -47,6 +201,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``)"
+          }
+        },
+        "reportingContext": {
+          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductChangeReportingContextEnum",
+          "traits": {
+            "smithy.api#documentation": "Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum)"
+          }
+        },
+        "regionCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Countries that have the change (if applicable). Represented in the ISO 3166 format."
           }
         }
       },
@@ -185,48 +351,30 @@
         }
       }
     },
-    "com.gcp.merchantapi_loyaltycustomers_v1#AddressInfo": {
+    "com.gcp.merchantapi_loyaltycustomers_v1#UserIdentifier": {
       "type": "structure",
       "members": {
-        "givenName": {
-          "target": "smithy.api#String",
+        "address": {
+          "target": "com.gcp.merchantapi_loyaltycustomers_v1#AddressInfo",
           "traits": {
-            "smithy.api#documentation": "Optional. The given name of the customer."
+            "smithy.api#documentation": "Optional. The customer’s physical address."
           }
         },
-        "city": {
+        "emailAddress": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The city of the customer."
+            "smithy.api#documentation": "Optional. The customer’s email address."
           }
         },
-        "state": {
+        "phoneNumber": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The state or province of the customer."
-          }
-        },
-        "familyName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The family name of the customer."
-          }
-        },
-        "regionCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The Unicode country/region code (CLDR) of the customer, such as \"US\" or \"CH\". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html."
-          }
-        },
-        "postalCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The postal code (zip code) of the customer. **Format Rules:** * **United States:** 5-digit zip codes (e.g., \"94108\")."
+            "smithy.api#documentation": "Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., \"+16502530000\")."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Represents a customer’s physical address."
+        "smithy.api#documentation": "The user identifiers associated with the customer. At least one of the fields within this message must be provided."
       }
     },
     "com.gcp.merchantapi_loyaltycustomers_v1#LoyaltyCustomer": {
@@ -312,154 +460,6 @@
             "smithy.api#enumValue": "NON_MEMBER"
           }
         }
-      }
-    },
-    "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessage": {
-      "type": "structure",
-      "members": {
-        "changes": {
-          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductChangeList",
-          "traits": {
-            "smithy.api#documentation": "A message to describe the change that happened to the product"
-          }
-        },
-        "eventTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications."
-          }
-        },
-        "managingAccount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}`"
-          }
-        },
-        "resourceType": {
-          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageResourceTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "The resource that changed, in this case it will always be `Product`."
-          }
-        },
-        "resource": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The product name. Format: `accounts/{account}/products/{product}`"
-          }
-        },
-        "account": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The target account that owns the entity that changed. Format : `accounts/{merchant_id}`"
-          }
-        },
-        "expirationTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event."
-          }
-        },
-        "resourceId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The product id."
-          }
-        },
-        "attribute": {
-          "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageAttributeEnum",
-          "traits": {
-            "smithy.api#documentation": "The attribute in the resource that changed, in this case it will be always `Status`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The message that the merchant will receive to notify about product status change event"
-      }
-    },
-    "com.gcp.merchantapi_loyaltycustomers_v1#ProductChangeList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.merchantapi_loyaltycustomers_v1#ProductChange"
-      }
-    },
-    "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageResourceTypeEnum": {
-      "type": "enum",
-      "members": {
-        "RESOURCE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RESOURCE_UNSPECIFIED"
-          }
-        },
-        "PRODUCT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PRODUCT"
-          }
-        },
-        "ACCOUNT_SERVICE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ACCOUNT_SERVICE"
-          }
-        }
-      }
-    },
-    "com.gcp.merchantapi_loyaltycustomers_v1#ProductStatusChangeMessageAttributeEnum": {
-      "type": "enum",
-      "members": {
-        "ATTRIBUTE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ATTRIBUTE_UNSPECIFIED"
-          }
-        },
-        "STATUS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STATUS"
-          }
-        }
-      }
-    },
-    "com.gcp.merchantapi_loyaltycustomers_v1#UserIdentifier": {
-      "type": "structure",
-      "members": {
-        "phoneNumber": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., \"+16502530000\")."
-          }
-        },
-        "address": {
-          "target": "com.gcp.merchantapi_loyaltycustomers_v1#AddressInfo",
-          "traits": {
-            "smithy.api#documentation": "Optional. The customer’s physical address."
-          }
-        },
-        "emailAddress": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The customer’s email address."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The user identifiers associated with the customer. At least one of the fields within this message must be provided."
-      }
-    },
-    "com.gcp.merchantapi_loyaltycustomers_v1#ManageLoyaltyCustomerMatchResponse": {
-      "type": "structure",
-      "members": {
-        "loyaltyCustomer": {
-          "target": "com.gcp.merchantapi_loyaltycustomers_v1#LoyaltyCustomer",
-          "traits": {
-            "smithy.api#documentation": "The loyalty customer that was inserted, updated, or removed. If the customer's identifier cannot be matched to a Google account or if the user has not opted into loyalty personalization, this field will contain a default `LoyaltyCustomer` instance."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response message for the ManageLoyaltyCustomerMatch method."
       }
     },
     "com.gcp.merchantapi_loyaltycustomers_v1#ManageAccountsLoyaltyCustomersRequest": {

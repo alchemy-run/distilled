@@ -86,15 +86,15 @@ export const ContentAdsSettingsTypeEnum = S.String;
 
 /** Settings specific to content ads (AFC). */
 export interface ContentAdsSettings {
-  /** Required. Type of the ad unit. */
-  type?: ContentAdsSettingsTypeEnum | (string & {});
   /** Required. Size of the ad unit. e.g. "728x90", "1x3" (for responsive ad units). */
   size?: string;
+  /** Required. Type of the ad unit. */
+  type?: ContentAdsSettingsTypeEnum | (string & {});
 }
 export const ContentAdsSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(ContentAdsSettingsTypeEnum),
     size: S.optional(S.String),
+    type: S.optional(ContentAdsSettingsTypeEnum),
   }),
 ).annotate({ identifier: "ContentAdsSettings" }) as any as S.Schema<ContentAdsSettings>;
 
@@ -103,10 +103,10 @@ export const AdUnitStateEnum = S.String;
 
 /** Representation of an ad unit. An ad unit represents a saved ad unit with a specific set of ad settings that have been customized within an account. */
 export interface AdUnit {
-  /** Output only. Unique ID of the ad unit as used in the `AD_UNIT_ID` reporting dimension. */
-  reportingDimensionId?: string;
   /** Required. Settings specific to content ads (AFC). */
   contentAdsSettings?: ContentAdsSettings;
+  /** Output only. Unique ID of the ad unit as used in the `AD_UNIT_ID` reporting dimension. */
+  reportingDimensionId?: string;
   /** Required. Display name of the ad unit, as provided when the ad unit was created. */
   displayName?: string;
   /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
@@ -116,8 +116,8 @@ export interface AdUnit {
 }
 export const AdUnit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportingDimensionId: S.optional(S.String),
     contentAdsSettings: S.optional(ContentAdsSettings),
+    reportingDimensionId: S.optional(S.String),
     displayName: S.optional(S.String),
     name: S.optional(S.String),
     state: S.optional(AdUnitStateEnum),
@@ -149,18 +149,18 @@ export const CreateAccountsAdclientsAdunitsRequest = /*@__PURE__*/ S.suspend(() 
 export interface CustomChannel {
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name?: string;
-  /** Whether the custom channel is active and collecting data. See https://support.google.com/adsense/answer/10077192. */
-  active?: boolean;
   /** Required. Display name of the custom channel. */
   displayName?: string;
+  /** Whether the custom channel is active and collecting data. See https://support.google.com/adsense/answer/10077192. */
+  active?: boolean;
   /** Output only. Unique ID of the custom channel as used in the `CUSTOM_CHANNEL_ID` reporting dimension. */
   reportingDimensionId?: string;
 }
 export const CustomChannel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    active: S.optional(S.Boolean),
     displayName: S.optional(S.String),
+    active: S.optional(S.Boolean),
     reportingDimensionId: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomChannel" }) as any as S.Schema<CustomChannel>;
@@ -205,17 +205,6 @@ export interface Empty {}
 export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
-
-export type GenerateAccountsReportsDateRangeEnum =
-  | "REPORTING_DATE_RANGE_UNSPECIFIED"
-  | "CUSTOM"
-  | "TODAY"
-  | "YESTERDAY"
-  | "MONTH_TO_DATE"
-  | "YEAR_TO_DATE"
-  | "LAST_7_DAYS"
-  | "LAST_30_DAYS";
-export const GenerateAccountsReportsDateRangeEnum = S.String;
 
 export type GenerateAccountsReportsMetricsEnum =
   | "METRIC_UNSPECIFIED"
@@ -263,9 +252,6 @@ export type GenerateAccountsReportsMetricsEnumList = Array<
 export const GenerateAccountsReportsMetricsEnumList = /*@__PURE__*/ S.Array(
   GenerateAccountsReportsMetricsEnum,
 ) as any as S.Schema<GenerateAccountsReportsMetricsEnumList>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export type GenerateAccountsReportsDimensionsEnum =
   | "DIMENSION_UNSPECIFIED"
@@ -334,6 +320,20 @@ export const GenerateAccountsReportsDimensionsEnumList = /*@__PURE__*/ S.Array(
   GenerateAccountsReportsDimensionsEnum,
 ) as any as S.Schema<GenerateAccountsReportsDimensionsEnumList>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+export type GenerateAccountsReportsDateRangeEnum =
+  | "REPORTING_DATE_RANGE_UNSPECIFIED"
+  | "CUSTOM"
+  | "TODAY"
+  | "YESTERDAY"
+  | "MONTH_TO_DATE"
+  | "YEAR_TO_DATE"
+  | "LAST_7_DAYS"
+  | "LAST_30_DAYS";
+export const GenerateAccountsReportsDateRangeEnum = S.String;
+
 export type GenerateAccountsReportsReportingTimeZoneEnum =
   | "REPORTING_TIME_ZONE_UNSPECIFIED"
   | "ACCOUNT_TIME_ZONE"
@@ -341,57 +341,57 @@ export type GenerateAccountsReportsReportingTimeZoneEnum =
 export const GenerateAccountsReportsReportingTimeZoneEnum = S.String;
 
 export interface GenerateAccountsReportsRequest {
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateAccountsReportsDateRangeEnum | (string & {});
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
-  /** Required. Reporting metrics. */
-  metrics?: GenerateAccountsReportsMetricsEnumList;
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
+  currencyCode?: string;
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
+  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
+  limit?: number;
+  /** Required. Reporting metrics. */
+  metrics?: GenerateAccountsReportsMetricsEnumList;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "endDate.day"?: number;
+  /** Dimensions to base the report on. */
+  dimensions?: GenerateAccountsReportsDimensionsEnumList;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "startDate.year"?: number;
+  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
+  filters?: StringList;
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?: GenerateAccountsReportsDateRangeEnum | (string & {});
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?: GenerateAccountsReportsReportingTimeZoneEnum | (string & {});
   /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
   orderBy?: StringList;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "endDate.year"?: number;
-  /** Dimensions to base the report on. */
-  dimensions?: GenerateAccountsReportsDimensionsEnumList;
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateAccountsReportsReportingTimeZoneEnum | (string & {});
-  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
-  limit?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
-  filters?: StringList;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
   /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
   languageCode?: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
 }
 export const GenerateAccountsReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dateRange: S.optional(GenerateAccountsReportsDateRangeEnum.pipe(T.Query())),
-    "startDate.day": S.optional(S.Number.pipe(T.Query())),
-    metrics: S.optional(GenerateAccountsReportsMetricsEnumList.pipe(T.Query())),
+    currencyCode: S.optional(S.String.pipe(T.Query())),
     account: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    metrics: S.optional(GenerateAccountsReportsMetricsEnumList.pipe(T.Query())),
+    "endDate.month": S.optional(S.Number.pipe(T.Query())),
     "endDate.day": S.optional(S.Number.pipe(T.Query())),
+    dimensions: S.optional(GenerateAccountsReportsDimensionsEnumList.pipe(T.Query())),
     "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    filters: S.optional(StringList.pipe(T.Query())),
+    dateRange: S.optional(GenerateAccountsReportsDateRangeEnum.pipe(T.Query())),
+    "startDate.month": S.optional(S.Number.pipe(T.Query())),
+    reportingTimeZone: S.optional(GenerateAccountsReportsReportingTimeZoneEnum.pipe(T.Query())),
     orderBy: S.optional(StringList.pipe(T.Query())),
     "endDate.year": S.optional(S.Number.pipe(T.Query())),
-    dimensions: S.optional(GenerateAccountsReportsDimensionsEnumList.pipe(T.Query())),
-    reportingTimeZone: S.optional(GenerateAccountsReportsReportingTimeZoneEnum.pipe(T.Query())),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    "endDate.month": S.optional(S.Number.pipe(T.Query())),
-    filters: S.optional(StringList.pipe(T.Query())),
-    currencyCode: S.optional(S.String.pipe(T.Query())),
     languageCode: S.optional(S.String.pipe(T.Query())),
-    "startDate.month": S.optional(S.Number.pipe(T.Query())),
+    "startDate.day": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -402,6 +402,53 @@ export const GenerateAccountsReportsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GenerateAccountsReportsRequest",
 }) as any as S.Schema<GenerateAccountsReportsRequest>;
+
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Adsense_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+}
+export const Adsense_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Adsense_Date" }) as any as S.Schema<Adsense_Date>;
+
+export type HeaderTypeEnum =
+  | "HEADER_TYPE_UNSPECIFIED"
+  | "DIMENSION"
+  | "METRIC_TALLY"
+  | "METRIC_RATIO"
+  | "METRIC_CURRENCY"
+  | "METRIC_MILLISECONDS"
+  | "METRIC_DECIMAL";
+export const HeaderTypeEnum = S.String;
+
+/** The header information of the columns requested in the report. */
+export interface Header {
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) of this column. Only present if the header type is METRIC_CURRENCY. */
+  currencyCode?: string;
+  /** Required. Type of the header. */
+  type?: HeaderTypeEnum;
+  /** Required. Name of the header. */
+  name?: string;
+}
+export const Header = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    currencyCode: S.optional(S.String),
+    type: S.optional(HeaderTypeEnum),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Header" }) as any as S.Schema<Header>;
+
+export type HeaderList = Array<Header>;
+export const HeaderList = /*@__PURE__*/ S.Array(Header) as any as S.Schema<HeaderList>;
 
 /** Cell representation. */
 export interface Cell {
@@ -428,93 +475,40 @@ export const Row = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
 
-export type HeaderTypeEnum =
-  | "HEADER_TYPE_UNSPECIFIED"
-  | "DIMENSION"
-  | "METRIC_TALLY"
-  | "METRIC_RATIO"
-  | "METRIC_CURRENCY"
-  | "METRIC_MILLISECONDS"
-  | "METRIC_DECIMAL";
-export const HeaderTypeEnum = S.String;
-
-/** The header information of the columns requested in the report. */
-export interface Header {
-  /** Required. Name of the header. */
-  name?: string;
-  /** Required. Type of the header. */
-  type?: HeaderTypeEnum;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) of this column. Only present if the header type is METRIC_CURRENCY. */
-  currencyCode?: string;
-}
-export const Header = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(HeaderTypeEnum),
-    currencyCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "Header" }) as any as S.Schema<Header>;
-
-export type HeaderList = Array<Header>;
-export const HeaderList = /*@__PURE__*/ S.Array(Header) as any as S.Schema<HeaderList>;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Adsense_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-}
-export const Adsense_Date = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    month: S.optional(S.Number),
-    year: S.optional(S.Number),
-    day: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Adsense_Date" }) as any as S.Schema<Adsense_Date>;
-
 export type RowList = Array<Row>;
 export const RowList = /*@__PURE__*/ S.Array(Row) as any as S.Schema<RowList>;
 
 /** Result of a generated report. */
 export interface ReportResult {
+  /** Required. End date of the range (inclusive). */
+  endDate?: Adsense_Date;
+  /** The header information; one for each dimension in the request, followed by one for each metric in the request. */
+  headers?: HeaderList;
+  /** The output rows of the report. Each row is a list of cells; one for each dimension in the request, followed by one for each metric in the request. */
+  rows?: RowList;
+  /** Any warnings associated with generation of the report. These warnings are always returned in English. */
+  warnings?: StringList;
+  /** Required. Start date of the range (inclusive). */
+  startDate?: Adsense_Date;
+  /** The totals of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
+  totals?: Row;
   /** The averages of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
   averages?: Row;
   /** The total number of rows matched by the report request. */
   totalMatchedRows?: string;
-  /** The header information; one for each dimension in the request, followed by one for each metric in the request. */
-  headers?: HeaderList;
-  /** Required. Start date of the range (inclusive). */
-  startDate?: Adsense_Date;
-  /** Any warnings associated with generation of the report. These warnings are always returned in English. */
-  warnings?: StringList;
-  /** The totals of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
-  totals?: Row;
-  /** Required. End date of the range (inclusive). */
-  endDate?: Adsense_Date;
-  /** The output rows of the report. Each row is a list of cells; one for each dimension in the request, followed by one for each metric in the request. */
-  rows?: RowList;
 }
 export const ReportResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    endDate: S.optional(Adsense_Date),
+    headers: S.optional(HeaderList),
+    rows: S.optional(RowList),
+    warnings: S.optional(StringList),
+    startDate: S.optional(Adsense_Date),
+    totals: S.optional(Row),
     averages: S.optional(Row),
     totalMatchedRows: S.optional(S.String),
-    headers: S.optional(HeaderList),
-    startDate: S.optional(Adsense_Date),
-    warnings: S.optional(StringList),
-    totals: S.optional(Row),
-    endDate: S.optional(Adsense_Date),
-    rows: S.optional(RowList),
   }),
 ).annotate({ identifier: "ReportResult" }) as any as S.Schema<ReportResult>;
-
-export type GenerateAccountsReportsSavedReportingTimeZoneEnum =
-  | "REPORTING_TIME_ZONE_UNSPECIFIED"
-  | "ACCOUNT_TIME_ZONE"
-  | "GOOGLE_TIME_ZONE";
-export const GenerateAccountsReportsSavedReportingTimeZoneEnum = S.String;
 
 export type GenerateAccountsReportsSavedDateRangeEnum =
   | "REPORTING_DATE_RANGE_UNSPECIFIED"
@@ -527,45 +521,51 @@ export type GenerateAccountsReportsSavedDateRangeEnum =
   | "LAST_30_DAYS";
 export const GenerateAccountsReportsSavedDateRangeEnum = S.String;
 
+export type GenerateAccountsReportsSavedReportingTimeZoneEnum =
+  | "REPORTING_TIME_ZONE_UNSPECIFIED"
+  | "ACCOUNT_TIME_ZONE"
+  | "GOOGLE_TIME_ZONE";
+export const GenerateAccountsReportsSavedReportingTimeZoneEnum = S.String;
+
 export interface GenerateAccountsReportsSavedRequest {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "startDate.year"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "endDate.day"?: number;
-  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
-  name: string;
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?: GenerateAccountsReportsSavedDateRangeEnum | (string & {});
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
   currencyCode?: string;
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "endDate.month"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "startDate.month"?: number;
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
   reportingTimeZone?: GenerateAccountsReportsSavedReportingTimeZoneEnum | (string & {});
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateAccountsReportsSavedDateRangeEnum | (string & {});
+  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
+  name: string;
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "endDate.year"?: number;
 }
 export const GenerateAccountsReportsSavedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "endDate.year": S.optional(S.Number.pipe(T.Query())),
+    "startDate.year": S.optional(S.Number.pipe(T.Query())),
     "endDate.day": S.optional(S.Number.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
+    dateRange: S.optional(GenerateAccountsReportsSavedDateRangeEnum.pipe(T.Query())),
     currencyCode: S.optional(S.String.pipe(T.Query())),
-    languageCode: S.optional(S.String.pipe(T.Query())),
     "endDate.month": S.optional(S.Number.pipe(T.Query())),
-    "startDate.day": S.optional(S.Number.pipe(T.Query())),
     "startDate.month": S.optional(S.Number.pipe(T.Query())),
     reportingTimeZone: S.optional(
       GenerateAccountsReportsSavedReportingTimeZoneEnum.pipe(T.Query()),
     ),
-    dateRange: S.optional(GenerateAccountsReportsSavedDateRangeEnum.pipe(T.Query())),
-    "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    languageCode: S.optional(S.String.pipe(T.Query())),
+    "startDate.day": S.optional(S.Number.pipe(T.Query())),
+    "endDate.year": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -577,11 +577,52 @@ export const GenerateAccountsReportsSavedRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GenerateAccountsReportsSavedRequest",
 }) as any as S.Schema<GenerateAccountsReportsSavedRequest>;
 
-export type GenerateCsvAccountsReportsReportingTimeZoneEnum =
-  | "REPORTING_TIME_ZONE_UNSPECIFIED"
-  | "ACCOUNT_TIME_ZONE"
-  | "GOOGLE_TIME_ZONE";
-export const GenerateCsvAccountsReportsReportingTimeZoneEnum = S.String;
+export type GenerateCsvAccountsReportsMetricsEnum =
+  | "METRIC_UNSPECIFIED"
+  | "PAGE_VIEWS"
+  | "AD_REQUESTS"
+  | "MATCHED_AD_REQUESTS"
+  | "TOTAL_IMPRESSIONS"
+  | "IMPRESSIONS"
+  | "INDIVIDUAL_AD_IMPRESSIONS"
+  | "CLICKS"
+  | "PAGE_VIEWS_SPAM_RATIO"
+  | "AD_REQUESTS_SPAM_RATIO"
+  | "MATCHED_AD_REQUESTS_SPAM_RATIO"
+  | "IMPRESSIONS_SPAM_RATIO"
+  | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
+  | "CLICKS_SPAM_RATIO"
+  | "AD_REQUESTS_COVERAGE"
+  | "PAGE_VIEWS_CTR"
+  | "AD_REQUESTS_CTR"
+  | "MATCHED_AD_REQUESTS_CTR"
+  | "IMPRESSIONS_CTR"
+  | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
+  | "ACTIVE_VIEW_MEASURABILITY"
+  | "ACTIVE_VIEW_VIEWABILITY"
+  | "ACTIVE_VIEW_TIME"
+  | "ESTIMATED_EARNINGS"
+  | "PAGE_VIEWS_RPM"
+  | "AD_REQUESTS_RPM"
+  | "MATCHED_AD_REQUESTS_RPM"
+  | "IMPRESSIONS_RPM"
+  | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
+  | "COST_PER_CLICK"
+  | "ADS_PER_IMPRESSION"
+  | "TOTAL_EARNINGS"
+  | "WEBSEARCH_RESULT_PAGES"
+  | "FUNNEL_REQUESTS"
+  | "FUNNEL_IMPRESSIONS"
+  | "FUNNEL_CLICKS"
+  | "FUNNEL_RPM";
+export const GenerateCsvAccountsReportsMetricsEnum = S.String;
+
+export type GenerateCsvAccountsReportsMetricsEnumList = Array<
+  GenerateCsvAccountsReportsMetricsEnum | (string & {})
+>;
+export const GenerateCsvAccountsReportsMetricsEnumList = /*@__PURE__*/ S.Array(
+  GenerateCsvAccountsReportsMetricsEnum,
+) as any as S.Schema<GenerateCsvAccountsReportsMetricsEnumList>;
 
 export type GenerateCsvAccountsReportsDimensionsEnum =
   | "DIMENSION_UNSPECIFIED"
@@ -650,6 +691,12 @@ export const GenerateCsvAccountsReportsDimensionsEnumList = /*@__PURE__*/ S.Arra
   GenerateCsvAccountsReportsDimensionsEnum,
 ) as any as S.Schema<GenerateCsvAccountsReportsDimensionsEnumList>;
 
+export type GenerateCsvAccountsReportsReportingTimeZoneEnum =
+  | "REPORTING_TIME_ZONE_UNSPECIFIED"
+  | "ACCOUNT_TIME_ZONE"
+  | "GOOGLE_TIME_ZONE";
+export const GenerateCsvAccountsReportsReportingTimeZoneEnum = S.String;
+
 export type GenerateCsvAccountsReportsDateRangeEnum =
   | "REPORTING_DATE_RANGE_UNSPECIFIED"
   | "CUSTOM"
@@ -661,105 +708,58 @@ export type GenerateCsvAccountsReportsDateRangeEnum =
   | "LAST_30_DAYS";
 export const GenerateCsvAccountsReportsDateRangeEnum = S.String;
 
-export type GenerateCsvAccountsReportsMetricsEnum =
-  | "METRIC_UNSPECIFIED"
-  | "PAGE_VIEWS"
-  | "AD_REQUESTS"
-  | "MATCHED_AD_REQUESTS"
-  | "TOTAL_IMPRESSIONS"
-  | "IMPRESSIONS"
-  | "INDIVIDUAL_AD_IMPRESSIONS"
-  | "CLICKS"
-  | "PAGE_VIEWS_SPAM_RATIO"
-  | "AD_REQUESTS_SPAM_RATIO"
-  | "MATCHED_AD_REQUESTS_SPAM_RATIO"
-  | "IMPRESSIONS_SPAM_RATIO"
-  | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
-  | "CLICKS_SPAM_RATIO"
-  | "AD_REQUESTS_COVERAGE"
-  | "PAGE_VIEWS_CTR"
-  | "AD_REQUESTS_CTR"
-  | "MATCHED_AD_REQUESTS_CTR"
-  | "IMPRESSIONS_CTR"
-  | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
-  | "ACTIVE_VIEW_MEASURABILITY"
-  | "ACTIVE_VIEW_VIEWABILITY"
-  | "ACTIVE_VIEW_TIME"
-  | "ESTIMATED_EARNINGS"
-  | "PAGE_VIEWS_RPM"
-  | "AD_REQUESTS_RPM"
-  | "MATCHED_AD_REQUESTS_RPM"
-  | "IMPRESSIONS_RPM"
-  | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
-  | "COST_PER_CLICK"
-  | "ADS_PER_IMPRESSION"
-  | "TOTAL_EARNINGS"
-  | "WEBSEARCH_RESULT_PAGES"
-  | "FUNNEL_REQUESTS"
-  | "FUNNEL_IMPRESSIONS"
-  | "FUNNEL_CLICKS"
-  | "FUNNEL_RPM";
-export const GenerateCsvAccountsReportsMetricsEnum = S.String;
-
-export type GenerateCsvAccountsReportsMetricsEnumList = Array<
-  GenerateCsvAccountsReportsMetricsEnum | (string & {})
->;
-export const GenerateCsvAccountsReportsMetricsEnumList = /*@__PURE__*/ S.Array(
-  GenerateCsvAccountsReportsMetricsEnum,
-) as any as S.Schema<GenerateCsvAccountsReportsMetricsEnumList>;
-
 export interface GenerateCsvAccountsReportsRequest {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "endDate.month"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
-  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
-  filters?: StringList;
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateCsvAccountsReportsReportingTimeZoneEnum | (string & {});
+  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
+  account: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Required. Reporting metrics. */
+  metrics?: GenerateCsvAccountsReportsMetricsEnumList;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   "endDate.year"?: number;
   /** Dimensions to base the report on. */
   dimensions?: GenerateCsvAccountsReportsDimensionsEnumList;
+  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
+  filters?: StringList;
+  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
+  limit?: number;
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?: GenerateCsvAccountsReportsReportingTimeZoneEnum | (string & {});
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
+  orderBy?: StringList;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "startDate.day"?: number;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
   dateRange?: GenerateCsvAccountsReportsDateRangeEnum | (string & {});
-  /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
-  orderBy?: StringList;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
-  account: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** Required. Reporting metrics. */
-  metrics?: GenerateCsvAccountsReportsMetricsEnumList;
-  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
-  limit?: number;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
   currencyCode?: string;
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
 }
 export const GenerateCsvAccountsReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     "endDate.month": S.optional(S.Number.pipe(T.Query())),
-    "endDate.day": S.optional(S.Number.pipe(T.Query())),
-    filters: S.optional(StringList.pipe(T.Query())),
-    reportingTimeZone: S.optional(GenerateCsvAccountsReportsReportingTimeZoneEnum.pipe(T.Query())),
+    account: S.String.pipe(T.Label()),
+    "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    languageCode: S.optional(S.String.pipe(T.Query())),
+    metrics: S.optional(GenerateCsvAccountsReportsMetricsEnumList.pipe(T.Query())),
     "endDate.year": S.optional(S.Number.pipe(T.Query())),
     dimensions: S.optional(GenerateCsvAccountsReportsDimensionsEnumList.pipe(T.Query())),
+    filters: S.optional(StringList.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    reportingTimeZone: S.optional(GenerateCsvAccountsReportsReportingTimeZoneEnum.pipe(T.Query())),
+    "startDate.month": S.optional(S.Number.pipe(T.Query())),
+    "endDate.day": S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(StringList.pipe(T.Query())),
     "startDate.day": S.optional(S.Number.pipe(T.Query())),
     dateRange: S.optional(GenerateCsvAccountsReportsDateRangeEnum.pipe(T.Query())),
-    orderBy: S.optional(StringList.pipe(T.Query())),
-    "startDate.year": S.optional(S.Number.pipe(T.Query())),
-    account: S.String.pipe(T.Label()),
-    "startDate.month": S.optional(S.Number.pipe(T.Query())),
-    metrics: S.optional(GenerateCsvAccountsReportsMetricsEnumList.pipe(T.Query())),
-    limit: S.optional(S.Number.pipe(T.Query())),
     currencyCode: S.optional(S.String.pipe(T.Query())),
-    languageCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -817,44 +817,44 @@ export type GenerateCsvAccountsReportsSavedDateRangeEnum =
 export const GenerateCsvAccountsReportsSavedDateRangeEnum = S.String;
 
 export interface GenerateCsvAccountsReportsSavedRequest {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateCsvAccountsReportsSavedReportingTimeZoneEnum | (string & {});
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateCsvAccountsReportsSavedDateRangeEnum | (string & {});
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
-  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
-  name: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "endDate.day"?: number;
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
+  currencyCode?: string;
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?: GenerateCsvAccountsReportsSavedReportingTimeZoneEnum | (string & {});
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "endDate.year"?: number;
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
+  name: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?: GenerateCsvAccountsReportsSavedDateRangeEnum | (string & {});
 }
 export const GenerateCsvAccountsReportsSavedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    "endDate.day": S.optional(S.Number.pipe(T.Query())),
+    currencyCode: S.optional(S.String.pipe(T.Query())),
     reportingTimeZone: S.optional(
       GenerateCsvAccountsReportsSavedReportingTimeZoneEnum.pipe(T.Query()),
     ),
-    "startDate.month": S.optional(S.Number.pipe(T.Query())),
-    dateRange: S.optional(GenerateCsvAccountsReportsSavedDateRangeEnum.pipe(T.Query())),
-    languageCode: S.optional(S.String.pipe(T.Query())),
-    currencyCode: S.optional(S.String.pipe(T.Query())),
     "startDate.day": S.optional(S.Number.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    "endDate.month": S.optional(S.Number.pipe(T.Query())),
     "endDate.year": S.optional(S.Number.pipe(T.Query())),
-    "endDate.day": S.optional(S.Number.pipe(T.Query())),
+    languageCode: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    "startDate.year": S.optional(S.Number.pipe(T.Query())),
+    "startDate.month": S.optional(S.Number.pipe(T.Query())),
+    "endDate.month": S.optional(S.Number.pipe(T.Query())),
+    dateRange: S.optional(GenerateCsvAccountsReportsSavedDateRangeEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -876,49 +876,49 @@ export const GetAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://adsense.googleapis.com/" })),
 ).annotate({ identifier: "GetAccountsRequest" }) as any as S.Schema<GetAccountsRequest>;
 
-export type AccountStateEnum = "STATE_UNSPECIFIED" | "READY" | "NEEDS_ATTENTION" | "CLOSED";
-export const AccountStateEnum = S.String;
-
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
   /** IANA Time Zone Database time zone. For example "America/New_York". */
   id?: string;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
 }
 export const TimeZone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.String),
     id: S.optional(S.String),
+    version: S.optional(S.String),
   }),
 ).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
+
+export type AccountStateEnum = "STATE_UNSPECIFIED" | "READY" | "NEEDS_ATTENTION" | "CLOSED";
+export const AccountStateEnum = S.String;
 
 /** Representation of an account. */
 export interface Account {
   /** Output only. Display name of this account. */
   displayName?: string;
-  /** Output only. Outstanding tasks that need to be completed as part of the sign-up process for a new account. e.g. "billing-profile-creation", "phone-pin-verification". */
-  pendingTasks?: StringList;
-  /** Output only. Resource name of the account. Format: accounts/pub-[0-9]+ */
-  name?: string;
+  /** The account time zone, as used by reporting. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  timeZone?: TimeZone;
   /** Output only. Creation time of the account. */
   createTime?: string;
   /** Output only. Whether this account is premium. Premium accounts have access to additional spam-related metrics. */
   premium?: boolean;
+  /** Output only. Outstanding tasks that need to be completed as part of the sign-up process for a new account. e.g. "billing-profile-creation", "phone-pin-verification". */
+  pendingTasks?: StringList;
+  /** Output only. Resource name of the account. Format: accounts/pub-[0-9]+ */
+  name?: string;
   /** Output only. State of the account. */
   state?: AccountStateEnum;
-  /** The account time zone, as used by reporting. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  timeZone?: TimeZone;
 }
 export const Account = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    pendingTasks: S.optional(StringList),
-    name: S.optional(S.String),
+    timeZone: S.optional(TimeZone),
     createTime: S.optional(S.String),
     premium: S.optional(S.Boolean),
+    pendingTasks: S.optional(StringList),
+    name: S.optional(S.String),
     state: S.optional(AccountStateEnum),
-    timeZone: S.optional(TimeZone),
   }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 
@@ -939,21 +939,21 @@ export const AdClientStateEnum = S.String;
 
 /** Representation of an ad client. An ad client represents a user's subscription with a specific AdSense product. */
 export interface AdClient {
-  /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
-  name?: string;
   /** Output only. Unique ID of the ad client as used in the `AD_CLIENT_ID` reporting dimension. Present only if the ad client supports reporting. */
   reportingDimensionId?: string;
-  /** Output only. Reporting product code of the ad client. For example, "AFC" for AdSense for Content. Corresponds to the `PRODUCT_CODE` dimension, and present only if the ad client supports reporting. */
-  productCode?: string;
+  /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
+  name?: string;
   /** Output only. State of the ad client. */
   state?: AdClientStateEnum;
+  /** Output only. Reporting product code of the ad client. For example, "AFC" for AdSense for Content. Corresponds to the `PRODUCT_CODE` dimension, and present only if the ad client supports reporting. */
+  productCode?: string;
 }
 export const AdClient = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     reportingDimensionId: S.optional(S.String),
-    productCode: S.optional(S.String),
+    name: S.optional(S.String),
     state: S.optional(AdClientStateEnum),
+    productCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdClient" }) as any as S.Schema<AdClient>;
 
@@ -995,18 +995,18 @@ export const GetAccountsAdclientsUrlchannelsRequest = /*@__PURE__*/ S.suspend(()
 
 /** Representation of a URL channel. URL channels allow you to track the performance of particular pages in your site; see [URL channels](https://support.google.com/adsense/answer/2923836) for more information. */
 export interface UrlChannel {
+  /** URI pattern of the channel. Does not include "http://" or "https://". Example: www.example.com/home */
+  uriPattern?: string;
   /** Output only. Resource name of the URL channel. Format: accounts/{account}/adclients/{adclient}/urlchannels/{urlchannel} */
   name?: string;
   /** Output only. Unique ID of the custom channel as used in the `URL_CHANNEL_ID` reporting dimension. */
   reportingDimensionId?: string;
-  /** URI pattern of the channel. Does not include "http://" or "https://". Example: www.example.com/home */
-  uriPattern?: string;
 }
 export const UrlChannel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    uriPattern: S.optional(S.String),
     name: S.optional(S.String),
     reportingDimensionId: S.optional(S.String),
-    uriPattern: S.optional(S.String),
   }),
 ).annotate({ identifier: "UrlChannel" }) as any as S.Schema<UrlChannel>;
 
@@ -1022,34 +1022,12 @@ export const GetAccountsPolicyIssuesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAccountsPolicyIssuesRequest",
 }) as any as S.Schema<GetAccountsPolicyIssuesRequest>;
 
-export type PolicyTopicTypeEnum =
-  | "POLICY_TOPIC_TYPE_UNSPECIFIED"
-  | "POLICY"
-  | "ADVERTISER_PREFERENCE"
-  | "REGULATORY";
-export const PolicyTopicTypeEnum = S.String;
-
-/** Information about a particular policy topic. A policy topic represents a single class of policy issue that can impact ad serving for your site. For example, sexual content or having ads that obscure your content. A single policy issue can have multiple policy topics for a single entity. */
-export interface PolicyTopic {
-  /** Required. The policy topic. For example, "sexual-content" or "ads-obscuring-content"." */
-  topic?: string;
-  /** Required. Deprecated. Always set to false. */
-  mustFix?: boolean;
-  /** Optional. The type of policy topic. For example, "POLICY" represents all the policy topics that are related to the Google Publisher Policy (GPP). See https://support.google.com/adsense/answer/15689616. */
-  type?: PolicyTopicTypeEnum;
-}
-export const PolicyTopic = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topic: S.optional(S.String),
-    mustFix: S.optional(S.Boolean),
-    type: S.optional(PolicyTopicTypeEnum),
-  }),
-).annotate({ identifier: "PolicyTopic" }) as any as S.Schema<PolicyTopic>;
-
-export type PolicyTopicList = Array<PolicyTopic>;
-export const PolicyTopicList = /*@__PURE__*/ S.Array(
-  PolicyTopic,
-) as any as S.Schema<PolicyTopicList>;
+export type PolicyIssueEntityTypeEnum =
+  | "ENTITY_TYPE_UNSPECIFIED"
+  | "SITE"
+  | "SITE_SECTION"
+  | "PAGE";
+export const PolicyIssueEntityTypeEnum = S.String;
 
 export type PolicyIssueActionEnum =
   | "ENFORCEMENT_ACTION_UNSPECIFIED"
@@ -1060,54 +1038,76 @@ export type PolicyIssueActionEnum =
   | "AD_PERSONALIZATION_RESTRICTED";
 export const PolicyIssueActionEnum = S.String;
 
-export type PolicyIssueEntityTypeEnum =
-  | "ENTITY_TYPE_UNSPECIFIED"
-  | "SITE"
-  | "SITE_SECTION"
-  | "PAGE";
-export const PolicyIssueEntityTypeEnum = S.String;
+export type PolicyTopicTypeEnum =
+  | "POLICY_TOPIC_TYPE_UNSPECIFIED"
+  | "POLICY"
+  | "ADVERTISER_PREFERENCE"
+  | "REGULATORY";
+export const PolicyTopicTypeEnum = S.String;
+
+/** Information about a particular policy topic. A policy topic represents a single class of policy issue that can impact ad serving for your site. For example, sexual content or having ads that obscure your content. A single policy issue can have multiple policy topics for a single entity. */
+export interface PolicyTopic {
+  /** Required. Deprecated. Always set to false. */
+  mustFix?: boolean;
+  /** Required. The policy topic. For example, "sexual-content" or "ads-obscuring-content"." */
+  topic?: string;
+  /** Optional. The type of policy topic. For example, "POLICY" represents all the policy topics that are related to the Google Publisher Policy (GPP). See https://support.google.com/adsense/answer/15689616. */
+  type?: PolicyTopicTypeEnum;
+}
+export const PolicyTopic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mustFix: S.optional(S.Boolean),
+    topic: S.optional(S.String),
+    type: S.optional(PolicyTopicTypeEnum),
+  }),
+).annotate({ identifier: "PolicyTopic" }) as any as S.Schema<PolicyTopic>;
+
+export type PolicyTopicList = Array<PolicyTopic>;
+export const PolicyTopicList = /*@__PURE__*/ S.Array(
+  PolicyTopic,
+) as any as S.Schema<PolicyTopicList>;
 
 /** Representation of a policy issue for a single entity (site, site-section, or page). All issues for a single entity are represented by a single PolicyIssue resource, though that PolicyIssue can have multiple causes (or "topics") that can change over time. Policy issues are removed if there are no issues detected recently or if there's a recent successful appeal for the entity. */
 export interface PolicyIssue {
-  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were first detected on the entity. */
-  firstDetectedDate?: Adsense_Date;
+  /** Required. Hostname/domain of the entity (for example "foo.com" or "www.foo.com"). This _should_ be a bare domain/host name without any protocol. This will be present for all policy issues. */
+  site?: string;
+  /** Required. Type of the entity indicating if the entity is a site, site-section, or page. */
+  entityType?: PolicyIssueEntityTypeEnum;
+  /** Required. The most severe action taken on the entity over the past seven days. */
+  action?: PolicyIssueActionEnum;
   /** Required. Resource name of the entity with policy issues. Format: accounts/{account}/policyIssues/{policy_issue} */
   name?: string;
   /** Required. Total number of ad requests affected by the policy violations over the past seven days. */
   adRequestCount?: string;
-  /** Required. Unordered list. The policy topics that this entity was found to violate over the past seven days. */
-  policyTopics?: PolicyTopicList;
-  /** Required. Hostname/domain of the entity (for example "foo.com" or "www.foo.com"). This _should_ be a bare domain/host name without any protocol. This will be present for all policy issues. */
-  site?: string;
-  /** Required. The most severe action taken on the entity over the past seven days. */
-  action?: PolicyIssueActionEnum;
   /** Optional. List of ad clients associated with the policy issue (either as the primary ad client or an associated host/secondary ad client). In the latter case, this will be an ad client that is not owned by the current account. */
   adClients?: StringList;
-  /** Optional. The date (in the America/Los_Angeles timezone) when the entity will have ad serving demand restricted or ad serving disabled. This is present only for issues with a `WARNED` enforcement action. See https://support.google.com/adsense/answer/11066888. */
-  warningEscalationDate?: Adsense_Date;
   /** Optional. Prefix of the site-section having policy issues (For example "foo.com/bar-section"). This will be present if the `entity_type` is `SITE_SECTION` and will be absent for other entity types. */
   siteSection?: string;
-  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were last detected on the entity. */
-  lastDetectedDate?: Adsense_Date;
-  /** Required. Type of the entity indicating if the entity is a site, site-section, or page. */
-  entityType?: PolicyIssueEntityTypeEnum;
+  /** Required. Unordered list. The policy topics that this entity was found to violate over the past seven days. */
+  policyTopics?: PolicyTopicList;
+  /** Optional. The date (in the America/Los_Angeles timezone) when the entity will have ad serving demand restricted or ad serving disabled. This is present only for issues with a `WARNED` enforcement action. See https://support.google.com/adsense/answer/11066888. */
+  warningEscalationDate?: Adsense_Date;
+  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were first detected on the entity. */
+  firstDetectedDate?: Adsense_Date;
   /** Optional. URI of the page having policy violations (for example "foo.com/bar" or "www.foo.com/bar"). This will be present if the `entity_type` is `PAGE` and will be absent for other entity types. */
   uri?: string;
+  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were last detected on the entity. */
+  lastDetectedDate?: Adsense_Date;
 }
 export const PolicyIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    firstDetectedDate: S.optional(Adsense_Date),
+    site: S.optional(S.String),
+    entityType: S.optional(PolicyIssueEntityTypeEnum),
+    action: S.optional(PolicyIssueActionEnum),
     name: S.optional(S.String),
     adRequestCount: S.optional(S.String),
-    policyTopics: S.optional(PolicyTopicList),
-    site: S.optional(S.String),
-    action: S.optional(PolicyIssueActionEnum),
     adClients: S.optional(StringList),
-    warningEscalationDate: S.optional(Adsense_Date),
     siteSection: S.optional(S.String),
-    lastDetectedDate: S.optional(Adsense_Date),
-    entityType: S.optional(PolicyIssueEntityTypeEnum),
+    policyTopics: S.optional(PolicyTopicList),
+    warningEscalationDate: S.optional(Adsense_Date),
+    firstDetectedDate: S.optional(Adsense_Date),
     uri: S.optional(S.String),
+    lastDetectedDate: S.optional(Adsense_Date),
   }),
 ).annotate({ identifier: "PolicyIssue" }) as any as S.Schema<PolicyIssue>;
 
@@ -1131,24 +1131,24 @@ export const SiteStateEnum = S.String;
 
 /** Representation of a Site. */
 export interface Site {
+  /** Output only. State of a site. */
+  state?: SiteStateEnum;
   /** Output only. Unique ID of the site as used in the `OWNED_SITE_ID` reporting dimension. */
   reportingDimensionId?: string;
+  /** Whether auto ads is turned on for the site. */
+  autoAdsEnabled?: boolean;
   /** Output only. Resource name of a site. Format: accounts/{account}/sites/{site} */
   name?: string;
   /** Domain (or subdomain) of the site, e.g. "example.com" or "www.example.com". This is used in the `OWNED_SITE_DOMAIN_NAME` reporting dimension. */
   domain?: string;
-  /** Whether auto ads is turned on for the site. */
-  autoAdsEnabled?: boolean;
-  /** Output only. State of a site. */
-  state?: SiteStateEnum;
 }
 export const Site = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(SiteStateEnum),
     reportingDimensionId: S.optional(S.String),
+    autoAdsEnabled: S.optional(S.Boolean),
     name: S.optional(S.String),
     domain: S.optional(S.String),
-    autoAdsEnabled: S.optional(S.Boolean),
-    state: S.optional(SiteStateEnum),
   }),
 ).annotate({ identifier: "Site" }) as any as S.Schema<Site>;
 
@@ -1172,15 +1172,15 @@ export const GetAdBlockingRecoveryTagAccountsRequest = /*@__PURE__*/ S.suspend((
 
 /** Representation of an ad blocking recovery tag. See https://support.google.com/adsense/answer/11575177. */
 export interface AdBlockingRecoveryTag {
-  /** The ad blocking recovery tag. Note that the message generated by the tag can be blocked by an ad blocking extension. If this is not your desired outcome, then you'll need to use it in conjunction with the error protection code. */
-  tag?: string;
   /** Error protection code that can be used in conjunction with the tag. It'll display a message to users if an [ad blocking extension blocks their access to your site](https://support.google.com/adsense/answer/11575480). */
   errorProtectionCode?: string;
+  /** The ad blocking recovery tag. Note that the message generated by the tag can be blocked by an ad blocking extension. If this is not your desired outcome, then you'll need to use it in conjunction with the error protection code. */
+  tag?: string;
 }
 export const AdBlockingRecoveryTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
     errorProtectionCode: S.optional(S.String),
+    tag: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdBlockingRecoveryTag" }) as any as S.Schema<AdBlockingRecoveryTag>;
 
@@ -1202,16 +1202,16 @@ export const GetAdcodeAccountsAdclientsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface AdClientAdCode {
   /** Output only. The AdSense code snippet to add to the head of an AMP page. */
   ampHead?: string;
-  /** Output only. The AdSense code snippet to add to the head of an HTML page. */
-  adCode?: string;
   /** Output only. The AdSense code snippet to add to the body of an AMP page. */
   ampBody?: string;
+  /** Output only. The AdSense code snippet to add to the head of an HTML page. */
+  adCode?: string;
 }
 export const AdClientAdCode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ampHead: S.optional(S.String),
-    adCode: S.optional(S.String),
     ampBody: S.optional(S.String),
+    adCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdClientAdCode" }) as any as S.Schema<AdClientAdCode>;
 
@@ -1256,15 +1256,15 @@ export const GetSavedAccountsReportsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Representation of a saved report. */
 export interface SavedReport {
-  /** Report title as specified by publisher. */
-  title?: string;
   /** Output only. Resource name of the report. Format: accounts/{account}/reports/{report} */
   name?: string;
+  /** Report title as specified by publisher. */
+  title?: string;
 }
 export const SavedReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
     name: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "SavedReport" }) as any as S.Schema<SavedReport>;
 
@@ -1288,31 +1288,31 @@ export const AccountList = /*@__PURE__*/ S.Array(Account) as any as S.Schema<Acc
 
 /** Response definition for the account list rpc. */
 export interface ListAccountsResponse {
-  /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
   /** The accounts returned in this list response. */
   accounts?: AccountList;
+  /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
 }
 export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     accounts: S.optional(AccountList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
 
 export interface ListAccountsAdclientsRequest {
-  /** The maximum number of ad clients to include in the response, used for paging. If unspecified, at most 10000 ad clients will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
-  /** Required. The account which owns the collection of ad clients. Format: accounts/{account} */
-  parent: string;
   /** A page token, received from a previous `ListAdClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdClients` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The account which owns the collection of ad clients. Format: accounts/{account} */
+  parent: string;
+  /** The maximum number of ad clients to include in the response, used for paging. If unspecified, at most 10000 ad clients will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
 }
 export const ListAccountsAdclientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1329,15 +1329,15 @@ export const AdClientList = /*@__PURE__*/ S.Array(AdClient) as any as S.Schema<A
 
 /** Response definition for the ad client list rpc. */
 export interface ListAdClientsResponse {
-  /** The ad clients returned in this list response. */
-  adClients?: AdClientList;
   /** Continuation token used to page through ad clients. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
+  /** The ad clients returned in this list response. */
+  adClients?: AdClientList;
 }
 export const ListAdClientsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    adClients: S.optional(AdClientList),
     nextPageToken: S.optional(S.String),
+    adClients: S.optional(AdClientList),
   }),
 ).annotate({ identifier: "ListAdClientsResponse" }) as any as S.Schema<ListAdClientsResponse>;
 
@@ -1370,31 +1370,31 @@ export const AdUnitList = /*@__PURE__*/ S.Array(AdUnit) as any as S.Schema<AdUni
 
 /** Response definition for the adunit list rpc. */
 export interface ListAdUnitsResponse {
-  /** The ad units returned in the list response. */
-  adUnits?: AdUnitList;
   /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
+  /** The ad units returned in the list response. */
+  adUnits?: AdUnitList;
 }
 export const ListAdUnitsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    adUnits: S.optional(AdUnitList),
     nextPageToken: S.optional(S.String),
+    adUnits: S.optional(AdUnitList),
   }),
 ).annotate({ identifier: "ListAdUnitsResponse" }) as any as S.Schema<ListAdUnitsResponse>;
 
 export interface ListAccountsAdclientsCustomchannelsRequest {
   /** A page token, received from a previous `ListCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCustomChannels` must match the call that provided the page token. */
   pageToken?: string;
-  /** Required. The ad client which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient} */
-  parent: string;
   /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
+  /** Required. The ad client which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient} */
+  parent: string;
 }
 export const ListAccountsAdclientsCustomchannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1428,18 +1428,18 @@ export const ListCustomChannelsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCustomChannelsResponse>;
 
 export interface ListAccountsAdclientsUrlchannelsRequest {
-  /** The maximum number of url channels to include in the response, used for paging. If unspecified, at most 10000 url channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
   /** A page token, received from a previous `ListUrlChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUrlChannels` must match the call that provided the page token. */
   pageToken?: string;
   /** Required. The ad client which owns the collection of url channels. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
+  /** The maximum number of url channels to include in the response, used for paging. If unspecified, at most 10000 url channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
 }
 export const ListAccountsAdclientsUrlchannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1494,21 +1494,21 @@ export const AlertSeverityEnum = S.String;
 
 /** Representation of an alert. */
 export interface Alert {
-  /** Output only. The localized alert message. This may contain HTML markup, such as phrase elements or links. */
-  message?: string;
   /** Output only. Resource name of the alert. Format: accounts/{account}/alerts/{alert} */
   name?: string;
-  /** Output only. Severity of this alert. */
-  severity?: AlertSeverityEnum;
   /** Output only. Type of alert. This identifies the broad type of this alert, and provides a stable machine-readable identifier that will not be translated. For example, "payment-hold". */
   type?: string;
+  /** Output only. The localized alert message. This may contain HTML markup, such as phrase elements or links. */
+  message?: string;
+  /** Output only. Severity of this alert. */
+  severity?: AlertSeverityEnum;
 }
 export const Alert = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     name: S.optional(S.String),
-    severity: S.optional(AlertSeverityEnum),
     type: S.optional(S.String),
+    message: S.optional(S.String),
+    severity: S.optional(AlertSeverityEnum),
   }),
 ).annotate({ identifier: "Alert" }) as any as S.Schema<Alert>;
 
@@ -1546,18 +1546,18 @@ export const ListAccountsPaymentsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Representation of an unpaid or paid payment. See [Payment timelines for AdSense](https://support.google.com/adsense/answer/7164703) for more information about payments and the [YouTube homepage and payments account](https://support.google.com/adsense/answer/11622510) article for information about dedicated payments accounts for YouTube. */
 export interface Payment {
+  /** Output only. For paid earnings, the date that the payment was credited. For unpaid earnings, this field is empty. Payment dates are always returned in the billing timezone (America/Los_Angeles). */
+  date?: Adsense_Date;
   /** Output only. Resource name of the payment. Format: - accounts/{account}/payments/unpaid for unpaid (current) AdSense earnings. - accounts/{account}/payments/youtube-unpaid for unpaid (current) YouTube earnings. - accounts/{account}/payments/yyyy-MM-dd for paid AdSense earnings. - accounts/{account}/payments/youtube-yyyy-MM-dd for paid YouTube earnings. */
   name?: string;
   /** Output only. The amount of unpaid or paid earnings, as a formatted string, including the currency. E.g. "¥1,235 JPY", "$1,234.57", "£87.65". */
   amount?: string;
-  /** Output only. For paid earnings, the date that the payment was credited. For unpaid earnings, this field is empty. Payment dates are always returned in the billing timezone (America/Los_Angeles). */
-  date?: Adsense_Date;
 }
 export const Payment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    date: S.optional(Adsense_Date),
     name: S.optional(S.String),
     amount: S.optional(S.String),
-    date: S.optional(Adsense_Date),
   }),
 ).annotate({ identifier: "Payment" }) as any as S.Schema<Payment>;
 
@@ -1576,18 +1576,18 @@ export const ListPaymentsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListPaymentsResponse" }) as any as S.Schema<ListPaymentsResponse>;
 
 export interface ListAccountsPolicyIssuesRequest {
+  /** A page token, received from a previous `ListPolicyIssues` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPolicyIssues` must match the call that provided the page token. */
+  pageToken?: string;
   /** Required. The account for which policy issues are being retrieved. Format: accounts/{account} */
   parent: string;
   /** The maximum number of policy issues to include in the response, used for paging. If unspecified, at most 10000 policy issues will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
-  /** A page token, received from a previous `ListPolicyIssues` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPolicyIssues` must match the call that provided the page token. */
-  pageToken?: string;
 }
 export const ListAccountsPolicyIssuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1619,18 +1619,18 @@ export const ListPolicyIssuesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListPolicyIssuesResponse" }) as any as S.Schema<ListPolicyIssuesResponse>;
 
 export interface ListAccountsReportsSavedRequest {
-  /** A page token, received from a previous `ListSavedReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSavedReports` must match the call that provided the page token. */
-  pageToken?: string;
   /** The maximum number of reports to include in the response, used for paging. If unspecified, at most 10000 reports will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   parent: string;
+  /** A page token, received from a previous `ListSavedReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSavedReports` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListAccountsReportsSavedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1701,18 +1701,18 @@ export const ListSitesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListSitesResponse" }) as any as S.Schema<ListSitesResponse>;
 
 export interface ListChildAccountsAccountsRequest {
+  /** A page token, received from a previous `ListChildAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChildAccounts` must match the call that provided the page token. */
+  pageToken?: string;
   /** The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
   /** Required. The parent account, which owns the child accounts. Format: accounts/{account} */
   parent: string;
-  /** A page token, received from a previous `ListChildAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChildAccounts` must match the call that provided the page token. */
-  pageToken?: string;
 }
 export const ListChildAccountsAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1726,33 +1726,33 @@ export const ListChildAccountsAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response definition for the child account list rpc. */
 export interface ListChildAccountsResponse {
-  /** The accounts returned in this list response. */
-  accounts?: AccountList;
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
+  /** The accounts returned in this list response. */
+  accounts?: AccountList;
 }
 export const ListChildAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accounts: S.optional(AccountList),
     nextPageToken: S.optional(S.String),
+    accounts: S.optional(AccountList),
   }),
 ).annotate({
   identifier: "ListChildAccountsResponse",
 }) as any as S.Schema<ListChildAccountsResponse>;
 
 export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
+  /** A page token, received from a previous `ListLinkedAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedAdUnits` must match the call that provided the page token. */
+  pageToken?: string;
   /** The maximum number of ad units to include in the response, used for paging. If unspecified, at most 10000 ad units will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
   /** Required. The custom channel which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   parent: string;
-  /** A page token, received from a previous `ListLinkedAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedAdUnits` must match the call that provided the page token. */
-  pageToken?: string;
 }
 export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1766,33 +1766,33 @@ export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest = /*@__PURE
 
 /** Response definition for the ad units linked to a custom channel list rpc. */
 export interface ListLinkedAdUnitsResponse {
-  /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
   /** The ad units returned in the list response. */
   adUnits?: AdUnitList;
+  /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
 }
 export const ListLinkedAdUnitsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     adUnits: S.optional(AdUnitList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListLinkedAdUnitsResponse",
 }) as any as S.Schema<ListLinkedAdUnitsResponse>;
 
 export interface ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest {
-  /** Required. The ad unit which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
-  parent: string;
   /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
   /** A page token, received from a previous `ListLinkedCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedCustomChannels` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The ad unit which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
+  parent: string;
 }
 export const ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1841,17 +1841,17 @@ export const PatchAccountsAdclientsAdunitsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PatchAccountsAdclientsAdunitsRequest>;
 
 export interface PatchAccountsAdclientsCustomchannelsRequest {
-  /** The list of fields to update. If empty, a full update is performed. */
-  updateMask?: string;
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
+  /** The list of fields to update. If empty, a full update is performed. */
+  updateMask?: string;
   /** Request body */
   body?: CustomChannel;
 }
 export const PatchAccountsAdclientsCustomchannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(CustomChannel.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://adsense.googleapis.com/" }),

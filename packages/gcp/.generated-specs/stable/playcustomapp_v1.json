@@ -8,44 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.playcustomapp_v1#CustomApp": {
-      "type": "structure",
-      "members": {
-        "organizations": {
-          "target": "com.gcp.playcustomapp_v1#OrganizationList",
-          "traits": {
-            "smithy.api#documentation": "Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Title for the Android app."
-          }
-        },
-        "languageCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Default listing language in BCP 47 format."
-          }
-        },
-        "packageName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Package name of the created Android app. Only present in the API response."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "This resource represents a custom app."
-      }
-    },
-    "com.gcp.playcustomapp_v1#OrganizationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.playcustomapp_v1#Organization"
-      }
-    },
     "com.gcp.playcustomapp_v1#Organization": {
       "type": "structure",
       "members": {
@@ -64,6 +26,44 @@
       },
       "traits": {
         "smithy.api#documentation": "Represents an organization that can access a custom app."
+      }
+    },
+    "com.gcp.playcustomapp_v1#CustomApp": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title for the Android app."
+          }
+        },
+        "languageCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default listing language in BCP 47 format."
+          }
+        },
+        "packageName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Package name of the created Android app. Only present in the API response."
+          }
+        },
+        "organizations": {
+          "target": "com.gcp.playcustomapp_v1#OrganizationList",
+          "traits": {
+            "smithy.api#documentation": "Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This resource represents a custom app."
+      }
+    },
+    "com.gcp.playcustomapp_v1#OrganizationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.playcustomapp_v1#Organization"
       }
     },
     "com.gcp.playcustomapp_v1#CreateAccountsCustomAppsRequest": {

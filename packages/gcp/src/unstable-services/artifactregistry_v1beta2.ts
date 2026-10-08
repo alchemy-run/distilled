@@ -61,6 +61,29 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export type MavenRepositoryConfigVersionPolicyEnum =
+  | "VERSION_POLICY_UNSPECIFIED"
+  | "RELEASE"
+  | "SNAPSHOT";
+export const MavenRepositoryConfigVersionPolicyEnum = S.String;
+
+/** MavenRepositoryConfig is maven related repository details. Provides additional configuration details for repositories of the maven format type. */
+export interface MavenRepositoryConfig {
+  /** The repository with this flag will allow publishing the same snapshot versions. */
+  allowSnapshotOverwrites?: boolean;
+  /** Version policy defines the versions that the registry will accept. */
+  versionPolicy?: MavenRepositoryConfigVersionPolicyEnum | (string & {});
+}
+export const MavenRepositoryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowSnapshotOverwrites: S.optional(S.Boolean),
+    versionPolicy: S.optional(MavenRepositoryConfigVersionPolicyEnum),
+  }),
+).annotate({ identifier: "MavenRepositoryConfig" }) as any as S.Schema<MavenRepositoryConfig>;
+
 export type RepositoryFormatEnum =
   | "FORMAT_UNSPECIFIED"
   | "DOCKER"
@@ -72,67 +95,44 @@ export type RepositoryFormatEnum =
   | "PYTHON";
 export const RepositoryFormatEnum = S.String;
 
-export type MavenRepositoryConfigVersionPolicyEnum =
-  | "VERSION_POLICY_UNSPECIFIED"
-  | "RELEASE"
-  | "SNAPSHOT";
-export const MavenRepositoryConfigVersionPolicyEnum = S.String;
-
-/** MavenRepositoryConfig is maven related repository details. Provides additional configuration details for repositories of the maven format type. */
-export interface MavenRepositoryConfig {
-  /** Version policy defines the versions that the registry will accept. */
-  versionPolicy?: MavenRepositoryConfigVersionPolicyEnum | (string & {});
-  /** The repository with this flag will allow publishing the same snapshot versions. */
-  allowSnapshotOverwrites?: boolean;
-}
-export const MavenRepositoryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    versionPolicy: S.optional(MavenRepositoryConfigVersionPolicyEnum),
-    allowSnapshotOverwrites: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "MavenRepositoryConfig" }) as any as S.Schema<MavenRepositoryConfig>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
 /** A Repository for storing artifacts with a specific format. */
 export interface Repository {
-  /** Optional. The format of packages that are stored in the repository. */
-  format?: RepositoryFormatEnum | (string & {});
-  /** Output only. The size, in bytes, of all artifact storage in this repository. Repositories that are generally available or in public preview use this to calculate storage costs. */
-  sizeBytes?: string;
-  /** Maven repository config contains repository level configuration for the repositories of maven type. */
-  mavenConfig?: MavenRepositoryConfig;
-  /** The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created. */
-  kmsKeyName?: string;
   /** Output only. The time when the repository was last updated. */
   updateTime?: string;
-  /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
-  labels?: StringMap;
   /** Output only. Whether or not this repository satisfies PZI. */
   satisfiesPzi?: boolean;
-  /** The user-provided description of the repository. */
-  description?: string;
-  /** Output only. The time when the repository was created. */
-  createTime?: string;
-  /** Output only. Whether or not this repository satisfies PZS. */
-  satisfiesPzs?: boolean;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name?: string;
+  /** The user-provided description of the repository. */
+  description?: string;
+  /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
+  labels?: StringMap;
+  /** Output only. The size, in bytes, of all artifact storage in this repository. Repositories that are generally available or in public preview use this to calculate storage costs. */
+  sizeBytes?: string;
+  /** The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created. */
+  kmsKeyName?: string;
+  /** Output only. Whether or not this repository satisfies PZS. */
+  satisfiesPzs?: boolean;
+  /** Output only. The time when the repository was created. */
+  createTime?: string;
+  /** Maven repository config contains repository level configuration for the repositories of maven type. */
+  mavenConfig?: MavenRepositoryConfig;
+  /** Optional. The format of packages that are stored in the repository. */
+  format?: RepositoryFormatEnum | (string & {});
 }
 export const Repository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    format: S.optional(RepositoryFormatEnum),
-    sizeBytes: S.optional(S.String),
-    mavenConfig: S.optional(MavenRepositoryConfig),
-    kmsKeyName: S.optional(S.String),
     updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
     satisfiesPzi: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
-    satisfiesPzs: S.optional(S.Boolean),
     name: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    sizeBytes: S.optional(S.String),
+    kmsKeyName: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
+    mavenConfig: S.optional(MavenRepositoryConfig),
+    format: S.optional(RepositoryFormatEnum),
   }),
 ).annotate({ identifier: "Repository" }) as any as S.Schema<Repository>;
 
@@ -190,24 +190,24 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
+    error: S.optional(Status),
     name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
-    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -310,16 +310,16 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** The name of the version to delete. */
-  name: string;
   /** By default, a version that is tagged may not be deleted. If force=true, the version and any tags pointing to the version are deleted. */
   force?: boolean;
+  /** The name of the version to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsRepositoriesPackagesVersionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       force: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -376,12 +376,15 @@ export const GetIamPolicyProjectsLocationsRepositoriesRequest = /*@__PURE__*/ S.
   identifier: "GetIamPolicyProjectsLocationsRepositoriesRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsRepositoriesRequest>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
@@ -389,30 +392,27 @@ export interface Expr {
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    location: S.optional(S.String),
     expression: S.optional(S.String),
+    location: S.optional(S.String),
     description: S.optional(S.String),
     title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    condition: S.optional(Expr),
     members: S.optional(StringList),
     role: S.optional(S.String),
+    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -423,16 +423,16 @@ export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<Bin
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bindings: S.optional(BindingList),
-    etag: S.optional(S.String),
     version: S.optional(S.Number),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -467,16 +467,16 @@ export const ProjectSettingsLegacyRedirectionStateEnum = S.String;
 export interface ProjectSettings {
   /** The redirection state of the legacy repositories in this project. */
   legacyRedirectionState?: ProjectSettingsLegacyRedirectionStateEnum | (string & {});
-  /** The percentage of pull traffic to redirect from GCR to AR when using partial redirection. */
-  pullPercent?: number;
   /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
   name?: string;
+  /** The percentage of pull traffic to redirect from GCR to AR when using partial redirection. */
+  pullPercent?: number;
 }
 export const ProjectSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     legacyRedirectionState: S.optional(ProjectSettingsLegacyRedirectionStateEnum),
-    pullPercent: S.optional(S.Number),
     name: S.optional(S.String),
+    pullPercent: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ProjectSettings" }) as any as S.Schema<ProjectSettings>;
 
@@ -502,22 +502,22 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
-    locationId: S.optional(S.String),
     labels: S.optional(StringMap),
+    locationId: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -599,25 +599,25 @@ export const HashList = /*@__PURE__*/ S.Array(Hash) as any as S.Schema<HashList>
 export interface GoogleDevtoolsArtifactregistryV1beta2File {
   /** The hashes of the file content. */
   hashes?: HashList;
-  /** Output only. The time when the File was created. */
-  createTime?: string;
-  /** Output only. The time when the File was last updated. */
-  updateTime?: string;
   /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
   name?: string;
-  /** The name of the Package or Version that owns this file, if any. */
-  owner?: string;
+  /** Output only. The time when the File was created. */
+  createTime?: string;
   /** The size of the File in bytes. */
   sizeBytes?: string;
+  /** Output only. The time when the File was last updated. */
+  updateTime?: string;
+  /** The name of the Package or Version that owns this file, if any. */
+  owner?: string;
 }
 export const GoogleDevtoolsArtifactregistryV1beta2File = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hashes: S.optional(HashList),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
     name: S.optional(S.String),
-    owner: S.optional(S.String),
+    createTime: S.optional(S.String),
     sizeBytes: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    owner: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleDevtoolsArtifactregistryV1beta2File",
@@ -643,24 +643,24 @@ export const GetProjectsLocationsRepositoriesPackagesRequest = /*@__PURE__*/ S.s
 
 /** Packages are named collections of versions. */
 export interface Package {
-  /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
-  name?: string;
-  /** Optional. Client specified annotations. */
-  annotations?: StringMap;
   /** The time when the package was created. */
   createTime?: string;
+  /** Optional. Client specified annotations. */
+  annotations?: StringMap;
   /** The time when the package was last updated. This includes publishing a new version of the package. */
   updateTime?: string;
   /** The display name of the package. */
   displayName?: string;
+  /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
+  name?: string;
 }
 export const Package = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    annotations: S.optional(StringMap),
     createTime: S.optional(S.String),
+    annotations: S.optional(StringMap),
     updateTime: S.optional(S.String),
     displayName: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Package" }) as any as S.Schema<Package>;
 
@@ -689,15 +689,15 @@ export type GetProjectsLocationsRepositoriesPackagesVersionsViewEnum =
 export const GetProjectsLocationsRepositoriesPackagesVersionsViewEnum = S.String;
 
 export interface GetProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** The view that should be returned in the response. */
-  view?: GetProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {});
   /** The name of the version to retrieve. */
   name: string;
+  /** The view that should be returned in the response. */
+  view?: GetProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {});
 }
 export const GetProjectsLocationsRepositoriesPackagesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    view: S.optional(GetProjectsLocationsRepositoriesPackagesVersionsViewEnum.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    view: S.optional(GetProjectsLocationsRepositoriesPackagesVersionsViewEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -714,27 +714,27 @@ export const TagList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagList>;
 
 /** The body of a version resource. A version resource represents a collection of components, such as files and other data. This may correspond to a version in many package management schemes. */
 export interface Version {
-  /** Output only. Repository-specific Metadata stored against this version. The fields returned are defined by the underlying repository-specific resource. Currently, the resources could be: DockerImage MavenArtifact */
-  metadata?: DocumentMap;
-  /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
-  name?: string;
-  /** The time when the version was created. */
-  createTime?: string;
-  /** The time when the version was last updated. */
-  updateTime?: string;
-  /** Optional. Description of the version, as specified in its metadata. */
-  description?: string;
   /** Output only. A list of related tags. Will contain up to 100 tags that reference this version. */
   relatedTags?: TagList;
+  /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
+  name?: string;
+  /** The time when the version was last updated. */
+  updateTime?: string;
+  /** Output only. Repository-specific Metadata stored against this version. The fields returned are defined by the underlying repository-specific resource. Currently, the resources could be: DockerImage MavenArtifact */
+  metadata?: DocumentMap;
+  /** The time when the version was created. */
+  createTime?: string;
+  /** Optional. Description of the version, as specified in its metadata. */
+  description?: string;
 }
 export const Version = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    description: S.optional(S.String),
     relatedTags: S.optional(TagList),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Version" }) as any as S.Schema<Version>;
 
@@ -789,23 +789,44 @@ export const ImportProjectsLocationsRepositoriesAptArtifactsRequest = /*@__PURE_
 }) as any as S.Schema<ImportProjectsLocationsRepositoriesAptArtifactsRequest>;
 
 /** Google Cloud Storage location where the artifacts currently reside. */
-export type ImportYumArtifactsGcsSource = ImportAptArtifactsGcsSource;
-export const ImportYumArtifactsGcsSource = ImportAptArtifactsGcsSource;
+export interface ImportYumArtifactsGcsSource {
+  /** Supports URI wildcards for matching multiple objects from a single URI. */
+  useWildcards?: boolean;
+  /** Cloud Storage paths URI (e.g., gs://my_bucket//my_object). */
+  uris?: StringList;
+}
+export const ImportYumArtifactsGcsSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    useWildcards: S.optional(S.Boolean),
+    uris: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ImportYumArtifactsGcsSource",
+}) as any as S.Schema<ImportYumArtifactsGcsSource>;
 
 /** The request to import new yum artifacts. */
-export type ImportYumArtifactsRequest = ImportAptArtifactsRequest;
-export const ImportYumArtifactsRequest = ImportAptArtifactsRequest;
+export interface ImportYumArtifactsRequest {
+  /** Google Cloud Storage location where input content is located. */
+  gcsSource?: ImportYumArtifactsGcsSource;
+}
+export const ImportYumArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcsSource: S.optional(ImportYumArtifactsGcsSource),
+  }),
+).annotate({
+  identifier: "ImportYumArtifactsRequest",
+}) as any as S.Schema<ImportYumArtifactsRequest>;
 
 export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
   /** Request body */
-  body?: ImportAptArtifactsRequest;
+  body?: ImportYumArtifactsRequest;
 }
 export const ImportProjectsLocationsRepositoriesYumArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    body: S.optional(ImportAptArtifactsRequest.pipe(T.HttpBody())),
+    body: S.optional(ImportYumArtifactsRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -818,24 +839,24 @@ export const ImportProjectsLocationsRepositoriesYumArtifactsRequest = /*@__PURE_
 }) as any as S.Schema<ImportProjectsLocationsRepositoriesYumArtifactsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -852,34 +873,34 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsRepositoriesRequest {
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
-  /** Required. The name of the parent resource whose repositories will be listed. */
-  parent: string;
   /** Optional. The field to order the results by. */
   orderBy?: string;
   /** The maximum number of repositories to return. Maximum page size is 1,000. */
   pageSize?: number;
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string;
+  /** Required. The name of the parent resource whose repositories will be listed. */
+  parent: string;
 }
 export const ListProjectsLocationsRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -909,21 +930,21 @@ export const ListRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListRepositoriesResponse" }) as any as S.Schema<ListRepositoriesResponse>;
 
 export interface ListProjectsLocationsRepositoriesFilesRequest {
+  /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
+  parent: string;
   /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `owner` * `annotations` Examples of using a filter: To filter the results of your request to files with the name `my_file.txt` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-file.txt"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file.txt"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file*"` To filter the results of your request to files owned by the version `1.0` in package `pkg1`, append the following filter expression to your request: * `owner="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` To filter the results of your request to files with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to files with the annotation key-value pair [`external.link`:`https://example.com/my-file`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-file`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
   filter?: string;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
   /** The maximum number of files to return. Maximum page size is 1,000. */
   pageSize?: number;
-  /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
-  parent: string;
 }
 export const ListProjectsLocationsRepositoriesFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -943,34 +964,34 @@ export const GoogleDevtoolsArtifactregistryV1beta2FileList = /*@__PURE__*/ S.Arr
 
 /** The response from listing files. */
 export interface ListFilesResponse {
-  /** The files returned. */
-  files?: GoogleDevtoolsArtifactregistryV1beta2FileList;
   /** The token to retrieve the next page of files, or empty if there are no more files to return. */
   nextPageToken?: string;
+  /** The files returned. */
+  files?: GoogleDevtoolsArtifactregistryV1beta2FileList;
 }
 export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    files: S.optional(GoogleDevtoolsArtifactregistryV1beta2FileList),
     nextPageToken: S.optional(S.String),
+    files: S.optional(GoogleDevtoolsArtifactregistryV1beta2FileList),
   }),
 ).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export interface ListProjectsLocationsRepositoriesPackagesRequest {
-  /** Optional. The field to order the results by. */
-  orderBy?: string;
-  /** Required. The name of the parent resource whose packages will be listed. */
-  parent: string;
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
   /** The maximum number of packages to return. Maximum page size is 1,000. */
   pageSize?: number;
+  /** Optional. The field to order the results by. */
+  orderBy?: string;
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string;
+  /** Required. The name of the parent resource whose packages will be listed. */
+  parent: string;
 }
 export const ListProjectsLocationsRepositoriesPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1000,21 +1021,21 @@ export const ListPackagesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListPackagesResponse" }) as any as S.Schema<ListPackagesResponse>;
 
 export interface ListProjectsLocationsRepositoriesPackagesTagsRequest {
-  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
-  filter?: string;
-  /** The maximum number of tags to return. Maximum page size is 1,000. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
   /** The name of the parent package whose tags will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. */
   parent: string;
+  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
+  filter?: string;
+  /** The maximum number of tags to return. Maximum page size is 1,000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRepositoriesPackagesTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1028,15 +1049,15 @@ export const ListProjectsLocationsRepositoriesPackagesTagsRequest = /*@__PURE__*
 
 /** The response from listing tags. */
 export interface ListTagsResponse {
-  /** The token to retrieve the next page of tags, or empty if there are no more tags to return. */
-  nextPageToken?: string;
   /** The tags returned. */
   tags?: TagList;
+  /** The token to retrieve the next page of tags, or empty if there are no more tags to return. */
+  nextPageToken?: string;
 }
 export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     tags: S.optional(TagList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListTagsResponse" }) as any as S.Schema<ListTagsResponse>;
 
@@ -1047,25 +1068,25 @@ export type ListProjectsLocationsRepositoriesPackagesVersionsViewEnum =
 export const ListProjectsLocationsRepositoriesPackagesVersionsViewEnum = S.String;
 
 export interface ListProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** The maximum number of versions to return. Maximum page size is 1,000. */
-  pageSize?: number;
-  /** The name of the parent resource whose versions will be listed. */
-  parent: string;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
-  /** The view that should be returned in the response. */
-  view?: ListProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {});
   /** Optional. The field to order the results by. */
   orderBy?: string;
+  /** The view that should be returned in the response. */
+  view?: ListProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {});
+  /** The name of the parent resource whose versions will be listed. */
+  parent: string;
+  /** The maximum number of versions to return. Maximum page size is 1,000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRepositoriesPackagesVersionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      view: S.optional(ListProjectsLocationsRepositoriesPackagesVersionsViewEnum.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      view: S.optional(ListProjectsLocationsRepositoriesPackagesVersionsViewEnum.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1143,17 +1164,17 @@ export const PatchProjectsLocationsRepositoriesPackagesRequest = /*@__PURE__*/ S
 }) as any as S.Schema<PatchProjectsLocationsRepositoriesPackagesRequest>;
 
 export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
-  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name: string;
+  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string;
   /** Request body */
   body?: Tag;
 }
 export const PatchProjectsLocationsRepositoriesPackagesTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Tag.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

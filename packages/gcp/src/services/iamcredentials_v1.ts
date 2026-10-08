@@ -65,18 +65,18 @@ export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export interface GenerateAccessTokenRequest {
-  /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
-  delegates?: StringList;
-  /** The desired lifetime duration of the access token in seconds. By default, the maximum allowed value is 1 hour. To set a lifetime of up to 12 hours, you can add the service account as an allowed value in an Organization Policy that enforces the `constraints/iam.allowServiceAccountCredentialLifetimeExtension` constraint. See detailed instructions at https://cloud.google.com/iam/help/credentials/lifetime If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
-  lifetime?: string;
   /** Required. Code to identify the scopes to be included in the OAuth 2.0 access token. See https://developers.google.com/identity/protocols/googlescopes for more information. At least one value required. */
   scope?: StringList;
+  /** The desired lifetime duration of the access token in seconds. By default, the maximum allowed value is 1 hour. To set a lifetime of up to 12 hours, you can add the service account as an allowed value in an Organization Policy that enforces the `constraints/iam.allowServiceAccountCredentialLifetimeExtension` constraint. See detailed instructions at https://cloud.google.com/iam/help/credentials/lifetime If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
+  lifetime?: string;
+  /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
+  delegates?: StringList;
 }
 export const GenerateAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    delegates: S.optional(StringList),
-    lifetime: S.optional(S.String),
     scope: S.optional(StringList),
+    lifetime: S.optional(S.String),
+    delegates: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GenerateAccessTokenRequest",
@@ -119,21 +119,21 @@ export const GenerateAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GenerateAccessTokenResponse>;
 
 export interface GenerateIdTokenRequest {
-  /** Include the organization number of the service account in the token. If set to `true`, the token will contain a `google.organization_number` claim. The value of the claim will be `null` if the service account isn't associated with an organization. */
-  organizationNumberIncluded?: boolean;
+  /** Required. The audience for the token, such as the API or account that this token grants access to. */
+  audience?: string;
   /** Include the service account email in the token. If set to `true`, the token will contain `email` and `email_verified` claims. */
   includeEmail?: boolean;
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList;
-  /** Required. The audience for the token, such as the API or account that this token grants access to. */
-  audience?: string;
+  /** Include the organization number of the service account in the token. If set to `true`, the token will contain a `google.organization_number` claim. The value of the claim will be `null` if the service account isn't associated with an organization. */
+  organizationNumberIncluded?: boolean;
 }
 export const GenerateIdTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    organizationNumberIncluded: S.optional(S.Boolean),
+    audience: S.optional(S.String),
     includeEmail: S.optional(S.Boolean),
     delegates: S.optional(StringList),
-    audience: S.optional(S.String),
+    organizationNumberIncluded: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "GenerateIdTokenRequest" }) as any as S.Schema<GenerateIdTokenRequest>;
 
@@ -188,15 +188,15 @@ export const GetAllowedLocationsLocationsWorkforcePoolsRequest = /*@__PURE__*/ S
 
 /** Represents a list of allowed locations for given workforce pool. */
 export interface WorkforcePoolAllowedLocations {
-  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
-  locations?: StringList;
   /** Output only. The hex encoded bitmap of the trust boundary locations */
   encodedLocations?: string;
+  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
+  locations?: StringList;
 }
 export const WorkforcePoolAllowedLocations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(StringList),
     encodedLocations: S.optional(S.String),
+    locations: S.optional(StringList),
   }),
 ).annotate({
   identifier: "WorkforcePoolAllowedLocations",
@@ -257,30 +257,30 @@ export const GetAllowedLocationsProjectsServiceAccountsRequest = /*@__PURE__*/ S
 
 /** Represents a list of allowed locations for given service account. */
 export interface ServiceAccountAllowedLocations {
-  /** Output only. The hex encoded bitmap of the trust boundary locations */
-  encodedLocations?: string;
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
   locations?: StringList;
+  /** Output only. The hex encoded bitmap of the trust boundary locations */
+  encodedLocations?: string;
 }
 export const ServiceAccountAllowedLocations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encodedLocations: S.optional(S.String),
     locations: S.optional(StringList),
+    encodedLocations: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ServiceAccountAllowedLocations",
 }) as any as S.Schema<ServiceAccountAllowedLocations>;
 
 export interface SignBlobRequest {
-  /** Required. The bytes to sign. */
-  payload?: string;
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList;
+  /** Required. The bytes to sign. */
+  payload?: string;
 }
 export const SignBlobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    payload: S.optional(S.String),
     delegates: S.optional(StringList),
+    payload: S.optional(S.String),
   }),
 ).annotate({ identifier: "SignBlobRequest" }) as any as S.Schema<SignBlobRequest>;
 
@@ -306,15 +306,15 @@ export const SignBlobProjectsServiceAccountsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<SignBlobProjectsServiceAccountsRequest>;
 
 export interface SignBlobResponse {
-  /** The signature for the blob. Does not include the original blob. After the key pair referenced by the `key_id` response field expires, Google no longer exposes the public key that can be used to verify the blob. As a result, the receiver can no longer verify the signature. */
-  signedBlob?: string;
   /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
   keyId?: string;
+  /** The signature for the blob. Does not include the original blob. After the key pair referenced by the `key_id` response field expires, Google no longer exposes the public key that can be used to verify the blob. As a result, the receiver can no longer verify the signature. */
+  signedBlob?: string;
 }
 export const SignBlobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    signedBlob: S.optional(S.String),
     keyId: S.optional(S.String),
+    signedBlob: S.optional(S.String),
   }),
 ).annotate({ identifier: "SignBlobResponse" }) as any as S.Schema<SignBlobResponse>;
 

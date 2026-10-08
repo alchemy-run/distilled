@@ -89,6 +89,23 @@ export const ApproveProjectsLocationsDataExchangesQueryTemplatesRequest = /*@__P
   identifier: "ApproveProjectsLocationsDataExchangesQueryTemplatesRequest",
 }) as any as S.Schema<ApproveProjectsLocationsDataExchangesQueryTemplatesRequest>;
 
+export type RoutineRoutineTypeEnum = "ROUTINE_TYPE_UNSPECIFIED" | "TABLE_VALUED_FUNCTION";
+export const RoutineRoutineTypeEnum = S.String;
+
+/** Represents a bigquery routine. */
+export interface Routine {
+  /** Required. The type of routine. */
+  routineType?: RoutineRoutineTypeEnum | (string & {});
+  /** Optional. The definition body of the routine. */
+  definitionBody?: string;
+}
+export const Routine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    routineType: S.optional(RoutineRoutineTypeEnum),
+    definitionBody: S.optional(S.String),
+  }),
+).annotate({ identifier: "Routine" }) as any as S.Schema<Routine>;
+
 export type QueryTemplateStateEnum =
   | "STATE_UNSPECIFIED"
   | "DRAFTED"
@@ -108,69 +125,46 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 
-export type RoutineRoutineTypeEnum = "ROUTINE_TYPE_UNSPECIFIED" | "TABLE_VALUED_FUNCTION";
-export const RoutineRoutineTypeEnum = S.String;
-
-/** Represents a bigquery routine. */
-export interface Routine {
-  /** Required. The type of routine. */
-  routineType?: RoutineRoutineTypeEnum | (string & {});
-  /** Optional. The definition body of the routine. */
-  definitionBody?: string;
-}
-export const Routine = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    routineType: S.optional(RoutineRoutineTypeEnum),
-    definitionBody: S.optional(S.String),
-  }),
-).annotate({ identifier: "Routine" }) as any as S.Schema<Routine>;
-
 /** A query template is a container for sharing table-valued functions defined by contributors in a data clean room. */
 export interface QueryTemplate {
-  /** Output only. The resource name of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/456` */
-  name?: string;
-  /** Optional. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
-  primaryContact?: string;
-  /** Output only. Timestamp when the QueryTemplate was last modified. */
-  updateTime?: string;
-  /** Output only. The QueryTemplate lifecycle state. */
-  state?: QueryTemplateStateEnum | (string & {});
+  /** Optional. The routine associated with the QueryTemplate. */
+  routine?: Routine;
   /** Output only. Timestamp when the QueryTemplate was created. */
   createTime?: string;
+  /** Required. Human-readable display name of the QueryTemplate. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string;
+  /** Output only. The QueryTemplate lifecycle state. */
+  state?: QueryTemplateStateEnum | (string & {});
+  /** Optional. Documentation describing the QueryTemplate. */
+  documentation?: string;
   /** Optional. Encryption configuration for the query template. If set, the customer-managed KMS key is used to encrypt the query template definition body. */
   encryptionConfiguration?: EncryptionConfig;
   /** Optional. Short description of the QueryTemplate. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
   description?: string;
+  /** Optional. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
+  primaryContact?: string;
+  /** Output only. The resource name of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/456` */
+  name?: string;
+  /** Output only. Timestamp when the QueryTemplate was last modified. */
+  updateTime?: string;
   /** Optional. Deprecated: Use `primary_contact` instead. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
   proposer?: string;
-  /** Required. Human-readable display name of the QueryTemplate. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
-  displayName?: string;
-  /** Optional. Documentation describing the QueryTemplate. */
-  documentation?: string;
-  /** Optional. The routine associated with the QueryTemplate. */
-  routine?: Routine;
 }
 export const QueryTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    primaryContact: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    state: S.optional(QueryTemplateStateEnum),
+    routine: S.optional(Routine),
     createTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    state: S.optional(QueryTemplateStateEnum),
+    documentation: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfig),
     description: S.optional(S.String),
+    primaryContact: S.optional(S.String),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
     proposer: S.optional(S.String),
-    displayName: S.optional(S.String),
-    documentation: S.optional(S.String),
-    routine: S.optional(Routine),
   }),
 ).annotate({ identifier: "QueryTemplate" }) as any as S.Schema<QueryTemplate>;
-
-export type DataExchangeDiscoveryTypeEnum =
-  | "DISCOVERY_TYPE_UNSPECIFIED"
-  | "DISCOVERY_TYPE_PRIVATE"
-  | "DISCOVERY_TYPE_PUBLIC";
-export const DataExchangeDiscoveryTypeEnum = S.String;
 
 /** Default Analytics Hub data exchange, used for secured data sharing. */
 export type DefaultExchangeConfig = ApproveQueryTemplateRequest;
@@ -178,15 +172,15 @@ export const DefaultExchangeConfig = ApproveQueryTemplateRequest;
 
 /** Data Clean Room (DCR), used for privacy-safe and secured data sharing. */
 export interface DcrExchangeConfig {
-  /** Output only. If True, this DCR restricts the contributors to sharing only a single resource in a Listing. And no two resources should have the same IDs. So if a contributor adds a view with a conflicting name, the CreateListing API will reject the request. if False, the data contributor can publish an entire dataset (as before). This is not configurable, and by default, all new DCRs will have the restriction set to True. */
-  singleSelectedResourceSharingRestriction?: boolean;
   /** Output only. If True, when subscribing to this DCR, it will create only one linked dataset containing all resources shared within the cleanroom. If False, when subscribing to this DCR, it will create 1 linked dataset per listing. This is not configurable, and by default, all new DCRs will have the restriction set to True. */
   singleLinkedDatasetPerCleanroom?: boolean;
+  /** Output only. If True, this DCR restricts the contributors to sharing only a single resource in a Listing. And no two resources should have the same IDs. So if a contributor adds a view with a conflicting name, the CreateListing API will reject the request. if False, the data contributor can publish an entire dataset (as before). This is not configurable, and by default, all new DCRs will have the restriction set to True. */
+  singleSelectedResourceSharingRestriction?: boolean;
 }
 export const DcrExchangeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    singleSelectedResourceSharingRestriction: S.optional(S.Boolean),
     singleLinkedDatasetPerCleanroom: S.optional(S.Boolean),
+    singleSelectedResourceSharingRestriction: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "DcrExchangeConfig" }) as any as S.Schema<DcrExchangeConfig>;
 
@@ -204,56 +198,62 @@ export const SharingEnvironmentConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SharingEnvironmentConfig" }) as any as S.Schema<SharingEnvironmentConfig>;
 
+export type DataExchangeDiscoveryTypeEnum =
+  | "DISCOVERY_TYPE_UNSPECIFIED"
+  | "DISCOVERY_TYPE_PRIVATE"
+  | "DISCOVERY_TYPE_PUBLIC";
+export const DataExchangeDiscoveryTypeEnum = S.String;
+
 /** A data exchange is a container that lets you share data. Along with the descriptive information about the data exchange, it contains listings that reference shared datasets. */
 export interface DataExchange {
+  /** Output only. Number of listings contained in the data exchange. */
+  listingCount?: number;
   /** Optional. Documentation describing the data exchange. */
   documentation?: string;
-  /** Optional. Type of discovery on the discovery page for all the listings under this exchange. Updating this field also updates (overwrites) the discovery_type field for all the listings under this exchange. */
-  discoveryType?: DataExchangeDiscoveryTypeEnum | (string & {});
   /** Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
   name?: string;
   /** Optional. Configurable data sharing environment option for a data exchange. */
   sharingEnvironmentConfig?: SharingEnvironmentConfig;
-  /** Output only. Number of listings contained in the data exchange. */
-  listingCount?: number;
-  /** Optional. Description of the data exchange. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
-  description?: string;
-  /** Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string;
   /** Required. Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and must not start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
   displayName?: string;
   /** Optional. By default, false. If true, the DataExchange has an email sharing mandate enabled. */
   logLinkedDatasetQueryUserEmail?: boolean;
+  /** Optional. Type of discovery on the discovery page for all the listings under this exchange. Updating this field also updates (overwrites) the discovery_type field for all the listings under this exchange. */
+  discoveryType?: DataExchangeDiscoveryTypeEnum | (string & {});
+  /** Optional. Description of the data exchange. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string;
+  /** Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string;
   /** Optional. Email or URL of the primary point of contact of the data exchange. Max Length: 1000 bytes. */
   primaryContact?: string;
 }
 export const DataExchange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    listingCount: S.optional(S.Number),
     documentation: S.optional(S.String),
-    discoveryType: S.optional(DataExchangeDiscoveryTypeEnum),
     name: S.optional(S.String),
     sharingEnvironmentConfig: S.optional(SharingEnvironmentConfig),
-    listingCount: S.optional(S.Number),
-    description: S.optional(S.String),
-    icon: S.optional(S.String),
     displayName: S.optional(S.String),
     logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
+    discoveryType: S.optional(DataExchangeDiscoveryTypeEnum),
+    description: S.optional(S.String),
+    icon: S.optional(S.String),
     primaryContact: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataExchange" }) as any as S.Schema<DataExchange>;
 
 export interface CreateProjectsLocationsDataExchangesRequest {
-  /** Required. The parent resource path of the data exchange. e.g. `projects/myproject/locations/us`. */
-  parent: string;
   /** Required. The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
   dataExchangeId?: string;
+  /** Required. The parent resource path of the data exchange. e.g. `projects/myproject/locations/us`. */
+  parent: string;
   /** Request body */
   body?: DataExchange;
 }
 export const CreateProjectsLocationsDataExchangesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     dataExchangeId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(DataExchange.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -265,166 +265,6 @@ export const CreateProjectsLocationsDataExchangesRequest = /*@__PURE__*/ S.suspe
 ).annotate({
   identifier: "CreateProjectsLocationsDataExchangesRequest",
 }) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Pub/Sub topic source. */
-export interface PubSubTopicSource {
-  /** Optional. Region hint on where the data might be published. Data affinity regions are modifiable. See https://cloud.google.com/about/locations for full listing of possible Cloud regions. */
-  dataAffinityRegions?: StringList;
-  /** Required. Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId */
-  topic?: string;
-}
-export const PubSubTopicSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataAffinityRegions: S.optional(StringList),
-    topic: S.optional(S.String),
-  }),
-).annotate({ identifier: "PubSubTopicSource" }) as any as S.Schema<PubSubTopicSource>;
-
-export type ListingDiscoveryTypeEnum =
-  | "DISCOVERY_TYPE_UNSPECIFIED"
-  | "DISCOVERY_TYPE_PRIVATE"
-  | "DISCOVERY_TYPE_PUBLIC";
-export const ListingDiscoveryTypeEnum = S.String;
-
-export type ListingStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
-export const ListingStateEnum = S.String;
-
-/** Contains details of the data provider. */
-export interface DataProvider {
-  /** Optional. Name of the data provider. */
-  name?: string;
-  /** Optional. Email or URL of the data provider. Max Length: 1000 bytes. */
-  primaryContact?: string;
-}
-export const DataProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    primaryContact: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataProvider" }) as any as S.Schema<DataProvider>;
-
-export type ReplicaReplicaStateEnum = "REPLICA_STATE_UNSPECIFIED" | "READY_TO_USE" | "UNAVAILABLE";
-export const ReplicaReplicaStateEnum = S.String;
-
-export type ReplicaPrimaryStateEnum = "PRIMARY_STATE_UNSPECIFIED" | "PRIMARY_REPLICA";
-export const ReplicaPrimaryStateEnum = S.String;
-
-/** Represents the state of a replica of a shared dataset. It includes the geographic location of the replica and system-computed, output-only fields indicating its replication state and whether it is the primary replica. */
-export interface Replica {
-  /** Output only. The geographic location where the replica resides. See [BigQuery locations](https://cloud.google.com/bigquery/docs/locations) for supported locations. Eg. "us-central1". */
-  location?: string;
-  /** Output only. Assigned by Analytics Hub based on real BigQuery replication state. */
-  replicaState?: ReplicaReplicaStateEnum | (string & {});
-  /** Output only. Indicates that this replica is the primary replica. */
-  primaryState?: ReplicaPrimaryStateEnum | (string & {});
-}
-export const Replica = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String),
-    replicaState: S.optional(ReplicaReplicaStateEnum),
-    primaryState: S.optional(ReplicaPrimaryStateEnum),
-  }),
-).annotate({ identifier: "Replica" }) as any as S.Schema<Replica>;
-
-export type ReplicaList = Array<Replica>;
-export const ReplicaList = /*@__PURE__*/ S.Array(Replica) as any as S.Schema<ReplicaList>;
-
-/** Resource in this dataset that is selectively shared. */
-export interface SelectedResource {
-  /** Optional. Format: For table: `projects/{projectId}/datasets/{datasetId}/tables/{tableId}` Example:"projects/test_project/datasets/test_dataset/tables/test_table" */
-  table?: string;
-  /** Optional. Format: For routine: `projects/{projectId}/datasets/{datasetId}/routines/{routineId}` Example:"projects/test_project/datasets/test_dataset/routines/test_routine" */
-  routine?: string;
-}
-export const SelectedResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    table: S.optional(S.String),
-    routine: S.optional(S.String),
-  }),
-).annotate({ identifier: "SelectedResource" }) as any as S.Schema<SelectedResource>;
-
-export type SelectedResourceList = Array<SelectedResource>;
-export const SelectedResourceList = /*@__PURE__*/ S.Array(
-  SelectedResource,
-) as any as S.Schema<SelectedResourceList>;
-
-/** Restricted export policy used to configure restricted export on linked dataset. */
-export interface RestrictedExportPolicy {
-  /** Optional. If true, enable restricted export. */
-  enabled?: boolean;
-  /** Optional. If true, restrict export of query result derived from restricted linked dataset table. */
-  restrictQueryResult?: boolean;
-  /** Optional. If true, restrict direct table access (read api/tabledata.list) on linked table. */
-  restrictDirectTableAccess?: boolean;
-}
-export const RestrictedExportPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    restrictQueryResult: S.optional(S.Boolean),
-    restrictDirectTableAccess: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "RestrictedExportPolicy" }) as any as S.Schema<RestrictedExportPolicy>;
-
-/** A reference to a shared dataset. It is an existing BigQuery dataset with a collection of objects such as tables and views that you want to share with subscribers. When subscriber's subscribe to a listing, Analytics Hub creates a linked dataset in the subscriber's project. A Linked dataset is an opaque, read-only BigQuery dataset that serves as a _symbolic link_ to a shared dataset. */
-export interface BigQueryDatasetSource {
-  /** Optional. A list of regions where the publisher has created shared dataset replicas. */
-  replicaLocations?: StringList;
-  /** Optional. Resource name of the dataset source for this listing. e.g. `projects/myproject/datasets/123` */
-  dataset?: string;
-  /** Output only. Server-owned effective state of replicas. Contains both primary and secondary replicas. Each replica includes a system-computed (output-only) state and primary designation. */
-  effectiveReplicas?: ReplicaList;
-  /** Optional. Resource in this dataset that is selectively shared. This field is required for data clean room exchanges. */
-  selectedResources?: SelectedResourceList;
-  /** Optional. If set, restricted export policy will be propagated and enforced on the linked dataset. */
-  restrictedExportPolicy?: RestrictedExportPolicy;
-}
-export const BigQueryDatasetSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    replicaLocations: S.optional(StringList),
-    dataset: S.optional(S.String),
-    effectiveReplicas: S.optional(ReplicaList),
-    selectedResources: S.optional(SelectedResourceList),
-    restrictedExportPolicy: S.optional(RestrictedExportPolicy),
-  }),
-).annotate({ identifier: "BigQueryDatasetSource" }) as any as S.Schema<BigQueryDatasetSource>;
-
-export type ListingResourceTypeEnum =
-  | "SHARED_RESOURCE_TYPE_UNSPECIFIED"
-  | "BIGQUERY_DATASET"
-  | "PUBSUB_TOPIC";
-export const ListingResourceTypeEnum = S.String;
-
-export type ListingCategoriesItemEnum =
-  | "CATEGORY_UNSPECIFIED"
-  | "CATEGORY_OTHERS"
-  | "CATEGORY_ADVERTISING_AND_MARKETING"
-  | "CATEGORY_COMMERCE"
-  | "CATEGORY_CLIMATE_AND_ENVIRONMENT"
-  | "CATEGORY_DEMOGRAPHICS"
-  | "CATEGORY_ECONOMICS"
-  | "CATEGORY_EDUCATION"
-  | "CATEGORY_ENERGY"
-  | "CATEGORY_FINANCIAL"
-  | "CATEGORY_GAMING"
-  | "CATEGORY_GEOSPATIAL"
-  | "CATEGORY_HEALTHCARE_AND_LIFE_SCIENCE"
-  | "CATEGORY_MEDIA"
-  | "CATEGORY_PUBLIC_SECTOR"
-  | "CATEGORY_RETAIL"
-  | "CATEGORY_SPORTS"
-  | "CATEGORY_SCIENCE_AND_RESEARCH"
-  | "CATEGORY_TRANSPORTATION_AND_LOGISTICS"
-  | "CATEGORY_TRAVEL_AND_TOURISM"
-  | "CATEGORY_GOOGLE_EARTH_ENGINE";
-export const ListingCategoriesItemEnum = S.String;
-
-export type ListingCategoriesItemEnumList = Array<ListingCategoriesItemEnum | (string & {})>;
-export const ListingCategoriesItemEnumList = /*@__PURE__*/ S.Array(
-  ListingCategoriesItemEnum,
-) as any as S.Schema<ListingCategoriesItemEnumList>;
 
 export type GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfoGoogleCloudMarketplaceInfoCommercialStateEnum =
   | "COMMERCIAL_STATE_UNSPECIFIED"
@@ -469,6 +309,197 @@ export const GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo = /*@__PURE_
   identifier: "GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo",
 }) as any as S.Schema<GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo>;
 
+export type ListingStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
+export const ListingStateEnum = S.String;
+
+export type ListingResourceTypeEnum =
+  | "SHARED_RESOURCE_TYPE_UNSPECIFIED"
+  | "BIGQUERY_DATASET"
+  | "PUBSUB_TOPIC";
+export const ListingResourceTypeEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Resource in this dataset that is selectively shared. */
+export interface SelectedResource {
+  /** Optional. Format: For table: `projects/{projectId}/datasets/{datasetId}/tables/{tableId}` Example:"projects/test_project/datasets/test_dataset/tables/test_table" */
+  table?: string;
+  /** Optional. Format: For routine: `projects/{projectId}/datasets/{datasetId}/routines/{routineId}` Example:"projects/test_project/datasets/test_dataset/routines/test_routine" */
+  routine?: string;
+}
+export const SelectedResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    table: S.optional(S.String),
+    routine: S.optional(S.String),
+  }),
+).annotate({ identifier: "SelectedResource" }) as any as S.Schema<SelectedResource>;
+
+export type SelectedResourceList = Array<SelectedResource>;
+export const SelectedResourceList = /*@__PURE__*/ S.Array(
+  SelectedResource,
+) as any as S.Schema<SelectedResourceList>;
+
+export type ReplicaReplicaStateEnum = "REPLICA_STATE_UNSPECIFIED" | "READY_TO_USE" | "UNAVAILABLE";
+export const ReplicaReplicaStateEnum = S.String;
+
+export type ReplicaPrimaryStateEnum = "PRIMARY_STATE_UNSPECIFIED" | "PRIMARY_REPLICA";
+export const ReplicaPrimaryStateEnum = S.String;
+
+/** Represents the state of a replica of a shared dataset. It includes the geographic location of the replica and system-computed, output-only fields indicating its replication state and whether it is the primary replica. */
+export interface Replica {
+  /** Output only. Assigned by Analytics Hub based on real BigQuery replication state. */
+  replicaState?: ReplicaReplicaStateEnum | (string & {});
+  /** Output only. Indicates that this replica is the primary replica. */
+  primaryState?: ReplicaPrimaryStateEnum | (string & {});
+  /** Output only. The geographic location where the replica resides. See [BigQuery locations](https://cloud.google.com/bigquery/docs/locations) for supported locations. Eg. "us-central1". */
+  location?: string;
+}
+export const Replica = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    replicaState: S.optional(ReplicaReplicaStateEnum),
+    primaryState: S.optional(ReplicaPrimaryStateEnum),
+    location: S.optional(S.String),
+  }),
+).annotate({ identifier: "Replica" }) as any as S.Schema<Replica>;
+
+export type ReplicaList = Array<Replica>;
+export const ReplicaList = /*@__PURE__*/ S.Array(Replica) as any as S.Schema<ReplicaList>;
+
+/** Restricted export policy used to configure restricted export on linked dataset. */
+export interface RestrictedExportPolicy {
+  /** Optional. If true, restrict direct table access (read api/tabledata.list) on linked table. */
+  restrictDirectTableAccess?: boolean;
+  /** Optional. If true, restrict export of query result derived from restricted linked dataset table. */
+  restrictQueryResult?: boolean;
+  /** Optional. If true, enable restricted export. */
+  enabled?: boolean;
+}
+export const RestrictedExportPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    restrictDirectTableAccess: S.optional(S.Boolean),
+    restrictQueryResult: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "RestrictedExportPolicy" }) as any as S.Schema<RestrictedExportPolicy>;
+
+/** A reference to a shared dataset. It is an existing BigQuery dataset with a collection of objects such as tables and views that you want to share with subscribers. When subscriber's subscribe to a listing, Analytics Hub creates a linked dataset in the subscriber's project. A Linked dataset is an opaque, read-only BigQuery dataset that serves as a _symbolic link_ to a shared dataset. */
+export interface BigQueryDatasetSource {
+  /** Optional. A list of regions where the publisher has created shared dataset replicas. */
+  replicaLocations?: StringList;
+  /** Optional. Resource in this dataset that is selectively shared. This field is required for data clean room exchanges. */
+  selectedResources?: SelectedResourceList;
+  /** Optional. Resource name of the dataset source for this listing. e.g. `projects/myproject/datasets/123` */
+  dataset?: string;
+  /** Output only. Server-owned effective state of replicas. Contains both primary and secondary replicas. Each replica includes a system-computed (output-only) state and primary designation. */
+  effectiveReplicas?: ReplicaList;
+  /** Optional. If set, restricted export policy will be propagated and enforced on the linked dataset. */
+  restrictedExportPolicy?: RestrictedExportPolicy;
+}
+export const BigQueryDatasetSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    replicaLocations: S.optional(StringList),
+    selectedResources: S.optional(SelectedResourceList),
+    dataset: S.optional(S.String),
+    effectiveReplicas: S.optional(ReplicaList),
+    restrictedExportPolicy: S.optional(RestrictedExportPolicy),
+  }),
+).annotate({ identifier: "BigQueryDatasetSource" }) as any as S.Schema<BigQueryDatasetSource>;
+
+/** Contains details of the listing publisher. */
+export interface Publisher {
+  /** Optional. Name of the listing publisher. */
+  name?: string;
+  /** Optional. Email or URL of the listing publisher. Max Length: 1000 bytes. */
+  primaryContact?: string;
+}
+export const Publisher = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    primaryContact: S.optional(S.String),
+  }),
+).annotate({ identifier: "Publisher" }) as any as S.Schema<Publisher>;
+
+export type ListingDiscoveryTypeEnum =
+  | "DISCOVERY_TYPE_UNSPECIFIED"
+  | "DISCOVERY_TYPE_PRIVATE"
+  | "DISCOVERY_TYPE_PUBLIC";
+export const ListingDiscoveryTypeEnum = S.String;
+
+export type ListingCategoriesItemEnum =
+  | "CATEGORY_UNSPECIFIED"
+  | "CATEGORY_OTHERS"
+  | "CATEGORY_ADVERTISING_AND_MARKETING"
+  | "CATEGORY_COMMERCE"
+  | "CATEGORY_CLIMATE_AND_ENVIRONMENT"
+  | "CATEGORY_DEMOGRAPHICS"
+  | "CATEGORY_ECONOMICS"
+  | "CATEGORY_EDUCATION"
+  | "CATEGORY_ENERGY"
+  | "CATEGORY_FINANCIAL"
+  | "CATEGORY_GAMING"
+  | "CATEGORY_GEOSPATIAL"
+  | "CATEGORY_HEALTHCARE_AND_LIFE_SCIENCE"
+  | "CATEGORY_MEDIA"
+  | "CATEGORY_PUBLIC_SECTOR"
+  | "CATEGORY_RETAIL"
+  | "CATEGORY_SPORTS"
+  | "CATEGORY_SCIENCE_AND_RESEARCH"
+  | "CATEGORY_TRANSPORTATION_AND_LOGISTICS"
+  | "CATEGORY_TRAVEL_AND_TOURISM"
+  | "CATEGORY_GOOGLE_EARTH_ENGINE";
+export const ListingCategoriesItemEnum = S.String;
+
+export type ListingCategoriesItemEnumList = Array<ListingCategoriesItemEnum | (string & {})>;
+export const ListingCategoriesItemEnumList = /*@__PURE__*/ S.Array(
+  ListingCategoriesItemEnum,
+) as any as S.Schema<ListingCategoriesItemEnumList>;
+
+/** Contains details of the data provider. */
+export interface DataProvider {
+  /** Optional. Name of the data provider. */
+  name?: string;
+  /** Optional. Email or URL of the data provider. Max Length: 1000 bytes. */
+  primaryContact?: string;
+}
+export const DataProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    primaryContact: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataProvider" }) as any as S.Schema<DataProvider>;
+
+/** Pub/Sub topic source. */
+export interface PubSubTopicSource {
+  /** Required. Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId */
+  topic?: string;
+  /** Optional. Region hint on where the data might be published. Data affinity regions are modifiable. See https://cloud.google.com/about/locations for full listing of possible Cloud regions. */
+  dataAffinityRegions?: StringList;
+}
+export const PubSubTopicSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    topic: S.optional(S.String),
+    dataAffinityRegions: S.optional(StringList),
+  }),
+).annotate({ identifier: "PubSubTopicSource" }) as any as S.Schema<PubSubTopicSource>;
+
+/** Restricted export config, used to configure restricted export on linked dataset. */
+export interface RestrictedExportConfig {
+  /** Output only. If true, restrict direct table access(read api/tabledata.list) on linked table. */
+  restrictDirectTableAccess?: boolean;
+  /** Optional. If true, restrict export of query result derived from restricted linked dataset table. */
+  restrictQueryResult?: boolean;
+  /** Optional. If true, enable restricted export. */
+  enabled?: boolean;
+}
+export const RestrictedExportConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    restrictDirectTableAccess: S.optional(S.Boolean),
+    restrictQueryResult: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "RestrictedExportConfig" }) as any as S.Schema<RestrictedExportConfig>;
+
 export type StoredProcedureConfigAllowedStoredProcedureTypesItemEnum =
   | "STORED_PROCEDURE_TYPE_UNSPECIFIED"
   | "SQL_PROCEDURE";
@@ -497,102 +528,71 @@ export const StoredProcedureConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "StoredProcedureConfig" }) as any as S.Schema<StoredProcedureConfig>;
 
-/** Restricted export config, used to configure restricted export on linked dataset. */
-export interface RestrictedExportConfig {
-  /** Optional. If true, enable restricted export. */
-  enabled?: boolean;
-  /** Optional. If true, restrict export of query result derived from restricted linked dataset table. */
-  restrictQueryResult?: boolean;
-  /** Output only. If true, restrict direct table access(read api/tabledata.list) on linked table. */
-  restrictDirectTableAccess?: boolean;
-}
-export const RestrictedExportConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    restrictQueryResult: S.optional(S.Boolean),
-    restrictDirectTableAccess: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "RestrictedExportConfig" }) as any as S.Schema<RestrictedExportConfig>;
-
-/** Contains details of the listing publisher. */
-export interface Publisher {
-  /** Optional. Name of the listing publisher. */
-  name?: string;
-  /** Optional. Email or URL of the listing publisher. Max Length: 1000 bytes. */
-  primaryContact?: string;
-}
-export const Publisher = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    primaryContact: S.optional(S.String),
-  }),
-).annotate({ identifier: "Publisher" }) as any as S.Schema<Publisher>;
-
 /** A listing is what gets published into a data exchange that a subscriber can subscribe to. It contains a reference to the data source along with descriptive information that will help subscribers find and subscribe the data. */
 export interface Listing {
-  /** Pub/Sub topic source. */
-  pubsubTopic?: PubSubTopicSource;
-  /** Optional. Type of discovery of the listing on the discovery page. */
-  discoveryType?: ListingDiscoveryTypeEnum | (string & {});
-  /** Optional. Documentation describing the listing. */
-  documentation?: string;
-  /** Optional. By default, false. If true, the Listing has an email sharing mandate enabled. */
-  logLinkedDatasetQueryUserEmail?: boolean;
-  /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
-  name?: string;
   /** Optional. Email or URL of the request access of the listing. Subscribers can use this reference to request access. Max Length: 1000 bytes. */
   requestAccess?: string;
-  /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
-  allowOnlyMetadataSharing?: boolean;
-  /** Output only. Current state of the listing. */
-  state?: ListingStateEnum | (string & {});
-  /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
-  displayName?: string;
-  /** Optional. Details of the data provider who owns the source data. */
-  dataProvider?: DataProvider;
-  /** Optional. Base64 encoded image representing the listing. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the contents of the field are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string;
-  /** Shared dataset i.e. BigQuery dataset source. */
-  bigqueryDataset?: BigQueryDatasetSource;
-  /** Output only. Listing shared asset type. */
-  resourceType?: ListingResourceTypeEnum | (string & {});
-  /** Optional. Categories of the listing. Up to five categories are allowed. */
-  categories?: ListingCategoriesItemEnumList;
-  /** Optional. Email or URL of the primary point of contact of the listing. Max Length: 1000 bytes. */
-  primaryContact?: string;
   /** Output only. Commercial info contains the information about the commercial data products associated with the listing. */
   commercialInfo?: GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo;
-  /** Optional. If set, stored procedure configuration will be propagated and enforced on the linked dataset. */
-  storedProcedureConfig?: StoredProcedureConfig;
-  /** Optional. If set, restricted export configuration will be propagated and enforced on the linked dataset. */
-  restrictedExportConfig?: RestrictedExportConfig;
+  /** Output only. Current state of the listing. */
+  state?: ListingStateEnum | (string & {});
+  /** Output only. Listing shared asset type. */
+  resourceType?: ListingResourceTypeEnum | (string & {});
+  /** Shared dataset i.e. BigQuery dataset source. */
+  bigqueryDataset?: BigQueryDatasetSource;
+  /** Optional. Base64 encoded image representing the listing. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the contents of the field are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string;
+  /** Optional. By default, false. If true, the Listing has an email sharing mandate enabled. */
+  logLinkedDatasetQueryUserEmail?: boolean;
+  /** Optional. Documentation describing the listing. */
+  documentation?: string;
+  /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
+  allowOnlyMetadataSharing?: boolean;
   /** Optional. Details of the publisher who owns the listing and who can share the source data. */
   publisher?: Publisher;
+  /** Optional. Type of discovery of the listing on the discovery page. */
+  discoveryType?: ListingDiscoveryTypeEnum | (string & {});
   /** Optional. Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
   description?: string;
+  /** Optional. Categories of the listing. Up to five categories are allowed. */
+  categories?: ListingCategoriesItemEnumList;
+  /** Optional. Details of the data provider who owns the source data. */
+  dataProvider?: DataProvider;
+  /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string;
+  /** Pub/Sub topic source. */
+  pubsubTopic?: PubSubTopicSource;
+  /** Optional. If set, restricted export configuration will be propagated and enforced on the linked dataset. */
+  restrictedExportConfig?: RestrictedExportConfig;
+  /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
+  name?: string;
+  /** Optional. Email or URL of the primary point of contact of the listing. Max Length: 1000 bytes. */
+  primaryContact?: string;
+  /** Optional. If set, stored procedure configuration will be propagated and enforced on the linked dataset. */
+  storedProcedureConfig?: StoredProcedureConfig;
 }
 export const Listing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pubsubTopic: S.optional(PubSubTopicSource),
-    discoveryType: S.optional(ListingDiscoveryTypeEnum),
-    documentation: S.optional(S.String),
-    logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
-    name: S.optional(S.String),
     requestAccess: S.optional(S.String),
-    allowOnlyMetadataSharing: S.optional(S.Boolean),
-    state: S.optional(ListingStateEnum),
-    displayName: S.optional(S.String),
-    dataProvider: S.optional(DataProvider),
-    icon: S.optional(S.String),
-    bigqueryDataset: S.optional(BigQueryDatasetSource),
-    resourceType: S.optional(ListingResourceTypeEnum),
-    categories: S.optional(ListingCategoriesItemEnumList),
-    primaryContact: S.optional(S.String),
     commercialInfo: S.optional(GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo),
-    storedProcedureConfig: S.optional(StoredProcedureConfig),
-    restrictedExportConfig: S.optional(RestrictedExportConfig),
+    state: S.optional(ListingStateEnum),
+    resourceType: S.optional(ListingResourceTypeEnum),
+    bigqueryDataset: S.optional(BigQueryDatasetSource),
+    icon: S.optional(S.String),
+    logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
+    documentation: S.optional(S.String),
+    allowOnlyMetadataSharing: S.optional(S.Boolean),
     publisher: S.optional(Publisher),
+    discoveryType: S.optional(ListingDiscoveryTypeEnum),
     description: S.optional(S.String),
+    categories: S.optional(ListingCategoriesItemEnumList),
+    dataProvider: S.optional(DataProvider),
+    displayName: S.optional(S.String),
+    pubsubTopic: S.optional(PubSubTopicSource),
+    restrictedExportConfig: S.optional(RestrictedExportConfig),
+    name: S.optional(S.String),
+    primaryContact: S.optional(S.String),
+    storedProcedureConfig: S.optional(StoredProcedureConfig),
   }),
 ).annotate({ identifier: "Listing" }) as any as S.Schema<Listing>;
 
@@ -621,18 +621,18 @@ export const CreateProjectsLocationsDataExchangesListingsRequest = /*@__PURE__*/
 }) as any as S.Schema<CreateProjectsLocationsDataExchangesListingsRequest>;
 
 export interface CreateProjectsLocationsDataExchangesQueryTemplatesRequest {
-  /** Required. The ID of the QueryTemplate to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
-  queryTemplateId?: string;
   /** Required. The parent resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myQueryTemplate`. */
   parent: string;
+  /** Required. The ID of the QueryTemplate to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
+  queryTemplateId?: string;
   /** Request body */
   body?: QueryTemplate;
 }
 export const CreateProjectsLocationsDataExchangesQueryTemplatesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      queryTemplateId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      queryTemplateId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(QueryTemplate.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -740,18 +740,18 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
     message: S.optional(S.String),
     details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -759,22 +759,22 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     response: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
     error: S.optional(Status),
     name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -821,46 +821,6 @@ export const GetIamPolicyProjectsLocationsDataExchangesRequest = /*@__PURE__*/ S
   identifier: "GetIamPolicyProjectsLocationsDataExchangesRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesRequest>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    location: S.optional(S.String),
-    description: S.optional(S.String),
-    expression: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    role: S.optional(S.String),
-    members: S.optional(StringList),
-    condition: S.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -870,15 +830,15 @@ export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exemptedMembers: S.optional(StringList),
     logType: S.optional(AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -889,15 +849,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    service: S.optional(S.String),
     auditLogConfigs: S.optional(AuditLogConfigList),
+    service: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -906,23 +866,63 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String),
+    description: S.optional(S.String),
+    expression: S.optional(S.String),
+    title: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role: S.optional(S.String),
+    condition: S.optional(Expr),
+    members: S.optional(StringList),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     version: S.optional(S.Number),
-    bindings: S.optional(BindingList),
+    etag: S.optional(S.String),
     auditConfigs: S.optional(AuditConfigList),
+    bindings: S.optional(BindingList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -1025,41 +1025,49 @@ export const GetProjectsLocationsSubscriptionsRequest = /*@__PURE__*/ S.suspend(
   identifier: "GetProjectsLocationsSubscriptionsRequest",
 }) as any as S.Schema<GetProjectsLocationsSubscriptionsRequest>;
 
-/** Reference to a linked resource tracked by this Subscription. */
-export interface LinkedResource {
-  /** Output only. Name of the linked dataset, e.g. projects/subscriberproject/datasets/linked_dataset */
-  linkedDataset?: string;
-  /** Output only. Listing for which linked resource is created. */
-  listing?: string;
-  /** Output only. Name of the Pub/Sub subscription, e.g. projects/subscriberproject/subscriptions/subscriptions/sub_id */
-  linkedPubsubSubscription?: string;
+export interface DestinationDatasetReference {
+  /** Required. The ID of the project containing this dataset. */
+  projectId?: string;
+  /** Required. A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
+  datasetId?: string;
 }
-export const LinkedResource = /*@__PURE__*/ S.suspend(() =>
+export const DestinationDatasetReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    linkedDataset: S.optional(S.String),
-    listing: S.optional(S.String),
-    linkedPubsubSubscription: S.optional(S.String),
+    projectId: S.optional(S.String),
+    datasetId: S.optional(S.String),
   }),
-).annotate({ identifier: "LinkedResource" }) as any as S.Schema<LinkedResource>;
+).annotate({
+  identifier: "DestinationDatasetReference",
+}) as any as S.Schema<DestinationDatasetReference>;
 
-export type LinkedResourceMap = { [key: string]: LinkedResource | undefined };
-export const LinkedResourceMap = /*@__PURE__*/ S.Record(
-  S.String,
-  LinkedResource,
-) as any as S.Schema<LinkedResourceMap>;
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
-export type SubscriptionStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STATE_ACTIVE"
-  | "STATE_STALE"
-  | "STATE_INACTIVE";
-export const SubscriptionStateEnum = S.String;
-
-export type SubscriptionResourceTypeEnum =
-  | "SHARED_RESOURCE_TYPE_UNSPECIFIED"
-  | "BIGQUERY_DATASET"
-  | "PUBSUB_TOPIC";
-export const SubscriptionResourceTypeEnum = S.String;
+/** Defines the destination bigquery dataset. */
+export interface DestinationDataset {
+  /** Required. A reference that identifies the destination dataset. */
+  datasetReference?: DestinationDatasetReference;
+  /** Required. The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
+  location?: string;
+  /** Optional. The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See https://cloud.google.com/resource-manager/docs/creating-managing-labels for more information. */
+  labels?: StringMap;
+  /** Optional. A descriptive name for the dataset. */
+  friendlyName?: string;
+  /** Optional. The geographic locations where the dataset should be replicated. See [BigQuery locations](https://cloud.google.com/bigquery/docs/locations) for supported locations. */
+  replicaLocations?: StringList;
+  /** Optional. A user-friendly description of the dataset. */
+  description?: string;
+}
+export const DestinationDataset = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    datasetReference: S.optional(DestinationDatasetReference),
+    location: S.optional(S.String),
+    labels: S.optional(StringMap),
+    friendlyName: S.optional(S.String),
+    replicaLocations: S.optional(StringList),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "DestinationDataset" }) as any as S.Schema<DestinationDataset>;
 
 /** Cloud Marketplace commercial metadata for this subscription. */
 export interface GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfoGoogleCloudMarketplaceInfo {
@@ -1092,59 +1100,53 @@ export const GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo = /*@__
   identifier: "GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo",
 }) as any as S.Schema<GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo>;
 
+/** Reference to a linked resource tracked by this Subscription. */
+export interface LinkedResource {
+  /** Output only. Name of the linked dataset, e.g. projects/subscriberproject/datasets/linked_dataset */
+  linkedDataset?: string;
+  /** Output only. Listing for which linked resource is created. */
+  listing?: string;
+  /** Output only. Name of the Pub/Sub subscription, e.g. projects/subscriberproject/subscriptions/subscriptions/sub_id */
+  linkedPubsubSubscription?: string;
+}
+export const LinkedResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    linkedDataset: S.optional(S.String),
+    listing: S.optional(S.String),
+    linkedPubsubSubscription: S.optional(S.String),
+  }),
+).annotate({ identifier: "LinkedResource" }) as any as S.Schema<LinkedResource>;
+
+export type LinkedResourceMap = { [key: string]: LinkedResource | undefined };
+export const LinkedResourceMap = /*@__PURE__*/ S.Record(
+  S.String,
+  LinkedResource,
+) as any as S.Schema<LinkedResourceMap>;
+
+export type SubscriptionStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STATE_ACTIVE"
+  | "STATE_STALE"
+  | "STATE_INACTIVE";
+export const SubscriptionStateEnum = S.String;
+
 export type LinkedResourceList = Array<LinkedResource>;
 export const LinkedResourceList = /*@__PURE__*/ S.Array(
   LinkedResource,
 ) as any as S.Schema<LinkedResourceList>;
 
-export interface DestinationDatasetReference {
-  /** Required. The ID of the project containing this dataset. */
-  projectId?: string;
-  /** Required. A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
-  datasetId?: string;
-}
-export const DestinationDatasetReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.optional(S.String),
-    datasetId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DestinationDatasetReference",
-}) as any as S.Schema<DestinationDatasetReference>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-/** Defines the destination bigquery dataset. */
-export interface DestinationDataset {
-  /** Required. A reference that identifies the destination dataset. */
-  datasetReference?: DestinationDatasetReference;
-  /** Required. The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  location?: string;
-  /** Optional. A descriptive name for the dataset. */
-  friendlyName?: string;
-  /** Optional. A user-friendly description of the dataset. */
-  description?: string;
-  /** Optional. The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See https://cloud.google.com/resource-manager/docs/creating-managing-labels for more information. */
-  labels?: StringMap;
-  /** Optional. The geographic locations where the dataset should be replicated. See [BigQuery locations](https://cloud.google.com/bigquery/docs/locations) for supported locations. */
-  replicaLocations?: StringList;
-}
-export const DestinationDataset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datasetReference: S.optional(DestinationDatasetReference),
-    location: S.optional(S.String),
-    friendlyName: S.optional(S.String),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
-    replicaLocations: S.optional(StringList),
-  }),
-).annotate({ identifier: "DestinationDataset" }) as any as S.Schema<DestinationDataset>;
+export type SubscriptionResourceTypeEnum =
+  | "SHARED_RESOURCE_TYPE_UNSPECIFIED"
+  | "BIGQUERY_DATASET"
+  | "PUBSUB_TOPIC";
+export const SubscriptionResourceTypeEnum = S.String;
 
 /** A subscription represents a subscribers' access to a particular set of published data. It contains references to associated listings, data exchanges, and linked datasets. */
 export interface Subscription {
-  /** Output only. Resource name of the source Data Exchange. e.g. projects/123/locations/us/dataExchanges/456 */
-  dataExchange?: string;
+  /** Optional. BigQuery destination dataset to create for the subscriber. */
+  destinationDataset?: DestinationDataset;
+  /** Output only. This is set if this is a commercial subscription i.e. if this subscription was created from subscribing to a commercial listing. */
+  commercialInfo?: GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo;
   /** Output only. By default, false. If true, the Subscriber agreed to the email sharing mandate that is enabled for DataExchange/Listing. */
   logLinkedDatasetQueryUserEmail?: boolean;
   /** Output only. Map of listing resource names to associated linked resource, e.g. projects/123/locations/us/dataExchanges/456/listings/789 -> projects/123/datasets/my_dataset For listing-level subscriptions, this is a map of size 1. Only contains values if state == STATE_ACTIVE. */
@@ -1153,59 +1155,57 @@ export interface Subscription {
   creationTime?: string;
   /** Output only. The resource name of the subscription. e.g. `projects/myproject/locations/us/subscriptions/123`. */
   name?: string;
-  /** Output only. Timestamp when the subscription was last modified. */
-  lastModifyTime?: string;
   /** Output only. Display name of the project of this subscription. */
   organizationDisplayName?: string;
-  /** Output only. Current state of the subscription. */
-  state?: SubscriptionStateEnum;
   /** Output only. Resource name of the source Listing. e.g. projects/123/locations/us/dataExchanges/456/listings/789 */
   listing?: string;
-  /** Output only. Listing shared asset type. */
-  resourceType?: SubscriptionResourceTypeEnum;
-  /** Output only. This is set if this is a commercial subscription i.e. if this subscription was created from subscribing to a commercial listing. */
-  commercialInfo?: GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo;
+  /** Output only. Current state of the subscription. */
+  state?: SubscriptionStateEnum;
+  /** Output only. Email of the subscriber. */
+  subscriberContact?: string;
   /** Output only. Organization of the project this subscription belongs to. */
   organizationId?: string;
   /** Output only. Linked resources created in the subscription. Only contains values if state = STATE_ACTIVE. */
   linkedResources?: LinkedResourceList;
-  /** Optional. BigQuery destination dataset to create for the subscriber. */
-  destinationDataset?: DestinationDataset;
-  /** Output only. Email of the subscriber. */
-  subscriberContact?: string;
+  /** Output only. Timestamp when the subscription was last modified. */
+  lastModifyTime?: string;
+  /** Output only. Listing shared asset type. */
+  resourceType?: SubscriptionResourceTypeEnum;
+  /** Output only. Resource name of the source Data Exchange. e.g. projects/123/locations/us/dataExchanges/456 */
+  dataExchange?: string;
 }
 export const Subscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataExchange: S.optional(S.String),
+    destinationDataset: S.optional(DestinationDataset),
+    commercialInfo: S.optional(GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo),
     logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
     linkedDatasetMap: S.optional(LinkedResourceMap),
     creationTime: S.optional(S.String),
     name: S.optional(S.String),
-    lastModifyTime: S.optional(S.String),
     organizationDisplayName: S.optional(S.String),
-    state: S.optional(SubscriptionStateEnum),
     listing: S.optional(S.String),
-    resourceType: S.optional(SubscriptionResourceTypeEnum),
-    commercialInfo: S.optional(GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo),
+    state: S.optional(SubscriptionStateEnum),
+    subscriberContact: S.optional(S.String),
     organizationId: S.optional(S.String),
     linkedResources: S.optional(LinkedResourceList),
-    destinationDataset: S.optional(DestinationDataset),
-    subscriberContact: S.optional(S.String),
+    lastModifyTime: S.optional(S.String),
+    resourceType: S.optional(SubscriptionResourceTypeEnum),
+    dataExchange: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 
 export interface ListOrganizationsLocationsDataExchangesRequest {
-  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
-  pageSize?: number;
   /** Required. The organization resource path of the projects containing DataExchanges. e.g. `organizations/myorg/locations/us`. */
   organization: string;
+  /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
+  pageSize?: number;
   /** Page token, returned by a previous call, to request the next page of results. */
   pageToken?: string;
 }
 export const ListOrganizationsLocationsDataExchangesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     organization: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1240,18 +1240,18 @@ export const ListOrgDataExchangesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrgDataExchangesResponse>;
 
 export interface ListProjectsLocationsDataExchangesRequest {
-  /** Page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
   /** Required. The parent resource path of the data exchanges. e.g. `projects/myproject/locations/us`. */
   parent: string;
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
+  /** Page token, returned by a previous call, to request the next page of results. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsDataExchangesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1280,18 +1280,18 @@ export const ListDataExchangesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListDataExchangesResponse>;
 
 export interface ListProjectsLocationsDataExchangesListingsRequest {
-  /** Page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
   /** Required. The parent resource path of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
   parent: string;
+  /** Page token, returned by a previous call, to request the next page of results. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsDataExchangesListingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1321,18 +1321,18 @@ export const ListListingsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListListingsResponse" }) as any as S.Schema<ListListingsResponse>;
 
 export interface ListProjectsLocationsDataExchangesQueryTemplatesRequest {
+  /** Optional. Page token, returned by a previous call, to request the next page of results. */
+  pageToken?: string;
   /** Required. The parent resource path of the QueryTemplates. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
   parent: string;
   /** Optional. The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
-  /** Optional. Page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsDataExchangesQueryTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1366,21 +1366,21 @@ export const ListQueryTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListQueryTemplatesResponse>;
 
 export interface ListProjectsLocationsSubscriptionsRequest {
-  /** Page token, returned by a previous call. */
-  pageToken?: string;
   /** The maximum number of results to return in a single response page. */
   pageSize?: number;
-  /** An expression for filtering the results of the request. Eligible fields for filtering are: + `listing` + `data_exchange` Alternatively, a literal wrapped in double quotes may be provided. This will be checked for an exact match against both fields above. In all cases, the full Data Exchange or Listing resource name must be provided. Some example of using filters: + data_exchange="projects/myproject/locations/us/dataExchanges/123" + listing="projects/123/locations/us/dataExchanges/456/listings/789" + "projects/myproject/locations/us/dataExchanges/123" */
-  filter?: string;
   /** Required. The parent resource path of the subscription. e.g. projects/myproject/locations/us */
   parent: string;
+  /** An expression for filtering the results of the request. Eligible fields for filtering are: + `listing` + `data_exchange` Alternatively, a literal wrapped in double quotes may be provided. This will be checked for an exact match against both fields above. In all cases, the full Data Exchange or Listing resource name must be provided. Some example of using filters: + data_exchange="projects/myproject/locations/us/dataExchanges/123" + listing="projects/123/locations/us/dataExchanges/456/listings/789" + "projects/myproject/locations/us/dataExchanges/123" */
+  filter?: string;
+  /** Page token, returned by a previous call. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1414,21 +1414,21 @@ export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSubscriptionsResponse>;
 
 export interface ListSubscriptionsProjectsLocationsDataExchangesRequest {
-  /** Page token, returned by a previous call. */
-  pageToken?: string;
-  /** Required. Resource name of the requested target. This resource may be either a Listing or a DataExchange. e.g. projects/123/locations/us/dataExchanges/456 OR e.g. projects/123/locations/us/dataExchanges/456/listings/789 */
-  resource: string;
   /** The maximum number of results to return in a single response page. */
   pageSize?: number;
   /** If selected, includes deleted subscriptions in the response (up to 63 days after deletion). */
   includeDeletedSubscriptions?: boolean;
+  /** Required. Resource name of the requested target. This resource may be either a Listing or a DataExchange. e.g. projects/123/locations/us/dataExchanges/456 OR e.g. projects/123/locations/us/dataExchanges/456/listings/789 */
+  resource: string;
+  /** Page token, returned by a previous call. */
+  pageToken?: string;
 }
 export const ListSubscriptionsProjectsLocationsDataExchangesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    resource: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     includeDeletedSubscriptions: S.optional(S.Boolean.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1442,15 +1442,15 @@ export const ListSubscriptionsProjectsLocationsDataExchangesRequest = /*@__PURE_
 
 /** Message for response to the listing of shared resource subscriptions. */
 export interface ListSharedResourceSubscriptionsResponse {
-  /** Next page token. */
-  nextPageToken?: string;
   /** The list of subscriptions. */
   sharedResourceSubscriptions?: SubscriptionList;
+  /** Next page token. */
+  nextPageToken?: string;
 }
 export const ListSharedResourceSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     sharedResourceSubscriptions: S.optional(SubscriptionList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListSharedResourceSubscriptionsResponse",
@@ -1720,21 +1720,21 @@ export const SubmitProjectsLocationsDataExchangesQueryTemplatesRequest = /*@__PU
 
 /** Message for subscribing to a Data Exchange. */
 export interface SubscribeDataExchangeRequest {
-  /** Required. The parent resource path of the Subscription. e.g. `projects/subscriberproject/locations/us` */
-  destination?: string;
-  /** Required. Name of the subscription to create. e.g. `subscription1` */
-  subscription?: string;
-  /** Email of the subscriber. */
-  subscriberContact?: string;
   /** Optional. BigQuery destination dataset to create for the subscriber. */
   destinationDataset?: DestinationDataset;
+  /** Required. Name of the subscription to create. e.g. `subscription1` */
+  subscription?: string;
+  /** Required. The parent resource path of the Subscription. e.g. `projects/subscriberproject/locations/us` */
+  destination?: string;
+  /** Email of the subscriber. */
+  subscriberContact?: string;
 }
 export const SubscribeDataExchangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destination: S.optional(S.String),
-    subscription: S.optional(S.String),
-    subscriberContact: S.optional(S.String),
     destinationDataset: S.optional(DestinationDataset),
+    subscription: S.optional(S.String),
+    destination: S.optional(S.String),
+    subscriberContact: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SubscribeDataExchangeRequest",
@@ -1760,87 +1760,6 @@ export const SubscribeProjectsLocationsDataExchangesRequest = /*@__PURE__*/ S.su
 ).annotate({
   identifier: "SubscribeProjectsLocationsDataExchangesRequest",
 }) as any as S.Schema<SubscribeProjectsLocationsDataExchangesRequest>;
-
-/** A policy that specifies how Pub/Sub retries message delivery. Retry delay will be exponential based on provided minimum and maximum backoffs. https://en.wikipedia.org/wiki/Exponential_backoff. RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message. Retry Policy is implemented on a best effort basis. At times, the delay between consecutive deliveries may not match the configuration. That is, delay can be more or less than configured backoff. */
-export interface RetryPolicy {
-  /** Optional. The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds. */
-  minimumBackoff?: string;
-  /** Optional. The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds. */
-  maximumBackoff?: string;
-}
-export const RetryPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minimumBackoff: S.optional(S.String),
-    maximumBackoff: S.optional(S.String),
-  }),
-).annotate({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
-
-/** A policy that specifies the conditions for resource expiration (i.e., automatic resource deletion). */
-export interface ExpirationPolicy {
-  /** Optional. Specifies the "time-to-live" duration for an associated resource. The resource expires if it is not active for a period of `ttl`. The definition of "activity" depends on the type of the associated resource. The minimum and maximum allowed values for `ttl` depend on the type of the associated resource, as well. If `ttl` is not set, the associated resource never expires. */
-  ttl?: string;
-}
-export const ExpirationPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ttl: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExpirationPolicy" }) as any as S.Schema<ExpirationPolicy>;
-
-/** Configuration for writing message data in text format. Message payloads will be written to files as raw text, separated by a newline. */
-export type TextConfig = ApproveQueryTemplateRequest;
-export const TextConfig = ApproveQueryTemplateRequest;
-
-/** Configuration for writing message data in Avro format. Message payloads and metadata will be written to files as an Avro binary. */
-export interface AvroConfig {
-  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key as additional fields in the output. The subscription name, message_id, and publish_time fields are put in their own fields while all other message properties other than data (for example, an ordering_key, if present) are added as entries in the attributes map. */
-  writeMetadata?: boolean;
-  /** Optional. When true, the output Cloud Storage file will be serialized using the topic schema, if it exists. */
-  useTopicSchema?: boolean;
-}
-export const AvroConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    writeMetadata: S.optional(S.Boolean),
-    useTopicSchema: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "AvroConfig" }) as any as S.Schema<AvroConfig>;
-
-/** Configuration for a Cloud Storage subscription. */
-export interface CloudStorageConfig {
-  /** Required. User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://". See the [bucket naming requirements] (https://cloud.google.com/storage/docs/buckets#naming). */
-  bucket?: string;
-  /** Optional. The maximum number of messages that can be written to a Cloud Storage file before a new file is created. Min 1000 messages. */
-  maxMessages?: string;
-  /** Optional. File batching settings. If no max_duration setting is specified, a max_duration of 5 minutes will be set by default. max_duration is required regardless of whether other file batching settings are specified. The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes. May not exceed the subscription's acknowledgement deadline. */
-  maxDuration?: string;
-  /** Optional. The service account to use to write to Cloud Storage. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
-  serviceAccountEmail?: string;
-  /** Optional. If set, message data will be written to Cloud Storage in text format. */
-  textConfig?: ApproveQueryTemplateRequest;
-  /** Optional. The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB. The max_bytes limit may be exceeded in cases where messages are larger than the limit. */
-  maxBytes?: string;
-  /** Optional. User-provided prefix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). */
-  filenamePrefix?: string;
-  /** Optional. If set, message data will be written to Cloud Storage in Avro format. */
-  avroConfig?: AvroConfig;
-  /** Optional. User-provided suffix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). Must not end in "/". */
-  filenameSuffix?: string;
-  /** Optional. User-provided format string specifying how to represent datetimes in Cloud Storage filenames. See the [datetime format guidance](https://cloud.google.com/pubsub/docs/create-cloudstorage-subscription#file_names). */
-  filenameDatetimeFormat?: string;
-}
-export const CloudStorageConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.optional(S.String),
-    maxMessages: S.optional(S.String),
-    maxDuration: S.optional(S.String),
-    serviceAccountEmail: S.optional(S.String),
-    textConfig: S.optional(ApproveQueryTemplateRequest),
-    maxBytes: S.optional(S.String),
-    filenamePrefix: S.optional(S.String),
-    avroConfig: S.optional(AvroConfig),
-    filenameSuffix: S.optional(S.String),
-    filenameDatetimeFormat: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudStorageConfig" }) as any as S.Schema<CloudStorageConfig>;
 
 /** Row key definition that reads the input message fields based on the field names of the table's [structured row key](https://cloud.google.com/bigtable/docs/manage-row-key-schemas). Note that if the field is nullable in the structured row key, then it need not be present in the message; `null` will be used instead. */
 export type RowKeySchema = ApproveQueryTemplateRequest;
@@ -1876,133 +1795,30 @@ export const ColumnFamilyMapping = /*@__PURE__*/ S.suspend(() =>
 
 /** Configuration for a Bigtable subscription, which will write a Pub/Sub message to a Bigtable row. See the ColumnFamilyMapping documentation below for details on how the row keys and columns will be written. */
 export interface BigtableConfig {
+  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table under the pubsub_metadata column family. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
+  writeMetadata?: boolean;
   /** Optional. The service account to use to write to Bigtable. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
   serviceAccountEmail?: string;
   /** Optional. The app profile to use for the Bigtable writes. If not specified, the "default" application profile will be used. The app profile must use single-cluster routing. */
   appProfileId?: string;
-  /** Optional. Configuration that allows writing row keys and/or columns based on fields in the input message. The input message format must be JSON if this field is set. */
-  columnFamilyMapping?: ColumnFamilyMapping;
-  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table under the pubsub_metadata column family. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
-  writeMetadata?: boolean;
   /** Optional. The unique name of the table to write messages to. Values are of the form `projects//instances//tables/`. */
   table?: string;
+  /** Optional. Configuration that allows writing row keys and/or columns based on fields in the input message. The input message format must be JSON if this field is set. */
+  columnFamilyMapping?: ColumnFamilyMapping;
 }
 export const BigtableConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    writeMetadata: S.optional(S.Boolean),
     serviceAccountEmail: S.optional(S.String),
     appProfileId: S.optional(S.String),
-    columnFamilyMapping: S.optional(ColumnFamilyMapping),
-    writeMetadata: S.optional(S.Boolean),
     table: S.optional(S.String),
+    columnFamilyMapping: S.optional(ColumnFamilyMapping),
   }),
 ).annotate({ identifier: "BigtableConfig" }) as any as S.Schema<BigtableConfig>;
 
-/** Dead lettering is done on a best effort basis. The same message might be dead lettered multiple times. If validation on any of the fields fails at subscription creation/updation, the create/update subscription request will fail. */
-export interface DeadLetterPolicy {
-  /** Optional. The name of the topic to which dead letter messages should be published. Format is `projects/{project}/topics/{topic}`.The Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic. The operation will fail if the topic does not exist. Users should ensure that there is a subscription attached to this topic since messages published to a topic with no subscriptions are lost. */
-  deadLetterTopic?: string;
-  /** Optional. The maximum number of delivery attempts for any message. The value must be between 5 and 100. The number of delivery attempts is defined as 1 + (the sum of number of NACKs and number of times the acknowledgement deadline has been exceeded for the message). A NACK is any call to ModifyAckDeadline with a 0 deadline. Note that client libraries may automatically extend ack_deadlines. This field will be honored on a best effort basis. If this parameter is 0, a default value of 5 is used. */
-  maxDeliveryAttempts?: number;
-}
-export const DeadLetterPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deadLetterTopic: S.optional(S.String),
-    maxDeliveryAttempts: S.optional(S.Number),
-  }),
-).annotate({ identifier: "DeadLetterPolicy" }) as any as S.Schema<DeadLetterPolicy>;
-
-/** User-defined JavaScript function that can transform or filter a Pub/Sub message. */
-export interface JavaScriptUDF {
-  /** Required. Name of the JavasScript function that should applied to Pub/Sub messages. */
-  functionName?: string;
-  /** Required. JavaScript code that contains a function `function_name` with the below signature: ``` /** * Transforms a Pub/Sub message. * @return {(Object)>|null)} - To * filter a message, return `null`. To transform a message return a map * with the following keys: * - (required) 'data' : {string} * - (optional) 'attributes' : {Object} * Returning empty `attributes` will remove all attributes from the * message. * * @param {(Object)>} Pub/Sub * message. Keys: * - (required) 'data' : {string} * - (required) 'attributes' : {Object} * * @param {Object} metadata - Pub/Sub message metadata. * Keys: * - (required) 'message_id' : {string} * - (optional) 'publish_time': {string} YYYY-MM-DDTHH:MM:SSZ format * - (optional) 'ordering_key': {string} *\/ function (message, metadata) { } ``` */
-  code?: string;
-}
-export const JavaScriptUDF = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.optional(S.String),
-    code: S.optional(S.String),
-  }),
-).annotate({ identifier: "JavaScriptUDF" }) as any as S.Schema<JavaScriptUDF>;
-
-/** Configuration for making inferences using arbitrary JSON payloads. */
-export interface UnstructuredInference {
-  /** Optional. A parameters object to be included in each inference request. The parameters object is combined with the data field of the Pub/Sub message to form the inference request. */
-  parameters?: DocumentMap;
-}
-export const UnstructuredInference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameters: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "UnstructuredInference" }) as any as S.Schema<UnstructuredInference>;
-
-/** Configuration for making inference requests against Vertex AI models. */
-export interface AIInference {
-  /** Optional. The service account to use to make prediction requests against endpoints. The resource creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
-  serviceAccountEmail?: string;
-  /** Optional. Requests and responses can be any arbitrary JSON object. */
-  unstructuredInference?: UnstructuredInference;
-  /** Required. An endpoint to a Vertex AI model of the form `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}`. Vertex AI API requests will be sent to this endpoint. */
-  endpoint?: string;
-}
-export const AIInference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccountEmail: S.optional(S.String),
-    unstructuredInference: S.optional(UnstructuredInference),
-    endpoint: S.optional(S.String),
-  }),
-).annotate({ identifier: "AIInference" }) as any as S.Schema<AIInference>;
-
-export type CompressionCompressionAlgorithmEnum = "COMPRESSION_ALGORITHM_UNSPECIFIED" | "ZLIB";
-export const CompressionCompressionAlgorithmEnum = S.String;
-
-export type CompressionCompressionModeEnum =
-  | "COMPRESSION_MODE_UNSPECIFIED"
-  | "COMPRESS"
-  | "DECOMPRESS";
-export const CompressionCompressionModeEnum = S.String;
-
-/** Configuration for compressing/decompressing message data using a user-specified compression algorithm. */
-export interface Compression {
-  /** Required. Specifies the compression algorithm to use. */
-  compressionAlgorithm?: CompressionCompressionAlgorithmEnum | (string & {});
-  /** Required. Specifies whether to compress or decompress the message. */
-  compressionMode?: CompressionCompressionModeEnum | (string & {});
-}
-export const Compression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    compressionAlgorithm: S.optional(CompressionCompressionAlgorithmEnum),
-    compressionMode: S.optional(CompressionCompressionModeEnum),
-  }),
-).annotate({ identifier: "Compression" }) as any as S.Schema<Compression>;
-
-/** All supported message transforms types. */
-export interface MessageTransform {
-  /** Optional. This field is deprecated, use the `disabled` field to disable transforms. */
-  enabled?: boolean;
-  /** Optional. JavaScript User Defined Function. If multiple JavaScriptUDF's are specified on a resource, each must have a unique `function_name`. */
-  javascriptUdf?: JavaScriptUDF;
-  /** Optional. If true, the transform is disabled and will not be applied to messages. Defaults to `false`. */
-  disabled?: boolean;
-  /** Optional. AI Inference. Specifies the Vertex AI endpoint that inference requests built from the Pub/Sub message data and provided parameters will be sent to. */
-  aiInference?: AIInference;
-  /** Optional. Compression/Decompression. */
-  compression?: Compression;
-}
-export const MessageTransform = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    javascriptUdf: S.optional(JavaScriptUDF),
-    disabled: S.optional(S.Boolean),
-    aiInference: S.optional(AIInference),
-    compression: S.optional(Compression),
-  }),
-).annotate({ identifier: "MessageTransform" }) as any as S.Schema<MessageTransform>;
-
-export type MessageTransformList = Array<MessageTransform>;
-export const MessageTransformList = /*@__PURE__*/ S.Array(
-  MessageTransform,
-) as any as S.Schema<MessageTransformList>;
+/** The payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
+export type PubsubWrapper = ApproveQueryTemplateRequest;
+export const PubsubWrapper = ApproveQueryTemplateRequest;
 
 /** Contains information needed for generating an [OpenID Connect token](https://developers.google.com/identity/protocols/OpenIDConnect). */
 export interface OidcToken {
@@ -2018,10 +1834,6 @@ export const OidcToken = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OidcToken" }) as any as S.Schema<OidcToken>;
 
-/** The payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
-export type PubsubWrapper = ApproveQueryTemplateRequest;
-export const PubsubWrapper = ApproveQueryTemplateRequest;
-
 /** Sets the `data` field as the HTTP body for delivery. */
 export interface NoWrapper {
   /** Optional. When true, writes the Pub/Sub message metadata to `x-goog-pubsub-:` headers of the HTTP request. Writes the Pub/Sub message attributes to `:` headers of the HTTP request. */
@@ -2035,26 +1847,133 @@ export const NoWrapper = /*@__PURE__*/ S.suspend(() =>
 
 /** Configuration for a push delivery endpoint. */
 export interface PushConfig {
-  /** Optional. If specified, Pub/Sub will generate and attach an OIDC JWT token as an `Authorization` header in the HTTP request for every pushed message. */
-  oidcToken?: OidcToken;
-  /** Optional. A URL locating the endpoint to which messages should be pushed. For example, a Webhook endpoint might use `https://example.com/push`. */
-  pushEndpoint?: string;
-  /** Optional. Endpoint configuration attributes that can be used to control different aspects of the message delivery. The only currently supported attribute is `x-goog-version`, which you can use to change the format of the pushed message. This attribute indicates the version of the data expected by the endpoint. This controls the shape of the pushed message (i.e., its fields and metadata). If not present during the `CreateSubscription` call, it will default to the version of the Pub/Sub API used to make such call. If not present in a `ModifyPushConfig` call, its value will not be changed. `GetSubscription` calls will always return a valid version, even if the subscription was created without this attribute. The only supported values for the `x-goog-version` attribute are: * `v1beta1`: uses the push format defined in the v1beta1 Pub/Sub API. * `v1` or `v1beta2`: uses the push format defined in the v1 Pub/Sub API. For example: `attributes { "x-goog-version": "v1" }` */
-  attributes?: StringMap;
   /** Optional. When set, the payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
   pubsubWrapper?: ApproveQueryTemplateRequest;
+  /** Optional. Endpoint configuration attributes that can be used to control different aspects of the message delivery. The only currently supported attribute is `x-goog-version`, which you can use to change the format of the pushed message. This attribute indicates the version of the data expected by the endpoint. This controls the shape of the pushed message (i.e., its fields and metadata). If not present during the `CreateSubscription` call, it will default to the version of the Pub/Sub API used to make such call. If not present in a `ModifyPushConfig` call, its value will not be changed. `GetSubscription` calls will always return a valid version, even if the subscription was created without this attribute. The only supported values for the `x-goog-version` attribute are: * `v1beta1`: uses the push format defined in the v1beta1 Pub/Sub API. * `v1` or `v1beta2`: uses the push format defined in the v1 Pub/Sub API. For example: `attributes { "x-goog-version": "v1" }` */
+  attributes?: StringMap;
+  /** Optional. If specified, Pub/Sub will generate and attach an OIDC JWT token as an `Authorization` header in the HTTP request for every pushed message. */
+  oidcToken?: OidcToken;
   /** Optional. When set, the payload to the push endpoint is not wrapped. */
   noWrapper?: NoWrapper;
+  /** Optional. A URL locating the endpoint to which messages should be pushed. For example, a Webhook endpoint might use `https://example.com/push`. */
+  pushEndpoint?: string;
 }
 export const PushConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oidcToken: S.optional(OidcToken),
-    pushEndpoint: S.optional(S.String),
-    attributes: S.optional(StringMap),
     pubsubWrapper: S.optional(ApproveQueryTemplateRequest),
+    attributes: S.optional(StringMap),
+    oidcToken: S.optional(OidcToken),
     noWrapper: S.optional(NoWrapper),
+    pushEndpoint: S.optional(S.String),
   }),
 ).annotate({ identifier: "PushConfig" }) as any as S.Schema<PushConfig>;
+
+/** A policy that specifies how Pub/Sub retries message delivery. Retry delay will be exponential based on provided minimum and maximum backoffs. https://en.wikipedia.org/wiki/Exponential_backoff. RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message. Retry Policy is implemented on a best effort basis. At times, the delay between consecutive deliveries may not match the configuration. That is, delay can be more or less than configured backoff. */
+export interface RetryPolicy {
+  /** Optional. The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds. */
+  minimumBackoff?: string;
+  /** Optional. The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds. */
+  maximumBackoff?: string;
+}
+export const RetryPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimumBackoff: S.optional(S.String),
+    maximumBackoff: S.optional(S.String),
+  }),
+).annotate({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
+
+/** Configuration for making inferences using arbitrary JSON payloads. */
+export interface UnstructuredInference {
+  /** Optional. A parameters object to be included in each inference request. The parameters object is combined with the data field of the Pub/Sub message to form the inference request. */
+  parameters?: DocumentMap;
+}
+export const UnstructuredInference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parameters: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "UnstructuredInference" }) as any as S.Schema<UnstructuredInference>;
+
+/** Configuration for making inference requests against Vertex AI models. */
+export interface AIInference {
+  /** Required. An endpoint to a Vertex AI model of the form `projects/{project}/locations/{location}/endpoints/{endpoint}` or `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}`. Vertex AI API requests will be sent to this endpoint. */
+  endpoint?: string;
+  /** Optional. Requests and responses can be any arbitrary JSON object. */
+  unstructuredInference?: UnstructuredInference;
+  /** Optional. The service account to use to make prediction requests against endpoints. The resource creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
+  serviceAccountEmail?: string;
+}
+export const AIInference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endpoint: S.optional(S.String),
+    unstructuredInference: S.optional(UnstructuredInference),
+    serviceAccountEmail: S.optional(S.String),
+  }),
+).annotate({ identifier: "AIInference" }) as any as S.Schema<AIInference>;
+
+export type CompressionCompressionModeEnum =
+  | "COMPRESSION_MODE_UNSPECIFIED"
+  | "COMPRESS"
+  | "DECOMPRESS";
+export const CompressionCompressionModeEnum = S.String;
+
+export type CompressionCompressionAlgorithmEnum = "COMPRESSION_ALGORITHM_UNSPECIFIED" | "ZLIB";
+export const CompressionCompressionAlgorithmEnum = S.String;
+
+/** Configuration for compressing/decompressing message data using a user-specified compression algorithm. */
+export interface Compression {
+  /** Required. Specifies whether to compress or decompress the message. */
+  compressionMode?: CompressionCompressionModeEnum | (string & {});
+  /** Required. Specifies the compression algorithm to use. */
+  compressionAlgorithm?: CompressionCompressionAlgorithmEnum | (string & {});
+}
+export const Compression = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    compressionMode: S.optional(CompressionCompressionModeEnum),
+    compressionAlgorithm: S.optional(CompressionCompressionAlgorithmEnum),
+  }),
+).annotate({ identifier: "Compression" }) as any as S.Schema<Compression>;
+
+/** User-defined JavaScript function that can transform or filter a Pub/Sub message. */
+export interface JavaScriptUDF {
+  /** Required. Name of the JavasScript function that should applied to Pub/Sub messages. */
+  functionName?: string;
+  /** Required. JavaScript code that contains a function `function_name` with the below signature: ``` /** * Transforms a Pub/Sub message. * @return {(Object)>|null)} - To * filter a message, return `null`. To transform a message return a map * with the following keys: * - (required) 'data' : {string} * - (optional) 'attributes' : {Object} * Returning empty `attributes` will remove all attributes from the * message. * * @param {(Object)>} Pub/Sub * message. Keys: * - (required) 'data' : {string} * - (required) 'attributes' : {Object} * * @param {Object} metadata - Pub/Sub message metadata. * Keys: * - (required) 'message_id' : {string} * - (optional) 'publish_time': {string} YYYY-MM-DDTHH:MM:SSZ format * - (optional) 'ordering_key': {string} *\/ function (message, metadata) { } ``` */
+  code?: string;
+}
+export const JavaScriptUDF = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionName: S.optional(S.String),
+    code: S.optional(S.String),
+  }),
+).annotate({ identifier: "JavaScriptUDF" }) as any as S.Schema<JavaScriptUDF>;
+
+/** All supported message transforms types. */
+export interface MessageTransform {
+  /** Optional. This field is deprecated, use the `disabled` field to disable transforms. */
+  enabled?: boolean;
+  /** Optional. AI Inference. Specifies the Vertex AI endpoint that inference requests built from the Pub/Sub message data and provided parameters will be sent to. */
+  aiInference?: AIInference;
+  /** Optional. If true, the transform is disabled and will not be applied to messages. Defaults to `false`. */
+  disabled?: boolean;
+  /** Optional. Compression/Decompression. */
+  compression?: Compression;
+  /** Optional. JavaScript User Defined Function. If multiple JavaScriptUDF's are specified on a resource, each must have a unique `function_name`. */
+  javascriptUdf?: JavaScriptUDF;
+}
+export const MessageTransform = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    aiInference: S.optional(AIInference),
+    disabled: S.optional(S.Boolean),
+    compression: S.optional(Compression),
+    javascriptUdf: S.optional(JavaScriptUDF),
+  }),
+).annotate({ identifier: "MessageTransform" }) as any as S.Schema<MessageTransform>;
+
+export type MessageTransformList = Array<MessageTransform>;
+export const MessageTransformList = /*@__PURE__*/ S.Array(
+  MessageTransform,
+) as any as S.Schema<MessageTransformList>;
 
 /** Configuration for a BigQuery subscription. */
 export interface BigQueryConfig {
@@ -2062,85 +1981,166 @@ export interface BigQueryConfig {
   useTableSchema?: boolean;
   /** Optional. When true, use the topic's schema as the columns to write to in BigQuery, if it exists. `use_topic_schema` and `use_table_schema` cannot be enabled at the same time. */
   useTopicSchema?: boolean;
+  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
+  writeMetadata?: boolean;
+  /** Optional. When true and use_topic_schema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog. */
+  dropUnknownFields?: boolean;
   /** Optional. The service account to use to write to BigQuery. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
   serviceAccountEmail?: string;
   /** Optional. The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId} */
   table?: string;
-  /** Optional. When true and use_topic_schema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog. */
-  dropUnknownFields?: boolean;
-  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
-  writeMetadata?: boolean;
 }
 export const BigQueryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     useTableSchema: S.optional(S.Boolean),
     useTopicSchema: S.optional(S.Boolean),
+    writeMetadata: S.optional(S.Boolean),
+    dropUnknownFields: S.optional(S.Boolean),
     serviceAccountEmail: S.optional(S.String),
     table: S.optional(S.String),
-    dropUnknownFields: S.optional(S.Boolean),
-    writeMetadata: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "BigQueryConfig" }) as any as S.Schema<BigQueryConfig>;
 
+/** Dead lettering is done on a best effort basis. The same message might be dead lettered multiple times. If validation on any of the fields fails at subscription creation/updation, the create/update subscription request will fail. */
+export interface DeadLetterPolicy {
+  /** Optional. The maximum number of delivery attempts for any message. The value must be between 5 and 100. The number of delivery attempts is defined as 1 + (the sum of number of NACKs and number of times the acknowledgement deadline has been exceeded for the message). A NACK is any call to ModifyAckDeadline with a 0 deadline. Note that client libraries may automatically extend ack_deadlines. This field will be honored on a best effort basis. If this parameter is 0, a default value of 5 is used. */
+  maxDeliveryAttempts?: number;
+  /** Optional. The name of the topic to which dead letter messages should be published. Format is `projects/{project}/topics/{topic}`.The Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic. The operation will fail if the topic does not exist. Users should ensure that there is a subscription attached to this topic since messages published to a topic with no subscriptions are lost. */
+  deadLetterTopic?: string;
+}
+export const DeadLetterPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxDeliveryAttempts: S.optional(S.Number),
+    deadLetterTopic: S.optional(S.String),
+  }),
+).annotate({ identifier: "DeadLetterPolicy" }) as any as S.Schema<DeadLetterPolicy>;
+
+/** Configuration for writing message data in text format. Message payloads will be written to files as raw text, separated by a newline. */
+export type TextConfig = ApproveQueryTemplateRequest;
+export const TextConfig = ApproveQueryTemplateRequest;
+
+/** Configuration for writing message data in Avro format. Message payloads and metadata will be written to files as an Avro binary. */
+export interface AvroConfig {
+  /** Optional. When true, the output Cloud Storage file will be serialized using the topic schema, if it exists. */
+  useTopicSchema?: boolean;
+  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key as additional fields in the output. The subscription name, message_id, and publish_time fields are put in their own fields while all other message properties other than data (for example, an ordering_key, if present) are added as entries in the attributes map. */
+  writeMetadata?: boolean;
+}
+export const AvroConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    useTopicSchema: S.optional(S.Boolean),
+    writeMetadata: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AvroConfig" }) as any as S.Schema<AvroConfig>;
+
+/** Configuration for a Cloud Storage subscription. */
+export interface CloudStorageConfig {
+  /** Optional. File batching settings. If no max_duration setting is specified, a max_duration of 5 minutes will be set by default. max_duration is required regardless of whether other file batching settings are specified. The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes. May not exceed the subscription's acknowledgement deadline. */
+  maxDuration?: string;
+  /** Optional. User-provided suffix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). Must not end in "/". */
+  filenameSuffix?: string;
+  /** Optional. If set, message data will be written to Cloud Storage in text format. */
+  textConfig?: ApproveQueryTemplateRequest;
+  /** Optional. The maximum number of messages that can be written to a Cloud Storage file before a new file is created. Min 1000 messages. */
+  maxMessages?: string;
+  /** Optional. The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB. The max_bytes limit may be exceeded in cases where messages are larger than the limit. */
+  maxBytes?: string;
+  /** Optional. User-provided prefix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). */
+  filenamePrefix?: string;
+  /** Optional. User-provided format string specifying how to represent datetimes in Cloud Storage filenames. See the [datetime format guidance](https://cloud.google.com/pubsub/docs/create-cloudstorage-subscription#file_names). */
+  filenameDatetimeFormat?: string;
+  /** Required. User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://". See the [bucket naming requirements] (https://cloud.google.com/storage/docs/buckets#naming). */
+  bucket?: string;
+  /** Optional. If set, message data will be written to Cloud Storage in Avro format. */
+  avroConfig?: AvroConfig;
+  /** Optional. The service account to use to write to Cloud Storage. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
+  serviceAccountEmail?: string;
+}
+export const CloudStorageConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxDuration: S.optional(S.String),
+    filenameSuffix: S.optional(S.String),
+    textConfig: S.optional(ApproveQueryTemplateRequest),
+    maxMessages: S.optional(S.String),
+    maxBytes: S.optional(S.String),
+    filenamePrefix: S.optional(S.String),
+    filenameDatetimeFormat: S.optional(S.String),
+    bucket: S.optional(S.String),
+    avroConfig: S.optional(AvroConfig),
+    serviceAccountEmail: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloudStorageConfig" }) as any as S.Schema<CloudStorageConfig>;
+
+/** A policy that specifies the conditions for resource expiration (i.e., automatic resource deletion). */
+export interface ExpirationPolicy {
+  /** Optional. Specifies the "time-to-live" duration for an associated resource. The resource expires if it is not active for a period of `ttl`. The definition of "activity" depends on the type of the associated resource. The minimum and maximum allowed values for `ttl` depend on the type of the associated resource, as well. If `ttl` is not set, the associated resource never expires. */
+  ttl?: string;
+}
+export const ExpirationPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ttl: S.optional(S.String),
+  }),
+).annotate({ identifier: "ExpirationPolicy" }) as any as S.Schema<ExpirationPolicy>;
+
 /** Defines the destination Pub/Sub subscription. If none of `push_config`, `bigquery_config`, `cloud_storage_config`, `bigtable_config`, `pubsub_export_config`, or `pubsublite_export_config` is set, then the subscriber will pull and ack messages using API methods. At most one of these fields may be set. */
 export interface GooglePubsubV1Subscription {
+  /** Optional. If delivery to Bigtable is used with this subscription, this field is used to configure it. */
+  bigtableConfig?: BigtableConfig;
+  /** Optional. If push delivery is used with this subscription, this field is used to configure it. */
+  pushConfig?: PushConfig;
+  /** Optional. Indicates whether the subscription is detached from its topic. Detached subscriptions don't receive messages from their topic and don't retain any backlog. `Pull` and `StreamingPull` requests will return FAILED_PRECONDITION. If the subscription is a push subscription, pushes to the endpoint will not be made. */
+  detached?: boolean;
   /** Optional. A policy that specifies how Pub/Sub retries message delivery for this subscription. If not set, the default retry policy is applied. This generally implies that messages will be retried as soon as possible for healthy subscribers. RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message. */
   retryPolicy?: RetryPolicy;
+  /** Optional. If true, messages published with the same `ordering_key` in `PubsubMessage` will be delivered to the subscribers in the order in which they are received by the Pub/Sub system. Otherwise, they may be delivered in any order. */
+  enableMessageOrdering?: boolean;
+  /** Optional. Transforms to be applied to messages before they are delivered to subscribers. Transforms are applied in the order specified. */
+  messageTransforms?: MessageTransformList;
+  /** Optional. The approximate amount of time (on a best-effort basis) Pub/Sub waits for the subscriber to acknowledge receipt before resending the message. In the interval after the message is delivered and before it is acknowledged, it is considered to be _outstanding_. During that time period, the message will not be redelivered (on a best-effort basis). For pull subscriptions, this value is used as the initial value for the ack deadline. To override this value for a given message, call `ModifyAckDeadline` with the corresponding `ack_id` if using non-streaming pull or send the `ack_id` in a `StreamingModifyAckDeadlineRequest` if using streaming pull. The minimum custom deadline you can specify is 10 seconds. The maximum custom deadline you can specify is 600 seconds (10 minutes). If this parameter is 0, a default value of 10 seconds is used. For push delivery, this value is also used to set the request timeout for the call to the push endpoint. If the subscriber never acknowledges the message, the Pub/Sub system will eventually redeliver the message. */
+  ackDeadlineSeconds?: number;
+  /** Optional. Indicates whether to retain acknowledged messages. If true, then messages are not expunged from the subscription's backlog, even if they are acknowledged, until they fall out of the `message_retention_duration` window. This must be true if you would like to [`Seek` to a timestamp] (https://cloud.google.com/pubsub/docs/replay-overview#seek_to_a_time) in the past to replay previously-acknowledged messages. */
+  retainAckedMessages?: boolean;
+  /** Optional. How long to retain unacknowledged messages in the subscription's backlog, from the moment a message is published. If `retain_acked_messages` is true, then this also configures the retention of acknowledged messages, and thus configures how far back in time a `Seek` can be done. Defaults to 7 days. Cannot be more than 31 days or less than 10 minutes. */
+  messageRetentionDuration?: string;
+  /** Optional. See [Creating and managing labels](https://cloud.google.com/pubsub/docs/labels). */
+  labels?: StringMap;
   /** Required. Identifier. Name of the subscription. Format is `projects/{project}/subscriptions/{sub}`. */
   name?: string;
   /** Optional. If true, Pub/Sub provides the following guarantees for the delivery of a message with a given value of `message_id` on this subscription: * The message sent to a subscriber is guaranteed not to be resent before the message's acknowledgement deadline expires. * An acknowledged message will not be resent to a subscriber. Note that subscribers may still receive multiple copies of a message when `enable_exactly_once_delivery` is true if the message was published multiple times by a publisher client. These copies are considered distinct by Pub/Sub and have distinct `message_id` values. */
   enableExactlyOnceDelivery?: boolean;
-  /** Optional. How long to retain unacknowledged messages in the subscription's backlog, from the moment a message is published. If `retain_acked_messages` is true, then this also configures the retention of acknowledged messages, and thus configures how far back in time a `Seek` can be done. Defaults to 7 days. Cannot be more than 31 days or less than 10 minutes. */
-  messageRetentionDuration?: string;
-  /** Optional. The approximate amount of time (on a best-effort basis) Pub/Sub waits for the subscriber to acknowledge receipt before resending the message. In the interval after the message is delivered and before it is acknowledged, it is considered to be _outstanding_. During that time period, the message will not be redelivered (on a best-effort basis). For pull subscriptions, this value is used as the initial value for the ack deadline. To override this value for a given message, call `ModifyAckDeadline` with the corresponding `ack_id` if using non-streaming pull or send the `ack_id` in a `StreamingModifyAckDeadlineRequest` if using streaming pull. The minimum custom deadline you can specify is 10 seconds. The maximum custom deadline you can specify is 600 seconds (10 minutes). If this parameter is 0, a default value of 10 seconds is used. For push delivery, this value is also used to set the request timeout for the call to the push endpoint. If the subscriber never acknowledges the message, the Pub/Sub system will eventually redeliver the message. */
-  ackDeadlineSeconds?: number;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" See [Create and manage tags](https://cloud.google.com/pubsub/docs/tags) for more information on using tags with Pub/Sub resources. */
   tags?: StringMap;
-  /** Optional. Indicates whether the subscription is detached from its topic. Detached subscriptions don't receive messages from their topic and don't retain any backlog. `Pull` and `StreamingPull` requests will return FAILED_PRECONDITION. If the subscription is a push subscription, pushes to the endpoint will not be made. */
-  detached?: boolean;
-  /** Optional. Indicates whether to retain acknowledged messages. If true, then messages are not expunged from the subscription's backlog, even if they are acknowledged, until they fall out of the `message_retention_duration` window. This must be true if you would like to [`Seek` to a timestamp] (https://cloud.google.com/pubsub/docs/replay-overview#seek_to_a_time) in the past to replay previously-acknowledged messages. */
-  retainAckedMessages?: boolean;
-  /** Optional. A policy that specifies the conditions for this subscription's expiration. A subscription is considered active as long as any connected subscriber is successfully consuming messages from the subscription or is issuing operations on the subscription. If `expiration_policy` is not set, a *default policy* with `ttl` of 31 days will be used. The minimum allowed value for `expiration_policy.ttl` is 1 day. If `expiration_policy` is set, but `expiration_policy.ttl` is not set, the subscription never expires. */
-  expirationPolicy?: ExpirationPolicy;
-  /** Optional. If delivery to Google Cloud Storage is used with this subscription, this field is used to configure it. */
-  cloudStorageConfig?: CloudStorageConfig;
-  /** Optional. If delivery to Bigtable is used with this subscription, this field is used to configure it. */
-  bigtableConfig?: BigtableConfig;
-  /** Optional. A policy that specifies the conditions for dead lettering messages in this subscription. If dead_letter_policy is not set, dead lettering is disabled. The Pub/Sub service account associated with this subscriptions's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Acknowledge() messages on this subscription. */
-  deadLetterPolicy?: DeadLetterPolicy;
-  /** Optional. Transforms to be applied to messages before they are delivered to subscribers. Transforms are applied in the order specified. */
-  messageTransforms?: MessageTransformList;
-  /** Optional. See [Creating and managing labels](https://cloud.google.com/pubsub/docs/labels). */
-  labels?: StringMap;
-  /** Optional. If push delivery is used with this subscription, this field is used to configure it. */
-  pushConfig?: PushConfig;
-  /** Optional. An expression written in the Pub/Sub [filter language](https://cloud.google.com/pubsub/docs/filtering). If non-empty, then only `PubsubMessage`s whose `attributes` field matches the filter are delivered on this subscription. If empty, then no messages are filtered out. */
-  filter?: string;
-  /** Optional. If true, messages published with the same `ordering_key` in `PubsubMessage` will be delivered to the subscribers in the order in which they are received by the Pub/Sub system. Otherwise, they may be delivered in any order. */
-  enableMessageOrdering?: boolean;
   /** Optional. If delivery to BigQuery is used with this subscription, this field is used to configure it. */
   bigqueryConfig?: BigQueryConfig;
+  /** Optional. A policy that specifies the conditions for dead lettering messages in this subscription. If dead_letter_policy is not set, dead lettering is disabled. The Pub/Sub service account associated with this subscriptions's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Acknowledge() messages on this subscription. */
+  deadLetterPolicy?: DeadLetterPolicy;
+  /** Optional. If delivery to Google Cloud Storage is used with this subscription, this field is used to configure it. */
+  cloudStorageConfig?: CloudStorageConfig;
+  /** Optional. A policy that specifies the conditions for this subscription's expiration. A subscription is considered active as long as any connected subscriber is successfully consuming messages from the subscription or is issuing operations on the subscription. If `expiration_policy` is not set, a *default policy* with `ttl` of 31 days will be used. The minimum allowed value for `expiration_policy.ttl` is 1 day. If `expiration_policy` is set, but `expiration_policy.ttl` is not set, the subscription never expires. */
+  expirationPolicy?: ExpirationPolicy;
+  /** Optional. An expression written in the Pub/Sub [filter language](https://cloud.google.com/pubsub/docs/filtering). If non-empty, then only `PubsubMessage`s whose `attributes` field matches the filter are delivered on this subscription. If empty, then no messages are filtered out. */
+  filter?: string;
 }
 export const GooglePubsubV1Subscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    bigtableConfig: S.optional(BigtableConfig),
+    pushConfig: S.optional(PushConfig),
+    detached: S.optional(S.Boolean),
     retryPolicy: S.optional(RetryPolicy),
+    enableMessageOrdering: S.optional(S.Boolean),
+    messageTransforms: S.optional(MessageTransformList),
+    ackDeadlineSeconds: S.optional(S.Number),
+    retainAckedMessages: S.optional(S.Boolean),
+    messageRetentionDuration: S.optional(S.String),
+    labels: S.optional(StringMap),
     name: S.optional(S.String),
     enableExactlyOnceDelivery: S.optional(S.Boolean),
-    messageRetentionDuration: S.optional(S.String),
-    ackDeadlineSeconds: S.optional(S.Number),
     tags: S.optional(StringMap),
-    detached: S.optional(S.Boolean),
-    retainAckedMessages: S.optional(S.Boolean),
-    expirationPolicy: S.optional(ExpirationPolicy),
-    cloudStorageConfig: S.optional(CloudStorageConfig),
-    bigtableConfig: S.optional(BigtableConfig),
-    deadLetterPolicy: S.optional(DeadLetterPolicy),
-    messageTransforms: S.optional(MessageTransformList),
-    labels: S.optional(StringMap),
-    pushConfig: S.optional(PushConfig),
-    filter: S.optional(S.String),
-    enableMessageOrdering: S.optional(S.Boolean),
     bigqueryConfig: S.optional(BigQueryConfig),
+    deadLetterPolicy: S.optional(DeadLetterPolicy),
+    cloudStorageConfig: S.optional(CloudStorageConfig),
+    expirationPolicy: S.optional(ExpirationPolicy),
+    filter: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GooglePubsubV1Subscription",
@@ -2161,15 +2161,15 @@ export const DestinationPubSubSubscription = /*@__PURE__*/ S.suspend(() =>
 
 /** Message for subscribing to a listing. */
 export interface SubscribeListingRequest {
-  /** Input only. Destination Pub/Sub subscription to create for the subscriber. */
-  destinationPubsubSubscription?: DestinationPubSubSubscription;
   /** Input only. BigQuery destination dataset to create for the subscriber. */
   destinationDataset?: DestinationDataset;
+  /** Input only. Destination Pub/Sub subscription to create for the subscriber. */
+  destinationPubsubSubscription?: DestinationPubSubSubscription;
 }
 export const SubscribeListingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationPubsubSubscription: S.optional(DestinationPubSubSubscription),
     destinationDataset: S.optional(DestinationDataset),
+    destinationPubsubSubscription: S.optional(DestinationPubSubSubscription),
   }),
 ).annotate({ identifier: "SubscribeListingRequest" }) as any as S.Schema<SubscribeListingRequest>;
 

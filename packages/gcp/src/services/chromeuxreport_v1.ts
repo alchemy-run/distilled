@@ -69,24 +69,24 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Request payload sent by a physical web client. This request includes all necessary context to load a particular user experience history record. */
 export interface QueryHistoryRequest {
-  /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
-  formFactor?: QueryHistoryRequestFormFactorEnum | (string & {});
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string;
+  /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
+  formFactor?: QueryHistoryRequestFormFactorEnum | (string & {});
   /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
   origin?: string;
-  /** The number of collection periods to return. If not specified, the default is 25. If present, must be in the range [1, 40]. */
-  collectionPeriodCount?: number;
   /** The metrics that should be included in the response. If none are specified then any metrics found will be returned. Allowed values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
   metrics?: StringList;
+  /** The number of collection periods to return. If not specified, the default is 25. If present, must be in the range [1, 40]. */
+  collectionPeriodCount?: number;
 }
 export const QueryHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    formFactor: S.optional(QueryHistoryRequestFormFactorEnum),
     url: S.optional(S.String),
+    formFactor: S.optional(QueryHistoryRequestFormFactorEnum),
     origin: S.optional(S.String),
-    collectionPeriodCount: S.optional(S.Number),
     metrics: S.optional(StringList),
+    collectionPeriodCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "QueryHistoryRequest" }) as any as S.Schema<QueryHistoryRequest>;
 
@@ -108,31 +108,6 @@ export const QueryHistoryRecordRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryHistoryRecordRecordsRequest",
 }) as any as S.Schema<QueryHistoryRecordRecordsRequest>;
 
-export type DoubleList = Array<number>;
-export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
-
-/** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
-export interface TimeseriesBin {
-  /** End is the end of the data bin. If end is not populated, then the bin has no end and is valid from start to +inf. */
-  end?: unknown;
-  /** The proportion of users that experienced this bin's value for the given metric in a given collection period; the index for each of these entries corresponds to an entry in the CollectionPeriods field in the HistoryRecord message, which describes when the density was observed in the field. Thus, the length of this list of densities is equal to the length of the CollectionPeriods field in the HistoryRecord message. */
-  densities?: DoubleList;
-  /** Start is the beginning of the data bin. */
-  start?: unknown;
-}
-export const TimeseriesBin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    end: S.optional(S.Unknown),
-    densities: S.optional(DoubleList),
-    start: S.optional(S.Unknown),
-  }),
-).annotate({ identifier: "TimeseriesBin" }) as any as S.Schema<TimeseriesBin>;
-
-export type TimeseriesBinList = Array<TimeseriesBin>;
-export const TimeseriesBinList = /*@__PURE__*/ S.Array(
-  TimeseriesBin,
-) as any as S.Schema<TimeseriesBinList>;
-
 export type DocumentList = Array<unknown>;
 export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<DocumentList>;
 
@@ -146,6 +121,31 @@ export const TimeseriesPercentiles = /*@__PURE__*/ S.suspend(() =>
     p75s: S.optional(DocumentList),
   }),
 ).annotate({ identifier: "TimeseriesPercentiles" }) as any as S.Schema<TimeseriesPercentiles>;
+
+export type DoubleList = Array<number>;
+export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
+
+/** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
+export interface TimeseriesBin {
+  /** The proportion of users that experienced this bin's value for the given metric in a given collection period; the index for each of these entries corresponds to an entry in the CollectionPeriods field in the HistoryRecord message, which describes when the density was observed in the field. Thus, the length of this list of densities is equal to the length of the CollectionPeriods field in the HistoryRecord message. */
+  densities?: DoubleList;
+  /** End is the end of the data bin. If end is not populated, then the bin has no end and is valid from start to +inf. */
+  end?: unknown;
+  /** Start is the beginning of the data bin. */
+  start?: unknown;
+}
+export const TimeseriesBin = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    densities: S.optional(DoubleList),
+    end: S.optional(S.Unknown),
+    start: S.optional(S.Unknown),
+  }),
+).annotate({ identifier: "TimeseriesBin" }) as any as S.Schema<TimeseriesBin>;
+
+export type TimeseriesBinList = Array<TimeseriesBin>;
+export const TimeseriesBinList = /*@__PURE__*/ S.Array(
+  TimeseriesBin,
+) as any as S.Schema<TimeseriesBinList>;
 
 /** For enum metrics, provides fraction timeseries which add up to approximately 1.0 per entry (k-th element into the repeated fractions field for any k <= len) across fraction_timeseries. */
 export interface FractionTimeseries {
@@ -166,17 +166,17 @@ export const FractionTimeseriesMap = /*@__PURE__*/ S.Record(
 
 /** A `metric timeseries` is a set of user experience data for a single web performance metric, like "first contentful paint". It contains a summary histogram of real world Chrome usage as a series of `bins`, where each bin has density values for a particular time period. */
 export interface MetricTimeseries {
-  /** The histogram of user experiences for a metric. The histogram will have at least one bin and the densities of all bins will add up to ~1, for each timeseries entry. */
-  histogramTimeseries?: TimeseriesBinList;
   /** Commonly useful percentiles of the Metric. The value type for the percentiles will be the same as the value types given for the Histogram bins. */
   percentilesTimeseries?: TimeseriesPercentiles;
+  /** The histogram of user experiences for a metric. The histogram will have at least one bin and the densities of all bins will add up to ~1, for each timeseries entry. */
+  histogramTimeseries?: TimeseriesBinList;
   /** Mapping from labels to timeseries of fractions attributed to this label. */
   fractionTimeseries?: FractionTimeseriesMap;
 }
 export const MetricTimeseries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    histogramTimeseries: S.optional(TimeseriesBinList),
     percentilesTimeseries: S.optional(TimeseriesPercentiles),
+    histogramTimeseries: S.optional(TimeseriesBinList),
     fractionTimeseries: S.optional(FractionTimeseriesMap),
   }),
 ).annotate({ identifier: "MetricTimeseries" }) as any as S.Schema<MetricTimeseries>;
@@ -262,15 +262,15 @@ export const HistoryRecord = /*@__PURE__*/ S.suspend(() =>
 
 /** Object representing the normalization actions taken to normalize a url to achieve a higher chance of successful lookup. These are simple automated changes that are taken when looking up the provided `url_patten` would be known to fail. Complex actions like following redirects are not handled. */
 export interface UrlNormalization {
-  /** The URL after any normalization actions. This is a valid user experience URL that could reasonably be looked up. */
-  normalizedUrl?: string;
   /** The original requested URL prior to any normalization actions. */
   originalUrl?: string;
+  /** The URL after any normalization actions. This is a valid user experience URL that could reasonably be looked up. */
+  normalizedUrl?: string;
 }
 export const UrlNormalization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    normalizedUrl: S.optional(S.String),
     originalUrl: S.optional(S.String),
+    normalizedUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "UrlNormalization" }) as any as S.Schema<UrlNormalization>;
 
@@ -293,24 +293,24 @@ export const QueryRequestFormFactorEnum = S.String;
 
 /** Request payload sent by a physical web client. This request includes all necessary context to load a particular user experience record. */
 export interface QueryRequest {
-  /** The metrics that should be included in the response. If none are specified then any metrics found will be returned. Allowed values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
-  metrics?: StringList;
-  /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
-  origin?: string;
-  /** The effective connection type is a query dimension that specifies the effective network class that the record's data should belong to. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types Note: If no effective connection type is specified, then a special record with aggregated data over all effective connection types will be returned. */
-  effectiveConnectionType?: string;
-  /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
-  formFactor?: QueryRequestFormFactorEnum | (string & {});
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string;
+  /** The effective connection type is a query dimension that specifies the effective network class that the record's data should belong to. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types Note: If no effective connection type is specified, then a special record with aggregated data over all effective connection types will be returned. */
+  effectiveConnectionType?: string;
+  /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
+  origin?: string;
+  /** The metrics that should be included in the response. If none are specified then any metrics found will be returned. Allowed values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
+  metrics?: StringList;
+  /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
+  formFactor?: QueryRequestFormFactorEnum | (string & {});
 }
 export const QueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metrics: S.optional(StringList),
-    origin: S.optional(S.String),
-    effectiveConnectionType: S.optional(S.String),
-    formFactor: S.optional(QueryRequestFormFactorEnum),
     url: S.optional(S.String),
+    effectiveConnectionType: S.optional(S.String),
+    origin: S.optional(S.String),
+    metrics: S.optional(StringList),
+    formFactor: S.optional(QueryRequestFormFactorEnum),
   }),
 ).annotate({ identifier: "QueryRequest" }) as any as S.Schema<QueryRequest>;
 
@@ -332,6 +332,43 @@ export const QueryRecordRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryRecordRecordsRequest",
 }) as any as S.Schema<QueryRecordRecordsRequest>;
 
+export type KeyFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
+export const KeyFormFactorEnum = S.String;
+
+/** Key defines all the dimensions that identify this record as unique. */
+export interface Key {
+  /** Origin specifies the origin that this record is for. Note: When specifying an origin, data for loads under this origin over all pages are aggregated into origin level user experience data. */
+  origin?: string;
+  /** The effective connection type is the general connection class that all users experienced for this record. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned. */
+  effectiveConnectionType?: string;
+  /** The form factor is the device class that all users used to access the site for this record. If the form factor is unspecified, then aggregated data over all form factors will be returned. */
+  formFactor?: KeyFormFactorEnum;
+  /** Url specifies a specific url that this record is for. Note: When specifying a "url" only data for that specific url will be aggregated. */
+  url?: string;
+}
+export const Key = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    origin: S.optional(S.String),
+    effectiveConnectionType: S.optional(S.String),
+    formFactor: S.optional(KeyFormFactorEnum),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "Key" }) as any as S.Schema<Key>;
+
+export type DoubleMap = { [key: string]: number | undefined };
+export const DoubleMap = /*@__PURE__*/ S.Record(S.String, S.Number) as any as S.Schema<DoubleMap>;
+
+/** Percentiles contains synthetic values of a metric at a given statistical percentile. These are used for estimating a metric's value as experienced by a percentage of users out of the total number of users. */
+export interface Percentiles {
+  /** 75% of users experienced the given metric at or below this value. */
+  p75?: unknown;
+}
+export const Percentiles = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    p75: S.optional(S.Unknown),
+  }),
+).annotate({ identifier: "Percentiles" }) as any as S.Schema<Percentiles>;
+
 /** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
 export interface Bin {
   /** Start is the beginning of the data bin. */
@@ -352,77 +389,40 @@ export const Bin = /*@__PURE__*/ S.suspend(() =>
 export type BinList = Array<Bin>;
 export const BinList = /*@__PURE__*/ S.Array(Bin) as any as S.Schema<BinList>;
 
-export type DoubleMap = { [key: string]: number | undefined };
-export const DoubleMap = /*@__PURE__*/ S.Record(S.String, S.Number) as any as S.Schema<DoubleMap>;
-
-/** Percentiles contains synthetic values of a metric at a given statistical percentile. These are used for estimating a metric's value as experienced by a percentage of users out of the total number of users. */
-export interface Percentiles {
-  /** 75% of users experienced the given metric at or below this value. */
-  p75?: unknown;
-}
-export const Percentiles = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    p75: S.optional(S.Unknown),
-  }),
-).annotate({ identifier: "Percentiles" }) as any as S.Schema<Percentiles>;
-
 /** A `metric` is a set of user experience data for a single web performance metric, like "first contentful paint". It contains a summary histogram of real world Chrome usage as a series of `bins`. */
 export interface Metric {
-  /** The histogram of user experiences for a metric. The histogram will have at least one bin and the densities of all bins will add up to ~1. */
-  histogram?: BinList;
   /** For enum metrics, provides fractions which add up to approximately 1.0. */
   fractions?: DoubleMap;
   /** Commonly useful percentiles of the Metric. The value type for the percentiles will be the same as the value types given for the Histogram bins. */
   percentiles?: Percentiles;
+  /** The histogram of user experiences for a metric. The histogram will have at least one bin and the densities of all bins will add up to ~1. */
+  histogram?: BinList;
 }
 export const Metric = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    histogram: S.optional(BinList),
     fractions: S.optional(DoubleMap),
     percentiles: S.optional(Percentiles),
+    histogram: S.optional(BinList),
   }),
 ).annotate({ identifier: "Metric" }) as any as S.Schema<Metric>;
 
 export type MetricMap = { [key: string]: Metric | undefined };
 export const MetricMap = /*@__PURE__*/ S.Record(S.String, Metric) as any as S.Schema<MetricMap>;
 
-export type KeyFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
-export const KeyFormFactorEnum = S.String;
-
-/** Key defines all the dimensions that identify this record as unique. */
-export interface Key {
-  /** The effective connection type is the general connection class that all users experienced for this record. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned. */
-  effectiveConnectionType?: string;
-  /** The form factor is the device class that all users used to access the site for this record. If the form factor is unspecified, then aggregated data over all form factors will be returned. */
-  formFactor?: KeyFormFactorEnum;
-  /** Origin specifies the origin that this record is for. Note: When specifying an origin, data for loads under this origin over all pages are aggregated into origin level user experience data. */
-  origin?: string;
-  /** Url specifies a specific url that this record is for. Note: When specifying a "url" only data for that specific url will be aggregated. */
-  url?: string;
-}
-export const Key = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effectiveConnectionType: S.optional(S.String),
-    formFactor: S.optional(KeyFormFactorEnum),
-    origin: S.optional(S.String),
-    url: S.optional(S.String),
-  }),
-).annotate({ identifier: "Key" }) as any as S.Schema<Key>;
-
 /** Record is a single Chrome UX report data record. It contains use experience statistics for a single url pattern and set of dimensions. */
 export interface Chromeuxreport_Record {
+  /** Key defines all of the unique querying parameters needed to look up a user experience record. */
+  key?: Key;
   /** Metrics is the map of user experience data available for the record defined in the key field. Metrics are keyed on the metric name. Allowed key values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
   metrics?: MetricMap;
   /** The collection period indicates when the data reflected in this record was collected. */
   collectionPeriod?: CollectionPeriod;
-  /** Key defines all of the unique querying parameters needed to look up a user experience record. */
-  key?: Key;
 }
 export const Chromeuxreport_Record = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    key: S.optional(Key),
     metrics: S.optional(MetricMap),
     collectionPeriod: S.optional(CollectionPeriod),
-    key: S.optional(Key),
   }),
 ).annotate({ identifier: "Chromeuxreport_Record" }) as any as S.Schema<Chromeuxreport_Record>;
 

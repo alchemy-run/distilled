@@ -166,23 +166,23 @@ export const Criticality = /*@__PURE__*/ S.suspend(() =>
 
 /** Consumer provided attributes. */
 export interface Attributes {
+  /** Optional. Operator team that ensures runtime and operations. */
+  operatorOwners?: ContactInfoList;
   /** Optional. Business team that ensures user needs are met and value is delivered */
   businessOwners?: ContactInfoList;
   /** Optional. Developer team that owns development and coding. */
   developerOwners?: ContactInfoList;
   /** Optional. User-defined environment information. */
   environment?: Environment;
-  /** Optional. Operator team that ensures runtime and operations. */
-  operatorOwners?: ContactInfoList;
   /** Optional. User-defined criticality information. */
   criticality?: Criticality;
 }
 export const Attributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    operatorOwners: S.optional(ContactInfoList),
     businessOwners: S.optional(ContactInfoList),
     developerOwners: S.optional(ContactInfoList),
     environment: S.optional(Environment),
-    operatorOwners: S.optional(ContactInfoList),
     criticality: S.optional(Criticality),
   }),
 ).annotate({ identifier: "Attributes" }) as any as S.Schema<Attributes>;
@@ -203,18 +203,18 @@ export const Scope = /*@__PURE__*/ S.suspend(() =>
 
 /** Application defines the governance boundary for App Hub entities that perform a logical end-to-end business function. App Hub supports application level IAM permission to align with governance requirements. */
 export interface Application {
-  /** Output only. Create time. */
-  createTime?: string;
-  /** Output only. Update time. */
-  updateTime?: string;
-  /** Output only. Application state. */
-  state?: ApplicationStateEnum | (string & {});
-  /** Optional. User-defined name for the Application. Can have a maximum length of 63 characters. */
-  displayName?: string;
   /** Optional. User-defined description of an Application. Can have a maximum length of 2048 characters. */
   description?: string;
+  /** Output only. Update time. */
+  updateTime?: string;
+  /** Optional. User-defined name for the Application. Can have a maximum length of 63 characters. */
+  displayName?: string;
+  /** Output only. Application state. */
+  state?: ApplicationStateEnum | (string & {});
   /** Optional. Consumer provided attributes. */
   attributes?: Attributes;
+  /** Output only. Create time. */
+  createTime?: string;
   /** Required. Immutable. Defines what data can be included into this Application. Limits which Services and Workloads can be registered. */
   scope?: Scope;
   /** Output only. A universally unique identifier (in UUID4 format) for the `Application`. */
@@ -224,12 +224,12 @@ export interface Application {
 }
 export const Application = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    state: S.optional(ApplicationStateEnum),
-    displayName: S.optional(S.String),
     description: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    state: S.optional(ApplicationStateEnum),
     attributes: S.optional(Attributes),
+    createTime: S.optional(S.String),
     scope: S.optional(Scope),
     uid: S.optional(S.String),
     name: S.optional(S.String),
@@ -237,10 +237,10 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 
 export interface CreateProjectsLocationsApplicationsRequest {
-  /** Required. Project and location to create Application in. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. The Application identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   applicationId?: string;
+  /** Required. Project and location to create Application in. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Request body */
@@ -248,8 +248,8 @@ export interface CreateProjectsLocationsApplicationsRequest {
 }
 export const CreateProjectsLocationsApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     applicationId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Application.pipe(T.HttpBody())),
   }).pipe(
@@ -278,41 +278,52 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.optional(S.Number),
-    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    error: S.optional(Status),
     response: S.optional(DocumentMap),
     name: S.optional(S.String),
+    done: S.optional(S.Boolean),
+    error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+/** Reference to an underlying networking resource that can comprise a Service. */
+export interface ServiceReference {
+  /** Output only. The underlying resource URI. For example, URI of Forwarding Rule, URL Map, and Backend Service. */
+  uri?: string;
+}
+export const ServiceReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+  }),
+).annotate({ identifier: "ServiceReference" }) as any as S.Schema<ServiceReference>;
 
 export type ServiceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -321,23 +332,6 @@ export type ServiceStateEnum =
   | "DELETING"
   | "DETACHED";
 export const ServiceStateEnum = S.String;
-
-/** Additional metadata for a Service or Workload. */
-export interface ExtendedMetadata {
-  /** Output only. The metadata contents. */
-  metadataStruct?: DocumentMap;
-}
-export const ExtendedMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadataStruct: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "ExtendedMetadata" }) as any as S.Schema<ExtendedMetadata>;
-
-export type ExtendedMetadataMap = { [key: string]: ExtendedMetadata | undefined };
-export const ExtendedMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ExtendedMetadata,
-) as any as S.Schema<ExtendedMetadataMap>;
 
 /** The identity associated with a service or workload. */
 export interface Identity {
@@ -378,102 +372,108 @@ export const FunctionalType = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FunctionalType" }) as any as S.Schema<FunctionalType>;
 
+/** Additional metadata for a Service or Workload. */
+export interface ExtendedMetadata {
+  /** Output only. The metadata contents. */
+  metadataStruct?: DocumentMap;
+}
+export const ExtendedMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadataStruct: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "ExtendedMetadata" }) as any as S.Schema<ExtendedMetadata>;
+
+export type ExtendedMetadataMap = { [key: string]: ExtendedMetadata | undefined };
+export const ExtendedMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ExtendedMetadata,
+) as any as S.Schema<ExtendedMetadataMap>;
+
 /** Properties of an underlying cloud resource that can comprise a Service. */
 export interface ServiceProperties {
-  /** Output only. Additional metadata specific to the resource type. The key is a string that identifies the type of metadata and the value is the metadata contents specific to that type. Key format: `apphub.googleapis.com/{metadataType}` */
-  extendedMetadata?: ExtendedMetadataMap;
+  /** Output only. The location that the underlying resource resides in if it is zonal, for example, us-west1-a). */
+  zone?: string;
+  /** Output only. The service project identifier that the underlying cloud resource resides in. */
+  gcpProject?: string;
   /** Output only. The identity associated with the service. */
   identity?: Identity;
   /** Output only. The registration type of the service. */
   registrationType?: RegistrationType;
-  /** Output only. The location that the underlying resource resides in if it is zonal, for example, us-west1-a). */
-  zone?: string;
   /** Output only. The type of the service. */
   functionalType?: FunctionalType;
+  /** Output only. Additional metadata specific to the resource type. The key is a string that identifies the type of metadata and the value is the metadata contents specific to that type. Key format: `apphub.googleapis.com/{metadataType}` */
+  extendedMetadata?: ExtendedMetadataMap;
   /** Output only. The location that the underlying resource resides in, for example, us-west1. */
   location?: string;
-  /** Output only. The service project identifier that the underlying cloud resource resides in. */
-  gcpProject?: string;
 }
 export const ServiceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extendedMetadata: S.optional(ExtendedMetadataMap),
+    zone: S.optional(S.String),
+    gcpProject: S.optional(S.String),
     identity: S.optional(Identity),
     registrationType: S.optional(RegistrationType),
-    zone: S.optional(S.String),
     functionalType: S.optional(FunctionalType),
+    extendedMetadata: S.optional(ExtendedMetadataMap),
     location: S.optional(S.String),
-    gcpProject: S.optional(S.String),
   }),
 ).annotate({ identifier: "ServiceProperties" }) as any as S.Schema<ServiceProperties>;
 
-/** Reference to an underlying networking resource that can comprise a Service. */
-export interface ServiceReference {
-  /** Output only. The underlying resource URI. For example, URI of Forwarding Rule, URL Map, and Backend Service. */
-  uri?: string;
-}
-export const ServiceReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-  }),
-).annotate({ identifier: "ServiceReference" }) as any as S.Schema<ServiceReference>;
-
 /** Service is an App Hub data model that contains a discovered service, which represents a network or API interface that exposes some functionality to clients for consumption over the network. */
 export interface Service {
+  /** Output only. Reference to an underlying networking resource that can comprise a Service. These are immutable. */
+  serviceReference?: ServiceReference;
   /** Output only. Service state. */
   state?: ServiceStateEnum | (string & {});
-  /** Required. Immutable. The resource name of the original discovered service. */
-  discoveredService?: string;
-  /** Output only. Create time. */
-  createTime?: string;
-  /** Identifier. The resource name of a Service. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/services/{service-id}"` */
-  name?: string;
-  /** Output only. Update time. */
-  updateTime?: string;
-  /** Optional. User-defined name for the Service. Can have a maximum length of 63 characters. */
-  displayName?: string;
-  /** Optional. User-defined description of a Service. Can have a maximum length of 2048 characters. */
-  description?: string;
   /** Output only. A universally unique identifier (UUID) for the `Service` in the UUID4 format. */
   uid?: string;
+  /** Output only. Update time. */
+  updateTime?: string;
+  /** Identifier. The resource name of a Service. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/services/{service-id}"` */
+  name?: string;
+  /** Optional. User-defined name for the Service. Can have a maximum length of 63 characters. */
+  displayName?: string;
   /** Optional. Consumer provided attributes. */
   attributes?: Attributes;
   /** Output only. Properties of an underlying compute resource that can comprise a Service. These are immutable. */
   serviceProperties?: ServiceProperties;
-  /** Output only. Reference to an underlying networking resource that can comprise a Service. These are immutable. */
-  serviceReference?: ServiceReference;
+  /** Required. Immutable. The resource name of the original discovered service. */
+  discoveredService?: string;
+  /** Optional. User-defined description of a Service. Can have a maximum length of 2048 characters. */
+  description?: string;
+  /** Output only. Create time. */
+  createTime?: string;
 }
 export const Service = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    serviceReference: S.optional(ServiceReference),
     state: S.optional(ServiceStateEnum),
-    discoveredService: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
     uid: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
     attributes: S.optional(Attributes),
     serviceProperties: S.optional(ServiceProperties),
-    serviceReference: S.optional(ServiceReference),
+    discoveredService: S.optional(S.String),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 
 export interface CreateProjectsLocationsApplicationsServicesRequest {
   /** Required. Fully qualified name of the parent Application to create the Service in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   parent: string;
-  /** Required. The Service identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  serviceId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The Service identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
+  serviceId?: string;
   /** Request body */
   body?: Service;
 }
 export const CreateProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    serviceId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    serviceId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Service.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -486,6 +486,14 @@ export const CreateProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ 
   identifier: "CreateProjectsLocationsApplicationsServicesRequest",
 }) as any as S.Schema<CreateProjectsLocationsApplicationsServicesRequest>;
 
+export type WorkloadStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | "DETACHED";
+export const WorkloadStateEnum = S.String;
+
 /** Reference of an underlying compute resource represented by the Workload. */
 export interface WorkloadReference {
   /** Output only. The underlying compute resource uri. */
@@ -497,77 +505,69 @@ export const WorkloadReference = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "WorkloadReference" }) as any as S.Schema<WorkloadReference>;
 
-export type WorkloadStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "DETACHED";
-export const WorkloadStateEnum = S.String;
-
 /** Properties of an underlying compute resource represented by the Workload. */
 export interface WorkloadProperties {
-  /** Output only. The type of the workload. */
-  functionalType?: FunctionalType;
-  /** Output only. The service project identifier that the underlying cloud resource resides in. Empty for non-cloud resources. */
-  gcpProject?: string;
-  /** Output only. The location that the underlying compute resource resides in (for example, us-west1). */
-  location?: string;
-  /** Output only. The location that the underlying compute resource resides in if it is zonal (for example, us-west1-a). */
-  zone?: string;
   /** Output only. Additional metadata specific to the resource type. The key is a string that identifies the type of metadata and the value is the metadata contents specific to that type. Key format: `apphub.googleapis.com/{metadataType}` */
   extendedMetadata?: ExtendedMetadataMap;
   /** Output only. The identity associated with the workload. */
   identity?: Identity;
+  /** Output only. The type of the workload. */
+  functionalType?: FunctionalType;
+  /** Output only. The service project identifier that the underlying cloud resource resides in. Empty for non-cloud resources. */
+  gcpProject?: string;
+  /** Output only. The location that the underlying compute resource resides in if it is zonal (for example, us-west1-a). */
+  zone?: string;
+  /** Output only. The location that the underlying compute resource resides in (for example, us-west1). */
+  location?: string;
 }
 export const WorkloadProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionalType: S.optional(FunctionalType),
-    gcpProject: S.optional(S.String),
-    location: S.optional(S.String),
-    zone: S.optional(S.String),
     extendedMetadata: S.optional(ExtendedMetadataMap),
     identity: S.optional(Identity),
+    functionalType: S.optional(FunctionalType),
+    gcpProject: S.optional(S.String),
+    zone: S.optional(S.String),
+    location: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkloadProperties" }) as any as S.Schema<WorkloadProperties>;
 
 /** Workload is an App Hub data model that contains a discovered workload, which represents a binary deployment (such as managed instance groups (MIGs) and GKE deployments) that performs the smallest logical subset of business functionality. */
 export interface Workload {
-  /** Identifier. The resource name of the Workload. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"` */
-  name?: string;
-  /** Output only. Create time. */
-  createTime?: string;
-  /** Output only. Update time. */
-  updateTime?: string;
-  /** Required. Immutable. The resource name of the original discovered workload. */
-  discoveredWorkload?: string;
-  /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadReference?: WorkloadReference;
   /** Output only. Workload state. */
   state?: WorkloadStateEnum | (string & {});
-  /** Output only. Properties of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadProperties?: WorkloadProperties;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes;
+  /** Output only. Update time. */
+  updateTime?: string;
+  /** Identifier. The resource name of the Workload. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"` */
+  name?: string;
+  /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
+  workloadReference?: WorkloadReference;
   /** Output only. A universally unique identifier (UUID) for the `Workload` in the UUID4 format. */
   uid?: string;
+  /** Required. Immutable. The resource name of the original discovered workload. */
+  discoveredWorkload?: string;
   /** Optional. User-defined name for the Workload. Can have a maximum length of 63 characters. */
   displayName?: string;
+  /** Output only. Create time. */
+  createTime?: string;
+  /** Optional. Consumer provided attributes. */
+  attributes?: Attributes;
+  /** Output only. Properties of an underlying compute resource represented by the Workload. These are immutable. */
+  workloadProperties?: WorkloadProperties;
   /** Optional. User-defined description of a Workload. Can have a maximum length of 2048 characters. */
   description?: string;
 }
 export const Workload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    discoveredWorkload: S.optional(S.String),
-    workloadReference: S.optional(WorkloadReference),
     state: S.optional(WorkloadStateEnum),
-    workloadProperties: S.optional(WorkloadProperties),
-    attributes: S.optional(Attributes),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    workloadReference: S.optional(WorkloadReference),
     uid: S.optional(S.String),
+    discoveredWorkload: S.optional(S.String),
     displayName: S.optional(S.String),
+    createTime: S.optional(S.String),
+    attributes: S.optional(Attributes),
+    workloadProperties: S.optional(WorkloadProperties),
     description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Workload" }) as any as S.Schema<Workload>;
@@ -575,18 +575,18 @@ export const Workload = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectsLocationsApplicationsWorkloadsRequest {
   /** Required. Fully qualified name of the Application to create Workload in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The Workload identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   workloadId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Workload;
 }
 export const CreateProjectsLocationsApplicationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     workloadId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Workload.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -608,42 +608,42 @@ export const ServiceProjectAttachmentStateEnum = S.String;
 
 /** ServiceProjectAttachment represents an attachment from a service project to a host project. Service projects contain the underlying cloud infrastructure resources, and expose these resources to the host project through a ServiceProjectAttachment. With the attachments, the host project can provide an aggregated view of resources across all service projects. */
 export interface ServiceProjectAttachment {
-  /** Identifier. The resource name of a ServiceProjectAttachment. Format: `"projects/{host-project-id}/locations/global/serviceProjectAttachments/{service-project-id}."` */
-  name?: string;
   /** Output only. Create time. */
   createTime?: string;
-  /** Output only. A globally unique identifier (in UUID4 format) for the `ServiceProjectAttachment`. */
-  uid?: string;
   /** Output only. ServiceProjectAttachment state. */
   state?: ServiceProjectAttachmentStateEnum | (string & {});
   /** Required. Immutable. Service project name in the format: `"projects/abc"` or `"projects/123"`. As input, project name with either project id or number are accepted. As output, this field will contain project number. */
   serviceProject?: string;
+  /** Identifier. The resource name of a ServiceProjectAttachment. Format: `"projects/{host-project-id}/locations/global/serviceProjectAttachments/{service-project-id}."` */
+  name?: string;
+  /** Output only. A globally unique identifier (in UUID4 format) for the `ServiceProjectAttachment`. */
+  uid?: string;
 }
 export const ServiceProjectAttachment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     createTime: S.optional(S.String),
-    uid: S.optional(S.String),
     state: S.optional(ServiceProjectAttachmentStateEnum),
     serviceProject: S.optional(S.String),
+    name: S.optional(S.String),
+    uid: S.optional(S.String),
   }),
 ).annotate({ identifier: "ServiceProjectAttachment" }) as any as S.Schema<ServiceProjectAttachment>;
 
 export interface CreateProjectsLocationsServiceProjectAttachmentsRequest {
-  /** Required. The service project attachment identifier must contain the project id of the service project specified in the service_project_attachment.service_project field. */
-  serviceProjectAttachmentId?: string;
   /** Required. Host project ID and location to which service project is being attached. Only global location is supported. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The service project attachment identifier must contain the project id of the service project specified in the service_project_attachment.service_project field. */
+  serviceProjectAttachmentId?: string;
   /** Request body */
   body?: ServiceProjectAttachment;
 }
 export const CreateProjectsLocationsServiceProjectAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    serviceProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ServiceProjectAttachment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -674,15 +674,15 @@ export const DeleteProjectsLocationsApplicationsRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<DeleteProjectsLocationsApplicationsRequest>;
 
 export interface DeleteProjectsLocationsApplicationsServicesRequest {
-  /** Required. Fully qualified name of the Service to delete from an Application. Expected format: `projects/{project}/locations/{location}/applications/{application}/services/{service}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Fully qualified name of the Service to delete from an Application. Expected format: `projects/{project}/locations/{location}/applications/{application}/services/{service}`. */
+  name: string;
 }
 export const DeleteProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
   ),
@@ -691,15 +691,15 @@ export const DeleteProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<DeleteProjectsLocationsApplicationsServicesRequest>;
 
 export interface DeleteProjectsLocationsApplicationsWorkloadsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Fully qualified name of the Workload to delete from an Application. Expected format: `projects/{project}/locations/{location}/applications/{application}/workloads/{workload}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsApplicationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
   ),
@@ -722,15 +722,15 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsServiceProjectAttachmentsRequest {
-  /** Required. Fully qualified name of the service project attachment to delete. Expected format: `projects/{project}/locations/{location}/serviceProjectAttachments/{serviceProjectAttachment}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Fully qualified name of the service project attachment to delete. Expected format: `projects/{project}/locations/{location}/serviceProjectAttachments/{serviceProjectAttachment}`. */
+  name: string;
 }
 export const DeleteProjectsLocationsServiceProjectAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
   ),
@@ -788,12 +788,12 @@ export const BoundaryTypeEnum = S.String;
 
 /** Application management boundary. */
 export interface Boundary {
-  /** Output only. Update time. */
-  updateTime?: string;
-  /** Output only. Create time. */
-  createTime?: string;
   /** Identifier. The resource name of the boundary. Format: "projects/{project}/locations/{location}/boundary" */
   name?: string;
+  /** Output only. Create time. */
+  createTime?: string;
+  /** Output only. Update time. */
+  updateTime?: string;
   /** Optional. The resource name of the CRM node being attached to the boundary. Format: `projects/{project-number}` or `projects/{project-id}` */
   crmNode?: string;
   /** Output only. Boundary type. */
@@ -801,9 +801,9 @@ export interface Boundary {
 }
 export const Boundary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
     crmNode: S.optional(S.String),
     type: S.optional(BoundaryTypeEnum),
   }),
@@ -830,55 +830,15 @@ export const GetIamPolicyProjectsLocationsApplicationsRequest = /*@__PURE__*/ S.
   identifier: "GetIamPolicyProjectsLocationsApplicationsRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsApplicationsRequest>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    location: S.optional(S.String),
-    expression: S.optional(S.String),
-    title: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    members: S.optional(StringList),
-    role: S.optional(S.String),
-    condition: S.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
 export const AuditLogConfigLogTypeEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
@@ -918,23 +878,63 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String),
+    description: S.optional(S.String),
+    title: S.optional(S.String),
+    expression: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    members: S.optional(StringList),
+    condition: S.optional(Expr),
+    role: S.optional(S.String),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bindings: S.optional(BindingList),
     auditConfigs: S.optional(AuditConfigList),
-    etag: S.optional(S.String),
+    bindings: S.optional(BindingList),
     version: S.optional(S.Number),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -957,21 +957,21 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     labels: S.optional(StringMap),
-    name: S.optional(S.String),
     locationId: S.optional(S.String),
     displayName: S.optional(S.String),
+    name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -1028,16 +1028,16 @@ export const GetProjectsLocationsDiscoveredServicesRequest = /*@__PURE__*/ S.sus
 export interface DiscoveredService {
   /** Output only. Properties of an underlying compute resource that can comprise a Service. These are immutable. */
   serviceProperties?: ServiceProperties;
-  /** Identifier. The resource name of the discovered service. Format: `"projects/{host-project-id}/locations/{location}/discoveredServices/{uuid}"` */
-  name?: string;
   /** Output only. Reference to an underlying networking resource that can comprise a Service. These are immutable. */
   serviceReference?: ServiceReference;
+  /** Identifier. The resource name of the discovered service. Format: `"projects/{host-project-id}/locations/{location}/discoveredServices/{uuid}"` */
+  name?: string;
 }
 export const DiscoveredService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceProperties: S.optional(ServiceProperties),
-    name: S.optional(S.String),
     serviceReference: S.optional(ServiceReference),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "DiscoveredService" }) as any as S.Schema<DiscoveredService>;
 
@@ -1055,17 +1055,17 @@ export const GetProjectsLocationsDiscoveredWorkloadsRequest = /*@__PURE__*/ S.su
 
 /** DiscoveredWorkload is a binary deployment (such as managed instance groups (MIGs) and GKE deployments) that performs the smallest logical subset of business functionality. A discovered workload can be registered to an App Hub Workload. */
 export interface DiscoveredWorkload {
-  /** Output only. Properties of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadProperties?: WorkloadProperties;
   /** Identifier. The resource name of the discovered workload. Format: `"projects/{host-project-id}/locations/{location}/discoveredWorkloads/{uuid}"` */
   name?: string;
+  /** Output only. Properties of an underlying compute resource represented by the Workload. These are immutable. */
+  workloadProperties?: WorkloadProperties;
   /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
   workloadReference?: WorkloadReference;
 }
 export const DiscoveredWorkload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workloadProperties: S.optional(WorkloadProperties),
     name: S.optional(S.String),
+    workloadProperties: S.optional(WorkloadProperties),
     workloadReference: S.optional(WorkloadReference),
   }),
 ).annotate({ identifier: "DiscoveredWorkload" }) as any as S.Schema<DiscoveredWorkload>;
@@ -1084,18 +1084,18 @@ export const GetProjectsLocationsExtendedMetadataSchemasRequest = /*@__PURE__*/ 
 
 /** ExtendedMetadataSchema represents a schema for extended metadata of a service or workload. */
 export interface ExtendedMetadataSchema {
-  /** Output only. The version of the schema. New versions are required to be backwards compatible. */
-  schemaVersion?: string;
-  /** Output only. The JSON schema as a string. */
-  jsonSchema?: string;
   /** Identifier. Resource name of the schema. Format: projects//locations//extendedMetadataSchemas/ */
   name?: string;
+  /** Output only. The JSON schema as a string. */
+  jsonSchema?: string;
+  /** Output only. The version of the schema. New versions are required to be backwards compatible. */
+  schemaVersion?: string;
 }
 export const ExtendedMetadataSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schemaVersion: S.optional(S.String),
-    jsonSchema: S.optional(S.String),
     name: S.optional(S.String),
+    jsonSchema: S.optional(S.String),
+    schemaVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "ExtendedMetadataSchema" }) as any as S.Schema<ExtendedMetadataSchema>;
 
@@ -1124,24 +1124,24 @@ export const GetProjectsLocationsServiceProjectAttachmentsRequest = /*@__PURE__*
 }) as any as S.Schema<GetProjectsLocationsServiceProjectAttachmentsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1158,37 +1158,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsApplicationsRequest {
+  /** Required. Project and location to list Applications on. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Optional. Filtering results. */
   filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Required. Project and location to list Applications on. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
 }
 export const ListProjectsLocationsApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1207,40 +1207,40 @@ export const ApplicationList = /*@__PURE__*/ S.Array(
 
 /** Response for ListApplications. */
 export interface ListApplicationsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** List of Applications. */
-  applications?: ApplicationList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** List of Applications. */
+  applications?: ApplicationList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    applications: S.optional(ApplicationList),
     nextPageToken: S.optional(S.String),
+    applications: S.optional(ApplicationList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 
 export interface ListProjectsLocationsApplicationsServicesRequest {
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
   /** Required. Fully qualified name of the parent Application to list Services for. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   parent: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. Filtering results */
+  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Optional. Filtering results */
-  filter?: string;
 }
 export const ListProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1257,40 +1257,40 @@ export const ServiceList = /*@__PURE__*/ S.Array(Service) as any as S.Schema<Ser
 
 /** Response for ListServices. */
 export interface ListServicesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
-  /** List of Services. */
-  services?: ServiceList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** List of Services. */
+  services?: ServiceList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    services: S.optional(ServiceList),
     unreachable: S.optional(StringList),
+    services: S.optional(ServiceList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface ListProjectsLocationsApplicationsWorkloadsRequest {
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
   /** Required. Fully qualified name of the parent Application to list Workloads for. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
   /** Optional. Filtering results. */
   filter?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsApplicationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1309,38 +1309,38 @@ export const WorkloadList = /*@__PURE__*/ S.Array(Workload) as any as S.Schema<W
 export interface ListWorkloadsResponse {
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
-  /** List of Workloads. */
-  workloads?: WorkloadList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** List of Workloads. */
+  workloads?: WorkloadList;
 }
 export const ListWorkloadsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    workloads: S.optional(WorkloadList),
     unreachable: S.optional(StringList),
+    workloads: S.optional(WorkloadList),
   }),
 ).annotate({ identifier: "ListWorkloadsResponse" }) as any as S.Schema<ListWorkloadsResponse>;
 
 export interface ListProjectsLocationsDiscoveredServicesRequest {
-  /** Required. Project and location to list Discovered Services on. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. Project and location to list Discovered Services on. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. Filtering results. */
   filter?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsDiscoveredServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1359,42 +1359,42 @@ export const DiscoveredServiceList = /*@__PURE__*/ S.Array(
 
 /** Response for ListDiscoveredServices. */
 export interface ListDiscoveredServicesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
   /** List of Discovered Services. */
   discoveredServices?: DiscoveredServiceList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListDiscoveredServicesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     discoveredServices: S.optional(DiscoveredServiceList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListDiscoveredServicesResponse",
 }) as any as S.Schema<ListDiscoveredServicesResponse>;
 
 export interface ListProjectsLocationsDiscoveredWorkloadsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. Filtering results. */
-  filter?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Required. Project and location to list Discovered Workloads on. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. Project and location to list Discovered Workloads on. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsDiscoveredWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1415,34 +1415,34 @@ export const DiscoveredWorkloadList = /*@__PURE__*/ S.Array(
 export interface ListDiscoveredWorkloadsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** List of Discovered Workloads. */
-  discoveredWorkloads?: DiscoveredWorkloadList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** List of Discovered Workloads. */
+  discoveredWorkloads?: DiscoveredWorkloadList;
 }
 export const ListDiscoveredWorkloadsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    discoveredWorkloads: S.optional(DiscoveredWorkloadList),
     nextPageToken: S.optional(S.String),
+    discoveredWorkloads: S.optional(DiscoveredWorkloadList),
   }),
 ).annotate({
   identifier: "ListDiscoveredWorkloadsResponse",
 }) as any as S.Schema<ListDiscoveredWorkloadsResponse>;
 
 export interface ListProjectsLocationsExtendedMetadataSchemasRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Required. Project and location to list Extended Metadata Schemas on. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsExtendedMetadataSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1461,39 +1461,39 @@ export const ExtendedMetadataSchemaList = /*@__PURE__*/ S.Array(
 
 /** Response for ListExtendedMetadataSchemas. */
 export interface ListExtendedMetadataSchemasResponse {
-  /** List of Extended Metadata Schemas. */
-  extendedMetadataSchemas?: ExtendedMetadataSchemaList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** List of Extended Metadata Schemas. */
+  extendedMetadataSchemas?: ExtendedMetadataSchemaList;
 }
 export const ListExtendedMetadataSchemasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extendedMetadataSchemas: S.optional(ExtendedMetadataSchemaList),
     nextPageToken: S.optional(S.String),
+    extendedMetadataSchemas: S.optional(ExtendedMetadataSchemaList),
   }),
 ).annotate({
   identifier: "ListExtendedMetadataSchemasResponse",
 }) as any as S.Schema<ListExtendedMetadataSchemasResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page token. */
   pageToken?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
   /** The standard list filter. */
   filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1510,18 +1510,18 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
@@ -1562,17 +1562,17 @@ export const ServiceProjectAttachmentList = /*@__PURE__*/ S.Array(
 
 /** Response for ListServiceProjectAttachments. */
 export interface ListServiceProjectAttachmentsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** List of service project attachments. */
   serviceProjectAttachments?: ServiceProjectAttachmentList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListServiceProjectAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     serviceProjectAttachments: S.optional(ServiceProjectAttachmentList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
 ).annotate({
@@ -1580,15 +1580,15 @@ export const ListServiceProjectAttachmentsResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListServiceProjectAttachmentsResponse>;
 
 export interface LookupProjectsLocationsDiscoveredServicesRequest {
-  /** Required. Host project ID and location to lookup Discovered Service in. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. Resource URI to find DiscoveredService for. Accepts both project number and project ID and does translation when needed. */
   uri?: string;
+  /** Required. Host project ID and location to lookup Discovered Service in. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export const LookupProjectsLocationsDiscoveredServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     uri: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1614,15 +1614,15 @@ export const LookupDiscoveredServiceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LookupDiscoveredServiceResponse>;
 
 export interface LookupProjectsLocationsDiscoveredWorkloadsRequest {
-  /** Required. Resource URI to find Discovered Workload for. Accepts both project number and project ID and does translation when needed. */
-  uri?: string;
   /** Required. Host project ID and location to lookup Discovered Workload in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Resource URI to find Discovered Workload for. Accepts both project number and project ID and does translation when needed. */
+  uri?: string;
 }
 export const LookupProjectsLocationsDiscoveredWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    uri: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1679,10 +1679,10 @@ export const LookupServiceProjectAttachmentResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<LookupServiceProjectAttachmentResponse>;
 
 export interface PatchProjectsLocationsApplicationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Application resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Identifier. The resource name of an Application. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}"` */
   name: string;
   /** Request body */
@@ -1690,8 +1690,8 @@ export interface PatchProjectsLocationsApplicationsRequest {
 }
 export const PatchProjectsLocationsApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     body: S.optional(Application.pipe(T.HttpBody())),
   }).pipe(
@@ -1704,18 +1704,18 @@ export const PatchProjectsLocationsApplicationsRequest = /*@__PURE__*/ S.suspend
 export interface PatchProjectsLocationsApplicationsServicesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Identifier. The resource name of a Service. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/services/{service-id}"` */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Service;
 }
 export const PatchProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Service.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
@@ -1727,18 +1727,18 @@ export const PatchProjectsLocationsApplicationsServicesRequest = /*@__PURE__*/ S
 export interface PatchProjectsLocationsApplicationsWorkloadsRequest {
   /** Identifier. The resource name of the Workload. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"` */
   name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Workload resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
-  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Workload resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
+  updateMask?: string;
   /** Request body */
   body?: Workload;
 }
 export const PatchProjectsLocationsApplicationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Workload.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
@@ -1749,15 +1749,15 @@ export const PatchProjectsLocationsApplicationsWorkloadsRequest = /*@__PURE__*/ 
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(Policy),
   }),
 ).annotate({ identifier: "SetIamPolicyRequest" }) as any as S.Schema<SetIamPolicyRequest>;
 
@@ -1830,20 +1830,20 @@ export const TestIamPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TestIamPermissionsResponse>;
 
 export interface UpdateBoundaryProjectsLocationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Boundary resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
   /** Identifier. The resource name of the boundary. Format: "projects/{project}/locations/{location}/boundary" */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Boundary;
 }
 export const UpdateBoundaryProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Boundary.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),

@@ -8,397 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.manufacturers_v1#FloatUnit": {
-      "type": "structure",
-      "members": {
-        "unit": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "unit."
-          }
-        },
-        "amount": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "amount."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Combination of float amount and unit."
-      }
-    },
-    "com.gcp.manufacturers_v1#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
-    "com.gcp.manufacturers_v1#Attributes": {
-      "type": "structure",
-      "members": {
-        "material": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The material of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#material."
-          }
-        },
-        "scent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The scent of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#scent."
-          }
-        },
-        "certification": {
-          "target": "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertificationList",
-          "traits": {
-            "smithy.api#documentation": "Optional. List of certifications claimed by this product."
-          }
-        },
-        "additionalImageLink": {
-          "target": "com.gcp.manufacturers_v1#ImageList",
-          "traits": {
-            "smithy.api#documentation": "The additional images of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#addlimage."
-          }
-        },
-        "intendedCountry": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Optional. List of countries to show this product in. Countries provided in this attribute will override any of the countries configured at feed level. The values should be: the [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the countries in which this item will be shown."
-          }
-        },
-        "sizeType": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The size type of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizetype."
-          }
-        },
-        "count": {
-          "target": "com.gcp.manufacturers_v1#Count",
-          "traits": {
-            "smithy.api#documentation": "The count of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#count."
-          }
-        },
-        "format": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The format of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#format."
-          }
-        },
-        "gender": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The target gender of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gender."
-          }
-        },
-        "productType": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The type or category of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#producttype."
-          }
-        },
-        "excludedDestination": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "A list of excluded destinations such as \"ClientExport\", \"ClientShoppingCatalog\" or \"PartnerShoppingCatalog\". For more information, see https://support.google.com/manufacturers/answer/7443550"
-          }
-        },
-        "brand": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The brand name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#brand."
-          }
-        },
-        "flavor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The flavor of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#flavor."
-          }
-        },
-        "pattern": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The pattern of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#pattern."
-          }
-        },
-        "virtualModelLink": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Virtual Model (3d) asset link."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#title."
-          }
-        },
-        "capacity": {
-          "target": "com.gcp.manufacturers_v1#Capacity",
-          "traits": {
-            "smithy.api#documentation": "The capacity of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity."
-          }
-        },
-        "productName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The canonical name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productname."
-          }
-        },
-        "releaseDate": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The release date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#release."
-          }
-        },
-        "videoLink": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The videos of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#video."
-          }
-        },
-        "itemGroupId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The item group id of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#itemgroupid."
-          }
-        },
-        "imageLink": {
-          "target": "com.gcp.manufacturers_v1#Image",
-          "traits": {
-            "smithy.api#documentation": "The image of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#image."
-          }
-        },
-        "richProductContent": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Rich product content. For more information, see https://support.google.com/manufacturers/answer/9389865"
-          }
-        },
-        "productDetail": {
-          "target": "com.gcp.manufacturers_v1#ProductDetailList",
-          "traits": {
-            "smithy.api#documentation": "The details of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail."
-          }
-        },
-        "gtin": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The Global Trade Item Number (GTIN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gtin."
-          }
-        },
-        "ageGroup": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The target age group of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#agegroup."
-          }
-        },
-        "color": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The color of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#color."
-          }
-        },
-        "includedDestination": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "A list of included destinations such as \"ClientExport\", \"ClientShoppingCatalog\" or \"PartnerShoppingCatalog\". For more information, see https://support.google.com/manufacturers/answer/7443550"
-          }
-        },
-        "size": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The size of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#size."
-          }
-        },
-        "mpn": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The Manufacturer Part Number (MPN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#mpn."
-          }
-        },
-        "productHighlight": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The product highlights. For more information, see https://support.google.com/manufacturers/answer/10066942"
-          }
-        },
-        "sizeSystem": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The size system of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizesystem."
-          }
-        },
-        "theme": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The theme of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#theme."
-          }
-        },
-        "productPageUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL of the detail page of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productpage."
-          }
-        },
-        "disclosureDate": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The disclosure date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#disclosure."
-          }
-        },
-        "suggestedRetailPrice": {
-          "target": "com.gcp.manufacturers_v1#Price",
-          "traits": {
-            "smithy.api#documentation": "The suggested retail price (MSRP) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#price."
-          }
-        },
-        "targetClientId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The target client id. Should only be used in the accounts of the data partners. For more information, see https://support.google.com/manufacturers/answer/10857344"
-          }
-        },
-        "nutrition": {
-          "target": "com.gcp.manufacturers_v1#Nutrition",
-          "traits": {
-            "smithy.api#documentation": "Nutrition Attributes. See more at https://support.google.com/manufacturers/answer/12098458#food-servings."
-          }
-        },
-        "featureDescription": {
-          "target": "com.gcp.manufacturers_v1#FeatureDescriptionList",
-          "traits": {
-            "smithy.api#documentation": "The rich format description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#description."
-          }
-        },
-        "grocery": {
-          "target": "com.gcp.manufacturers_v1#Grocery",
-          "traits": {
-            "smithy.api#documentation": "Grocery Attributes. See more at https://support.google.com/manufacturers/answer/12098458#grocery."
-          }
-        },
-        "productLine": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the group of products related to the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productline."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Attributes of the product. For more information, see https://support.google.com/manufacturers/answer/6124116."
-      }
-    },
-    "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertificationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertification"
-      }
-    },
-    "com.gcp.manufacturers_v1#ImageList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#Image"
-      }
-    },
-    "com.gcp.manufacturers_v1#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.manufacturers_v1#ProductDetailList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#ProductDetail"
-      }
-    },
-    "com.gcp.manufacturers_v1#FeatureDescriptionList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#FeatureDescription"
-      }
-    },
-    "com.gcp.manufacturers_v1#Product": {
-      "type": "structure",
-      "members": {
-        "targetCountry": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The target country of the product as a CLDR territory code (for example, US)."
-          }
-        },
-        "productId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id."
-          }
-        },
-        "issues": {
-          "target": "com.gcp.manufacturers_v1#IssueList",
-          "traits": {
-            "smithy.api#documentation": "A server-generated list of issues associated with the product."
-          }
-        },
-        "contentLanguage": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The content language of the product as a two-letter ISO 639-1 language code (for example, en)."
-          }
-        },
-        "feedLabel": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The feed label for the product."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id."
-          }
-        },
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account."
-          }
-        },
-        "destinationStatuses": {
-          "target": "com.gcp.manufacturers_v1#DestinationStatusList",
-          "traits": {
-            "smithy.api#documentation": "The status of the destinations."
-          }
-        },
-        "attributes": {
-          "target": "com.gcp.manufacturers_v1#Attributes",
-          "traits": {
-            "smithy.api#documentation": "Attributes of the product uploaded to the Manufacturer Center. Manually edited attributes are taken into account."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Product data."
-      }
-    },
-    "com.gcp.manufacturers_v1#IssueList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#Issue"
-      }
-    },
-    "com.gcp.manufacturers_v1#DestinationStatusList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#DestinationStatus"
-      }
-    },
     "com.gcp.manufacturers_v1#Count": {
       "type": "structure",
       "members": {
@@ -419,101 +28,69 @@
         "smithy.api#documentation": "The number of products in a single package. For more information, see https://support.google.com/manufacturers/answer/6124116#count."
       }
     },
-    "com.gcp.manufacturers_v1#ListProductsResponse": {
+    "com.gcp.manufacturers_v1#Grocery": {
       "type": "structure",
       "members": {
-        "products": {
-          "target": "com.gcp.manufacturers_v1#ProductList",
+        "nutritionClaim": {
+          "target": "com.gcp.manufacturers_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "List of the products."
+            "smithy.api#documentation": "Nutrition claim."
           }
         },
-        "nextPageToken": {
+        "alcoholByVolume": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Alcohol by volume."
+          }
+        },
+        "storageInstructions": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The token for the retrieval of the next page of product statuses."
+            "smithy.api#documentation": "Storage instructions."
+          }
+        },
+        "allergens": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Allergens."
+          }
+        },
+        "directions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Directions."
+          }
+        },
+        "activeIngredients": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active ingredients."
+          }
+        },
+        "ingredients": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ingredients."
+          }
+        },
+        "derivedNutritionClaim": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Derived nutrition claim."
+          }
+        },
+        "indications": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indications."
           }
         }
       }
     },
-    "com.gcp.manufacturers_v1#ProductList": {
+    "com.gcp.manufacturers_v1#StringList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.manufacturers_v1#Product"
-      }
-    },
-    "com.gcp.manufacturers_v1#ProductCertification": {
-      "type": "structure",
-      "members": {
-        "productType": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Optional. These are your own product categorization system in your product data."
-          }
-        },
-        "mpn": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Optional. These are the Manufacturer Part Numbers (MPN). MPNs are used to uniquely identify a specific product among all products from the same manufacturer"
-          }
-        },
-        "issues": {
-          "target": "com.gcp.manufacturers_v1#IssueList",
-          "traits": {
-            "smithy.api#documentation": "Output only. A server-generated list of issues associated with the product."
-          }
-        },
-        "destinationStatuses": {
-          "target": "com.gcp.manufacturers_v1#DestinationStatusList",
-          "traits": {
-            "smithy.api#documentation": "Output only. The statuses of the destinations."
-          }
-        },
-        "productCode": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Optional. Another name for GTIN."
-          }
-        },
-        "brand": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. This is the product's brand name. The brand is used to help identify your product."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. This is to clearly identify the product you are certifying."
-          }
-        },
-        "certification": {
-          "target": "com.gcp.manufacturers_v1#CertificationList",
-          "traits": {
-            "smithy.api#documentation": "Required. A list of certifications to link to the described product."
-          }
-        },
-        "countryCode": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Optional. A 2-letter country code (ISO 3166-1 Alpha 2)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Product certification data."
-      }
-    },
-    "com.gcp.manufacturers_v1#CertificationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#Certification"
+        "target": "smithy.api#String"
       }
     },
     "com.gcp.manufacturers_v1#ListProductCertificationsResponse": {
@@ -542,553 +119,9 @@
         "target": "com.gcp.manufacturers_v1#ProductCertification"
       }
     },
-    "com.gcp.manufacturers_v1#VoluntaryNutritionFact": {
-      "type": "structure",
-      "members": {
-        "dailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Daily percentage."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name."
-          }
-        },
-        "value": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Value."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Voluntary Nutrition Facts."
-      }
-    },
-    "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertification": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Name of the certification."
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A custom value of the certification."
-          }
-        },
-        "authority": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Name of the certification body."
-          }
-        },
-        "validUntil": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The expiration date (UTC)."
-          }
-        },
-        "logo": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A URL link to the certification logo."
-          }
-        },
-        "link": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A URL link to the certification."
-          }
-        },
-        "code": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A unique code to identify the certification."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Description of a certification."
-      }
-    },
-    "com.gcp.manufacturers_v1#Nutrition": {
-      "type": "structure",
-      "members": {
-        "totalSugarsDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total sugars daily percentage."
-          }
-        },
-        "sodiumDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Sodium daily percentage."
-          }
-        },
-        "saturatedFat": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Saturated fat."
-          }
-        },
-        "folateDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Folate daily percentage."
-          }
-        },
-        "proteinDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Protein daily percentage."
-          }
-        },
-        "calcium": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Calcium."
-          }
-        },
-        "voluntaryNutritionFact": {
-          "target": "com.gcp.manufacturers_v1#VoluntaryNutritionFactList",
-          "traits": {
-            "smithy.api#documentation": "Voluntary nutrition fact."
-          }
-        },
-        "servingsPerContainer": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Servings per container."
-          }
-        },
-        "preparedSizeDescription": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Prepared size description."
-          }
-        },
-        "servingSizeMeasure": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Serving size measure."
-          }
-        },
-        "cholesterolDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Cholesterol daily percentage."
-          }
-        },
-        "transFat": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Trans fat."
-          }
-        },
-        "calciumDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Calcium daily percentage."
-          }
-        },
-        "dietaryFiber": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Dietary fiber."
-          }
-        },
-        "monounsaturatedFat": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Monounsaturated fat."
-          }
-        },
-        "totalFatDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total fat daily percentage."
-          }
-        },
-        "potassium": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Potassium."
-          }
-        },
-        "protein": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Protein."
-          }
-        },
-        "cholesterol": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Cholesterol."
-          }
-        },
-        "vitaminD": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Vitamin D."
-          }
-        },
-        "sodium": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Sodium."
-          }
-        },
-        "nutritionFactMeasure": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Nutrition fact measure."
-          }
-        },
-        "folateMcgDfe": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Folate mcg DFE."
-          }
-        },
-        "ironDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Iron daily percentage."
-          }
-        },
-        "starch": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Starch."
-          }
-        },
-        "vitaminDDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Vitamin D daily percentage."
-          }
-        },
-        "energyFromFat": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Energy from fat."
-          }
-        },
-        "saturatedFatDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Saturated fat daily percentage."
-          }
-        },
-        "transFatDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Trans fat daily percentage."
-          }
-        },
-        "polyunsaturatedFat": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Polyunsaturated fat."
-          }
-        },
-        "servingSizeDescription": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Food Serving Size. Serving size description."
-          }
-        },
-        "addedSugarsDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Added sugars daily percentage."
-          }
-        },
-        "totalFat": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Total fat."
-          }
-        },
-        "potassiumDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Potassium daily percentage."
-          }
-        },
-        "addedSugars": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Added sugars."
-          }
-        },
-        "polyols": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Polyols."
-          }
-        },
-        "totalCarbohydrate": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Total carbohydrate."
-          }
-        },
-        "energy": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Mandatory Nutrition Facts. Energy."
-          }
-        },
-        "dietaryFiberDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Dietary fiber daily percentage."
-          }
-        },
-        "totalCarbohydrateDailyPercentage": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total carbohydrate daily percentage."
-          }
-        },
-        "folateFolicAcid": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Folate folic acid."
-          }
-        },
-        "iron": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Iron."
-          }
-        },
-        "totalSugars": {
-          "target": "com.gcp.manufacturers_v1#FloatUnit",
-          "traits": {
-            "smithy.api#documentation": "Total sugars."
-          }
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#VoluntaryNutritionFactList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#VoluntaryNutritionFact"
-      }
-    },
-    "com.gcp.manufacturers_v1#Price": {
-      "type": "structure",
-      "members": {
-        "amount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The numeric value of the price."
-          }
-        },
-        "currency": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The currency in which the price is denoted."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A price."
-      }
-    },
-    "com.gcp.manufacturers_v1#Issue": {
-      "type": "structure",
-      "members": {
-        "applicableCountries": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where issue applies to the manufacturer product."
-          }
-        },
-        "timestamp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp when this issue appeared."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The server-generated type of the issue, for example, “INCORRECT_TEXT_FORMATTING”, “IMAGE_NOT_SERVEABLE”, etc."
-          }
-        },
-        "attribute": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "If present, the attribute that triggered the issue. For more information about attributes, see https://support.google.com/manufacturers/answer/6124116."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Short title describing the nature of the issue."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Longer description of the issue focused on how to resolve it."
-          }
-        },
-        "destination": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The destination this issue applies to."
-          }
-        },
-        "resolution": {
-          "target": "com.gcp.manufacturers_v1#IssueResolutionEnum",
-          "traits": {
-            "smithy.api#documentation": "What needs to happen to resolve the issue."
-          }
-        },
-        "severity": {
-          "target": "com.gcp.manufacturers_v1#IssueSeverityEnum",
-          "traits": {
-            "smithy.api#documentation": "The severity of the issue."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Product issue."
-      }
-    },
-    "com.gcp.manufacturers_v1#IssueResolutionEnum": {
-      "type": "enum",
-      "members": {
-        "RESOLUTION_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RESOLUTION_UNSPECIFIED"
-          }
-        },
-        "USER_ACTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "USER_ACTION"
-          }
-        },
-        "PENDING_PROCESSING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PENDING_PROCESSING"
-          }
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#IssueSeverityEnum": {
-      "type": "enum",
-      "members": {
-        "SEVERITY_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SEVERITY_UNSPECIFIED"
-          }
-        },
-        "ERROR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ERROR"
-          }
-        },
-        "WARNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WARNING"
-          }
-        },
-        "INFO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "INFO"
-          }
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#Grocery": {
-      "type": "structure",
-      "members": {
-        "alcoholByVolume": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Alcohol by volume."
-          }
-        },
-        "directions": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Directions."
-          }
-        },
-        "ingredients": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Ingredients."
-          }
-        },
-        "nutritionClaim": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Nutrition claim."
-          }
-        },
-        "activeIngredients": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Active ingredients."
-          }
-        },
-        "allergens": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Allergens."
-          }
-        },
-        "storageInstructions": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Storage instructions."
-          }
-        },
-        "derivedNutritionClaim": {
-          "target": "com.gcp.manufacturers_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Derived nutrition claim."
-          }
-        },
-        "indications": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indications."
-          }
-        }
-      }
-    },
     "com.gcp.manufacturers_v1#Image": {
       "type": "structure",
       "members": {
-        "status": {
-          "target": "com.gcp.manufacturers_v1#ImageStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "The status of the image. @OutputOnly"
-          }
-        },
         "type": {
           "target": "com.gcp.manufacturers_v1#ImageTypeEnum",
           "traits": {
@@ -1100,10 +133,39 @@
           "traits": {
             "smithy.api#documentation": "The URL of the image. For crawled images, this is the provided URL. For uploaded images, this is a serving URL from Google if the image has been processed successfully."
           }
+        },
+        "status": {
+          "target": "com.gcp.manufacturers_v1#ImageStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "The status of the image. @OutputOnly"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "An image."
+      }
+    },
+    "com.gcp.manufacturers_v1#ImageTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_UNSPECIFIED"
+          }
+        },
+        "CRAWLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CRAWLED"
+          }
+        },
+        "UPLOADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPLOADED"
+          }
+        }
       }
     },
     "com.gcp.manufacturers_v1#ImageStatusEnum": {
@@ -1189,60 +251,173 @@
         }
       }
     },
-    "com.gcp.manufacturers_v1#ImageTypeEnum": {
-      "type": "enum",
+    "com.gcp.manufacturers_v1#Issue": {
+      "type": "structure",
       "members": {
-        "TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
+        "timestamp": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "TYPE_UNSPECIFIED"
+            "smithy.api#documentation": "The timestamp when this issue appeared."
           }
         },
-        "CRAWLED": {
-          "target": "smithy.api#Unit",
+        "description": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "CRAWLED"
+            "smithy.api#documentation": "Longer description of the issue focused on how to resolve it."
           }
         },
-        "UPLOADED": {
-          "target": "smithy.api#Unit",
+        "destination": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "UPLOADED"
+            "smithy.api#documentation": "The destination this issue applies to."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated type of the issue, for example, “INCORRECT_TEXT_FORMATTING”, “IMAGE_NOT_SERVEABLE”, etc."
+          }
+        },
+        "resolution": {
+          "target": "com.gcp.manufacturers_v1#IssueResolutionEnum",
+          "traits": {
+            "smithy.api#documentation": "What needs to happen to resolve the issue."
+          }
+        },
+        "attribute": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If present, the attribute that triggered the issue. For more information about attributes, see https://support.google.com/manufacturers/answer/6124116."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short title describing the nature of the issue."
+          }
+        },
+        "severity": {
+          "target": "com.gcp.manufacturers_v1#IssueSeverityEnum",
+          "traits": {
+            "smithy.api#documentation": "The severity of the issue."
+          }
+        },
+        "applicableCountries": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where issue applies to the manufacturer product."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Product issue."
+      }
+    },
+    "com.gcp.manufacturers_v1#IssueResolutionEnum": {
+      "type": "enum",
+      "members": {
+        "RESOLUTION_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOLUTION_UNSPECIFIED"
+          }
+        },
+        "USER_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USER_ACTION"
+          }
+        },
+        "PENDING_PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING_PROCESSING"
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#IssueSeverityEnum": {
+      "type": "enum",
+      "members": {
+        "SEVERITY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_UNSPECIFIED"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INFO"
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#ProductDetail": {
+      "type": "structure",
+      "members": {
+        "attributeValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the attribute."
+          }
+        },
+        "sectionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short section name that can be reused between multiple product details."
+          }
+        },
+        "attributeName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the attribute."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A product detail of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail."
+      }
+    },
+    "com.gcp.manufacturers_v1#Capacity": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The numeric value of the capacity."
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit of the capacity, i.e., MB, GB, or TB."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The capacity of a product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity."
       }
     },
     "com.gcp.manufacturers_v1#Certification": {
       "type": "structure",
       "members": {
-        "link": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A URL link to the certification."
-          }
-        },
         "code": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional. A unique code to identify the certification."
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A custom value of the certification."
-          }
-        },
-        "logo": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A URL link to the certification logo."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Name of the certification."
           }
         },
         "authority": {
@@ -1256,25 +431,198 @@
           "traits": {
             "smithy.api#documentation": "Optional. The expiration date (UTC)."
           }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the certification."
+          }
+        },
+        "logo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL link to the certification logo."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A custom value of the certification."
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL link to the certification."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Description of a certification."
       }
     },
+    "com.gcp.manufacturers_v1#Product": {
+      "type": "structure",
+      "members": {
+        "attributes": {
+          "target": "com.gcp.manufacturers_v1#Attributes",
+          "traits": {
+            "smithy.api#documentation": "Attributes of the product uploaded to the Manufacturer Center. Manually edited attributes are taken into account."
+          }
+        },
+        "destinationStatuses": {
+          "target": "com.gcp.manufacturers_v1#DestinationStatusList",
+          "traits": {
+            "smithy.api#documentation": "The status of the destinations."
+          }
+        },
+        "feedLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The feed label for the product."
+          }
+        },
+        "issues": {
+          "target": "com.gcp.manufacturers_v1#IssueList",
+          "traits": {
+            "smithy.api#documentation": "A server-generated list of issues associated with the product."
+          }
+        },
+        "contentLanguage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The content language of the product as a two-letter ISO 639-1 language code (for example, en)."
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account."
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id."
+          }
+        },
+        "targetCountry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target country of the product as a CLDR territory code (for example, US)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Product data."
+      }
+    },
+    "com.gcp.manufacturers_v1#DestinationStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#DestinationStatus"
+      }
+    },
+    "com.gcp.manufacturers_v1#IssueList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#Issue"
+      }
+    },
+    "com.gcp.manufacturers_v1#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.manufacturers_v1#ProductCertification": {
+      "type": "structure",
+      "members": {
+        "certification": {
+          "target": "com.gcp.manufacturers_v1#CertificationList",
+          "traits": {
+            "smithy.api#documentation": "Required. A list of certifications to link to the described product."
+          }
+        },
+        "mpn": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. These are the Manufacturer Part Numbers (MPN). MPNs are used to uniquely identify a specific product among all products from the same manufacturer"
+          }
+        },
+        "countryCode": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. A 2-letter country code (ISO 3166-1 Alpha 2)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. This is to clearly identify the product you are certifying."
+          }
+        },
+        "destinationStatuses": {
+          "target": "com.gcp.manufacturers_v1#DestinationStatusList",
+          "traits": {
+            "smithy.api#documentation": "Output only. The statuses of the destinations."
+          }
+        },
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. This is the product's brand name. The brand is used to help identify your product."
+          }
+        },
+        "productCode": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Another name for GTIN."
+          }
+        },
+        "productType": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. These are your own product categorization system in your product data."
+          }
+        },
+        "issues": {
+          "target": "com.gcp.manufacturers_v1#IssueList",
+          "traits": {
+            "smithy.api#documentation": "Output only. A server-generated list of issues associated with the product."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Product certification data."
+      }
+    },
+    "com.gcp.manufacturers_v1#CertificationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#Certification"
+      }
+    },
     "com.gcp.manufacturers_v1#DestinationStatus": {
       "type": "structure",
       "members": {
-        "disapprovedCountries": {
+        "approvedCountries": {
           "target": "com.gcp.manufacturers_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved."
-          }
-        },
-        "status": {
-          "target": "com.gcp.manufacturers_v1#DestinationStatusStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "The status of the destination."
+            "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is approved."
           }
         },
         "pendingCountries": {
@@ -1283,10 +631,16 @@
             "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is pending approval."
           }
         },
-        "approvedCountries": {
+        "status": {
+          "target": "com.gcp.manufacturers_v1#DestinationStatusStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "The status of the destination."
+          }
+        },
+        "disapprovedCountries": {
           "target": "com.gcp.manufacturers_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is approved."
+            "smithy.api#documentation": "Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved."
           }
         },
         "destination": {
@@ -1329,30 +683,656 @@
         }
       }
     },
-    "com.gcp.manufacturers_v1#ProductDetail": {
+    "com.gcp.manufacturers_v1#Nutrition": {
       "type": "structure",
       "members": {
-        "attributeName": {
-          "target": "smithy.api#String",
+        "polyunsaturatedFat": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
           "traits": {
-            "smithy.api#documentation": "The name of the attribute."
+            "smithy.api#documentation": "Polyunsaturated fat."
           }
         },
-        "attributeValue": {
-          "target": "smithy.api#String",
+        "totalCarbohydrateDailyPercentage": {
+          "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The value of the attribute."
+            "smithy.api#documentation": "Total carbohydrate daily percentage."
           }
         },
-        "sectionName": {
+        "potassium": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Potassium."
+          }
+        },
+        "ironDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Iron daily percentage."
+          }
+        },
+        "monounsaturatedFat": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Monounsaturated fat."
+          }
+        },
+        "folateFolicAcid": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Folate folic acid."
+          }
+        },
+        "nutritionFactMeasure": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short section name that can be reused between multiple product details."
+            "smithy.api#documentation": "Nutrition fact measure."
+          }
+        },
+        "potassiumDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Potassium daily percentage."
+          }
+        },
+        "servingSizeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Food Serving Size. Serving size description."
+          }
+        },
+        "voluntaryNutritionFact": {
+          "target": "com.gcp.manufacturers_v1#VoluntaryNutritionFactList",
+          "traits": {
+            "smithy.api#documentation": "Voluntary nutrition fact."
+          }
+        },
+        "cholesterol": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Cholesterol."
+          }
+        },
+        "starch": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Starch."
+          }
+        },
+        "totalFat": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Total fat."
+          }
+        },
+        "totalSugars": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Total sugars."
+          }
+        },
+        "servingsPerContainer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Servings per container."
+          }
+        },
+        "folateMcgDfe": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Folate mcg DFE."
+          }
+        },
+        "dietaryFiber": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Dietary fiber."
+          }
+        },
+        "energyFromFat": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Energy from fat."
+          }
+        },
+        "servingSizeMeasure": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Serving size measure."
+          }
+        },
+        "energy": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Mandatory Nutrition Facts. Energy."
+          }
+        },
+        "vitaminD": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Vitamin D."
+          }
+        },
+        "addedSugars": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Added sugars."
+          }
+        },
+        "proteinDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Protein daily percentage."
+          }
+        },
+        "totalSugarsDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total sugars daily percentage."
+          }
+        },
+        "protein": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Protein."
+          }
+        },
+        "transFat": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Trans fat."
+          }
+        },
+        "dietaryFiberDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Dietary fiber daily percentage."
+          }
+        },
+        "saturatedFat": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Saturated fat."
+          }
+        },
+        "saturatedFatDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Saturated fat daily percentage."
+          }
+        },
+        "folateDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Folate daily percentage."
+          }
+        },
+        "calciumDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Calcium daily percentage."
+          }
+        },
+        "cholesterolDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cholesterol daily percentage."
+          }
+        },
+        "totalFatDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total fat daily percentage."
+          }
+        },
+        "polyols": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Polyols."
+          }
+        },
+        "addedSugarsDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Added sugars daily percentage."
+          }
+        },
+        "iron": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Iron."
+          }
+        },
+        "sodiumDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sodium daily percentage."
+          }
+        },
+        "transFatDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Trans fat daily percentage."
+          }
+        },
+        "preparedSizeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prepared size description."
+          }
+        },
+        "totalCarbohydrate": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Total carbohydrate."
+          }
+        },
+        "vitaminDDailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Vitamin D daily percentage."
+          }
+        },
+        "sodium": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Sodium."
+          }
+        },
+        "calcium": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Calcium."
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#VoluntaryNutritionFactList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#VoluntaryNutritionFact"
+      }
+    },
+    "com.gcp.manufacturers_v1#ListProductsResponse": {
+      "type": "structure",
+      "members": {
+        "products": {
+          "target": "com.gcp.manufacturers_v1#ProductList",
+          "traits": {
+            "smithy.api#documentation": "List of the products."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for the retrieval of the next page of product statuses."
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#ProductList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#Product"
+      }
+    },
+    "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertification": {
+      "type": "structure",
+      "members": {
+        "authority": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the certification body."
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A unique code to identify the certification."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the certification."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A custom value of the certification."
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The expiration date (UTC)."
+          }
+        },
+        "logo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL link to the certification logo."
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL link to the certification."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A product detail of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail."
+        "smithy.api#documentation": "Description of a certification."
+      }
+    },
+    "com.gcp.manufacturers_v1#Attributes": {
+      "type": "structure",
+      "members": {
+        "color": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The color of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#color."
+          }
+        },
+        "count": {
+          "target": "com.gcp.manufacturers_v1#Count",
+          "traits": {
+            "smithy.api#documentation": "The count of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#count."
+          }
+        },
+        "theme": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The theme of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#theme."
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The flavor of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#flavor."
+          }
+        },
+        "capacity": {
+          "target": "com.gcp.manufacturers_v1#Capacity",
+          "traits": {
+            "smithy.api#documentation": "The capacity of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity."
+          }
+        },
+        "ageGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target age group of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#agegroup."
+          }
+        },
+        "material": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The material of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#material."
+          }
+        },
+        "mpn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Manufacturer Part Number (MPN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#mpn."
+          }
+        },
+        "releaseDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The release date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#release."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#title."
+          }
+        },
+        "productName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The canonical name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productname."
+          }
+        },
+        "imageLink": {
+          "target": "com.gcp.manufacturers_v1#Image",
+          "traits": {
+            "smithy.api#documentation": "The image of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#image."
+          }
+        },
+        "disclosureDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The disclosure date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#disclosure."
+          }
+        },
+        "excludedDestination": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "A list of excluded destinations such as \"ClientExport\", \"ClientShoppingCatalog\" or \"PartnerShoppingCatalog\". For more information, see https://support.google.com/manufacturers/answer/7443550"
+          }
+        },
+        "richProductContent": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Rich product content. For more information, see https://support.google.com/manufacturers/answer/9389865"
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The size of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#size."
+          }
+        },
+        "productLine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the group of products related to the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productline."
+          }
+        },
+        "productPageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the detail page of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productpage."
+          }
+        },
+        "productDetail": {
+          "target": "com.gcp.manufacturers_v1#ProductDetailList",
+          "traits": {
+            "smithy.api#documentation": "The details of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail."
+          }
+        },
+        "gender": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target gender of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gender."
+          }
+        },
+        "scent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scent of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#scent."
+          }
+        },
+        "virtualModelLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Virtual Model (3d) asset link."
+          }
+        },
+        "gtin": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The Global Trade Item Number (GTIN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gtin."
+          }
+        },
+        "targetClientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target client id. Should only be used in the accounts of the data partners. For more information, see https://support.google.com/manufacturers/answer/10857344"
+          }
+        },
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The format of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#format."
+          }
+        },
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The brand name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#brand."
+          }
+        },
+        "featureDescription": {
+          "target": "com.gcp.manufacturers_v1#FeatureDescriptionList",
+          "traits": {
+            "smithy.api#documentation": "The rich format description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc."
+          }
+        },
+        "productType": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The type or category of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#producttype."
+          }
+        },
+        "productHighlight": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The product highlights. For more information, see https://support.google.com/manufacturers/answer/10066942"
+          }
+        },
+        "itemGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The item group id of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#itemgroupid."
+          }
+        },
+        "grocery": {
+          "target": "com.gcp.manufacturers_v1#Grocery",
+          "traits": {
+            "smithy.api#documentation": "Grocery Attributes. See more at https://support.google.com/manufacturers/answer/12098458#grocery."
+          }
+        },
+        "additionalImageLink": {
+          "target": "com.gcp.manufacturers_v1#ImageList",
+          "traits": {
+            "smithy.api#documentation": "The additional images of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#addlimage."
+          }
+        },
+        "nutrition": {
+          "target": "com.gcp.manufacturers_v1#Nutrition",
+          "traits": {
+            "smithy.api#documentation": "Nutrition Attributes. See more at https://support.google.com/manufacturers/answer/12098458#food-servings."
+          }
+        },
+        "videoLink": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The videos of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#video."
+          }
+        },
+        "suggestedRetailPrice": {
+          "target": "com.gcp.manufacturers_v1#Price",
+          "traits": {
+            "smithy.api#documentation": "The suggested retail price (MSRP) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#price."
+          }
+        },
+        "includedDestination": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "A list of included destinations such as \"ClientExport\", \"ClientShoppingCatalog\" or \"PartnerShoppingCatalog\". For more information, see https://support.google.com/manufacturers/answer/7443550"
+          }
+        },
+        "sizeSystem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The size system of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizesystem."
+          }
+        },
+        "certification": {
+          "target": "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertificationList",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of certifications claimed by this product."
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pattern of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#pattern."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#description."
+          }
+        },
+        "sizeType": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The size type of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizetype."
+          }
+        },
+        "intendedCountry": {
+          "target": "com.gcp.manufacturers_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of countries to show this product in. Countries provided in this attribute will override any of the countries configured at feed level. The values should be: the [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the countries in which this item will be shown."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Attributes of the product. For more information, see https://support.google.com/manufacturers/answer/6124116."
+      }
+    },
+    "com.gcp.manufacturers_v1#ProductDetailList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#ProductDetail"
+      }
+    },
+    "com.gcp.manufacturers_v1#FeatureDescriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#FeatureDescription"
+      }
+    },
+    "com.gcp.manufacturers_v1#ImageList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#Image"
+      }
+    },
+    "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertificationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#GoogleShoppingManufacturersV1ProductCertification"
+      }
+    },
+    "com.gcp.manufacturers_v1#VoluntaryNutritionFact": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.gcp.manufacturers_v1#FloatUnit",
+          "traits": {
+            "smithy.api#documentation": "Value."
+          }
+        },
+        "dailyPercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Daily percentage."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Voluntary Nutrition Facts."
       }
     },
     "com.gcp.manufacturers_v1#FeatureDescription": {
@@ -1364,16 +1344,16 @@
             "smithy.api#documentation": "A short description of the feature."
           }
         },
-        "image": {
-          "target": "com.gcp.manufacturers_v1#Image",
-          "traits": {
-            "smithy.api#documentation": "An optional image describing the feature."
-          }
-        },
         "text": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A detailed description of the feature."
+          }
+        },
+        "image": {
+          "target": "com.gcp.manufacturers_v1#Image",
+          "traits": {
+            "smithy.api#documentation": "An optional image describing the feature."
           }
         }
       },
@@ -1381,83 +1361,55 @@
         "smithy.api#documentation": "A feature description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc."
       }
     },
-    "com.gcp.manufacturers_v1#Capacity": {
+    "com.gcp.manufacturers_v1#Price": {
       "type": "structure",
       "members": {
-        "value": {
+        "amount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The numeric value of the capacity."
+            "smithy.api#documentation": "The numeric value of the price."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency in which the price is denoted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A price."
+      }
+    },
+    "com.gcp.manufacturers_v1#FloatUnit": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "amount."
           }
         },
         "unit": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unit of the capacity, i.e., MB, GB, or TB."
+            "smithy.api#documentation": "unit."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The capacity of a product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity."
+        "smithy.api#documentation": "Combination of float amount and unit."
       }
     },
-    "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnum": {
-      "type": "enum",
-      "members": {
-        "UNKNOWN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "UNKNOWN"
-          }
-        },
-        "ATTRIBUTES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ATTRIBUTES"
-          }
-        },
-        "ISSUES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ISSUES"
-          }
-        },
-        "DESTINATION_STATUSES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DESTINATION_STATUSES"
-          }
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnum"
-      }
-    },
-    "com.gcp.manufacturers_v1#ListAccountsProductsRequest": {
+    "com.gcp.manufacturers_v1#UpdateAccountsProductsRequest": {
       "type": "structure",
       "members": {
-        "pageToken": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The token returned by the previous request.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum number of product statuses to return in the response, used for paging.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "include": {
-          "target": "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnumList",
-          "traits": {
-            "smithy.api#documentation": "The information to be included in the response. Only sections listed here will be returned.",
-            "smithy.api#httpQuery": "include"
+            "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         },
         "parent": {
@@ -1466,6 +1418,13 @@
             "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.manufacturers_v1#Attributes",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -1496,55 +1455,6 @@
         ]
       }
     },
-    "com.gcp.manufacturers_v1#ListAccountsProducts": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.manufacturers_v1#ListAccountsProductsRequest"
-      },
-      "output": {
-        "target": "com.gcp.manufacturers_v1#ListProductsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.manufacturers_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+parent}/products"
-        },
-        "smithy.api#documentation": "Lists all the products in a Manufacturer Center account.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#DeleteAccountsProductsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
     "com.gcp.manufacturers_v1#BadRequest": {
       "type": "structure",
       "members": {},
@@ -1569,64 +1479,6 @@
             "status": 409
           }
         ]
-      }
-    },
-    "com.gcp.manufacturers_v1#DeleteAccountsProducts": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.manufacturers_v1#DeleteAccountsProductsRequest"
-      },
-      "output": {
-        "target": "com.gcp.manufacturers_v1#Empty"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.manufacturers_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "v1/{+parent}/products/{+name}"
-        },
-        "smithy.api#documentation": "Deletes the product from a Manufacturer Center account."
-      }
-    },
-    "com.gcp.manufacturers_v1#UpdateAccountsProductsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.manufacturers_v1#Attributes",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
       }
     },
     "com.gcp.manufacturers_v1#UpdateAccountsProducts": {
@@ -1697,6 +1549,13 @@
     "com.gcp.manufacturers_v1#GetAccountsProductsRequest": {
       "type": "structure",
       "members": {
+        "include": {
+          "target": "com.gcp.manufacturers_v1#GetAccountsProductsIncludeEnumList",
+          "traits": {
+            "smithy.api#documentation": "The information to be included in the response. Only sections listed here will be returned.",
+            "smithy.api#httpQuery": "include"
+          }
+        },
         "parent": {
           "target": "smithy.api#String",
           "traits": {
@@ -1711,13 +1570,6 @@
             "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "include": {
-          "target": "com.gcp.manufacturers_v1#GetAccountsProductsIncludeEnumList",
-          "traits": {
-            "smithy.api#documentation": "The information to be included in the response. Only sections listed here will be returned.",
-            "smithy.api#httpQuery": "include"
           }
         }
       }
@@ -1746,14 +1598,163 @@
         "smithy.api#documentation": "Gets the product from a Manufacturer Center account, including product issues. A recently updated product takes around 15 minutes to process. Changes are only visible after it has been processed. While some issues may be available once the product has been processed, other issues may take days to appear."
       }
     },
-    "com.gcp.manufacturers_v1#ListAccountsLanguagesProductCertificationsRequest": {
+    "com.gcp.manufacturers_v1#DeleteAccountsProductsRequest": {
       "type": "structure",
       "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#DeleteAccountsProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.manufacturers_v1#DeleteAccountsProductsRequest"
+      },
+      "output": {
+        "target": "com.gcp.manufacturers_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.manufacturers_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+parent}/products/{+name}"
+        },
+        "smithy.api#documentation": "Deletes the product from a Manufacturer Center account."
+      }
+    },
+    "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnum": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "ATTRIBUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ATTRIBUTES"
+          }
+        },
+        "ISSUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ISSUES"
+          }
+        },
+        "DESTINATION_STATUSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESTINATION_STATUSES"
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnum"
+      }
+    },
+    "com.gcp.manufacturers_v1#ListAccountsProductsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "include": {
+          "target": "com.gcp.manufacturers_v1#ListAccountsProductsIncludeEnumList",
+          "traits": {
+            "smithy.api#documentation": "The information to be included in the response. Only sections listed here will be returned.",
+            "smithy.api#httpQuery": "include"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of product statuses to return in the response, used for paging.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. A page token, received from a previous `ListProductCertifications` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductCertifications` must match the call that provided the page token. Required if requesting the second or higher page.",
+            "smithy.api#documentation": "The token returned by the previous request.",
             "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#ListAccountsProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.manufacturers_v1#ListAccountsProductsRequest"
+      },
+      "output": {
+        "target": "com.gcp.manufacturers_v1#ListProductsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.manufacturers_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/products"
+        },
+        "smithy.api#documentation": "Lists all the products in a Manufacturer Center account.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#ListAccountsLanguagesProductCertificationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent, which owns this collection of product certifications. Format: accounts/{account}/languages/{language_code}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         },
         "pageSize": {
@@ -1763,12 +1764,11 @@
             "smithy.api#httpQuery": "pageSize"
           }
         },
-        "parent": {
+        "pageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The parent, which owns this collection of product certifications. Format: accounts/{account}/languages/{language_code}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Optional. A page token, received from a previous `ListProductCertifications` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductCertifications` must match the call that provided the page token. Required if requesting the second or higher page.",
+            "smithy.api#httpQuery": "pageToken"
           }
         }
       }
@@ -1799,100 +1799,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.manufacturers_v1#PatchAccountsLanguagesProductCertificationsRequest": {
-      "type": "structure",
-      "members": {
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to \"*\". Setting any other values will returns UNIMPLEMENTED error.",
-            "smithy.api#httpQuery": "updateMask"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.manufacturers_v1#ProductCertification",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#PatchAccountsLanguagesProductCertifications": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.manufacturers_v1#PatchAccountsLanguagesProductCertificationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.manufacturers_v1#ProductCertification"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.manufacturers_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Updates (or creates if allow_missing = true) a product certification which links certifications with products. This method can only be called by certification bodies."
-      }
-    },
-    "com.gcp.manufacturers_v1#GetAccountsLanguagesProductCertificationsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the product certification to get. Format: accounts/{account}/languages/{language_code}/productCertifications/{id}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.manufacturers_v1#GetAccountsLanguagesProductCertifications": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.manufacturers_v1#GetAccountsLanguagesProductCertificationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.manufacturers_v1#ProductCertification"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.manufacturers_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.manufacturers_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets a product certification by its name. This method can only be called by certification bodies."
       }
     },
     "com.gcp.manufacturers_v1#DeleteAccountsLanguagesProductCertificationsRequest": {
@@ -1936,6 +1842,100 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a product certification by its name. This method can only be called by certification bodies."
+      }
+    },
+    "com.gcp.manufacturers_v1#GetAccountsLanguagesProductCertificationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the product certification to get. Format: accounts/{account}/languages/{language_code}/productCertifications/{id}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#GetAccountsLanguagesProductCertifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.manufacturers_v1#GetAccountsLanguagesProductCertificationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.manufacturers_v1#ProductCertification"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.manufacturers_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets a product certification by its name. This method can only be called by certification bodies."
+      }
+    },
+    "com.gcp.manufacturers_v1#PatchAccountsLanguagesProductCertificationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to \"*\". Setting any other values will returns UNIMPLEMENTED error.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "body": {
+          "target": "com.gcp.manufacturers_v1#ProductCertification",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.manufacturers_v1#PatchAccountsLanguagesProductCertifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.manufacturers_v1#PatchAccountsLanguagesProductCertificationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.manufacturers_v1#ProductCertification"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.manufacturers_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.manufacturers_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Updates (or creates if allow_missing = true) a product certification which links certifications with products. This method can only be called by certification bodies."
       }
     }
   }

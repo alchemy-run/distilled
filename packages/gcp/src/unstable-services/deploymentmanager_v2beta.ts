@@ -74,17 +74,17 @@ export const DeploymentsCancelPreviewRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeploymentsCancelPreviewRequest>;
 
 export interface CancelPreviewDeploymentsRequest {
-  /** The project ID for this request. */
-  project: string;
   /** The name of the deployment for this request. */
   deployment: string;
+  /** The project ID for this request. */
+  project: string;
   /** Request body */
   body?: DeploymentsCancelPreviewRequest;
 }
 export const CancelPreviewDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     deployment: S.String.pipe(T.Label()),
+    project: S.String.pipe(T.Label()),
     body: S.optional(DeploymentsCancelPreviewRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -97,25 +97,294 @@ export const CancelPreviewDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelPreviewDeploymentsRequest",
 }) as any as S.Schema<CancelPreviewDeploymentsRequest>;
 
-export interface OperationWarningsItemDataItem {
-  /** [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding). */
-  key?: string;
-  /** [Output Only] A warning data value corresponding to the key. */
-  value?: string;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Describes additional debugging info. */
+export interface DebugInfo {
+  /** The stack trace entries indicating where the error occurred. */
+  stackEntries?: StringList;
+  /** Additional debugging information provided by the server. */
+  detail?: string;
 }
-export const OperationWarningsItemDataItem = /*@__PURE__*/ S.suspend(() =>
+export const DebugInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
-    value: S.optional(S.String),
+    stackEntries: S.optional(StringList),
+    detail: S.optional(S.String),
+  }),
+).annotate({ identifier: "DebugInfo" }) as any as S.Schema<DebugInfo>;
+
+export type QuotaExceededInfoRolloutStatusEnum = "ROLLOUT_STATUS_UNSPECIFIED" | "IN_PROGRESS";
+export const QuotaExceededInfoRolloutStatusEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+/** Additional details for quota exceeded error for resource quota. */
+export interface QuotaExceededInfo {
+  /** The Compute Engine quota metric name. */
+  metricName?: string;
+  /** Current effective quota limit. The limit's unit depends on the quota type or metric. */
+  limit?: number;
+  /** Rollout status of the future quota limit. */
+  rolloutStatus?: QuotaExceededInfoRolloutStatusEnum | (string & {});
+  /** The map holding related quota dimensions. */
+  dimensions?: StringMap;
+  /** Future quota limit being rolled out. The limit's unit depends on the quota type or metric. */
+  futureLimit?: number;
+  /** The name of the quota limit. */
+  limitName?: string;
+}
+export const QuotaExceededInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    limit: S.optional(S.Number),
+    rolloutStatus: S.optional(QuotaExceededInfoRolloutStatusEnum),
+    dimensions: S.optional(StringMap),
+    futureLimit: S.optional(S.Number),
+    limitName: S.optional(S.String),
+  }),
+).annotate({ identifier: "QuotaExceededInfo" }) as any as S.Schema<QuotaExceededInfo>;
+
+/** Describes a URL link. */
+export interface HelpLink {
+  /** Describes what the link offers. */
+  description?: string;
+  /** The URL of the link. */
+  url?: string;
+}
+export const HelpLink = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "HelpLink" }) as any as S.Schema<HelpLink>;
+
+export type HelpLinkList = Array<HelpLink>;
+export const HelpLinkList = /*@__PURE__*/ S.Array(HelpLink) as any as S.Schema<HelpLinkList>;
+
+/** Provides links to documentation or for performing an out of band action. For example, if a quota check failed with an error indicating the calling project hasn't enabled the accessed service, this can contain a URL pointing directly to the right place in the developer console to flip the bit. */
+export interface Help {
+  /** URL(s) pointing to additional information on handling the current error. */
+  links?: HelpLinkList;
+}
+export const Help = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    links: S.optional(HelpLinkList),
+  }),
+).annotate({ identifier: "Help" }) as any as S.Schema<Help>;
+
+/** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
+export interface LocalizedMessage {
+  /** The localized error message in the above locale. */
+  message?: string;
+  /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
+  locale?: string;
+}
+export const LocalizedMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    locale: S.optional(S.String),
+  }),
+).annotate({ identifier: "LocalizedMessage" }) as any as S.Schema<LocalizedMessage>;
+
+/** Describes the cause of the error with structured details. Example of an error when contacting the "pubsub.googleapis.com" API when it is not enabled: { "reason": "API_DISABLED" "domain": "googleapis.com" "metadata": { "resource": "projects/123", "service": "pubsub.googleapis.com" } } This response indicates that the pubsub.googleapis.com API is not enabled. Example of an error that is returned when attempting to create a Spanner instance in a region that is out of stock: { "reason": "STOCKOUT" "domain": "spanner.googleapis.com", "metadata": { "availableRegions": "us-central1,us-east2" } } */
+export interface ErrorInfo {
+  /** The reason of the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
+  reason?: string;
+  /** The logical grouping to which the "reason" belongs. The error domain is typically the registered service name of the tool or product that generates the error. Example: "pubsub.googleapis.com". If the error is generated by some common infrastructure, the error domain must be a globally unique value that identifies the infrastructure. For Google API infrastructure, the error domain is "googleapis.com". */
+  domain?: string;
+  /** Additional structured details about this error. Keys must match a regular expression of `a-z+` but should ideally be lowerCamelCase. Also, they must be limited to 64 characters in length. When identifying the current value of an exceeded limit, the units should be contained in the key, not the value. For example, rather than `{"instanceLimit": "100/request"}`, should be returned as, `{"instanceLimitPerRequest": "100"}`, if the client exceeds the number of instances that can be created in a single (batch) request. */
+  metadatas?: StringMap;
+}
+export const ErrorInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reason: S.optional(S.String),
+    domain: S.optional(S.String),
+    metadatas: S.optional(StringMap),
+  }),
+).annotate({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
+
+export interface OperationErrorErrorsItemErrorDetailsItem {
+  /** Details about quota limits and metrics when a quota is exceeded. */
+  quotaInfo?: QuotaExceededInfo;
+  /** Links and information to help the user resolve the error. */
+  help?: Help;
+  /** A localized human-readable error message intended for end users. */
+  localizedMessage?: LocalizedMessage;
+  /** Error information containing structured domain, reason, and metadata. */
+  errorInfo?: ErrorInfo;
+}
+export const OperationErrorErrorsItemErrorDetailsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    quotaInfo: S.optional(QuotaExceededInfo),
+    help: S.optional(Help),
+    localizedMessage: S.optional(LocalizedMessage),
+    errorInfo: S.optional(ErrorInfo),
   }),
 ).annotate({
-  identifier: "OperationWarningsItemDataItem",
-}) as any as S.Schema<OperationWarningsItemDataItem>;
+  identifier: "OperationErrorErrorsItemErrorDetailsItem",
+}) as any as S.Schema<OperationErrorErrorsItemErrorDetailsItem>;
 
-export type OperationWarningsItemDataItemList = Array<OperationWarningsItemDataItem>;
-export const OperationWarningsItemDataItemList = /*@__PURE__*/ S.Array(
-  OperationWarningsItemDataItem,
-) as any as S.Schema<OperationWarningsItemDataItemList>;
+export type OperationErrorErrorsItemErrorDetailsItemList =
+  Array<OperationErrorErrorsItemErrorDetailsItem>;
+export const OperationErrorErrorsItemErrorDetailsItemList = /*@__PURE__*/ S.Array(
+  OperationErrorErrorsItemErrorDetailsItem,
+) as any as S.Schema<OperationErrorErrorsItemErrorDetailsItemList>;
+
+export interface OperationErrorErrorsItem {
+  /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
+  arguments?: StringList;
+  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
+  location?: string;
+  /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
+  debugInfo?: DebugInfo;
+  /** [Output Only] An optional, human-readable error message. */
+  message?: string;
+  /** [Output Only] The error type identifier for this error. */
+  code?: string;
+  /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
+  errorDetails?: OperationErrorErrorsItemErrorDetailsItemList;
+}
+export const OperationErrorErrorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arguments: S.optional(StringList),
+    location: S.optional(S.String),
+    debugInfo: S.optional(DebugInfo),
+    message: S.optional(S.String),
+    code: S.optional(S.String),
+    errorDetails: S.optional(OperationErrorErrorsItemErrorDetailsItemList),
+  }),
+).annotate({ identifier: "OperationErrorErrorsItem" }) as any as S.Schema<OperationErrorErrorsItem>;
+
+export type OperationErrorErrorsItemList = Array<OperationErrorErrorsItem>;
+export const OperationErrorErrorsItemList = /*@__PURE__*/ S.Array(
+  OperationErrorErrorsItem,
+) as any as S.Schema<OperationErrorErrorsItemList>;
+
+export interface OperationError {
+  /** [Output Only] The array of errors encountered while processing this operation. */
+  errors?: OperationErrorErrorsItemList;
+}
+export const OperationError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errors: S.optional(OperationErrorErrorsItemList),
+  }),
+).annotate({ identifier: "OperationError" }) as any as S.Schema<OperationError>;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export interface OperationDetails {
+  /** Machine readable data from the message. */
+  data?: DocumentMap;
+  /** Human or AI readable details on execution of the operation. */
+  message?: string;
+}
+export const OperationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(DocumentMap),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "OperationDetails" }) as any as S.Schema<OperationDetails>;
+
+export type OperationStatusEnum = "PENDING" | "RUNNING" | "DONE";
+export const OperationStatusEnum = S.String;
+
+export type BulkInsertOperationStatusStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "CREATING"
+  | "ROLLING_BACK"
+  | "DONE"
+  | "PENDING";
+export const BulkInsertOperationStatusStatusEnum = S.String;
+
+export interface BulkInsertOperationStatus {
+  /** [Output Only] Count of VMs that started creating but encountered an error. */
+  failedToCreateVmCount?: number;
+  /** [Output Only] Count of VMs successfully created so far. */
+  createdVmCount?: number;
+  /** [Output Only] Count of VMs that got deleted during rollback. */
+  deletedVmCount?: number;
+  /** [Output Only] Count of VMs originally planned to be created. */
+  targetVmCount?: number;
+  /** [Output Only] Creation status of BulkInsert operation - information if the flow is rolling forward or rolling back. */
+  status?: BulkInsertOperationStatusStatusEnum | (string & {});
+}
+export const BulkInsertOperationStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    failedToCreateVmCount: S.optional(S.Number),
+    createdVmCount: S.optional(S.Number),
+    deletedVmCount: S.optional(S.Number),
+    targetVmCount: S.optional(S.Number),
+    status: S.optional(BulkInsertOperationStatusStatusEnum),
+  }),
+).annotate({
+  identifier: "BulkInsertOperationStatus",
+}) as any as S.Schema<BulkInsertOperationStatus>;
+
+export type BulkInsertOperationStatusMap = { [key: string]: BulkInsertOperationStatus | undefined };
+export const BulkInsertOperationStatusMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BulkInsertOperationStatus,
+) as any as S.Schema<BulkInsertOperationStatusMap>;
+
+export interface InstancesBulkInsertOperationMetadata {
+  /** Status information per location (location name is key). Example key: zones/us-central1-a */
+  perLocationStatus?: BulkInsertOperationStatusMap;
+  /** [Output Only] The machine type of the VMs that were created used internally only by KCP flex bulk insert. */
+  machineType?: string;
+}
+export const InstancesBulkInsertOperationMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    perLocationStatus: S.optional(BulkInsertOperationStatusMap),
+    machineType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InstancesBulkInsertOperationMetadata",
+}) as any as S.Schema<InstancesBulkInsertOperationMetadata>;
+
+export interface GetVersionOperationMetadataSbomInfo {
+  /** A mapping of components to their target versions or other appropriate identifiers. */
+  targetComponentVersions?: StringMap;
+  /** A mapping of components to their currently-applied versions or other appropriate identifiers. */
+  currentComponentVersions?: StringMap;
+}
+export const GetVersionOperationMetadataSbomInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetComponentVersions: S.optional(StringMap),
+    currentComponentVersions: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "GetVersionOperationMetadataSbomInfo",
+}) as any as S.Schema<GetVersionOperationMetadataSbomInfo>;
+
+export interface GetVersionOperationMetadata {
+  inlineSbomInfo?: GetVersionOperationMetadataSbomInfo;
+}
+export const GetVersionOperationMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inlineSbomInfo: S.optional(GetVersionOperationMetadataSbomInfo),
+  }),
+).annotate({
+  identifier: "GetVersionOperationMetadata",
+}) as any as S.Schema<GetVersionOperationMetadata>;
+
+/** [Output Only] Operation metadata for instances.troubleshoot. */
+export interface InstancesTroubleshootOperationMetadata {
+  /** Output only. [Output Only] Serialized output of the troubleshooting diagnostic run. */
+  troubleshootOutput?: string;
+}
+export const InstancesTroubleshootOperationMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    troubleshootOutput: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InstancesTroubleshootOperationMetadata",
+}) as any as S.Schema<InstancesTroubleshootOperationMetadata>;
 
 export type OperationWarningsItemCodeEnum =
   | "DEPRECATED_RESOURCE_USED"
@@ -161,19 +430,39 @@ export type OperationWarningsItemCodeEnum =
   | "RESERVED_ENTRY_143";
 export const OperationWarningsItemCodeEnum = S.String;
 
+export interface OperationWarningsItemDataItem {
+  /** [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding). */
+  key?: string;
+  /** [Output Only] A warning data value corresponding to the key. */
+  value?: string;
+}
+export const OperationWarningsItemDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OperationWarningsItemDataItem",
+}) as any as S.Schema<OperationWarningsItemDataItem>;
+
+export type OperationWarningsItemDataItemList = Array<OperationWarningsItemDataItem>;
+export const OperationWarningsItemDataItemList = /*@__PURE__*/ S.Array(
+  OperationWarningsItemDataItem,
+) as any as S.Schema<OperationWarningsItemDataItemList>;
+
 export interface OperationWarningsItem {
-  /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
-  data?: OperationWarningsItemDataItemList;
   /** [Output Only] A human-readable description of the warning code. */
   message?: string;
   /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
   code?: OperationWarningsItemCodeEnum | (string & {});
+  /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
+  data?: OperationWarningsItemDataItemList;
 }
 export const OperationWarningsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(OperationWarningsItemDataItemList),
     message: S.optional(S.String),
     code: S.optional(OperationWarningsItemCodeEnum),
+    data: S.optional(OperationWarningsItemDataItemList),
   }),
 ).annotate({ identifier: "OperationWarningsItem" }) as any as S.Schema<OperationWarningsItem>;
 
@@ -181,34 +470,6 @@ export type OperationWarningsItemList = Array<OperationWarningsItem>;
 export const OperationWarningsItemList = /*@__PURE__*/ S.Array(
   OperationWarningsItem,
 ) as any as S.Schema<OperationWarningsItemList>;
-
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type DocumentMapList = Array<DocumentMap>;
-export const DocumentMapList = /*@__PURE__*/ S.Array(
-  DocumentMap,
-) as any as S.Schema<DocumentMapList>;
-
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-}
-export const Status = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.Number),
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
-  }),
-).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 export type SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum =
   | "UNSPECIFIED"
@@ -219,21 +480,43 @@ export type SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoSt
   | "DONE";
 export const SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum = S.String;
 
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+}
+export const Status = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
+
 export interface SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo {
-  /** [Output Only] If state is `ABANDONED` or `FAILED`, this field is populated. */
-  error?: Status;
   /** [Output Only] Status of the action, which can be one of the following: `PROPAGATING`, `PROPAGATED`, `ABANDONED`, `FAILED`, or `DONE`. */
   state?:
     | SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum
     | (string & {});
+  /** [Output Only] If state is `ABANDONED` or `FAILED`, this field is populated. */
+  error?: Status;
 }
 export const SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      error: S.optional(Status),
       state: S.optional(
         SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum,
       ),
+      error: S.optional(Status),
     }),
   ).annotate({
     identifier: "SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo",
@@ -265,80 +548,33 @@ export const SetCommonInstanceMetadataOperationMetadata = /*@__PURE__*/ S.suspen
   identifier: "SetCommonInstanceMetadataOperationMetadata",
 }) as any as S.Schema<SetCommonInstanceMetadataOperationMetadata>;
 
-export interface OperationDetails {
-  /** Machine readable data from the message. */
-  data?: DocumentMap;
-  /** Human or AI readable details on execution of the operation. */
-  message?: string;
+/** Metadata for FirewallPolicyRule operations. */
+export interface FirewallPolicyRuleOperationMetadata {
+  /** Output only. [Output Only] The priority allocated for the firewall policy rule if query parameters specified minPriority/maxPriority. */
+  allocatedPriority?: number;
 }
-export const OperationDetails = /*@__PURE__*/ S.suspend(() =>
+export const FirewallPolicyRuleOperationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(DocumentMap),
-    message: S.optional(S.String),
-  }),
-).annotate({ identifier: "OperationDetails" }) as any as S.Schema<OperationDetails>;
-
-export type OperationStatusEnum = "PENDING" | "RUNNING" | "DONE";
-export const OperationStatusEnum = S.String;
-
-export type BulkInsertOperationStatusStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "CREATING"
-  | "ROLLING_BACK"
-  | "DONE"
-  | "PENDING";
-export const BulkInsertOperationStatusStatusEnum = S.String;
-
-export interface BulkInsertOperationStatus {
-  /** [Output Only] Count of VMs successfully created so far. */
-  createdVmCount?: number;
-  /** [Output Only] Creation status of BulkInsert operation - information if the flow is rolling forward or rolling back. */
-  status?: BulkInsertOperationStatusStatusEnum | (string & {});
-  /** [Output Only] Count of VMs originally planned to be created. */
-  targetVmCount?: number;
-  /** [Output Only] Count of VMs that got deleted during rollback. */
-  deletedVmCount?: number;
-  /** [Output Only] Count of VMs that started creating but encountered an error. */
-  failedToCreateVmCount?: number;
-}
-export const BulkInsertOperationStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdVmCount: S.optional(S.Number),
-    status: S.optional(BulkInsertOperationStatusStatusEnum),
-    targetVmCount: S.optional(S.Number),
-    deletedVmCount: S.optional(S.Number),
-    failedToCreateVmCount: S.optional(S.Number),
+    allocatedPriority: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "BulkInsertOperationStatus",
-}) as any as S.Schema<BulkInsertOperationStatus>;
+  identifier: "FirewallPolicyRuleOperationMetadata",
+}) as any as S.Schema<FirewallPolicyRuleOperationMetadata>;
 
-export type BulkInsertOperationStatusMap = { [key: string]: BulkInsertOperationStatus | undefined };
-export const BulkInsertOperationStatusMap = /*@__PURE__*/ S.Record(
-  S.String,
-  BulkInsertOperationStatus,
-) as any as S.Schema<BulkInsertOperationStatusMap>;
-
-export interface InstancesBulkInsertOperationMetadata {
-  /** [Output Only] The machine type of the VMs that were created used internally only by KCP flex bulk insert. */
-  machineType?: string;
-  /** Status information per location (location name is key). Example key: zones/us-central1-a */
-  perLocationStatus?: BulkInsertOperationStatusMap;
+export interface SetAutoscalerLinkOperationMetadata {
+  /** Map of zone to an ID of the zonal IGM belonging to the RMIG. */
+  zoneToIgmIds?: StringMap;
+  /** List of zonal IGM IDs part of the RMIG. */
+  zonalIgmIds?: StringList;
 }
-export const InstancesBulkInsertOperationMetadata = /*@__PURE__*/ S.suspend(() =>
+export const SetAutoscalerLinkOperationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    machineType: S.optional(S.String),
-    perLocationStatus: S.optional(BulkInsertOperationStatusMap),
+    zoneToIgmIds: S.optional(StringMap),
+    zonalIgmIds: S.optional(StringList),
   }),
 ).annotate({
-  identifier: "InstancesBulkInsertOperationMetadata",
-}) as any as S.Schema<InstancesBulkInsertOperationMetadata>;
-
-export type GetHealthOperationMetadataHealthInfoHealthStatusEnum =
-  | "HEALTH_STATUS_UNSPECIFIED"
-  | "HEALTH_STATUS_HEALTHY"
-  | "HEALTH_STATUS_UNHEALTHY";
-export const GetHealthOperationMetadataHealthInfoHealthStatusEnum = S.String;
+  identifier: "SetAutoscalerLinkOperationMetadata",
+}) as any as S.Schema<SetAutoscalerLinkOperationMetadata>;
 
 export type GetHealthOperationMetadataHealthInfoRepairCategoryEnum =
   | "REPAIR_CATEGORY_UNSPECIFIED"
@@ -348,13 +584,6 @@ export type GetHealthOperationMetadataHealthInfoRepairCategoryEnum =
   | "REPAIR_CATEGORY_CRITICAL_FAILURE";
 export const GetHealthOperationMetadataHealthInfoRepairCategoryEnum = S.String;
 
-export type GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum =
-  | "AVAILABILITY_SLO_STATUS_UNSPECIFIED"
-  | "AVAILABILITY_SLO_STATUS_IN_SLO"
-  | "AVAILABILITY_SLO_STATUS_OUT_OF_SLO"
-  | "AVAILABILITY_SLO_STATUS_SLO_UNKNOWN";
-export const GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum = S.String;
-
 export type GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum =
   | "UNHEALTHY_REASON_UNSPECIFIED"
   | "UNHEALTHY_REASON_REPAIRING"
@@ -362,30 +591,43 @@ export type GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum =
   | "UNHEALTHY_REASON_UNSCHEDULABLE";
 export const GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum = S.String;
 
+export type GetHealthOperationMetadataHealthInfoHealthStatusEnum =
+  | "HEALTH_STATUS_UNSPECIFIED"
+  | "HEALTH_STATUS_HEALTHY"
+  | "HEALTH_STATUS_UNHEALTHY";
+export const GetHealthOperationMetadataHealthInfoHealthStatusEnum = S.String;
+
+export type GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum =
+  | "AVAILABILITY_SLO_STATUS_UNSPECIFIED"
+  | "AVAILABILITY_SLO_STATUS_IN_SLO"
+  | "AVAILABILITY_SLO_STATUS_OUT_OF_SLO"
+  | "AVAILABILITY_SLO_STATUS_SLO_UNKNOWN";
+export const GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum = S.String;
+
 /** Health information. */
 export interface GetHealthOperationMetadataHealthInfo {
-  /** Output only. The health status. */
-  healthStatus?: GetHealthOperationMetadataHealthInfoHealthStatusEnum | (string & {});
-  /** Output only. The repair category. */
-  repairCategory?: GetHealthOperationMetadataHealthInfoRepairCategoryEnum | (string & {});
   /** Output only. The time when health info was updated. */
   updateTime?: string;
+  /** Output only. The repair category. */
+  repairCategory?: GetHealthOperationMetadataHealthInfoRepairCategoryEnum | (string & {});
+  /** Output only. The reason for unhealthy status. */
+  unhealthyReason?: GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum | (string & {});
+  /** Output only. The health status. */
+  healthStatus?: GetHealthOperationMetadataHealthInfoHealthStatusEnum | (string & {});
   /** Output only. The availability SLO status. */
   availabilitySloStatus?:
     | GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum
     | (string & {});
-  /** Output only. The reason for unhealthy status. */
-  unhealthyReason?: GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum | (string & {});
 }
 export const GetHealthOperationMetadataHealthInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    healthStatus: S.optional(GetHealthOperationMetadataHealthInfoHealthStatusEnum),
-    repairCategory: S.optional(GetHealthOperationMetadataHealthInfoRepairCategoryEnum),
     updateTime: S.optional(S.String),
+    repairCategory: S.optional(GetHealthOperationMetadataHealthInfoRepairCategoryEnum),
+    unhealthyReason: S.optional(GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum),
+    healthStatus: S.optional(GetHealthOperationMetadataHealthInfoHealthStatusEnum),
     availabilitySloStatus: S.optional(
       GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum,
     ),
-    unhealthyReason: S.optional(GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum),
   }),
 ).annotate({
   identifier: "GetHealthOperationMetadataHealthInfo",
@@ -404,352 +646,110 @@ export const GetHealthOperationMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetHealthOperationMetadata",
 }) as any as S.Schema<GetHealthOperationMetadata>;
 
-/** Metadata for FirewallPolicyRule operations. */
-export interface FirewallPolicyRuleOperationMetadata {
-  /** Output only. [Output Only] The priority allocated for the firewall policy rule if query parameters specified minPriority/maxPriority. */
-  allocatedPriority?: number;
-}
-export const FirewallPolicyRuleOperationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allocatedPriority: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "FirewallPolicyRuleOperationMetadata",
-}) as any as S.Schema<FirewallPolicyRuleOperationMetadata>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-export interface GetVersionOperationMetadataSbomInfo {
-  /** A mapping of components to their target versions or other appropriate identifiers. */
-  targetComponentVersions?: StringMap;
-  /** A mapping of components to their currently-applied versions or other appropriate identifiers. */
-  currentComponentVersions?: StringMap;
-}
-export const GetVersionOperationMetadataSbomInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetComponentVersions: S.optional(StringMap),
-    currentComponentVersions: S.optional(StringMap),
-  }),
-).annotate({
-  identifier: "GetVersionOperationMetadataSbomInfo",
-}) as any as S.Schema<GetVersionOperationMetadataSbomInfo>;
-
-export interface GetVersionOperationMetadata {
-  inlineSbomInfo?: GetVersionOperationMetadataSbomInfo;
-}
-export const GetVersionOperationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inlineSbomInfo: S.optional(GetVersionOperationMetadataSbomInfo),
-  }),
-).annotate({
-  identifier: "GetVersionOperationMetadata",
-}) as any as S.Schema<GetVersionOperationMetadata>;
-
-/** [Output Only] Operation metadata for instances.troubleshoot. */
-export interface InstancesTroubleshootOperationMetadata {
-  /** Output only. [Output Only] Serialized output of the troubleshooting diagnostic run. */
-  troubleshootOutput?: string;
-}
-export const InstancesTroubleshootOperationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    troubleshootOutput: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InstancesTroubleshootOperationMetadata",
-}) as any as S.Schema<InstancesTroubleshootOperationMetadata>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export interface SetAutoscalerLinkOperationMetadata {
-  /** List of zonal IGM IDs part of the RMIG. */
-  zonalIgmIds?: StringList;
-  /** Map of zone to an ID of the zonal IGM belonging to the RMIG. */
-  zoneToIgmIds?: StringMap;
-}
-export const SetAutoscalerLinkOperationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zonalIgmIds: S.optional(StringList),
-    zoneToIgmIds: S.optional(StringMap),
-  }),
-).annotate({
-  identifier: "SetAutoscalerLinkOperationMetadata",
-}) as any as S.Schema<SetAutoscalerLinkOperationMetadata>;
-
-/** Describes additional debugging info. */
-export interface DebugInfo {
-  /** Additional debugging information provided by the server. */
-  detail?: string;
-  /** The stack trace entries indicating where the error occurred. */
-  stackEntries?: StringList;
-}
-export const DebugInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detail: S.optional(S.String),
-    stackEntries: S.optional(StringList),
-  }),
-).annotate({ identifier: "DebugInfo" }) as any as S.Schema<DebugInfo>;
-
-/** Describes a URL link. */
-export interface HelpLink {
-  /** Describes what the link offers. */
-  description?: string;
-  /** The URL of the link. */
-  url?: string;
-}
-export const HelpLink = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    url: S.optional(S.String),
-  }),
-).annotate({ identifier: "HelpLink" }) as any as S.Schema<HelpLink>;
-
-export type HelpLinkList = Array<HelpLink>;
-export const HelpLinkList = /*@__PURE__*/ S.Array(HelpLink) as any as S.Schema<HelpLinkList>;
-
-/** Provides links to documentation or for performing an out of band action. For example, if a quota check failed with an error indicating the calling project hasn't enabled the accessed service, this can contain a URL pointing directly to the right place in the developer console to flip the bit. */
-export interface Help {
-  /** URL(s) pointing to additional information on handling the current error. */
-  links?: HelpLinkList;
-}
-export const Help = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    links: S.optional(HelpLinkList),
-  }),
-).annotate({ identifier: "Help" }) as any as S.Schema<Help>;
-
-/** Describes the cause of the error with structured details. Example of an error when contacting the "pubsub.googleapis.com" API when it is not enabled: { "reason": "API_DISABLED" "domain": "googleapis.com" "metadata": { "resource": "projects/123", "service": "pubsub.googleapis.com" } } This response indicates that the pubsub.googleapis.com API is not enabled. Example of an error that is returned when attempting to create a Spanner instance in a region that is out of stock: { "reason": "STOCKOUT" "domain": "spanner.googleapis.com", "metadata": { "availableRegions": "us-central1,us-east2" } } */
-export interface ErrorInfo {
-  /** The logical grouping to which the "reason" belongs. The error domain is typically the registered service name of the tool or product that generates the error. Example: "pubsub.googleapis.com". If the error is generated by some common infrastructure, the error domain must be a globally unique value that identifies the infrastructure. For Google API infrastructure, the error domain is "googleapis.com". */
-  domain?: string;
-  /** The reason of the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
-  reason?: string;
-  /** Additional structured details about this error. Keys must match a regular expression of `a-z+` but should ideally be lowerCamelCase. Also, they must be limited to 64 characters in length. When identifying the current value of an exceeded limit, the units should be contained in the key, not the value. For example, rather than `{"instanceLimit": "100/request"}`, should be returned as, `{"instanceLimitPerRequest": "100"}`, if the client exceeds the number of instances that can be created in a single (batch) request. */
-  metadatas?: StringMap;
-}
-export const ErrorInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domain: S.optional(S.String),
-    reason: S.optional(S.String),
-    metadatas: S.optional(StringMap),
-  }),
-).annotate({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
-
-export type QuotaExceededInfoRolloutStatusEnum = "ROLLOUT_STATUS_UNSPECIFIED" | "IN_PROGRESS";
-export const QuotaExceededInfoRolloutStatusEnum = S.String;
-
-/** Additional details for quota exceeded error for resource quota. */
-export interface QuotaExceededInfo {
-  /** Future quota limit being rolled out. The limit's unit depends on the quota type or metric. */
-  futureLimit?: number;
-  /** The name of the quota limit. */
-  limitName?: string;
-  /** The map holding related quota dimensions. */
-  dimensions?: StringMap;
-  /** The Compute Engine quota metric name. */
-  metricName?: string;
-  /** Current effective quota limit. The limit's unit depends on the quota type or metric. */
-  limit?: number;
-  /** Rollout status of the future quota limit. */
-  rolloutStatus?: QuotaExceededInfoRolloutStatusEnum | (string & {});
-}
-export const QuotaExceededInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    futureLimit: S.optional(S.Number),
-    limitName: S.optional(S.String),
-    dimensions: S.optional(StringMap),
-    metricName: S.optional(S.String),
-    limit: S.optional(S.Number),
-    rolloutStatus: S.optional(QuotaExceededInfoRolloutStatusEnum),
-  }),
-).annotate({ identifier: "QuotaExceededInfo" }) as any as S.Schema<QuotaExceededInfo>;
-
-/** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
-export interface LocalizedMessage {
-  /** The localized error message in the above locale. */
-  message?: string;
-  /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
-  locale?: string;
-}
-export const LocalizedMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    locale: S.optional(S.String),
-  }),
-).annotate({ identifier: "LocalizedMessage" }) as any as S.Schema<LocalizedMessage>;
-
-export interface OperationErrorErrorsItemErrorDetailsItem {
-  /** Links and information to help the user resolve the error. */
-  help?: Help;
-  /** Error information containing structured domain, reason, and metadata. */
-  errorInfo?: ErrorInfo;
-  /** Details about quota limits and metrics when a quota is exceeded. */
-  quotaInfo?: QuotaExceededInfo;
-  /** A localized human-readable error message intended for end users. */
-  localizedMessage?: LocalizedMessage;
-}
-export const OperationErrorErrorsItemErrorDetailsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    help: S.optional(Help),
-    errorInfo: S.optional(ErrorInfo),
-    quotaInfo: S.optional(QuotaExceededInfo),
-    localizedMessage: S.optional(LocalizedMessage),
-  }),
-).annotate({
-  identifier: "OperationErrorErrorsItemErrorDetailsItem",
-}) as any as S.Schema<OperationErrorErrorsItemErrorDetailsItem>;
-
-export type OperationErrorErrorsItemErrorDetailsItemList =
-  Array<OperationErrorErrorsItemErrorDetailsItem>;
-export const OperationErrorErrorsItemErrorDetailsItemList = /*@__PURE__*/ S.Array(
-  OperationErrorErrorsItemErrorDetailsItem,
-) as any as S.Schema<OperationErrorErrorsItemErrorDetailsItemList>;
-
-export interface OperationErrorErrorsItem {
-  /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
-  debugInfo?: DebugInfo;
-  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
-  location?: string;
-  /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
-  errorDetails?: OperationErrorErrorsItemErrorDetailsItemList;
-  /** [Output Only] An optional, human-readable error message. */
-  message?: string;
-  /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
-  arguments?: StringList;
-  /** [Output Only] The error type identifier for this error. */
-  code?: string;
-}
-export const OperationErrorErrorsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    debugInfo: S.optional(DebugInfo),
-    location: S.optional(S.String),
-    errorDetails: S.optional(OperationErrorErrorsItemErrorDetailsItemList),
-    message: S.optional(S.String),
-    arguments: S.optional(StringList),
-    code: S.optional(S.String),
-  }),
-).annotate({ identifier: "OperationErrorErrorsItem" }) as any as S.Schema<OperationErrorErrorsItem>;
-
-export type OperationErrorErrorsItemList = Array<OperationErrorErrorsItem>;
-export const OperationErrorErrorsItemList = /*@__PURE__*/ S.Array(
-  OperationErrorErrorsItem,
-) as any as S.Schema<OperationErrorErrorsItemList>;
-
-export interface OperationError {
-  /** [Output Only] The array of errors encountered while processing this operation. */
-  errors?: OperationErrorErrorsItemList;
-}
-export const OperationError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errors: S.optional(OperationErrorErrorsItemList),
-  }),
-).annotate({ identifier: "OperationError" }) as any as S.Schema<OperationError>;
-
 /** Represents an Operation resource. Google Compute Engine has three Operation resources: * [Global](/compute/docs/reference/rest/{$api_version}/globalOperations) * [Regional](/compute/docs/reference/rest/{$api_version}/regionOperations) * [Zonal](/compute/docs/reference/rest/{$api_version}/zoneOperations) You can use an operation resource to manage asynchronous API requests. For more information, read Handling API responses. Operations can be global, regional or zonal. - For global operations, use the `globalOperations` resource. - For regional operations, use the `regionOperations` resource. - For zonal operations, use the `zoneOperations` resource. For more information, read Global, Regional, and Zonal Resources. Note that completed Operation resources have a limited retention period. */
 export interface Operation {
-  /** [Deprecated] This field is deprecated. */
-  creationTimestamp?: string;
   /** [Output Only] The URL of the zone where the operation resides. Only applicable when performing per-zone operations. */
   zone?: string;
-  /** [Output Only] If warning messages are generated during processing of the operation, this field will be populated. */
-  warnings?: OperationWarningsItemList;
-  /** [Output Only] The time that this operation was completed. This value is in RFC3339 text format. */
-  endTime?: string;
-  /** Output only. [Output Only] If the operation is for projects.setCommonInstanceMetadata, this field will contain information on all underlying zonal actions and their state. */
-  setCommonInstanceMetadataOperationMetadata?: SetCommonInstanceMetadataOperationMetadata;
-  /** [Output Only] Extended details about the operation's execution. */
-  details?: OperationDetails;
-  /** [Output Only] The value of `requestId` if you provided it in the request. Not present otherwise. */
-  clientOperationId?: string;
-  /** [Output Only] A textual description of the operation, which is set when the operation is created. */
-  description?: string;
-  /** [Output Only] The time that this operation was started by the server. This value is in RFC3339 text format. */
-  startTime?: string;
-  /** [Output Only] The status of the operation, which can be one of the following: `PENDING`, `RUNNING`, or `DONE`. */
-  status?: OperationStatusEnum | (string & {});
-  instancesBulkInsertOperationMetadata?: InstancesBulkInsertOperationMetadata;
-  /** Output only. Metadata for GetHealth operations. */
-  getHealthOperationMetadata?: GetHealthOperationMetadata;
+  /** Output only. [Output Only] Type of the resource. Always `compute#operation` for Operation resources. */
+  kind?: string;
   /** [Output Only] The URL of the region where the operation resides. Only applicable when performing regional operations. */
   region?: string;
-  /** [Output Only] The unique identifier for the operation. This identifier is defined by the server. */
-  id?: string;
-  /** [Output Only] The unique target ID, which identifies a specific incarnation of the target resource. */
-  targetId?: string;
-  /** Output only. [Output Only] Metadata containing the allocated priority from the networkFirewallPolicies.addRule and regionNetworkFirewallPolicies.addRule methods if not explicitly provided by the user. */
-  firewallPolicyRuleOperationMetadata?: FirewallPolicyRuleOperationMetadata;
-  /** [Output Only] The time that this operation was requested. This value is in RFC3339 text format. */
-  insertTime?: string;
+  /** [Output Only] If errors are generated during processing of the operation, this field will be populated. */
+  error?: OperationError;
   /** [Output Only] An optional textual description of the current status of the operation. */
   statusMessage?: string;
-  /** [Output Only] Server-defined URL for the resource. */
-  selfLink?: string;
-  /** [Output Only] The type of operation, such as `insert`, `update`, or `delete`, and so on. */
-  operationType?: string;
   /** [Output Only] An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses. */
   progress?: number;
+  /** [Output Only] User who requested the operation, for example: `user@example.com` or `alice_smith_identifier (global/workforcePools/example-com-us-employees)`. */
+  user?: string;
+  /** [Output Only] The value of `requestId` if you provided it in the request. Not present otherwise. */
+  clientOperationId?: string;
+  /** [Output Only] Extended details about the operation's execution. */
+  details?: OperationDetails;
+  /** [Output Only] The status of the operation, which can be one of the following: `PENDING`, `RUNNING`, or `DONE`. */
+  status?: OperationStatusEnum | (string & {});
+  /** [Output Only] Name of the operation. */
+  name?: string;
+  /** [Output Only] Server-defined URL for the resource. */
+  selfLink?: string;
+  /** [Output Only] The time that this operation was requested. This value is in RFC3339 text format. */
+  insertTime?: string;
+  /** [Output Only] The type of operation, such as `insert`, `update`, or `delete`, and so on. */
+  operationType?: string;
+  instancesBulkInsertOperationMetadata?: InstancesBulkInsertOperationMetadata;
   getVersionOperationMetadata?: GetVersionOperationMetadata;
   /** Output only. [Output Only] Operation metadata for instances.troubleshoot. */
   instancesTroubleshootOperationMetadata?: InstancesTroubleshootOperationMetadata;
-  /** [Output Only] If the operation fails, this field contains the HTTP error status code that was returned. For example, a `404` means the resource was not found. */
-  httpErrorStatusCode?: number;
-  /** [Output Only] Name of the operation. */
-  name?: string;
-  /** This field is used internally by the Autoscaler team and should not be promoted to "alpha/beta/v1". */
-  setAutoscalerLinkOperationMetadata?: SetAutoscalerLinkOperationMetadata;
-  /** [Output Only] The URL of the resource that the operation modifies. For operations related to creating a snapshot, this points to the disk that the snapshot was created from. */
-  targetLink?: string;
-  /** [Output Only] User who requested the operation, for example: `user@example.com` or `alice_smith_identifier (global/workforcePools/example-com-us-employees)`. */
-  user?: string;
-  /** Output only. [Output Only] Type of the resource. Always `compute#operation` for Operation resources. */
-  kind?: string;
-  /** [Output Only] If errors are generated during processing of the operation, this field will be populated. */
-  error?: OperationError;
-  /** [Output Only] If the operation fails, this field contains the HTTP error message that was returned, such as `NOT FOUND`. */
-  httpErrorMessage?: string;
+  /** [Output Only] A textual description of the operation, which is set when the operation is created. */
+  description?: string;
   /** Output only. [Output Only] An ID that represents a group of operations, such as when a group of operations results from a `bulkInsert` API request. */
   operationGroupId?: string;
+  /** [Output Only] The time that this operation was completed. This value is in RFC3339 text format. */
+  endTime?: string;
+  /** [Output Only] If the operation fails, this field contains the HTTP error status code that was returned. For example, a `404` means the resource was not found. */
+  httpErrorStatusCode?: number;
+  /** [Output Only] If warning messages are generated during processing of the operation, this field will be populated. */
+  warnings?: OperationWarningsItemList;
   /** Output only. [Output Only] Server-defined URL for this resource with the resource id. */
   selfLinkWithId?: string;
+  /** Output only. [Output Only] If the operation is for projects.setCommonInstanceMetadata, this field will contain information on all underlying zonal actions and their state. */
+  setCommonInstanceMetadataOperationMetadata?: SetCommonInstanceMetadataOperationMetadata;
+  /** [Output Only] The URL of the resource that the operation modifies. For operations related to creating a snapshot, this points to the disk that the snapshot was created from. */
+  targetLink?: string;
+  /** Output only. [Output Only] Metadata containing the allocated priority from the networkFirewallPolicies.addRule and regionNetworkFirewallPolicies.addRule methods if not explicitly provided by the user. */
+  firewallPolicyRuleOperationMetadata?: FirewallPolicyRuleOperationMetadata;
+  /** [Deprecated] This field is deprecated. */
+  creationTimestamp?: string;
+  /** This field is used internally by the Autoscaler team and should not be promoted to "alpha/beta/v1". */
+  setAutoscalerLinkOperationMetadata?: SetAutoscalerLinkOperationMetadata;
+  /** [Output Only] The unique target ID, which identifies a specific incarnation of the target resource. */
+  targetId?: string;
+  /** [Output Only] The unique identifier for the operation. This identifier is defined by the server. */
+  id?: string;
+  /** [Output Only] If the operation fails, this field contains the HTTP error message that was returned, such as `NOT FOUND`. */
+  httpErrorMessage?: string;
+  /** Output only. Metadata for GetHealth operations. */
+  getHealthOperationMetadata?: GetHealthOperationMetadata;
+  /** [Output Only] The time that this operation was started by the server. This value is in RFC3339 text format. */
+  startTime?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTimestamp: S.optional(S.String),
     zone: S.optional(S.String),
-    warnings: S.optional(OperationWarningsItemList),
+    kind: S.optional(S.String),
+    region: S.optional(S.String),
+    error: S.optional(OperationError),
+    statusMessage: S.optional(S.String),
+    progress: S.optional(S.Number),
+    user: S.optional(S.String),
+    clientOperationId: S.optional(S.String),
+    details: S.optional(OperationDetails),
+    status: S.optional(OperationStatusEnum),
+    name: S.optional(S.String),
+    selfLink: S.optional(S.String),
+    insertTime: S.optional(S.String),
+    operationType: S.optional(S.String),
+    instancesBulkInsertOperationMetadata: S.optional(InstancesBulkInsertOperationMetadata),
+    getVersionOperationMetadata: S.optional(GetVersionOperationMetadata),
+    instancesTroubleshootOperationMetadata: S.optional(InstancesTroubleshootOperationMetadata),
+    description: S.optional(S.String),
+    operationGroupId: S.optional(S.String),
     endTime: S.optional(S.String),
+    httpErrorStatusCode: S.optional(S.Number),
+    warnings: S.optional(OperationWarningsItemList),
+    selfLinkWithId: S.optional(S.String),
     setCommonInstanceMetadataOperationMetadata: S.optional(
       SetCommonInstanceMetadataOperationMetadata,
     ),
-    details: S.optional(OperationDetails),
-    clientOperationId: S.optional(S.String),
-    description: S.optional(S.String),
-    startTime: S.optional(S.String),
-    status: S.optional(OperationStatusEnum),
-    instancesBulkInsertOperationMetadata: S.optional(InstancesBulkInsertOperationMetadata),
-    getHealthOperationMetadata: S.optional(GetHealthOperationMetadata),
-    region: S.optional(S.String),
-    id: S.optional(S.String),
-    targetId: S.optional(S.String),
-    firewallPolicyRuleOperationMetadata: S.optional(FirewallPolicyRuleOperationMetadata),
-    insertTime: S.optional(S.String),
-    statusMessage: S.optional(S.String),
-    selfLink: S.optional(S.String),
-    operationType: S.optional(S.String),
-    progress: S.optional(S.Number),
-    getVersionOperationMetadata: S.optional(GetVersionOperationMetadata),
-    instancesTroubleshootOperationMetadata: S.optional(InstancesTroubleshootOperationMetadata),
-    httpErrorStatusCode: S.optional(S.Number),
-    name: S.optional(S.String),
-    setAutoscalerLinkOperationMetadata: S.optional(SetAutoscalerLinkOperationMetadata),
     targetLink: S.optional(S.String),
-    user: S.optional(S.String),
-    kind: S.optional(S.String),
-    error: S.optional(OperationError),
+    firewallPolicyRuleOperationMetadata: S.optional(FirewallPolicyRuleOperationMetadata),
+    creationTimestamp: S.optional(S.String),
+    setAutoscalerLinkOperationMetadata: S.optional(SetAutoscalerLinkOperationMetadata),
+    targetId: S.optional(S.String),
+    id: S.optional(S.String),
     httpErrorMessage: S.optional(S.String),
-    operationGroupId: S.optional(S.String),
-    selfLinkWithId: S.optional(S.String),
+    getHealthOperationMetadata: S.optional(GetHealthOperationMetadata),
+    startTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -780,20 +780,20 @@ export type DeleteDeploymentsDeletePolicyEnum = "DELETE" | "ABANDON";
 export const DeleteDeploymentsDeletePolicyEnum = S.String;
 
 export interface DeleteDeploymentsRequest {
-  /** The name of the deployment for this request. */
-  deployment: string;
-  /** Sets the policy to use for deleting resources. */
-  deletePolicy?: DeleteDeploymentsDeletePolicyEnum | (string & {});
   /** The project ID for this request. */
   project: string;
+  /** The name of the deployment for this request. */
+  deployment: string;
   "header.bypassBillingFilter"?: boolean;
+  /** Sets the policy to use for deleting resources. */
+  deletePolicy?: DeleteDeploymentsDeletePolicyEnum | (string & {});
 }
 export const DeleteDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deployment: S.String.pipe(T.Label()),
-    deletePolicy: S.optional(DeleteDeploymentsDeletePolicyEnum.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    deployment: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    deletePolicy: S.optional(DeleteDeploymentsDeletePolicyEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -804,17 +804,17 @@ export const DeleteDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DeleteDeploymentsRequest" }) as any as S.Schema<DeleteDeploymentsRequest>;
 
 export interface DeleteTypeProvidersRequest {
-  /** The project ID for this request. */
-  project: string;
   /** The name of the type provider for this request. */
   typeProvider: string;
   "header.bypassBillingFilter"?: boolean;
+  /** The project ID for this request. */
+  project: string;
 }
 export const DeleteTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     typeProvider: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -827,17 +827,17 @@ export const DeleteTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteTypeProvidersRequest>;
 
 export interface GetCompositeTypesRequest {
-  "header.bypassBillingFilter"?: boolean;
-  /** The name of the composite type for this request. */
-  compositeType: string;
   /** The project ID for this request. */
   project: string;
+  /** The name of the composite type for this request. */
+  compositeType: string;
+  "header.bypassBillingFilter"?: boolean;
 }
 export const GetCompositeTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
-    compositeType: S.String.pipe(T.Label()),
     project: S.String.pipe(T.Label()),
+    compositeType: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -846,6 +846,55 @@ export const GetCompositeTypesRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "GetCompositeTypesRequest" }) as any as S.Schema<GetCompositeTypesRequest>;
+
+export type TemplateContentsInterpreterEnum = "UNKNOWN_INTERPRETER" | "PYTHON" | "JINJA";
+export const TemplateContentsInterpreterEnum = S.String;
+
+export interface ImportFile {
+  /** The contents of the file. */
+  content?: string;
+  /** The name of the file. */
+  name?: string;
+}
+export const ImportFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "ImportFile" }) as any as S.Schema<ImportFile>;
+
+export type ImportFileList = Array<ImportFile>;
+export const ImportFileList = /*@__PURE__*/ S.Array(ImportFile) as any as S.Schema<ImportFileList>;
+
+/** Files that make up the template contents of a template type. */
+export interface TemplateContents {
+  /** The contents of the template schema. */
+  schema?: string;
+  /** The contents of the main template file. */
+  template?: string;
+  /** Which interpreter (python or jinja) should be used during expansion. */
+  interpreter?: TemplateContentsInterpreterEnum | (string & {});
+  /** The filename of the mainTemplate */
+  mainTemplate?: string;
+  /** Import files referenced by the main template. */
+  imports?: ImportFileList;
+}
+export const TemplateContents = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schema: S.optional(S.String),
+    template: S.optional(S.String),
+    interpreter: S.optional(TemplateContentsInterpreterEnum),
+    mainTemplate: S.optional(S.String),
+    imports: S.optional(ImportFileList),
+  }),
+).annotate({ identifier: "TemplateContents" }) as any as S.Schema<TemplateContents>;
+
+export type CompositeTypeStatusEnum =
+  | "UNKNOWN_STATUS"
+  | "DEPRECATED"
+  | "EXPERIMENTAL"
+  | "SUPPORTED";
+export const CompositeTypeStatusEnum = S.String;
 
 /** Label object for CompositeTypes */
 export interface CompositeTypeLabelEntry {
@@ -866,100 +915,51 @@ export const CompositeTypeLabelEntryList = /*@__PURE__*/ S.Array(
   CompositeTypeLabelEntry,
 ) as any as S.Schema<CompositeTypeLabelEntryList>;
 
-export interface ImportFile {
-  /** The name of the file. */
-  name?: string;
-  /** The contents of the file. */
-  content?: string;
-}
-export const ImportFile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    content: S.optional(S.String),
-  }),
-).annotate({ identifier: "ImportFile" }) as any as S.Schema<ImportFile>;
-
-export type ImportFileList = Array<ImportFile>;
-export const ImportFileList = /*@__PURE__*/ S.Array(ImportFile) as any as S.Schema<ImportFileList>;
-
-export type TemplateContentsInterpreterEnum = "UNKNOWN_INTERPRETER" | "PYTHON" | "JINJA";
-export const TemplateContentsInterpreterEnum = S.String;
-
-/** Files that make up the template contents of a template type. */
-export interface TemplateContents {
-  /** The filename of the mainTemplate */
-  mainTemplate?: string;
-  /** Import files referenced by the main template. */
-  imports?: ImportFileList;
-  /** Which interpreter (python or jinja) should be used during expansion. */
-  interpreter?: TemplateContentsInterpreterEnum | (string & {});
-  /** The contents of the main template file. */
-  template?: string;
-  /** The contents of the template schema. */
-  schema?: string;
-}
-export const TemplateContents = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mainTemplate: S.optional(S.String),
-    imports: S.optional(ImportFileList),
-    interpreter: S.optional(TemplateContentsInterpreterEnum),
-    template: S.optional(S.String),
-    schema: S.optional(S.String),
-  }),
-).annotate({ identifier: "TemplateContents" }) as any as S.Schema<TemplateContents>;
-
-export type CompositeTypeStatusEnum =
-  | "UNKNOWN_STATUS"
-  | "DEPRECATED"
-  | "EXPERIMENTAL"
-  | "SUPPORTED";
-export const CompositeTypeStatusEnum = S.String;
-
 /** Holds the composite type. */
 export interface CompositeType {
-  /** Name of the composite type, must follow the expression: `[a-z]([-a-z0-9_.]{0,61}[a-z0-9])?`. */
-  name?: string;
   id?: string;
-  /** Map of labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
-  labels?: CompositeTypeLabelEntryList;
-  /** Output only. The Operation that most recently ran, or is currently running, on this composite type. */
-  operation?: Operation;
   /** Files for the template type. */
   templateContents?: TemplateContents;
-  /** An optional textual description of the resource; provided by the client when the resource is created. */
-  description?: string;
-  /** Output only. Creation timestamp in RFC3339 text format. */
-  insertTime?: string;
-  status?: CompositeTypeStatusEnum | (string & {});
   /** Output only. Server defined URL for the resource. */
   selfLink?: string;
+  /** Name of the composite type, must follow the expression: `[a-z]([-a-z0-9_.]{0,61}[a-z0-9])?`. */
+  name?: string;
+  /** Output only. Creation timestamp in RFC3339 text format. */
+  insertTime?: string;
+  /** An optional textual description of the resource; provided by the client when the resource is created. */
+  description?: string;
+  /** Output only. The Operation that most recently ran, or is currently running, on this composite type. */
+  operation?: Operation;
+  status?: CompositeTypeStatusEnum | (string & {});
+  /** Map of labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
+  labels?: CompositeTypeLabelEntryList;
 }
 export const CompositeType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     id: S.optional(S.String),
-    labels: S.optional(CompositeTypeLabelEntryList),
-    operation: S.optional(Operation),
     templateContents: S.optional(TemplateContents),
-    description: S.optional(S.String),
-    insertTime: S.optional(S.String),
-    status: S.optional(CompositeTypeStatusEnum),
     selfLink: S.optional(S.String),
+    name: S.optional(S.String),
+    insertTime: S.optional(S.String),
+    description: S.optional(S.String),
+    operation: S.optional(Operation),
+    status: S.optional(CompositeTypeStatusEnum),
+    labels: S.optional(CompositeTypeLabelEntryList),
   }),
 ).annotate({ identifier: "CompositeType" }) as any as S.Schema<CompositeType>;
 
 export interface GetDeploymentsRequest {
-  /** The project ID for this request. */
-  project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the deployment for this request. */
   deployment: string;
-  "header.bypassBillingFilter"?: boolean;
+  /** The project ID for this request. */
+  project: string;
 }
 export const GetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
-    deployment: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    deployment: S.String.pipe(T.Label()),
+    project: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -968,6 +968,43 @@ export const GetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "GetDeploymentsRequest" }) as any as S.Schema<GetDeploymentsRequest>;
+
+/** Label object for DeploymentUpdate */
+export interface DeploymentUpdateLabelEntry {
+  /** Key of the label */
+  key?: string;
+  /** Value of the label */
+  value?: string;
+}
+export const DeploymentUpdateLabelEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentUpdateLabelEntry",
+}) as any as S.Schema<DeploymentUpdateLabelEntry>;
+
+export type DeploymentUpdateLabelEntryList = Array<DeploymentUpdateLabelEntry>;
+export const DeploymentUpdateLabelEntryList = /*@__PURE__*/ S.Array(
+  DeploymentUpdateLabelEntry,
+) as any as S.Schema<DeploymentUpdateLabelEntryList>;
+
+export interface DeploymentUpdate {
+  /** Output only. An optional user-provided description of the deployment after the current update has been applied. */
+  description?: string;
+  /** Output only. URL of the manifest representing the update configuration of this deployment. */
+  manifest?: string;
+  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
+  labels?: DeploymentUpdateLabelEntryList;
+}
+export const DeploymentUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    manifest: S.optional(S.String),
+    labels: S.optional(DeploymentUpdateLabelEntryList),
+  }),
+).annotate({ identifier: "DeploymentUpdate" }) as any as S.Schema<DeploymentUpdate>;
 
 export interface ConfigFile {
   /** The contents of the file. */
@@ -993,88 +1030,53 @@ export const TargetConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TargetConfiguration" }) as any as S.Schema<TargetConfiguration>;
 
 /** Label object for Deployments */
-export interface DeploymentLabelEntry {
-  /** Key of the label */
-  key?: string;
-  /** Value of the label */
-  value?: string;
-}
-export const DeploymentLabelEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "DeploymentLabelEntry" }) as any as S.Schema<DeploymentLabelEntry>;
+export type DeploymentLabelEntry = CompositeTypeLabelEntry;
+export const DeploymentLabelEntry = CompositeTypeLabelEntry;
 
-export type DeploymentLabelEntryList = Array<DeploymentLabelEntry>;
+export type DeploymentLabelEntryList = Array<CompositeTypeLabelEntry>;
 export const DeploymentLabelEntryList = /*@__PURE__*/ S.Array(
-  DeploymentLabelEntry,
+  CompositeTypeLabelEntry,
 ) as any as S.Schema<DeploymentLabelEntryList>;
 
-/** Label object for DeploymentUpdate */
-export type DeploymentUpdateLabelEntry = DeploymentLabelEntry;
-export const DeploymentUpdateLabelEntry = DeploymentLabelEntry;
-
-export type DeploymentUpdateLabelEntryList = Array<DeploymentLabelEntry>;
-export const DeploymentUpdateLabelEntryList = /*@__PURE__*/ S.Array(
-  DeploymentLabelEntry,
-) as any as S.Schema<DeploymentUpdateLabelEntryList>;
-
-export interface DeploymentUpdate {
-  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
-  labels?: DeploymentUpdateLabelEntryList;
-  /** Output only. An optional user-provided description of the deployment after the current update has been applied. */
-  description?: string;
-  /** Output only. URL of the manifest representing the update configuration of this deployment. */
-  manifest?: string;
-}
-export const DeploymentUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labels: S.optional(DeploymentUpdateLabelEntryList),
-    description: S.optional(S.String),
-    manifest: S.optional(S.String),
-  }),
-).annotate({ identifier: "DeploymentUpdate" }) as any as S.Schema<DeploymentUpdate>;
-
 export interface Deployment {
-  /** Output only. Server defined URL for the resource. */
-  selfLink?: string;
-  /** [Input Only] The parameters that define your deployment, including the deployment configuration and relevant templates. */
-  target?: TargetConfiguration;
-  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
-  labels?: DeploymentLabelEntryList;
+  /** Output only. Creation timestamp in RFC3339 text format. */
+  insertTime?: string;
+  /** Output only. Update timestamp in RFC3339 text format. */
+  updateTime?: string;
   /** An optional user-provided description of the deployment. */
   description?: string;
   /** Provides a fingerprint to use in requests to modify a deployment, such as `update()`, `stop()`, and `cancelPreview()` requests. A fingerprint is a randomly generated value that must be provided with `update()`, `stop()`, and `cancelPreview()` requests to perform optimistic locking. This ensures optimistic concurrency so that only one request happens at a time. The fingerprint is initially generated by Deployment Manager and changes after every request to modify data. To get the latest fingerprint value, perform a `get()` request to a deployment. */
   fingerprint?: string;
-  /** Output only. Creation timestamp in RFC3339 text format. */
-  insertTime?: string;
   /** Output only. URL of the manifest representing the last manifest that was successfully deployed. If no manifest has been successfully deployed, this field will be absent. */
   manifest?: string;
+  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
+  name?: string;
   /** Output only. If Deployment Manager is currently updating or previewing an update to this deployment, the updated configuration appears here. */
   update?: DeploymentUpdate;
-  /** Output only. Update timestamp in RFC3339 text format. */
-  updateTime?: string;
+  /** [Input Only] The parameters that define your deployment, including the deployment configuration and relevant templates. */
+  target?: TargetConfiguration;
   id?: string;
   /** Output only. The Operation that most recently ran, or is currently running, on this deployment. */
   operation?: Operation;
-  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  name?: string;
+  /** Output only. Server defined URL for the resource. */
+  selfLink?: string;
+  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
+  labels?: DeploymentLabelEntryList;
 }
 export const Deployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    selfLink: S.optional(S.String),
-    target: S.optional(TargetConfiguration),
-    labels: S.optional(DeploymentLabelEntryList),
+    insertTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
     description: S.optional(S.String),
     fingerprint: S.optional(S.String),
-    insertTime: S.optional(S.String),
     manifest: S.optional(S.String),
+    name: S.optional(S.String),
     update: S.optional(DeploymentUpdate),
-    updateTime: S.optional(S.String),
+    target: S.optional(TargetConfiguration),
     id: S.optional(S.String),
     operation: S.optional(Operation),
-    name: S.optional(S.String),
+    selfLink: S.optional(S.String),
+    labels: S.optional(DeploymentLabelEntryList),
   }),
 ).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 
@@ -1083,16 +1085,16 @@ export interface GetIamPolicyDeploymentsRequest {
   project: string;
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
-  "header.bypassBillingFilter"?: boolean;
   /** Name or id of the resource for this request. */
   resource: string;
+  "header.bypassBillingFilter"?: boolean;
 }
 export const GetIamPolicyDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Label()),
     optionsRequestedPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1104,6 +1106,46 @@ export const GetIamPolicyDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIamPolicyDeploymentsRequest",
 }) as any as S.Schema<GetIamPolicyDeploymentsRequest>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String),
+    title: S.optional(S.String),
+    expression: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    condition: S.optional(Expr),
+    role: S.optional(S.String),
+    members: S.optional(StringList),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -1113,15 +1155,15 @@ export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exemptedMembers: S.optional(StringList),
     logType: S.optional(AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -1132,15 +1174,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditLogConfigs: S.optional(AuditLogConfigList),
     service: S.optional(S.String),
+    auditLogConfigs: S.optional(AuditLogConfigList),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -1149,80 +1191,40 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String),
-    title: S.optional(S.String),
-    description: S.optional(S.String),
-    expression: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    role: S.optional(S.String),
-    members: S.optional(StringList),
-    condition: S.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    version: S.optional(S.Number),
-    auditConfigs: S.optional(AuditConfigList),
     bindings: S.optional(BindingList),
+    auditConfigs: S.optional(AuditConfigList),
+    version: S.optional(S.Number),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
 export interface GetManifestsRequest {
   /** The project ID for this request. */
   project: string;
-  /** The name of the deployment for this request. */
-  deployment: string;
   /** The name of the manifest for this request. */
   manifest: string;
+  /** The name of the deployment for this request. */
+  deployment: string;
   "header.bypassBillingFilter"?: boolean;
 }
 export const GetManifestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Label()),
-    deployment: S.String.pipe(T.Label()),
     manifest: S.String.pipe(T.Label()),
+    deployment: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1234,53 +1236,53 @@ export const GetManifestsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetManifestsRequest" }) as any as S.Schema<GetManifestsRequest>;
 
 export interface Manifest {
-  /** Output only. Self link for the manifest. */
-  selfLink?: string;
-  /** Output only. The size limit for expanded manifests in the project. */
-  manifestSizeLimitBytes?: string;
-  /** Output only. The computed size of the fully expanded manifest. */
-  manifestSizeBytes?: string;
-  /** Output only. The fully-expanded configuration file, including any templates and references. */
-  expandedConfig?: string;
-  /** Output only. The YAML layout for this manifest. */
-  layout?: string;
-  /** Output only. Creation timestamp in RFC3339 text format. */
-  insertTime?: string;
   /** Output only. The YAML configuration for this manifest. */
   config?: ConfigFile;
-  /** Output only. The name of the manifest. */
-  name?: string;
   /** Output only. The imported files for this manifest. */
   imports?: ImportFileList;
+  /** Output only. The computed size of the fully expanded manifest. */
+  manifestSizeBytes?: string;
   id?: string;
+  /** Output only. The YAML layout for this manifest. */
+  layout?: string;
+  /** Output only. Self link for the manifest. */
+  selfLink?: string;
+  /** Output only. The name of the manifest. */
+  name?: string;
+  /** Output only. The fully-expanded configuration file, including any templates and references. */
+  expandedConfig?: string;
+  /** Output only. Creation timestamp in RFC3339 text format. */
+  insertTime?: string;
+  /** Output only. The size limit for expanded manifests in the project. */
+  manifestSizeLimitBytes?: string;
 }
 export const Manifest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    selfLink: S.optional(S.String),
-    manifestSizeLimitBytes: S.optional(S.String),
-    manifestSizeBytes: S.optional(S.String),
-    expandedConfig: S.optional(S.String),
-    layout: S.optional(S.String),
-    insertTime: S.optional(S.String),
     config: S.optional(ConfigFile),
-    name: S.optional(S.String),
     imports: S.optional(ImportFileList),
+    manifestSizeBytes: S.optional(S.String),
     id: S.optional(S.String),
+    layout: S.optional(S.String),
+    selfLink: S.optional(S.String),
+    name: S.optional(S.String),
+    expandedConfig: S.optional(S.String),
+    insertTime: S.optional(S.String),
+    manifestSizeLimitBytes: S.optional(S.String),
   }),
 ).annotate({ identifier: "Manifest" }) as any as S.Schema<Manifest>;
 
 export interface GetOperationsRequest {
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the operation for this request. */
   operation: string;
-  "header.bypassBillingFilter"?: boolean;
 }
 export const GetOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Label()),
-    operation: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    operation: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1291,19 +1293,19 @@ export const GetOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetOperationsRequest" }) as any as S.Schema<GetOperationsRequest>;
 
 export interface GetResourcesRequest {
-  /** The project ID for this request. */
-  project: string;
   "header.bypassBillingFilter"?: boolean;
   /** The name of the resource for this request. */
   resource: string;
+  /** The project ID for this request. */
+  project: string;
   /** The name of the deployment for this request. */
   deployment: string;
 }
 export const GetResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    project: S.String.pipe(T.Label()),
     deployment: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1313,209 +1315,6 @@ export const GetResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "GetResourcesRequest" }) as any as S.Schema<GetResourcesRequest>;
-
-/** The access controls set on the resource. */
-export interface ResourceAccessControl {
-  /** The GCP IAM Policy to set on the resource. */
-  gcpIamPolicy?: string;
-}
-export const ResourceAccessControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gcpIamPolicy: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResourceAccessControl" }) as any as S.Schema<ResourceAccessControl>;
-
-export type ResourceUpdateStateEnum =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "IN_PREVIEW"
-  | "FAILED"
-  | "ABORTED";
-export const ResourceUpdateStateEnum = S.String;
-
-export type ResourceUpdateIntentEnum =
-  | "CREATE_OR_ACQUIRE"
-  | "DELETE"
-  | "ACQUIRE"
-  | "UPDATE"
-  | "ABANDON"
-  | "CREATE";
-export const ResourceUpdateIntentEnum = S.String;
-
-export interface ResourceUpdateErrorErrorsItemErrorDetailsItem {
-  /** A localized human-readable error message intended for end users. */
-  localizedMessage?: LocalizedMessage;
-  /** Links and information to help the user resolve the error. */
-  help?: Help;
-  /** Error information containing structured domain, reason, and metadata. */
-  errorInfo?: ErrorInfo;
-  /** Details about quota limits and metrics when a quota is exceeded. */
-  quotaInfo?: QuotaExceededInfo;
-}
-export const ResourceUpdateErrorErrorsItemErrorDetailsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    localizedMessage: S.optional(LocalizedMessage),
-    help: S.optional(Help),
-    errorInfo: S.optional(ErrorInfo),
-    quotaInfo: S.optional(QuotaExceededInfo),
-  }),
-).annotate({
-  identifier: "ResourceUpdateErrorErrorsItemErrorDetailsItem",
-}) as any as S.Schema<ResourceUpdateErrorErrorsItemErrorDetailsItem>;
-
-export type ResourceUpdateErrorErrorsItemErrorDetailsItemList =
-  Array<ResourceUpdateErrorErrorsItemErrorDetailsItem>;
-export const ResourceUpdateErrorErrorsItemErrorDetailsItemList = /*@__PURE__*/ S.Array(
-  ResourceUpdateErrorErrorsItemErrorDetailsItem,
-) as any as S.Schema<ResourceUpdateErrorErrorsItemErrorDetailsItemList>;
-
-export interface ResourceUpdateErrorErrorsItem {
-  /** [Output Only] The error type identifier for this error. */
-  code?: string;
-  /** [Output Only] An optional, human-readable error message. */
-  message?: string;
-  /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
-  debugInfo?: DebugInfo;
-  /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
-  arguments?: StringList;
-  /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
-  errorDetails?: ResourceUpdateErrorErrorsItemErrorDetailsItemList;
-  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
-  location?: string;
-}
-export const ResourceUpdateErrorErrorsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-    debugInfo: S.optional(DebugInfo),
-    arguments: S.optional(StringList),
-    errorDetails: S.optional(ResourceUpdateErrorErrorsItemErrorDetailsItemList),
-    location: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceUpdateErrorErrorsItem",
-}) as any as S.Schema<ResourceUpdateErrorErrorsItem>;
-
-export type ResourceUpdateErrorErrorsItemList = Array<ResourceUpdateErrorErrorsItem>;
-export const ResourceUpdateErrorErrorsItemList = /*@__PURE__*/ S.Array(
-  ResourceUpdateErrorErrorsItem,
-) as any as S.Schema<ResourceUpdateErrorErrorsItemList>;
-
-export interface ResourceUpdateError {
-  /** [Output Only] The array of errors encountered while processing this operation. */
-  errors?: ResourceUpdateErrorErrorsItemList;
-}
-export const ResourceUpdateError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errors: S.optional(ResourceUpdateErrorErrorsItemList),
-  }),
-).annotate({ identifier: "ResourceUpdateError" }) as any as S.Schema<ResourceUpdateError>;
-
-export type ResourceUpdateWarningsItemCodeEnum =
-  | "DEPRECATED_RESOURCE_USED"
-  | "NO_RESULTS_ON_PAGE"
-  | "UNREACHABLE"
-  | "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
-  | "NEXT_HOP_INSTANCE_NOT_FOUND"
-  | "NEXT_HOP_INSTANCE_NOT_ON_NETWORK"
-  | "NEXT_HOP_CANNOT_IP_FORWARD"
-  | "NEXT_HOP_NOT_RUNNING"
-  | "INJECTED_KERNELS_DEPRECATED"
-  | "REQUIRED_TOS_AGREEMENT"
-  | "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
-  | "RESOURCE_NOT_DELETED"
-  | "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
-  | "NOT_CRITICAL_ERROR"
-  | "CLEANUP_FAILED"
-  | "FIELD_VALUE_OVERRIDEN"
-  | "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
-  | "NETWORK_ENDPOINT_NOT_DETACHED"
-  | "PAGE_MISSING_RESULTS"
-  | "SSL_POLICY_ENABLED_FEATURES_NOT_FETCHED"
-  | "RESOURCE_NOT_FOUND_WARNING"
-  | "MISSING_TYPE_DEPENDENCY"
-  | "EXTERNAL_API_WARNING"
-  | "SCHEMA_VALIDATION_IGNORED"
-  | "UNDECLARED_PROPERTIES"
-  | "EXPERIMENTAL_TYPE_USED"
-  | "DEPRECATED_TYPE_USED"
-  | "PARTIAL_SUCCESS"
-  | "LARGE_DEPLOYMENT_WARNING"
-  | "NEXT_HOP_INSTANCE_HAS_NO_IPV6_INTERFACE"
-  | "INVALID_HEALTH_CHECK_FOR_DYNAMIC_WIEGHTED_LB"
-  | "LIST_OVERHEAD_QUOTA_EXCEED"
-  | "QUOTA_INFO_UNAVAILABLE"
-  | "RESOURCE_USES_GLOBAL_DNS"
-  | "RATE_LIMIT_EXCEEDED"
-  | "UPCOMING_MAINTENANCES_UNAVAILABLE"
-  | "RESERVED_ENTRY_136"
-  | "RESERVED_ENTRY_139"
-  | "RESERVED_ENTRY_141"
-  | "RESERVED_ENTRY_142"
-  | "RESERVED_ENTRY_143";
-export const ResourceUpdateWarningsItemCodeEnum = S.String;
-
-export type ResourceUpdateWarningsItemDataItem = OperationWarningsItemDataItem;
-export const ResourceUpdateWarningsItemDataItem = OperationWarningsItemDataItem;
-
-export type ResourceUpdateWarningsItemDataItemList = Array<OperationWarningsItemDataItem>;
-export const ResourceUpdateWarningsItemDataItemList = /*@__PURE__*/ S.Array(
-  OperationWarningsItemDataItem,
-) as any as S.Schema<ResourceUpdateWarningsItemDataItemList>;
-
-export interface ResourceUpdateWarningsItem {
-  /** [Output Only] A human-readable description of the warning code. */
-  message?: string;
-  /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
-  code?: ResourceUpdateWarningsItemCodeEnum;
-  /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
-  data?: ResourceUpdateWarningsItemDataItemList;
-}
-export const ResourceUpdateWarningsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    code: S.optional(ResourceUpdateWarningsItemCodeEnum),
-    data: S.optional(ResourceUpdateWarningsItemDataItemList),
-  }),
-).annotate({
-  identifier: "ResourceUpdateWarningsItem",
-}) as any as S.Schema<ResourceUpdateWarningsItem>;
-
-export type ResourceUpdateWarningsItemList = Array<ResourceUpdateWarningsItem>;
-export const ResourceUpdateWarningsItemList = /*@__PURE__*/ S.Array(
-  ResourceUpdateWarningsItem,
-) as any as S.Schema<ResourceUpdateWarningsItemList>;
-
-export interface ResourceUpdate {
-  /** Output only. The expanded properties of the resource with reference values expanded. Returned as serialized YAML. */
-  finalProperties?: string;
-  /** The Access Control Policy to set on this resource after updating the resource itself. */
-  accessControl?: ResourceAccessControl;
-  /** Output only. The state of the resource. */
-  state?: ResourceUpdateStateEnum;
-  /** Output only. The set of updated properties for this resource, before references are expanded. Returned as serialized YAML. */
-  properties?: string;
-  /** Output only. The intent of the resource: `PREVIEW`, `UPDATE`, or `CANCEL`. */
-  intent?: ResourceUpdateIntentEnum;
-  /** Output only. If errors are generated during update of the resource, this field will be populated. */
-  error?: ResourceUpdateError;
-  /** Output only. URL of the manifest representing the update configuration of this resource. */
-  manifest?: string;
-  /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
-  warnings?: ResourceUpdateWarningsItemList;
-}
-export const ResourceUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    finalProperties: S.optional(S.String),
-    accessControl: S.optional(ResourceAccessControl),
-    state: S.optional(ResourceUpdateStateEnum),
-    properties: S.optional(S.String),
-    intent: S.optional(ResourceUpdateIntentEnum),
-    error: S.optional(ResourceUpdateError),
-    manifest: S.optional(S.String),
-    warnings: S.optional(ResourceUpdateWarningsItemList),
-  }),
-).annotate({ identifier: "ResourceUpdate" }) as any as S.Schema<ResourceUpdate>;
 
 export type ResourceWarningsItemCodeEnum =
   | "DEPRECATED_RESOURCE_USED"
@@ -1561,12 +1360,24 @@ export type ResourceWarningsItemCodeEnum =
   | "RESERVED_ENTRY_143";
 export const ResourceWarningsItemCodeEnum = S.String;
 
-export type ResourceWarningsItemDataItem = OperationWarningsItemDataItem;
-export const ResourceWarningsItemDataItem = OperationWarningsItemDataItem;
+export interface ResourceWarningsItemDataItem {
+  /** [Output Only] A warning data value corresponding to the key. */
+  value?: string;
+  /** [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding). */
+  key?: string;
+}
+export const ResourceWarningsItemDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    key: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceWarningsItemDataItem",
+}) as any as S.Schema<ResourceWarningsItemDataItem>;
 
-export type ResourceWarningsItemDataItemList = Array<OperationWarningsItemDataItem>;
+export type ResourceWarningsItemDataItemList = Array<ResourceWarningsItemDataItem>;
 export const ResourceWarningsItemDataItemList = /*@__PURE__*/ S.Array(
-  OperationWarningsItemDataItem,
+  ResourceWarningsItemDataItem,
 ) as any as S.Schema<ResourceWarningsItemDataItemList>;
 
 export interface ResourceWarningsItem {
@@ -1590,59 +1401,246 @@ export const ResourceWarningsItemList = /*@__PURE__*/ S.Array(
   ResourceWarningsItem,
 ) as any as S.Schema<ResourceWarningsItemList>;
 
-export interface Resource {
-  /** Output only. URL of the manifest representing the current configuration of this resource. */
-  manifest?: string;
-  /** Output only. The type of the resource, for example `compute.v1.instance`, or `cloudfunctions.v1beta1.function`. */
-  type?: string;
-  /** Output only. The evaluated properties of the resource with references expanded. Returned as serialized YAML. */
+/** The access controls set on the resource. */
+export interface ResourceAccessControl {
+  /** The GCP IAM Policy to set on the resource. */
+  gcpIamPolicy?: string;
+}
+export const ResourceAccessControl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcpIamPolicy: S.optional(S.String),
+  }),
+).annotate({ identifier: "ResourceAccessControl" }) as any as S.Schema<ResourceAccessControl>;
+
+export type ResourceUpdateIntentEnum =
+  | "CREATE_OR_ACQUIRE"
+  | "DELETE"
+  | "ACQUIRE"
+  | "UPDATE"
+  | "ABANDON"
+  | "CREATE";
+export const ResourceUpdateIntentEnum = S.String;
+
+export type ResourceUpdateStateEnum =
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "IN_PREVIEW"
+  | "FAILED"
+  | "ABORTED";
+export const ResourceUpdateStateEnum = S.String;
+
+export type ResourceUpdateWarningsItemDataItem = OperationWarningsItemDataItem;
+export const ResourceUpdateWarningsItemDataItem = OperationWarningsItemDataItem;
+
+export type ResourceUpdateWarningsItemDataItemList = Array<OperationWarningsItemDataItem>;
+export const ResourceUpdateWarningsItemDataItemList = /*@__PURE__*/ S.Array(
+  OperationWarningsItemDataItem,
+) as any as S.Schema<ResourceUpdateWarningsItemDataItemList>;
+
+export type ResourceUpdateWarningsItemCodeEnum =
+  | "DEPRECATED_RESOURCE_USED"
+  | "NO_RESULTS_ON_PAGE"
+  | "UNREACHABLE"
+  | "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
+  | "NEXT_HOP_INSTANCE_NOT_FOUND"
+  | "NEXT_HOP_INSTANCE_NOT_ON_NETWORK"
+  | "NEXT_HOP_CANNOT_IP_FORWARD"
+  | "NEXT_HOP_NOT_RUNNING"
+  | "INJECTED_KERNELS_DEPRECATED"
+  | "REQUIRED_TOS_AGREEMENT"
+  | "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+  | "RESOURCE_NOT_DELETED"
+  | "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+  | "NOT_CRITICAL_ERROR"
+  | "CLEANUP_FAILED"
+  | "FIELD_VALUE_OVERRIDEN"
+  | "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
+  | "NETWORK_ENDPOINT_NOT_DETACHED"
+  | "PAGE_MISSING_RESULTS"
+  | "SSL_POLICY_ENABLED_FEATURES_NOT_FETCHED"
+  | "RESOURCE_NOT_FOUND_WARNING"
+  | "MISSING_TYPE_DEPENDENCY"
+  | "EXTERNAL_API_WARNING"
+  | "SCHEMA_VALIDATION_IGNORED"
+  | "UNDECLARED_PROPERTIES"
+  | "EXPERIMENTAL_TYPE_USED"
+  | "DEPRECATED_TYPE_USED"
+  | "PARTIAL_SUCCESS"
+  | "LARGE_DEPLOYMENT_WARNING"
+  | "NEXT_HOP_INSTANCE_HAS_NO_IPV6_INTERFACE"
+  | "INVALID_HEALTH_CHECK_FOR_DYNAMIC_WIEGHTED_LB"
+  | "LIST_OVERHEAD_QUOTA_EXCEED"
+  | "QUOTA_INFO_UNAVAILABLE"
+  | "RESOURCE_USES_GLOBAL_DNS"
+  | "RATE_LIMIT_EXCEEDED"
+  | "UPCOMING_MAINTENANCES_UNAVAILABLE"
+  | "RESERVED_ENTRY_136"
+  | "RESERVED_ENTRY_139"
+  | "RESERVED_ENTRY_141"
+  | "RESERVED_ENTRY_142"
+  | "RESERVED_ENTRY_143";
+export const ResourceUpdateWarningsItemCodeEnum = S.String;
+
+export interface ResourceUpdateWarningsItem {
+  /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
+  data?: ResourceUpdateWarningsItemDataItemList;
+  /** [Output Only] A human-readable description of the warning code. */
+  message?: string;
+  /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
+  code?: ResourceUpdateWarningsItemCodeEnum;
+}
+export const ResourceUpdateWarningsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ResourceUpdateWarningsItemDataItemList),
+    message: S.optional(S.String),
+    code: S.optional(ResourceUpdateWarningsItemCodeEnum),
+  }),
+).annotate({
+  identifier: "ResourceUpdateWarningsItem",
+}) as any as S.Schema<ResourceUpdateWarningsItem>;
+
+export type ResourceUpdateWarningsItemList = Array<ResourceUpdateWarningsItem>;
+export const ResourceUpdateWarningsItemList = /*@__PURE__*/ S.Array(
+  ResourceUpdateWarningsItem,
+) as any as S.Schema<ResourceUpdateWarningsItemList>;
+
+export type ResourceUpdateErrorErrorsItemErrorDetailsItem =
+  OperationErrorErrorsItemErrorDetailsItem;
+export const ResourceUpdateErrorErrorsItemErrorDetailsItem =
+  OperationErrorErrorsItemErrorDetailsItem;
+
+export type ResourceUpdateErrorErrorsItemErrorDetailsItemList =
+  Array<OperationErrorErrorsItemErrorDetailsItem>;
+export const ResourceUpdateErrorErrorsItemErrorDetailsItemList = /*@__PURE__*/ S.Array(
+  OperationErrorErrorsItemErrorDetailsItem,
+) as any as S.Schema<ResourceUpdateErrorErrorsItemErrorDetailsItemList>;
+
+export interface ResourceUpdateErrorErrorsItem {
+  /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
+  arguments?: StringList;
+  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
+  location?: string;
+  /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
+  errorDetails?: ResourceUpdateErrorErrorsItemErrorDetailsItemList;
+  /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
+  debugInfo?: DebugInfo;
+  /** [Output Only] The error type identifier for this error. */
+  code?: string;
+  /** [Output Only] An optional, human-readable error message. */
+  message?: string;
+}
+export const ResourceUpdateErrorErrorsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arguments: S.optional(StringList),
+    location: S.optional(S.String),
+    errorDetails: S.optional(ResourceUpdateErrorErrorsItemErrorDetailsItemList),
+    debugInfo: S.optional(DebugInfo),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceUpdateErrorErrorsItem",
+}) as any as S.Schema<ResourceUpdateErrorErrorsItem>;
+
+export type ResourceUpdateErrorErrorsItemList = Array<ResourceUpdateErrorErrorsItem>;
+export const ResourceUpdateErrorErrorsItemList = /*@__PURE__*/ S.Array(
+  ResourceUpdateErrorErrorsItem,
+) as any as S.Schema<ResourceUpdateErrorErrorsItemList>;
+
+export interface ResourceUpdateError {
+  /** [Output Only] The array of errors encountered while processing this operation. */
+  errors?: ResourceUpdateErrorErrorsItemList;
+}
+export const ResourceUpdateError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errors: S.optional(ResourceUpdateErrorErrorsItemList),
+  }),
+).annotate({ identifier: "ResourceUpdateError" }) as any as S.Schema<ResourceUpdateError>;
+
+export interface ResourceUpdate {
+  /** Output only. The intent of the resource: `PREVIEW`, `UPDATE`, or `CANCEL`. */
+  intent?: ResourceUpdateIntentEnum;
+  /** Output only. The expanded properties of the resource with reference values expanded. Returned as serialized YAML. */
   finalProperties?: string;
-  /** Output only. If Deployment Manager is currently updating or previewing an update to this resource, the updated configuration appears here. */
-  update?: ResourceUpdate;
+  /** Output only. The state of the resource. */
+  state?: ResourceUpdateStateEnum;
+  /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
+  warnings?: ResourceUpdateWarningsItemList;
+  /** Output only. URL of the manifest representing the update configuration of this resource. */
+  manifest?: string;
+  /** Output only. The set of updated properties for this resource, before references are expanded. Returned as serialized YAML. */
+  properties?: string;
+  /** The Access Control Policy to set on this resource after updating the resource itself. */
+  accessControl?: ResourceAccessControl;
+  /** Output only. If errors are generated during update of the resource, this field will be populated. */
+  error?: ResourceUpdateError;
+}
+export const ResourceUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intent: S.optional(ResourceUpdateIntentEnum),
+    finalProperties: S.optional(S.String),
+    state: S.optional(ResourceUpdateStateEnum),
+    warnings: S.optional(ResourceUpdateWarningsItemList),
+    manifest: S.optional(S.String),
+    properties: S.optional(S.String),
+    accessControl: S.optional(ResourceAccessControl),
+    error: S.optional(ResourceUpdateError),
+  }),
+).annotate({ identifier: "ResourceUpdate" }) as any as S.Schema<ResourceUpdate>;
+
+export interface Resource {
   /** Output only. The current properties of the resource before any references have been filled in. Returned as serialized YAML. */
   properties?: string;
-  /** Output only. Update timestamp in RFC3339 text format. */
-  updateTime?: string;
-  /** Output only. Creation timestamp in RFC3339 text format. */
-  insertTime?: string;
-  /** The Access Control Policy set on this resource. */
-  accessControl?: ResourceAccessControl;
+  /** Output only. The type of the resource, for example `compute.v1.instance`, or `cloudfunctions.v1beta1.function`. */
+  type?: string;
   /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
   warnings?: ResourceWarningsItemList;
+  /** The Access Control Policy set on this resource. */
+  accessControl?: ResourceAccessControl;
+  /** Output only. The evaluated properties of the resource with references expanded. Returned as serialized YAML. */
+  finalProperties?: string;
+  /** Output only. URL of the manifest representing the current configuration of this resource. */
+  manifest?: string;
+  /** Output only. Creation timestamp in RFC3339 text format. */
+  insertTime?: string;
+  /** Output only. Update timestamp in RFC3339 text format. */
+  updateTime?: string;
+  /** Output only. If Deployment Manager is currently updating or previewing an update to this resource, the updated configuration appears here. */
+  update?: ResourceUpdate;
+  id?: string;
   /** Output only. The URL of the actual resource. */
   url?: string;
   /** Output only. The name of the resource as it appears in the YAML config. */
   name?: string;
-  id?: string;
 }
 export const Resource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    manifest: S.optional(S.String),
-    type: S.optional(S.String),
-    finalProperties: S.optional(S.String),
-    update: S.optional(ResourceUpdate),
     properties: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    insertTime: S.optional(S.String),
-    accessControl: S.optional(ResourceAccessControl),
+    type: S.optional(S.String),
     warnings: S.optional(ResourceWarningsItemList),
+    accessControl: S.optional(ResourceAccessControl),
+    finalProperties: S.optional(S.String),
+    manifest: S.optional(S.String),
+    insertTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    update: S.optional(ResourceUpdate),
+    id: S.optional(S.String),
     url: S.optional(S.String),
     name: S.optional(S.String),
-    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 
 export interface GetTypeProvidersRequest {
-  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the type provider for this request. */
   typeProvider: string;
 }
 export const GetTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     typeProvider: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1652,94 +1650,6 @@ export const GetTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "GetTypeProvidersRequest" }) as any as S.Schema<GetTypeProvidersRequest>;
-
-export type DiagnosticLevelEnum = "UNKNOWN" | "INFORMATION" | "WARNING" | "ERROR";
-export const DiagnosticLevelEnum = S.String;
-
-export interface Diagnostic {
-  /** JsonPath expression on the resource that if non empty, indicates that this field needs to be extracted as a diagnostic. */
-  field?: string;
-  /** Level to record this diagnostic. */
-  level?: DiagnosticLevelEnum | (string & {});
-}
-export const Diagnostic = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    field: S.optional(S.String),
-    level: S.optional(DiagnosticLevelEnum),
-  }),
-).annotate({ identifier: "Diagnostic" }) as any as S.Schema<Diagnostic>;
-
-export type DiagnosticList = Array<Diagnostic>;
-export const DiagnosticList = /*@__PURE__*/ S.Array(Diagnostic) as any as S.Schema<DiagnosticList>;
-
-export interface PollingOptions {
-  /** JsonPath expression that determines if the request is completed. */
-  finishCondition?: string;
-  /** JsonPath expression that determines if the request failed. */
-  failCondition?: string;
-  /** JsonPath expression, after polling is completed, indicates where to fetch the resource. */
-  targetLink?: string;
-  /** JsonPath expression that evaluates to string, it indicates where to poll. */
-  pollingLink?: string;
-  /** An array of diagnostics to be collected by Deployment Manager, these diagnostics will be displayed to the user. */
-  diagnostics?: DiagnosticList;
-}
-export const PollingOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    finishCondition: S.optional(S.String),
-    failCondition: S.optional(S.String),
-    targetLink: S.optional(S.String),
-    pollingLink: S.optional(S.String),
-    diagnostics: S.optional(DiagnosticList),
-  }),
-).annotate({ identifier: "PollingOptions" }) as any as S.Schema<PollingOptions>;
-
-/** Async options that determine when a resource should finish. */
-export interface AsyncOptions {
-  /** Method regex where this policy will apply. */
-  methodMatch?: string;
-  /** Deployment manager will poll instances for this API resource setting a RUNNING state, and blocking until polling conditions tell whether the resource is completed or failed. */
-  pollingOptions?: PollingOptions;
-}
-export const AsyncOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    methodMatch: S.optional(S.String),
-    pollingOptions: S.optional(PollingOptions),
-  }),
-).annotate({ identifier: "AsyncOptions" }) as any as S.Schema<AsyncOptions>;
-
-export type AsyncOptionsList = Array<AsyncOptions>;
-export const AsyncOptionsList = /*@__PURE__*/ S.Array(
-  AsyncOptions,
-) as any as S.Schema<AsyncOptionsList>;
-
-export type InputMappingLocationEnum = "UNKNOWN" | "PATH" | "QUERY" | "BODY" | "HEADER";
-export const InputMappingLocationEnum = S.String;
-
-/** InputMapping creates a 'virtual' property that will be injected into the properties before sending the request to the underlying API. */
-export interface InputMapping {
-  /** Regex to evaluate on method to decide if input applies. */
-  methodMatch?: string;
-  /** The name of the field that is going to be injected. */
-  fieldName?: string;
-  /** The location where this mapping applies. */
-  location?: InputMappingLocationEnum | (string & {});
-  /** A jsonPath expression to select an element. */
-  value?: string;
-}
-export const InputMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    methodMatch: S.optional(S.String),
-    fieldName: S.optional(S.String),
-    location: S.optional(InputMappingLocationEnum),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "InputMapping" }) as any as S.Schema<InputMapping>;
-
-export type InputMappingList = Array<InputMapping>;
-export const InputMappingList = /*@__PURE__*/ S.Array(
-  InputMapping,
-) as any as S.Schema<InputMappingList>;
 
 export type ValidationOptionsUndeclaredPropertiesEnum =
   | "UNKNOWN"
@@ -1771,37 +1681,125 @@ export const ValidationOptions = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ValidationOptions" }) as any as S.Schema<ValidationOptions>;
 
+export type DiagnosticLevelEnum = "UNKNOWN" | "INFORMATION" | "WARNING" | "ERROR";
+export const DiagnosticLevelEnum = S.String;
+
+export interface Diagnostic {
+  /** JsonPath expression on the resource that if non empty, indicates that this field needs to be extracted as a diagnostic. */
+  field?: string;
+  /** Level to record this diagnostic. */
+  level?: DiagnosticLevelEnum | (string & {});
+}
+export const Diagnostic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    field: S.optional(S.String),
+    level: S.optional(DiagnosticLevelEnum),
+  }),
+).annotate({ identifier: "Diagnostic" }) as any as S.Schema<Diagnostic>;
+
+export type DiagnosticList = Array<Diagnostic>;
+export const DiagnosticList = /*@__PURE__*/ S.Array(Diagnostic) as any as S.Schema<DiagnosticList>;
+
+export interface PollingOptions {
+  /** JsonPath expression, after polling is completed, indicates where to fetch the resource. */
+  targetLink?: string;
+  /** JsonPath expression that determines if the request failed. */
+  failCondition?: string;
+  /** An array of diagnostics to be collected by Deployment Manager, these diagnostics will be displayed to the user. */
+  diagnostics?: DiagnosticList;
+  /** JsonPath expression that evaluates to string, it indicates where to poll. */
+  pollingLink?: string;
+  /** JsonPath expression that determines if the request is completed. */
+  finishCondition?: string;
+}
+export const PollingOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetLink: S.optional(S.String),
+    failCondition: S.optional(S.String),
+    diagnostics: S.optional(DiagnosticList),
+    pollingLink: S.optional(S.String),
+    finishCondition: S.optional(S.String),
+  }),
+).annotate({ identifier: "PollingOptions" }) as any as S.Schema<PollingOptions>;
+
+/** Async options that determine when a resource should finish. */
+export interface AsyncOptions {
+  /** Method regex where this policy will apply. */
+  methodMatch?: string;
+  /** Deployment manager will poll instances for this API resource setting a RUNNING state, and blocking until polling conditions tell whether the resource is completed or failed. */
+  pollingOptions?: PollingOptions;
+}
+export const AsyncOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    methodMatch: S.optional(S.String),
+    pollingOptions: S.optional(PollingOptions),
+  }),
+).annotate({ identifier: "AsyncOptions" }) as any as S.Schema<AsyncOptions>;
+
+export type AsyncOptionsList = Array<AsyncOptions>;
+export const AsyncOptionsList = /*@__PURE__*/ S.Array(
+  AsyncOptions,
+) as any as S.Schema<AsyncOptionsList>;
+
+export type InputMappingLocationEnum = "UNKNOWN" | "PATH" | "QUERY" | "BODY" | "HEADER";
+export const InputMappingLocationEnum = S.String;
+
+/** InputMapping creates a 'virtual' property that will be injected into the properties before sending the request to the underlying API. */
+export interface InputMapping {
+  /** Regex to evaluate on method to decide if input applies. */
+  methodMatch?: string;
+  /** The location where this mapping applies. */
+  location?: InputMappingLocationEnum | (string & {});
+  /** The name of the field that is going to be injected. */
+  fieldName?: string;
+  /** A jsonPath expression to select an element. */
+  value?: string;
+}
+export const InputMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    methodMatch: S.optional(S.String),
+    location: S.optional(InputMappingLocationEnum),
+    fieldName: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "InputMapping" }) as any as S.Schema<InputMapping>;
+
+export type InputMappingList = Array<InputMapping>;
+export const InputMappingList = /*@__PURE__*/ S.Array(
+  InputMapping,
+) as any as S.Schema<InputMappingList>;
+
 /** Options allows customized resource handling by Deployment Manager. */
 export interface Options {
+  /** Options for how to validate and process properties on a resource. */
+  validationOptions?: ValidationOptions;
   /** Options regarding how to thread async requests. */
   asyncOptions?: AsyncOptionsList;
   /** The mappings that apply for requests. */
   inputMappings?: InputMappingList;
-  /** Options for how to validate and process properties on a resource. */
-  validationOptions?: ValidationOptions;
   /** Additional properties block described as a jsonSchema, these properties will never be part of the json payload, but they can be consumed by InputMappings, this must be a valid json schema draft-04. The properties specified here will be decouple in a different section. This schema will be merged to the schema validation, and properties here will be extracted From the payload and consumed explicitly by InputMappings. ex: field1: type: string field2: type: number */
   virtualProperties?: string;
 }
 export const Options = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    validationOptions: S.optional(ValidationOptions),
     asyncOptions: S.optional(AsyncOptionsList),
     inputMappings: S.optional(InputMappingList),
-    validationOptions: S.optional(ValidationOptions),
     virtualProperties: S.optional(S.String),
   }),
 ).annotate({ identifier: "Options" }) as any as S.Schema<Options>;
 
 /** CollectionOverride allows resource handling overrides for specific resources within a BaseType */
 export interface CollectionOverride {
-  /** The collection that identifies this resource within its service. */
-  collection?: string;
   /** The options to apply to this resource-level override */
   options?: Options;
+  /** The collection that identifies this resource within its service. */
+  collection?: string;
 }
 export const CollectionOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collection: S.optional(S.String),
     options: S.optional(Options),
+    collection: S.optional(S.String),
   }),
 ).annotate({ identifier: "CollectionOverride" }) as any as S.Schema<CollectionOverride>;
 
@@ -1810,15 +1808,24 @@ export const CollectionOverrideList = /*@__PURE__*/ S.Array(
   CollectionOverride,
 ) as any as S.Schema<CollectionOverrideList>;
 
+/** Label object for TypeProviders */
+export type TypeProviderLabelEntry = DeploymentUpdateLabelEntry;
+export const TypeProviderLabelEntry = DeploymentUpdateLabelEntry;
+
+export type TypeProviderLabelEntryList = Array<DeploymentUpdateLabelEntry>;
+export const TypeProviderLabelEntryList = /*@__PURE__*/ S.Array(
+  DeploymentUpdateLabelEntry,
+) as any as S.Schema<TypeProviderLabelEntryList>;
+
 /** Basic Auth used as a credential. */
 export interface BasicAuth {
-  password?: string;
   user?: string;
+  password?: string;
 }
 export const BasicAuth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    password: S.optional(S.String),
     user: S.optional(S.String),
+    password: S.optional(S.String),
   }),
 ).annotate({ identifier: "BasicAuth" }) as any as S.Schema<BasicAuth>;
 
@@ -1835,88 +1842,79 @@ export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
 
 /** The credential used by Deployment Manager and TypeProvider. Only one of the options is permitted. */
 export interface Credential {
-  /** Basic Auth Credential, only used by TypeProvider. */
-  basicAuth?: BasicAuth;
   /** Specify to use the project default credential, only supported by Deployment. */
   useProjectDefault?: boolean;
+  /** Basic Auth Credential, only used by TypeProvider. */
+  basicAuth?: BasicAuth;
   /** Service Account Credential, only used by Deployment. */
   serviceAccount?: ServiceAccount;
 }
 export const Credential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    basicAuth: S.optional(BasicAuth),
     useProjectDefault: S.optional(S.Boolean),
+    basicAuth: S.optional(BasicAuth),
     serviceAccount: S.optional(ServiceAccount),
   }),
 ).annotate({ identifier: "Credential" }) as any as S.Schema<Credential>;
 
-/** Label object for TypeProviders */
-export type TypeProviderLabelEntry = DeploymentLabelEntry;
-export const TypeProviderLabelEntry = DeploymentLabelEntry;
-
-export type TypeProviderLabelEntryList = Array<DeploymentLabelEntry>;
-export const TypeProviderLabelEntryList = /*@__PURE__*/ S.Array(
-  DeploymentLabelEntry,
-) as any as S.Schema<TypeProviderLabelEntryList>;
-
 /** A type provider that describes a service-backed Type. */
 export interface TypeProvider {
+  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
+  name?: string;
   /** Allows resource handling overrides for specific collections */
   collectionOverrides?: CollectionOverrideList;
+  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?` */
+  labels?: TypeProviderLabelEntryList;
+  /** Output only. Unique identifier for the resource defined by the server. */
+  id?: string;
+  /** List of up to 2 custom certificate authority roots to use for TLS authentication when making calls on behalf of this type provider. If set, TLS authentication will exclusively use these roots instead of relying on publicly trusted certificate authorities when validating TLS certificate authenticity. The certificates must be in base64-encoded PEM format. The maximum size of each certificate must not exceed 10KB. */
+  customCertificateAuthorityRoots?: StringList;
+  /** Descriptor Url for the this type provider. */
+  descriptorUrl?: string;
+  /** Output only. Self link for the type provider. */
+  selfLink?: string;
+  /** Output only. The Operation that most recently ran, or is currently running, on this type provider. */
+  operation?: Operation;
   /** Credential used when interacting with this type. */
   credential?: Credential;
   /** Options to apply when handling any resources in this service. */
   options?: Options;
-  /** Output only. The Operation that most recently ran, or is currently running, on this type provider. */
-  operation?: Operation;
-  /** List of up to 2 custom certificate authority roots to use for TLS authentication when making calls on behalf of this type provider. If set, TLS authentication will exclusively use these roots instead of relying on publicly trusted certificate authorities when validating TLS certificate authenticity. The certificates must be in base64-encoded PEM format. The maximum size of each certificate must not exceed 10KB. */
-  customCertificateAuthorityRoots?: StringList;
-  /** Output only. Self link for the type provider. */
-  selfLink?: string;
-  /** Output only. Unique identifier for the resource defined by the server. */
-  id?: string;
-  /** Descriptor Url for the this type provider. */
-  descriptorUrl?: string;
-  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  name?: string;
-  /** An optional textual description of the resource; provided by the client when the resource is created. */
-  description?: string;
-  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?` */
-  labels?: TypeProviderLabelEntryList;
   /** Output only. Creation timestamp in RFC3339 text format. */
   insertTime?: string;
+  /** An optional textual description of the resource; provided by the client when the resource is created. */
+  description?: string;
 }
 export const TypeProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     collectionOverrides: S.optional(CollectionOverrideList),
+    labels: S.optional(TypeProviderLabelEntryList),
+    id: S.optional(S.String),
+    customCertificateAuthorityRoots: S.optional(StringList),
+    descriptorUrl: S.optional(S.String),
+    selfLink: S.optional(S.String),
+    operation: S.optional(Operation),
     credential: S.optional(Credential),
     options: S.optional(Options),
-    operation: S.optional(Operation),
-    customCertificateAuthorityRoots: S.optional(StringList),
-    selfLink: S.optional(S.String),
-    id: S.optional(S.String),
-    descriptorUrl: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    labels: S.optional(TypeProviderLabelEntryList),
     insertTime: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "TypeProvider" }) as any as S.Schema<TypeProvider>;
 
 export interface GetTypeTypeProvidersRequest {
   /** The name of the type provider type for this request. */
   type: string;
-  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the type provider for this request. */
   typeProvider: string;
 }
 export const GetTypeTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String.pipe(T.Label()),
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     typeProvider: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1944,44 +1942,44 @@ export const TypeInfoSchemaInfo = /*@__PURE__*/ S.suspend(() =>
 
 /** Type Information. Contains detailed information about a composite type, base type, or base type with specific collection. */
 export interface TypeInfo {
-  /** Output only. Type of the output. Always `deploymentManager#TypeInfo` for TypeInfo. */
-  kind?: string;
-  /** The description of the type. */
-  description?: string;
-  /** For swagger 2.0 externalDocs field will be used. For swagger 1.2 this field will be empty. */
-  documentationLink?: string;
-  /** For base types with a collection, we return a schema and documentation link For template types, we return only a schema */
-  schema?: TypeInfoSchemaInfo;
-  /** The title on the API descriptor URL provided. */
-  title?: string;
   /** The base type or composite type name. */
   name?: string;
   /** Output only. Self link for the type provider. */
   selfLink?: string;
+  /** The title on the API descriptor URL provided. */
+  title?: string;
+  /** For swagger 2.0 externalDocs field will be used. For swagger 1.2 this field will be empty. */
+  documentationLink?: string;
+  /** The description of the type. */
+  description?: string;
+  /** Output only. Type of the output. Always `deploymentManager#TypeInfo` for TypeInfo. */
+  kind?: string;
+  /** For base types with a collection, we return a schema and documentation link For template types, we return only a schema */
+  schema?: TypeInfoSchemaInfo;
 }
 export const TypeInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    description: S.optional(S.String),
-    documentationLink: S.optional(S.String),
-    schema: S.optional(TypeInfoSchemaInfo),
-    title: S.optional(S.String),
     name: S.optional(S.String),
     selfLink: S.optional(S.String),
+    title: S.optional(S.String),
+    documentationLink: S.optional(S.String),
+    description: S.optional(S.String),
+    kind: S.optional(S.String),
+    schema: S.optional(TypeInfoSchemaInfo),
   }),
 ).annotate({ identifier: "TypeInfo" }) as any as S.Schema<TypeInfo>;
 
 export interface InsertCompositeTypesRequest {
-  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** Request body */
   body?: CompositeType;
 }
 export const InsertCompositeTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(CompositeType.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1998,22 +1996,22 @@ export type InsertDeploymentsCreatePolicyEnum = "CREATE_OR_ACQUIRE" | "ACQUIRE" 
 export const InsertDeploymentsCreatePolicyEnum = S.String;
 
 export interface InsertDeploymentsRequest {
+  /** Sets the policy to use for creating new resources. */
+  createPolicy?: InsertDeploymentsCreatePolicyEnum | (string & {});
+  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
   /** If set to true, creates a deployment and creates "shell" resources but does not actually instantiate these resources. This allows you to preview what your deployment looks like. After previewing a deployment, you can deploy your resources by making a request with the `update()` method or you can use the `cancelPreview()` method to cancel the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
   preview?: boolean;
-  /** Sets the policy to use for creating new resources. */
-  createPolicy?: InsertDeploymentsCreatePolicyEnum | (string & {});
-  "header.bypassBillingFilter"?: boolean;
   /** Request body */
   body?: Deployment;
 }
 export const InsertDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
-    preview: S.optional(S.Boolean.pipe(T.Query())),
     createPolicy: S.optional(InsertDeploymentsCreatePolicyEnum.pipe(T.Query())),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
+    preview: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Deployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2025,16 +2023,16 @@ export const InsertDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "InsertDeploymentsRequest" }) as any as S.Schema<InsertDeploymentsRequest>;
 
 export interface InsertTypeProvidersRequest {
+  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
-  "header.bypassBillingFilter"?: boolean;
   /** Request body */
   body?: TypeProvider;
 }
 export const InsertTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
     body: S.optional(TypeProvider.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2048,23 +2046,23 @@ export const InsertTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InsertTypeProvidersRequest>;
 
 export interface ListCompositeTypesRequest {
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string;
   /** The project ID for this request. */
   project: string;
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number;
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
 }
 export const ListCompositeTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2084,38 +2082,38 @@ export const CompositeTypeList = /*@__PURE__*/ S.Array(
 
 /** A response that returns all Composite Types supported by Deployment Manager */
 export interface CompositeTypesListResponse {
-  /** A token used to continue a truncated list request. */
-  nextPageToken?: string;
   /** Output only. A list of resource composite types supported by Deployment Manager. */
   compositeTypes?: CompositeTypeList;
+  /** A token used to continue a truncated list request. */
+  nextPageToken?: string;
 }
 export const CompositeTypesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     compositeTypes: S.optional(CompositeTypeList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CompositeTypesListResponse",
 }) as any as S.Schema<CompositeTypesListResponse>;
 
 export interface ListDeploymentsRequest {
-  /** The project ID for this request. */
-  project: string;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
-  filter?: string;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
+  /** The project ID for this request. */
+  project: string;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string;
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
 }
 export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2144,27 +2142,27 @@ export const DeploymentsListResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DeploymentsListResponse" }) as any as S.Schema<DeploymentsListResponse>;
 
 export interface ListManifestsRequest {
-  /** The project ID for this request. */
-  project: string;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string;
   /** The name of the deployment for this request. */
   deployment: string;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string;
+  /** The project ID for this request. */
+  project: string;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
-  filter?: string;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string;
 }
 export const ListManifestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     deployment: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
     maxResults: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2179,37 +2177,37 @@ export const ManifestList = /*@__PURE__*/ S.Array(Manifest) as any as S.Schema<M
 
 /** A response containing a partial list of manifests and a page token used to build the next request if the request has been truncated. */
 export interface ManifestsListResponse {
-  /** Output only. A token used to continue a truncated list request. */
-  nextPageToken?: string;
   /** Output only. Manifests contained in this list response. */
   manifests?: ManifestList;
+  /** Output only. A token used to continue a truncated list request. */
+  nextPageToken?: string;
 }
 export const ManifestsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     manifests: S.optional(ManifestList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ManifestsListResponse" }) as any as S.Schema<ManifestsListResponse>;
 
 export interface ListOperationsRequest {
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
-  orderBy?: string;
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number;
-  /** The project ID for this request. */
-  project: string;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string;
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string;
+  /** The project ID for this request. */
+  project: string;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string;
 }
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    project: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2237,14 +2235,14 @@ export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OperationsListResponse" }) as any as S.Schema<OperationsListResponse>;
 
 export interface ListResourcesRequest {
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
-  filter?: string;
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
   /** The name of the deployment for this request. */
   deployment: string;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string;
   /** The project ID for this request. */
   project: string;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
@@ -2252,10 +2250,10 @@ export interface ListResourcesRequest {
 }
 export const ListResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     deployment: S.String.pipe(T.Label()),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -2285,24 +2283,24 @@ export const ResourcesListResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ResourcesListResponse" }) as any as S.Schema<ResourcesListResponse>;
 
 export interface ListTypeProvidersRequest {
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
-  orderBy?: string;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string;
-  /** The project ID for this request. */
-  project: string;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
-  filter?: string;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string;
+  /** The project ID for this request. */
+  project: string;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string;
 }
 export const ListTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    project: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2334,24 +2332,24 @@ export const TypeProvidersListResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypeProvidersListResponse>;
 
 export interface ListTypesRequest {
-  /** The project ID for this request. */
-  project: string;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string;
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number;
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string;
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number;
+  /** The project ID for this request. */
+  project: string;
 }
 export const ListTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2363,61 +2361,61 @@ export const ListTypesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** BaseType that describes a service-backed Type. */
 export interface BaseType {
-  /** Credential used when interacting with this type. */
-  credential?: Credential;
-  /** Descriptor Url for the this type. */
-  descriptorUrl?: string;
   /** Allows resource handling overrides for specific collections */
   collectionOverrides?: CollectionOverrideList;
   /** Options to apply when handling any resources in this service. */
   options?: Options;
+  /** Descriptor Url for the this type. */
+  descriptorUrl?: string;
+  /** Credential used when interacting with this type. */
+  credential?: Credential;
 }
 export const BaseType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    credential: S.optional(Credential),
-    descriptorUrl: S.optional(S.String),
     collectionOverrides: S.optional(CollectionOverrideList),
     options: S.optional(Options),
+    descriptorUrl: S.optional(S.String),
+    credential: S.optional(Credential),
   }),
 ).annotate({ identifier: "BaseType" }) as any as S.Schema<BaseType>;
 
 /** Label object for Types */
-export type TypeLabelEntry = DeploymentLabelEntry;
-export const TypeLabelEntry = DeploymentLabelEntry;
+export type TypeLabelEntry = DeploymentUpdateLabelEntry;
+export const TypeLabelEntry = DeploymentUpdateLabelEntry;
 
-export type TypeLabelEntryList = Array<DeploymentLabelEntry>;
+export type TypeLabelEntryList = Array<DeploymentUpdateLabelEntry>;
 export const TypeLabelEntryList = /*@__PURE__*/ S.Array(
-  DeploymentLabelEntry,
+  DeploymentUpdateLabelEntry,
 ) as any as S.Schema<TypeLabelEntryList>;
 
 /** A resource type supported by Deployment Manager. */
 export interface Type {
   /** Base Type (configurable service) that backs this Type. */
   base?: BaseType;
-  /** Output only. The Operation that most recently ran, or is currently running, on this type. */
-  operation?: Operation;
-  /** Name of the type. */
-  name?: string;
-  id?: string;
-  /** Output only. Server defined URL for the resource. */
-  selfLink?: string;
-  /** An optional textual description of the resource; provided by the client when the resource is created. */
-  description?: string;
   /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
   labels?: TypeLabelEntryList;
   /** Output only. Creation timestamp in RFC3339 text format. */
   insertTime?: string;
+  /** Name of the type. */
+  name?: string;
+  /** Output only. Server defined URL for the resource. */
+  selfLink?: string;
+  id?: string;
+  /** Output only. The Operation that most recently ran, or is currently running, on this type. */
+  operation?: Operation;
+  /** An optional textual description of the resource; provided by the client when the resource is created. */
+  description?: string;
 }
 export const Type = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     base: S.optional(BaseType),
-    operation: S.optional(Operation),
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    selfLink: S.optional(S.String),
-    description: S.optional(S.String),
     labels: S.optional(TypeLabelEntryList),
     insertTime: S.optional(S.String),
+    name: S.optional(S.String),
+    selfLink: S.optional(S.String),
+    id: S.optional(S.String),
+    operation: S.optional(Operation),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Type" }) as any as S.Schema<Type>;
 
@@ -2439,27 +2437,27 @@ export const TypesListResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TypesListResponse" }) as any as S.Schema<TypesListResponse>;
 
 export interface ListTypesTypeProvidersRequest {
-  /** The project ID for this request. */
-  project: string;
   /** The name of the type provider for this request. */
   typeProvider: string;
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
-  orderBy?: string;
+  /** The project ID for this request. */
+  project: string;
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number;
 }
 export const ListTypesTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     typeProvider: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2475,24 +2473,24 @@ export type TypeInfoList = Array<TypeInfo>;
 export const TypeInfoList = /*@__PURE__*/ S.Array(TypeInfo) as any as S.Schema<TypeInfoList>;
 
 export interface TypeProvidersListTypesResponse {
-  /** A token used to continue a truncated list request. */
-  nextPageToken?: string;
   /** Output only. A list of resource type info. */
   types?: TypeInfoList;
+  /** A token used to continue a truncated list request. */
+  nextPageToken?: string;
 }
 export const TypeProvidersListTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     types: S.optional(TypeInfoList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TypeProvidersListTypesResponse",
 }) as any as S.Schema<TypeProvidersListTypesResponse>;
 
 export interface PatchCompositeTypesRequest {
-  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the composite type for this request. */
   compositeType: string;
   /** Request body */
@@ -2500,8 +2498,8 @@ export interface PatchCompositeTypesRequest {
 }
 export const PatchCompositeTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     compositeType: S.String.pipe(T.Label()),
     body: S.optional(CompositeType.pipe(T.HttpBody())),
   }).pipe(
@@ -2524,6 +2522,8 @@ export const PatchDeploymentsCreatePolicyEnum = S.String;
 export interface PatchDeploymentsRequest {
   /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
   preview?: boolean;
+  /** The name of the deployment for this request. */
+  deployment: string;
   "header.bypassBillingFilter"?: boolean;
   /** Sets the policy to use for deleting resources. */
   deletePolicy?: PatchDeploymentsDeletePolicyEnum | (string & {});
@@ -2531,19 +2531,17 @@ export interface PatchDeploymentsRequest {
   createPolicy?: PatchDeploymentsCreatePolicyEnum | (string & {});
   /** The project ID for this request. */
   project: string;
-  /** The name of the deployment for this request. */
-  deployment: string;
   /** Request body */
   body?: Deployment;
 }
 export const PatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preview: S.optional(S.Boolean.pipe(T.Query())),
+    deployment: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     deletePolicy: S.optional(PatchDeploymentsDeletePolicyEnum.pipe(T.Query())),
     createPolicy: S.optional(PatchDeploymentsCreatePolicyEnum.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
-    deployment: S.String.pipe(T.Label()),
     body: S.optional(Deployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2555,19 +2553,19 @@ export const PatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PatchDeploymentsRequest" }) as any as S.Schema<PatchDeploymentsRequest>;
 
 export interface PatchTypeProvidersRequest {
-  /** The project ID for this request. */
-  project: string;
   /** The name of the type provider for this request. */
   typeProvider: string;
   "header.bypassBillingFilter"?: boolean;
+  /** The project ID for this request. */
+  project: string;
   /** Request body */
   body?: TypeProvider;
 }
 export const PatchTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     typeProvider: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
     body: S.optional(TypeProvider.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2666,19 +2664,19 @@ export const TestPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TestPermissionsRequest" }) as any as S.Schema<TestPermissionsRequest>;
 
 export interface TestIamPermissionsDeploymentsRequest {
-  /** Name or id of the resource for this request. */
-  resource: string;
   /** Project ID for this request. */
   project: string;
   "header.bypassBillingFilter"?: boolean;
+  /** Name or id of the resource for this request. */
+  resource: string;
   /** Request body */
   body?: TestPermissionsRequest;
 }
 export const TestIamPermissionsDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     project: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
     body: S.optional(TestPermissionsRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2702,9 +2700,9 @@ export const TestPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TestPermissionsResponse" }) as any as S.Schema<TestPermissionsResponse>;
 
 export interface UpdateCompositeTypesRequest {
-  "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the composite type for this request. */
   compositeType: string;
   /** Request body */
@@ -2712,8 +2710,8 @@ export interface UpdateCompositeTypesRequest {
 }
 export const UpdateCompositeTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
     compositeType: S.String.pipe(T.Label()),
     body: S.optional(CompositeType.pipe(T.HttpBody())),
   }).pipe(
@@ -2734,28 +2732,28 @@ export type UpdateDeploymentsDeletePolicyEnum = "DELETE" | "ABANDON";
 export const UpdateDeploymentsDeletePolicyEnum = S.String;
 
 export interface UpdateDeploymentsRequest {
+  /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
+  preview?: boolean;
+  "header.bypassBillingFilter"?: boolean;
   /** Sets the policy to use for creating new resources. */
   createPolicy?: UpdateDeploymentsCreatePolicyEnum | (string & {});
+  /** The name of the deployment for this request. */
+  deployment: string;
   /** The project ID for this request. */
   project: string;
   /** Sets the policy to use for deleting resources. */
   deletePolicy?: UpdateDeploymentsDeletePolicyEnum | (string & {});
-  /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
-  preview?: boolean;
-  "header.bypassBillingFilter"?: boolean;
-  /** The name of the deployment for this request. */
-  deployment: string;
   /** Request body */
   body?: Deployment;
 }
 export const UpdateDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createPolicy: S.optional(UpdateDeploymentsCreatePolicyEnum.pipe(T.Query())),
-    project: S.String.pipe(T.Label()),
-    deletePolicy: S.optional(UpdateDeploymentsDeletePolicyEnum.pipe(T.Query())),
     preview: S.optional(S.Boolean.pipe(T.Query())),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    createPolicy: S.optional(UpdateDeploymentsCreatePolicyEnum.pipe(T.Query())),
     deployment: S.String.pipe(T.Label()),
+    project: S.String.pipe(T.Label()),
+    deletePolicy: S.optional(UpdateDeploymentsDeletePolicyEnum.pipe(T.Query())),
     body: S.optional(Deployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2769,17 +2767,17 @@ export const UpdateDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateTypeProvidersRequest {
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean;
   /** The name of the type provider for this request. */
   typeProvider: string;
-  "header.bypassBillingFilter"?: boolean;
   /** Request body */
   body?: TypeProvider;
 }
 export const UpdateTypeProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Label()),
-    typeProvider: S.String.pipe(T.Label()),
     "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+    typeProvider: S.String.pipe(T.Label()),
     body: S.optional(TypeProvider.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

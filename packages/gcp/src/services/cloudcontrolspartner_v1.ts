@@ -61,6 +61,12 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type CustomerOnboardingStepStepEnum =
+  | "STEP_UNSPECIFIED"
+  | "KAJ_ENROLLMENT"
+  | "CUSTOMER_ENVIRONMENT";
+export const CustomerOnboardingStepStepEnum = S.String;
+
 export type CustomerOnboardingStepCompletionStateEnum =
   | "COMPLETION_STATE_UNSPECIFIED"
   | "PENDING"
@@ -69,28 +75,22 @@ export type CustomerOnboardingStepCompletionStateEnum =
   | "NOT_APPLICABLE";
 export const CustomerOnboardingStepCompletionStateEnum = S.String;
 
-export type CustomerOnboardingStepStepEnum =
-  | "STEP_UNSPECIFIED"
-  | "KAJ_ENROLLMENT"
-  | "CUSTOMER_ENVIRONMENT";
-export const CustomerOnboardingStepStepEnum = S.String;
-
 /** Container for customer onboarding information */
 export interface CustomerOnboardingStep {
-  /** Output only. Current state of the step */
-  completionState?: CustomerOnboardingStepCompletionStateEnum | (string & {});
   /** The onboarding step */
   step?: CustomerOnboardingStepStepEnum | (string & {});
   /** The completion time of the onboarding step */
   completionTime?: string;
+  /** Output only. Current state of the step */
+  completionState?: CustomerOnboardingStepCompletionStateEnum | (string & {});
   /** The starting time of the onboarding step */
   startTime?: string;
 }
 export const CustomerOnboardingStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    completionState: S.optional(CustomerOnboardingStepCompletionStateEnum),
     step: S.optional(CustomerOnboardingStepStepEnum),
     completionTime: S.optional(S.String),
+    completionState: S.optional(CustomerOnboardingStepCompletionStateEnum),
     startTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomerOnboardingStep" }) as any as S.Schema<CustomerOnboardingStep>;
@@ -113,24 +113,24 @@ export const CustomerOnboardingState = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains metadata around a Cloud Controls Partner Customer */
 export interface Customer {
+  /** Output only. The customer organization domain, extracted from CRM Organization’s display_name field. e.g. "google.com" */
+  organizationDomain?: string;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   name?: string;
+  /** Output only. Indicates whether a customer is fully onboarded */
+  isOnboarded?: boolean;
   /** Output only. Container for customer onboarding steps */
   customerOnboardingState?: CustomerOnboardingState;
   /** Required. Display name for the customer */
   displayName?: string;
-  /** Output only. The customer organization domain, extracted from CRM Organization’s display_name field. e.g. "google.com" */
-  organizationDomain?: string;
-  /** Output only. Indicates whether a customer is fully onboarded */
-  isOnboarded?: boolean;
 }
 export const Customer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    organizationDomain: S.optional(S.String),
     name: S.optional(S.String),
+    isOnboarded: S.optional(S.Boolean),
     customerOnboardingState: S.optional(CustomerOnboardingState),
     displayName: S.optional(S.String),
-    organizationDomain: S.optional(S.String),
-    isOnboarded: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Customer" }) as any as S.Schema<Customer>;
 
@@ -211,15 +211,15 @@ export const EkmConnectionConnectionStateEnum = S.String;
 
 /** Information around the error that occurred if the connection state is anything other than available or unspecified */
 export interface ConnectionError {
-  /** The error message for the error */
-  errorMessage?: string;
   /** The error domain for the error */
   errorDomain?: string;
+  /** The error message for the error */
+  errorMessage?: string;
 }
 export const ConnectionError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    errorMessage: S.optional(S.String),
     errorDomain: S.optional(S.String),
+    errorMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "ConnectionError" }) as any as S.Schema<ConnectionError>;
 
@@ -227,16 +227,16 @@ export const ConnectionError = /*@__PURE__*/ S.suspend(() =>
 export interface EkmConnection {
   /** Output only. The connection state */
   connectionState?: EkmConnectionConnectionStateEnum;
-  /** Resource name of the EKM connection in the format: projects/{project}/locations/{location}/ekmConnections/{ekm_connection} */
-  connectionName?: string;
   /** The connection error that occurred if any */
   connectionError?: ConnectionError;
+  /** Resource name of the EKM connection in the format: projects/{project}/locations/{location}/ekmConnections/{ekm_connection} */
+  connectionName?: string;
 }
 export const EkmConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionState: S.optional(EkmConnectionConnectionStateEnum),
-    connectionName: S.optional(S.String),
     connectionError: S.optional(ConnectionError),
+    connectionName: S.optional(S.String),
   }),
 ).annotate({ identifier: "EkmConnection" }) as any as S.Schema<EkmConnection>;
 
@@ -247,15 +247,15 @@ export const EkmConnectionList = /*@__PURE__*/ S.Array(
 
 /** The EKM connections associated with a workload */
 export interface EkmConnections {
-  /** The EKM connections associated with the workload */
-  ekmConnections?: EkmConnectionList;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections` */
   name?: string;
+  /** The EKM connections associated with the workload */
+  ekmConnections?: EkmConnectionList;
 }
 export const EkmConnections = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ekmConnections: S.optional(EkmConnectionList),
     name: S.optional(S.String),
+    ekmConnections: S.optional(EkmConnectionList),
   }),
 ).annotate({ identifier: "EkmConnections" }) as any as S.Schema<EkmConnections>;
 
@@ -324,19 +324,19 @@ export const WorkloadOnboardingStepStepEnum = S.String;
 export interface WorkloadOnboardingStep {
   /** Output only. The completion state of the onboarding step. */
   completionState?: WorkloadOnboardingStepCompletionStateEnum;
-  /** The onboarding step. */
-  step?: WorkloadOnboardingStepStepEnum;
   /** The completion time of the onboarding step. */
   completionTime?: string;
   /** The starting time of the onboarding step. */
   startTime?: string;
+  /** The onboarding step. */
+  step?: WorkloadOnboardingStepStepEnum;
 }
 export const WorkloadOnboardingStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     completionState: S.optional(WorkloadOnboardingStepCompletionStateEnum),
-    step: S.optional(WorkloadOnboardingStepStepEnum),
     completionTime: S.optional(S.String),
     startTime: S.optional(S.String),
+    step: S.optional(WorkloadOnboardingStepStepEnum),
   }),
 ).annotate({ identifier: "WorkloadOnboardingStep" }) as any as S.Schema<WorkloadOnboardingStep>;
 
@@ -358,36 +358,36 @@ export const WorkloadOnboardingState = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains metadata around the [Workload resource](https://cloud.google.com/assured-workloads/docs/reference/rest/Shared.Types/Workload) in the Assured Workloads API. */
 export interface Workload {
+  /** The project id of the key management project for the workload */
+  keyManagementProjectId?: string;
   /** Output only. Time the resource was created. */
   createTime?: string;
-  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-  name?: string;
+  /** Output only. Folder id this workload is associated with */
+  folderId?: string;
   /** Indicates whether a workload is fully onboarded. */
   isOnboarded?: boolean;
-  /** The Google Cloud location of the workload */
-  location?: string;
   /** Output only. The name of container folder of the assured workload */
   folder?: string;
   /** Partner associated with this workload. */
   partner?: WorkloadPartnerEnum;
-  /** Output only. Folder id this workload is associated with */
-  folderId?: string;
   /** Container for workload onboarding steps. */
   workloadOnboardingState?: WorkloadOnboardingState;
-  /** The project id of the key management project for the workload */
-  keyManagementProjectId?: string;
+  /** The Google Cloud location of the workload */
+  location?: string;
+  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
+  name?: string;
 }
 export const Workload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    keyManagementProjectId: S.optional(S.String),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
+    folderId: S.optional(S.String),
     isOnboarded: S.optional(S.Boolean),
-    location: S.optional(S.String),
     folder: S.optional(S.String),
     partner: S.optional(WorkloadPartnerEnum),
-    folderId: S.optional(S.String),
     workloadOnboardingState: S.optional(WorkloadOnboardingState),
-    keyManagementProjectId: S.optional(S.String),
+    location: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Workload" }) as any as S.Schema<Workload>;
 
@@ -416,51 +416,51 @@ export const ViolationStateEnum = S.String;
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
+/** Remediation instructions to resolve violation via gcloud cli */
+export interface Gcloud {
+  /** Additional urls for more information about steps */
+  additionalLinks?: StringList;
+  /** Steps to resolve violation via gcloud cli */
+  steps?: StringList;
+  /** Gcloud command to resolve violation */
+  gcloudCommands?: StringList;
+}
+export const Gcloud = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additionalLinks: S.optional(StringList),
+    steps: S.optional(StringList),
+    gcloudCommands: S.optional(StringList),
+  }),
+).annotate({ identifier: "Gcloud" }) as any as S.Schema<Gcloud>;
+
 /** Remediation instructions to resolve violation via cloud console */
 export interface Console {
-  /** Steps to resolve violation via cloud console */
-  steps?: StringList;
   /** Link to console page where violations can be resolved */
   consoleUris?: StringList;
   /** Additional urls for more information about steps */
   additionalLinks?: StringList;
+  /** Steps to resolve violation via cloud console */
+  steps?: StringList;
 }
 export const Console = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    steps: S.optional(StringList),
     consoleUris: S.optional(StringList),
     additionalLinks: S.optional(StringList),
+    steps: S.optional(StringList),
   }),
 ).annotate({ identifier: "Console" }) as any as S.Schema<Console>;
 
-/** Remediation instructions to resolve violation via gcloud cli */
-export interface Gcloud {
-  /** Gcloud command to resolve violation */
-  gcloudCommands?: StringList;
-  /** Steps to resolve violation via gcloud cli */
-  steps?: StringList;
-  /** Additional urls for more information about steps */
-  additionalLinks?: StringList;
-}
-export const Gcloud = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gcloudCommands: S.optional(StringList),
-    steps: S.optional(StringList),
-    additionalLinks: S.optional(StringList),
-  }),
-).annotate({ identifier: "Gcloud" }) as any as S.Schema<Gcloud>;
-
 /** Instructions to remediate violation */
 export interface Instructions {
-  /** Remediation instructions to resolve violation via cloud console */
-  consoleInstructions?: Console;
   /** Remediation instructions to resolve violation via gcloud cli */
   gcloudInstructions?: Gcloud;
+  /** Remediation instructions to resolve violation via cloud console */
+  consoleInstructions?: Console;
 }
 export const Instructions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consoleInstructions: S.optional(Console),
     gcloudInstructions: S.optional(Gcloud),
+    consoleInstructions: S.optional(Console),
   }),
 ).annotate({ identifier: "Instructions" }) as any as S.Schema<Instructions>;
 
@@ -475,56 +475,56 @@ export const RemediationRemediationTypeEnum = S.String;
 
 /** Represents remediation guidance to resolve compliance violation for AssuredWorkload */
 export interface Remediation {
-  /** Required. Remediation instructions to resolve violations */
-  instructions?: Instructions;
   /** Values that can resolve the violation For example: for list org policy violations, this will either be the list of allowed or denied values */
   compliantValues?: StringList;
+  /** Required. Remediation instructions to resolve violations */
+  instructions?: Instructions;
   /** Output only. Remediation type based on the type of org policy values violated */
   remediationType?: RemediationRemediationTypeEnum;
 }
 export const Remediation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instructions: S.optional(Instructions),
     compliantValues: S.optional(StringList),
+    instructions: S.optional(Instructions),
     remediationType: S.optional(RemediationRemediationTypeEnum),
   }),
 ).annotate({ identifier: "Remediation" }) as any as S.Schema<Remediation>;
 
 /** Details of resource Violation */
 export interface Violation {
-  /** Output only. Time of the event which triggered the Violation. */
-  beginTime?: string;
-  /** Output only. Time of the event which fixed the Violation. If the violation is ACTIVE this will be empty. */
-  resolveTime?: string;
-  /** Output only. State of the violation */
-  state?: ViolationStateEnum;
-  /** Output only. The last time when the Violation record was updated. */
-  updateTime?: string;
-  /** Output only. Compliance violation remediation */
-  remediation?: Remediation;
-  /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
-  description?: string;
-  /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
-  category?: string;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
   name?: string;
+  /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
+  category?: string;
+  /** Output only. Time of the event which triggered the Violation. */
+  beginTime?: string;
   /** The folder_id of the violation */
   folderId?: string;
   /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: `projects/{project_number}/policies/{constraint_name}` `folders/{folder_id}/policies/{constraint_name}` `organizations/{organization_id}/policies/{constraint_name}` */
   nonCompliantOrgPolicy?: string;
+  /** Output only. Time of the event which fixed the Violation. If the violation is ACTIVE this will be empty. */
+  resolveTime?: string;
+  /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
+  description?: string;
+  /** Output only. State of the violation */
+  state?: ViolationStateEnum;
+  /** Output only. Compliance violation remediation */
+  remediation?: Remediation;
+  /** Output only. The last time when the Violation record was updated. */
+  updateTime?: string;
 }
 export const Violation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    beginTime: S.optional(S.String),
-    resolveTime: S.optional(S.String),
-    state: S.optional(ViolationStateEnum),
-    updateTime: S.optional(S.String),
-    remediation: S.optional(Remediation),
-    description: S.optional(S.String),
-    category: S.optional(S.String),
     name: S.optional(S.String),
+    category: S.optional(S.String),
+    beginTime: S.optional(S.String),
     folderId: S.optional(S.String),
     nonCompliantOrgPolicy: S.optional(S.String),
+    resolveTime: S.optional(S.String),
+    description: S.optional(S.String),
+    state: S.optional(ViolationStateEnum),
+    remediation: S.optional(Remediation),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Violation" }) as any as S.Schema<Violation>;
 
@@ -545,23 +545,6 @@ export const GetPartnerOrganizationsLocationsRequest = /*@__PURE__*/ S.suspend((
 ).annotate({
   identifier: "GetPartnerOrganizationsLocationsRequest",
 }) as any as S.Schema<GetPartnerOrganizationsLocationsRequest>;
-
-/** Represents the SKU a partner owns inside Google Cloud to sell to customers. */
-export interface Sku {
-  /** Display name of the product identified by the SKU. A partner may want to show partner branded names for their offerings such as local sovereign cloud solutions. */
-  displayName?: string;
-  /** Argentum product SKU, that is associated with the partner offerings to customers used by Syntro for billing purposes. SKUs can represent resold Google products or support services. */
-  id?: string;
-}
-export const Sku = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
-
-export type SkuList = Array<Sku>;
-export const SkuList = /*@__PURE__*/ S.Array(Sku) as any as S.Schema<SkuList>;
 
 export type EkmMetadataEkmSolutionEnum =
   | "EKM_SOLUTION_UNSPECIFIED"
@@ -590,32 +573,49 @@ export const EkmMetadataList = /*@__PURE__*/ S.Array(
   EkmMetadata,
 ) as any as S.Schema<EkmMetadataList>;
 
+/** Represents the SKU a partner owns inside Google Cloud to sell to customers. */
+export interface Sku {
+  /** Display name of the product identified by the SKU. A partner may want to show partner branded names for their offerings such as local sovereign cloud solutions. */
+  displayName?: string;
+  /** Argentum product SKU, that is associated with the partner offerings to customers used by Syntro for billing purposes. SKUs can represent resold Google products or support services. */
+  id?: string;
+}
+export const Sku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
+
+export type SkuList = Array<Sku>;
+export const SkuList = /*@__PURE__*/ S.Array(Sku) as any as S.Schema<SkuList>;
+
 /** Message describing Partner resource */
 export interface Partner {
-  /** List of Google Cloud regions that the partner sells services to customers. Valid Google Cloud regions found here: https://cloud.google.com/compute/docs/regions-zones */
-  operatedCloudRegions?: StringList;
-  /** Output only. Time the resource was created */
-  createTime?: string;
-  /** Google Cloud project ID in the partner's Google Cloud organization for receiving enhanced Logs for Partners. */
-  partnerProjectId?: string;
-  /** List of SKUs the partner is offering */
-  skus?: SkuList;
-  /** Output only. The last time the resource was updated */
-  updateTime?: string;
   /** List of Google Cloud supported EKM partners supported by the partner */
   ekmSolutions?: EkmMetadataList;
+  /** List of Google Cloud regions that the partner sells services to customers. Valid Google Cloud regions found here: https://cloud.google.com/compute/docs/regions-zones */
+  operatedCloudRegions?: StringList;
+  /** Google Cloud project ID in the partner's Google Cloud organization for receiving enhanced Logs for Partners. */
+  partnerProjectId?: string;
   /** Identifier. The resource name of the partner. Format: `organizations/{organization}/locations/{location}/partner` Example: "organizations/123456/locations/us-central1/partner" */
   name?: string;
+  /** List of SKUs the partner is offering */
+  skus?: SkuList;
+  /** Output only. Time the resource was created */
+  createTime?: string;
+  /** Output only. The last time the resource was updated */
+  updateTime?: string;
 }
 export const Partner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operatedCloudRegions: S.optional(StringList),
-    createTime: S.optional(S.String),
-    partnerProjectId: S.optional(S.String),
-    skus: S.optional(SkuList),
-    updateTime: S.optional(S.String),
     ekmSolutions: S.optional(EkmMetadataList),
+    operatedCloudRegions: S.optional(StringList),
+    partnerProjectId: S.optional(S.String),
     name: S.optional(S.String),
+    skus: S.optional(SkuList),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Partner" }) as any as S.Schema<Partner>;
 
@@ -655,37 +655,37 @@ export const PartnerPermissionsPartnerPermissionsItemEnumList = /*@__PURE__*/ S.
 
 /** The permissions granted to the partner for a workload */
 export interface PartnerPermissions {
-  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions` */
-  name?: string;
   /** The partner permissions granted for the workload */
   partnerPermissions?: PartnerPermissionsPartnerPermissionsItemEnumList;
+  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions` */
+  name?: string;
 }
 export const PartnerPermissions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     partnerPermissions: S.optional(PartnerPermissionsPartnerPermissionsItemEnumList),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "PartnerPermissions" }) as any as S.Schema<PartnerPermissions>;
 
 export interface ListOrganizationsLocationsCustomersRequest {
   /** A page token, received from a previous `ListCustomers` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
+  /** The maximum number of Customers to return. The service may return fewer than this value. If unspecified, at most 500 Customers will be returned. */
+  pageSize?: number;
   /** Optional. Hint for how to order the results */
   orderBy?: string;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Filtering results */
   filter?: string;
-  /** The maximum number of Customers to return. The service may return fewer than this value. If unspecified, at most 500 Customers will be returned. */
-  pageSize?: number;
 }
 export const ListOrganizationsLocationsCustomersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -702,40 +702,40 @@ export const CustomerList = /*@__PURE__*/ S.Array(Customer) as any as S.Schema<C
 
 /** Response message for list customer Customers requests */
 export interface ListCustomersResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of customers */
   customers?: CustomerList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListCustomersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     customers: S.optional(CustomerList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListCustomersResponse" }) as any as S.Schema<ListCustomersResponse>;
 
 export interface ListOrganizationsLocationsCustomersWorkloadsRequest {
-  /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
-  parent: string;
-  /** A page token, received from a previous `ListWorkloads` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
   /** The maximum number of workloads to return. The service may return fewer than this value. If unspecified, at most 500 workloads will be returned. */
   pageSize?: number;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
+  /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
+  parent: string;
+  /** A page token, received from a previous `ListWorkloads` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 export const ListOrganizationsLocationsCustomersWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -752,41 +752,41 @@ export const WorkloadList = /*@__PURE__*/ S.Array(Workload) as any as S.Schema<W
 
 /** Response message for list customer workloads requests. */
 export interface ListWorkloadsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-  /** List of customer workloads */
-  workloads?: WorkloadList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** List of customer workloads */
+  workloads?: WorkloadList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListWorkloadsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    workloads: S.optional(WorkloadList),
     unreachable: S.optional(StringList),
+    workloads: S.optional(WorkloadList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListWorkloadsResponse" }) as any as S.Schema<ListWorkloadsResponse>;
 
 export interface ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest {
-  /** Optional. The maximum number of access requests to return. The service may return fewer than this value. If unspecified, at most 500 access requests will be returned. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-  /** Optional. Filtering results. */
-  filter?: string;
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
   parent: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
+  /** Optional. A page token, received from a previous `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. The maximum number of access requests to return. The service may return fewer than this value. If unspecified, at most 500 access requests will be returned. */
+  pageSize?: number;
 }
 export const ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -824,21 +824,21 @@ export const AccessReason = /*@__PURE__*/ S.suspend(() =>
 
 /** Details about the Access request. */
 export interface AccessApprovalRequest {
+  /** The requested expiration for the approval. If the request is approved, access will be granted from the time of approval until the expiration time. */
+  requestedExpirationTime?: string;
   /** The time at which approval was requested. */
   requestTime?: string;
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/accessApprovalRequests/{access_approval_request}` */
   name?: string;
   /** The justification for which approval is being requested. */
   requestedReason?: AccessReason;
-  /** The requested expiration for the approval. If the request is approved, access will be granted from the time of approval until the expiration time. */
-  requestedExpirationTime?: string;
 }
 export const AccessApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestedExpirationTime: S.optional(S.String),
     requestTime: S.optional(S.String),
     name: S.optional(S.String),
     requestedReason: S.optional(AccessReason),
-    requestedExpirationTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccessApprovalRequest" }) as any as S.Schema<AccessApprovalRequest>;
 
@@ -849,48 +849,48 @@ export const AccessApprovalRequestList = /*@__PURE__*/ S.Array(
 
 /** Response message for list access requests. */
 export interface ListAccessApprovalRequestsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** List of access approval requests */
   accessApprovalRequests?: AccessApprovalRequestList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListAccessApprovalRequestsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     accessApprovalRequests: S.optional(AccessApprovalRequestList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListAccessApprovalRequestsResponse",
 }) as any as S.Schema<ListAccessApprovalRequestsResponse>;
 
 export interface ListOrganizationsLocationsCustomersWorkloadsViolationsRequest {
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "interval.endTime"?: string;
-  /** Required. Parent resource Format `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
-  parent: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
   /** Optional. The maximum number of customers row to return. The service may return fewer than this value. If unspecified, at most 10 customers will be returned. */
   pageSize?: number;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "interval.startTime"?: string;
+  /** Required. Parent resource Format `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
+  parent: string;
   /** Optional. Filtering results */
   filter?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "interval.startTime"?: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "interval.endTime"?: string;
   /** Optional. A page token, received from a previous `ListViolations` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
 }
 export const ListOrganizationsLocationsCustomersWorkloadsViolationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "interval.endTime": S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      "interval.startTime": S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      "interval.startTime": S.optional(S.String.pipe(T.Query())),
+      "interval.endTime": S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -908,18 +908,18 @@ export const ViolationList = /*@__PURE__*/ S.Array(Violation) as any as S.Schema
 
 /** Response message for list customer violation requests */
 export interface ListViolationsResponse {
-  /** Workloads that could not be reached due to permission errors or any other error. Ref: https://google.aip.dev/217 */
-  unreachable?: StringList;
   /** List of violation */
   violations?: ViolationList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Workloads that could not be reached due to permission errors or any other error. Ref: https://google.aip.dev/217 */
+  unreachable?: StringList;
 }
 export const ListViolationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     violations: S.optional(ViolationList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListViolationsResponse" }) as any as S.Schema<ListViolationsResponse>;
 

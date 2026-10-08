@@ -75,19 +75,6 @@ export class ServiceDisabled
     [{ status: 403, message: { includes: "has not been used in project" } }],
   ) {}
 
-export type GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum =
-  | "CLOUD_PROVIDER_UNSPECIFIED"
-  | "GOOGLE_CLOUD_PLATFORM"
-  | "AMAZON_WEB_SERVICES"
-  | "MICROSOFT_AZURE";
-export const GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum = S.String;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 export type GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum =
   | "RESOURCE_VALUE_UNSPECIFIED"
   | "HIGH"
@@ -95,6 +82,19 @@ export type GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum =
   | "LOW"
   | "NONE";
 export const GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export type GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum =
+  | "CLOUD_PROVIDER_UNSPECIFIED"
+  | "GOOGLE_CLOUD_PLATFORM"
+  | "AMAZON_WEB_SERVICES"
+  | "MICROSOFT_AZURE";
+export const GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export type GoogleCloudSecuritycenterV1SensitiveDataProtectionMappingHighSensitivityMappingEnum =
   | "RESOURCE_VALUE_UNSPECIFIED"
@@ -137,33 +137,33 @@ export const GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping = /*@__PU
 }) as any as S.Schema<GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping>;
 
 export interface GoogleCloudSecuritycenterV1ResourceValueConfig {
-  createTime?: string;
-  cloudProvider?: GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum | (string & {});
+  name?: string;
+  resourceValue?: GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum | (string & {});
   resourceLabelsSelector?: StringMap;
+  cloudProvider?: GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum | (string & {});
+  description?: string;
+  createTime?: string;
   updateTime?: string;
   tagValues?: StringList;
-  scope?: string;
-  resourceValue?: GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum | (string & {});
-  sensitiveDataProtectionMapping?: GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping;
-  name?: string;
   resourceType?: string;
-  description?: string;
+  sensitiveDataProtectionMapping?: GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping;
+  scope?: string;
 }
 export const GoogleCloudSecuritycenterV1ResourceValueConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    cloudProvider: S.optional(GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum),
+    name: S.optional(S.String),
+    resourceValue: S.optional(GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum),
     resourceLabelsSelector: S.optional(StringMap),
+    cloudProvider: S.optional(GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
     tagValues: S.optional(StringList),
-    scope: S.optional(S.String),
-    resourceValue: S.optional(GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum),
+    resourceType: S.optional(S.String),
     sensitiveDataProtectionMapping: S.optional(
       GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping,
     ),
-    name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    description: S.optional(S.String),
+    scope: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1ResourceValueConfig",
@@ -239,15 +239,15 @@ export type BulkMuteFindingsRequestMuteStateEnum = "MUTE_STATE_UNSPECIFIED" | "M
 export const BulkMuteFindingsRequestMuteStateEnum = S.String;
 
 export interface BulkMuteFindingsRequest {
-  muteAnnotation?: string;
-  muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {});
   filter?: string;
+  muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {});
+  muteAnnotation?: string;
 }
 export const BulkMuteFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    muteAnnotation: S.optional(S.String),
-    muteState: S.optional(BulkMuteFindingsRequestMuteStateEnum),
     filter: S.optional(S.String),
+    muteState: S.optional(BulkMuteFindingsRequestMuteStateEnum),
+    muteAnnotation: S.optional(S.String),
   }),
 ).annotate({ identifier: "BulkMuteFindingsRequest" }) as any as S.Schema<BulkMuteFindingsRequest>;
 
@@ -283,32 +283,32 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DocumentMapList>;
 
 export interface Status {
-  details?: DocumentMapList;
-  message?: string;
   code?: number;
+  message?: string;
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 export interface Operation {
   name?: string;
-  error?: Status;
   metadata?: DocumentMap;
-  response?: DocumentMap;
   done?: boolean;
+  error?: Status;
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    error: S.optional(Status),
     metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
+    error: S.optional(Status),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -375,25 +375,27 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface GoogleCloudSecuritycenterV1BigQueryExport {
-  filter?: string;
   mostRecentEditor?: string;
-  createTime?: string;
   description?: string;
-  name?: string;
+  deletionNotificationsEnabled?: boolean;
+  filter?: string;
   dataset?: string;
+  createTime?: string;
   updateTime?: string;
   principal?: string;
+  name?: string;
 }
 export const GoogleCloudSecuritycenterV1BigQueryExport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String),
     mostRecentEditor: S.optional(S.String),
-    createTime: S.optional(S.String),
     description: S.optional(S.String),
-    name: S.optional(S.String),
+    deletionNotificationsEnabled: S.optional(S.Boolean),
+    filter: S.optional(S.String),
     dataset: S.optional(S.String),
+    createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
     principal: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1BigQueryExport",
@@ -421,13 +423,6 @@ export const CreateFoldersBigQueryExportsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateFoldersBigQueryExportsRequest",
 }) as any as S.Schema<CreateFoldersBigQueryExportsRequest>;
 
-export type EventThreatDetectionCustomModuleEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED"
-  | "INHERITED";
-export const EventThreatDetectionCustomModuleEnablementStateEnum = S.String;
-
 export type EventThreatDetectionCustomModuleCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
   | "GOOGLE_CLOUD_PLATFORM"
@@ -435,30 +430,37 @@ export type EventThreatDetectionCustomModuleCloudProviderEnum =
   | "MICROSOFT_AZURE";
 export const EventThreatDetectionCustomModuleCloudProviderEnum = S.String;
 
+export type EventThreatDetectionCustomModuleEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED"
+  | "INHERITED";
+export const EventThreatDetectionCustomModuleEnablementStateEnum = S.String;
+
 export interface EventThreatDetectionCustomModule {
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {});
   displayName?: string;
+  updateTime?: string;
+  description?: string;
   config?: DocumentMap;
-  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {});
   type?: string;
   name?: string;
-  ancestorModule?: string;
   lastEditor?: string;
-  description?: string;
-  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {});
-  updateTime?: string;
+  ancestorModule?: string;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {});
 }
 export const EventThreatDetectionCustomModule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    cloudProvider: S.optional(EventThreatDetectionCustomModuleCloudProviderEnum),
     displayName: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
     config: S.optional(DocumentMap),
-    enablementState: S.optional(EventThreatDetectionCustomModuleEnablementStateEnum),
     type: S.optional(S.String),
     name: S.optional(S.String),
-    ancestorModule: S.optional(S.String),
     lastEditor: S.optional(S.String),
-    description: S.optional(S.String),
-    cloudProvider: S.optional(EventThreatDetectionCustomModuleCloudProviderEnum),
-    updateTime: S.optional(S.String),
+    ancestorModule: S.optional(S.String),
+    enablementState: S.optional(EventThreatDetectionCustomModuleEnablementStateEnum),
   }),
 ).annotate({
   identifier: "EventThreatDetectionCustomModule",
@@ -492,42 +494,42 @@ export type GoogleCloudSecuritycenterV1MuteConfigTypeEnum =
 export const GoogleCloudSecuritycenterV1MuteConfigTypeEnum = S.String;
 
 export interface GoogleCloudSecuritycenterV1MuteConfig {
+  updateTime?: string;
   name?: string;
-  expiryTime?: string;
-  createTime?: string;
+  mostRecentEditor?: string;
   type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {});
+  createTime?: string;
+  description?: string;
+  expiryTime?: string;
   displayName?: string;
   filter?: string;
-  updateTime?: string;
-  mostRecentEditor?: string;
-  description?: string;
 }
 export const GoogleCloudSecuritycenterV1MuteConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
-    expiryTime: S.optional(S.String),
-    createTime: S.optional(S.String),
+    mostRecentEditor: S.optional(S.String),
     type: S.optional(GoogleCloudSecuritycenterV1MuteConfigTypeEnum),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    expiryTime: S.optional(S.String),
     displayName: S.optional(S.String),
     filter: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    mostRecentEditor: S.optional(S.String),
-    description: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1MuteConfig",
 }) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>;
 
 export interface CreateFoldersMuteConfigsRequest {
-  muteConfigId?: string;
   parent: string;
+  muteConfigId?: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1MuteConfig;
 }
 export const CreateFoldersMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    muteConfigId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    muteConfigId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudSecuritycenterV1MuteConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -553,6 +555,7 @@ export interface NotificationConfig {
   description?: string;
   pubsubTopic?: string;
   name?: string;
+  deletionNotificationsEnabled?: boolean;
   streamingConfig?: StreamingConfig;
   serviceAccount?: string;
 }
@@ -561,21 +564,22 @@ export const NotificationConfig = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     pubsubTopic: S.optional(S.String),
     name: S.optional(S.String),
+    deletionNotificationsEnabled: S.optional(S.Boolean),
     streamingConfig: S.optional(StreamingConfig),
     serviceAccount: S.optional(S.String),
   }),
 ).annotate({ identifier: "NotificationConfig" }) as any as S.Schema<NotificationConfig>;
 
 export interface CreateFoldersNotificationConfigsRequest {
-  configId?: string;
   parent: string;
+  configId?: string;
   /** Request body */
   body?: NotificationConfig;
 }
 export const CreateFoldersNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    configId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(NotificationConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -596,14 +600,6 @@ export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudP
 export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum =
   S.String;
 
-export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED"
-  | "INHERITED";
-export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
-  S.String;
-
 export interface Expr {
   location?: string;
   description?: string;
@@ -618,6 +614,17 @@ export const Expr = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+export interface GoogleCloudSecuritycenterV1ResourceSelector {
+  resourceTypes?: StringList;
+}
+export const GoogleCloudSecuritycenterV1ResourceSelector = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceTypes: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GoogleCloudSecuritycenterV1ResourceSelector",
+}) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceSelector>;
 
 export interface GoogleCloudSecuritycenterV1Property {
   valueExpression?: Expr;
@@ -656,67 +663,64 @@ export type GoogleCloudSecuritycenterV1CustomConfigSeverityEnum =
   | "LOW";
 export const GoogleCloudSecuritycenterV1CustomConfigSeverityEnum = S.String;
 
-export interface GoogleCloudSecuritycenterV1ResourceSelector {
-  resourceTypes?: StringList;
-}
-export const GoogleCloudSecuritycenterV1ResourceSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceTypes: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudSecuritycenterV1ResourceSelector",
-}) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceSelector>;
-
 export interface GoogleCloudSecuritycenterV1CustomConfig {
-  customOutput?: GoogleCloudSecuritycenterV1CustomOutputSpec;
-  severity?: GoogleCloudSecuritycenterV1CustomConfigSeverityEnum | (string & {});
+  predicate?: Expr;
   resourceSelector?: GoogleCloudSecuritycenterV1ResourceSelector;
   description?: string;
+  customOutput?: GoogleCloudSecuritycenterV1CustomOutputSpec;
+  severity?: GoogleCloudSecuritycenterV1CustomConfigSeverityEnum | (string & {});
   recommendation?: string;
-  predicate?: Expr;
 }
 export const GoogleCloudSecuritycenterV1CustomConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customOutput: S.optional(GoogleCloudSecuritycenterV1CustomOutputSpec),
-    severity: S.optional(GoogleCloudSecuritycenterV1CustomConfigSeverityEnum),
+    predicate: S.optional(Expr),
     resourceSelector: S.optional(GoogleCloudSecuritycenterV1ResourceSelector),
     description: S.optional(S.String),
+    customOutput: S.optional(GoogleCloudSecuritycenterV1CustomOutputSpec),
+    severity: S.optional(GoogleCloudSecuritycenterV1CustomConfigSeverityEnum),
     recommendation: S.optional(S.String),
-    predicate: S.optional(Expr),
   }),
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1CustomConfig",
 }) as any as S.Schema<GoogleCloudSecuritycenterV1CustomConfig>;
 
+export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED"
+  | "INHERITED";
+export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
+  S.String;
+
 export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
+  lastEditor?: string;
+  ancestorModule?: string;
+  displayName?: string;
   cloudProvider?:
     | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
     | (string & {});
-  name?: string;
-  lastEditor?: string;
-  displayName?: string;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
   updateTime?: string;
-  ancestorModule?: string;
+  name?: string;
   enablementState?:
     | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
     | (string & {});
-  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
 }
 export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      lastEditor: S.optional(S.String),
+      ancestorModule: S.optional(S.String),
+      displayName: S.optional(S.String),
       cloudProvider: S.optional(
         GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum,
       ),
-      name: S.optional(S.String),
-      lastEditor: S.optional(S.String),
-      displayName: S.optional(S.String),
+      customConfig: S.optional(GoogleCloudSecuritycenterV1CustomConfig),
       updateTime: S.optional(S.String),
-      ancestorModule: S.optional(S.String),
+      name: S.optional(S.String),
       enablementState: S.optional(
         GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum,
       ),
-      customConfig: S.optional(GoogleCloudSecuritycenterV1CustomConfig),
     }),
   ).annotate({
     identifier: "GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule",
@@ -746,15 +750,15 @@ export const CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest =
   }) as any as S.Schema<CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest>;
 
 export interface CreateOrganizationsBigQueryExportsRequest {
-  parent: string;
   bigQueryExportId?: string;
+  parent: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1BigQueryExport;
 }
 export const CreateOrganizationsBigQueryExportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     bigQueryExportId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudSecuritycenterV1BigQueryExport.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -789,15 +793,15 @@ export const CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest
   }) as any as S.Schema<CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest>;
 
 export interface CreateOrganizationsMuteConfigsRequest {
-  muteConfigId?: string;
   parent: string;
+  muteConfigId?: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1MuteConfig;
 }
 export const CreateOrganizationsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    muteConfigId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    muteConfigId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudSecuritycenterV1MuteConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -856,17 +860,17 @@ export const CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequ
   }) as any as S.Schema<CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>;
 
 export interface Source {
-  canonicalName?: string;
-  description?: string;
-  name?: string;
   displayName?: string;
+  canonicalName?: string;
+  name?: string;
+  description?: string;
 }
 export const Source = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    canonicalName: S.optional(S.String),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    canonicalName: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 
@@ -890,1871 +894,154 @@ export const CreateOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationsSourcesRequest",
 }) as any as S.Schema<CreateOrganizationsSourcesRequest>;
 
-export interface Network {
-  name?: string;
-}
-export const Network = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Network" }) as any as S.Schema<Network>;
-
-export type NetworkList = Array<Network>;
-export const NetworkList = /*@__PURE__*/ S.Array(Network) as any as S.Schema<NetworkList>;
-
-export interface KernelRootkit {
-  unexpectedFtraceHandler?: boolean;
-  unexpectedKprobeHandler?: boolean;
-  unexpectedCodeModification?: boolean;
-  unexpectedProcessesInRunqueue?: boolean;
-  unexpectedKernelCodePages?: boolean;
-  unexpectedReadOnlyDataModification?: boolean;
-  name?: string;
-  unexpectedSystemCallHandler?: boolean;
-  unexpectedInterruptHandler?: boolean;
-}
-export const KernelRootkit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    unexpectedFtraceHandler: S.optional(S.Boolean),
-    unexpectedKprobeHandler: S.optional(S.Boolean),
-    unexpectedCodeModification: S.optional(S.Boolean),
-    unexpectedProcessesInRunqueue: S.optional(S.Boolean),
-    unexpectedKernelCodePages: S.optional(S.Boolean),
-    unexpectedReadOnlyDataModification: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    unexpectedSystemCallHandler: S.optional(S.Boolean),
-    unexpectedInterruptHandler: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "KernelRootkit" }) as any as S.Schema<KernelRootkit>;
-
-export interface AccessReview {
-  name?: string;
-  subresource?: string;
-  version?: string;
-  verb?: string;
-  ns?: string;
-  resource?: string;
-  group?: string;
-}
-export const AccessReview = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    subresource: S.optional(S.String),
-    version: S.optional(S.String),
-    verb: S.optional(S.String),
-    ns: S.optional(S.String),
-    resource: S.optional(S.String),
-    group: S.optional(S.String),
-  }),
-).annotate({ identifier: "AccessReview" }) as any as S.Schema<AccessReview>;
-
-export type AccessReviewList = Array<AccessReview>;
-export const AccessReviewList = /*@__PURE__*/ S.Array(
-  AccessReview,
-) as any as S.Schema<AccessReviewList>;
-
-export interface Label {
-  value?: string;
-  name?: string;
-}
-export const Label = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
-
-export type LabelList = Array<Label>;
-export const LabelList = /*@__PURE__*/ S.Array(Label) as any as S.Schema<LabelList>;
-
-export interface Container {
-  imageId?: string;
-  name?: string;
-  createTime?: string;
-  labels?: LabelList;
-  uri?: string;
-}
-export const Container = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageId: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    labels: S.optional(LabelList),
-    uri: S.optional(S.String),
-  }),
-).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
-
-export type ContainerList = Array<Container>;
-export const ContainerList = /*@__PURE__*/ S.Array(Container) as any as S.Schema<ContainerList>;
-
-export interface Pod {
-  containers?: ContainerList;
-  name?: string;
-  ns?: string;
-  labels?: LabelList;
-}
-export const Pod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    containers: S.optional(ContainerList),
-    name: S.optional(S.String),
-    ns: S.optional(S.String),
-    labels: S.optional(LabelList),
-  }),
-).annotate({ identifier: "Pod" }) as any as S.Schema<Pod>;
-
-export type PodList = Array<Pod>;
-export const PodList = /*@__PURE__*/ S.Array(Pod) as any as S.Schema<PodList>;
-
-export type Node = Network;
-export const Node = Network;
-
-export type NodeList = Array<Network>;
-export const NodeList = /*@__PURE__*/ S.Array(Network) as any as S.Schema<NodeList>;
-
-export interface NodePool {
-  nodes?: NodeList;
-  name?: string;
-}
-export const NodePool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nodes: S.optional(NodeList),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "NodePool" }) as any as S.Schema<NodePool>;
-
-export type NodePoolList = Array<NodePool>;
-export const NodePoolList = /*@__PURE__*/ S.Array(NodePool) as any as S.Schema<NodePoolList>;
-
-export type SubjectKindEnum = "AUTH_TYPE_UNSPECIFIED" | "USER" | "SERVICEACCOUNT" | "GROUP";
-export const SubjectKindEnum = S.String;
-
-export interface Subject {
-  kind?: SubjectKindEnum | (string & {});
-  ns?: string;
-  name?: string;
-}
-export const Subject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(SubjectKindEnum),
-    ns: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Subject" }) as any as S.Schema<Subject>;
-
-export type SubjectList = Array<Subject>;
-export const SubjectList = /*@__PURE__*/ S.Array(Subject) as any as S.Schema<SubjectList>;
-
-export type RoleKindEnum = "KIND_UNSPECIFIED" | "ROLE" | "CLUSTER_ROLE";
-export const RoleKindEnum = S.String;
-
-export interface Role {
-  ns?: string;
-  name?: string;
-  kind?: RoleKindEnum | (string & {});
-}
-export const Role = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ns: S.optional(S.String),
-    name: S.optional(S.String),
-    kind: S.optional(RoleKindEnum),
-  }),
-).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
-
-export interface GoogleCloudSecuritycenterV1Binding {
-  subjects?: SubjectList;
-  name?: string;
-  ns?: string;
-  role?: Role;
-}
-export const GoogleCloudSecuritycenterV1Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subjects: S.optional(SubjectList),
-    name: S.optional(S.String),
-    ns: S.optional(S.String),
-    role: S.optional(Role),
-  }),
-).annotate({
-  identifier: "GoogleCloudSecuritycenterV1Binding",
-}) as any as S.Schema<GoogleCloudSecuritycenterV1Binding>;
-
-export type GoogleCloudSecuritycenterV1BindingList = Array<GoogleCloudSecuritycenterV1Binding>;
-export const GoogleCloudSecuritycenterV1BindingList = /*@__PURE__*/ S.Array(
-  GoogleCloudSecuritycenterV1Binding,
-) as any as S.Schema<GoogleCloudSecuritycenterV1BindingList>;
-
-export interface Securitycenter_Object {
-  ns?: string;
-  name?: string;
-  group?: string;
-  containers?: ContainerList;
-  kind?: string;
-}
-export const Securitycenter_Object = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ns: S.optional(S.String),
-    name: S.optional(S.String),
-    group: S.optional(S.String),
-    containers: S.optional(ContainerList),
-    kind: S.optional(S.String),
-  }),
-).annotate({ identifier: "Securitycenter_Object" }) as any as S.Schema<Securitycenter_Object>;
-
-export type Securitycenter_ObjectList = Array<Securitycenter_Object>;
-export const Securitycenter_ObjectList = /*@__PURE__*/ S.Array(
-  Securitycenter_Object,
-) as any as S.Schema<Securitycenter_ObjectList>;
-
-export type RoleList = Array<Role>;
-export const RoleList = /*@__PURE__*/ S.Array(Role) as any as S.Schema<RoleList>;
-
-export interface Kubernetes {
-  accessReviews?: AccessReviewList;
-  pods?: PodList;
-  nodePools?: NodePoolList;
-  nodes?: NodeList;
-  bindings?: GoogleCloudSecuritycenterV1BindingList;
-  objects?: Securitycenter_ObjectList;
-  roles?: RoleList;
-}
-export const Kubernetes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessReviews: S.optional(AccessReviewList),
-    pods: S.optional(PodList),
-    nodePools: S.optional(NodePoolList),
-    nodes: S.optional(NodeList),
-    bindings: S.optional(GoogleCloudSecuritycenterV1BindingList),
-    objects: S.optional(Securitycenter_ObjectList),
-    roles: S.optional(RoleList),
-  }),
-).annotate({ identifier: "Kubernetes" }) as any as S.Schema<Kubernetes>;
-
-export type Disk = Network;
-export const Disk = Network;
-
-export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
-export const FindingSeverityEnum = S.String;
-
-export type AgentDataAccessEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
-export const AgentDataAccessEventOperationEnum = S.String;
-
-export interface AgentDataAccessEvent {
-  operation?: AgentDataAccessEventOperationEnum | (string & {});
-  eventTime?: string;
-  principalSubject?: string;
-  eventId?: string;
-}
-export const AgentDataAccessEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operation: S.optional(AgentDataAccessEventOperationEnum),
-    eventTime: S.optional(S.String),
-    principalSubject: S.optional(S.String),
-    eventId: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentDataAccessEvent" }) as any as S.Schema<AgentDataAccessEvent>;
-
-export type AgentDataAccessEventList = Array<AgentDataAccessEvent>;
-export const AgentDataAccessEventList = /*@__PURE__*/ S.Array(
-  AgentDataAccessEvent,
-) as any as S.Schema<AgentDataAccessEventList>;
-
-export interface CloudDlpInspection {
-  inspectJob?: string;
-  infoType?: string;
-  infoTypeCount?: string;
-  fullScan?: boolean;
-}
-export const CloudDlpInspection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inspectJob: S.optional(S.String),
-    infoType: S.optional(S.String),
-    infoTypeCount: S.optional(S.String),
-    fullScan: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "CloudDlpInspection" }) as any as S.Schema<CloudDlpInspection>;
-
-export interface PolicyViolationSummary {
-  conformantResourcesCount?: string;
-  outOfScopeResourcesCount?: string;
-  policyViolationsCount?: string;
-  evaluationErrorsCount?: string;
-}
-export const PolicyViolationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    conformantResourcesCount: S.optional(S.String),
-    outOfScopeResourcesCount: S.optional(S.String),
-    policyViolationsCount: S.optional(S.String),
-    evaluationErrorsCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "PolicyViolationSummary" }) as any as S.Schema<PolicyViolationSummary>;
-
-export interface Contact {
-  email?: string;
-}
-export const Contact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-  }),
-).annotate({ identifier: "Contact" }) as any as S.Schema<Contact>;
-
-export type ContactList = Array<Contact>;
-export const ContactList = /*@__PURE__*/ S.Array(Contact) as any as S.Schema<ContactList>;
-
-export interface ContactDetails {
-  contacts?: ContactList;
-}
-export const ContactDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contacts: S.optional(ContactList),
-  }),
-).annotate({ identifier: "ContactDetails" }) as any as S.Schema<ContactDetails>;
-
-export type ContactDetailsMap = { [key: string]: ContactDetails | undefined };
-export const ContactDetailsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ContactDetails,
-) as any as S.Schema<ContactDetailsMap>;
-
-export interface Application {
-  baseUri?: string;
-  fullUri?: string;
-}
-export const Application = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseUri: S.optional(S.String),
-    fullUri: S.optional(S.String),
-  }),
-).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
-
-export interface Database {
-  name?: string;
-  version?: string;
-  displayName?: string;
-  query?: string;
-  userName?: string;
-  grantees?: StringList;
-}
-export const Database = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    version: S.optional(S.String),
-    displayName: S.optional(S.String),
-    query: S.optional(S.String),
-    userName: S.optional(S.String),
-    grantees: S.optional(StringList),
-  }),
-).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
-
-export interface Geolocation {
-  regionCode?: string;
-}
-export const Geolocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regionCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "Geolocation" }) as any as S.Schema<Geolocation>;
-
-export interface ServiceAccountDelegationInfo {
-  principalSubject?: string;
-  principalEmail?: string;
-}
-export const ServiceAccountDelegationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principalSubject: S.optional(S.String),
-    principalEmail: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceAccountDelegationInfo",
-}) as any as S.Schema<ServiceAccountDelegationInfo>;
-
-export type ServiceAccountDelegationInfoList = Array<ServiceAccountDelegationInfo>;
-export const ServiceAccountDelegationInfoList = /*@__PURE__*/ S.Array(
-  ServiceAccountDelegationInfo,
-) as any as S.Schema<ServiceAccountDelegationInfoList>;
-
-export interface Access {
-  userAgent?: string;
-  userName?: string;
-  callerIpGeo?: Geolocation;
-  serviceName?: string;
-  serviceAccountKeyName?: string;
-  principalEmail?: string;
-  principalSubject?: string;
-  methodName?: string;
-  userAgentFamily?: string;
-  serviceAccountDelegationInfo?: ServiceAccountDelegationInfoList;
-  callerIp?: string;
-}
-export const Access = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userAgent: S.optional(S.String),
-    userName: S.optional(S.String),
-    callerIpGeo: S.optional(Geolocation),
-    serviceName: S.optional(S.String),
-    serviceAccountKeyName: S.optional(S.String),
-    principalEmail: S.optional(S.String),
-    principalSubject: S.optional(S.String),
-    methodName: S.optional(S.String),
-    userAgentFamily: S.optional(S.String),
-    serviceAccountDelegationInfo: S.optional(ServiceAccountDelegationInfoList),
-    callerIp: S.optional(S.String),
-  }),
-).annotate({ identifier: "Access" }) as any as S.Schema<Access>;
-
-export type DataAccessEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
-export const DataAccessEventOperationEnum = S.String;
-
-export interface DataAccessEvent {
-  eventId?: string;
-  operation?: DataAccessEventOperationEnum | (string & {});
-  eventTime?: string;
-  principalEmail?: string;
-}
-export const DataAccessEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    operation: S.optional(DataAccessEventOperationEnum),
-    eventTime: S.optional(S.String),
-    principalEmail: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataAccessEvent" }) as any as S.Schema<DataAccessEvent>;
-
-export type DataAccessEventList = Array<DataAccessEvent>;
-export const DataAccessEventList = /*@__PURE__*/ S.Array(
-  DataAccessEvent,
-) as any as S.Schema<DataAccessEventList>;
-
-export type DiscoveredWorkloadWorkloadTypeEnum =
-  | "WORKLOAD_TYPE_UNSPECIFIED"
-  | "MCP_SERVER"
-  | "AI_INFERENCE"
-  | "AGENT";
-export const DiscoveredWorkloadWorkloadTypeEnum = S.String;
-
-export type DiscoveredWorkloadConfidenceEnum = "CONFIDENCE_UNSPECIFIED" | "CONFIDENCE_HIGH";
-export const DiscoveredWorkloadConfidenceEnum = S.String;
-
-export interface DiscoveredWorkload {
-  detectedRelevantKeywords?: boolean;
-  workloadType?: DiscoveredWorkloadWorkloadTypeEnum | (string & {});
-  confidence?: DiscoveredWorkloadConfidenceEnum | (string & {});
-  detectedRelevantHardware?: boolean;
-  detectedRelevantPackages?: boolean;
-}
-export const DiscoveredWorkload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectedRelevantKeywords: S.optional(S.Boolean),
-    workloadType: S.optional(DiscoveredWorkloadWorkloadTypeEnum),
-    confidence: S.optional(DiscoveredWorkloadConfidenceEnum),
-    detectedRelevantHardware: S.optional(S.Boolean),
-    detectedRelevantPackages: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DiscoveredWorkload" }) as any as S.Schema<DiscoveredWorkload>;
-
-export type JobStateEnum = "JOB_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED";
-export const JobStateEnum = S.String;
-
-export interface Job {
-  state?: JobStateEnum | (string & {});
-  name?: string;
-  location?: string;
-  errorCode?: number;
-}
-export const Job = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(JobStateEnum),
-    name: S.optional(S.String),
-    location: S.optional(S.String),
-    errorCode: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
-
-export interface BackupDisasterRecovery {
-  policies?: StringList;
-  backupTemplate?: string;
-  backupType?: string;
-  storagePool?: string;
-  applications?: StringList;
-  profile?: string;
-  appliance?: string;
-  host?: string;
-  backupCreateTime?: string;
-  policyOptions?: StringList;
-}
-export const BackupDisasterRecovery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    policies: S.optional(StringList),
-    backupTemplate: S.optional(S.String),
-    backupType: S.optional(S.String),
-    storagePool: S.optional(S.String),
-    applications: S.optional(StringList),
-    profile: S.optional(S.String),
-    appliance: S.optional(S.String),
-    host: S.optional(S.String),
-    backupCreateTime: S.optional(S.String),
-    policyOptions: S.optional(StringList),
-  }),
-).annotate({ identifier: "BackupDisasterRecovery" }) as any as S.Schema<BackupDisasterRecovery>;
-
-export type IamBindingActionEnum = "ACTION_UNSPECIFIED" | "ADD" | "REMOVE";
-export const IamBindingActionEnum = S.String;
-
-export interface IamBinding {
-  member?: string;
-  action?: IamBindingActionEnum | (string & {});
-  role?: string;
-}
-export const IamBinding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    member: S.optional(S.String),
-    action: S.optional(IamBindingActionEnum),
-    role: S.optional(S.String),
-  }),
-).annotate({ identifier: "IamBinding" }) as any as S.Schema<IamBinding>;
-
-export type IamBindingList = Array<IamBinding>;
-export const IamBindingList = /*@__PURE__*/ S.Array(IamBinding) as any as S.Schema<IamBindingList>;
-
-export type DetectorReferenceSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "CRITICAL"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW";
-export const DetectorReferenceSeverityEnum = S.String;
-
-export interface DetectorReference {
-  explanation?: string;
-  recommendation?: string;
-  severity?: DetectorReferenceSeverityEnum | (string & {});
-  detectorId?: string;
-  displayName?: string;
-}
-export const DetectorReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    explanation: S.optional(S.String),
-    recommendation: S.optional(S.String),
-    severity: S.optional(DetectorReferenceSeverityEnum),
-    detectorId: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "DetectorReference" }) as any as S.Schema<DetectorReference>;
-
-export type DetectorReferenceList = Array<DetectorReference>;
-export const DetectorReferenceList = /*@__PURE__*/ S.Array(
-  DetectorReference,
-) as any as S.Schema<DetectorReferenceList>;
-
-export interface InvocationReference {
-  invocationId?: string;
-}
-export const InvocationReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    invocationId: S.optional(S.String),
-  }),
-).annotate({ identifier: "InvocationReference" }) as any as S.Schema<InvocationReference>;
-
-export type InvocationReferenceList = Array<InvocationReference>;
-export const InvocationReferenceList = /*@__PURE__*/ S.Array(
-  InvocationReference,
-) as any as S.Schema<InvocationReferenceList>;
-
-export interface AgentAnomaly {
-  confidenceScore?: number;
-  detectorReferences?: DetectorReferenceList;
-  invocationReferences?: InvocationReferenceList;
-}
-export const AgentAnomaly = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    confidenceScore: S.optional(S.Number),
-    detectorReferences: S.optional(DetectorReferenceList),
-    invocationReferences: S.optional(InvocationReferenceList),
-  }),
-).annotate({ identifier: "AgentAnomaly" }) as any as S.Schema<AgentAnomaly>;
-
-export interface Agent {
-  id?: string;
-  displayName?: string;
-}
-export const Agent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Agent" }) as any as S.Schema<Agent>;
-
-export type DataFlowEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
-export const DataFlowEventOperationEnum = S.String;
-
-export interface DataFlowEvent {
-  eventTime?: string;
-  eventId?: string;
-  principalEmail?: string;
-  operation?: DataFlowEventOperationEnum | (string & {});
-  violatedLocation?: string;
-}
-export const DataFlowEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventTime: S.optional(S.String),
-    eventId: S.optional(S.String),
-    principalEmail: S.optional(S.String),
-    operation: S.optional(DataFlowEventOperationEnum),
-    violatedLocation: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataFlowEvent" }) as any as S.Schema<DataFlowEvent>;
-
-export type DataFlowEventList = Array<DataFlowEvent>;
-export const DataFlowEventList = /*@__PURE__*/ S.Array(
-  DataFlowEvent,
-) as any as S.Schema<DataFlowEventList>;
-
-export type FindingStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
-export const FindingStateEnum = S.String;
-
-export type FindingMuteEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
-export const FindingMuteEnum = S.String;
-
-export type AttackExposureStateEnum = "STATE_UNSPECIFIED" | "CALCULATED" | "NOT_CALCULATED";
-export const AttackExposureStateEnum = S.String;
-
-export interface AttackExposure {
-  latestCalculationTime?: string;
-  score?: number;
-  exposedMediumValueResourcesCount?: number;
-  attackExposureResult?: string;
-  exposedLowValueResourcesCount?: number;
-  state?: AttackExposureStateEnum | (string & {});
-  exposedHighValueResourcesCount?: number;
-}
-export const AttackExposure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    latestCalculationTime: S.optional(S.String),
-    score: S.optional(S.Number),
-    exposedMediumValueResourcesCount: S.optional(S.Number),
-    attackExposureResult: S.optional(S.String),
-    exposedLowValueResourcesCount: S.optional(S.Number),
-    state: S.optional(AttackExposureStateEnum),
-    exposedHighValueResourcesCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AttackExposure" }) as any as S.Schema<AttackExposure>;
-
-export type OrgPolicy = Network;
-export const OrgPolicy = Network;
-
-export type OrgPolicyList = Array<Network>;
-export const OrgPolicyList = /*@__PURE__*/ S.Array(Network) as any as S.Schema<OrgPolicyList>;
-
-export interface GoogleCloudSecuritycenterV1IamRolePermission {
-  name?: string;
-  role?: string;
-}
-export const GoogleCloudSecuritycenterV1IamRolePermission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    role: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudSecuritycenterV1IamRolePermission",
-}) as any as S.Schema<GoogleCloudSecuritycenterV1IamRolePermission>;
-
-export type GoogleCloudSecuritycenterV1IamRolePermissionList =
-  Array<GoogleCloudSecuritycenterV1IamRolePermission>;
-export const GoogleCloudSecuritycenterV1IamRolePermissionList = /*@__PURE__*/ S.Array(
-  GoogleCloudSecuritycenterV1IamRolePermission,
-) as any as S.Schema<GoogleCloudSecuritycenterV1IamRolePermissionList>;
-
-export interface GoogleCloudSecuritycenterV1IamDetails {
-  iamRolePermissions?: GoogleCloudSecuritycenterV1IamRolePermissionList;
-}
-export const GoogleCloudSecuritycenterV1IamDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    iamRolePermissions: S.optional(GoogleCloudSecuritycenterV1IamRolePermissionList),
-  }),
-).annotate({
-  identifier: "GoogleCloudSecuritycenterV1IamDetails",
-}) as any as S.Schema<GoogleCloudSecuritycenterV1IamDetails>;
-
-export interface Notebook {
-  service?: string;
-  lastAuthor?: string;
-  name?: string;
-  notebookUpdateTime?: string;
-}
-export const Notebook = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    service: S.optional(S.String),
-    lastAuthor: S.optional(S.String),
-    name: S.optional(S.String),
-    notebookUpdateTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "Notebook" }) as any as S.Schema<Notebook>;
-
-export interface PortRange {
-  min?: string;
-  max?: string;
-}
-export const PortRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    min: S.optional(S.String),
-    max: S.optional(S.String),
-  }),
-).annotate({ identifier: "PortRange" }) as any as S.Schema<PortRange>;
-
-export type PortRangeList = Array<PortRange>;
-export const PortRangeList = /*@__PURE__*/ S.Array(PortRange) as any as S.Schema<PortRangeList>;
-
-export interface IpRule {
-  protocol?: string;
-  portRanges?: PortRangeList;
-}
-export const IpRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    protocol: S.optional(S.String),
-    portRanges: S.optional(PortRangeList),
-  }),
-).annotate({ identifier: "IpRule" }) as any as S.Schema<IpRule>;
-
-export type IpRuleList = Array<IpRule>;
-export const IpRuleList = /*@__PURE__*/ S.Array(IpRule) as any as S.Schema<IpRuleList>;
-
-export interface Denied {
-  ipRules?: IpRuleList;
-}
-export const Denied = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipRules: S.optional(IpRuleList),
-  }),
-).annotate({ identifier: "Denied" }) as any as S.Schema<Denied>;
-
-export type IpRulesDirectionEnum = "DIRECTION_UNSPECIFIED" | "INGRESS" | "EGRESS";
-export const IpRulesDirectionEnum = S.String;
-
-export type Allowed = Denied;
-export const Allowed = Denied;
-
-export interface IpRules {
-  denied?: Denied;
-  destinationIpRanges?: StringList;
-  sourceIpRanges?: StringList;
-  direction?: IpRulesDirectionEnum | (string & {});
-  allowed?: Denied;
-  exposedServices?: StringList;
-}
-export const IpRules = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    denied: S.optional(Denied),
-    destinationIpRanges: S.optional(StringList),
-    sourceIpRanges: S.optional(StringList),
-    direction: S.optional(IpRulesDirectionEnum),
-    allowed: S.optional(Denied),
-    exposedServices: S.optional(StringList),
-  }),
-).annotate({ identifier: "IpRules" }) as any as S.Schema<IpRules>;
-
-export interface HttpResponse {
-  statusCode?: string;
-  path?: string;
-}
-export const HttpResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusCode: S.optional(S.String),
-    path: S.optional(S.String),
-  }),
-).annotate({ identifier: "HttpResponse" }) as any as S.Schema<HttpResponse>;
-
-export type HttpResponseList = Array<HttpResponse>;
-export const HttpResponseList = /*@__PURE__*/ S.Array(
-  HttpResponse,
-) as any as S.Schema<HttpResponseList>;
-
-export interface ExternalExposure {
-  serviceFirewallPolicy?: string;
-  backendService?: string;
-  pscServiceAttachment?: string;
-  networkPathInsightsGenerationTime?: string;
-  internalBackendService?: string;
-  backendBucket?: string;
-  exposedEndpoint?: string;
-  httpResponse?: HttpResponseList;
-  instanceGroup?: string;
-  privatePort?: string;
-  exposedService?: string;
-  publicPort?: string;
-  networkEndpointGroup?: string;
-  networkIngressFirewallPolicy?: string;
-  hostnameUri?: string;
-  privateIpAddress?: string;
-  pscNetworkAttachment?: string;
-  publicIpAddress?: string;
-  exposedApplication?: string;
-  forwardingRule?: string;
-  loadBalancerFirewallPolicy?: string;
-}
-export const ExternalExposure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceFirewallPolicy: S.optional(S.String),
-    backendService: S.optional(S.String),
-    pscServiceAttachment: S.optional(S.String),
-    networkPathInsightsGenerationTime: S.optional(S.String),
-    internalBackendService: S.optional(S.String),
-    backendBucket: S.optional(S.String),
-    exposedEndpoint: S.optional(S.String),
-    httpResponse: S.optional(HttpResponseList),
-    instanceGroup: S.optional(S.String),
-    privatePort: S.optional(S.String),
-    exposedService: S.optional(S.String),
-    publicPort: S.optional(S.String),
-    networkEndpointGroup: S.optional(S.String),
-    networkIngressFirewallPolicy: S.optional(S.String),
-    hostnameUri: S.optional(S.String),
-    privateIpAddress: S.optional(S.String),
-    pscNetworkAttachment: S.optional(S.String),
-    publicIpAddress: S.optional(S.String),
-    exposedApplication: S.optional(S.String),
-    forwardingRule: S.optional(S.String),
-    loadBalancerFirewallPolicy: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExternalExposure" }) as any as S.Schema<ExternalExposure>;
-
-export type DataRetentionDeletionEventEventTypeEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "EVENT_TYPE_MAX_TTL_EXCEEDED"
-  | "EVENT_TYPE_MAX_TTL_FROM_CREATION"
-  | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION"
-  | "EVENT_TYPE_MIN_TTL_FROM_CREATION";
-export const DataRetentionDeletionEventEventTypeEnum = S.String;
-
-export interface DataRetentionDeletionEvent {
-  dataObjectCount?: string;
-  maxRetentionAllowed?: string;
-  minRetentionAllowed?: string;
-  eventDetectionTime?: string;
-  eventType?: DataRetentionDeletionEventEventTypeEnum | (string & {});
-}
-export const DataRetentionDeletionEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataObjectCount: S.optional(S.String),
-    maxRetentionAllowed: S.optional(S.String),
-    minRetentionAllowed: S.optional(S.String),
-    eventDetectionTime: S.optional(S.String),
-    eventType: S.optional(DataRetentionDeletionEventEventTypeEnum),
-  }),
-).annotate({
-  identifier: "DataRetentionDeletionEvent",
-}) as any as S.Schema<DataRetentionDeletionEvent>;
-
-export type DataRetentionDeletionEventList = Array<DataRetentionDeletionEvent>;
-export const DataRetentionDeletionEventList = /*@__PURE__*/ S.Array(
-  DataRetentionDeletionEvent,
-) as any as S.Schema<DataRetentionDeletionEventList>;
-
-export interface SecretEnvironmentVariable {
-  key?: string;
-}
-export const SecretEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SecretEnvironmentVariable",
-}) as any as S.Schema<SecretEnvironmentVariable>;
-
-export type SecretStatusValidityEnum =
-  | "SECRET_VALIDITY_UNSPECIFIED"
-  | "SECRET_VALIDITY_UNSUPPORTED"
-  | "SECRET_VALIDITY_FAILED"
-  | "SECRET_VALIDITY_INVALID"
-  | "SECRET_VALIDITY_VALID";
-export const SecretStatusValidityEnum = S.String;
-
-export interface SecretStatus {
-  validity?: SecretStatusValidityEnum | (string & {});
-  lastUpdatedTime?: string;
-}
-export const SecretStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validity: S.optional(SecretStatusValidityEnum),
-    lastUpdatedTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "SecretStatus" }) as any as S.Schema<SecretStatus>;
-
-export interface SecretFilePath {
-  path?: string;
-}
-export const SecretFilePath = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    path: S.optional(S.String),
-  }),
-).annotate({ identifier: "SecretFilePath" }) as any as S.Schema<SecretFilePath>;
-
-export interface Secret {
-  environmentVariable?: SecretEnvironmentVariable;
-  status?: SecretStatus;
-  type?: string;
-  filePath?: SecretFilePath;
-}
-export const Secret = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environmentVariable: S.optional(SecretEnvironmentVariable),
-    status: S.optional(SecretStatus),
-    type: S.optional(S.String),
-    filePath: S.optional(SecretFilePath),
-  }),
-).annotate({ identifier: "Secret" }) as any as S.Schema<Secret>;
-
-export type SensitivityScoreScoreEnum =
-  | "SENSITIVITY_SCORE_LEVEL_UNSPECIFIED"
-  | "SENSITIVITY_LOW"
-  | "SENSITIVITY_UNKNOWN"
-  | "SENSITIVITY_MODERATE"
-  | "SENSITIVITY_HIGH";
-export const SensitivityScoreScoreEnum = S.String;
-
-export interface SensitivityScore {
-  score?: SensitivityScoreScoreEnum | (string & {});
-}
-export const SensitivityScore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    score: S.optional(SensitivityScoreScoreEnum),
-  }),
-).annotate({ identifier: "SensitivityScore" }) as any as S.Schema<SensitivityScore>;
-
-export interface InfoType {
-  sensitivityScore?: SensitivityScore;
-  version?: string;
-  name?: string;
-}
-export const InfoType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sensitivityScore: S.optional(SensitivityScore),
-    version: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "InfoType" }) as any as S.Schema<InfoType>;
-
-export type InfoTypeList = Array<InfoType>;
-export const InfoTypeList = /*@__PURE__*/ S.Array(InfoType) as any as S.Schema<InfoTypeList>;
-
-export type CloudDlpDataProfileParentTypeEnum =
-  | "PARENT_TYPE_UNSPECIFIED"
-  | "ORGANIZATION"
-  | "PROJECT";
-export const CloudDlpDataProfileParentTypeEnum = S.String;
-
-export interface CloudDlpDataProfile {
-  infoTypes?: InfoTypeList;
-  parentType?: CloudDlpDataProfileParentTypeEnum | (string & {});
-  dataProfile?: string;
-}
-export const CloudDlpDataProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    infoTypes: S.optional(InfoTypeList),
-    parentType: S.optional(CloudDlpDataProfileParentTypeEnum),
-    dataProfile: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudDlpDataProfile" }) as any as S.Schema<CloudDlpDataProfile>;
-
-export interface CloudLoggingEntry {
-  resourceContainer?: string;
-  insertId?: string;
-  logId?: string;
-  timestamp?: string;
-}
-export const CloudLoggingEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceContainer: S.optional(S.String),
-    insertId: S.optional(S.String),
-    logId: S.optional(S.String),
-    timestamp: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudLoggingEntry" }) as any as S.Schema<CloudLoggingEntry>;
-
-export interface LogEntry {
-  cloudLoggingEntry?: CloudLoggingEntry;
-}
-export const LogEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudLoggingEntry: S.optional(CloudLoggingEntry),
-  }),
-).annotate({ identifier: "LogEntry" }) as any as S.Schema<LogEntry>;
-
-export type LogEntryList = Array<LogEntry>;
-export const LogEntryList = /*@__PURE__*/ S.Array(LogEntry) as any as S.Schema<LogEntryList>;
-
-export interface EnvironmentVariable {
-  val?: string;
-  name?: string;
-}
-export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    val: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
-
-export type EnvironmentVariableList = Array<EnvironmentVariable>;
-export const EnvironmentVariableList = /*@__PURE__*/ S.Array(
-  EnvironmentVariable,
-) as any as S.Schema<EnvironmentVariableList>;
-
-export type FileOperationTypeEnum =
-  | "OPERATION_TYPE_UNSPECIFIED"
-  | "OPEN"
-  | "READ"
-  | "RENAME"
-  | "WRITE"
-  | "EXECUTE";
-export const FileOperationTypeEnum = S.String;
-
-export interface FileOperation {
-  type?: FileOperationTypeEnum | (string & {});
-}
-export const FileOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(FileOperationTypeEnum),
-  }),
-).annotate({ identifier: "FileOperation" }) as any as S.Schema<FileOperation>;
-
-export type FileOperationList = Array<FileOperation>;
-export const FileOperationList = /*@__PURE__*/ S.Array(
-  FileOperation,
-) as any as S.Schema<FileOperationList>;
-
-export type FileFileLoadStateEnum =
-  | "FILE_LOAD_STATE_UNSPECIFIED"
-  | "LOADED_BY_PROCESS"
-  | "NOT_LOADED_BY_PROCESS";
-export const FileFileLoadStateEnum = S.String;
-
-export interface DiskPath {
-  relativePath?: string;
-  partitionUuid?: string;
-}
-export const DiskPath = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relativePath: S.optional(S.String),
-    partitionUuid: S.optional(S.String),
-  }),
-).annotate({ identifier: "DiskPath" }) as any as S.Schema<DiskPath>;
-
-export interface File {
-  contents?: string;
-  size?: string;
-  partiallyHashed?: boolean;
-  operations?: FileOperationList;
-  path?: string;
-  fileLoadState?: FileFileLoadStateEnum | (string & {});
-  hashedSize?: string;
-  diskPath?: DiskPath;
-  sha256?: string;
-}
-export const File = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contents: S.optional(S.String),
-    size: S.optional(S.String),
-    partiallyHashed: S.optional(S.Boolean),
-    operations: S.optional(FileOperationList),
-    path: S.optional(S.String),
-    fileLoadState: S.optional(FileFileLoadStateEnum),
-    hashedSize: S.optional(S.String),
-    diskPath: S.optional(DiskPath),
-    sha256: S.optional(S.String),
-  }),
-).annotate({ identifier: "File" }) as any as S.Schema<File>;
-
-export type FileList = Array<File>;
-export const FileList = /*@__PURE__*/ S.Array(File) as any as S.Schema<FileList>;
-
-export interface Process {
-  envVariables?: EnvironmentVariableList;
-  script?: File;
-  name?: string;
-  argumentsTruncated?: boolean;
-  args?: StringList;
-  parentPid?: string;
-  pid?: string;
-  userId?: string;
-  binary?: File;
-  envVariablesTruncated?: boolean;
-  libraries?: FileList;
-}
-export const Process = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    envVariables: S.optional(EnvironmentVariableList),
-    script: S.optional(File),
-    name: S.optional(S.String),
-    argumentsTruncated: S.optional(S.Boolean),
-    args: S.optional(StringList),
-    parentPid: S.optional(S.String),
-    pid: S.optional(S.String),
-    userId: S.optional(S.String),
-    binary: S.optional(File),
-    envVariablesTruncated: S.optional(S.Boolean),
-    libraries: S.optional(FileList),
-  }),
-).annotate({ identifier: "Process" }) as any as S.Schema<Process>;
-
-export type ProcessList = Array<Process>;
-export const ProcessList = /*@__PURE__*/ S.Array(Process) as any as S.Schema<ProcessList>;
-
-export interface TicketInfo {
-  status?: string;
-  assignee?: string;
-  updateTime?: string;
-  id?: string;
-  uri?: string;
-  description?: string;
-}
-export const TicketInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    assignee: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    id: S.optional(S.String),
-    uri: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "TicketInfo" }) as any as S.Schema<TicketInfo>;
-
-export interface GoogleCloudSecuritycenterV1ExternalSystem {
-  externalSystemUpdateTime?: string;
-  caseCloseTime?: string;
-  casePriority?: string;
-  status?: string;
-  caseCreateTime?: string;
-  caseUri?: string;
-  ticketInfo?: TicketInfo;
-  caseSla?: string;
-  assignees?: StringList;
-  name?: string;
-  externalUid?: string;
-}
-export const GoogleCloudSecuritycenterV1ExternalSystem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    externalSystemUpdateTime: S.optional(S.String),
-    caseCloseTime: S.optional(S.String),
-    casePriority: S.optional(S.String),
-    status: S.optional(S.String),
-    caseCreateTime: S.optional(S.String),
-    caseUri: S.optional(S.String),
-    ticketInfo: S.optional(TicketInfo),
-    caseSla: S.optional(S.String),
-    assignees: S.optional(StringList),
-    name: S.optional(S.String),
-    externalUid: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudSecuritycenterV1ExternalSystem",
-}) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>;
-
-export type GoogleCloudSecuritycenterV1ExternalSystemMap = {
-  [key: string]: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
-};
-export const GoogleCloudSecuritycenterV1ExternalSystemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  GoogleCloudSecuritycenterV1ExternalSystem,
-) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystemMap>;
-
-export interface YaraRuleSignature {
-  yaraRule?: string;
-}
-export const YaraRuleSignature = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    yaraRule: S.optional(S.String),
-  }),
-).annotate({ identifier: "YaraRuleSignature" }) as any as S.Schema<YaraRuleSignature>;
-
-export type ProcessSignatureSignatureTypeEnum =
-  | "SIGNATURE_TYPE_UNSPECIFIED"
-  | "SIGNATURE_TYPE_PROCESS"
-  | "SIGNATURE_TYPE_FILE";
-export const ProcessSignatureSignatureTypeEnum = S.String;
-
-export interface Detection {
-  percentPagesMatched?: number;
-  binary?: string;
-}
-export const Detection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    percentPagesMatched: S.optional(S.Number),
-    binary: S.optional(S.String),
-  }),
-).annotate({ identifier: "Detection" }) as any as S.Schema<Detection>;
-
-export type DetectionList = Array<Detection>;
-export const DetectionList = /*@__PURE__*/ S.Array(Detection) as any as S.Schema<DetectionList>;
-
-export interface MemoryHashSignature {
-  binaryFamily?: string;
-  detections?: DetectionList;
-}
-export const MemoryHashSignature = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    binaryFamily: S.optional(S.String),
-    detections: S.optional(DetectionList),
-  }),
-).annotate({ identifier: "MemoryHashSignature" }) as any as S.Schema<MemoryHashSignature>;
-
-export interface ProcessSignature {
-  yaraRuleSignature?: YaraRuleSignature;
-  signatureType?: ProcessSignatureSignatureTypeEnum | (string & {});
-  memoryHashSignature?: MemoryHashSignature;
-}
-export const ProcessSignature = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    yaraRuleSignature: S.optional(YaraRuleSignature),
-    signatureType: S.optional(ProcessSignatureSignatureTypeEnum),
-    memoryHashSignature: S.optional(MemoryHashSignature),
-  }),
-).annotate({ identifier: "ProcessSignature" }) as any as S.Schema<ProcessSignature>;
-
-export type ProcessSignatureList = Array<ProcessSignature>;
-export const ProcessSignatureList = /*@__PURE__*/ S.Array(
-  ProcessSignature,
-) as any as S.Schema<ProcessSignatureList>;
-
-export interface Indicator {
-  uris?: StringList;
-  domains?: StringList;
-  ipAddresses?: StringList;
-  signatures?: ProcessSignatureList;
-}
-export const Indicator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uris: S.optional(StringList),
-    domains: S.optional(StringList),
-    ipAddresses: S.optional(StringList),
-    signatures: S.optional(ProcessSignatureList),
-  }),
-).annotate({ identifier: "Indicator" }) as any as S.Schema<Indicator>;
-
-export interface PolicyDriftDetails {
-  expectedValue?: string;
-  detectedValue?: string;
-  field?: string;
-}
-export const PolicyDriftDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    expectedValue: S.optional(S.String),
-    detectedValue: S.optional(S.String),
-    field: S.optional(S.String),
-  }),
-).annotate({ identifier: "PolicyDriftDetails" }) as any as S.Schema<PolicyDriftDetails>;
-
-export type PolicyDriftDetailsList = Array<PolicyDriftDetails>;
-export const PolicyDriftDetailsList = /*@__PURE__*/ S.Array(
-  PolicyDriftDetails,
-) as any as S.Schema<PolicyDriftDetailsList>;
-
-export interface SecurityPosture {
-  revisionId?: string;
-  postureDeployment?: string;
-  policyDriftDetails?: PolicyDriftDetailsList;
-  changedPolicy?: string;
-  postureDeploymentResource?: string;
-  policySet?: string;
-  name?: string;
-  policy?: string;
-}
-export const SecurityPosture = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    revisionId: S.optional(S.String),
-    postureDeployment: S.optional(S.String),
-    policyDriftDetails: S.optional(PolicyDriftDetailsList),
-    changedPolicy: S.optional(S.String),
-    postureDeploymentResource: S.optional(S.String),
-    policySet: S.optional(S.String),
-    name: S.optional(S.String),
-    policy: S.optional(S.String),
-  }),
-).annotate({ identifier: "SecurityPosture" }) as any as S.Schema<SecurityPosture>;
-
-export type AiModelDeploymentPlatformEnum =
-  | "DEPLOYMENT_PLATFORM_UNSPECIFIED"
-  | "VERTEX_AI"
-  | "GKE"
-  | "GCE"
-  | "FINE_TUNED_MODEL";
-export const AiModelDeploymentPlatformEnum = S.String;
-
-export interface AiModel {
-  deploymentPlatform?: AiModelDeploymentPlatformEnum | (string & {});
-  location?: string;
-  name?: string;
-  usageCategory?: string;
-  publisher?: string;
-  library?: string;
-  domain?: string;
-  displayName?: string;
-}
-export const AiModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deploymentPlatform: S.optional(AiModelDeploymentPlatformEnum),
-    location: S.optional(S.String),
-    name: S.optional(S.String),
-    usageCategory: S.optional(S.String),
-    publisher: S.optional(S.String),
-    library: S.optional(S.String),
-    domain: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AiModel" }) as any as S.Schema<AiModel>;
-
-export type FindingFindingClassEnum =
-  | "FINDING_CLASS_UNSPECIFIED"
-  | "THREAT"
-  | "VULNERABILITY"
-  | "MISCONFIGURATION"
-  | "OBSERVATION"
-  | "SCC_ERROR"
-  | "POSTURE_VIOLATION"
-  | "TOXIC_COMBINATION"
-  | "SENSITIVE_DATA_RISK"
-  | "CHOKEPOINT"
-  | "EXTERNAL_EXPOSURE"
-  | "SECRET";
-export const FindingFindingClassEnum = S.String;
-
-export interface Dataset {
-  displayName?: string;
-  source?: string;
-  name?: string;
-}
-export const Dataset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    source: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
-
-export type DatasetList = Array<Dataset>;
-export const DatasetList = /*@__PURE__*/ S.Array(Dataset) as any as S.Schema<DatasetList>;
-
-export interface Pipeline {
-  displayName?: string;
-  name?: string;
-}
-export const Pipeline = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Pipeline" }) as any as S.Schema<Pipeline>;
-
-export type PipelineList = Array<Pipeline>;
-export const PipelineList = /*@__PURE__*/ S.Array(Pipeline) as any as S.Schema<PipelineList>;
-
-export interface VertexAi {
-  datasets?: DatasetList;
-  pipelines?: PipelineList;
-}
-export const VertexAi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datasets: S.optional(DatasetList),
-    pipelines: S.optional(PipelineList),
-  }),
-).annotate({ identifier: "VertexAi" }) as any as S.Schema<VertexAi>;
-
-export type ConnectionProtocolEnum =
-  | "PROTOCOL_UNSPECIFIED"
-  | "ICMP"
-  | "TCP"
-  | "UDP"
-  | "GRE"
-  | "ESP";
-export const ConnectionProtocolEnum = S.String;
-
-export interface Connection {
-  sourceIp?: string;
-  sourcePort?: number;
-  destinationIp?: string;
-  destinationPort?: number;
-  protocol?: ConnectionProtocolEnum | (string & {});
-}
-export const Connection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceIp: S.optional(S.String),
-    sourcePort: S.optional(S.Number),
-    destinationIp: S.optional(S.String),
-    destinationPort: S.optional(S.Number),
-    protocol: S.optional(ConnectionProtocolEnum),
-  }),
-).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
-
-export type ConnectionList = Array<Connection>;
-export const ConnectionList = /*@__PURE__*/ S.Array(Connection) as any as S.Schema<ConnectionList>;
-
-export interface ToxicCombination {
-  attackExposureScore?: number;
-  relatedFindings?: StringList;
-}
-export const ToxicCombination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attackExposureScore: S.optional(S.Number),
-    relatedFindings: S.optional(StringList),
-  }),
-).annotate({ identifier: "ToxicCombination" }) as any as S.Schema<ToxicCombination>;
-
-export interface DynamicMuteRecord {
-  matchTime?: string;
-  muteConfig?: string;
-}
-export const DynamicMuteRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    matchTime: S.optional(S.String),
-    muteConfig: S.optional(S.String),
-  }),
-).annotate({ identifier: "DynamicMuteRecord" }) as any as S.Schema<DynamicMuteRecord>;
-
-export type DynamicMuteRecordList = Array<DynamicMuteRecord>;
-export const DynamicMuteRecordList = /*@__PURE__*/ S.Array(
-  DynamicMuteRecord,
-) as any as S.Schema<DynamicMuteRecordList>;
-
-export type StaticMuteStateEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
-export const StaticMuteStateEnum = S.String;
-
-export interface StaticMute {
-  state?: StaticMuteStateEnum | (string & {});
-  applyTime?: string;
-}
-export const StaticMute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(StaticMuteStateEnum),
-    applyTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "StaticMute" }) as any as S.Schema<StaticMute>;
-
-export interface MuteInfo {
-  dynamicMuteRecords?: DynamicMuteRecordList;
-  staticMute?: StaticMute;
-}
-export const MuteInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dynamicMuteRecords: S.optional(DynamicMuteRecordList),
-    staticMute: S.optional(StaticMute),
-  }),
-).annotate({ identifier: "MuteInfo" }) as any as S.Schema<MuteInfo>;
-
-export interface Control {
-  controlName?: string;
-  displayName?: string;
-}
-export const Control = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlName: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Control" }) as any as S.Schema<Control>;
-
-export type ControlList = Array<Control>;
-export const ControlList = /*@__PURE__*/ S.Array(Control) as any as S.Schema<ControlList>;
-
-export type FrameworkCategoryItemEnum =
-  | "FRAMEWORK_CATEGORY_UNSPECIFIED"
-  | "SECURITY_BENCHMARKS"
-  | "ASSURED_WORKLOADS"
-  | "DATA_SECURITY"
-  | "GOOGLE_BEST_PRACTICES"
-  | "CUSTOM_FRAMEWORK";
-export const FrameworkCategoryItemEnum = S.String;
-
-export type FrameworkCategoryItemEnumList = Array<FrameworkCategoryItemEnum | (string & {})>;
-export const FrameworkCategoryItemEnumList = /*@__PURE__*/ S.Array(
-  FrameworkCategoryItemEnum,
-) as any as S.Schema<FrameworkCategoryItemEnumList>;
-
-export type FrameworkTypeEnum =
-  | "FRAMEWORK_TYPE_UNSPECIFIED"
-  | "FRAMEWORK_TYPE_BUILT_IN"
-  | "FRAMEWORK_TYPE_CUSTOM";
-export const FrameworkTypeEnum = S.String;
-
-export interface Framework {
-  controls?: ControlList;
-  displayName?: string;
-  category?: FrameworkCategoryItemEnumList;
-  name?: string;
-  type?: FrameworkTypeEnum | (string & {});
-}
-export const Framework = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controls: S.optional(ControlList),
-    displayName: S.optional(S.String),
-    category: S.optional(FrameworkCategoryItemEnumList),
-    name: S.optional(S.String),
-    type: S.optional(FrameworkTypeEnum),
-  }),
-).annotate({ identifier: "Framework" }) as any as S.Schema<Framework>;
-
-export type FrameworkList = Array<Framework>;
-export const FrameworkList = /*@__PURE__*/ S.Array(Framework) as any as S.Schema<FrameworkList>;
-
-export type CloudControlTypeEnum = "CLOUD_CONTROL_TYPE_UNSPECIFIED" | "BUILT_IN" | "CUSTOM";
-export const CloudControlTypeEnum = S.String;
-
-export interface CloudControl {
-  type?: CloudControlTypeEnum | (string & {});
-  policyType?: string;
-  version?: number;
-  cloudControlName?: string;
-}
-export const CloudControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(CloudControlTypeEnum),
-    policyType: S.optional(S.String),
-    version: S.optional(S.Number),
-    cloudControlName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudControl" }) as any as S.Schema<CloudControl>;
-
-export interface ComplianceDetails {
-  frameworks?: FrameworkList;
-  cloudControlDeploymentNames?: StringList;
-  cloudControl?: CloudControl;
-}
-export const ComplianceDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    frameworks: S.optional(FrameworkList),
-    cloudControlDeploymentNames: S.optional(StringList),
-    cloudControl: S.optional(CloudControl),
-  }),
-).annotate({ identifier: "ComplianceDetails" }) as any as S.Schema<ComplianceDetails>;
-
-export interface ExfilResource {
-  name?: string;
-  components?: StringList;
-}
-export const ExfilResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    components: S.optional(StringList),
-  }),
-).annotate({ identifier: "ExfilResource" }) as any as S.Schema<ExfilResource>;
-
-export type ExfilResourceList = Array<ExfilResource>;
-export const ExfilResourceList = /*@__PURE__*/ S.Array(
-  ExfilResource,
-) as any as S.Schema<ExfilResourceList>;
-
-export interface Exfiltration {
-  sources?: ExfilResourceList;
-  targets?: ExfilResourceList;
-  totalExfiltratedBytes?: string;
-}
-export const Exfiltration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sources: S.optional(ExfilResourceList),
-    targets: S.optional(ExfilResourceList),
-    totalExfiltratedBytes: S.optional(S.String),
-  }),
-).annotate({ identifier: "Exfiltration" }) as any as S.Schema<Exfiltration>;
-
-export interface AffectedResources {
-  count?: string;
-}
-export const AffectedResources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.String),
-  }),
-).annotate({ identifier: "AffectedResources" }) as any as S.Schema<AffectedResources>;
-
-export interface SecurityMarks {
-  canonicalName?: string;
-  name?: string;
-  marks?: StringMap;
-}
-export const SecurityMarks = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    canonicalName: S.optional(S.String),
-    name: S.optional(S.String),
-    marks: S.optional(StringMap),
-  }),
-).annotate({ identifier: "SecurityMarks" }) as any as S.Schema<SecurityMarks>;
-
-export interface Chokepoint {
-  relatedFindings?: StringList;
-}
-export const Chokepoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relatedFindings: S.optional(StringList),
-  }),
-).annotate({ identifier: "Chokepoint" }) as any as S.Schema<Chokepoint>;
-
-export interface Compliance {
-  standard?: string;
-  ids?: StringList;
-  version?: string;
-}
-export const Compliance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    standard: S.optional(S.String),
-    ids: S.optional(StringList),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "Compliance" }) as any as S.Schema<Compliance>;
-
-export type ComplianceList = Array<Compliance>;
-export const ComplianceList = /*@__PURE__*/ S.Array(Compliance) as any as S.Schema<ComplianceList>;
-
-export interface AgentSession {
-  sessionId?: string;
-}
-export const AgentSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentSession" }) as any as S.Schema<AgentSession>;
-
-export type AgentSessionList = Array<AgentSession>;
-export const AgentSessionList = /*@__PURE__*/ S.Array(
-  AgentSession,
-) as any as S.Schema<AgentSessionList>;
-
-export type LoadBalancer = Network;
-export const LoadBalancer = Network;
-
-export type LoadBalancerList = Array<Network>;
-export const LoadBalancerList = /*@__PURE__*/ S.Array(Network) as any as S.Schema<LoadBalancerList>;
-
-export interface SecurityBulletin {
-  bulletinId?: string;
-  suggestedUpgradeVersion?: string;
-  submissionTime?: string;
-}
-export const SecurityBulletin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bulletinId: S.optional(S.String),
-    suggestedUpgradeVersion: S.optional(S.String),
-    submissionTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "SecurityBulletin" }) as any as S.Schema<SecurityBulletin>;
-
-export type CveImpactEnum = "RISK_RATING_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
-export const CveImpactEnum = S.String;
-
-export interface Reference {
-  uri?: string;
-  source?: string;
-}
-export const Reference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    source: S.optional(S.String),
-  }),
-).annotate({ identifier: "Reference" }) as any as S.Schema<Reference>;
-
-export type ReferenceList = Array<Reference>;
-export const ReferenceList = /*@__PURE__*/ S.Array(Reference) as any as S.Schema<ReferenceList>;
-
-export type CveExploitationActivityEnum =
-  | "EXPLOITATION_ACTIVITY_UNSPECIFIED"
-  | "WIDE"
-  | "CONFIRMED"
-  | "AVAILABLE"
-  | "ANTICIPATED"
-  | "NO_KNOWN";
-export const CveExploitationActivityEnum = S.String;
-
-export type Cvssv3AvailabilityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
-export const Cvssv3AvailabilityImpactEnum = S.String;
-
-export type Cvssv3UserInteractionEnum =
-  | "USER_INTERACTION_UNSPECIFIED"
-  | "USER_INTERACTION_NONE"
-  | "USER_INTERACTION_REQUIRED";
-export const Cvssv3UserInteractionEnum = S.String;
-
-export type Cvssv3ConfidentialityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
-export const Cvssv3ConfidentialityImpactEnum = S.String;
-
-export type Cvssv3AttackComplexityEnum =
-  | "ATTACK_COMPLEXITY_UNSPECIFIED"
-  | "ATTACK_COMPLEXITY_LOW"
-  | "ATTACK_COMPLEXITY_HIGH";
-export const Cvssv3AttackComplexityEnum = S.String;
-
-export type Cvssv3IntegrityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
-export const Cvssv3IntegrityImpactEnum = S.String;
-
-export type Cvssv3AttackVectorEnum =
-  | "ATTACK_VECTOR_UNSPECIFIED"
-  | "ATTACK_VECTOR_NETWORK"
-  | "ATTACK_VECTOR_ADJACENT"
-  | "ATTACK_VECTOR_LOCAL"
-  | "ATTACK_VECTOR_PHYSICAL";
-export const Cvssv3AttackVectorEnum = S.String;
-
-export type Cvssv3ScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
-export const Cvssv3ScopeEnum = S.String;
-
-export type Cvssv3PrivilegesRequiredEnum =
-  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
-  | "PRIVILEGES_REQUIRED_NONE"
-  | "PRIVILEGES_REQUIRED_LOW"
-  | "PRIVILEGES_REQUIRED_HIGH";
-export const Cvssv3PrivilegesRequiredEnum = S.String;
-
-export interface Cvssv3 {
-  availabilityImpact?: Cvssv3AvailabilityImpactEnum | (string & {});
-  userInteraction?: Cvssv3UserInteractionEnum | (string & {});
-  confidentialityImpact?: Cvssv3ConfidentialityImpactEnum | (string & {});
-  attackComplexity?: Cvssv3AttackComplexityEnum | (string & {});
-  integrityImpact?: Cvssv3IntegrityImpactEnum | (string & {});
-  attackVector?: Cvssv3AttackVectorEnum | (string & {});
-  scope?: Cvssv3ScopeEnum | (string & {});
-  privilegesRequired?: Cvssv3PrivilegesRequiredEnum | (string & {});
-  baseScore?: number;
-}
-export const Cvssv3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    availabilityImpact: S.optional(Cvssv3AvailabilityImpactEnum),
-    userInteraction: S.optional(Cvssv3UserInteractionEnum),
-    confidentialityImpact: S.optional(Cvssv3ConfidentialityImpactEnum),
-    attackComplexity: S.optional(Cvssv3AttackComplexityEnum),
-    integrityImpact: S.optional(Cvssv3IntegrityImpactEnum),
-    attackVector: S.optional(Cvssv3AttackVectorEnum),
-    scope: S.optional(Cvssv3ScopeEnum),
-    privilegesRequired: S.optional(Cvssv3PrivilegesRequiredEnum),
-    baseScore: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Cvssv3" }) as any as S.Schema<Cvssv3>;
-
-export interface Cve {
-  firstExploitationDate?: string;
-  zeroDay?: boolean;
-  id?: string;
-  impact?: CveImpactEnum | (string & {});
-  references?: ReferenceList;
-  exploitationActivity?: CveExploitationActivityEnum | (string & {});
-  upstreamFixAvailable?: boolean;
-  observedInTheWild?: boolean;
-  exploitReleaseDate?: string;
-  cvssv3?: Cvssv3;
-}
-export const Cve = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    firstExploitationDate: S.optional(S.String),
-    zeroDay: S.optional(S.Boolean),
-    id: S.optional(S.String),
-    impact: S.optional(CveImpactEnum),
-    references: S.optional(ReferenceList),
-    exploitationActivity: S.optional(CveExploitationActivityEnum),
-    upstreamFixAvailable: S.optional(S.Boolean),
-    observedInTheWild: S.optional(S.Boolean),
-    exploitReleaseDate: S.optional(S.String),
-    cvssv3: S.optional(Cvssv3),
-  }),
-).annotate({ identifier: "Cve" }) as any as S.Schema<Cve>;
-
-export interface Cwe {
-  id?: string;
-  references?: ReferenceList;
-}
-export const Cwe = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    references: S.optional(ReferenceList),
-  }),
-).annotate({ identifier: "Cwe" }) as any as S.Schema<Cwe>;
-
-export type CweList = Array<Cwe>;
-export const CweList = /*@__PURE__*/ S.Array(Cwe) as any as S.Schema<CweList>;
-
-export interface Package {
-  packageVersion?: string;
-  cpeUri?: string;
-  packageType?: string;
-  packageName?: string;
-}
-export const Package = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    packageVersion: S.optional(S.String),
-    cpeUri: S.optional(S.String),
-    packageType: S.optional(S.String),
-    packageName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Package" }) as any as S.Schema<Package>;
-
-export interface Vulnerability {
-  securityBulletin?: SecurityBulletin;
-  cve?: Cve;
-  cwes?: CweList;
-  reachable?: boolean;
-  fixedPackage?: Package;
-  offendingPackage?: Package;
-  providerRiskScore?: string;
-}
-export const Vulnerability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityBulletin: S.optional(SecurityBulletin),
-    cve: S.optional(Cve),
-    cwes: S.optional(CweList),
-    reachable: S.optional(S.Boolean),
-    fixedPackage: S.optional(Package),
-    offendingPackage: S.optional(Package),
-    providerRiskScore: S.optional(S.String),
-  }),
-).annotate({ identifier: "Vulnerability" }) as any as S.Schema<Vulnerability>;
-
-export type GroupMembershipGroupTypeEnum =
-  | "GROUP_TYPE_UNSPECIFIED"
-  | "GROUP_TYPE_TOXIC_COMBINATION"
-  | "GROUP_TYPE_CHOKEPOINT";
-export const GroupMembershipGroupTypeEnum = S.String;
-
-export interface GroupMembership {
-  groupType?: GroupMembershipGroupTypeEnum | (string & {});
-  groupId?: string;
-}
-export const GroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groupType: S.optional(GroupMembershipGroupTypeEnum),
-    groupId: S.optional(S.String),
-  }),
-).annotate({ identifier: "GroupMembership" }) as any as S.Schema<GroupMembership>;
-
-export type GroupMembershipList = Array<GroupMembership>;
-export const GroupMembershipList = /*@__PURE__*/ S.Array(
-  GroupMembership,
-) as any as S.Schema<GroupMembershipList>;
-
-export type MitreAttackAdditionalTacticsItemEnum =
-  | "TACTIC_UNSPECIFIED"
-  | "RECONNAISSANCE"
-  | "RESOURCE_DEVELOPMENT"
-  | "INITIAL_ACCESS"
-  | "EXECUTION"
-  | "PERSISTENCE"
-  | "PRIVILEGE_ESCALATION"
-  | "DEFENSE_EVASION"
-  | "CREDENTIAL_ACCESS"
-  | "DISCOVERY"
-  | "LATERAL_MOVEMENT"
-  | "COLLECTION"
-  | "COMMAND_AND_CONTROL"
-  | "EXFILTRATION"
-  | "IMPACT";
-export const MitreAttackAdditionalTacticsItemEnum = S.String;
-
-export type MitreAttackAdditionalTacticsItemEnumList = Array<
-  MitreAttackAdditionalTacticsItemEnum | (string & {})
+export type MitreAttackPrimaryTechniquesItemEnum =
+  | "TECHNIQUE_UNSPECIFIED"
+  | "DATA_OBFUSCATION"
+  | "DATA_OBFUSCATION_STEGANOGRAPHY"
+  | "OS_CREDENTIAL_DUMPING"
+  | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM"
+  | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW"
+  | "DATA_FROM_LOCAL_SYSTEM"
+  | "AUTOMATED_EXFILTRATION"
+  | "OBFUSCATED_FILES_OR_INFO"
+  | "STEGANOGRAPHY"
+  | "COMPILE_AFTER_DELIVERY"
+  | "COMMAND_OBFUSCATION"
+  | "SCHEDULED_TRANSFER"
+  | "SYSTEM_OWNER_USER_DISCOVERY"
+  | "MASQUERADING"
+  | "MATCH_LEGITIMATE_NAME_OR_LOCATION"
+  | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS"
+  | "STARTUP_ITEMS"
+  | "NETWORK_SERVICE_DISCOVERY"
+  | "SCHEDULED_TASK_JOB"
+  | "SCHEDULED_TASK_JOB_CRON"
+  | "CONTAINER_ORCHESTRATION_JOB"
+  | "PROCESS_INJECTION"
+  | "INPUT_CAPTURE"
+  | "INPUT_CAPTURE_KEYLOGGING"
+  | "PROCESS_DISCOVERY"
+  | "COMMAND_AND_SCRIPTING_INTERPRETER"
+  | "UNIX_SHELL"
+  | "PYTHON"
+  | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION"
+  | "PERMISSION_GROUPS_DISCOVERY"
+  | "CLOUD_GROUPS"
+  | "INDICATOR_REMOVAL"
+  | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS"
+  | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY"
+  | "INDICATOR_REMOVAL_FILE_DELETION"
+  | "INDICATOR_REMOVAL_TIMESTOMP"
+  | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA"
+  | "APPLICATION_LAYER_PROTOCOL"
+  | "DNS"
+  | "SOFTWARE_DEPLOYMENT_TOOLS"
+  | "VALID_ACCOUNTS"
+  | "DEFAULT_ACCOUNTS"
+  | "LOCAL_ACCOUNTS"
+  | "CLOUD_ACCOUNTS"
+  | "FILE_AND_DIRECTORY_DISCOVERY"
+  | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT"
+  | "PROXY"
+  | "EXTERNAL_PROXY"
+  | "MULTI_HOP_PROXY"
+  | "ACCOUNT_MANIPULATION"
+  | "ADDITIONAL_CLOUD_CREDENTIALS"
+  | "ADDITIONAL_CLOUD_ROLES"
+  | "SSH_AUTHORIZED_KEYS"
+  | "ADDITIONAL_CONTAINER_CLUSTER_ROLES"
+  | "MULTI_STAGE_CHANNELS"
+  | "INGRESS_TOOL_TRANSFER"
+  | "NATIVE_API"
+  | "BRUTE_FORCE"
+  | "AUTOMATED_COLLECTION"
+  | "SHARED_MODULES"
+  | "DATA_ENCODING"
+  | "STANDARD_ENCODING"
+  | "ACCESS_TOKEN_MANIPULATION"
+  | "TOKEN_IMPERSONATION_OR_THEFT"
+  | "CREATE_ACCOUNT"
+  | "LOCAL_ACCOUNT"
+  | "DEOBFUSCATE_DECODE_FILES_OR_INFO"
+  | "EXPLOIT_PUBLIC_FACING_APPLICATION"
+  | "SUPPLY_CHAIN_COMPROMISE"
+  | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS"
+  | "EXPLOITATION_FOR_CLIENT_EXECUTION"
+  | "USER_EXECUTION"
+  | "EXPLOITATION_FOR_CREDENTIAL_ACCESS"
+  | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION"
+  | "DOMAIN_POLICY_MODIFICATION"
+  | "DATA_DESTRUCTION"
+  | "DATA_ENCRYPTED_FOR_IMPACT"
+  | "SERVICE_STOP"
+  | "INHIBIT_SYSTEM_RECOVERY"
+  | "FIRMWARE_CORRUPTION"
+  | "RESOURCE_HIJACKING"
+  | "NETWORK_DENIAL_OF_SERVICE"
+  | "CLOUD_SERVICE_DISCOVERY"
+  | "STEAL_APPLICATION_ACCESS_TOKEN"
+  | "ACCOUNT_ACCESS_REMOVAL"
+  | "TRANSFER_DATA_TO_CLOUD_ACCOUNT"
+  | "STEAL_WEB_SESSION_COOKIE"
+  | "CREATE_OR_MODIFY_SYSTEM_PROCESS"
+  | "EVENT_TRIGGERED_EXECUTION"
+  | "BOOT_OR_LOGON_AUTOSTART_EXECUTION"
+  | "KERNEL_MODULES_AND_EXTENSIONS"
+  | "SHORTCUT_MODIFICATION"
+  | "ABUSE_ELEVATION_CONTROL_MECHANISM"
+  | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID"
+  | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING"
+  | "UNSECURED_CREDENTIALS"
+  | "CREDENTIALS_IN_FILES"
+  | "BASH_HISTORY"
+  | "PRIVATE_KEYS"
+  | "SUBVERT_TRUST_CONTROL"
+  | "INSTALL_ROOT_CERTIFICATE"
+  | "COMPROMISE_HOST_SOFTWARE_BINARY"
+  | "CREDENTIALS_FROM_PASSWORD_STORES"
+  | "MODIFY_AUTHENTICATION_PROCESS"
+  | "PLUGGABLE_AUTHENTICATION_MODULES"
+  | "MULTI_FACTOR_AUTHENTICATION"
+  | "IMPAIR_DEFENSES"
+  | "DISABLE_OR_MODIFY_TOOLS"
+  | "INDICATOR_BLOCKING"
+  | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM"
+  | "HIDE_ARTIFACTS"
+  | "HIDDEN_FILES_AND_DIRECTORIES"
+  | "HIDDEN_USERS"
+  | "EXFILTRATION_OVER_WEB_SERVICE"
+  | "EXFILTRATION_TO_CLOUD_STORAGE"
+  | "DYNAMIC_RESOLUTION"
+  | "LATERAL_TOOL_TRANSFER"
+  | "HIJACK_EXECUTION_FLOW"
+  | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING"
+  | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE"
+  | "CREATE_SNAPSHOT"
+  | "CLOUD_INFRASTRUCTURE_DISCOVERY"
+  | "DEVELOP_CAPABILITIES"
+  | "DEVELOP_CAPABILITIES_MALWARE"
+  | "OBTAIN_CAPABILITIES"
+  | "OBTAIN_CAPABILITIES_MALWARE"
+  | "OBTAIN_CAPABILITIES_VULNERABILITIES"
+  | "ACTIVE_SCANNING"
+  | "SCANNING_IP_BLOCKS"
+  | "STAGE_CAPABILITIES"
+  | "UPLOAD_MALWARE"
+  | "CONTAINER_ADMINISTRATION_COMMAND"
+  | "DEPLOY_CONTAINER"
+  | "ESCAPE_TO_HOST"
+  | "CONTAINER_AND_RESOURCE_DISCOVERY"
+  | "REFLECTIVE_CODE_LOADING"
+  | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES"
+  | "FINANCIAL_THEFT";
+export const MitreAttackPrimaryTechniquesItemEnum = S.String;
+
+export type MitreAttackPrimaryTechniquesItemEnumList = Array<
+  MitreAttackPrimaryTechniquesItemEnum | (string & {})
 >;
-export const MitreAttackAdditionalTacticsItemEnumList = /*@__PURE__*/ S.Array(
-  MitreAttackAdditionalTacticsItemEnum,
-) as any as S.Schema<MitreAttackAdditionalTacticsItemEnumList>;
+export const MitreAttackPrimaryTechniquesItemEnumList = /*@__PURE__*/ S.Array(
+  MitreAttackPrimaryTechniquesItemEnum,
+) as any as S.Schema<MitreAttackPrimaryTechniquesItemEnumList>;
 
 export type MitreAttackPrimaryTacticEnum =
   | "TACTIC_UNSPECIFIED"
@@ -2923,188 +1210,801 @@ export const MitreAttackAdditionalTechniquesItemEnumList = /*@__PURE__*/ S.Array
   MitreAttackAdditionalTechniquesItemEnum,
 ) as any as S.Schema<MitreAttackAdditionalTechniquesItemEnumList>;
 
-export type MitreAttackPrimaryTechniquesItemEnum =
-  | "TECHNIQUE_UNSPECIFIED"
-  | "DATA_OBFUSCATION"
-  | "DATA_OBFUSCATION_STEGANOGRAPHY"
-  | "OS_CREDENTIAL_DUMPING"
-  | "OS_CREDENTIAL_DUMPING_PROC_FILESYSTEM"
-  | "OS_CREDENTIAL_DUMPING_ETC_PASSWORD_AND_ETC_SHADOW"
-  | "DATA_FROM_LOCAL_SYSTEM"
-  | "AUTOMATED_EXFILTRATION"
-  | "OBFUSCATED_FILES_OR_INFO"
-  | "STEGANOGRAPHY"
-  | "COMPILE_AFTER_DELIVERY"
-  | "COMMAND_OBFUSCATION"
-  | "SCHEDULED_TRANSFER"
-  | "SYSTEM_OWNER_USER_DISCOVERY"
-  | "MASQUERADING"
-  | "MATCH_LEGITIMATE_NAME_OR_LOCATION"
-  | "BOOT_OR_LOGON_INITIALIZATION_SCRIPTS"
-  | "STARTUP_ITEMS"
-  | "NETWORK_SERVICE_DISCOVERY"
-  | "SCHEDULED_TASK_JOB"
-  | "SCHEDULED_TASK_JOB_CRON"
-  | "CONTAINER_ORCHESTRATION_JOB"
-  | "PROCESS_INJECTION"
-  | "INPUT_CAPTURE"
-  | "INPUT_CAPTURE_KEYLOGGING"
-  | "PROCESS_DISCOVERY"
-  | "COMMAND_AND_SCRIPTING_INTERPRETER"
-  | "UNIX_SHELL"
-  | "PYTHON"
-  | "EXPLOITATION_FOR_PRIVILEGE_ESCALATION"
-  | "PERMISSION_GROUPS_DISCOVERY"
-  | "CLOUD_GROUPS"
-  | "INDICATOR_REMOVAL"
-  | "INDICATOR_REMOVAL_CLEAR_LINUX_OR_MAC_SYSTEM_LOGS"
-  | "INDICATOR_REMOVAL_CLEAR_COMMAND_HISTORY"
-  | "INDICATOR_REMOVAL_FILE_DELETION"
-  | "INDICATOR_REMOVAL_TIMESTOMP"
-  | "INDICATOR_REMOVAL_CLEAR_MAILBOX_DATA"
-  | "APPLICATION_LAYER_PROTOCOL"
-  | "DNS"
-  | "SOFTWARE_DEPLOYMENT_TOOLS"
-  | "VALID_ACCOUNTS"
-  | "DEFAULT_ACCOUNTS"
-  | "LOCAL_ACCOUNTS"
-  | "CLOUD_ACCOUNTS"
-  | "FILE_AND_DIRECTORY_DISCOVERY"
-  | "ACCOUNT_DISCOVERY_LOCAL_ACCOUNT"
-  | "PROXY"
-  | "EXTERNAL_PROXY"
-  | "MULTI_HOP_PROXY"
-  | "ACCOUNT_MANIPULATION"
-  | "ADDITIONAL_CLOUD_CREDENTIALS"
-  | "ADDITIONAL_CLOUD_ROLES"
-  | "SSH_AUTHORIZED_KEYS"
-  | "ADDITIONAL_CONTAINER_CLUSTER_ROLES"
-  | "MULTI_STAGE_CHANNELS"
-  | "INGRESS_TOOL_TRANSFER"
-  | "NATIVE_API"
-  | "BRUTE_FORCE"
-  | "AUTOMATED_COLLECTION"
-  | "SHARED_MODULES"
-  | "DATA_ENCODING"
-  | "STANDARD_ENCODING"
-  | "ACCESS_TOKEN_MANIPULATION"
-  | "TOKEN_IMPERSONATION_OR_THEFT"
-  | "CREATE_ACCOUNT"
-  | "LOCAL_ACCOUNT"
-  | "DEOBFUSCATE_DECODE_FILES_OR_INFO"
-  | "EXPLOIT_PUBLIC_FACING_APPLICATION"
-  | "SUPPLY_CHAIN_COMPROMISE"
-  | "COMPROMISE_SOFTWARE_DEPENDENCIES_AND_DEVELOPMENT_TOOLS"
-  | "EXPLOITATION_FOR_CLIENT_EXECUTION"
-  | "USER_EXECUTION"
-  | "EXPLOITATION_FOR_CREDENTIAL_ACCESS"
-  | "LINUX_AND_MAC_FILE_AND_DIRECTORY_PERMISSIONS_MODIFICATION"
-  | "DOMAIN_POLICY_MODIFICATION"
-  | "DATA_DESTRUCTION"
-  | "DATA_ENCRYPTED_FOR_IMPACT"
-  | "SERVICE_STOP"
-  | "INHIBIT_SYSTEM_RECOVERY"
-  | "FIRMWARE_CORRUPTION"
-  | "RESOURCE_HIJACKING"
-  | "NETWORK_DENIAL_OF_SERVICE"
-  | "CLOUD_SERVICE_DISCOVERY"
-  | "STEAL_APPLICATION_ACCESS_TOKEN"
-  | "ACCOUNT_ACCESS_REMOVAL"
-  | "TRANSFER_DATA_TO_CLOUD_ACCOUNT"
-  | "STEAL_WEB_SESSION_COOKIE"
-  | "CREATE_OR_MODIFY_SYSTEM_PROCESS"
-  | "EVENT_TRIGGERED_EXECUTION"
-  | "BOOT_OR_LOGON_AUTOSTART_EXECUTION"
-  | "KERNEL_MODULES_AND_EXTENSIONS"
-  | "SHORTCUT_MODIFICATION"
-  | "ABUSE_ELEVATION_CONTROL_MECHANISM"
-  | "ABUSE_ELEVATION_CONTROL_MECHANISM_SETUID_AND_SETGID"
-  | "ABUSE_ELEVATION_CONTROL_MECHANISM_SUDO_AND_SUDO_CACHING"
-  | "UNSECURED_CREDENTIALS"
-  | "CREDENTIALS_IN_FILES"
-  | "BASH_HISTORY"
-  | "PRIVATE_KEYS"
-  | "SUBVERT_TRUST_CONTROL"
-  | "INSTALL_ROOT_CERTIFICATE"
-  | "COMPROMISE_HOST_SOFTWARE_BINARY"
-  | "CREDENTIALS_FROM_PASSWORD_STORES"
-  | "MODIFY_AUTHENTICATION_PROCESS"
-  | "PLUGGABLE_AUTHENTICATION_MODULES"
-  | "MULTI_FACTOR_AUTHENTICATION"
-  | "IMPAIR_DEFENSES"
-  | "DISABLE_OR_MODIFY_TOOLS"
-  | "INDICATOR_BLOCKING"
-  | "DISABLE_OR_MODIFY_LINUX_AUDIT_SYSTEM"
-  | "HIDE_ARTIFACTS"
-  | "HIDDEN_FILES_AND_DIRECTORIES"
-  | "HIDDEN_USERS"
-  | "EXFILTRATION_OVER_WEB_SERVICE"
-  | "EXFILTRATION_TO_CLOUD_STORAGE"
-  | "DYNAMIC_RESOLUTION"
-  | "LATERAL_TOOL_TRANSFER"
-  | "HIJACK_EXECUTION_FLOW"
-  | "HIJACK_EXECUTION_FLOW_DYNAMIC_LINKER_HIJACKING"
-  | "MODIFY_CLOUD_COMPUTE_INFRASTRUCTURE"
-  | "CREATE_SNAPSHOT"
-  | "CLOUD_INFRASTRUCTURE_DISCOVERY"
-  | "DEVELOP_CAPABILITIES"
-  | "DEVELOP_CAPABILITIES_MALWARE"
-  | "OBTAIN_CAPABILITIES"
-  | "OBTAIN_CAPABILITIES_MALWARE"
-  | "OBTAIN_CAPABILITIES_VULNERABILITIES"
-  | "ACTIVE_SCANNING"
-  | "SCANNING_IP_BLOCKS"
-  | "STAGE_CAPABILITIES"
-  | "UPLOAD_MALWARE"
-  | "CONTAINER_ADMINISTRATION_COMMAND"
-  | "DEPLOY_CONTAINER"
-  | "ESCAPE_TO_HOST"
-  | "CONTAINER_AND_RESOURCE_DISCOVERY"
-  | "REFLECTIVE_CODE_LOADING"
-  | "STEAL_OR_FORGE_AUTHENTICATION_CERTIFICATES"
-  | "FINANCIAL_THEFT";
-export const MitreAttackPrimaryTechniquesItemEnum = S.String;
+export type MitreAttackAdditionalTacticsItemEnum =
+  | "TACTIC_UNSPECIFIED"
+  | "RECONNAISSANCE"
+  | "RESOURCE_DEVELOPMENT"
+  | "INITIAL_ACCESS"
+  | "EXECUTION"
+  | "PERSISTENCE"
+  | "PRIVILEGE_ESCALATION"
+  | "DEFENSE_EVASION"
+  | "CREDENTIAL_ACCESS"
+  | "DISCOVERY"
+  | "LATERAL_MOVEMENT"
+  | "COLLECTION"
+  | "COMMAND_AND_CONTROL"
+  | "EXFILTRATION"
+  | "IMPACT";
+export const MitreAttackAdditionalTacticsItemEnum = S.String;
 
-export type MitreAttackPrimaryTechniquesItemEnumList = Array<
-  MitreAttackPrimaryTechniquesItemEnum | (string & {})
+export type MitreAttackAdditionalTacticsItemEnumList = Array<
+  MitreAttackAdditionalTacticsItemEnum | (string & {})
 >;
-export const MitreAttackPrimaryTechniquesItemEnumList = /*@__PURE__*/ S.Array(
-  MitreAttackPrimaryTechniquesItemEnum,
-) as any as S.Schema<MitreAttackPrimaryTechniquesItemEnumList>;
+export const MitreAttackAdditionalTacticsItemEnumList = /*@__PURE__*/ S.Array(
+  MitreAttackAdditionalTacticsItemEnum,
+) as any as S.Schema<MitreAttackAdditionalTacticsItemEnumList>;
 
 export interface MitreAttack {
-  additionalTactics?: MitreAttackAdditionalTacticsItemEnumList;
-  primaryTactic?: MitreAttackPrimaryTacticEnum | (string & {});
-  additionalTechniques?: MitreAttackAdditionalTechniquesItemEnumList;
   version?: string;
   primaryTechniques?: MitreAttackPrimaryTechniquesItemEnumList;
+  primaryTactic?: MitreAttackPrimaryTacticEnum | (string & {});
+  additionalTechniques?: MitreAttackAdditionalTechniquesItemEnumList;
+  additionalTactics?: MitreAttackAdditionalTacticsItemEnumList;
 }
 export const MitreAttack = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    additionalTactics: S.optional(MitreAttackAdditionalTacticsItemEnumList),
-    primaryTactic: S.optional(MitreAttackPrimaryTacticEnum),
-    additionalTechniques: S.optional(MitreAttackAdditionalTechniquesItemEnumList),
     version: S.optional(S.String),
     primaryTechniques: S.optional(MitreAttackPrimaryTechniquesItemEnumList),
+    primaryTactic: S.optional(MitreAttackPrimaryTacticEnum),
+    additionalTechniques: S.optional(MitreAttackAdditionalTechniquesItemEnumList),
+    additionalTactics: S.optional(MitreAttackAdditionalTacticsItemEnumList),
   }),
 ).annotate({ identifier: "MitreAttack" }) as any as S.Schema<MitreAttack>;
 
-export interface Attack {
-  classification?: string;
-  volumePpsLong?: string;
-  volumePps?: number;
-  volumeBps?: number;
-  volumeBpsLong?: string;
+export type StaticMuteStateEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
+export const StaticMuteStateEnum = S.String;
+
+export interface StaticMute {
+  state?: StaticMuteStateEnum | (string & {});
+  applyTime?: string;
 }
-export const Attack = /*@__PURE__*/ S.suspend(() =>
+export const StaticMute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    classification: S.optional(S.String),
-    volumePpsLong: S.optional(S.String),
-    volumePps: S.optional(S.Number),
-    volumeBps: S.optional(S.Number),
-    volumeBpsLong: S.optional(S.String),
+    state: S.optional(StaticMuteStateEnum),
+    applyTime: S.optional(S.String),
   }),
-).annotate({ identifier: "Attack" }) as any as S.Schema<Attack>;
+).annotate({ identifier: "StaticMute" }) as any as S.Schema<StaticMute>;
+
+export interface DynamicMuteRecord {
+  matchTime?: string;
+  muteConfig?: string;
+}
+export const DynamicMuteRecord = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matchTime: S.optional(S.String),
+    muteConfig: S.optional(S.String),
+  }),
+).annotate({ identifier: "DynamicMuteRecord" }) as any as S.Schema<DynamicMuteRecord>;
+
+export type DynamicMuteRecordList = Array<DynamicMuteRecord>;
+export const DynamicMuteRecordList = /*@__PURE__*/ S.Array(
+  DynamicMuteRecord,
+) as any as S.Schema<DynamicMuteRecordList>;
+
+export interface MuteInfo {
+  staticMute?: StaticMute;
+  dynamicMuteRecords?: DynamicMuteRecordList;
+}
+export const MuteInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    staticMute: S.optional(StaticMute),
+    dynamicMuteRecords: S.optional(DynamicMuteRecordList),
+  }),
+).annotate({ identifier: "MuteInfo" }) as any as S.Schema<MuteInfo>;
+
+export interface Contact {
+  email?: string;
+}
+export const Contact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.optional(S.String),
+  }),
+).annotate({ identifier: "Contact" }) as any as S.Schema<Contact>;
+
+export type ContactList = Array<Contact>;
+export const ContactList = /*@__PURE__*/ S.Array(Contact) as any as S.Schema<ContactList>;
+
+export interface ContactDetails {
+  contacts?: ContactList;
+}
+export const ContactDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contacts: S.optional(ContactList),
+  }),
+).annotate({ identifier: "ContactDetails" }) as any as S.Schema<ContactDetails>;
+
+export type ContactDetailsMap = { [key: string]: ContactDetails | undefined };
+export const ContactDetailsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ContactDetails,
+) as any as S.Schema<ContactDetailsMap>;
+
+export interface SecurityMarks {
+  name?: string;
+  canonicalName?: string;
+  marks?: StringMap;
+}
+export const SecurityMarks = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    canonicalName: S.optional(S.String),
+    marks: S.optional(StringMap),
+  }),
+).annotate({ identifier: "SecurityMarks" }) as any as S.Schema<SecurityMarks>;
+
+export interface OrgPolicy {
+  name?: string;
+}
+export const OrgPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "OrgPolicy" }) as any as S.Schema<OrgPolicy>;
+
+export type OrgPolicyList = Array<OrgPolicy>;
+export const OrgPolicyList = /*@__PURE__*/ S.Array(OrgPolicy) as any as S.Schema<OrgPolicyList>;
+
+export type FindingStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
+export const FindingStateEnum = S.String;
+
+export interface Geolocation {
+  regionCode?: string;
+}
+export const Geolocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    regionCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "Geolocation" }) as any as S.Schema<Geolocation>;
+
+export interface ServiceAccountDelegationInfo {
+  principalEmail?: string;
+  principalSubject?: string;
+}
+export const ServiceAccountDelegationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalEmail: S.optional(S.String),
+    principalSubject: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ServiceAccountDelegationInfo",
+}) as any as S.Schema<ServiceAccountDelegationInfo>;
+
+export type ServiceAccountDelegationInfoList = Array<ServiceAccountDelegationInfo>;
+export const ServiceAccountDelegationInfoList = /*@__PURE__*/ S.Array(
+  ServiceAccountDelegationInfo,
+) as any as S.Schema<ServiceAccountDelegationInfoList>;
+
+export interface Access {
+  principalEmail?: string;
+  principalSubject?: string;
+  userName?: string;
+  callerIpGeo?: Geolocation;
+  userAgent?: string;
+  userAgentFamily?: string;
+  serviceAccountKeyName?: string;
+  serviceAccountDelegationInfo?: ServiceAccountDelegationInfoList;
+  serviceName?: string;
+  methodName?: string;
+  callerIp?: string;
+}
+export const Access = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalEmail: S.optional(S.String),
+    principalSubject: S.optional(S.String),
+    userName: S.optional(S.String),
+    callerIpGeo: S.optional(Geolocation),
+    userAgent: S.optional(S.String),
+    userAgentFamily: S.optional(S.String),
+    serviceAccountKeyName: S.optional(S.String),
+    serviceAccountDelegationInfo: S.optional(ServiceAccountDelegationInfoList),
+    serviceName: S.optional(S.String),
+    methodName: S.optional(S.String),
+    callerIp: S.optional(S.String),
+  }),
+).annotate({ identifier: "Access" }) as any as S.Schema<Access>;
+
+export interface GoogleCloudSecuritycenterV1IamRolePermission {
+  name?: string;
+  role?: string;
+}
+export const GoogleCloudSecuritycenterV1IamRolePermission = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    role: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudSecuritycenterV1IamRolePermission",
+}) as any as S.Schema<GoogleCloudSecuritycenterV1IamRolePermission>;
+
+export type GoogleCloudSecuritycenterV1IamRolePermissionList =
+  Array<GoogleCloudSecuritycenterV1IamRolePermission>;
+export const GoogleCloudSecuritycenterV1IamRolePermissionList = /*@__PURE__*/ S.Array(
+  GoogleCloudSecuritycenterV1IamRolePermission,
+) as any as S.Schema<GoogleCloudSecuritycenterV1IamRolePermissionList>;
+
+export interface GoogleCloudSecuritycenterV1IamDetails {
+  iamRolePermissions?: GoogleCloudSecuritycenterV1IamRolePermissionList;
+}
+export const GoogleCloudSecuritycenterV1IamDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    iamRolePermissions: S.optional(GoogleCloudSecuritycenterV1IamRolePermissionList),
+  }),
+).annotate({
+  identifier: "GoogleCloudSecuritycenterV1IamDetails",
+}) as any as S.Schema<GoogleCloudSecuritycenterV1IamDetails>;
+
+export interface Reference {
+  source?: string;
+  uri?: string;
+}
+export const Reference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source: S.optional(S.String),
+    uri: S.optional(S.String),
+  }),
+).annotate({ identifier: "Reference" }) as any as S.Schema<Reference>;
+
+export type ReferenceList = Array<Reference>;
+export const ReferenceList = /*@__PURE__*/ S.Array(Reference) as any as S.Schema<ReferenceList>;
+
+export interface Cwe {
+  id?: string;
+  references?: ReferenceList;
+}
+export const Cwe = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    references: S.optional(ReferenceList),
+  }),
+).annotate({ identifier: "Cwe" }) as any as S.Schema<Cwe>;
+
+export type CweList = Array<Cwe>;
+export const CweList = /*@__PURE__*/ S.Array(Cwe) as any as S.Schema<CweList>;
+
+export interface Package {
+  cpeUri?: string;
+  packageName?: string;
+  packageVersion?: string;
+  packageType?: string;
+}
+export const Package = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpeUri: S.optional(S.String),
+    packageName: S.optional(S.String),
+    packageVersion: S.optional(S.String),
+    packageType: S.optional(S.String),
+  }),
+).annotate({ identifier: "Package" }) as any as S.Schema<Package>;
+
+export type CveImpactEnum = "RISK_RATING_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+export const CveImpactEnum = S.String;
+
+export type CveExploitationActivityEnum =
+  | "EXPLOITATION_ACTIVITY_UNSPECIFIED"
+  | "WIDE"
+  | "CONFIRMED"
+  | "AVAILABLE"
+  | "ANTICIPATED"
+  | "NO_KNOWN";
+export const CveExploitationActivityEnum = S.String;
+
+export type Cvssv3PrivilegesRequiredEnum =
+  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+  | "PRIVILEGES_REQUIRED_NONE"
+  | "PRIVILEGES_REQUIRED_LOW"
+  | "PRIVILEGES_REQUIRED_HIGH";
+export const Cvssv3PrivilegesRequiredEnum = S.String;
+
+export type Cvssv3AttackComplexityEnum =
+  | "ATTACK_COMPLEXITY_UNSPECIFIED"
+  | "ATTACK_COMPLEXITY_LOW"
+  | "ATTACK_COMPLEXITY_HIGH";
+export const Cvssv3AttackComplexityEnum = S.String;
+
+export type Cvssv3AvailabilityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export const Cvssv3AvailabilityImpactEnum = S.String;
+
+export type Cvssv3UserInteractionEnum =
+  | "USER_INTERACTION_UNSPECIFIED"
+  | "USER_INTERACTION_NONE"
+  | "USER_INTERACTION_REQUIRED";
+export const Cvssv3UserInteractionEnum = S.String;
+
+export type Cvssv3ConfidentialityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export const Cvssv3ConfidentialityImpactEnum = S.String;
+
+export type Cvssv3ScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
+export const Cvssv3ScopeEnum = S.String;
+
+export type Cvssv3AttackVectorEnum =
+  | "ATTACK_VECTOR_UNSPECIFIED"
+  | "ATTACK_VECTOR_NETWORK"
+  | "ATTACK_VECTOR_ADJACENT"
+  | "ATTACK_VECTOR_LOCAL"
+  | "ATTACK_VECTOR_PHYSICAL";
+export const Cvssv3AttackVectorEnum = S.String;
+
+export type Cvssv3IntegrityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export const Cvssv3IntegrityImpactEnum = S.String;
+
+export interface Cvssv3 {
+  privilegesRequired?: Cvssv3PrivilegesRequiredEnum | (string & {});
+  attackComplexity?: Cvssv3AttackComplexityEnum | (string & {});
+  availabilityImpact?: Cvssv3AvailabilityImpactEnum | (string & {});
+  userInteraction?: Cvssv3UserInteractionEnum | (string & {});
+  confidentialityImpact?: Cvssv3ConfidentialityImpactEnum | (string & {});
+  scope?: Cvssv3ScopeEnum | (string & {});
+  attackVector?: Cvssv3AttackVectorEnum | (string & {});
+  integrityImpact?: Cvssv3IntegrityImpactEnum | (string & {});
+  baseScore?: number;
+}
+export const Cvssv3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    privilegesRequired: S.optional(Cvssv3PrivilegesRequiredEnum),
+    attackComplexity: S.optional(Cvssv3AttackComplexityEnum),
+    availabilityImpact: S.optional(Cvssv3AvailabilityImpactEnum),
+    userInteraction: S.optional(Cvssv3UserInteractionEnum),
+    confidentialityImpact: S.optional(Cvssv3ConfidentialityImpactEnum),
+    scope: S.optional(Cvssv3ScopeEnum),
+    attackVector: S.optional(Cvssv3AttackVectorEnum),
+    integrityImpact: S.optional(Cvssv3IntegrityImpactEnum),
+    baseScore: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Cvssv3" }) as any as S.Schema<Cvssv3>;
+
+export interface Cve {
+  exploitReleaseDate?: string;
+  impact?: CveImpactEnum | (string & {});
+  exploitationActivity?: CveExploitationActivityEnum | (string & {});
+  zeroDay?: boolean;
+  firstExploitationDate?: string;
+  upstreamFixAvailable?: boolean;
+  observedInTheWild?: boolean;
+  id?: string;
+  cvssv3?: Cvssv3;
+  references?: ReferenceList;
+}
+export const Cve = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exploitReleaseDate: S.optional(S.String),
+    impact: S.optional(CveImpactEnum),
+    exploitationActivity: S.optional(CveExploitationActivityEnum),
+    zeroDay: S.optional(S.Boolean),
+    firstExploitationDate: S.optional(S.String),
+    upstreamFixAvailable: S.optional(S.Boolean),
+    observedInTheWild: S.optional(S.Boolean),
+    id: S.optional(S.String),
+    cvssv3: S.optional(Cvssv3),
+    references: S.optional(ReferenceList),
+  }),
+).annotate({ identifier: "Cve" }) as any as S.Schema<Cve>;
+
+export interface SecurityBulletin {
+  submissionTime?: string;
+  suggestedUpgradeVersion?: string;
+  bulletinId?: string;
+}
+export const SecurityBulletin = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    submissionTime: S.optional(S.String),
+    suggestedUpgradeVersion: S.optional(S.String),
+    bulletinId: S.optional(S.String),
+  }),
+).annotate({ identifier: "SecurityBulletin" }) as any as S.Schema<SecurityBulletin>;
+
+export interface Vulnerability {
+  cwes?: CweList;
+  providerRiskScore?: string;
+  reachable?: boolean;
+  offendingPackage?: Package;
+  fixedPackage?: Package;
+  cve?: Cve;
+  securityBulletin?: SecurityBulletin;
+}
+export const Vulnerability = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cwes: S.optional(CweList),
+    providerRiskScore: S.optional(S.String),
+    reachable: S.optional(S.Boolean),
+    offendingPackage: S.optional(Package),
+    fixedPackage: S.optional(Package),
+    cve: S.optional(Cve),
+    securityBulletin: S.optional(SecurityBulletin),
+  }),
+).annotate({ identifier: "Vulnerability" }) as any as S.Schema<Vulnerability>;
+
+export interface CloudLoggingEntry {
+  logId?: string;
+  timestamp?: string;
+  insertId?: string;
+  resourceContainer?: string;
+}
+export const CloudLoggingEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logId: S.optional(S.String),
+    timestamp: S.optional(S.String),
+    insertId: S.optional(S.String),
+    resourceContainer: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloudLoggingEntry" }) as any as S.Schema<CloudLoggingEntry>;
+
+export interface LogEntry {
+  cloudLoggingEntry?: CloudLoggingEntry;
+}
+export const LogEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cloudLoggingEntry: S.optional(CloudLoggingEntry),
+  }),
+).annotate({ identifier: "LogEntry" }) as any as S.Schema<LogEntry>;
+
+export type LogEntryList = Array<LogEntry>;
+export const LogEntryList = /*@__PURE__*/ S.Array(LogEntry) as any as S.Schema<LogEntryList>;
+
+export interface AgentSession {
+  sessionId?: string;
+}
+export const AgentSession = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionId: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentSession" }) as any as S.Schema<AgentSession>;
+
+export type AgentSessionList = Array<AgentSession>;
+export const AgentSessionList = /*@__PURE__*/ S.Array(
+  AgentSession,
+) as any as S.Schema<AgentSessionList>;
+
+export type DataRetentionDeletionEventEventTypeEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "EVENT_TYPE_MAX_TTL_EXCEEDED"
+  | "EVENT_TYPE_MAX_TTL_FROM_CREATION"
+  | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION"
+  | "EVENT_TYPE_MIN_TTL_FROM_CREATION";
+export const DataRetentionDeletionEventEventTypeEnum = S.String;
+
+export interface DataRetentionDeletionEvent {
+  minRetentionAllowed?: string;
+  eventType?: DataRetentionDeletionEventEventTypeEnum | (string & {});
+  maxRetentionAllowed?: string;
+  dataObjectCount?: string;
+  eventDetectionTime?: string;
+}
+export const DataRetentionDeletionEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minRetentionAllowed: S.optional(S.String),
+    eventType: S.optional(DataRetentionDeletionEventEventTypeEnum),
+    maxRetentionAllowed: S.optional(S.String),
+    dataObjectCount: S.optional(S.String),
+    eventDetectionTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataRetentionDeletionEvent",
+}) as any as S.Schema<DataRetentionDeletionEvent>;
+
+export type DataRetentionDeletionEventList = Array<DataRetentionDeletionEvent>;
+export const DataRetentionDeletionEventList = /*@__PURE__*/ S.Array(
+  DataRetentionDeletionEvent,
+) as any as S.Schema<DataRetentionDeletionEventList>;
+
+export interface ToxicCombination {
+  attackExposureScore?: number;
+  relatedFindings?: StringList;
+}
+export const ToxicCombination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attackExposureScore: S.optional(S.Number),
+    relatedFindings: S.optional(StringList),
+  }),
+).annotate({ identifier: "ToxicCombination" }) as any as S.Schema<ToxicCombination>;
+
+export interface Detection {
+  percentPagesMatched?: number;
+  binary?: string;
+}
+export const Detection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    percentPagesMatched: S.optional(S.Number),
+    binary: S.optional(S.String),
+  }),
+).annotate({ identifier: "Detection" }) as any as S.Schema<Detection>;
+
+export type DetectionList = Array<Detection>;
+export const DetectionList = /*@__PURE__*/ S.Array(Detection) as any as S.Schema<DetectionList>;
+
+export interface MemoryHashSignature {
+  detections?: DetectionList;
+  binaryFamily?: string;
+}
+export const MemoryHashSignature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    detections: S.optional(DetectionList),
+    binaryFamily: S.optional(S.String),
+  }),
+).annotate({ identifier: "MemoryHashSignature" }) as any as S.Schema<MemoryHashSignature>;
+
+export interface YaraRuleSignature {
+  yaraRule?: string;
+}
+export const YaraRuleSignature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    yaraRule: S.optional(S.String),
+  }),
+).annotate({ identifier: "YaraRuleSignature" }) as any as S.Schema<YaraRuleSignature>;
+
+export type ProcessSignatureSignatureTypeEnum =
+  | "SIGNATURE_TYPE_UNSPECIFIED"
+  | "SIGNATURE_TYPE_PROCESS"
+  | "SIGNATURE_TYPE_FILE";
+export const ProcessSignatureSignatureTypeEnum = S.String;
+
+export interface ProcessSignature {
+  memoryHashSignature?: MemoryHashSignature;
+  yaraRuleSignature?: YaraRuleSignature;
+  signatureType?: ProcessSignatureSignatureTypeEnum | (string & {});
+}
+export const ProcessSignature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    memoryHashSignature: S.optional(MemoryHashSignature),
+    yaraRuleSignature: S.optional(YaraRuleSignature),
+    signatureType: S.optional(ProcessSignatureSignatureTypeEnum),
+  }),
+).annotate({ identifier: "ProcessSignature" }) as any as S.Schema<ProcessSignature>;
+
+export type ProcessSignatureList = Array<ProcessSignature>;
+export const ProcessSignatureList = /*@__PURE__*/ S.Array(
+  ProcessSignature,
+) as any as S.Schema<ProcessSignatureList>;
+
+export interface Indicator {
+  ipAddresses?: StringList;
+  signatures?: ProcessSignatureList;
+  uris?: StringList;
+  domains?: StringList;
+}
+export const Indicator = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipAddresses: S.optional(StringList),
+    signatures: S.optional(ProcessSignatureList),
+    uris: S.optional(StringList),
+    domains: S.optional(StringList),
+  }),
+).annotate({ identifier: "Indicator" }) as any as S.Schema<Indicator>;
+
+export interface Control {
+  displayName?: string;
+  controlName?: string;
+}
+export const Control = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    controlName: S.optional(S.String),
+  }),
+).annotate({ identifier: "Control" }) as any as S.Schema<Control>;
+
+export type ControlList = Array<Control>;
+export const ControlList = /*@__PURE__*/ S.Array(Control) as any as S.Schema<ControlList>;
+
+export type FrameworkTypeEnum =
+  | "FRAMEWORK_TYPE_UNSPECIFIED"
+  | "FRAMEWORK_TYPE_BUILT_IN"
+  | "FRAMEWORK_TYPE_CUSTOM";
+export const FrameworkTypeEnum = S.String;
+
+export type FrameworkCategoryItemEnum =
+  | "FRAMEWORK_CATEGORY_UNSPECIFIED"
+  | "SECURITY_BENCHMARKS"
+  | "ASSURED_WORKLOADS"
+  | "DATA_SECURITY"
+  | "GOOGLE_BEST_PRACTICES"
+  | "CUSTOM_FRAMEWORK";
+export const FrameworkCategoryItemEnum = S.String;
+
+export type FrameworkCategoryItemEnumList = Array<FrameworkCategoryItemEnum | (string & {})>;
+export const FrameworkCategoryItemEnumList = /*@__PURE__*/ S.Array(
+  FrameworkCategoryItemEnum,
+) as any as S.Schema<FrameworkCategoryItemEnumList>;
+
+export interface Framework {
+  name?: string;
+  controls?: ControlList;
+  type?: FrameworkTypeEnum | (string & {});
+  category?: FrameworkCategoryItemEnumList;
+  displayName?: string;
+}
+export const Framework = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    controls: S.optional(ControlList),
+    type: S.optional(FrameworkTypeEnum),
+    category: S.optional(FrameworkCategoryItemEnumList),
+    displayName: S.optional(S.String),
+  }),
+).annotate({ identifier: "Framework" }) as any as S.Schema<Framework>;
+
+export type FrameworkList = Array<Framework>;
+export const FrameworkList = /*@__PURE__*/ S.Array(Framework) as any as S.Schema<FrameworkList>;
+
+export type CloudControlTypeEnum = "CLOUD_CONTROL_TYPE_UNSPECIFIED" | "BUILT_IN" | "CUSTOM";
+export const CloudControlTypeEnum = S.String;
+
+export interface CloudControl {
+  type?: CloudControlTypeEnum | (string & {});
+  cloudControlName?: string;
+  version?: number;
+  policyType?: string;
+}
+export const CloudControl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(CloudControlTypeEnum),
+    cloudControlName: S.optional(S.String),
+    version: S.optional(S.Number),
+    policyType: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloudControl" }) as any as S.Schema<CloudControl>;
+
+export interface ComplianceDetails {
+  frameworks?: FrameworkList;
+  cloudControlDeploymentNames?: StringList;
+  cloudControl?: CloudControl;
+}
+export const ComplianceDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    frameworks: S.optional(FrameworkList),
+    cloudControlDeploymentNames: S.optional(StringList),
+    cloudControl: S.optional(CloudControl),
+  }),
+).annotate({ identifier: "ComplianceDetails" }) as any as S.Schema<ComplianceDetails>;
+
+export type ConnectionProtocolEnum =
+  | "PROTOCOL_UNSPECIFIED"
+  | "ICMP"
+  | "TCP"
+  | "UDP"
+  | "GRE"
+  | "ESP";
+export const ConnectionProtocolEnum = S.String;
+
+export interface Connection {
+  sourceIp?: string;
+  destinationPort?: number;
+  destinationIp?: string;
+  protocol?: ConnectionProtocolEnum | (string & {});
+  sourcePort?: number;
+}
+export const Connection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceIp: S.optional(S.String),
+    destinationPort: S.optional(S.Number),
+    destinationIp: S.optional(S.String),
+    protocol: S.optional(ConnectionProtocolEnum),
+    sourcePort: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
+
+export type ConnectionList = Array<Connection>;
+export const ConnectionList = /*@__PURE__*/ S.Array(Connection) as any as S.Schema<ConnectionList>;
+
+export interface Notebook {
+  name?: string;
+  notebookUpdateTime?: string;
+  lastAuthor?: string;
+  service?: string;
+}
+export const Notebook = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    notebookUpdateTime: S.optional(S.String),
+    lastAuthor: S.optional(S.String),
+    service: S.optional(S.String),
+  }),
+).annotate({ identifier: "Notebook" }) as any as S.Schema<Notebook>;
+
+export type FindingFindingClassEnum =
+  | "FINDING_CLASS_UNSPECIFIED"
+  | "THREAT"
+  | "VULNERABILITY"
+  | "MISCONFIGURATION"
+  | "OBSERVATION"
+  | "SCC_ERROR"
+  | "POSTURE_VIOLATION"
+  | "TOXIC_COMBINATION"
+  | "SENSITIVE_DATA_RISK"
+  | "CHOKEPOINT"
+  | "EXTERNAL_EXPOSURE"
+  | "SECRET";
+export const FindingFindingClassEnum = S.String;
+
+export type CloudDlpDataProfileParentTypeEnum =
+  | "PARENT_TYPE_UNSPECIFIED"
+  | "ORGANIZATION"
+  | "PROJECT";
+export const CloudDlpDataProfileParentTypeEnum = S.String;
+
+export type SensitivityScoreScoreEnum =
+  | "SENSITIVITY_SCORE_LEVEL_UNSPECIFIED"
+  | "SENSITIVITY_LOW"
+  | "SENSITIVITY_UNKNOWN"
+  | "SENSITIVITY_MODERATE"
+  | "SENSITIVITY_HIGH";
+export const SensitivityScoreScoreEnum = S.String;
+
+export interface SensitivityScore {
+  score?: SensitivityScoreScoreEnum | (string & {});
+}
+export const SensitivityScore = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    score: S.optional(SensitivityScoreScoreEnum),
+  }),
+).annotate({ identifier: "SensitivityScore" }) as any as S.Schema<SensitivityScore>;
+
+export interface InfoType {
+  sensitivityScore?: SensitivityScore;
+  version?: string;
+  name?: string;
+}
+export const InfoType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sensitivityScore: S.optional(SensitivityScore),
+    version: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "InfoType" }) as any as S.Schema<InfoType>;
+
+export type InfoTypeList = Array<InfoType>;
+export const InfoTypeList = /*@__PURE__*/ S.Array(InfoType) as any as S.Schema<InfoTypeList>;
+
+export interface CloudDlpDataProfile {
+  parentType?: CloudDlpDataProfileParentTypeEnum | (string & {});
+  dataProfile?: string;
+  infoTypes?: InfoTypeList;
+}
+export const CloudDlpDataProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parentType: S.optional(CloudDlpDataProfileParentTypeEnum),
+    dataProfile: S.optional(S.String),
+    infoTypes: S.optional(InfoTypeList),
+  }),
+).annotate({ identifier: "CloudDlpDataProfile" }) as any as S.Schema<CloudDlpDataProfile>;
+
+export interface BackupDisasterRecovery {
+  applications?: StringList;
+  appliance?: string;
+  profile?: string;
+  backupCreateTime?: string;
+  storagePool?: string;
+  backupType?: string;
+  backupTemplate?: string;
+  host?: string;
+  policies?: StringList;
+  policyOptions?: StringList;
+}
+export const BackupDisasterRecovery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applications: S.optional(StringList),
+    appliance: S.optional(S.String),
+    profile: S.optional(S.String),
+    backupCreateTime: S.optional(S.String),
+    storagePool: S.optional(S.String),
+    backupType: S.optional(S.String),
+    backupTemplate: S.optional(S.String),
+    host: S.optional(S.String),
+    policies: S.optional(StringList),
+    policyOptions: S.optional(StringList),
+  }),
+).annotate({ identifier: "BackupDisasterRecovery" }) as any as S.Schema<BackupDisasterRecovery>;
 
 export interface AdaptiveProtection {
   confidence?: number;
@@ -3115,52 +2015,491 @@ export const AdaptiveProtection = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AdaptiveProtection" }) as any as S.Schema<AdaptiveProtection>;
 
-export interface Requests {
-  longTermAllowed?: number;
-  shortTermAllowed?: number;
-  longTermDenied?: number;
-  ratio?: number;
+export interface Attack {
+  volumePpsLong?: string;
+  volumeBps?: number;
+  classification?: string;
+  volumeBpsLong?: string;
+  volumePps?: number;
 }
-export const Requests = /*@__PURE__*/ S.suspend(() =>
+export const Attack = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    longTermAllowed: S.optional(S.Number),
-    shortTermAllowed: S.optional(S.Number),
-    longTermDenied: S.optional(S.Number),
-    ratio: S.optional(S.Number),
+    volumePpsLong: S.optional(S.String),
+    volumeBps: S.optional(S.Number),
+    classification: S.optional(S.String),
+    volumeBpsLong: S.optional(S.String),
+    volumePps: S.optional(S.Number),
   }),
-).annotate({ identifier: "Requests" }) as any as S.Schema<Requests>;
+).annotate({ identifier: "Attack" }) as any as S.Schema<Attack>;
 
 export interface SecurityPolicy {
+  name?: string;
   type?: string;
   preview?: boolean;
-  name?: string;
 }
 export const SecurityPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     type: S.optional(S.String),
     preview: S.optional(S.Boolean),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "SecurityPolicy" }) as any as S.Schema<SecurityPolicy>;
 
+export interface Requests {
+  shortTermAllowed?: number;
+  longTermDenied?: number;
+  ratio?: number;
+  longTermAllowed?: number;
+}
+export const Requests = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shortTermAllowed: S.optional(S.Number),
+    longTermDenied: S.optional(S.Number),
+    ratio: S.optional(S.Number),
+    longTermAllowed: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Requests" }) as any as S.Schema<Requests>;
+
 export interface CloudArmor {
-  attack?: Attack;
   adaptiveProtection?: AdaptiveProtection;
+  attack?: Attack;
+  securityPolicy?: SecurityPolicy;
   requests?: Requests;
   duration?: string;
-  securityPolicy?: SecurityPolicy;
   threatVector?: string;
 }
 export const CloudArmor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attack: S.optional(Attack),
     adaptiveProtection: S.optional(AdaptiveProtection),
+    attack: S.optional(Attack),
+    securityPolicy: S.optional(SecurityPolicy),
     requests: S.optional(Requests),
     duration: S.optional(S.String),
-    securityPolicy: S.optional(SecurityPolicy),
     threatVector: S.optional(S.String),
   }),
 ).annotate({ identifier: "CloudArmor" }) as any as S.Schema<CloudArmor>;
+
+export interface PortRange {
+  min?: string;
+  max?: string;
+}
+export const PortRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    min: S.optional(S.String),
+    max: S.optional(S.String),
+  }),
+).annotate({ identifier: "PortRange" }) as any as S.Schema<PortRange>;
+
+export type PortRangeList = Array<PortRange>;
+export const PortRangeList = /*@__PURE__*/ S.Array(PortRange) as any as S.Schema<PortRangeList>;
+
+export interface IpRule {
+  portRanges?: PortRangeList;
+  protocol?: string;
+}
+export const IpRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portRanges: S.optional(PortRangeList),
+    protocol: S.optional(S.String),
+  }),
+).annotate({ identifier: "IpRule" }) as any as S.Schema<IpRule>;
+
+export type IpRuleList = Array<IpRule>;
+export const IpRuleList = /*@__PURE__*/ S.Array(IpRule) as any as S.Schema<IpRuleList>;
+
+export interface Denied {
+  ipRules?: IpRuleList;
+}
+export const Denied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipRules: S.optional(IpRuleList),
+  }),
+).annotate({ identifier: "Denied" }) as any as S.Schema<Denied>;
+
+export type Allowed = Denied;
+export const Allowed = Denied;
+
+export type IpRulesDirectionEnum = "DIRECTION_UNSPECIFIED" | "INGRESS" | "EGRESS";
+export const IpRulesDirectionEnum = S.String;
+
+export interface IpRules {
+  denied?: Denied;
+  sourceIpRanges?: StringList;
+  allowed?: Denied;
+  destinationIpRanges?: StringList;
+  direction?: IpRulesDirectionEnum | (string & {});
+  exposedServices?: StringList;
+}
+export const IpRules = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    denied: S.optional(Denied),
+    sourceIpRanges: S.optional(StringList),
+    allowed: S.optional(Denied),
+    destinationIpRanges: S.optional(StringList),
+    direction: S.optional(IpRulesDirectionEnum),
+    exposedServices: S.optional(StringList),
+  }),
+).annotate({ identifier: "IpRules" }) as any as S.Schema<IpRules>;
+
+export type AiModelDeploymentPlatformEnum =
+  | "DEPLOYMENT_PLATFORM_UNSPECIFIED"
+  | "VERTEX_AI"
+  | "GKE"
+  | "GCE"
+  | "FINE_TUNED_MODEL";
+export const AiModelDeploymentPlatformEnum = S.String;
+
+export interface AiModel {
+  domain?: string;
+  publisher?: string;
+  usageCategory?: string;
+  location?: string;
+  name?: string;
+  library?: string;
+  deploymentPlatform?: AiModelDeploymentPlatformEnum | (string & {});
+  displayName?: string;
+}
+export const AiModel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    publisher: S.optional(S.String),
+    usageCategory: S.optional(S.String),
+    location: S.optional(S.String),
+    name: S.optional(S.String),
+    library: S.optional(S.String),
+    deploymentPlatform: S.optional(AiModelDeploymentPlatformEnum),
+    displayName: S.optional(S.String),
+  }),
+).annotate({ identifier: "AiModel" }) as any as S.Schema<AiModel>;
+
+export type Disk = OrgPolicy;
+export const Disk = OrgPolicy;
+
+export interface Label {
+  name?: string;
+  value?: string;
+}
+export const Label = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
+
+export type LabelList = Array<Label>;
+export const LabelList = /*@__PURE__*/ S.Array(Label) as any as S.Schema<LabelList>;
+
+export interface Container {
+  labels?: LabelList;
+  name?: string;
+  imageId?: string;
+  uri?: string;
+  createTime?: string;
+}
+export const Container = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    labels: S.optional(LabelList),
+    name: S.optional(S.String),
+    imageId: S.optional(S.String),
+    uri: S.optional(S.String),
+    createTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
+
+export type ContainerList = Array<Container>;
+export const ContainerList = /*@__PURE__*/ S.Array(Container) as any as S.Schema<ContainerList>;
+
+export interface Agent {
+  displayName?: string;
+  id?: string;
+}
+export const Agent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Agent" }) as any as S.Schema<Agent>;
+
+export type SecretStatusValidityEnum =
+  | "SECRET_VALIDITY_UNSPECIFIED"
+  | "SECRET_VALIDITY_UNSUPPORTED"
+  | "SECRET_VALIDITY_FAILED"
+  | "SECRET_VALIDITY_INVALID"
+  | "SECRET_VALIDITY_VALID";
+export const SecretStatusValidityEnum = S.String;
+
+export interface SecretStatus {
+  lastUpdatedTime?: string;
+  validity?: SecretStatusValidityEnum | (string & {});
+}
+export const SecretStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lastUpdatedTime: S.optional(S.String),
+    validity: S.optional(SecretStatusValidityEnum),
+  }),
+).annotate({ identifier: "SecretStatus" }) as any as S.Schema<SecretStatus>;
+
+export interface SecretFilePath {
+  path?: string;
+}
+export const SecretFilePath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String),
+  }),
+).annotate({ identifier: "SecretFilePath" }) as any as S.Schema<SecretFilePath>;
+
+export interface SecretEnvironmentVariable {
+  key?: string;
+}
+export const SecretEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SecretEnvironmentVariable",
+}) as any as S.Schema<SecretEnvironmentVariable>;
+
+export interface Secret {
+  status?: SecretStatus;
+  filePath?: SecretFilePath;
+  type?: string;
+  environmentVariable?: SecretEnvironmentVariable;
+}
+export const Secret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(SecretStatus),
+    filePath: S.optional(SecretFilePath),
+    type: S.optional(S.String),
+    environmentVariable: S.optional(SecretEnvironmentVariable),
+  }),
+).annotate({ identifier: "Secret" }) as any as S.Schema<Secret>;
+
+export interface Chokepoint {
+  relatedFindings?: StringList;
+}
+export const Chokepoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    relatedFindings: S.optional(StringList),
+  }),
+).annotate({ identifier: "Chokepoint" }) as any as S.Schema<Chokepoint>;
+
+export interface HttpResponse {
+  statusCode?: string;
+  path?: string;
+}
+export const HttpResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statusCode: S.optional(S.String),
+    path: S.optional(S.String),
+  }),
+).annotate({ identifier: "HttpResponse" }) as any as S.Schema<HttpResponse>;
+
+export type HttpResponseList = Array<HttpResponse>;
+export const HttpResponseList = /*@__PURE__*/ S.Array(
+  HttpResponse,
+) as any as S.Schema<HttpResponseList>;
+
+export interface ExternalExposure {
+  internalBackendService?: string;
+  privateIpAddress?: string;
+  pscNetworkAttachment?: string;
+  exposedApplication?: string;
+  exposedService?: string;
+  pscServiceAttachment?: string;
+  loadBalancerFirewallPolicy?: string;
+  httpResponse?: HttpResponseList;
+  backendBucket?: string;
+  networkIngressFirewallPolicy?: string;
+  instanceGroup?: string;
+  networkEndpointGroup?: string;
+  forwardingRule?: string;
+  exposedEndpoint?: string;
+  publicIpAddress?: string;
+  hostnameUri?: string;
+  backendService?: string;
+  privatePort?: string;
+  serviceFirewallPolicy?: string;
+  publicPort?: string;
+  networkPathInsightsGenerationTime?: string;
+}
+export const ExternalExposure = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    internalBackendService: S.optional(S.String),
+    privateIpAddress: S.optional(S.String),
+    pscNetworkAttachment: S.optional(S.String),
+    exposedApplication: S.optional(S.String),
+    exposedService: S.optional(S.String),
+    pscServiceAttachment: S.optional(S.String),
+    loadBalancerFirewallPolicy: S.optional(S.String),
+    httpResponse: S.optional(HttpResponseList),
+    backendBucket: S.optional(S.String),
+    networkIngressFirewallPolicy: S.optional(S.String),
+    instanceGroup: S.optional(S.String),
+    networkEndpointGroup: S.optional(S.String),
+    forwardingRule: S.optional(S.String),
+    exposedEndpoint: S.optional(S.String),
+    publicIpAddress: S.optional(S.String),
+    hostnameUri: S.optional(S.String),
+    backendService: S.optional(S.String),
+    privatePort: S.optional(S.String),
+    serviceFirewallPolicy: S.optional(S.String),
+    publicPort: S.optional(S.String),
+    networkPathInsightsGenerationTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "ExternalExposure" }) as any as S.Schema<ExternalExposure>;
+
+export type FileOperationTypeEnum =
+  | "OPERATION_TYPE_UNSPECIFIED"
+  | "OPEN"
+  | "READ"
+  | "RENAME"
+  | "WRITE"
+  | "EXECUTE";
+export const FileOperationTypeEnum = S.String;
+
+export interface FileOperation {
+  type?: FileOperationTypeEnum | (string & {});
+}
+export const FileOperation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(FileOperationTypeEnum),
+  }),
+).annotate({ identifier: "FileOperation" }) as any as S.Schema<FileOperation>;
+
+export type FileOperationList = Array<FileOperation>;
+export const FileOperationList = /*@__PURE__*/ S.Array(
+  FileOperation,
+) as any as S.Schema<FileOperationList>;
+
+export type FileFileLoadStateEnum =
+  | "FILE_LOAD_STATE_UNSPECIFIED"
+  | "LOADED_BY_PROCESS"
+  | "NOT_LOADED_BY_PROCESS";
+export const FileFileLoadStateEnum = S.String;
+
+export interface DiskPath {
+  partitionUuid?: string;
+  relativePath?: string;
+}
+export const DiskPath = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partitionUuid: S.optional(S.String),
+    relativePath: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiskPath" }) as any as S.Schema<DiskPath>;
+
+export interface File {
+  sha256?: string;
+  operations?: FileOperationList;
+  path?: string;
+  size?: string;
+  partiallyHashed?: boolean;
+  contents?: string;
+  fileLoadState?: FileFileLoadStateEnum | (string & {});
+  diskPath?: DiskPath;
+  hashedSize?: string;
+}
+export const File = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sha256: S.optional(S.String),
+    operations: S.optional(FileOperationList),
+    path: S.optional(S.String),
+    size: S.optional(S.String),
+    partiallyHashed: S.optional(S.Boolean),
+    contents: S.optional(S.String),
+    fileLoadState: S.optional(FileFileLoadStateEnum),
+    diskPath: S.optional(DiskPath),
+    hashedSize: S.optional(S.String),
+  }),
+).annotate({ identifier: "File" }) as any as S.Schema<File>;
+
+export type FileList = Array<File>;
+export const FileList = /*@__PURE__*/ S.Array(File) as any as S.Schema<FileList>;
+
+export interface ExfilResource {
+  name?: string;
+  components?: StringList;
+}
+export const ExfilResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    components: S.optional(StringList),
+  }),
+).annotate({ identifier: "ExfilResource" }) as any as S.Schema<ExfilResource>;
+
+export type ExfilResourceList = Array<ExfilResource>;
+export const ExfilResourceList = /*@__PURE__*/ S.Array(
+  ExfilResource,
+) as any as S.Schema<ExfilResourceList>;
+
+export interface Exfiltration {
+  sources?: ExfilResourceList;
+  targets?: ExfilResourceList;
+  totalExfiltratedBytes?: string;
+}
+export const Exfiltration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sources: S.optional(ExfilResourceList),
+    targets: S.optional(ExfilResourceList),
+    totalExfiltratedBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "Exfiltration" }) as any as S.Schema<Exfiltration>;
+
+export interface AffectedResources {
+  count?: string;
+}
+export const AffectedResources = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.optional(S.String),
+  }),
+).annotate({ identifier: "AffectedResources" }) as any as S.Schema<AffectedResources>;
+
+export type AttackExposureStateEnum = "STATE_UNSPECIFIED" | "CALCULATED" | "NOT_CALCULATED";
+export const AttackExposureStateEnum = S.String;
+
+export interface AttackExposure {
+  score?: number;
+  state?: AttackExposureStateEnum | (string & {});
+  latestCalculationTime?: string;
+  attackExposureResult?: string;
+  exposedLowValueResourcesCount?: number;
+  exposedMediumValueResourcesCount?: number;
+  exposedHighValueResourcesCount?: number;
+}
+export const AttackExposure = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    score: S.optional(S.Number),
+    state: S.optional(AttackExposureStateEnum),
+    latestCalculationTime: S.optional(S.String),
+    attackExposureResult: S.optional(S.String),
+    exposedLowValueResourcesCount: S.optional(S.Number),
+    exposedMediumValueResourcesCount: S.optional(S.Number),
+    exposedHighValueResourcesCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "AttackExposure" }) as any as S.Schema<AttackExposure>;
+
+export type DataAccessEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
+export const DataAccessEventOperationEnum = S.String;
+
+export interface DataAccessEvent {
+  principalEmail?: string;
+  eventTime?: string;
+  eventId?: string;
+  operation?: DataAccessEventOperationEnum | (string & {});
+}
+export const DataAccessEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalEmail: S.optional(S.String),
+    eventTime: S.optional(S.String),
+    eventId: S.optional(S.String),
+    operation: S.optional(DataAccessEventOperationEnum),
+  }),
+).annotate({ identifier: "DataAccessEvent" }) as any as S.Schema<DataAccessEvent>;
+
+export type DataAccessEventList = Array<DataAccessEvent>;
+export const DataAccessEventList = /*@__PURE__*/ S.Array(
+  DataAccessEvent,
+) as any as S.Schema<DataAccessEventList>;
 
 export type ArtifactGuardPolicyTypeEnum =
   | "ARTIFACT_GUARD_POLICY_TYPE_UNSPECIFIED"
@@ -3196,167 +2535,834 @@ export const ArtifactGuardPolicies = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ArtifactGuardPolicies" }) as any as S.Schema<ArtifactGuardPolicies>;
 
-export interface Finding {
-  networks?: NetworkList;
-  kernelRootkit?: KernelRootkit;
-  kubernetes?: Kubernetes;
-  nextSteps?: string;
-  disk?: Network;
-  severity?: FindingSeverityEnum | (string & {});
-  agentDataAccessEvents?: AgentDataAccessEventList;
-  cloudDlpInspection?: CloudDlpInspection;
-  policyViolationSummary?: PolicyViolationSummary;
-  contacts?: ContactDetailsMap;
-  application?: Application;
-  database?: Database;
-  muteUpdateTime?: string;
-  access?: Access;
-  dataAccessEvents?: DataAccessEventList;
-  discoveredWorkload?: DiscoveredWorkload;
-  createTime?: string;
-  job?: Job;
-  backupDisasterRecovery?: BackupDisasterRecovery;
-  eventTime?: string;
-  iamBindings?: IamBindingList;
-  resourceName?: string;
-  canonicalName?: string;
-  moduleName?: string;
-  agentAnomaly?: AgentAnomaly;
+export interface CloudDlpInspection {
+  infoType?: string;
+  inspectJob?: string;
+  infoTypeCount?: string;
+  fullScan?: boolean;
+}
+export const CloudDlpInspection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    infoType: S.optional(S.String),
+    inspectJob: S.optional(S.String),
+    infoTypeCount: S.optional(S.String),
+    fullScan: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "CloudDlpInspection" }) as any as S.Schema<CloudDlpInspection>;
+
+export interface PolicyDriftDetails {
+  expectedValue?: string;
+  detectedValue?: string;
+  field?: string;
+}
+export const PolicyDriftDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expectedValue: S.optional(S.String),
+    detectedValue: S.optional(S.String),
+    field: S.optional(S.String),
+  }),
+).annotate({ identifier: "PolicyDriftDetails" }) as any as S.Schema<PolicyDriftDetails>;
+
+export type PolicyDriftDetailsList = Array<PolicyDriftDetails>;
+export const PolicyDriftDetailsList = /*@__PURE__*/ S.Array(
+  PolicyDriftDetails,
+) as any as S.Schema<PolicyDriftDetailsList>;
+
+export interface SecurityPosture {
+  changedPolicy?: string;
   name?: string;
-  externalUri?: string;
-  agent?: Agent;
-  parentDisplayName?: string;
-  sourceProperties?: DocumentMap;
-  dataFlowEvents?: DataFlowEventList;
-  state?: FindingStateEnum | (string & {});
-  mute?: FindingMuteEnum | (string & {});
-  attackExposure?: AttackExposure;
-  orgPolicies?: OrgPolicyList;
-  iamDetails?: GoogleCloudSecuritycenterV1IamDetails;
-  notebook?: Notebook;
-  ipRules?: IpRules;
-  externalExposure?: ExternalExposure;
-  dataRetentionDeletionEvents?: DataRetentionDeletionEventList;
-  secret?: Secret;
-  cloudDlpDataProfile?: CloudDlpDataProfile;
-  logEntries?: LogEntryList;
-  processes?: ProcessList;
-  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap;
-  indicator?: Indicator;
-  securityPosture?: SecurityPosture;
-  aiModel?: AiModel;
-  findingClass?: FindingFindingClassEnum | (string & {});
-  vertexAi?: VertexAi;
-  parent?: string;
-  connections?: ConnectionList;
-  toxicCombination?: ToxicCombination;
-  muteInfo?: MuteInfo;
-  complianceDetails?: ComplianceDetails;
-  exfiltration?: Exfiltration;
-  affectedResources?: AffectedResources;
-  securityMarks?: SecurityMarks;
+  policy?: string;
+  revisionId?: string;
+  policySet?: string;
+  postureDeployment?: string;
+  postureDeploymentResource?: string;
+  policyDriftDetails?: PolicyDriftDetailsList;
+}
+export const SecurityPosture = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    changedPolicy: S.optional(S.String),
+    name: S.optional(S.String),
+    policy: S.optional(S.String),
+    revisionId: S.optional(S.String),
+    policySet: S.optional(S.String),
+    postureDeployment: S.optional(S.String),
+    postureDeploymentResource: S.optional(S.String),
+    policyDriftDetails: S.optional(PolicyDriftDetailsList),
+  }),
+).annotate({ identifier: "SecurityPosture" }) as any as S.Schema<SecurityPosture>;
+
+export type Network = OrgPolicy;
+export const Network = OrgPolicy;
+
+export type NetworkList = Array<OrgPolicy>;
+export const NetworkList = /*@__PURE__*/ S.Array(OrgPolicy) as any as S.Schema<NetworkList>;
+
+export interface TicketInfo {
+  updateTime?: string;
+  status?: string;
+  uri?: string;
+  id?: string;
   description?: string;
-  chokepoint?: Chokepoint;
-  compliances?: ComplianceList;
-  agentSessions?: AgentSessionList;
-  files?: FileList;
+  assignee?: string;
+}
+export const TicketInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    updateTime: S.optional(S.String),
+    status: S.optional(S.String),
+    uri: S.optional(S.String),
+    id: S.optional(S.String),
+    description: S.optional(S.String),
+    assignee: S.optional(S.String),
+  }),
+).annotate({ identifier: "TicketInfo" }) as any as S.Schema<TicketInfo>;
+
+export interface GoogleCloudSecuritycenterV1ExternalSystem {
+  externalSystemUpdateTime?: string;
+  ticketInfo?: TicketInfo;
+  caseCloseTime?: string;
+  name?: string;
+  caseCreateTime?: string;
+  assignees?: StringList;
+  caseUri?: string;
+  caseSla?: string;
+  casePriority?: string;
+  status?: string;
+  externalUid?: string;
+}
+export const GoogleCloudSecuritycenterV1ExternalSystem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalSystemUpdateTime: S.optional(S.String),
+    ticketInfo: S.optional(TicketInfo),
+    caseCloseTime: S.optional(S.String),
+    name: S.optional(S.String),
+    caseCreateTime: S.optional(S.String),
+    assignees: S.optional(StringList),
+    caseUri: S.optional(S.String),
+    caseSla: S.optional(S.String),
+    casePriority: S.optional(S.String),
+    status: S.optional(S.String),
+    externalUid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudSecuritycenterV1ExternalSystem",
+}) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>;
+
+export type GoogleCloudSecuritycenterV1ExternalSystemMap = {
+  [key: string]: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
+};
+export const GoogleCloudSecuritycenterV1ExternalSystemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  GoogleCloudSecuritycenterV1ExternalSystem,
+) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystemMap>;
+
+export type Node = OrgPolicy;
+export const Node = OrgPolicy;
+
+export type NodeList = Array<OrgPolicy>;
+export const NodeList = /*@__PURE__*/ S.Array(OrgPolicy) as any as S.Schema<NodeList>;
+
+export interface Securitycenter_Object {
+  ns?: string;
   containers?: ContainerList;
-  loadBalancers?: LoadBalancerList;
-  vulnerability?: Vulnerability;
-  groupMemberships?: GroupMembershipList;
+  group?: string;
+  name?: string;
+  kind?: string;
+}
+export const Securitycenter_Object = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ns: S.optional(S.String),
+    containers: S.optional(ContainerList),
+    group: S.optional(S.String),
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "Securitycenter_Object" }) as any as S.Schema<Securitycenter_Object>;
+
+export type Securitycenter_ObjectList = Array<Securitycenter_Object>;
+export const Securitycenter_ObjectList = /*@__PURE__*/ S.Array(
+  Securitycenter_Object,
+) as any as S.Schema<Securitycenter_ObjectList>;
+
+export interface Pod {
+  ns?: string;
+  name?: string;
+  containers?: ContainerList;
+  labels?: LabelList;
+}
+export const Pod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ns: S.optional(S.String),
+    name: S.optional(S.String),
+    containers: S.optional(ContainerList),
+    labels: S.optional(LabelList),
+  }),
+).annotate({ identifier: "Pod" }) as any as S.Schema<Pod>;
+
+export type PodList = Array<Pod>;
+export const PodList = /*@__PURE__*/ S.Array(Pod) as any as S.Schema<PodList>;
+
+export type SubjectKindEnum = "AUTH_TYPE_UNSPECIFIED" | "USER" | "SERVICEACCOUNT" | "GROUP";
+export const SubjectKindEnum = S.String;
+
+export interface Subject {
+  ns?: string;
+  name?: string;
+  kind?: SubjectKindEnum | (string & {});
+}
+export const Subject = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ns: S.optional(S.String),
+    name: S.optional(S.String),
+    kind: S.optional(SubjectKindEnum),
+  }),
+).annotate({ identifier: "Subject" }) as any as S.Schema<Subject>;
+
+export type SubjectList = Array<Subject>;
+export const SubjectList = /*@__PURE__*/ S.Array(Subject) as any as S.Schema<SubjectList>;
+
+export type RoleKindEnum = "KIND_UNSPECIFIED" | "ROLE" | "CLUSTER_ROLE";
+export const RoleKindEnum = S.String;
+
+export interface Role {
+  name?: string;
+  kind?: RoleKindEnum | (string & {});
+  ns?: string;
+}
+export const Role = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    kind: S.optional(RoleKindEnum),
+    ns: S.optional(S.String),
+  }),
+).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
+
+export interface GoogleCloudSecuritycenterV1Binding {
+  subjects?: SubjectList;
+  role?: Role;
+  name?: string;
+  ns?: string;
+}
+export const GoogleCloudSecuritycenterV1Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subjects: S.optional(SubjectList),
+    role: S.optional(Role),
+    name: S.optional(S.String),
+    ns: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudSecuritycenterV1Binding",
+}) as any as S.Schema<GoogleCloudSecuritycenterV1Binding>;
+
+export type GoogleCloudSecuritycenterV1BindingList = Array<GoogleCloudSecuritycenterV1Binding>;
+export const GoogleCloudSecuritycenterV1BindingList = /*@__PURE__*/ S.Array(
+  GoogleCloudSecuritycenterV1Binding,
+) as any as S.Schema<GoogleCloudSecuritycenterV1BindingList>;
+
+export interface NodePool {
+  name?: string;
+  nodes?: NodeList;
+}
+export const NodePool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    nodes: S.optional(NodeList),
+  }),
+).annotate({ identifier: "NodePool" }) as any as S.Schema<NodePool>;
+
+export type NodePoolList = Array<NodePool>;
+export const NodePoolList = /*@__PURE__*/ S.Array(NodePool) as any as S.Schema<NodePoolList>;
+
+export type RoleList = Array<Role>;
+export const RoleList = /*@__PURE__*/ S.Array(Role) as any as S.Schema<RoleList>;
+
+export interface AccessReview {
+  group?: string;
+  name?: string;
+  ns?: string;
+  version?: string;
+  subresource?: string;
+  verb?: string;
+  resource?: string;
+}
+export const AccessReview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.optional(S.String),
+    name: S.optional(S.String),
+    ns: S.optional(S.String),
+    version: S.optional(S.String),
+    subresource: S.optional(S.String),
+    verb: S.optional(S.String),
+    resource: S.optional(S.String),
+  }),
+).annotate({ identifier: "AccessReview" }) as any as S.Schema<AccessReview>;
+
+export type AccessReviewList = Array<AccessReview>;
+export const AccessReviewList = /*@__PURE__*/ S.Array(
+  AccessReview,
+) as any as S.Schema<AccessReviewList>;
+
+export interface Kubernetes {
+  nodes?: NodeList;
+  objects?: Securitycenter_ObjectList;
+  pods?: PodList;
+  bindings?: GoogleCloudSecuritycenterV1BindingList;
+  nodePools?: NodePoolList;
+  roles?: RoleList;
+  accessReviews?: AccessReviewList;
+}
+export const Kubernetes = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nodes: S.optional(NodeList),
+    objects: S.optional(Securitycenter_ObjectList),
+    pods: S.optional(PodList),
+    bindings: S.optional(GoogleCloudSecuritycenterV1BindingList),
+    nodePools: S.optional(NodePoolList),
+    roles: S.optional(RoleList),
+    accessReviews: S.optional(AccessReviewList),
+  }),
+).annotate({ identifier: "Kubernetes" }) as any as S.Schema<Kubernetes>;
+
+export type DataFlowEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
+export const DataFlowEventOperationEnum = S.String;
+
+export interface DataFlowEvent {
+  operation?: DataFlowEventOperationEnum | (string & {});
+  eventId?: string;
+  principalEmail?: string;
+  violatedLocation?: string;
+  eventTime?: string;
+}
+export const DataFlowEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operation: S.optional(DataFlowEventOperationEnum),
+    eventId: S.optional(S.String),
+    principalEmail: S.optional(S.String),
+    violatedLocation: S.optional(S.String),
+    eventTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataFlowEvent" }) as any as S.Schema<DataFlowEvent>;
+
+export type DataFlowEventList = Array<DataFlowEvent>;
+export const DataFlowEventList = /*@__PURE__*/ S.Array(
+  DataFlowEvent,
+) as any as S.Schema<DataFlowEventList>;
+
+export type JobStateEnum = "JOB_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED";
+export const JobStateEnum = S.String;
+
+export interface Job {
+  name?: string;
+  state?: JobStateEnum | (string & {});
+  location?: string;
+  errorCode?: number;
+}
+export const Job = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    state: S.optional(JobStateEnum),
+    location: S.optional(S.String),
+    errorCode: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
+
+export type IamBindingActionEnum = "ACTION_UNSPECIFIED" | "ADD" | "REMOVE";
+export const IamBindingActionEnum = S.String;
+
+export interface IamBinding {
+  member?: string;
+  role?: string;
+  action?: IamBindingActionEnum | (string & {});
+}
+export const IamBinding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    member: S.optional(S.String),
+    role: S.optional(S.String),
+    action: S.optional(IamBindingActionEnum),
+  }),
+).annotate({ identifier: "IamBinding" }) as any as S.Schema<IamBinding>;
+
+export type IamBindingList = Array<IamBinding>;
+export const IamBindingList = /*@__PURE__*/ S.Array(IamBinding) as any as S.Schema<IamBindingList>;
+
+export type DiscoveredWorkloadWorkloadTypeEnum =
+  | "WORKLOAD_TYPE_UNSPECIFIED"
+  | "MCP_SERVER"
+  | "AI_INFERENCE"
+  | "AGENT";
+export const DiscoveredWorkloadWorkloadTypeEnum = S.String;
+
+export type DiscoveredWorkloadConfidenceEnum = "CONFIDENCE_UNSPECIFIED" | "CONFIDENCE_HIGH";
+export const DiscoveredWorkloadConfidenceEnum = S.String;
+
+export interface DiscoveredWorkload {
+  workloadType?: DiscoveredWorkloadWorkloadTypeEnum | (string & {});
+  detectedRelevantHardware?: boolean;
+  detectedRelevantPackages?: boolean;
+  detectedRelevantKeywords?: boolean;
+  confidence?: DiscoveredWorkloadConfidenceEnum | (string & {});
+}
+export const DiscoveredWorkload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workloadType: S.optional(DiscoveredWorkloadWorkloadTypeEnum),
+    detectedRelevantHardware: S.optional(S.Boolean),
+    detectedRelevantPackages: S.optional(S.Boolean),
+    detectedRelevantKeywords: S.optional(S.Boolean),
+    confidence: S.optional(DiscoveredWorkloadConfidenceEnum),
+  }),
+).annotate({ identifier: "DiscoveredWorkload" }) as any as S.Schema<DiscoveredWorkload>;
+
+export interface PolicyViolationSummary {
+  policyViolationsCount?: string;
+  conformantResourcesCount?: string;
+  outOfScopeResourcesCount?: string;
+  evaluationErrorsCount?: string;
+}
+export const PolicyViolationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    policyViolationsCount: S.optional(S.String),
+    conformantResourcesCount: S.optional(S.String),
+    outOfScopeResourcesCount: S.optional(S.String),
+    evaluationErrorsCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "PolicyViolationSummary" }) as any as S.Schema<PolicyViolationSummary>;
+
+export type LoadBalancer = OrgPolicy;
+export const LoadBalancer = OrgPolicy;
+
+export type LoadBalancerList = Array<OrgPolicy>;
+export const LoadBalancerList = /*@__PURE__*/ S.Array(
+  OrgPolicy,
+) as any as S.Schema<LoadBalancerList>;
+
+export type FindingMuteEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
+export const FindingMuteEnum = S.String;
+
+export interface EnvironmentVariable {
+  val?: string;
+  name?: string;
+}
+export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    val: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
+
+export type EnvironmentVariableList = Array<EnvironmentVariable>;
+export const EnvironmentVariableList = /*@__PURE__*/ S.Array(
+  EnvironmentVariable,
+) as any as S.Schema<EnvironmentVariableList>;
+
+export interface Process {
+  parentPid?: string;
+  envVariablesTruncated?: boolean;
+  libraries?: FileList;
+  argumentsTruncated?: boolean;
+  args?: StringList;
+  script?: File;
+  name?: string;
+  envVariables?: EnvironmentVariableList;
+  pid?: string;
+  userId?: string;
+  binary?: File;
+}
+export const Process = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parentPid: S.optional(S.String),
+    envVariablesTruncated: S.optional(S.Boolean),
+    libraries: S.optional(FileList),
+    argumentsTruncated: S.optional(S.Boolean),
+    args: S.optional(StringList),
+    script: S.optional(File),
+    name: S.optional(S.String),
+    envVariables: S.optional(EnvironmentVariableList),
+    pid: S.optional(S.String),
+    userId: S.optional(S.String),
+    binary: S.optional(File),
+  }),
+).annotate({ identifier: "Process" }) as any as S.Schema<Process>;
+
+export type ProcessList = Array<Process>;
+export const ProcessList = /*@__PURE__*/ S.Array(Process) as any as S.Schema<ProcessList>;
+
+export interface Database {
+  version?: string;
+  userName?: string;
+  query?: string;
+  grantees?: StringList;
+  displayName?: string;
+  name?: string;
+}
+export const Database = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    userName: S.optional(S.String),
+    query: S.optional(S.String),
+    grantees: S.optional(StringList),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
+
+export interface Pipeline {
+  displayName?: string;
+  name?: string;
+}
+export const Pipeline = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Pipeline" }) as any as S.Schema<Pipeline>;
+
+export type PipelineList = Array<Pipeline>;
+export const PipelineList = /*@__PURE__*/ S.Array(Pipeline) as any as S.Schema<PipelineList>;
+
+export interface Dataset {
+  source?: string;
+  name?: string;
+  displayName?: string;
+}
+export const Dataset = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
+
+export type DatasetList = Array<Dataset>;
+export const DatasetList = /*@__PURE__*/ S.Array(Dataset) as any as S.Schema<DatasetList>;
+
+export interface VertexAi {
+  pipelines?: PipelineList;
+  datasets?: DatasetList;
+}
+export const VertexAi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelines: S.optional(PipelineList),
+    datasets: S.optional(DatasetList),
+  }),
+).annotate({ identifier: "VertexAi" }) as any as S.Schema<VertexAi>;
+
+export type GroupMembershipGroupTypeEnum =
+  | "GROUP_TYPE_UNSPECIFIED"
+  | "GROUP_TYPE_TOXIC_COMBINATION"
+  | "GROUP_TYPE_CHOKEPOINT";
+export const GroupMembershipGroupTypeEnum = S.String;
+
+export interface GroupMembership {
+  groupId?: string;
+  groupType?: GroupMembershipGroupTypeEnum | (string & {});
+}
+export const GroupMembership = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupId: S.optional(S.String),
+    groupType: S.optional(GroupMembershipGroupTypeEnum),
+  }),
+).annotate({ identifier: "GroupMembership" }) as any as S.Schema<GroupMembership>;
+
+export type GroupMembershipList = Array<GroupMembership>;
+export const GroupMembershipList = /*@__PURE__*/ S.Array(
+  GroupMembership,
+) as any as S.Schema<GroupMembershipList>;
+
+export interface Compliance {
+  ids?: StringList;
+  standard?: string;
+  version?: string;
+}
+export const Compliance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ids: S.optional(StringList),
+    standard: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "Compliance" }) as any as S.Schema<Compliance>;
+
+export type ComplianceList = Array<Compliance>;
+export const ComplianceList = /*@__PURE__*/ S.Array(Compliance) as any as S.Schema<ComplianceList>;
+
+export type AgentDataAccessEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
+export const AgentDataAccessEventOperationEnum = S.String;
+
+export interface AgentDataAccessEvent {
+  eventId?: string;
+  eventTime?: string;
+  principalSubject?: string;
+  operation?: AgentDataAccessEventOperationEnum | (string & {});
+}
+export const AgentDataAccessEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventId: S.optional(S.String),
+    eventTime: S.optional(S.String),
+    principalSubject: S.optional(S.String),
+    operation: S.optional(AgentDataAccessEventOperationEnum),
+  }),
+).annotate({ identifier: "AgentDataAccessEvent" }) as any as S.Schema<AgentDataAccessEvent>;
+
+export type AgentDataAccessEventList = Array<AgentDataAccessEvent>;
+export const AgentDataAccessEventList = /*@__PURE__*/ S.Array(
+  AgentDataAccessEvent,
+) as any as S.Schema<AgentDataAccessEventList>;
+
+export interface Application {
+  baseUri?: string;
+  fullUri?: string;
+}
+export const Application = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    baseUri: S.optional(S.String),
+    fullUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
+
+export type DetectorReferenceSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "CRITICAL"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW";
+export const DetectorReferenceSeverityEnum = S.String;
+
+export interface DetectorReference {
+  detectorId?: string;
+  severity?: DetectorReferenceSeverityEnum | (string & {});
+  recommendation?: string;
+  displayName?: string;
+  explanation?: string;
+}
+export const DetectorReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    detectorId: S.optional(S.String),
+    severity: S.optional(DetectorReferenceSeverityEnum),
+    recommendation: S.optional(S.String),
+    displayName: S.optional(S.String),
+    explanation: S.optional(S.String),
+  }),
+).annotate({ identifier: "DetectorReference" }) as any as S.Schema<DetectorReference>;
+
+export type DetectorReferenceList = Array<DetectorReference>;
+export const DetectorReferenceList = /*@__PURE__*/ S.Array(
+  DetectorReference,
+) as any as S.Schema<DetectorReferenceList>;
+
+export interface InvocationReference {
+  invocationId?: string;
+}
+export const InvocationReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    invocationId: S.optional(S.String),
+  }),
+).annotate({ identifier: "InvocationReference" }) as any as S.Schema<InvocationReference>;
+
+export type InvocationReferenceList = Array<InvocationReference>;
+export const InvocationReferenceList = /*@__PURE__*/ S.Array(
+  InvocationReference,
+) as any as S.Schema<InvocationReferenceList>;
+
+export interface AgentAnomaly {
+  detectorReferences?: DetectorReferenceList;
+  confidenceScore?: number;
+  invocationReferences?: InvocationReferenceList;
+}
+export const AgentAnomaly = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    detectorReferences: S.optional(DetectorReferenceList),
+    confidenceScore: S.optional(S.Number),
+    invocationReferences: S.optional(InvocationReferenceList),
+  }),
+).annotate({ identifier: "AgentAnomaly" }) as any as S.Schema<AgentAnomaly>;
+
+export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+export const FindingSeverityEnum = S.String;
+
+export interface KernelRootkit {
+  unexpectedKprobeHandler?: boolean;
+  unexpectedSystemCallHandler?: boolean;
+  name?: string;
+  unexpectedProcessesInRunqueue?: boolean;
+  unexpectedInterruptHandler?: boolean;
+  unexpectedFtraceHandler?: boolean;
+  unexpectedReadOnlyDataModification?: boolean;
+  unexpectedKernelCodePages?: boolean;
+  unexpectedCodeModification?: boolean;
+}
+export const KernelRootkit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unexpectedKprobeHandler: S.optional(S.Boolean),
+    unexpectedSystemCallHandler: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    unexpectedProcessesInRunqueue: S.optional(S.Boolean),
+    unexpectedInterruptHandler: S.optional(S.Boolean),
+    unexpectedFtraceHandler: S.optional(S.Boolean),
+    unexpectedReadOnlyDataModification: S.optional(S.Boolean),
+    unexpectedKernelCodePages: S.optional(S.Boolean),
+    unexpectedCodeModification: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "KernelRootkit" }) as any as S.Schema<KernelRootkit>;
+
+export interface Finding {
   mitreAttack?: MitreAttack;
-  category?: string;
+  muteInfo?: MuteInfo;
+  sourceProperties?: DocumentMap;
+  contacts?: ContactDetailsMap;
+  securityMarks?: SecurityMarks;
+  orgPolicies?: OrgPolicyList;
+  state?: FindingStateEnum | (string & {});
+  name?: string;
+  access?: Access;
+  canonicalName?: string;
+  iamDetails?: GoogleCloudSecuritycenterV1IamDetails;
+  vulnerability?: Vulnerability;
+  logEntries?: LogEntryList;
+  agentSessions?: AgentSessionList;
+  dataRetentionDeletionEvents?: DataRetentionDeletionEventList;
+  toxicCombination?: ToxicCombination;
+  indicator?: Indicator;
+  complianceDetails?: ComplianceDetails;
+  connections?: ConnectionList;
+  createTime?: string;
+  nextSteps?: string;
+  notebook?: Notebook;
+  findingClass?: FindingFindingClassEnum | (string & {});
+  cloudDlpDataProfile?: CloudDlpDataProfile;
+  backupDisasterRecovery?: BackupDisasterRecovery;
   cloudArmor?: CloudArmor;
+  ipRules?: IpRules;
+  aiModel?: AiModel;
+  muteUpdateTime?: string;
+  disk?: OrgPolicy;
+  containers?: ContainerList;
+  agent?: Agent;
+  parent?: string;
+  secret?: Secret;
+  chokepoint?: Chokepoint;
+  externalExposure?: ExternalExposure;
+  files?: FileList;
+  exfiltration?: Exfiltration;
+  resourceName?: string;
+  affectedResources?: AffectedResources;
+  attackExposure?: AttackExposure;
+  dataAccessEvents?: DataAccessEventList;
   artifactGuardPolicies?: ArtifactGuardPolicies;
+  cloudDlpInspection?: CloudDlpInspection;
+  description?: string;
+  securityPosture?: SecurityPosture;
+  networks?: NetworkList;
+  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap;
+  kubernetes?: Kubernetes;
+  dataFlowEvents?: DataFlowEventList;
+  category?: string;
+  job?: Job;
+  iamBindings?: IamBindingList;
+  discoveredWorkload?: DiscoveredWorkload;
+  policyViolationSummary?: PolicyViolationSummary;
+  loadBalancers?: LoadBalancerList;
+  parentDisplayName?: string;
+  mute?: FindingMuteEnum | (string & {});
+  eventTime?: string;
   muteInitiator?: string;
+  processes?: ProcessList;
+  database?: Database;
+  vertexAi?: VertexAi;
+  groupMemberships?: GroupMembershipList;
+  externalUri?: string;
+  compliances?: ComplianceList;
+  agentDataAccessEvents?: AgentDataAccessEventList;
+  moduleName?: string;
+  application?: Application;
+  agentAnomaly?: AgentAnomaly;
+  severity?: FindingSeverityEnum | (string & {});
+  kernelRootkit?: KernelRootkit;
 }
 export const Finding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    networks: S.optional(NetworkList),
-    kernelRootkit: S.optional(KernelRootkit),
-    kubernetes: S.optional(Kubernetes),
-    nextSteps: S.optional(S.String),
-    disk: S.optional(Network),
-    severity: S.optional(FindingSeverityEnum),
-    agentDataAccessEvents: S.optional(AgentDataAccessEventList),
-    cloudDlpInspection: S.optional(CloudDlpInspection),
-    policyViolationSummary: S.optional(PolicyViolationSummary),
-    contacts: S.optional(ContactDetailsMap),
-    application: S.optional(Application),
-    database: S.optional(Database),
-    muteUpdateTime: S.optional(S.String),
-    access: S.optional(Access),
-    dataAccessEvents: S.optional(DataAccessEventList),
-    discoveredWorkload: S.optional(DiscoveredWorkload),
-    createTime: S.optional(S.String),
-    job: S.optional(Job),
-    backupDisasterRecovery: S.optional(BackupDisasterRecovery),
-    eventTime: S.optional(S.String),
-    iamBindings: S.optional(IamBindingList),
-    resourceName: S.optional(S.String),
-    canonicalName: S.optional(S.String),
-    moduleName: S.optional(S.String),
-    agentAnomaly: S.optional(AgentAnomaly),
-    name: S.optional(S.String),
-    externalUri: S.optional(S.String),
-    agent: S.optional(Agent),
-    parentDisplayName: S.optional(S.String),
-    sourceProperties: S.optional(DocumentMap),
-    dataFlowEvents: S.optional(DataFlowEventList),
-    state: S.optional(FindingStateEnum),
-    mute: S.optional(FindingMuteEnum),
-    attackExposure: S.optional(AttackExposure),
-    orgPolicies: S.optional(OrgPolicyList),
-    iamDetails: S.optional(GoogleCloudSecuritycenterV1IamDetails),
-    notebook: S.optional(Notebook),
-    ipRules: S.optional(IpRules),
-    externalExposure: S.optional(ExternalExposure),
-    dataRetentionDeletionEvents: S.optional(DataRetentionDeletionEventList),
-    secret: S.optional(Secret),
-    cloudDlpDataProfile: S.optional(CloudDlpDataProfile),
-    logEntries: S.optional(LogEntryList),
-    processes: S.optional(ProcessList),
-    externalSystems: S.optional(GoogleCloudSecuritycenterV1ExternalSystemMap),
-    indicator: S.optional(Indicator),
-    securityPosture: S.optional(SecurityPosture),
-    aiModel: S.optional(AiModel),
-    findingClass: S.optional(FindingFindingClassEnum),
-    vertexAi: S.optional(VertexAi),
-    parent: S.optional(S.String),
-    connections: S.optional(ConnectionList),
-    toxicCombination: S.optional(ToxicCombination),
-    muteInfo: S.optional(MuteInfo),
-    complianceDetails: S.optional(ComplianceDetails),
-    exfiltration: S.optional(Exfiltration),
-    affectedResources: S.optional(AffectedResources),
-    securityMarks: S.optional(SecurityMarks),
-    description: S.optional(S.String),
-    chokepoint: S.optional(Chokepoint),
-    compliances: S.optional(ComplianceList),
-    agentSessions: S.optional(AgentSessionList),
-    files: S.optional(FileList),
-    containers: S.optional(ContainerList),
-    loadBalancers: S.optional(LoadBalancerList),
-    vulnerability: S.optional(Vulnerability),
-    groupMemberships: S.optional(GroupMembershipList),
     mitreAttack: S.optional(MitreAttack),
-    category: S.optional(S.String),
+    muteInfo: S.optional(MuteInfo),
+    sourceProperties: S.optional(DocumentMap),
+    contacts: S.optional(ContactDetailsMap),
+    securityMarks: S.optional(SecurityMarks),
+    orgPolicies: S.optional(OrgPolicyList),
+    state: S.optional(FindingStateEnum),
+    name: S.optional(S.String),
+    access: S.optional(Access),
+    canonicalName: S.optional(S.String),
+    iamDetails: S.optional(GoogleCloudSecuritycenterV1IamDetails),
+    vulnerability: S.optional(Vulnerability),
+    logEntries: S.optional(LogEntryList),
+    agentSessions: S.optional(AgentSessionList),
+    dataRetentionDeletionEvents: S.optional(DataRetentionDeletionEventList),
+    toxicCombination: S.optional(ToxicCombination),
+    indicator: S.optional(Indicator),
+    complianceDetails: S.optional(ComplianceDetails),
+    connections: S.optional(ConnectionList),
+    createTime: S.optional(S.String),
+    nextSteps: S.optional(S.String),
+    notebook: S.optional(Notebook),
+    findingClass: S.optional(FindingFindingClassEnum),
+    cloudDlpDataProfile: S.optional(CloudDlpDataProfile),
+    backupDisasterRecovery: S.optional(BackupDisasterRecovery),
     cloudArmor: S.optional(CloudArmor),
+    ipRules: S.optional(IpRules),
+    aiModel: S.optional(AiModel),
+    muteUpdateTime: S.optional(S.String),
+    disk: S.optional(OrgPolicy),
+    containers: S.optional(ContainerList),
+    agent: S.optional(Agent),
+    parent: S.optional(S.String),
+    secret: S.optional(Secret),
+    chokepoint: S.optional(Chokepoint),
+    externalExposure: S.optional(ExternalExposure),
+    files: S.optional(FileList),
+    exfiltration: S.optional(Exfiltration),
+    resourceName: S.optional(S.String),
+    affectedResources: S.optional(AffectedResources),
+    attackExposure: S.optional(AttackExposure),
+    dataAccessEvents: S.optional(DataAccessEventList),
     artifactGuardPolicies: S.optional(ArtifactGuardPolicies),
+    cloudDlpInspection: S.optional(CloudDlpInspection),
+    description: S.optional(S.String),
+    securityPosture: S.optional(SecurityPosture),
+    networks: S.optional(NetworkList),
+    externalSystems: S.optional(GoogleCloudSecuritycenterV1ExternalSystemMap),
+    kubernetes: S.optional(Kubernetes),
+    dataFlowEvents: S.optional(DataFlowEventList),
+    category: S.optional(S.String),
+    job: S.optional(Job),
+    iamBindings: S.optional(IamBindingList),
+    discoveredWorkload: S.optional(DiscoveredWorkload),
+    policyViolationSummary: S.optional(PolicyViolationSummary),
+    loadBalancers: S.optional(LoadBalancerList),
+    parentDisplayName: S.optional(S.String),
+    mute: S.optional(FindingMuteEnum),
+    eventTime: S.optional(S.String),
     muteInitiator: S.optional(S.String),
+    processes: S.optional(ProcessList),
+    database: S.optional(Database),
+    vertexAi: S.optional(VertexAi),
+    groupMemberships: S.optional(GroupMembershipList),
+    externalUri: S.optional(S.String),
+    compliances: S.optional(ComplianceList),
+    agentDataAccessEvents: S.optional(AgentDataAccessEventList),
+    moduleName: S.optional(S.String),
+    application: S.optional(Application),
+    agentAnomaly: S.optional(AgentAnomaly),
+    severity: S.optional(FindingSeverityEnum),
+    kernelRootkit: S.optional(KernelRootkit),
   }),
 ).annotate({ identifier: "Finding" }) as any as S.Schema<Finding>;
 
 export interface CreateOrganizationsSourcesFindingsRequest {
-  parent: string;
   findingId?: string;
+  parent: string;
   /** Request body */
   body?: Finding;
 }
 export const CreateOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     findingId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Finding.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3435,15 +3441,15 @@ export const CreateProjectsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateProjectsMuteConfigsRequest>;
 
 export interface CreateProjectsNotificationConfigsRequest {
-  parent: string;
   configId?: string;
+  parent: string;
   /** Request body */
   body?: NotificationConfig;
 }
 export const CreateProjectsNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     configId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(NotificationConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3874,6 +3880,12 @@ export const GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest
     identifier: "GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest",
   }) as any as S.Schema<GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest>;
 
+export type EffectiveEventThreatDetectionCustomModuleEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED";
+export const EffectiveEventThreatDetectionCustomModuleEnablementStateEnum = S.String;
+
 export type EffectiveEventThreatDetectionCustomModuleCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
   | "GOOGLE_CLOUD_PLATFORM"
@@ -3881,30 +3893,24 @@ export type EffectiveEventThreatDetectionCustomModuleCloudProviderEnum =
   | "MICROSOFT_AZURE";
 export const EffectiveEventThreatDetectionCustomModuleCloudProviderEnum = S.String;
 
-export type EffectiveEventThreatDetectionCustomModuleEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED";
-export const EffectiveEventThreatDetectionCustomModuleEnablementStateEnum = S.String;
-
 export interface EffectiveEventThreatDetectionCustomModule {
-  config?: DocumentMap;
-  description?: string;
   displayName?: string;
-  cloudProvider?: EffectiveEventThreatDetectionCustomModuleCloudProviderEnum;
   enablementState?: EffectiveEventThreatDetectionCustomModuleEnablementStateEnum;
-  type?: string;
+  cloudProvider?: EffectiveEventThreatDetectionCustomModuleCloudProviderEnum;
   name?: string;
+  description?: string;
+  config?: DocumentMap;
+  type?: string;
 }
 export const EffectiveEventThreatDetectionCustomModule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    config: S.optional(DocumentMap),
-    description: S.optional(S.String),
     displayName: S.optional(S.String),
-    cloudProvider: S.optional(EffectiveEventThreatDetectionCustomModuleCloudProviderEnum),
     enablementState: S.optional(EffectiveEventThreatDetectionCustomModuleEnablementStateEnum),
-    type: S.optional(S.String),
+    cloudProvider: S.optional(EffectiveEventThreatDetectionCustomModuleCloudProviderEnum),
     name: S.optional(S.String),
+    description: S.optional(S.String),
+    config: S.optional(DocumentMap),
+    type: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EffectiveEventThreatDetectionCustomModule",
@@ -3985,13 +3991,6 @@ export const GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequ
     identifier: "GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest",
   }) as any as S.Schema<GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>;
 
-export type GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED";
-export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum =
-  S.String;
-
 export type GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
   | "GOOGLE_CLOUD_PLATFORM"
@@ -4000,25 +3999,32 @@ export type GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomMod
 export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum =
   S.String;
 
+export type GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED";
+export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum =
+  S.String;
+
 export interface GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule {
-  enablementState?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum;
-  displayName?: string;
-  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
-  cloudProvider?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum;
   name?: string;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
+  displayName?: string;
+  cloudProvider?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum;
+  enablementState?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum;
 }
 export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      enablementState: S.optional(
-        GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum,
-      ),
-      displayName: S.optional(S.String),
+      name: S.optional(S.String),
       customConfig: S.optional(GoogleCloudSecuritycenterV1CustomConfig),
+      displayName: S.optional(S.String),
       cloudProvider: S.optional(
         GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum,
       ),
-      name: S.optional(S.String),
+      enablementState: S.optional(
+        GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum,
+      ),
     }),
   ).annotate({
     identifier: "GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule",
@@ -4062,22 +4068,6 @@ export const GetIamPolicyOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend((
   identifier: "GetIamPolicyOrganizationsSourcesRequest",
 }) as any as S.Schema<GetIamPolicyOrganizationsSourcesRequest>;
 
-export interface Binding {
-  role?: string;
-  condition?: Expr;
-  members?: StringList;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    role: S.optional(S.String),
-    condition: S.optional(Expr),
-    members: S.optional(StringList),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -4102,13 +4092,13 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AuditLogConfigList>;
 
 export interface AuditConfig {
-  auditLogConfigs?: AuditLogConfigList;
   service?: string;
+  auditLogConfigs?: AuditLogConfigList;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditLogConfigs: S.optional(AuditLogConfigList),
     service: S.optional(S.String),
+    auditLogConfigs: S.optional(AuditLogConfigList),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -4117,18 +4107,34 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
+export interface Binding {
+  condition?: Expr;
+  members?: StringList;
+  role?: string;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    condition: S.optional(Expr),
+    members: S.optional(StringList),
+    role: S.optional(S.String),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 export interface Policy {
-  bindings?: BindingList;
   auditConfigs?: AuditConfigList;
-  etag?: string;
   version?: number;
+  bindings?: BindingList;
+  etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bindings: S.optional(BindingList),
     auditConfigs: S.optional(AuditConfigList),
-    etag: S.optional(S.String),
     version: S.optional(S.Number),
+    bindings: S.optional(BindingList),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -4178,15 +4184,15 @@ export const AssetDiscoveryConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AssetDiscoveryConfig" }) as any as S.Schema<AssetDiscoveryConfig>;
 
 export interface OrganizationSettings {
+  name?: string;
   enableAssetDiscovery?: boolean;
   assetDiscoveryConfig?: AssetDiscoveryConfig;
-  name?: string;
 }
 export const OrganizationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     enableAssetDiscovery: S.optional(S.Boolean),
     assetDiscoveryConfig: S.optional(AssetDiscoveryConfig),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "OrganizationSettings" }) as any as S.Schema<OrganizationSettings>;
 
@@ -4347,26 +4353,26 @@ export type SimulationCloudProviderEnum =
   | "MICROSOFT_AZURE";
 export const SimulationCloudProviderEnum = S.String;
 
-export type ResourceValueConfigMetadata = Network;
-export const ResourceValueConfigMetadata = Network;
+export type ResourceValueConfigMetadata = OrgPolicy;
+export const ResourceValueConfigMetadata = OrgPolicy;
 
-export type ResourceValueConfigMetadataList = Array<Network>;
+export type ResourceValueConfigMetadataList = Array<OrgPolicy>;
 export const ResourceValueConfigMetadataList = /*@__PURE__*/ S.Array(
-  Network,
+  OrgPolicy,
 ) as any as S.Schema<ResourceValueConfigMetadataList>;
 
 export interface Simulation {
+  name?: string;
   cloudProvider?: SimulationCloudProviderEnum;
   resourceValueConfigsMetadata?: ResourceValueConfigMetadataList;
   createTime?: string;
-  name?: string;
 }
 export const Simulation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     cloudProvider: S.optional(SimulationCloudProviderEnum),
     resourceValueConfigsMetadata: S.optional(ResourceValueConfigMetadataList),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Simulation" }) as any as S.Schema<Simulation>;
 
@@ -4391,23 +4397,23 @@ export type ValuedResourceResourceValueEnum =
 export const ValuedResourceResourceValueEnum = S.String;
 
 export interface ValuedResource {
+  name?: string;
+  resourceType?: string;
   resourceValue?: ValuedResourceResourceValueEnum;
   resourceValueConfigsUsed?: ResourceValueConfigMetadataList;
   exposedScore?: number;
-  name?: string;
-  resourceType?: string;
-  resource?: string;
   displayName?: string;
+  resource?: string;
 }
 export const ValuedResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
+    resourceType: S.optional(S.String),
     resourceValue: S.optional(ValuedResourceResourceValueEnum),
     resourceValueConfigsUsed: S.optional(ResourceValueConfigMetadataList),
     exposedScore: S.optional(S.Number),
-    name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    resource: S.optional(S.String),
     displayName: S.optional(S.String),
+    resource: S.optional(S.String),
   }),
 ).annotate({ identifier: "ValuedResource" }) as any as S.Schema<ValuedResource>;
 
@@ -4549,21 +4555,21 @@ export const GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesReq
   }) as any as S.Schema<GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>;
 
 export interface GroupAssetsRequest {
-  filter?: string;
+  readTime?: string;
   pageSize?: number;
   pageToken?: string;
-  compareDuration?: string;
+  filter?: string;
   groupBy?: string;
-  readTime?: string;
+  compareDuration?: string;
 }
 export const GroupAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String),
+    readTime: S.optional(S.String),
     pageSize: S.optional(S.Number),
     pageToken: S.optional(S.String),
-    compareDuration: S.optional(S.String),
+    filter: S.optional(S.String),
     groupBy: S.optional(S.String),
-    readTime: S.optional(S.String),
+    compareDuration: S.optional(S.String),
   }),
 ).annotate({ identifier: "GroupAssetsRequest" }) as any as S.Schema<GroupAssetsRequest>;
 
@@ -4604,36 +4610,36 @@ export const GroupResultList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GroupResultList>;
 
 export interface GroupAssetsResponse {
-  groupByResults?: GroupResultList;
-  readTime?: string;
   totalSize?: number;
+  readTime?: string;
+  groupByResults?: GroupResultList;
   nextPageToken?: string;
 }
 export const GroupAssetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    groupByResults: S.optional(GroupResultList),
-    readTime: S.optional(S.String),
     totalSize: S.optional(S.Number),
+    readTime: S.optional(S.String),
+    groupByResults: S.optional(GroupResultList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "GroupAssetsResponse" }) as any as S.Schema<GroupAssetsResponse>;
 
 export interface GroupFindingsRequest {
-  filter?: string;
-  pageSize?: number;
   groupBy?: string;
-  pageToken?: string;
-  readTime?: string;
+  filter?: string;
   compareDuration?: string;
+  readTime?: string;
+  pageSize?: number;
+  pageToken?: string;
 }
 export const GroupFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String),
-    pageSize: S.optional(S.Number),
     groupBy: S.optional(S.String),
-    pageToken: S.optional(S.String),
-    readTime: S.optional(S.String),
+    filter: S.optional(S.String),
     compareDuration: S.optional(S.String),
+    readTime: S.optional(S.String),
+    pageSize: S.optional(S.Number),
+    pageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "GroupFindingsRequest" }) as any as S.Schema<GroupFindingsRequest>;
 
@@ -4658,17 +4664,17 @@ export const GroupFoldersSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GroupFoldersSourcesFindingsRequest>;
 
 export interface GroupFindingsResponse {
-  groupByResults?: GroupResultList;
   readTime?: string;
-  nextPageToken?: string;
   totalSize?: number;
+  groupByResults?: GroupResultList;
+  nextPageToken?: string;
 }
 export const GroupFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    groupByResults: S.optional(GroupResultList),
     readTime: S.optional(S.String),
-    nextPageToken: S.optional(S.String),
     totalSize: S.optional(S.Number),
+    groupByResults: S.optional(GroupResultList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "GroupFindingsResponse" }) as any as S.Schema<GroupFindingsResponse>;
 
@@ -4753,16 +4759,16 @@ export const GroupProjectsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GroupProjectsSourcesFindingsRequest>;
 
 export interface ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest {
-  pageSize?: number;
   parent: string;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4822,16 +4828,16 @@ export const GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList 
   ) as any as S.Schema<GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList>;
 
 export interface ListDescendantSecurityHealthAnalyticsCustomModulesResponse {
-  nextPageToken?: string;
   securityHealthAnalyticsCustomModules?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList;
+  nextPageToken?: string;
 }
 export const ListDescendantSecurityHealthAnalyticsCustomModulesResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      nextPageToken: S.optional(S.String),
       securityHealthAnalyticsCustomModules: S.optional(
         GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList,
       ),
+      nextPageToken: S.optional(S.String),
     }),
 ).annotate({
   identifier: "ListDescendantSecurityHealthAnalyticsCustomModulesResponse",
@@ -4839,15 +4845,15 @@ export const ListDescendantSecurityHealthAnalyticsCustomModulesResponse = /*@__P
 
 export interface ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   pageSize?: number;
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
 }
 export const ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4860,16 +4866,16 @@ export const ListDescendantOrganizationsEventThreatDetectionSettingsCustomModule
   }) as any as S.Schema<ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest>;
 
 export interface ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  parent: string;
   pageSize?: number;
   pageToken?: string;
+  parent: string;
 }
 export const ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4882,16 +4888,16 @@ export const ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomMod
   }) as any as S.Schema<ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>;
 
 export interface ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest {
-  pageSize?: number;
   parent: string;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4904,16 +4910,16 @@ export const ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequ
   }) as any as S.Schema<ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest>;
 
 export interface ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  pageSize?: number;
-  parent: string;
   pageToken?: string;
+  parent: string;
+  pageSize?: number;
 }
 export const ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4927,23 +4933,23 @@ export const ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesR
 
 export interface ListFoldersAssetsRequest {
   parent: string;
-  readTime?: string;
-  orderBy?: string;
   pageToken?: string;
-  filter?: string;
   fieldMask?: string;
+  filter?: string;
+  readTime?: string;
   pageSize?: number;
+  orderBy?: string;
   compareDuration?: string;
 }
 export const ListFoldersAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    readTime: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     fieldMask: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    readTime: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     compareDuration: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4953,6 +4959,9 @@ export const ListFoldersAssetsRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "ListFoldersAssetsRequest" }) as any as S.Schema<ListFoldersAssetsRequest>;
+
+export type ListAssetsResultStateChangeEnum = "UNUSED" | "ADDED" | "REMOVED" | "ACTIVE";
+export const ListAssetsResultStateChangeEnum = S.String;
 
 export interface Folder {
   resourceFolder?: string;
@@ -4969,27 +4978,27 @@ export type FolderList = Array<Folder>;
 export const FolderList = /*@__PURE__*/ S.Array(Folder) as any as S.Schema<FolderList>;
 
 export interface SecurityCenterProperties {
+  resourceParent?: string;
+  resourceOwners?: StringList;
+  resourceType?: string;
+  resourceProject?: string;
   folders?: FolderList;
   resourceProjectDisplayName?: string;
-  resourceProject?: string;
-  resourceType?: string;
-  resourceParent?: string;
   resourceDisplayName?: string;
-  resourceName?: string;
-  resourceOwners?: StringList;
   resourceParentDisplayName?: string;
+  resourceName?: string;
 }
 export const SecurityCenterProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resourceParent: S.optional(S.String),
+    resourceOwners: S.optional(StringList),
+    resourceType: S.optional(S.String),
+    resourceProject: S.optional(S.String),
     folders: S.optional(FolderList),
     resourceProjectDisplayName: S.optional(S.String),
-    resourceProject: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    resourceParent: S.optional(S.String),
     resourceDisplayName: S.optional(S.String),
-    resourceName: S.optional(S.String),
-    resourceOwners: S.optional(StringList),
     resourceParentDisplayName: S.optional(S.String),
+    resourceName: S.optional(S.String),
   }),
 ).annotate({ identifier: "SecurityCenterProperties" }) as any as S.Schema<SecurityCenterProperties>;
 
@@ -5003,39 +5012,36 @@ export const IamPolicy = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IamPolicy" }) as any as S.Schema<IamPolicy>;
 
 export interface Asset {
-  name?: string;
-  resourceProperties?: DocumentMap;
-  canonicalName?: string;
-  securityCenterProperties?: SecurityCenterProperties;
-  updateTime?: string;
-  iamPolicy?: IamPolicy;
   securityMarks?: SecurityMarks;
+  canonicalName?: string;
+  name?: string;
+  securityCenterProperties?: SecurityCenterProperties;
+  resourceProperties?: DocumentMap;
+  updateTime?: string;
   createTime?: string;
+  iamPolicy?: IamPolicy;
 }
 export const Asset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    resourceProperties: S.optional(DocumentMap),
-    canonicalName: S.optional(S.String),
-    securityCenterProperties: S.optional(SecurityCenterProperties),
-    updateTime: S.optional(S.String),
-    iamPolicy: S.optional(IamPolicy),
     securityMarks: S.optional(SecurityMarks),
+    canonicalName: S.optional(S.String),
+    name: S.optional(S.String),
+    securityCenterProperties: S.optional(SecurityCenterProperties),
+    resourceProperties: S.optional(DocumentMap),
+    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
+    iamPolicy: S.optional(IamPolicy),
   }),
 ).annotate({ identifier: "Asset" }) as any as S.Schema<Asset>;
 
-export type ListAssetsResultStateChangeEnum = "UNUSED" | "ADDED" | "REMOVED" | "ACTIVE";
-export const ListAssetsResultStateChangeEnum = S.String;
-
 export interface ListAssetsResult {
-  asset?: Asset;
   stateChange?: ListAssetsResultStateChangeEnum;
+  asset?: Asset;
 }
 export const ListAssetsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    asset: S.optional(Asset),
     stateChange: S.optional(ListAssetsResultStateChangeEnum),
+    asset: S.optional(Asset),
   }),
 ).annotate({ identifier: "ListAssetsResult" }) as any as S.Schema<ListAssetsResult>;
 
@@ -5045,17 +5051,17 @@ export const ListAssetsResultList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListAssetsResultList>;
 
 export interface ListAssetsResponse {
-  nextPageToken?: string;
+  listAssetsResults?: ListAssetsResultList;
   readTime?: string;
   totalSize?: number;
-  listAssetsResults?: ListAssetsResultList;
+  nextPageToken?: string;
 }
 export const ListAssetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
+    listAssetsResults: S.optional(ListAssetsResultList),
     readTime: S.optional(S.String),
     totalSize: S.optional(S.Number),
-    listAssetsResults: S.optional(ListAssetsResultList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListAssetsResponse" }) as any as S.Schema<ListAssetsResponse>;
 
@@ -5100,16 +5106,16 @@ export const ListBigQueryExportsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBigQueryExportsResponse>;
 
 export interface ListFoldersEventThreatDetectionSettingsCustomModulesRequest {
-  parent: string;
   pageToken?: string;
   pageSize?: number;
+  parent: string;
 }
 export const ListFoldersEventThreatDetectionSettingsCustomModulesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5136,15 +5142,15 @@ export const ListEventThreatDetectionCustomModulesResponse = /*@__PURE__*/ S.sus
 
 export interface ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   pageToken?: string;
-  pageSize?: number;
   parent: string;
+  pageSize?: number;
 }
 export const ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5178,14 +5184,14 @@ export const ListEffectiveEventThreatDetectionCustomModulesResponse = /*@__PURE_
 }) as any as S.Schema<ListEffectiveEventThreatDetectionCustomModulesResponse>;
 
 export interface ListFoldersMuteConfigsRequest {
-  parent: string;
   pageSize?: number;
+  parent: string;
   pageToken?: string;
 }
 export const ListFoldersMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5216,15 +5222,15 @@ export const ListMuteConfigsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListMuteConfigsResponse" }) as any as S.Schema<ListMuteConfigsResponse>;
 
 export interface ListFoldersNotificationConfigsRequest {
-  parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
+  parent: string;
 }
 export const ListFoldersNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5255,15 +5261,15 @@ export const ListNotificationConfigsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNotificationConfigsResponse>;
 
 export interface ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  parent: string;
   pageSize?: number;
+  parent: string;
   pageToken?: string;
 }
 export const ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5321,31 +5327,31 @@ export const GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomMo
   ) as any as S.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList>;
 
 export interface ListEffectiveSecurityHealthAnalyticsCustomModulesResponse {
-  effectiveSecurityHealthAnalyticsCustomModules?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList;
   nextPageToken?: string;
+  effectiveSecurityHealthAnalyticsCustomModules?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList;
 }
 export const ListEffectiveSecurityHealthAnalyticsCustomModulesResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      nextPageToken: S.optional(S.String),
       effectiveSecurityHealthAnalyticsCustomModules: S.optional(
         GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList,
       ),
-      nextPageToken: S.optional(S.String),
     }),
 ).annotate({
   identifier: "ListEffectiveSecurityHealthAnalyticsCustomModulesResponse",
 }) as any as S.Schema<ListEffectiveSecurityHealthAnalyticsCustomModulesResponse>;
 
 export interface ListFoldersSourcesRequest {
-  parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
+  parent: string;
 }
 export const ListFoldersSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5361,36 +5367,36 @@ export type SourceList = Array<Source>;
 export const SourceList = /*@__PURE__*/ S.Array(Source) as any as S.Schema<SourceList>;
 
 export interface ListSourcesResponse {
-  sources?: SourceList;
   nextPageToken?: string;
+  sources?: SourceList;
 }
 export const ListSourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sources: S.optional(SourceList),
     nextPageToken: S.optional(S.String),
+    sources: S.optional(SourceList),
   }),
 ).annotate({ identifier: "ListSourcesResponse" }) as any as S.Schema<ListSourcesResponse>;
 
 export interface ListFoldersSourcesFindingsRequest {
-  compareDuration?: string;
-  readTime?: string;
-  filter?: string;
-  orderBy?: string;
-  fieldMask?: string;
-  parent: string;
   pageToken?: string;
+  compareDuration?: string;
+  orderBy?: string;
+  filter?: string;
+  readTime?: string;
   pageSize?: number;
+  parent: string;
+  fieldMask?: string;
 }
 export const ListFoldersSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    compareDuration: S.optional(S.String.pipe(T.Query())),
-    readTime: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    fieldMask: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    compareDuration: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    readTime: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    fieldMask: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5402,56 +5408,13 @@ export const ListFoldersSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListFoldersSourcesFindingsRequest",
 }) as any as S.Schema<ListFoldersSourcesFindingsRequest>;
 
-export type AdcApplicationTemplateRevision = Network;
-export const AdcApplicationTemplateRevision = Network;
-
-export interface AzureTenant {
-  displayName?: string;
-  id?: string;
-}
-export const AzureTenant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "AzureTenant" }) as any as S.Schema<AzureTenant>;
-
-export interface AzureResourceGroup {
-  id?: string;
-  name?: string;
-}
-export const AzureResourceGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "AzureResourceGroup" }) as any as S.Schema<AzureResourceGroup>;
-
-export type AzureSubscription = AzureTenant;
-export const AzureSubscription = AzureTenant;
-
-export type AzureManagementGroup = Agent;
-export const AzureManagementGroup = Agent;
-
-export type AzureManagementGroupList = Array<Agent>;
-export const AzureManagementGroupList = /*@__PURE__*/ S.Array(
-  Agent,
-) as any as S.Schema<AzureManagementGroupList>;
-
-export interface AzureMetadata {
-  tenant?: AzureTenant;
-  resourceGroup?: AzureResourceGroup;
-  subscription?: AzureTenant;
-  managementGroups?: AzureManagementGroupList;
-}
-export const AzureMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tenant: S.optional(AzureTenant),
-    resourceGroup: S.optional(AzureResourceGroup),
-    subscription: S.optional(AzureTenant),
-    managementGroups: S.optional(AzureManagementGroupList),
-  }),
-).annotate({ identifier: "AzureMetadata" }) as any as S.Schema<AzureMetadata>;
+export type ListFindingsResultStateChangeEnum =
+  | "UNUSED"
+  | "CHANGED"
+  | "UNCHANGED"
+  | "ADDED"
+  | "REMOVED";
+export const ListFindingsResultStateChangeEnum = S.String;
 
 export type ResourceCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
@@ -5460,46 +5423,25 @@ export type ResourceCloudProviderEnum =
   | "MICROSOFT_AZURE";
 export const ResourceCloudProviderEnum = S.String;
 
-export interface AwsOrganization {
-  id?: string;
+export type GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum =
+  | "ENVIRONMENT_TYPE_UNSPECIFIED"
+  | "PRODUCTION"
+  | "STAGING"
+  | "TEST"
+  | "DEVELOPMENT";
+export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum = S.String;
+
+export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment {
+  type?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum;
 }
-export const AwsOrganization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsOrganization" }) as any as S.Schema<AwsOrganization>;
-
-export type AwsAccount = AzureResourceGroup;
-export const AwsAccount = AzureResourceGroup;
-
-export interface AwsOrganizationalUnit {
-  name?: string;
-  id?: string;
-}
-export const AwsOrganizationalUnit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsOrganizationalUnit" }) as any as S.Schema<AwsOrganizationalUnit>;
-
-export type AwsOrganizationalUnitList = Array<AwsOrganizationalUnit>;
-export const AwsOrganizationalUnitList = /*@__PURE__*/ S.Array(
-  AwsOrganizationalUnit,
-) as any as S.Schema<AwsOrganizationalUnitList>;
-
-export interface AwsMetadata {
-  organization?: AwsOrganization;
-  account?: AzureResourceGroup;
-  organizationalUnits?: AwsOrganizationalUnitList;
-}
-export const AwsMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.optional(AwsOrganization),
-    account: S.optional(AzureResourceGroup),
-    organizationalUnits: S.optional(AwsOrganizationalUnitList),
-  }),
-).annotate({ identifier: "AwsMetadata" }) as any as S.Schema<AwsMetadata>;
+export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment",
+  }) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment>;
 
 export type GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo = Contact;
 export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfo = Contact;
@@ -5531,65 +5473,31 @@ export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality
     identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality",
   }) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality>;
 
-export type GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum =
-  | "ENVIRONMENT_TYPE_UNSPECIFIED"
-  | "PRODUCTION"
-  | "STAGING"
-  | "TEST"
-  | "DEVELOPMENT";
-export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum = S.String;
-
-export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment {
-  type?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum;
-}
-export const GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment",
-  }) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment>;
-
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributes {
-  businessOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
-  developerOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
-  operatorOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
-  criticality?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality;
   environment?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment;
+  operatorOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
+  developerOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
+  criticality?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality;
+  businessOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
 }
 export const GoogleCloudSecuritycenterV1ResourceApplicationAttributes = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      businessOwners: S.optional(
+      environment: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment),
+      operatorOwners: S.optional(
         GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList,
       ),
       developerOwners: S.optional(
         GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList,
       ),
-      operatorOwners: S.optional(
+      criticality: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality),
+      businessOwners: S.optional(
         GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList,
       ),
-      criticality: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality),
-      environment: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment),
     }),
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributes",
 }) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceApplicationAttributes>;
-
-export interface AdcApplication {
-  attributes?: GoogleCloudSecuritycenterV1ResourceApplicationAttributes;
-  name?: string;
-}
-export const AdcApplication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(GoogleCloudSecuritycenterV1ResourceApplicationAttributes),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "AdcApplication" }) as any as S.Schema<AdcApplication>;
-
-export type AdcSharedTemplateRevision = Network;
-export const AdcSharedTemplateRevision = Network;
 
 export interface GoogleCloudSecuritycenterV1ResourceApplication {
   name?: string;
@@ -5603,6 +5511,54 @@ export const GoogleCloudSecuritycenterV1ResourceApplication = /*@__PURE__*/ S.su
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1ResourceApplication",
 }) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceApplication>;
+
+export type AzureTenant = Agent;
+export const AzureTenant = Agent;
+
+export type AzureSubscription = Agent;
+export const AzureSubscription = Agent;
+
+export interface AzureResourceGroup {
+  id?: string;
+  name?: string;
+}
+export const AzureResourceGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "AzureResourceGroup" }) as any as S.Schema<AzureResourceGroup>;
+
+export interface AzureManagementGroup {
+  id?: string;
+  displayName?: string;
+}
+export const AzureManagementGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotate({ identifier: "AzureManagementGroup" }) as any as S.Schema<AzureManagementGroup>;
+
+export type AzureManagementGroupList = Array<AzureManagementGroup>;
+export const AzureManagementGroupList = /*@__PURE__*/ S.Array(
+  AzureManagementGroup,
+) as any as S.Schema<AzureManagementGroupList>;
+
+export interface AzureMetadata {
+  tenant?: Agent;
+  subscription?: Agent;
+  resourceGroup?: AzureResourceGroup;
+  managementGroups?: AzureManagementGroupList;
+}
+export const AzureMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tenant: S.optional(Agent),
+    subscription: S.optional(Agent),
+    resourceGroup: S.optional(AzureResourceGroup),
+    managementGroups: S.optional(AzureManagementGroupList),
+  }),
+).annotate({ identifier: "AzureMetadata" }) as any as S.Schema<AzureMetadata>;
 
 export type ResourcePathNodeNodeTypeEnum =
   | "RESOURCE_PATH_NODE_TYPE_UNSPECIFIED"
@@ -5618,14 +5574,14 @@ export type ResourcePathNodeNodeTypeEnum =
 export const ResourcePathNodeNodeTypeEnum = S.String;
 
 export interface ResourcePathNode {
-  displayName?: string;
   nodeType?: ResourcePathNodeNodeTypeEnum;
+  displayName?: string;
   id?: string;
 }
 export const ResourcePathNode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
     nodeType: S.optional(ResourcePathNodeNodeTypeEnum),
+    displayName: S.optional(S.String),
     id: S.optional(S.String),
   }),
 ).annotate({ identifier: "ResourcePathNode" }) as any as S.Schema<ResourcePathNode>;
@@ -5644,71 +5600,113 @@ export const ResourcePath = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResourcePath" }) as any as S.Schema<ResourcePath>;
 
-export interface Resource {
-  adcApplicationTemplate?: Network;
-  displayName?: string;
-  projectName?: string;
-  resourcePathString?: string;
-  projectDisplayName?: string;
-  azureMetadata?: AzureMetadata;
-  organization?: string;
-  folders?: FolderList;
-  parentName?: string;
-  cloudProvider?: ResourceCloudProviderEnum;
-  type?: string;
+export type AdcSharedTemplateRevision = OrgPolicy;
+export const AdcSharedTemplateRevision = OrgPolicy;
+
+export type AdcApplication = GoogleCloudSecuritycenterV1ResourceApplication;
+export const AdcApplication = GoogleCloudSecuritycenterV1ResourceApplication;
+
+export interface AwsOrganization {
+  id?: string;
+}
+export const AwsOrganization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "AwsOrganization" }) as any as S.Schema<AwsOrganization>;
+
+export type AwsOrganizationalUnit = AzureResourceGroup;
+export const AwsOrganizationalUnit = AzureResourceGroup;
+
+export type AwsOrganizationalUnitList = Array<AzureResourceGroup>;
+export const AwsOrganizationalUnitList = /*@__PURE__*/ S.Array(
+  AzureResourceGroup,
+) as any as S.Schema<AwsOrganizationalUnitList>;
+
+export interface AwsAccount {
   name?: string;
-  parentDisplayName?: string;
+  id?: string;
+}
+export const AwsAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "AwsAccount" }) as any as S.Schema<AwsAccount>;
+
+export interface AwsMetadata {
+  organization?: AwsOrganization;
+  organizationalUnits?: AwsOrganizationalUnitList;
+  account?: AwsAccount;
+}
+export const AwsMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.optional(AwsOrganization),
+    organizationalUnits: S.optional(AwsOrganizationalUnitList),
+    account: S.optional(AwsAccount),
+  }),
+).annotate({ identifier: "AwsMetadata" }) as any as S.Schema<AwsMetadata>;
+
+export type AdcApplicationTemplateRevision = OrgPolicy;
+export const AdcApplicationTemplateRevision = OrgPolicy;
+
+export interface Resource {
+  organization?: string;
+  resourcePathString?: string;
+  cloudProvider?: ResourceCloudProviderEnum;
+  application?: GoogleCloudSecuritycenterV1ResourceApplication;
+  azureMetadata?: AzureMetadata;
+  resourcePath?: ResourcePath;
+  projectName?: string;
+  type?: string;
   location?: string;
+  adcSharedTemplate?: OrgPolicy;
+  folders?: FolderList;
+  projectDisplayName?: string;
+  adcApplication?: GoogleCloudSecuritycenterV1ResourceApplication;
   awsMetadata?: AwsMetadata;
   service?: string;
-  adcApplication?: AdcApplication;
-  adcSharedTemplate?: Network;
-  application?: GoogleCloudSecuritycenterV1ResourceApplication;
-  resourcePath?: ResourcePath;
+  displayName?: string;
+  parentDisplayName?: string;
+  adcApplicationTemplate?: OrgPolicy;
+  name?: string;
+  parentName?: string;
 }
 export const Resource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    adcApplicationTemplate: S.optional(Network),
-    displayName: S.optional(S.String),
-    projectName: S.optional(S.String),
-    resourcePathString: S.optional(S.String),
-    projectDisplayName: S.optional(S.String),
-    azureMetadata: S.optional(AzureMetadata),
     organization: S.optional(S.String),
-    folders: S.optional(FolderList),
-    parentName: S.optional(S.String),
+    resourcePathString: S.optional(S.String),
     cloudProvider: S.optional(ResourceCloudProviderEnum),
+    application: S.optional(GoogleCloudSecuritycenterV1ResourceApplication),
+    azureMetadata: S.optional(AzureMetadata),
+    resourcePath: S.optional(ResourcePath),
+    projectName: S.optional(S.String),
     type: S.optional(S.String),
-    name: S.optional(S.String),
-    parentDisplayName: S.optional(S.String),
     location: S.optional(S.String),
+    adcSharedTemplate: S.optional(OrgPolicy),
+    folders: S.optional(FolderList),
+    projectDisplayName: S.optional(S.String),
+    adcApplication: S.optional(GoogleCloudSecuritycenterV1ResourceApplication),
     awsMetadata: S.optional(AwsMetadata),
     service: S.optional(S.String),
-    adcApplication: S.optional(AdcApplication),
-    adcSharedTemplate: S.optional(Network),
-    application: S.optional(GoogleCloudSecuritycenterV1ResourceApplication),
-    resourcePath: S.optional(ResourcePath),
+    displayName: S.optional(S.String),
+    parentDisplayName: S.optional(S.String),
+    adcApplicationTemplate: S.optional(OrgPolicy),
+    name: S.optional(S.String),
+    parentName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 
-export type ListFindingsResultStateChangeEnum =
-  | "UNUSED"
-  | "CHANGED"
-  | "UNCHANGED"
-  | "ADDED"
-  | "REMOVED";
-export const ListFindingsResultStateChangeEnum = S.String;
-
 export interface ListFindingsResult {
-  resource?: Resource;
   stateChange?: ListFindingsResultStateChangeEnum;
   finding?: Finding;
+  resource?: Resource;
 }
 export const ListFindingsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.optional(Resource),
     stateChange: S.optional(ListFindingsResultStateChangeEnum),
     finding: S.optional(Finding),
+    resource: S.optional(Resource),
   }),
 ).annotate({ identifier: "ListFindingsResult" }) as any as S.Schema<ListFindingsResult>;
 
@@ -5733,25 +5731,25 @@ export const ListFindingsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListFindingsResponse" }) as any as S.Schema<ListFindingsResponse>;
 
 export interface ListOrganizationsAssetsRequest {
-  filter?: string;
+  readTime?: string;
   pageSize?: number;
-  pageToken?: string;
-  fieldMask?: string;
+  parent: string;
   orderBy?: string;
   compareDuration?: string;
-  parent: string;
-  readTime?: string;
+  pageToken?: string;
+  filter?: string;
+  fieldMask?: string;
 }
 export const ListOrganizationsAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
+    readTime: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    fieldMask: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
     compareDuration: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    readTime: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    fieldMask: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5764,17 +5762,17 @@ export const ListOrganizationsAssetsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrganizationsAssetsRequest>;
 
 export interface ListOrganizationsAttackPathsRequest {
-  pageSize?: number;
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   filter?: string;
+  pageSize?: number;
 }
 export const ListOrganizationsAttackPathsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5785,6 +5783,80 @@ export const ListOrganizationsAttackPathsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListOrganizationsAttackPathsRequest",
 }) as any as S.Schema<ListOrganizationsAttackPathsRequest>;
+
+export type AttackStepNodeTypeEnum =
+  | "NODE_TYPE_UNSPECIFIED"
+  | "NODE_TYPE_AND"
+  | "NODE_TYPE_OR"
+  | "NODE_TYPE_DEFENSE"
+  | "NODE_TYPE_ATTACKER";
+export const AttackStepNodeTypeEnum = S.String;
+
+export interface AttackStepNode {
+  uuid?: string;
+  displayName?: string;
+  type?: AttackStepNodeTypeEnum;
+  labels?: StringMap;
+  description?: string;
+}
+export const AttackStepNode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.String),
+    displayName: S.optional(S.String),
+    type: S.optional(AttackStepNodeTypeEnum),
+    labels: S.optional(StringMap),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "AttackStepNode" }) as any as S.Schema<AttackStepNode>;
+
+export type AttackStepNodeList = Array<AttackStepNode>;
+export const AttackStepNodeList = /*@__PURE__*/ S.Array(
+  AttackStepNode,
+) as any as S.Schema<AttackStepNodeList>;
+
+export interface PathNodeAssociatedFinding {
+  canonicalFinding?: string;
+  findingCategory?: string;
+  name?: string;
+}
+export const PathNodeAssociatedFinding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    canonicalFinding: S.optional(S.String),
+    findingCategory: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PathNodeAssociatedFinding",
+}) as any as S.Schema<PathNodeAssociatedFinding>;
+
+export type PathNodeAssociatedFindingList = Array<PathNodeAssociatedFinding>;
+export const PathNodeAssociatedFindingList = /*@__PURE__*/ S.Array(
+  PathNodeAssociatedFinding,
+) as any as S.Schema<PathNodeAssociatedFindingList>;
+
+export interface AttackPathNode {
+  displayName?: string;
+  resource?: string;
+  attackSteps?: AttackStepNodeList;
+  uuid?: string;
+  resourceType?: string;
+  associatedFindings?: PathNodeAssociatedFindingList;
+}
+export const AttackPathNode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    resource: S.optional(S.String),
+    attackSteps: S.optional(AttackStepNodeList),
+    uuid: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    associatedFindings: S.optional(PathNodeAssociatedFindingList),
+  }),
+).annotate({ identifier: "AttackPathNode" }) as any as S.Schema<AttackPathNode>;
+
+export type AttackPathNodeList = Array<AttackPathNode>;
+export const AttackPathNodeList = /*@__PURE__*/ S.Array(
+  AttackPathNode,
+) as any as S.Schema<AttackPathNodeList>;
 
 export interface AttackPathEdge {
   destination?: string;
@@ -5802,90 +5874,16 @@ export const AttackPathEdgeList = /*@__PURE__*/ S.Array(
   AttackPathEdge,
 ) as any as S.Schema<AttackPathEdgeList>;
 
-export type AttackStepNodeTypeEnum =
-  | "NODE_TYPE_UNSPECIFIED"
-  | "NODE_TYPE_AND"
-  | "NODE_TYPE_OR"
-  | "NODE_TYPE_DEFENSE"
-  | "NODE_TYPE_ATTACKER";
-export const AttackStepNodeTypeEnum = S.String;
-
-export interface AttackStepNode {
-  labels?: StringMap;
-  displayName?: string;
-  uuid?: string;
-  type?: AttackStepNodeTypeEnum;
-  description?: string;
-}
-export const AttackStepNode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
-    uuid: S.optional(S.String),
-    type: S.optional(AttackStepNodeTypeEnum),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "AttackStepNode" }) as any as S.Schema<AttackStepNode>;
-
-export type AttackStepNodeList = Array<AttackStepNode>;
-export const AttackStepNodeList = /*@__PURE__*/ S.Array(
-  AttackStepNode,
-) as any as S.Schema<AttackStepNodeList>;
-
-export interface PathNodeAssociatedFinding {
-  findingCategory?: string;
-  name?: string;
-  canonicalFinding?: string;
-}
-export const PathNodeAssociatedFinding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    findingCategory: S.optional(S.String),
-    name: S.optional(S.String),
-    canonicalFinding: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PathNodeAssociatedFinding",
-}) as any as S.Schema<PathNodeAssociatedFinding>;
-
-export type PathNodeAssociatedFindingList = Array<PathNodeAssociatedFinding>;
-export const PathNodeAssociatedFindingList = /*@__PURE__*/ S.Array(
-  PathNodeAssociatedFinding,
-) as any as S.Schema<PathNodeAssociatedFindingList>;
-
-export interface AttackPathNode {
-  resourceType?: string;
-  uuid?: string;
-  resource?: string;
-  attackSteps?: AttackStepNodeList;
-  associatedFindings?: PathNodeAssociatedFindingList;
-  displayName?: string;
-}
-export const AttackPathNode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    uuid: S.optional(S.String),
-    resource: S.optional(S.String),
-    attackSteps: S.optional(AttackStepNodeList),
-    associatedFindings: S.optional(PathNodeAssociatedFindingList),
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AttackPathNode" }) as any as S.Schema<AttackPathNode>;
-
-export type AttackPathNodeList = Array<AttackPathNode>;
-export const AttackPathNodeList = /*@__PURE__*/ S.Array(
-  AttackPathNode,
-) as any as S.Schema<AttackPathNodeList>;
-
 export interface AttackPath {
+  pathNodes?: AttackPathNodeList;
   name?: string;
   edges?: AttackPathEdgeList;
-  pathNodes?: AttackPathNodeList;
 }
 export const AttackPath = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pathNodes: S.optional(AttackPathNodeList),
     name: S.optional(S.String),
     edges: S.optional(AttackPathEdgeList),
-    pathNodes: S.optional(AttackPathNodeList),
   }),
 ).annotate({ identifier: "AttackPath" }) as any as S.Schema<AttackPath>;
 
@@ -5947,16 +5945,16 @@ export const ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest =
   }) as any as S.Schema<ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest>;
 
 export interface ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
-  parent: string;
-  pageToken?: string;
   pageSize?: number;
+  pageToken?: string;
+  parent: string;
 }
 export const ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5970,14 +5968,14 @@ export const ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModules
 
 export interface ListOrganizationsMuteConfigsRequest {
   pageSize?: number;
-  parent: string;
   pageToken?: string;
+  parent: string;
 }
 export const ListOrganizationsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5990,14 +5988,14 @@ export const ListOrganizationsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrganizationsMuteConfigsRequest>;
 
 export interface ListOrganizationsNotificationConfigsRequest {
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
   parent: string;
 }
 export const ListOrganizationsNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -6011,19 +6009,19 @@ export const ListOrganizationsNotificationConfigsRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListOrganizationsNotificationConfigsRequest>;
 
 export interface ListOrganizationsOperationsRequest {
-  name: string;
   pageToken?: string;
-  filter?: string;
-  pageSize?: number;
+  name: string;
   returnPartialSuccess?: boolean;
+  pageSize?: number;
+  filter?: string;
 }
 export const ListOrganizationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://securitycenter.googleapis.com/" }),
   ),
@@ -6036,14 +6034,14 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 export interface ListOperationsResponse {
   unreachable?: StringList;
-  nextPageToken?: string;
   operations?: OperationList;
+  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     operations: S.optional(OperationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
@@ -6105,15 +6103,15 @@ export const ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesReques
 
 export interface ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   pageSize?: number;
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
 }
 export const ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6126,17 +6124,17 @@ export const ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModu
   }) as any as S.Schema<ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>;
 
 export interface ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest {
-  pageSize?: number;
   parent: string;
   filter?: string;
+  pageSize?: number;
   pageToken?: string;
 }
 export const ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -6150,19 +6148,19 @@ export const ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest
   }) as any as S.Schema<ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest>;
 
 export interface ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest {
+  orderBy?: string;
   filter?: string;
   pageToken?: string;
   parent: string;
-  orderBy?: string;
   pageSize?: number;
 }
 export const ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -6181,32 +6179,32 @@ export const ValuedResourceList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ValuedResourceList>;
 
 export interface ListValuedResourcesResponse {
+  valuedResources?: ValuedResourceList;
   nextPageToken?: string;
   totalSize?: number;
-  valuedResources?: ValuedResourceList;
 }
 export const ListValuedResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    valuedResources: S.optional(ValuedResourceList),
     nextPageToken: S.optional(S.String),
     totalSize: S.optional(S.Number),
-    valuedResources: S.optional(ValuedResourceList),
   }),
 ).annotate({
   identifier: "ListValuedResourcesResponse",
 }) as any as S.Schema<ListValuedResourcesResponse>;
 
 export interface ListOrganizationsSimulationsAttackPathsRequest {
-  pageToken?: string;
   parent: string;
-  filter?: string;
   pageSize?: number;
+  filter?: string;
+  pageToken?: string;
 }
 export const ListOrganizationsSimulationsAttackPathsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6219,19 +6217,19 @@ export const ListOrganizationsSimulationsAttackPathsRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<ListOrganizationsSimulationsAttackPathsRequest>;
 
 export interface ListOrganizationsSimulationsValuedResourcesRequest {
-  parent: string;
+  filter?: string;
   orderBy?: string;
   pageToken?: string;
-  filter?: string;
   pageSize?: number;
+  parent: string;
 }
 export const ListOrganizationsSimulationsValuedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6244,18 +6242,18 @@ export const ListOrganizationsSimulationsValuedResourcesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<ListOrganizationsSimulationsValuedResourcesRequest>;
 
 export interface ListOrganizationsSimulationsValuedResourcesAttackPathsRequest {
+  filter?: string;
   pageToken?: string;
   pageSize?: number;
   parent: string;
-  filter?: string;
 }
 export const ListOrganizationsSimulationsValuedResourcesAttackPathsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6268,15 +6266,15 @@ export const ListOrganizationsSimulationsValuedResourcesAttackPathsRequest =
   }) as any as S.Schema<ListOrganizationsSimulationsValuedResourcesAttackPathsRequest>;
 
 export interface ListOrganizationsSourcesRequest {
+  parent: string;
   pageToken?: string;
   pageSize?: number;
-  parent: string;
 }
 export const ListOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6289,25 +6287,25 @@ export const ListOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrganizationsSourcesRequest>;
 
 export interface ListOrganizationsSourcesFindingsRequest {
-  parent: string;
-  compareDuration?: string;
   pageToken?: string;
-  fieldMask?: string;
-  readTime?: string;
+  parent: string;
   orderBy?: string;
   filter?: string;
+  compareDuration?: string;
+  readTime?: string;
   pageSize?: number;
+  fieldMask?: string;
 }
 export const ListOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    compareDuration: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    fieldMask: S.optional(S.String.pipe(T.Query())),
-    readTime: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    compareDuration: S.optional(S.String.pipe(T.Query())),
+    readTime: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    fieldMask: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6320,18 +6318,18 @@ export const ListOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ListOrganizationsSourcesFindingsRequest>;
 
 export interface ListOrganizationsValuedResourcesRequest {
+  parent: string;
+  pageSize?: number;
   filter?: string;
   pageToken?: string;
-  pageSize?: number;
-  parent: string;
   orderBy?: string;
 }
 export const ListOrganizationsValuedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -6346,23 +6344,23 @@ export const ListOrganizationsValuedResourcesRequest = /*@__PURE__*/ S.suspend((
 
 export interface ListProjectsAssetsRequest {
   fieldMask?: string;
-  filter?: string;
   compareDuration?: string;
-  pageToken?: string;
-  pageSize?: number;
-  readTime?: string;
   parent: string;
+  filter?: string;
+  readTime?: string;
+  pageSize?: number;
+  pageToken?: string;
   orderBy?: string;
 }
 export const ListProjectsAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fieldMask: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     compareDuration: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    readTime: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    readTime: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -6397,15 +6395,15 @@ export const ListProjectsBigQueryExportsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsBigQueryExportsRequest>;
 
 export interface ListProjectsEventThreatDetectionSettingsCustomModulesRequest {
-  pageSize?: number;
   parent: string;
+  pageSize?: number;
   pageToken?: string;
 }
 export const ListProjectsEventThreatDetectionSettingsCustomModulesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -6419,15 +6417,15 @@ export const ListProjectsEventThreatDetectionSettingsCustomModulesRequest = /*@_
 }) as any as S.Schema<ListProjectsEventThreatDetectionSettingsCustomModulesRequest>;
 
 export interface ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
-  pageToken?: string;
   pageSize?: number;
+  pageToken?: string;
   parent: string;
 }
 export const ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
@@ -6441,15 +6439,15 @@ export const ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesReque
   }) as any as S.Schema<ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest>;
 
 export interface ListProjectsMuteConfigsRequest {
-  parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
+  parent: string;
 }
 export const ListProjectsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6462,15 +6460,15 @@ export const ListProjectsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsMuteConfigsRequest>;
 
 export interface ListProjectsNotificationConfigsRequest {
+  parent: string;
   pageToken?: string;
   pageSize?: number;
-  parent: string;
 }
 export const ListProjectsNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6505,16 +6503,16 @@ export const ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest =
   }) as any as S.Schema<ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>;
 
 export interface ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
-  parent: string;
-  pageToken?: string;
   pageSize?: number;
+  pageToken?: string;
+  parent: string;
 }
 export const ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6527,15 +6525,15 @@ export const ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRe
   }) as any as S.Schema<ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>;
 
 export interface ListProjectsSourcesRequest {
-  pageToken?: string;
   pageSize?: number;
   parent: string;
+  pageToken?: string;
 }
 export const ListProjectsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6548,24 +6546,24 @@ export const ListProjectsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsSourcesRequest>;
 
 export interface ListProjectsSourcesFindingsRequest {
-  filter?: string;
-  fieldMask?: string;
-  pageSize?: number;
-  pageToken?: string;
-  orderBy?: string;
-  parent: string;
   readTime?: string;
+  pageSize?: number;
+  fieldMask?: string;
+  filter?: string;
+  pageToken?: string;
+  parent: string;
+  orderBy?: string;
   compareDuration?: string;
 }
 export const ListProjectsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    fieldMask: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     readTime: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    fieldMask: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     compareDuration: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -6737,15 +6735,15 @@ export const PatchFoldersSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchFoldersSourcesFindingsRequest>;
 
 export interface PatchFoldersSourcesFindingsExternalSystemsRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1ExternalSystem;
 }
 export const PatchFoldersSourcesFindingsExternalSystemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudSecuritycenterV1ExternalSystem.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6759,15 +6757,15 @@ export const PatchFoldersSourcesFindingsExternalSystemsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<PatchFoldersSourcesFindingsExternalSystemsRequest>;
 
 export interface PatchOrganizationsBigQueryExportsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1BigQueryExport;
 }
 export const PatchOrganizationsBigQueryExportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudSecuritycenterV1BigQueryExport.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6804,15 +6802,15 @@ export const PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest 
   }) as any as S.Schema<PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest>;
 
 export interface PatchOrganizationsLocationsMuteConfigsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1MuteConfig;
 }
 export const PatchOrganizationsLocationsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudSecuritycenterV1MuteConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6870,15 +6868,15 @@ export const PatchOrganizationsNotificationConfigsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<PatchOrganizationsNotificationConfigsRequest>;
 
 export interface PatchOrganizationsResourceValueConfigsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1ResourceValueConfig;
 }
 export const PatchOrganizationsResourceValueConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudSecuritycenterV1ResourceValueConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6939,15 +6937,15 @@ export const PatchOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchOrganizationsSourcesRequest>;
 
 export interface PatchOrganizationsSourcesFindingsRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: Finding;
 }
 export const PatchOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Finding.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7050,15 +7048,15 @@ export const PatchProjectsLocationsMuteConfigsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsMuteConfigsRequest>;
 
 export interface PatchProjectsMuteConfigsRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1MuteConfig;
 }
 export const PatchProjectsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudSecuritycenterV1MuteConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7072,15 +7070,15 @@ export const PatchProjectsMuteConfigsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchProjectsMuteConfigsRequest>;
 
 export interface PatchProjectsNotificationConfigsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: NotificationConfig;
 }
 export const PatchProjectsNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(NotificationConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7094,16 +7092,16 @@ export const PatchProjectsNotificationConfigsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<PatchProjectsNotificationConfigsRequest>;
 
 export interface PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
 }
 export const PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(
         GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule.pipe(T.HttpBody()),
       ),
@@ -7141,15 +7139,15 @@ export const PatchProjectsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchProjectsSourcesFindingsRequest>;
 
 export interface PatchProjectsSourcesFindingsExternalSystemsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1ExternalSystem;
 }
 export const PatchProjectsSourcesFindingsExternalSystemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudSecuritycenterV1ExternalSystem.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7413,14 +7411,14 @@ export const SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest 
 
 export interface SimulatedResult {
   finding?: Finding;
-  noViolation?: Empty;
   error?: Status;
+  noViolation?: Empty;
 }
 export const SimulatedResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     finding: S.optional(Finding),
-    noViolation: S.optional(Empty),
     error: S.optional(Status),
+    noViolation: S.optional(Empty),
   }),
 ).annotate({ identifier: "SimulatedResult" }) as any as S.Schema<SimulatedResult>;
 
@@ -7542,17 +7540,17 @@ export const UpdateOrganizationSettingsOrganizationsRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<UpdateOrganizationSettingsOrganizationsRequest>;
 
 export interface UpdateSecurityMarksFoldersAssetsRequest {
-  startTime?: string;
-  updateMask?: string;
   name: string;
+  updateMask?: string;
+  startTime?: string;
   /** Request body */
   body?: SecurityMarks;
 }
 export const UpdateSecurityMarksFoldersAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
+    startTime: S.optional(S.String.pipe(T.Query())),
     body: S.optional(SecurityMarks.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7614,16 +7612,16 @@ export const UpdateSecurityMarksOrganizationsAssetsRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<UpdateSecurityMarksOrganizationsAssetsRequest>;
 
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
-  name: string;
   startTime?: string;
+  name: string;
   updateMask?: string;
   /** Request body */
   body?: SecurityMarks;
 }
 export const UpdateSecurityMarksOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     startTime: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(SecurityMarks.pipe(T.HttpBody())),
   }).pipe(
@@ -7638,16 +7636,16 @@ export const UpdateSecurityMarksOrganizationsSourcesFindingsRequest = /*@__PURE_
 }) as any as S.Schema<UpdateSecurityMarksOrganizationsSourcesFindingsRequest>;
 
 export interface UpdateSecurityMarksProjectsAssetsRequest {
-  startTime?: string;
   updateMask?: string;
+  startTime?: string;
   name: string;
   /** Request body */
   body?: SecurityMarks;
 }
 export const UpdateSecurityMarksProjectsAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    startTime: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     body: S.optional(SecurityMarks.pipe(T.HttpBody())),
   }).pipe(
@@ -7686,13 +7684,13 @@ export const UpdateSecurityMarksProjectsSourcesFindingsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<UpdateSecurityMarksProjectsSourcesFindingsRequest>;
 
 export interface ValidateEventThreatDetectionCustomModuleRequest {
-  rawText?: string;
   type?: string;
+  rawText?: string;
 }
 export const ValidateEventThreatDetectionCustomModuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rawText: S.optional(S.String),
     type: S.optional(S.String),
+    rawText: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ValidateEventThreatDetectionCustomModuleRequest",
@@ -7720,28 +7718,28 @@ export const ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest =
   }) as any as S.Schema<ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest>;
 
 export interface Position {
-  columnNumber?: number;
   lineNumber?: number;
+  columnNumber?: number;
 }
 export const Position = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    columnNumber: S.optional(S.Number),
     lineNumber: S.optional(S.Number),
+    columnNumber: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Position" }) as any as S.Schema<Position>;
 
 export interface CustomModuleValidationError {
   start?: Position;
-  fieldPath?: string;
-  end?: Position;
   description?: string;
+  end?: Position;
+  fieldPath?: string;
 }
 export const CustomModuleValidationError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     start: S.optional(Position),
-    fieldPath: S.optional(S.String),
-    end: S.optional(Position),
     description: S.optional(S.String),
+    end: S.optional(Position),
+    fieldPath: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CustomModuleValidationError",

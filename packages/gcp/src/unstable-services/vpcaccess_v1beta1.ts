@@ -61,6 +61,9 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
 export type ConnectorStateEnum =
   | "STATE_UNSPECIFIED"
   | "READY"
@@ -70,82 +73,79 @@ export type ConnectorStateEnum =
   | "UPDATING";
 export const ConnectorStateEnum = S.String;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 /** The subnet in which to house the connector */
 export interface Subnet {
-  /** Optional. Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName} */
-  name?: string;
   /** Optional. Project in which the subnet exists. If not set, this project is assumed to be the project for which the connector create request was issued. */
   projectId?: string;
+  /** Optional. Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName} */
+  name?: string;
 }
 export const Subnet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     projectId: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subnet" }) as any as S.Schema<Subnet>;
 
 /** Definition of a Serverless VPC Access connector. */
 export interface Connector {
+  /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
+  minThroughput?: number;
   /** Minimum value of instances in autoscaling group underlying the connector. */
   minInstances?: number;
   /** Maximum value of instances in autoscaling group underlying the connector. */
   maxInstances?: number;
+  /** Output only. List of projects using the connector. */
+  connectedProjects?: StringList;
   /** Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of `max-throughput` is discouraged in favor of `max-instances`. */
   maxThroughput?: number;
-  /** Output only. The creation time of the connector. */
-  createTime?: string;
-  /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
-  minThroughput?: number;
-  /** Output only. State of the VPC access connector. */
-  state?: ConnectorStateEnum | (string & {});
   /** Output only. The last restart time of the connector. */
   lastRestartTime?: string;
   /** Machine type of VM Instance underlying connector. Default is e2-micro */
   machineType?: string;
-  /** Output only. List of projects using the connector. */
-  connectedProjects?: StringList;
+  /** Output only. State of the VPC access connector. */
+  state?: ConnectorStateEnum | (string & {});
   /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
   name?: string;
   /** Optional. The subnet in which to house the VPC Access Connector. */
   subnet?: Subnet;
-  /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
-  ipCidrRange?: string;
+  /** Output only. The creation time of the connector. */
+  createTime?: string;
   /** Optional. Name of a VPC network. */
   network?: string;
+  /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
+  ipCidrRange?: string;
 }
 export const Connector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    minThroughput: S.optional(S.Number),
     minInstances: S.optional(S.Number),
     maxInstances: S.optional(S.Number),
+    connectedProjects: S.optional(StringList),
     maxThroughput: S.optional(S.Number),
-    createTime: S.optional(S.String),
-    minThroughput: S.optional(S.Number),
-    state: S.optional(ConnectorStateEnum),
     lastRestartTime: S.optional(S.String),
     machineType: S.optional(S.String),
-    connectedProjects: S.optional(StringList),
+    state: S.optional(ConnectorStateEnum),
     name: S.optional(S.String),
     subnet: S.optional(Subnet),
-    ipCidrRange: S.optional(S.String),
+    createTime: S.optional(S.String),
     network: S.optional(S.String),
+    ipCidrRange: S.optional(S.String),
   }),
 ).annotate({ identifier: "Connector" }) as any as S.Schema<Connector>;
 
 export interface CreateProjectsLocationsConnectorsRequest {
-  /** Required. The ID to use for this connector. */
-  connectorId?: string;
   /** Required. The project ID and location in which the configuration should be created, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Required. The ID to use for this connector. */
+  connectorId?: string;
   /** Request body */
   body?: Connector;
 }
 export const CreateProjectsLocationsConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connectorId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    connectorId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Connector.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -188,24 +188,24 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    done: S.optional(S.Boolean),
     error: S.optional(Status),
     name: S.optional(S.String),
-    response: S.optional(DocumentMap),
     metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -256,24 +256,24 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -290,24 +290,24 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     labels: S.optional(StringMap),
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
     locationId: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -316,31 +316,31 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsConnectorsRequest {
   /** Continuation token. */
   pageToken?: string;
-  /** Required. The project and location from which the routes should be listed. */
-  parent: string;
   /** Maximum number of functions to return per call. */
   pageSize?: number;
+  /** Required. The project and location from which the routes should be listed. */
+  parent: string;
 }
 export const ListProjectsLocationsConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -370,24 +370,24 @@ export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListConnectorsResponse" }) as any as S.Schema<ListConnectorsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The standard list page token. */
   pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -420,17 +420,17 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface PatchProjectsLocationsConnectorsRequest {
-  /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
-  name: string;
   /** The fields to update on the entry group. If absent or empty, all modifiable fields are updated. */
   updateMask?: string;
+  /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
+  name: string;
   /** Request body */
   body?: Connector;
 }
 export const PatchProjectsLocationsConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Connector.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
