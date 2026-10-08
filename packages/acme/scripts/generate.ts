@@ -1,11 +1,10 @@
 #!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
- * generate — turn the hand-authored Smithy model into the Effect ACME SDK.
+ * generate — turn the ACME Smithy model into the Effect ACME SDK.
  *
- * Input:  manual-specs/acme.json — written by hand from RFC 8555 (no vendor spec
- *         exists for a protocol), typed errors included, so there is no
- *         conversion step and no patch chain.
+ * Input:  .generated-specs/acme.json — written by scripts/convert.ts from
+ *         RFC 8555 in the spec mirror (no vendor spec exists for a protocol).
  * Output: src/services/acme.ts  +  src/services/index.ts
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
@@ -43,7 +42,7 @@ const spec: SdkSpec = {
               : "S.String"
       },`,
   },
-  sourceNote: "manual-specs/acme.json (hand-authored Smithy, RFC 8555)",
+  sourceNote: ".generated-specs/acme.json (from RFC 8555)",
   operationDecl: {
     contextType: "AcmeOpContext",
     commonErrorType: "AcmeOpError",
@@ -57,7 +56,7 @@ const spec: SdkSpec = {
 runGeneratorCli({
   description: "Generate the ACME Effect SDK from the Smithy model",
   root: `${import.meta.dirname}/..`,
-  smithyDir: "manual-specs",
+  smithyDir: ".generated-specs",
   patchesDir: false,
   spec: () => spec,
 });
