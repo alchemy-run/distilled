@@ -60,6 +60,7 @@
   },
   "scripts": {
     "build": "tsc -b",
+    "convert": "node --conditions=bun scripts/convert.ts",
     "generate": "node --conditions=bun scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-zerossl",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-zerossl",
@@ -75,6 +76,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-09-18"
+    "generatedAt": "2026-10-08",
+    "specUpdatedAt": "2026-10-08"
   }
 }

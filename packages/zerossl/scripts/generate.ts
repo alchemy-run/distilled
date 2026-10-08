@@ -1,10 +1,10 @@
 #!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
- * generate — turn the hand-authored Smithy model into the Effect ZeroSSL SDK.
+ * generate — turn the ZeroSSL Smithy model into the Effect ZeroSSL SDK.
  *
- * Input:  manual-specs/zerossl.json — written by hand from ZeroSSL's REST docs,
- *         typed errors included; no conversion step, no patch chain.
+ * Input:  .generated-specs/zerossl.json — written by scripts/convert.ts from
+ *         the ZeroSSL API reference (Markdown) in the spec mirror.
  * Output: src/services/zerossl.ts  +  src/services/index.ts
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
@@ -42,7 +42,7 @@ const spec: SdkSpec = {
             : "S.String"
       },`,
   },
-  sourceNote: "manual-specs/zerossl.json (hand-authored Smithy)",
+  sourceNote: ".generated-specs/zerossl.json (from the ZeroSSL API reference)",
   operationDecl: {
     contextType: "ZeroSslOpContext",
     commonErrorType: "ZeroSslOpError",
@@ -56,7 +56,7 @@ const spec: SdkSpec = {
 runGeneratorCli({
   description: "Generate the ZeroSSL Effect SDK from the Smithy model",
   root: `${import.meta.dirname}/..`,
-  smithyDir: "manual-specs",
+  smithyDir: ".generated-specs",
   patchesDir: false,
   spec: () => spec,
 });
