@@ -12,15 +12,22 @@
           "smithy.api#httpError": 422,
           "smithy.api#documentation": "The public key is already registered on this team (422 `SSH Key is already in use on your account`).",
           "com.distilled.openapi#errorMatchers": [
-            { "status": 422, "message": { "includes": "already in use" } }
+            {
+              "status": 422,
+              "message": {
+                "includes": "already in use"
+              }
+            }
           ]
         }
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#CreateSshKey/errors/-",
-      "value": { "target": "com.digitalocean.api#SshKeyAlreadyRegistered" }
+      "path": "/shapes/com.digitalocean.api#SshKeysCreate/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#SshKeyAlreadyRegistered"
+      }
     }
   ]
 }

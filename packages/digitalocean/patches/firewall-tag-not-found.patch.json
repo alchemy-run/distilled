@@ -2,14 +2,31 @@
   "description": "POST /v2/firewalls and PUT /v2/firewalls/{firewall_id} answer 422 `tag <name> does not exist` when a rule target or the firewall's `tags` names a tag that has not been created (undeclared in the spec — the operations only list 400/401/404). Declare the 422 so the generic case types as UnprocessableEntity, and type the unknown-tag message as FirewallTagNotFound via a message matcher so consumers can create the tag and retry.",
   "patches": [
     {
-      "op": "add",
-      "path": "/paths/~1v2~1firewalls/post/responses/422",
-      "value": { "$ref": "#/components/responses/unprocessable_entity" }
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#FirewallsCreate/errors",
+      "value": [
+        {
+          "target": "com.digitalocean.api#BadRequest"
+        },
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
+        }
+      ]
     },
     {
-      "op": "add",
-      "path": "/paths/~1v2~1firewalls~1{firewall_id}/put/responses/422",
-      "value": { "$ref": "#/components/responses/unprocessable_entity" }
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.api#FirewallsUpdate/errors",
+      "value": [
+        {
+          "target": "com.digitalocean.api#BadRequest"
+        },
+        {
+          "target": "com.digitalocean.api#NotFound"
+        },
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
@@ -22,20 +39,29 @@
           "smithy.api#httpError": 422,
           "smithy.api#documentation": "The firewall or one of its rule targets names a tag that does not exist (422 `tag <name> does not exist`).",
           "com.distilled.openapi#errorMatchers": [
-            { "status": 422, "message": { "matches": "^tag .+ does not exist" } }
+            {
+              "status": 422,
+              "message": {
+                "matches": "^tag .+ does not exist"
+              }
+            }
           ]
         }
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#CreateFirewall/errors/-",
-      "value": { "target": "com.digitalocean.api#FirewallTagNotFound" }
+      "path": "/shapes/com.digitalocean.api#FirewallsCreate/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#FirewallTagNotFound"
+      }
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#UpdateFirewall/errors/-",
-      "value": { "target": "com.digitalocean.api#FirewallTagNotFound" }
+      "path": "/shapes/com.digitalocean.api#FirewallsUpdate/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#FirewallTagNotFound"
+      }
     }
   ]
 }

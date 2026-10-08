@@ -3,7 +3,7 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#ListDroplets/traits/smithy.api#paginated",
+      "path": "/shapes/com.digitalocean.api#DropletsList/traits/smithy.api#paginated",
       "value": {
         "mode": "page",
         "inputToken": "page",
@@ -14,7 +14,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#ListFirewalls/traits/smithy.api#paginated",
+      "path": "/shapes/com.digitalocean.api#FirewallsList/traits/smithy.api#paginated",
       "value": {
         "mode": "page",
         "inputToken": "page",
@@ -25,7 +25,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#ListSshKeys/traits/smithy.api#paginated",
+      "path": "/shapes/com.digitalocean.api#SshKeysList/traits/smithy.api#paginated",
       "value": {
         "mode": "page",
         "inputToken": "page",
@@ -36,7 +36,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#ListTags/traits/smithy.api#paginated",
+      "path": "/shapes/com.digitalocean.api#TagsList/traits/smithy.api#paginated",
       "value": {
         "mode": "page",
         "inputToken": "page",
