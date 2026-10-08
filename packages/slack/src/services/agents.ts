@@ -8,6 +8,275 @@ import * as T from "../traits.ts";
 
 export type { SlackOpError, SlackOpContext };
 
+export interface ArchiveConversationRequest {
+  /** ID of the code channel to archive. */
+  channel_id: string;
+  /** Timestamp of a message in the code channel to share back as a thread reply on the origin message. Requires the channel to have an `origin_link` set. */
+  summary_message_ts?: string;
+}
+export const ArchiveConversationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+    summary_message_ts: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.archive", code: 200 })),
+).annotate({
+  identifier: "ArchiveConversationRequest",
+}) as any as S.Schema<ArchiveConversationRequest>;
+
+export interface ArchiveConversationResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+}
+export const ArchiveConversationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+  }),
+).annotate({
+  identifier: "ArchiveConversationResponse",
+}) as any as S.Schema<ArchiveConversationResponse>;
+
+export interface CreateConversationRequest {
+  /** Encoded team id to create the channel in. Required for org tokens when `origin_channel_id` is not provided. When omitted, the workspace is derived from the origin channel. */
+  team_id?: string;
+  /** An opaque identifier for the agent session. When provided, the call is idempotent: if a channel already exists for this `session_id`, it is returned instead of creating a new one. */
+  session_id?: string;
+  /** A friendly display name for the code channel. Optional when `origin_channel_id` and `origin_message_ts` are provided — in that case the channel is named from the origin message and re-titled automatically. Required when no origin link is given. */
+  name: string;
+  /** Create a private channel instead of a public one. */
+  is_private?: boolean;
+  /** The channel ID where the agent session was initiated from. Must be provided together with `origin_message_ts`. The channel must be accessible to the calling user and must not be externally shared (Slack Connect). When `team_id` is omitted with an org token, the channel is created in the same workspace as this origin channel. */
+  origin_channel_id?: string;
+  /** The message timestamp in the origin channel that started the agent session. Must be provided together with `origin_channel_id`. The author of this message is automatically invited to the newly created code channel. */
+  origin_message_ts?: string;
+}
+export const CreateConversationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    team_id: S.optional(S.String),
+    session_id: S.optional(S.String),
+    name: S.String,
+    is_private: S.optional(S.Boolean),
+    origin_channel_id: S.optional(S.String),
+    origin_message_ts: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.create", code: 200 })),
+).annotate({
+  identifier: "CreateConversationRequest",
+}) as any as S.Schema<CreateConversationRequest>;
+
+export interface CreateConversationResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the newly created code channel. */
+  channel_id: string;
+}
+export const CreateConversationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    channel_id: S.String,
+  }),
+).annotate({
+  identifier: "CreateConversationResponse",
+}) as any as S.Schema<CreateConversationResponse>;
+
+/** Format to render the canvas content in. Defaults to markdown. */
+export type GetCanvasRequestContentFormat = "markdown";
+export const GetCanvasRequestContentFormat = S.String;
+
+export interface GetCanvasRequest {
+  /** ID of the agent session channel the canvas belongs to. */
+  channel: string;
+  /** Encoded ID of the canvas to fetch. */
+  canvas_id: string;
+  /** Format to render the canvas content in. Defaults to markdown. */
+  content_format?: GetCanvasRequestContentFormat | (string & {});
+  /** Whether to include resolved comment threads in the response. Defaults to false. */
+  include_resolved?: boolean;
+}
+export const GetCanvasRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: S.String,
+    canvas_id: S.String,
+    content_format: S.optional(GetCanvasRequestContentFormat),
+    include_resolved: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.getCanvas", code: 200 })),
+).annotate({ identifier: "GetCanvasRequest" }) as any as S.Schema<GetCanvasRequest>;
+
+export interface GetCanvasResponseCommentsItemRepliesItem {
+  /** Message timestamp of the reply. */
+  ts: string;
+  /** Encoded ID of the user who wrote the reply. */
+  user_id: string;
+  /** Text of the reply. */
+  text: string;
+}
+export const GetCanvasResponseCommentsItemRepliesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ts: S.String,
+    user_id: S.String,
+    text: S.String,
+  }),
+).annotate({
+  identifier: "GetCanvasResponseCommentsItemRepliesItem",
+}) as any as S.Schema<GetCanvasResponseCommentsItemRepliesItem>;
+
+/** Threaded replies to the comment, ordered oldest first. Capped to the most recent 100 replies; older replies are dropped first. */
+export type GetCanvasResponseCommentsItemRepliesList =
+  Array<GetCanvasResponseCommentsItemRepliesItem>;
+export const GetCanvasResponseCommentsItemRepliesList = /*@__PURE__*/ S.Array(
+  GetCanvasResponseCommentsItemRepliesItem,
+) as any as S.Schema<GetCanvasResponseCommentsItemRepliesList>;
+
+export interface GetCanvasResponseCommentsItem {
+  /** Stable ID of the comment thread (the canvas annotation the comment is anchored to). */
+  id: string;
+  /** Message timestamp of the comment. */
+  ts: string;
+  /** Encoded ID of the user who wrote the comment. */
+  user_id: string;
+  /** Text of the comment. */
+  text: string;
+  /** The highlighted canvas text the comment is anchored to, rendered as mrkdwn. Empty if the anchored text has since been deleted from the canvas. */
+  quoted_text: string;
+  /** Whether the comment thread has been resolved. */
+  is_resolved: boolean;
+  /** Threaded replies to the comment, ordered oldest first. Capped to the most recent 100 replies; older replies are dropped first. */
+  replies: GetCanvasResponseCommentsItemRepliesList;
+  /** True if the thread had more replies than the cap and older replies were dropped from the response. */
+  has_more_replies: boolean;
+}
+export const GetCanvasResponseCommentsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    ts: S.String,
+    user_id: S.String,
+    text: S.String,
+    quoted_text: S.String,
+    is_resolved: S.Boolean,
+    replies: GetCanvasResponseCommentsItemRepliesList,
+    has_more_replies: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetCanvasResponseCommentsItem",
+}) as any as S.Schema<GetCanvasResponseCommentsItem>;
+
+/** Comment threads on the canvas, ordered oldest first. Resolved threads are excluded unless include_resolved is true. */
+export type GetCanvasResponseCommentsList = Array<GetCanvasResponseCommentsItem>;
+export const GetCanvasResponseCommentsList = /*@__PURE__*/ S.Array(
+  GetCanvasResponseCommentsItem,
+) as any as S.Schema<GetCanvasResponseCommentsList>;
+
+export interface GetCanvasResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the canvas. */
+  canvas_id: string;
+  /** The title of the canvas. */
+  title: string;
+  /** The full canvas content rendered in the requested content_format. */
+  content: string;
+  /** Comment threads on the canvas, ordered oldest first. Resolved threads are excluded unless include_resolved is true. */
+  comments: GetCanvasResponseCommentsList;
+  /** True if the canvas had more comment threads than the cap and older threads were dropped from the response. */
+  has_more_comments: boolean;
+}
+export const GetCanvasResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    canvas_id: S.String,
+    title: S.String,
+    content: S.String,
+    comments: GetCanvasResponseCommentsList,
+    has_more_comments: S.Boolean,
+  }),
+).annotate({ identifier: "GetCanvasResponse" }) as any as S.Schema<GetCanvasResponse>;
+
+export interface ListViewsRequest {
+  /** ID of the code channel to list views for. */
+  channel_id: string;
+}
+export const ListViewsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.listViews", code: 200 })),
+).annotate({ identifier: "ListViewsRequest" }) as any as S.Schema<ListViewsRequest>;
+
+export interface ListViewsResponseViewsItem {
+  /** The encoded channel tab ID of the view. */
+  view_id: string;
+  /** The agent-assigned stable key of the view. */
+  view_key: string;
+  /** The encoded ID of the backing HTML file. */
+  file_id: string;
+  /** The display label of the view tab. */
+  label: string;
+  /** The current content version of the view. */
+  content_version: number;
+  /** Unix timestamp of when the view was first created. */
+  date_added: number;
+}
+export const ListViewsResponseViewsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    view_id: S.String,
+    view_key: S.String,
+    file_id: S.String,
+    label: S.String,
+    content_version: S.Number,
+    date_added: S.Number,
+  }),
+).annotate({
+  identifier: "ListViewsResponseViewsItem",
+}) as any as S.Schema<ListViewsResponseViewsItem>;
+
+/** The agent views attached to the channel, in creation order. */
+export type ListViewsResponseViewsList = Array<ListViewsResponseViewsItem>;
+export const ListViewsResponseViewsList = /*@__PURE__*/ S.Array(
+  ListViewsResponseViewsItem,
+) as any as S.Schema<ListViewsResponseViewsList>;
+
+export interface ListViewsResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The agent views attached to the channel, in creation order. */
+  views: ListViewsResponseViewsList;
+}
+export const ListViewsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    views: ListViewsResponseViewsList,
+  }),
+).annotate({ identifier: "ListViewsResponse" }) as any as S.Schema<ListViewsResponse>;
+
+export interface RemoveViewRequest {
+  /** ID of the code channel to remove the view from. */
+  channel_id: string;
+  /** Agent-assigned key of the view to remove. Provide exactly one of view_key or view_id. */
+  view_key?: string;
+  /** Encoded channel tab ID of the view to remove. Provide exactly one of view_key or view_id. */
+  view_id?: string;
+}
+export const RemoveViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+    view_key: S.optional(S.String),
+    view_id: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.removeView", code: 200 })),
+).annotate({ identifier: "RemoveViewRequest" }) as any as S.Schema<RemoveViewRequest>;
+
+export interface RemoveViewResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the code channel the view was removed from. */
+  channel_id: string;
+  /** The encoded channel tab ID of the removed view. */
+  view_id: string;
+}
+export const RemoveViewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    channel_id: S.String,
+    view_id: S.String,
+  }),
+).annotate({ identifier: "RemoveViewResponse" }) as any as S.Schema<RemoveViewResponse>;
+
 export interface RenameSessionRequest {
   /** ID of the channel containing the agent session. Required for public channels. */
   channel_id?: string;
@@ -39,6 +308,223 @@ export const RenameSessionResponse = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.optional(S.String),
   }),
 ).annotate({ identifier: "RenameSessionResponse" }) as any as S.Schema<RenameSessionResponse>;
+
+export interface SetCanvasContentRequest {
+  /** ID of the agent session channel the canvas is attached to. */
+  channel: string;
+  /** Encoded ID of the canvas whose content to replace. */
+  canvas_id: string;
+  /** The full new canvas content as markdown. The server diffs this against the current content and applies only the changed sections. */
+  content: string;
+}
+export const SetCanvasContentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: S.String,
+    canvas_id: S.String,
+    content: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.setCanvasContent", code: 200 })),
+).annotate({ identifier: "SetCanvasContentRequest" }) as any as S.Schema<SetCanvasContentRequest>;
+
+export interface SetCanvasContentResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the updated canvas. */
+  canvas_id: string;
+  /** Number of section-level edit operations applied (replaced + inserted + deleted). Zero when the new content was identical to the current content. */
+  sections_changed_count: number;
+}
+export const SetCanvasContentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    canvas_id: S.String,
+    sections_changed_count: S.Number,
+  }),
+).annotate({ identifier: "SetCanvasContentResponse" }) as any as S.Schema<SetCanvasContentResponse>;
+
+/** Full set of commands to register for the calling agent in this channel, replacing that agent's previously registered set. Pass an empty array to clear the agent's commands. At most 10 commands may exist across all agents in the channel; names must be unique within the set and must not collide with builtin Slack commands. */
+export type SetCommandsRequestCommandsList = Array<unknown>;
+export const SetCommandsRequestCommandsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<SetCommandsRequestCommandsList>;
+
+export interface SetCommandsRequest {
+  /** ID of the code channel to register commands for. */
+  channel_id: string;
+  /** Full set of commands to register for the calling agent in this channel, replacing that agent's previously registered set. Pass an empty array to clear the agent's commands. At most 10 commands may exist across all agents in the channel; names must be unique within the set and must not collide with builtin Slack commands. */
+  commands: SetCommandsRequestCommandsList;
+}
+export const SetCommandsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+    commands: SetCommandsRequestCommandsList,
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.setCommands", code: 200 })),
+).annotate({ identifier: "SetCommandsRequest" }) as any as S.Schema<SetCommandsRequest>;
+
+export interface SetCommandsResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the code channel. */
+  channel_id: string;
+  /** The number of commands now registered for the calling agent in this channel. */
+  command_count: number;
+}
+export const SetCommandsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    channel_id: S.String,
+    command_count: S.Number,
+  }),
+).annotate({ identifier: "SetCommandsResponse" }) as any as S.Schema<SetCommandsResponse>;
+
+/** New status for the agent session. */
+export type SetPropertiesRequestStatus = "active" | "processing" | "suspended" | "closed";
+export const SetPropertiesRequestStatus = S.String;
+
+/** List of file paths relevant to this session. */
+export type SetPropertiesRequestCodeChannelFilePathsList = Array<string>;
+export const SetPropertiesRequestCodeChannelFilePathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SetPropertiesRequestCodeChannelFilePathsList>;
+
+/** Configurable items to display in the channel context bar. A maximum of 5 items will be applied; any beyond that will be silently truncated and a warning returned. */
+export type SetPropertiesRequestCodeChannelContextBarItemsList = Array<unknown>;
+export const SetPropertiesRequestCodeChannelContextBarItemsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<SetPropertiesRequestCodeChannelContextBarItemsList>;
+
+/** Points to the current summary message for this code channel. Must reference a message within this channel. When the channel is archived with a summary_message_ts, this property is also set to record where the summary lives so clients can fetch it. */
+export interface SetPropertiesRequestCodeChannelSummaryMessage {
+  /** Timestamp of the summary message in the code channel. */
+  message_ts: string;
+  /** Thread timestamp if the summary message is a thread reply. Clients need this to fetch the message via conversations.replies. */
+  thread_ts?: string;
+}
+export const SetPropertiesRequestCodeChannelSummaryMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message_ts: S.String,
+    thread_ts: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SetPropertiesRequestCodeChannelSummaryMessage",
+}) as any as S.Schema<SetPropertiesRequestCodeChannelSummaryMessage>;
+
+/** Code channel properties to set. Only provided fields are updated. */
+export interface SetPropertiesRequestCodeChannel {
+  /** Git hosting provider (e.g. github.com). */
+  host?: string;
+  /** Repository name (e.g., org/repo). */
+  repo?: string;
+  /** Working branch name. */
+  branch?: string;
+  /** Base branch the working branch was created from. */
+  base_branch?: string;
+  /** Current commit SHA. */
+  commit_sha?: string;
+  /** Pull request number. */
+  pr_number?: number;
+  /** URL of the pull request. */
+  pr_url?: string;
+  /** Title of the pull request. */
+  pr_title?: string;
+  /** Status of the pull request (e.g. open, merged, closed). */
+  pr_status?: string;
+  /** URL to the CI pipeline run. */
+  ci_url?: string;
+  /** State of the CI pipeline (e.g. pending, success, failure). */
+  ci_state?: string;
+  /** List of file paths relevant to this session. */
+  file_paths?: SetPropertiesRequestCodeChannelFilePathsList;
+  /** Primary programming language. */
+  language?: string;
+  /** Upstream repository URL. */
+  upstream_url?: string;
+  /** URL of the working branch. */
+  branch_url?: string;
+  /** Configurable items to display in the channel context bar. A maximum of 5 items will be applied; any beyond that will be silently truncated and a warning returned. */
+  context_bar_items?: SetPropertiesRequestCodeChannelContextBarItemsList;
+  /** Points to the current summary message for this code channel. Must reference a message within this channel. When the channel is archived with a summary_message_ts, this property is also set to record where the summary lives so clients can fetch it. */
+  summary_message?: SetPropertiesRequestCodeChannelSummaryMessage;
+}
+export const SetPropertiesRequestCodeChannel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.optional(S.String),
+    repo: S.optional(S.String),
+    branch: S.optional(S.String),
+    base_branch: S.optional(S.String),
+    commit_sha: S.optional(S.String),
+    pr_number: S.optional(S.Number),
+    pr_url: S.optional(S.String),
+    pr_title: S.optional(S.String),
+    pr_status: S.optional(S.String),
+    ci_url: S.optional(S.String),
+    ci_state: S.optional(S.String),
+    file_paths: S.optional(SetPropertiesRequestCodeChannelFilePathsList),
+    language: S.optional(S.String),
+    upstream_url: S.optional(S.String),
+    branch_url: S.optional(S.String),
+    context_bar_items: S.optional(SetPropertiesRequestCodeChannelContextBarItemsList),
+    summary_message: S.optional(SetPropertiesRequestCodeChannelSummaryMessage),
+  }),
+).annotate({
+  identifier: "SetPropertiesRequestCodeChannel",
+}) as any as S.Schema<SetPropertiesRequestCodeChannel>;
+
+/** Agent resource properties to set. Only provided fields are updated. */
+export interface SetPropertiesRequestAgentResource {
+  /** URL of the external resource. */
+  url?: string;
+  /** Type of the external resource. */
+  resource_type?: string;
+  /** Display title of the external resource. */
+  title?: string;
+  /** Provider of the external resource. */
+  provider?: string;
+}
+export const SetPropertiesRequestAgentResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    resource_type: S.optional(S.String),
+    title: S.optional(S.String),
+    provider: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SetPropertiesRequestAgentResource",
+}) as any as S.Schema<SetPropertiesRequestAgentResource>;
+
+export interface SetPropertiesRequest {
+  /** ID of the code channel to update. */
+  channel_id: string;
+  /** New display title for the agent session. */
+  title?: string;
+  /** New status for the agent session. */
+  status?: SetPropertiesRequestStatus | (string & {});
+  /** Code channel properties to set. Only provided fields are updated. */
+  code_channel?: SetPropertiesRequestCodeChannel;
+  /** Agent resource properties to set. Only provided fields are updated. */
+  agent_resource?: SetPropertiesRequestAgentResource;
+}
+export const SetPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+    title: S.optional(S.String),
+    status: S.optional(SetPropertiesRequestStatus),
+    code_channel: S.optional(SetPropertiesRequestCodeChannel),
+    agent_resource: S.optional(SetPropertiesRequestAgentResource),
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.setProperties", code: 200 })),
+).annotate({ identifier: "SetPropertiesRequest" }) as any as S.Schema<SetPropertiesRequest>;
+
+export interface SetPropertiesResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the updated code channel. */
+  channel_id: string;
+}
+export const SetPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    channel_id: S.String,
+  }),
+).annotate({ identifier: "SetPropertiesResponse" }) as any as S.Schema<SetPropertiesResponse>;
 
 /** The lifecycle status to set. */
 export type SetStatusRequestStatus = "active" | "processing" | "suspended" | "closed";
@@ -94,6 +580,188 @@ export const SetStatusResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SetStatusResponse" }) as any as S.Schema<SetStatusResponse>;
 
+/** For canvas views: access level granted to the channel for the canvas tab. Defaults to write. Use 'comment' to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text. */
+export type SetViewRequestAccessLevel = "read" | "write" | "comment";
+export const SetViewRequestAccessLevel = S.String;
+
+/** Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet. */
+export type SetViewRequestCspConnectDomainsList = Array<string>;
+export const SetViewRequestCspConnectDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SetViewRequestCspConnectDomainsList>;
+
+/** Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time. */
+export type SetViewRequestCspResourceDomainsList = Array<string>;
+export const SetViewRequestCspResourceDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SetViewRequestCspResourceDomainsList>;
+
+/** Content-Security-Policy domain declarations for the view. Domains are validated server-side (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet. */
+export interface SetViewRequestCsp {
+  /** Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet. */
+  connect_domains?: SetViewRequestCspConnectDomainsList;
+  /** Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time. */
+  resource_domains?: SetViewRequestCspResourceDomainsList;
+}
+export const SetViewRequestCsp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connect_domains: S.optional(SetViewRequestCspConnectDomainsList),
+    resource_domains: S.optional(SetViewRequestCspResourceDomainsList),
+  }),
+).annotate({ identifier: "SetViewRequestCsp" }) as any as S.Schema<SetViewRequestCsp>;
+
+export interface SetViewRequest {
+  /** ID of the code channel to render the view in. */
+  channel_id: string;
+  /** The kind of view to create or update. Defaults to html. Determines which other arguments are required: html and diff require content, block_kit requires blocks, canvas requires canvas_id, pull_request requires pr_url. */
+  type?: unknown;
+  /** Agent-assigned stable identity for the view (e.g. the source file path on the agent's machine). Used as the upsert key: calls with the same view_key update the same view. Required for html, block_kit, and canvas views; ignored for diff (a diff view is a per-channel singleton). */
+  view_key?: string;
+  /** View content. For html, a full self-contained HTML document; for diff, raw unified diff text. Capped at 1,000,000 bytes — larger content returns content_too_large. The cap is enforced by the handler (not schema maxLength) so the documented error code actually surfaces instead of a generic argument-validation failure. Required when type is html or diff. */
+  content?: string;
+  /** Block Kit blocks to render in the view tab. Required when type is block_kit; ignored otherwise. */
+  blocks?: unknown;
+  /** Encoded ID of the canvas to attach as the view. Required when type is canvas; ignored otherwise. */
+  canvas_id?: string;
+  /** For canvas views: access level granted to the channel for the canvas tab. Defaults to write. Use 'comment' to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text. */
+  access_level?: SetViewRequestAccessLevel | (string & {});
+  /** For canvas views: hash of the canvas-derived markdown the agent last wrote, recorded so the agent can later detect human edits to the canvas. Opaque to the server. */
+  agent_content_hash?: string;
+  /** For pull_request views: the pull request's URL. Required when type is pull_request; ignored otherwise. */
+  pr_url?: string;
+  /** For diff views: base branch name for display purposes. */
+  base_branch?: string;
+  /** For diff views: head branch name for display purposes. */
+  head_branch?: string;
+  /** Display label for the view tab. Preferred over the legacy 'label' argument (name wins if both are supplied). Defaults to the last path segment of view_key, stripped of any .html/.htm extension. */
+  name?: string;
+  /** Deprecated alias for 'name'. Display label for the view tab. Defaults to the last path segment of view_key, stripped of any .html/.htm extension. */
+  label?: string;
+  /** Content-Security-Policy domain declarations for the view. Domains are validated server-side (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet. */
+  csp?: SetViewRequestCsp;
+}
+export const SetViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+    type: S.optional(S.Unknown),
+    view_key: S.optional(S.String),
+    content: S.optional(S.String),
+    blocks: S.optional(S.Unknown),
+    canvas_id: S.optional(S.String),
+    access_level: S.optional(SetViewRequestAccessLevel),
+    agent_content_hash: S.optional(S.String),
+    pr_url: S.optional(S.String),
+    base_branch: S.optional(S.String),
+    head_branch: S.optional(S.String),
+    name: S.optional(S.String),
+    label: S.optional(S.String),
+    csp: S.optional(SetViewRequestCsp),
+  }).pipe(T.Http({ method: "POST", uri: "/agents.conversations.setView", code: 200 })),
+).annotate({ identifier: "SetViewRequest" }) as any as S.Schema<SetViewRequest>;
+
+export interface SetViewResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The encoded ID of the code channel the view belongs to. */
+  channel_id: string;
+  /** The encoded channel tab ID of the view. */
+  view_id: string;
+  /** The encoded ID of the backing file for the view. For html and block_kit views this is the agent-owned content file; for diff views it is the diff snippet file; for canvas views it is the canvas's file ID (same value as canvas_id). Empty for pull_request views, which have no backing file. */
+  file_id: string;
+  /** Server-assigned content version, monotonically increasing per view. */
+  content_version: number;
+  /** The type of the view that was created or updated. */
+  type?: unknown;
+  /** For canvas views, the encoded ID of the attached canvas. Absent for other view types. */
+  canvas_id?: string;
+}
+export const SetViewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    channel_id: S.String,
+    view_id: S.String,
+    file_id: S.String,
+    content_version: S.Number,
+    type: S.optional(S.Unknown),
+    canvas_id: S.optional(S.String),
+  }),
+).annotate({ identifier: "SetViewResponse" }) as any as S.Schema<SetViewResponse>;
+
+export type ArchiveConversationError = SlackOpError;
+/** Archive a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel_id does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not a code channel. - `not_authorized` — The caller is not an authorized agent bot for this channel. - `already_archived` — The channel has already been archived. - `restricted_action` — The workspace does not allow the bot to archive channels. - `summary_message_not_found` — The specified summary_message_ts does not correspond to a message in the code channel. - `no_origin_link` — summary_message_ts was provided but the code channel has no origin_link set. - `origin_channel_not_found` — The origin channel referenced by the code channel is no longer accessible. - `origin_message_not_found` — The origin message referenced by the code channel's origin_link could not be found. See https://docs.slack.dev/reference/methods/agents.conversations.archive */
+export const archiveConversation: API.OperationMethod<
+  ArchiveConversationRequest,
+  ArchiveConversationResponse,
+  ArchiveConversationError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ArchiveConversationRequest,
+  output: ArchiveConversationResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateConversationError = SlackOpError;
+/** Create a dedicated code channel for an agent session. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `feature_disabled` — The caller is not authorized to create code channels. The app must be a recognized agent session app, or the user must have the feature enabled. - `user_not_enabled` — The author of the origin message does not have the code channels feature enabled. - `invalid_agent` — The agent bot user associated with the calling app is not a valid bot. - `channel_not_viewable` — A channel exists for this session but the caller does not have permission to view it. - `origin_channel_externally_shared` — The origin message is in an externally shared (Slack Connect) channel, DM, or group DM. Code channels cannot be created from a Slack Connect conversation. - `origin_channel_is_file_channel` — The origin message is a comment on a file or canvas. Code channels cannot be created from a file channel — when the canvas belongs to a code channel, continue that session instead. - `invalid_origin_link` — The origin link is invalid. Either origin_channel_id and origin_message_ts were not provided together, the channel does not exist or is not accessible to the caller, or the message was not found at the given timestamp. - `name_or_origin_required` — A name must be provided unless an origin link (origin_channel_id and origin_message_ts) is given to derive the channel name from. - `no_shared_workspace` — No workspace could be found where both the app and the requesting user are present. The org app must have a workspace grant for at least one workspace the user belongs to. - `restricted_action` — The calling user is not permitted to create channels of the requested type in this workspace. - `channel_creation_failed` — The code channel could not be created. - `open_failed` — The channel was created but could not be opened in the sidebar. - `invite_failed` — The channel was created but the agent bot could not be invited. See https://docs.slack.dev/reference/methods/agents.conversations.create */
+export const createConversation: API.OperationMethod<
+  CreateConversationRequest,
+  CreateConversationResponse,
+  CreateConversationError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateConversationRequest,
+  output: CreateConversationResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCanvasError = SlackOpError;
+/** Fetch a canvas attached to a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not an agent session channel. - `not_authorized` — The caller is not an authorized agent bot for this channel. - `canvas_not_found` — The specified `canvas_id` does not correspond to a canvas you can access. - `canvas_content_fetch_failed` — The canvas content could not be fetched or rendered. - `comments_fetch_failed` — The canvas comment threads could not be fetched. See https://docs.slack.dev/reference/methods/agents.conversations.getCanvas */
+export const getCanvas: API.OperationMethod<
+  GetCanvasRequest,
+  GetCanvasResponse,
+  GetCanvasError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCanvasRequest,
+  output: GetCanvasResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListViewsError = SlackOpError;
+/** List the views currently attached to a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not a code channel. - `not_authorized` — The caller is not an authorized agent bot or member for this channel. See https://docs.slack.dev/reference/methods/agents.conversations.listViews */
+export const listViews: API.OperationMethod<
+  ListViewsRequest,
+  ListViewsResponse,
+  ListViewsError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListViewsRequest,
+  output: ListViewsResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RemoveViewError = SlackOpError;
+/** Remove a view from a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not a code channel. - `not_authorized` — The caller is not an authorized agent bot or member for this channel. - `view_not_found` — No agent view matches the supplied view_key or view_id in this channel. - `not_view_owner` — The view was created by a different agent bot; only its owner may remove it. - `invalid_arguments` — Exactly one of view_key or view_id must be provided. - `view_remove_failed` — The view's tab or channel properties could not be updated. Safe to retry. See https://docs.slack.dev/reference/methods/agents.conversations.removeView */
+export const removeView: API.OperationMethod<
+  RemoveViewRequest,
+  RemoveViewResponse,
+  RemoveViewError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RemoveViewRequest,
+  output: RemoveViewResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RenameSessionError = SlackOpError;
 /** Rename an agent session. Required scopes — bot: `chat:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `feature_disabled` — The agent tasks feature is not enabled for this workspace. - `channel_not_found` — The specified channel does not exist or is not accessible. - `not_authorized` — The calling app is not an authorized agent for this session. - `session_not_found` — No agent session exists for the specified channel and thread. - `thread_ts_required` — `thread_ts` is required for thread-based sessions in regular channels and DMs. - `thread_ts_not_allowed` — `thread_ts` must not be provided for session channels. - `invalid_name` — The `title` value is not valid for a channel name. - `name_taken` — The new channel name is already taken. - `is_archived` — Cannot rename an archived channel. - `internal_error` — An internal error occurred while renaming the session. See https://docs.slack.dev/reference/methods/agents.sessions.rename */
 export const renameSession: API.OperationMethod<
@@ -109,6 +777,51 @@ export const renameSession: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SetCanvasContentError = SlackOpError;
+/** Replace the full markdown content of a plan canvas attached to a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not an agent session channel. - `feature_not_enabled` — The set-canvas-content feature is not enabled for this user. - `not_authorized` — The caller is not an authorized agent bot for this channel. - `canvas_not_found` — The specified canvas_id does not correspond to a canvas you can access. - `content_too_large` — The provided content exceeds the maximum canvas size. - `too_many_sections` — The provided content or the existing canvas has too many sections to diff. Reduce the number of distinct blocks (paragraphs, headings, code fences) in the document. - `canvas_content_fetch_failed` — The canvas's current content could not be read to compute the diff. - `canvas_content_update_failed` — The canvas content could not be updated. See https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent */
+export const setCanvasContent: API.OperationMethod<
+  SetCanvasContentRequest,
+  SetCanvasContentResponse,
+  SetCanvasContentError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetCanvasContentRequest,
+  output: SetCanvasContentResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetCommandsError = SlackOpError;
+/** Register the set of agent-defined slash commands for the calling agent in a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel does not exist or is not accessible. - `not_agent_channel` — The specified channel is not a code channel. - `not_authorized` — The caller is not the channel's agent bot. - `agent_required` — The caller is not a bot, so no agent could be determined for the command set. - `no_actions_url` — The calling agent app has no configured request URL (slash command or interactivity), so it could not receive command invocations. - `too_many_agents` — Registering a new agent would exceed the maximum number of agents with commands in this channel. - `invalid_commands` — One or more commands are malformed (invalid name, missing description, or a field exceeds its length limit). - `too_many_commands` — Registering this set would exceed the maximum of 10 commands across all agents in the channel. - `duplicate_command` — Two or more commands in the set share the same name. - `colliding_with_builtin` — One or more command names collide with a builtin Slack slash command. - `properties_update_failed` — The command set could not be persisted to the channel properties. See https://docs.slack.dev/reference/methods/agents.conversations.setCommands */
+export const setCommands: API.OperationMethod<
+  SetCommandsRequest,
+  SetCommandsResponse,
+  SetCommandsError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetCommandsRequest,
+  output: SetCommandsResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetPropertiesError = SlackOpError;
+/** Set properties on a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel_id does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not a code channel. - `not_authorized` — The caller is not an authorized agent bot for this channel. - `invalid_status` — Value passed for `status` was not a valid agent session status. - `invalid_title` — Value passed for `title` was invalid. - `no_properties_provided` — At least one property field must be provided. See https://docs.slack.dev/reference/methods/agents.conversations.setProperties */
+export const setProperties: API.OperationMethod<
+  SetPropertiesRequest,
+  SetPropertiesResponse,
+  SetPropertiesError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetPropertiesRequest,
+  output: SetPropertiesResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SetStatusError = SlackOpError;
 /** Set an agent session's lifecycle status, creating the session if needed. Required scopes — bot: `chat:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `feature_disabled` — The agent tasks feature is not enabled for this workspace. - `channel_not_found` — The specified channel does not exist or is not accessible. - `user_not_found` — The specified `initiator_user_id` does not exist or is not accessible. - `not_authorized` — The caller is not a member of the specified channel. - `invalid_status` — The `status` value is not a valid agent session status. Must be one of: `active`, `processing`, `suspended`, `closed`. - `thread_ts_required` — `thread_ts` is required for thread-based sessions in regular channels and DMs. - `thread_ts_not_allowed` — `thread_ts` must not be provided for session channels. The channel-level session is updated automatically. - `internal_error` — An internal error occurred while updating the session. See https://docs.slack.dev/reference/methods/agents.sessions.setStatus */
 export const setStatus: API.OperationMethod<
@@ -119,6 +832,21 @@ export const setStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetStatusRequest,
   output: SetStatusResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetViewError = SlackOpError;
+/** Create or update a view in a code channel. Required scopes — bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel does not correspond to a valid channel. - `not_agent_channel` — The specified channel is not a code channel. - `not_authorized` — The caller is not an authorized agent bot or member for this channel. - `content_too_large` — The view content exceeds the maximum allowed size (1 MB). - `too_many_views` — The channel already has the maximum number of views (5), or already has a diff view (at most 1 is allowed). - `invalid_csp_domain` — One or more declared CSP domains failed validation (must be https:// origins, no private/reserved/internal hosts). - `invalid_view_type` — The supplied type is not a recognized view type. - `missing_required_arg` — A required argument for the supplied view type is missing (content for html/diff, blocks for block_kit, canvas_id for canvas, pr_url for pull_request). - `invalid_pr_url` — The supplied pr_url is not a valid https pull request URL. - `invalid_blocks` — The supplied blocks failed Block Kit validation. - `canvas_not_found` — The specified canvas_id does not correspond to a canvas you can access. - `not_view_owner` — The view already exists and was created by a different agent bot; only its owner may update it. - `view_creation_failed` — The view could not be created as a channel tab. See https://docs.slack.dev/reference/methods/agents.conversations.setView */
+export const setView: API.OperationMethod<
+  SetViewRequest,
+  SetViewResponse,
+  SetViewError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetViewRequest,
+  output: SetViewResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,

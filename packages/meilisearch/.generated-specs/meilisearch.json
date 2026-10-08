@@ -3440,51 +3440,115 @@
       },
       "traits": {}
     },
-    "com.meilisearch.api#RuleAction": {
+    "com.meilisearch.api#RuleActions": {
       "type": "structure",
       "members": {
-        "selector": {
-          "target": "com.meilisearch.api#Selector",
+        "pin": {
+          "target": "com.meilisearch.api#RuleActionsPinList",
           "traits": {
-            "smithy.api#documentation": "Target document selector for this action.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Pins a selected document."
           }
         },
-        "action": {
-          "target": "smithy.api#Document",
+        "scale": {
+          "target": "com.meilisearch.api#RuleActionsScaleList",
           "traits": {
-            "smithy.api#documentation": "Action payload to apply to the selected document.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Applies a multiplicative factor to the score of selected documents."
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "List of actions to apply when this rule is active for the query."
+      }
     },
-    "com.meilisearch.api#Selector": {
+    "com.meilisearch.api#PinAction": {
       "type": "structure",
       "members": {
         "indexUid": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Index name.\n\nFor the action to select any document, when this parameter is provided,\nthe index of the query must match the provided parameter.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Document ID of the document to select.\n\nOnly the document whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value\nmatches the specified id will be selected by the action.\n\nIf there is no such document in the index of the query, then no documents will be selected and no pinning will occur.",
+            "smithy.api#required": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position at which the document should be pinned.",
             "smithy.api#required": {}
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "An action that pins a selected document."
+      }
     },
-    "com.meilisearch.api#PaginationViewDynamicSearchRuleResultsItemActionsList": {
+    "com.meilisearch.api#RuleActionsPinList": {
       "type": "list",
       "member": {
-        "target": "com.meilisearch.api#RuleAction"
+        "target": "com.meilisearch.api#PinAction"
       },
       "traits": {
-        "smithy.api#documentation": "Actions to apply when the dynamic search rule matches."
+        "smithy.api#documentation": "Pins a selected document."
+      }
+    },
+    "com.meilisearch.api#ScaleAction": {
+      "type": "structure",
+      "members": {
+        "indexUid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "List of index patterns.\n\nFor the action to select any document, when this parameter is provided,\nthe index of the query must match the provided parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ids": {
+          "target": "com.meilisearch.api#ScaleActionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Array of specific document IDs to select.\n\nOnly documents whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value\nmatches the specified ids will be selected by the action.\n\nIf `filter` is also specified,\nthe documents must also satisfy the filter to be selected.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filter": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Filter expression to select documents. Attributes must be added to the\n`filterableAttributes` index setting before they can be used in filters.\nAccepts a string or an array of arrays of strings for AND/OR combinations.\n\nOnly documents matching the specified filter will be selected.\n\nIf `ids` is also specified,\nthe documents matching the filter must also have their primary key part of the `ids`\nlist to be selected.\n\nIf the filter cannot be evaluated for the current index due to referencing attributes\nthat are not filterable, then no document will be applied for this action."
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Scale factor for selected documents.\n\n- Set it >1.0 to boost the selected documents.\n- Set it <1.0 to deboost the selected documents.\n- Set it =0.0 to hide the selected documents.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An action that applies a multiplicative factor to the score of selected documents."
+      }
+    },
+    "com.meilisearch.api#ScaleActionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of specific document IDs to select.\n\nOnly documents whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value\nmatches the specified ids will be selected by the action.\n\nIf `filter` is also specified,\nthe documents must also satisfy the filter to be selected."
+      }
+    },
+    "com.meilisearch.api#RuleActionsScaleList": {
+      "type": "list",
+      "member": {
+        "target": "com.meilisearch.api#ScaleAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "Applies a multiplicative factor to the score of selected documents."
       }
     },
     "com.meilisearch.api#PaginationViewDynamicSearchRuleResultsItem": {
@@ -3531,10 +3595,9 @@
           }
         },
         "actions": {
-          "target": "com.meilisearch.api#PaginationViewDynamicSearchRuleResultsItemActionsList",
+          "target": "com.meilisearch.api#RuleActions",
           "traits": {
-            "smithy.api#documentation": "Actions to apply when the dynamic search rule matches.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Actions to apply when the dynamic search rule matches."
           }
         }
       },
@@ -3643,23 +3706,13 @@
           }
         },
         "actions": {
-          "target": "com.meilisearch.api#DynamicSearchRuleActionsList",
+          "target": "com.meilisearch.api#RuleActions",
           "traits": {
-            "smithy.api#documentation": "Actions to apply when the dynamic search rule matches.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Actions to apply when the dynamic search rule matches."
           }
         }
       },
       "traits": {}
-    },
-    "com.meilisearch.api#DynamicSearchRuleActionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.meilisearch.api#RuleAction"
-      },
-      "traits": {
-        "smithy.api#documentation": "Actions to apply when the dynamic search rule matches."
-      }
     },
     "com.meilisearch.api#GetRule": {
       "type": "operation",
@@ -3681,15 +3734,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Get a search rule\n\nRetrieve a single search rule by its unique identifier."
-      }
-    },
-    "com.meilisearch.api#UpdateOrCreateRuleRequestActionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.meilisearch.api#RuleAction"
-      },
-      "traits": {
-        "smithy.api#documentation": "Actions to apply when the dynamic search rule matches."
       }
     },
     "com.meilisearch.api#UpdateOrCreateRuleRequest": {
@@ -3731,9 +3775,8 @@
           }
         },
         "actions": {
-          "target": "com.meilisearch.api#UpdateOrCreateRuleRequestActionsList",
+          "target": "com.meilisearch.api#RuleActions",
           "traits": {
-            "smithy.api#documentation": "Actions to apply when the dynamic search rule matches.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -3906,6 +3949,13 @@
             "smithy.api#documentation": "Enable the `POST /render-template` route",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "mcpRoute": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable the `POST /mcp` route",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -4041,6 +4091,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Enable the `POST /render-template` route",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mcpRoute": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable the `POST /mcp` route",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -5462,6 +5519,12 @@
             "smithy.api#enumValue": "de"
           }
         },
+        "CY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cy"
+          }
+        },
         "EL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -5874,6 +5937,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deu"
+          }
+        },
+        "CYM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cym"
           }
         },
         "ELL": {
@@ -8108,6 +8177,12 @@
             "smithy.api#enumValue": "immutable_webhook_is_editable"
           }
         },
+        "INVALID_DYNAMIC_SEARCH_RULE_UID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_dynamic_search_rule_uid"
+          }
+        },
         "INVALID_DYNAMIC_SEARCH_RULE_OFFSET": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -8298,27 +8373,12 @@
       }
     },
     "com.meilisearch.api#AttributePatterns": {
-      "type": "structure",
-      "members": {
-        "patterns": {
-          "target": "com.meilisearch.api#AttributePatternsPatternsList",
-          "traits": {
-            "smithy.api#documentation": "An array of attribute name patterns. Each pattern can be an exact\nattribute name, or include wildcards (`*`) at the start, end, or\nboth. Examples: `[\"title\", \"description_*\", \"*_date\", \"*content*\"]`.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A collection of patterns used to match attribute names. Patterns can\ninclude wildcards (`*`) for flexible matching. For example, `title`\nmatches exactly, `overview_*` matches any attribute starting with\n`overview_`, and `*_date` matches any attribute ending with `_date`."
-      }
-    },
-    "com.meilisearch.api#AttributePatternsPatternsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An array of attribute name patterns. Each pattern can be an exact\nattribute name, or include wildcards (`*`) at the start, end, or\nboth. Examples: `[\"title\", \"description_*\", \"*_date\", \"*content*\"]`."
+        "smithy.api#documentation": "A collection of patterns used to match attribute names. Patterns can include wildcards (`*`) for flexible matching. For example, `title` matches exactly, `overview_*` matches any attribute starting with `overview_`, and `*_date` matches any attribute ending with `_date`."
       }
     },
     "com.meilisearch.api#CreateIndexFieldRequest": {
@@ -16360,6 +16420,437 @@
         "smithy.api#documentation": "Stop retrieving logs\n\nCall this route to make the engine stop sending logs to the client that opened the `POST /logs/stream` connection."
       }
     },
+    "com.meilisearch.api#RequestId": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request ID MUST NOT match the ID of any other request the sender has issued and not yet received a response for"
+      }
+    },
+    "com.meilisearch.api#ParamsWithMeta": {
+      "type": "structure",
+      "members": {
+        "_meta": {
+          "target": "com.meilisearch.api#McpClientMeta",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tool name to call used by the MCP protocol.\n\nYou can find more information about this field on [the MCP specification](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#tool-names).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The arguments to give to the tool from the MCP protocol.\n\nYou can find more information about this field on [the MCP specification](https://modelcontextprotocol.io/specification/2026-07-28/schema#calltoolrequestparams)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpClientMeta": {
+      "type": "structure",
+      "members": {
+        "io_modelcontextprotocol_protocolVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "io.modelcontextprotocol/protocolVersion"
+          }
+        },
+        "io_modelcontextprotocol_clientInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "io.modelcontextprotocol/clientInfo"
+          }
+        },
+        "io_modelcontextprotocol_clientCapabilities": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#jsonName": "io.modelcontextprotocol/clientCapabilities"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpRequest": {
+      "type": "structure",
+      "members": {
+        "jsonrpc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the version of a JSON-RPC request.\n\nYou can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "com.meilisearch.api#RequestId",
+          "traits": {
+            "smithy.api#documentation": "Defines the id of a JSON-RPC request.\n\nYou can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object).",
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The method to call using the JSON-RPC format.\n\nYou can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object).",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "com.meilisearch.api#ParamsWithMeta",
+          "traits": {
+            "smithy.api#documentation": "The parameters to call the method with following the JSON-RPC format.\n\nYou can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.meilisearch.api#McpResponse": {
+      "type": "structure",
+      "members": {
+        "jsonrpc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The JSON-RPC version.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "com.meilisearch.api#RequestId",
+          "traits": {
+            "smithy.api#documentation": "The JSON-RPC request ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "result": {
+          "target": "com.meilisearch.api#McpResult",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "com.meilisearch.api#McpJsonRpcError",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpResult": {
+      "type": "structure",
+      "members": {
+        "resultType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isError": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supportedVersions": {
+          "target": "com.meilisearch.api#McpResultSupportedVersionsList",
+          "traits": {
+            "smithy.api#documentation": "Protocol versions the server supports. The client should choose one of these for subsequent requests.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tools": {
+          "target": "com.meilisearch.api#McpResultToolsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resources": {
+          "target": "com.meilisearch.api#McpResultResourcesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prompts": {
+          "target": "com.meilisearch.api#McpResultPromptsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "_meta": {
+          "target": "com.meilisearch.api#McpServerMeta",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "capabilities": {
+          "target": "com.meilisearch.api#McpCapabilities",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content": {
+          "target": "com.meilisearch.api#McpResultContentList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "structuredContent": {
+          "target": "smithy.api#Document"
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional natural-language guidance for LLMs on how to use this server effectively.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ttlMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cacheScope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpResultSupportedVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Protocol versions the server supports. The client should choose one of these for subsequent requests."
+      }
+    },
+    "com.meilisearch.api#McpToolDefinition": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional human-readable name of the tool for display purposes.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description of functionality.",
+            "smithy.api#required": {}
+          }
+        },
+        "inputSchema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema defining expected parameters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<https://modelcontextprotocol.io/specification/2026-07-28/server/tools#data-types>"
+      }
+    },
+    "com.meilisearch.api#McpResultToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.meilisearch.api#McpToolDefinition"
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpResultResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpResultPromptsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpServerMeta": {
+      "type": "structure",
+      "members": {
+        "io_modelcontextprotocol_serverInfo": {
+          "target": "com.meilisearch.api#ClientServerInfo",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "io.modelcontextprotocol/serverInfo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#ClientServerInfo": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpCapabilities": {
+      "type": "structure",
+      "members": {
+        "tools": {
+          "target": "com.meilisearch.api#McpCapabilitiesToolsMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpCapabilitiesToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpTextContentOutput": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpResultContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.meilisearch.api#McpTextContentOutput"
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpJsonRpcError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.meilisearch.api#McpErrorData",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#McpErrorData": {
+      "type": "structure",
+      "members": {
+        "statusCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errorName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errorType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errorLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.meilisearch.api#Mcp": {
+      "type": "operation",
+      "input": {
+        "target": "com.meilisearch.api#McpRequest"
+      },
+      "output": {
+        "target": "com.meilisearch.api#McpResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mcp",
+          "code": 200
+        },
+        "smithy.api#documentation": "Model context protocol (MCP)\n\nThe `/mcp` route exposes [the MCP open protocol](https://modelcontextprotocol.io) that enables seamless integration between LLM\napplications and external data sources and tools."
+      }
+    },
     "com.meilisearch.api#GetMetrics": {
       "type": "operation",
       "input": {
@@ -19556,7 +20047,7 @@
     },
     "com.meilisearch.api#Meilisearch": {
       "type": "service",
-      "version": "1.53.0",
+      "version": "1.54.3",
       "operations": [
         {
           "target": "com.meilisearch.api#GetBatches"
@@ -19917,6 +20408,9 @@
         },
         {
           "target": "com.meilisearch.api#CancelLogs"
+        },
+        {
+          "target": "com.meilisearch.api#Mcp"
         },
         {
           "target": "com.meilisearch.api#GetMetrics"
