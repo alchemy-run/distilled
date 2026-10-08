@@ -13,9 +13,24 @@
  *
  * @example
  * ```ts
+ * import { Effect, Layer } from "effect";
+ * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Notion from "@distilled.cloud/notion";
  *
- * const page = yield* Notion.pages.getPage({ page_id: "<page id>" });
+ * const program = Effect.gen(function* () {
+ *   const { results } = yield* Notion.search.searchByTitle({ query: "Roadmap", page_size: 1 });
+ *   const first = results[0];
+ *   if (first === undefined || first.object !== "page") return undefined;
+ *   return yield* Notion.pages.getPage({ page_id: first.id });
+ * });
+ *
+ * const Live = Layer.mergeAll(
+ *   FetchHttpClient.layer,
+ *   Notion.CredentialsFromEnv,
+ *   Notion.NotionProtocol,
+ * );
+ *
+ * program.pipe(Effect.provide(Live), Effect.runPromise);
  * ```
  */
 export * from "./credentials.ts";
