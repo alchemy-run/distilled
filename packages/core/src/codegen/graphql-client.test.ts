@@ -174,6 +174,73 @@ describe("GraphQL Query SDK generator", () => {
     expect(() => stripTypeScriptTypes(output)).not.toThrow();
   });
 
+  test("rejects an error tag that collides with an import", () => {
+    const model = convertGraphQLClient(fixture);
+    applyOperation(model, { op: "add", path: "/errors/Category", value: { matchers: [] } });
+    expect(() => generateGraphQLClient(model, options)).toThrow(
+      "GraphQL error Category collides with Category",
+    );
+  });
+
+  test("types a field marked sensitive as Redacted", () => {
+    const model = convertGraphQLClient(fixture);
+    for (const operation of [
+      { op: "add" as const, path: "/types/User/fields/email/sensitive", value: true },
+      {
+        op: "add" as const,
+        path: "/types/Mutation/fields/tokenCreate",
+        value: { type: "String!", args: {}, errors: [], sensitive: true },
+      },
+    ])
+      applyOperation(model, operation);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain('import type * as Redacted from "effect/Redacted";');
+    expect(output).toContain("readonly email: Redacted.Redacted<string>;");
+    expect(output).toContain('email: scalarField("email", { sensitive: true }),');
+    expect(output).toContain("readonly name: string | null;");
+    expect(output).toContain(
+      'tokenCreate: (): Query<Redacted.Redacted<string>, RailwayGlobalError> =>\n    rootLeaf("mutation", "tokenCreate", false, undefined, undefined, globalErrors, { sensitive: true }),',
+    );
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("leaves the Redacted import out when no field is sensitive", () => {
+    const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
+    expect(output).not.toContain("Redacted");
+  });
+
+  test("rejects a sensitive mark on a field that is not a string", () => {
+    const model = convertGraphQLClient(fixture);
+    applyOperation(model, { op: "add", path: "/types/Query/fields/me/sensitive", value: true });
+    expect(() => validateGraphQLModel(model)).toThrow(
+      "Query.me: only string scalar fields can be sensitive",
+    );
+  });
+
+  test("rejects a sensitive mark on an argument or an input field", () => {
+    const argument = convertGraphQLClient(fixture);
+    applyOperation(argument, {
+      op: "add",
+      path: "/types/Query/fields/project/args/id/sensitive",
+      value: true,
+    });
+    expect(() => validateGraphQLModel(argument)).toThrow(
+      "Query.project(id): only output fields can be sensitive",
+    );
+    const input = convertGraphQLClient(fixture);
+    applyOperation(input, {
+      op: "add",
+      path: "/types/ProjectInput",
+      value: {
+        kind: "INPUT_OBJECT",
+        inputFields: { password: { type: "String!", sensitive: true } },
+      },
+    });
+    expect(() => validateGraphQLModel(input)).toThrow(
+      "ProjectInput.password: only output fields can be sensitive",
+    );
+  });
+
   test("unknown coordinates fail validateGraphQLModel", () => {
     const model = convertGraphQLClient(fixture);
     applyOperation(model, {
