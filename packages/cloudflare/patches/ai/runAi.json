@@ -1,6 +1,32 @@
 {
-  "description": "Align ai#Run with distilled cloudflare/ai runAi",
+  "description": "Align ai#Run with distilled cloudflare/ai runAi; greedy model_name label so `@cf/org/model` keeps its slashes; type the oversized-input 400",
   "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai#InputTooBig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "input too big"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "op": "move",
       "from": "/shapes/com.cloudflare.ai#Run",
@@ -32,8 +58,16 @@
       "value": [
         {
           "target": "com.cloudflare.ai#ModelNotFound"
+        },
+        {
+          "target": "com.cloudflare.ai#InputTooBig"
         }
       ]
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.ai#RunAi/traits/smithy.api#http/uri",
+      "value": "/accounts/{account_id}/ai/run/{model_name+}"
     }
   ]
 }
