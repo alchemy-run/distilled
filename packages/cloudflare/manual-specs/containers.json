@@ -401,6 +401,9 @@
         },
         {
           "target": "com.cloudflare.containers#DurableObjectCheckError"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectNamespaceNotFound"
         }
       ],
       "traits": {
@@ -741,7 +744,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Registry credentials (transcribed from the distilled SDK — endpoint is docs-absent)."
+        "smithy.api#documentation": "Registry credentials (transcribed from the distilled SDK \u2014 endpoint is docs-absent)."
       }
     },
     "com.cloudflare.containers#CreateContainerRegistryCredentialsResponse": {
@@ -1094,6 +1097,9 @@
         },
         {
           "target": "com.cloudflare.containers#DurableObjectCheckError"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectNamespaceNotFound"
         }
       ],
       "traits": {
@@ -1295,6 +1301,29 @@
           "code": 200
         },
         "smithy.api#documentation": "Prepare a digest-pinned image in the Cloudflare managed registry. Repeat while status is pending. Source: cloudflare/workers-sdk packages/containers-shared/src/client/services/ContainerImagePreparationsService.ts (2026-09-30)."
+      }
+    },
+    "com.cloudflare.containers#DurableObjectNamespaceNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Durable Object namespace is not visible to the containers API. Right after a Worker upload creates the namespace this is transient; retry.",
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Durable Object namespace was not found"
+            }
+          }
+        ]
       }
     }
   }
