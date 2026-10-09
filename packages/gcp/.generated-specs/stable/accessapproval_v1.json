@@ -28,6 +28,27 @@
         "smithy.api#documentation": "A decision that has been made to dismiss an approval request."
       }
     },
+    "com.gcp.accessapproval_v1#ResourceProperties": {
+      "type": "structure",
+      "members": {
+        "excludesDescendants": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether an approval will exclude the descendants of the resource being requested."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties associated with the resource of the request."
+      }
+    },
+    "com.gcp.accessapproval_v1#InvalidateApprovalRequestMessage": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request to invalidate an existing approval."
+      }
+    },
     "com.gcp.accessapproval_v1#AugmentedInfo": {
       "type": "structure",
       "members": {
@@ -42,19 +63,93 @@
         "smithy.api#documentation": "This field contains the augmented information of the request. Requires augmented administrative access to be enabled."
       }
     },
+    "com.gcp.accessapproval_v1#ApprovalRequest": {
+      "type": "structure",
+      "members": {
+        "dismiss": {
+          "target": "com.gcp.accessapproval_v1#DismissDecision",
+          "traits": {
+            "smithy.api#documentation": "The request was dismissed."
+          }
+        },
+        "requestedReason": {
+          "target": "com.gcp.accessapproval_v1#AccessReason",
+          "traits": {
+            "smithy.api#documentation": "The access reason for which approval is being requested."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource name of the request. Format is \"{projects|folders|organizations}/{id}/approvalRequests/{approval_request}\"."
+          }
+        },
+        "requestedLocations": {
+          "target": "com.gcp.accessapproval_v1#AccessLocations",
+          "traits": {
+            "smithy.api#documentation": "The locations for which approval is being requested."
+          }
+        },
+        "requestedExpiration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original requested expiration for the approval. Calculated by adding the requested_duration to the request_time."
+          }
+        },
+        "requestTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which approval was requested."
+          }
+        },
+        "approve": {
+          "target": "com.gcp.accessapproval_v1#ApproveDecision",
+          "traits": {
+            "smithy.api#documentation": "Access was approved."
+          }
+        },
+        "requestedAugmentedInfo": {
+          "target": "com.gcp.accessapproval_v1#AugmentedInfo",
+          "traits": {
+            "smithy.api#documentation": "This field contains the augmented information of the request."
+          }
+        },
+        "requestedResourceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource for which approval is being requested. The format of the resource name is defined at https://cloud.google.com/apis/design/resource_names. The resource name here may either be a \"full\" resource name (e.g. \"//library.googleapis.com/shelves/shelf1/books/book2\") or a \"relative\" resource name (e.g. \"shelves/shelf1/books/book2\") as described in the resource name specification."
+          }
+        },
+        "requestedResourceProperties": {
+          "target": "com.gcp.accessapproval_v1#ResourceProperties",
+          "traits": {
+            "smithy.api#documentation": "Properties related to the resource represented by requested_resource_name."
+          }
+        },
+        "requestedDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The requested access duration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A request for the customer to approve access to a resource."
+      }
+    },
     "com.gcp.accessapproval_v1#AccessReason": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.gcp.accessapproval_v1#AccessReasonTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Type of access reason."
-          }
-        },
         "detail": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "More detail about certain reason types. See comments for each type above."
+          }
+        },
+        "type": {
+          "target": "com.gcp.accessapproval_v1#AccessReasonTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Type of access reason."
           }
         }
       }
@@ -113,11 +208,48 @@
         "smithy.api#documentation": "Request to dismiss an approval request."
       }
     },
-    "com.gcp.accessapproval_v1#InvalidateApprovalRequestMessage": {
+    "com.gcp.accessapproval_v1#ApproveDecision": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "approveTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which approval was granted."
+          }
+        },
+        "expireTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the approval expires."
+          }
+        },
+        "autoApproved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the request has been auto-approved."
+          }
+        },
+        "signatureInfo": {
+          "target": "com.gcp.accessapproval_v1#SignatureInfo",
+          "traits": {
+            "smithy.api#documentation": "The signature for the ApprovalRequest and details on how it was signed."
+          }
+        },
+        "invalidateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, denotes the timestamp at which the approval is invalidated."
+          }
+        },
+        "policyApproved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the request has been approved by the customer's defined policy."
+          }
+        }
+      },
       "traits": {
-        "smithy.api#documentation": "Request to invalidate an existing approval."
+        "smithy.api#documentation": "A decision that has been made to approve access to a resource."
       }
     },
     "com.gcp.accessapproval_v1#AccessApprovalServiceAccount": {
@@ -140,31 +272,59 @@
         "smithy.api#documentation": "Access Approval service account related to a project/folder/organization."
       }
     },
+    "com.gcp.accessapproval_v1#AccessLocations": {
+      "type": "structure",
+      "members": {
+        "principalOfficeCountry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The \"home office\" location of the Google administrator. A two-letter country code (ISO 3166-1 alpha-2), such as \"US\", \"DE\" or \"GB\" or a region code. In some limited situations Google systems may refer refer to a region code instead of a country code. Possible Region Codes: * ASI: Asia * EUR: Europe * OCE: Oceania * AFR: Africa * NAM: North America * SAM: South America * ANT: Antarctica * ANY: Any location"
+          }
+        },
+        "principalPhysicalLocationCountry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Physical location of the Google administrator at the time of the access. A two-letter country code (ISO 3166-1 alpha-2), such as \"US\", \"DE\" or \"GB\" or a region code. In some limited situations Google systems may refer refer to a region code instead of a country code. Possible Region Codes: * ASI: Asia * EUR: Europe * OCE: Oceania * AFR: Africa * NAM: North America * SAM: South America * ANT: Antarctica * ANY: Any location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Physical assigned office and physical location of the Google administrator performing the access."
+      }
+    },
+    "com.gcp.accessapproval_v1#ListApprovalRequestsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more."
+          }
+        },
+        "approvalRequests": {
+          "target": "com.gcp.accessapproval_v1#ApprovalRequestList",
+          "traits": {
+            "smithy.api#documentation": "Approval request details."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response to listing of ApprovalRequest objects."
+      }
+    },
+    "com.gcp.accessapproval_v1#ApprovalRequestList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+      }
+    },
     "com.gcp.accessapproval_v1#AccessApprovalSettings": {
       "type": "structure",
       "members": {
-        "requireCustomerVisibleJustification": {
+        "preferNoBroadApprovalRequests": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Optional. When enabled, Google will only be able to send approval requests for access reasons with a customer accessible case ID in the reason detail. Also known as \"Require customer initiated support case justification\""
-          }
-        },
-        "approvalPolicy": {
-          "target": "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicy",
-          "traits": {
-            "smithy.api#documentation": "Optional. Policy configuration for Access Approval that sets the operating mode. The available policies are Transparency, Streamlined Support, and Approval Required."
-          }
-        },
-        "effectiveApprovalPolicy": {
-          "target": "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicy",
-          "traits": {
-            "smithy.api#documentation": "Output only. Effective policy applied for Access Approval, inclusive of inheritance."
-          }
-        },
-        "notificationPubsubTopic": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A pubsub topic that notifications relating to access approval are published to. Notifications include pre-approved accesses."
+            "smithy.api#documentation": "This field is used to set a preference for granularity of an access approval request. If true, Google personnel will be asked to send resource-level requests when possible. If false, Google personnel will be asked to send requests at the project level."
           }
         },
         "notificationEmails": {
@@ -173,16 +333,46 @@
             "smithy.api#documentation": "A list of email addresses to which notifications relating to approval requests should be sent. Notifications relating to a resource will be sent to all emails in the settings of ancestor resources of that resource. A maximum of 50 email addresses are allowed."
           }
         },
-        "preferNoBroadApprovalRequests": {
-          "target": "smithy.api#Boolean",
+        "enrolledServices": {
+          "target": "com.gcp.accessapproval_v1#EnrolledServiceList",
           "traits": {
-            "smithy.api#documentation": "This field is used to set a preference for granularity of an access approval request. If true, Google personnel will be asked to send resource-level requests when possible. If false, Google personnel will be asked to send requests at the project level."
+            "smithy.api#documentation": "A list of Google Cloud Services for which the given resource has Access Approval enrolled. Access requests for the resource given by name against any of these services contained here will be required to have explicit approval. If name refers to an organization, enrollment can be done for individual services. If name refers to a folder or project, enrollment can only be done on an all or nothing basis. If a cloud_product is repeated in this list, the first entry will be honored and all following entries will be discarded."
           }
         },
         "requestScopeMaxWidthPreference": {
           "target": "com.gcp.accessapproval_v1#AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum",
           "traits": {
             "smithy.api#documentation": "Optional. A setting that indicates the maximum scope of an Access Approval request: either organization, folder, or project. Google administrators will be asked to send requests no broader than the configured scope."
+          }
+        },
+        "ancestorHasActiveKeyVersion": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that an ancestor of this Project or Folder has set active_key_version (this field will always be unset for the organization since organizations do not have ancestors)."
+          }
+        },
+        "enrolledAncestor": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that at least one service is enrolled for Access Approval in one or more ancestors of the Project or Folder (this field will always be unset for the organization since organizations do not have ancestors)."
+          }
+        },
+        "effectiveApprovalPolicy": {
+          "target": "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicy",
+          "traits": {
+            "smithy.api#documentation": "Output only. Effective policy applied for Access Approval, inclusive of inheritance."
+          }
+        },
+        "requireCustomerVisibleJustification": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. When enabled, Google will only be able to send approval requests for access reasons with a customer accessible case ID in the reason detail. Also known as \"Require customer initiated support case justification\""
+          }
+        },
+        "notificationPubsubTopic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A pubsub topic that notifications relating to access approval are published to. Notifications include pre-approved accesses."
           }
         },
         "invalidKeyVersion": {
@@ -197,22 +387,10 @@
             "smithy.api#documentation": "The asymmetric crypto key version to use for signing approval requests. Empty active_key_version indicates that a Google-managed key should be used for signing. This property will be ignored if set by an ancestor of this resource, and new non-empty values may not be set."
           }
         },
-        "preferredRequestExpirationDays": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Set the default access approval request expiration time. This value is able to be set directly by the customer at the time of approval, overriding this suggested value. We recommend setting this value to 30 days."
-          }
-        },
         "ancestorsEnrolledServices": {
           "target": "com.gcp.accessapproval_v1#EnrolledServiceList",
           "traits": {
             "smithy.api#documentation": "Output only. Field to differentiate ancestor enrolled services from locally enrolled services."
-          }
-        },
-        "enrolledAncestor": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that at least one service is enrolled for Access Approval in one or more ancestors of the Project or Folder (this field will always be unset for the organization since organizations do not have ancestors)."
           }
         },
         "name": {
@@ -221,16 +399,16 @@
             "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\""
           }
         },
-        "enrolledServices": {
-          "target": "com.gcp.accessapproval_v1#EnrolledServiceList",
+        "preferredRequestExpirationDays": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A list of Google Cloud Services for which the given resource has Access Approval enrolled. Access requests for the resource given by name against any of these services contained here will be required to have explicit approval. If name refers to an organization, enrollment can be done for individual services. If name refers to a folder or project, enrollment can only be done on an all or nothing basis. If a cloud_product is repeated in this list, the first entry will be honored and all following entries will be discarded."
+            "smithy.api#documentation": "Set the default access approval request expiration time. This value is able to be set directly by the customer at the time of approval, overriding this suggested value. We recommend setting this value to 30 days."
           }
         },
-        "ancestorHasActiveKeyVersion": {
-          "target": "smithy.api#Boolean",
+        "approvalPolicy": {
+          "target": "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicy",
           "traits": {
-            "smithy.api#documentation": "Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that an ancestor of this Project or Folder has set active_key_version (this field will always be unset for the organization since organizations do not have ancestors)."
+            "smithy.api#documentation": "Optional. Policy configuration for Access Approval that sets the operating mode. The available policies are Transparency, Streamlined Support, and Approval Required."
           }
         }
       },
@@ -242,6 +420,12 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.accessapproval_v1#EnrolledServiceList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.accessapproval_v1#EnrolledService"
       }
     },
     "com.gcp.accessapproval_v1#AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum": {
@@ -273,121 +457,53 @@
         }
       }
     },
-    "com.gcp.accessapproval_v1#EnrolledServiceList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.accessapproval_v1#EnrolledService"
-      }
-    },
-    "com.gcp.accessapproval_v1#ListApprovalRequestsResponse": {
+    "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicy": {
       "type": "structure",
       "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
+        "justificationBasedApprovalPolicy": {
+          "target": "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicyJustificationBasedApprovalPolicyEnum",
           "traits": {
-            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more."
-          }
-        },
-        "approvalRequests": {
-          "target": "com.gcp.accessapproval_v1#ApprovalRequestList",
-          "traits": {
-            "smithy.api#documentation": "Approval request details."
+            "smithy.api#documentation": "Optional. Policy for approval based on the justification given."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Response to listing of ApprovalRequest objects."
+        "smithy.api#documentation": "Represents all the policies that can be set for Customer Approval."
       }
     },
-    "com.gcp.accessapproval_v1#ApprovalRequestList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
-      }
-    },
-    "com.gcp.accessapproval_v1#AccessLocations": {
-      "type": "structure",
+    "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicyJustificationBasedApprovalPolicyEnum": {
+      "type": "enum",
       "members": {
-        "principalPhysicalLocationCountry": {
-          "target": "smithy.api#String",
+        "JUSTIFICATION_BASED_APPROVAL_POLICY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Physical location of the Google administrator at the time of the access. A two-letter country code (ISO 3166-1 alpha-2), such as \"US\", \"DE\" or \"GB\" or a region code. In some limited situations Google systems may refer refer to a region code instead of a country code. Possible Region Codes: * ASI: Asia * EUR: Europe * OCE: Oceania * AFR: Africa * NAM: North America * SAM: South America * ANT: Antarctica * ANY: Any location"
+            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_POLICY_UNSPECIFIED"
           }
         },
-        "principalOfficeCountry": {
-          "target": "smithy.api#String",
+        "JUSTIFICATION_BASED_APPROVAL_ENABLED_ALL": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The \"home office\" location of the Google administrator. A two-letter country code (ISO 3166-1 alpha-2), such as \"US\", \"DE\" or \"GB\" or a region code. In some limited situations Google systems may refer refer to a region code instead of a country code. Possible Region Codes: * ASI: Asia * EUR: Europe * OCE: Oceania * AFR: Africa * NAM: North America * SAM: South America * ANT: Antarctica * ANY: Any location"
+            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_ENABLED_ALL"
+          }
+        },
+        "JUSTIFICATION_BASED_APPROVAL_ENABLED_EXTERNAL_JUSTIFICATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_ENABLED_EXTERNAL_JUSTIFICATIONS"
+          }
+        },
+        "JUSTIFICATION_BASED_APPROVAL_NOT_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_NOT_ENABLED"
+          }
+        },
+        "JUSTIFICATION_BASED_APPROVAL_INHERITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_INHERITED"
           }
         }
-      },
-      "traits": {
-        "smithy.api#documentation": "Physical assigned office and physical location of the Google administrator performing the access."
-      }
-    },
-    "com.gcp.accessapproval_v1#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
-    "com.gcp.accessapproval_v1#ResourceProperties": {
-      "type": "structure",
-      "members": {
-        "excludesDescendants": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether an approval will exclude the descendants of the resource being requested."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The properties associated with the resource of the request."
-      }
-    },
-    "com.gcp.accessapproval_v1#ApproveDecision": {
-      "type": "structure",
-      "members": {
-        "invalidateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "If set, denotes the timestamp at which the approval is invalidated."
-          }
-        },
-        "autoApproved": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True when the request has been auto-approved."
-          }
-        },
-        "policyApproved": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True when the request has been approved by the customer's defined policy."
-          }
-        },
-        "signatureInfo": {
-          "target": "com.gcp.accessapproval_v1#SignatureInfo",
-          "traits": {
-            "smithy.api#documentation": "The signature for the ApprovalRequest and details on how it was signed."
-          }
-        },
-        "expireTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which the approval expires."
-          }
-        },
-        "approveTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which approval was granted."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A decision that has been made to approve access to a resource."
       }
     },
     "com.gcp.accessapproval_v1#EnrolledService": {
@@ -427,25 +543,32 @@
         }
       }
     },
+    "com.gcp.accessapproval_v1#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
     "com.gcp.accessapproval_v1#SignatureInfo": {
       "type": "structure",
       "members": {
-        "signature": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The digital signature."
-          }
-        },
-        "customerKmsKeyVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the customer CryptoKeyVersion used for signing."
-          }
-        },
         "googleKeyAlgorithm": {
           "target": "com.gcp.accessapproval_v1#SignatureInfoGoogleKeyAlgorithmEnum",
           "traits": {
             "smithy.api#documentation": "The hashing algorithm used for signature verification. It will only be present in the case of Google managed keys."
+          }
+        },
+        "googlePublicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key for the Google default signing, encoded in PEM format. The signature was created using a private key which may be verified using this public key."
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The digital signature."
           }
         },
         "serializedApprovalRequest": {
@@ -454,10 +577,10 @@
             "smithy.api#documentation": "The ApprovalRequest that is serialized without the SignatureInfo message field. This data is used with the hashing algorithm to generate the digital signature, and it can be used for signature verification."
           }
         },
-        "googlePublicKeyPem": {
+        "customerKmsKeyVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The public key for the Google default signing, encoded in PEM format. The signature was created using a private key which may be verified using this public key."
+            "smithy.api#documentation": "The resource name of the customer CryptoKeyVersion used for signing."
           }
         }
       },
@@ -770,80 +893,6 @@
         }
       }
     },
-    "com.gcp.accessapproval_v1#ApprovalRequest": {
-      "type": "structure",
-      "members": {
-        "requestedResourceName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource for which approval is being requested. The format of the resource name is defined at https://cloud.google.com/apis/design/resource_names. The resource name here may either be a \"full\" resource name (e.g. \"//library.googleapis.com/shelves/shelf1/books/book2\") or a \"relative\" resource name (e.g. \"shelves/shelf1/books/book2\") as described in the resource name specification."
-          }
-        },
-        "requestedDuration": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The requested access duration."
-          }
-        },
-        "requestedLocations": {
-          "target": "com.gcp.accessapproval_v1#AccessLocations",
-          "traits": {
-            "smithy.api#documentation": "The locations for which approval is being requested."
-          }
-        },
-        "requestedReason": {
-          "target": "com.gcp.accessapproval_v1#AccessReason",
-          "traits": {
-            "smithy.api#documentation": "The access reason for which approval is being requested."
-          }
-        },
-        "approve": {
-          "target": "com.gcp.accessapproval_v1#ApproveDecision",
-          "traits": {
-            "smithy.api#documentation": "Access was approved."
-          }
-        },
-        "requestedAugmentedInfo": {
-          "target": "com.gcp.accessapproval_v1#AugmentedInfo",
-          "traits": {
-            "smithy.api#documentation": "This field contains the augmented information of the request."
-          }
-        },
-        "requestedResourceProperties": {
-          "target": "com.gcp.accessapproval_v1#ResourceProperties",
-          "traits": {
-            "smithy.api#documentation": "Properties related to the resource represented by requested_resource_name."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the request. Format is \"{projects|folders|organizations}/{id}/approvalRequests/{approval_request}\"."
-          }
-        },
-        "dismiss": {
-          "target": "com.gcp.accessapproval_v1#DismissDecision",
-          "traits": {
-            "smithy.api#documentation": "The request was dismissed."
-          }
-        },
-        "requestTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which approval was requested."
-          }
-        },
-        "requestedExpiration": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The original requested expiration for the approval. Calculated by adding the requested_duration to the request_time."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A request for the customer to approve access to a resource."
-      }
-    },
     "com.gcp.accessapproval_v1#ApproveApprovalRequestMessage": {
       "type": "structure",
       "members": {
@@ -858,78 +907,15 @@
         "smithy.api#documentation": "Request to approve an ApprovalRequest."
       }
     },
-    "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicy": {
-      "type": "structure",
-      "members": {
-        "justificationBasedApprovalPolicy": {
-          "target": "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicyJustificationBasedApprovalPolicyEnum",
-          "traits": {
-            "smithy.api#documentation": "Optional. Policy for approval based on the justification given."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents all the policies that can be set for Customer Approval."
-      }
-    },
-    "com.gcp.accessapproval_v1#CustomerApprovalApprovalPolicyJustificationBasedApprovalPolicyEnum": {
-      "type": "enum",
-      "members": {
-        "JUSTIFICATION_BASED_APPROVAL_POLICY_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_POLICY_UNSPECIFIED"
-          }
-        },
-        "JUSTIFICATION_BASED_APPROVAL_ENABLED_ALL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_ENABLED_ALL"
-          }
-        },
-        "JUSTIFICATION_BASED_APPROVAL_ENABLED_EXTERNAL_JUSTIFICATIONS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_ENABLED_EXTERNAL_JUSTIFICATIONS"
-          }
-        },
-        "JUSTIFICATION_BASED_APPROVAL_NOT_ENABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_NOT_ENABLED"
-          }
-        },
-        "JUSTIFICATION_BASED_APPROVAL_INHERITED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "JUSTIFICATION_BASED_APPROVAL_INHERITED"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsOrganizationsRequest": {
+    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsFoldersRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\"",
+            "smithy.api#documentation": "The name of the AccessApprovalSettings to retrieve. Format: \"{projects|folders|organizations}/{id}/accessApprovalSettings\"",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated.",
-            "smithy.api#httpQuery": "updateMask"
-          }
-        },
-        "body": {
-          "target": "com.gcp.accessapproval_v1#AccessApprovalSettings",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -960,6 +946,43 @@
         ]
       }
     },
+    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsFolders": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#GetAccessApprovalSettingsFoldersRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the Access Approval settings associated with a project, folder, or organization."
+      }
+    },
+    "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsFoldersRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the AccessApprovalSettings to delete.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.gcp.accessapproval_v1#BadRequest": {
       "type": "structure",
       "members": {},
@@ -986,10 +1009,67 @@
         ]
       }
     },
-    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsOrganizations": {
+    "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsFolders": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsOrganizationsRequest"
+        "target": "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsFoldersRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled."
+      }
+    },
+    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsFoldersRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\"",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "body": {
+          "target": "com.gcp.accessapproval_v1#AccessApprovalSettings",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsFolders": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsFoldersRequest"
       },
       "output": {
         "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
@@ -1016,26 +1096,26 @@
         "smithy.api#documentation": "Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask."
       }
     },
-    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsOrganizationsRequest": {
+    "com.gcp.accessapproval_v1#GetServiceAccountFoldersRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the AccessApprovalSettings to retrieve. Format: \"{projects|folders|organizations}/{id}/accessApprovalSettings\"",
+            "smithy.api#documentation": "Name of the AccessApprovalServiceAccount to retrieve.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsOrganizations": {
+    "com.gcp.accessapproval_v1#GetServiceAccountFolders": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.accessapproval_v1#GetAccessApprovalSettingsOrganizationsRequest"
+        "target": "com.gcp.accessapproval_v1#GetServiceAccountFoldersRequest"
       },
       "output": {
-        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
+        "target": "com.gcp.accessapproval_v1#AccessApprovalServiceAccount"
       },
       "errors": [
         {
@@ -1050,7 +1130,256 @@
           "method": "GET",
           "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Gets the Access Approval settings associated with a project, folder, or organization."
+        "smithy.api#documentation": "Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests."
+      }
+    },
+    "com.gcp.accessapproval_v1#ApproveFoldersApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the approval request to approve.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.accessapproval_v1#ApproveApprovalRequestMessage",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#ApproveFoldersApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#ApproveFoldersApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:approve"
+        },
+        "smithy.api#documentation": "Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
+      }
+    },
+    "com.gcp.accessapproval_v1#ListFoldersApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests.",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent resource. This may be \"projects/{project}\", \"folders/{folder}\", or \"organizations/{organization}\".",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying the page of results to return.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Requested page size.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#ListFoldersApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#ListFoldersApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ListApprovalRequestsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/approvalRequests"
+        },
+        "smithy.api#documentation": "Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#DismissFoldersApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the ApprovalRequest to dismiss.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.accessapproval_v1#DismissApprovalRequestMessage",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#DismissFoldersApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#DismissFoldersApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:dismiss"
+        },
+        "smithy.api#documentation": "Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
+      }
+    },
+    "com.gcp.accessapproval_v1#GetFoldersApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the approval request to retrieve. Format: \"{projects|folders|organizations}/{id}/approvalRequests/{approval_request}\"",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#GetFoldersApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#GetFoldersApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets an approval request. Returns NOT_FOUND if the request does not exist."
+      }
+    },
+    "com.gcp.accessapproval_v1#InvalidateFoldersApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the ApprovalRequest to invalidate.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.accessapproval_v1#InvalidateApprovalRequestMessage",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#InvalidateFoldersApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#InvalidateFoldersApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:invalidate"
+        },
+        "smithy.api#documentation": "Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state."
       }
     },
     "com.gcp.accessapproval_v1#GetServiceAccountOrganizationsRequest": {
@@ -1133,19 +1462,26 @@
         "smithy.api#documentation": "Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled."
       }
     },
-    "com.gcp.accessapproval_v1#ApproveOrganizationsApprovalRequestsRequest": {
+    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsOrganizationsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the approval request to approve.",
+            "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\"",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
         "body": {
-          "target": "com.gcp.accessapproval_v1#ApproveApprovalRequestMessage",
+          "target": "com.gcp.accessapproval_v1#AccessApprovalSettings",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#documentation": "Request body"
@@ -1153,13 +1489,13 @@
         }
       }
     },
-    "com.gcp.accessapproval_v1#ApproveOrganizationsApprovalRequests": {
+    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsOrganizations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.accessapproval_v1#ApproveOrganizationsApprovalRequestsRequest"
+        "target": "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsOrganizationsRequest"
       },
       "output": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
       },
       "errors": [
         {
@@ -1177,10 +1513,146 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/{+name}:approve"
+          "method": "PATCH",
+          "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
+        "smithy.api#documentation": "Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask."
+      }
+    },
+    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsOrganizationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the AccessApprovalSettings to retrieve. Format: \"{projects|folders|organizations}/{id}/accessApprovalSettings\"",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#GetAccessApprovalSettingsOrganizationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the Access Approval settings associated with a project, folder, or organization."
+      }
+    },
+    "com.gcp.accessapproval_v1#GetOrganizationsApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the approval request to retrieve. Format: \"{projects|folders|organizations}/{id}/approvalRequests/{approval_request}\"",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#GetOrganizationsApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#GetOrganizationsApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets an approval request. Returns NOT_FOUND if the request does not exist."
+      }
+    },
+    "com.gcp.accessapproval_v1#ListOrganizationsApprovalRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent resource. This may be \"projects/{project}\", \"folders/{folder}\", or \"organizations/{organization}\".",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying the page of results to return.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests.",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Requested page size.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#ListOrganizationsApprovalRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#ListOrganizationsApprovalRequestsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#ListApprovalRequestsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/approvalRequests"
+        },
+        "smithy.api#documentation": "Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
       }
     },
     "com.gcp.accessapproval_v1#InvalidateOrganizationsApprovalRequestsRequest": {
@@ -1283,125 +1755,19 @@
         "smithy.api#documentation": "Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
       }
     },
-    "com.gcp.accessapproval_v1#ListOrganizationsApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests.",
-            "smithy.api#httpQuery": "filter"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The parent resource. This may be \"projects/{project}\", \"folders/{folder}\", or \"organizations/{organization}\".",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Requested page size.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#ListOrganizationsApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#ListOrganizationsApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ListApprovalRequestsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+parent}/approvalRequests"
-        },
-        "smithy.api#documentation": "Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#GetOrganizationsApprovalRequestsRequest": {
+    "com.gcp.accessapproval_v1#ApproveOrganizationsApprovalRequestsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the approval request to retrieve. Format: \"{projects|folders|organizations}/{id}/approvalRequests/{approval_request}\"",
+            "smithy.api#documentation": "Name of the approval request to approve.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#GetOrganizationsApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#GetOrganizationsApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets an approval request. Returns NOT_FOUND if the request does not exist."
-      }
-    },
-    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjectsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\"",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated.",
-            "smithy.api#httpQuery": "updateMask"
           }
         },
         "body": {
-          "target": "com.gcp.accessapproval_v1#AccessApprovalSettings",
+          "target": "com.gcp.accessapproval_v1#ApproveApprovalRequestMessage",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#documentation": "Request body"
@@ -1409,13 +1775,13 @@
         }
       }
     },
-    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjects": {
+    "com.gcp.accessapproval_v1#ApproveOrganizationsApprovalRequests": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjectsRequest"
+        "target": "com.gcp.accessapproval_v1#ApproveOrganizationsApprovalRequestsRequest"
       },
       "output": {
-        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
+        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
       },
       "errors": [
         {
@@ -1433,10 +1799,47 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "PATCH",
+          "method": "POST",
+          "uri": "v1/{+name}:approve"
+        },
+        "smithy.api#documentation": "Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
+      }
+    },
+    "com.gcp.accessapproval_v1#GetServiceAccountProjectsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the AccessApprovalServiceAccount to retrieve.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.accessapproval_v1#GetServiceAccountProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.accessapproval_v1#GetServiceAccountProjectsRequest"
+      },
+      "output": {
+        "target": "com.gcp.accessapproval_v1#AccessApprovalServiceAccount"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.accessapproval_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
           "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask."
+        "smithy.api#documentation": "Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests."
       }
     },
     "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsProjectsRequest": {
@@ -1482,26 +1885,40 @@
         "smithy.api#documentation": "Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled."
       }
     },
-    "com.gcp.accessapproval_v1#GetServiceAccountProjectsRequest": {
+    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjectsRequest": {
       "type": "structure",
       "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the AccessApprovalServiceAccount to retrieve.",
+            "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\"",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.accessapproval_v1#AccessApprovalSettings",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
     },
-    "com.gcp.accessapproval_v1#GetServiceAccountProjects": {
+    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjects": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.accessapproval_v1#GetServiceAccountProjectsRequest"
+        "target": "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsProjectsRequest"
       },
       "output": {
-        "target": "com.gcp.accessapproval_v1#AccessApprovalServiceAccount"
+        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
       },
       "errors": [
         {
@@ -1509,14 +1926,20 @@
         },
         {
           "target": "com.gcp.accessapproval_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.accessapproval_v1#Conflict"
         }
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "GET",
+          "method": "PATCH",
           "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests."
+        "smithy.api#documentation": "Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask."
       }
     },
     "com.gcp.accessapproval_v1#GetAccessApprovalSettingsProjectsRequest": {
@@ -1554,68 +1977,6 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets the Access Approval settings associated with a project, folder, or organization."
-      }
-    },
-    "com.gcp.accessapproval_v1#ListProjectsApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The parent resource. This may be \"projects/{project}\", \"folders/{folder}\", or \"organizations/{organization}\".",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests.",
-            "smithy.api#httpQuery": "filter"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Requested page size.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#ListProjectsApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#ListProjectsApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ListApprovalRequestsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+parent}/approvalRequests"
-        },
-        "smithy.api#documentation": "Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
       }
     },
     "com.gcp.accessapproval_v1#ApproveProjectsApprovalRequestsRequest": {
@@ -1805,325 +2166,28 @@
         "smithy.api#documentation": "Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
       }
     },
-    "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsFoldersRequest": {
+    "com.gcp.accessapproval_v1#ListProjectsApprovalRequestsRequest": {
       "type": "structure",
       "members": {
-        "name": {
+        "pageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the AccessApprovalSettings to delete.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsFolders": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#DeleteAccessApprovalSettingsFoldersRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#Empty"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled."
-      }
-    },
-    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsFoldersRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the AccessApprovalSettings to retrieve. Format: \"{projects|folders|organizations}/{id}/accessApprovalSettings\"",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#GetAccessApprovalSettingsFolders": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#GetAccessApprovalSettingsFoldersRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets the Access Approval settings associated with a project, folder, or organization."
-      }
-    },
-    "com.gcp.accessapproval_v1#GetServiceAccountFoldersRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the AccessApprovalServiceAccount to retrieve.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#GetServiceAccountFolders": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#GetServiceAccountFoldersRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#AccessApprovalServiceAccount"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests."
-      }
-    },
-    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsFoldersRequest": {
-      "type": "structure",
-      "members": {
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated.",
-            "smithy.api#httpQuery": "updateMask"
+            "smithy.api#documentation": "A token identifying the page of results to return.",
+            "smithy.api#httpQuery": "pageToken"
           }
         },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the settings. Format is one of: * \"projects/{project}/accessApprovalSettings\" * \"folders/{folder}/accessApprovalSettings\" * \"organizations/{organization}/accessApprovalSettings\"",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.accessapproval_v1#AccessApprovalSettings",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsFolders": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#UpdateAccessApprovalSettingsFoldersRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#AccessApprovalSettings"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask."
-      }
-    },
-    "com.gcp.accessapproval_v1#ApproveFoldersApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the approval request to approve.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.accessapproval_v1#ApproveApprovalRequestMessage",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#ApproveFoldersApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#ApproveFoldersApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/{+name}:approve"
-        },
-        "smithy.api#documentation": "Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
-      }
-    },
-    "com.gcp.accessapproval_v1#GetFoldersApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the approval request to retrieve. Format: \"{projects|folders|organizations}/{id}/approvalRequests/{approval_request}\"",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#GetFoldersApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#GetFoldersApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets an approval request. Returns NOT_FOUND if the request does not exist."
-      }
-    },
-    "com.gcp.accessapproval_v1#InvalidateFoldersApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the ApprovalRequest to invalidate.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.accessapproval_v1#InvalidateApprovalRequestMessage",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#InvalidateFoldersApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#InvalidateFoldersApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/{+name}:invalidate"
-        },
-        "smithy.api#documentation": "Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state."
-      }
-    },
-    "com.gcp.accessapproval_v1#ListFoldersApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
         "filter": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests.",
             "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Requested page size.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "parent": {
@@ -2133,27 +2197,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Requested page size.",
-            "smithy.api#httpQuery": "pageSize"
-          }
         }
       }
     },
-    "com.gcp.accessapproval_v1#ListFoldersApprovalRequests": {
+    "com.gcp.accessapproval_v1#ListProjectsApprovalRequests": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.accessapproval_v1#ListFoldersApprovalRequestsRequest"
+        "target": "com.gcp.accessapproval_v1#ListProjectsApprovalRequestsRequest"
       },
       "output": {
         "target": "com.gcp.accessapproval_v1#ListApprovalRequestsResponse"
@@ -2176,56 +2226,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.accessapproval_v1#DismissFoldersApprovalRequestsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the ApprovalRequest to dismiss.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.accessapproval_v1#DismissApprovalRequestMessage",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.accessapproval_v1#DismissFoldersApprovalRequests": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.accessapproval_v1#DismissFoldersApprovalRequestsRequest"
-      },
-      "output": {
-        "target": "com.gcp.accessapproval_v1#ApprovalRequest"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.accessapproval_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.accessapproval_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/{+name}:dismiss"
-        },
-        "smithy.api#documentation": "Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state."
       }
     }
   }

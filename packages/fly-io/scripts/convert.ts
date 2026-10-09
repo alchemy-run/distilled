@@ -7,18 +7,21 @@
  *             patches: patches/machines/*.patch.json (Smithy)
  *             operationNaming: verbNoun (not JSON-pointer patches)
  *
- *   sprites   OpenAPI  specs/sprites/openapi.json (hand-authored; no
- *             published OpenAPI at api.sprites.dev)
+ *   sprites   OpenAPI  specs/spec-mirror-fly-io/specs/sprites.json
+ *             (https://api.sprites.dev/openapi.json; names pinned in
+ *             sprites-operation-ids.ts)
  *             → .generated-specs/sprites.json
  *             patches: patches/sprites/*.patch.json (Smithy)
  *
- *   mpg       OpenAPI  specs/mpg/openapi.json (hand-authored from flyctl
- *             UI-EX REST /api/v1/.../postgresv2)
+ *   mpg       OpenAPI  specs/spec-mirror-fly-io/specs/mpg.json (hand-written
+ *             for flyctl's internal /api/v1/.../postgresv2 endpoints; edit it in
+ *             stacks/distilled-submodules/spec-repos/fly-io/models/)
  *             → .generated-specs/mpg.json
  *             patches: patches/mpg/*.patch.json (Smithy)
  *
- *   addons    GraphQL  specs/addons/schema.json (thin flyctl add-on
- *             introspection for Tigris + Upstash Redis)
+ *   addons    GraphQL  specs/spec-mirror-fly-io/specs/graphql.json (the
+ *             api.fly.io/graphql introspection), reduced to the add-on types
+ *             in addons-selection.ts
  *             → .generated-specs/addons.json
  *             patches: patches/addons/*.patch.json (Smithy)
  *
@@ -36,7 +39,10 @@ import {
 import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { selectAddons } from "./addons-selection.ts";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";
+import { SPRITES_OPERATION_NAMES, stripSpritesV1 } from "./sprites-operation-ids.ts";
 
 const resourceIndex = process.argv.indexOf("--resource");
 const machinesOnly = resourceIndex !== -1;
@@ -97,8 +103,11 @@ await runOpenApiConvert({
   specs: [
     {
       name: "sprites",
-      specPath: "specs/sprites/openapi.json",
+      specPath: "specs/spec-mirror-fly-io/specs/sprites.json",
+      preprocess: stripSpritesV1,
       options: {
+        operationNaming: "verbNoun",
+        operationNames: SPRITES_OPERATION_NAMES,
         namespace: "com.flyio.sprites",
         serviceName: "FlySprites",
         successStatuses: ["200", "201", "204"],
@@ -129,7 +138,7 @@ await runOpenApiConvert({
     },
     {
       name: "mpg",
-      specPath: "specs/mpg/openapi.json",
+      specPath: "specs/spec-mirror-fly-io/specs/mpg.json",
       options: {
         namespace: "com.flyio.mpg",
         serviceName: "FlyMpg",
@@ -221,8 +230,15 @@ const graphqlTraits = {
   payload: "com.flyio.graphql#payload",
 } as const;
 
-const addonsSchema = readIntrospection(
-  JSON.parse(await fs.readFile(path.join(root, "specs/addons/schema.json"), "utf8")),
+const addonsSchema = selectAddons(
+  readIntrospection(
+    JSON.parse(
+      await fs.readFile(
+        resolveSpecPath(root, "specs/spec-mirror-fly-io/specs/graphql.json"),
+        "utf8",
+      ),
+    ),
+  ),
 );
 
 const addonsResult = convertGraphQLToSmithy({

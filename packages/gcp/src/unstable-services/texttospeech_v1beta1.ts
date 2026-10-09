@@ -92,63 +92,63 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
     message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
     name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
     error: S.optional(Status),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The standard list filter. */
   filter?: string;
-  /** The standard list page size. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -168,18 +168,18 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** The standard List next-page token. */
+  nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
@@ -204,20 +204,20 @@ export const VoiceSsmlGenderEnum = S.String;
 
 /** Description of a voice supported by the TTS service. */
 export interface Voice {
-  /** The languages that this voice supports, expressed as [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tags (e.g. "en-US", "es-419", "cmn-tw"). */
-  languageCodes?: StringList;
   /** The name of this voice. Each distinct voice has a unique name. */
   name?: string;
   /** The natural sample rate (in hertz) for this voice. */
   naturalSampleRateHertz?: number;
+  /** The languages that this voice supports, expressed as [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tags (e.g. "en-US", "es-419", "cmn-tw"). */
+  languageCodes?: StringList;
   /** The gender of this voice. */
   ssmlGender?: VoiceSsmlGenderEnum;
 }
 export const Voice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    languageCodes: S.optional(StringList),
     name: S.optional(S.String),
     naturalSampleRateHertz: S.optional(S.Number),
+    languageCodes: S.optional(StringList),
     ssmlGender: S.optional(VoiceSsmlGenderEnum),
   }),
 ).annotate({ identifier: "Voice" }) as any as S.Schema<Voice>;
@@ -236,120 +236,43 @@ export const ListVoicesResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ListVoicesResponse" }) as any as S.Schema<ListVoicesResponse>;
 
-/** A multi-speaker turn. */
-export interface Turn {
-  /** Required. The text to speak. */
-  text?: string;
-  /** Required. The speaker of the turn, for example, 'O' or 'Q'. Please refer to documentation for available speakers. */
-  speaker?: string;
+export type AudioConfigAudioEncodingEnum =
+  | "AUDIO_ENCODING_UNSPECIFIED"
+  | "LINEAR16"
+  | "MP3"
+  | "MP3_64_KBPS"
+  | "OGG_OPUS"
+  | "MULAW"
+  | "ALAW"
+  | "PCM"
+  | "M4A";
+export const AudioConfigAudioEncodingEnum = S.String;
+
+/** Description of audio data to be synthesized. */
+export interface AudioConfig {
+  /** Optional. Input only. Speaking rate/speed, in the range [0.25, 2.0]. 1.0 is the normal native speed supported by the specific voice. 2.0 is twice as fast, and 0.5 is half as fast. If unset(0.0), defaults to the native 1.0 speed. Any other values < 0.25 or > 2.0 will return an error. */
+  speakingRate?: number;
+  /** Required. The format of the audio byte stream. */
+  audioEncoding?: AudioConfigAudioEncodingEnum | (string & {});
+  /** Optional. The synthesis sample rate (in hertz) for this audio. When this is specified in SynthesizeSpeechRequest, if this is different from the voice's natural sample rate, then the synthesizer will honor this request by converting to the desired sample rate (which might result in worse audio quality), unless the specified sample rate is not supported for the encoding chosen, in which case it will fail the request and return google.rpc.Code.INVALID_ARGUMENT. */
+  sampleRateHertz?: number;
+  /** Optional. Input only. Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. Strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
+  volumeGainDb?: number;
+  /** Optional. Input only. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. */
+  pitch?: number;
+  /** Optional. Input only. An identifier which selects 'audio effects' profiles that are applied on (post synthesized) text to speech. Effects are applied on top of each other in the order they are given. See [audio profiles](https://cloud.google.com/text-to-speech/docs/audio-profiles) for current supported profile ids. */
+  effectsProfileId?: StringList;
 }
-export const Turn = /*@__PURE__*/ S.suspend(() =>
+export const AudioConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    text: S.optional(S.String),
-    speaker: S.optional(S.String),
+    speakingRate: S.optional(S.Number),
+    audioEncoding: S.optional(AudioConfigAudioEncodingEnum),
+    sampleRateHertz: S.optional(S.Number),
+    volumeGainDb: S.optional(S.Number),
+    pitch: S.optional(S.Number),
+    effectsProfileId: S.optional(StringList),
   }),
-).annotate({ identifier: "Turn" }) as any as S.Schema<Turn>;
-
-export type TurnList = Array<Turn>;
-export const TurnList = /*@__PURE__*/ S.Array(Turn) as any as S.Schema<TurnList>;
-
-/** A collection of turns for multi-speaker synthesis. */
-export interface MultiSpeakerMarkup {
-  /** Required. Speaker turns. */
-  turns?: TurnList;
-}
-export const MultiSpeakerMarkup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    turns: S.optional(TurnList),
-  }),
-).annotate({ identifier: "MultiSpeakerMarkup" }) as any as S.Schema<MultiSpeakerMarkup>;
-
-export type CustomPronunciationParamsPhoneticEncodingEnum =
-  | "PHONETIC_ENCODING_UNSPECIFIED"
-  | "PHONETIC_ENCODING_IPA"
-  | "PHONETIC_ENCODING_X_SAMPA"
-  | "PHONETIC_ENCODING_JAPANESE_YOMIGANA"
-  | "PHONETIC_ENCODING_PINYIN";
-export const CustomPronunciationParamsPhoneticEncodingEnum = S.String;
-
-/** Pronunciation customization for a phrase. */
-export interface CustomPronunciationParams {
-  /** The pronunciation of the phrase. This must be in the phonetic encoding specified above. */
-  pronunciation?: string;
-  /** The phrase to which the customization is applied. The phrase can be multiple words, such as proper nouns, but shouldn't span the length of the sentence. */
-  phrase?: string;
-  /** The phonetic encoding of the phrase. */
-  phoneticEncoding?: CustomPronunciationParamsPhoneticEncodingEnum | (string & {});
-}
-export const CustomPronunciationParams = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pronunciation: S.optional(S.String),
-    phrase: S.optional(S.String),
-    phoneticEncoding: S.optional(CustomPronunciationParamsPhoneticEncodingEnum),
-  }),
-).annotate({
-  identifier: "CustomPronunciationParams",
-}) as any as S.Schema<CustomPronunciationParams>;
-
-export type CustomPronunciationParamsList = Array<CustomPronunciationParams>;
-export const CustomPronunciationParamsList = /*@__PURE__*/ S.Array(
-  CustomPronunciationParams,
-) as any as S.Schema<CustomPronunciationParamsList>;
-
-/** A collection of pronunciation customizations. */
-export interface CustomPronunciations {
-  /** The pronunciation customizations are applied. */
-  pronunciations?: CustomPronunciationParamsList;
-}
-export const CustomPronunciations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pronunciations: S.optional(CustomPronunciationParamsList),
-  }),
-).annotate({ identifier: "CustomPronunciations" }) as any as S.Schema<CustomPronunciations>;
-
-/** Contains text input to be synthesized. Either `text` or `ssml` must be supplied. Supplying both or neither returns google.rpc.Code.INVALID_ARGUMENT. The input size is limited to 5000 bytes. */
-export interface SynthesisInput {
-  /** The multi-speaker input to be synthesized. Only applicable for multi-speaker synthesis. */
-  multiSpeakerMarkup?: MultiSpeakerMarkup;
-  /** Optional. The pronunciation customizations are applied to the input. If this is set, the input is synthesized using the given pronunciation customizations. The initial support is for en-us, with plans to expand to other locales in the future. Instant Clone voices aren't supported. In order to customize the pronunciation of a phrase, there must be an exact match of the phrase in the input types. If using SSML, the phrase must not be inside a phoneme tag. */
-  customPronunciations?: CustomPronunciations;
-  /** The raw text to be synthesized. */
-  text?: string;
-  /** The SSML document to be synthesized. The SSML document must be valid and well-formed. Otherwise the RPC will fail and return google.rpc.Code.INVALID_ARGUMENT. For more information, see [SSML](https://cloud.google.com/text-to-speech/docs/ssml). */
-  ssml?: string;
-  /** Markup for Chirp 3: HD voices specifically. This field may not be used with any other voices. */
-  markup?: string;
-  /** This system instruction is supported only for controllable/promptable voice models. If this system instruction is used, we pass the unedited text to Gemini-TTS. Otherwise, a default system instruction is used. AI Studio calls this system instruction, Style Instructions. */
-  prompt?: string;
-}
-export const SynthesisInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    multiSpeakerMarkup: S.optional(MultiSpeakerMarkup),
-    customPronunciations: S.optional(CustomPronunciations),
-    text: S.optional(S.String),
-    ssml: S.optional(S.String),
-    markup: S.optional(S.String),
-    prompt: S.optional(S.String),
-  }),
-).annotate({ identifier: "SynthesisInput" }) as any as S.Schema<SynthesisInput>;
-
-/** The configuration of Voice Clone feature. */
-export interface VoiceCloneParams {
-  /** Required. Created by GenerateVoiceCloningKey. */
-  voiceCloningKey?: string;
-}
-export const VoiceCloneParams = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    voiceCloningKey: S.optional(S.String),
-  }),
-).annotate({ identifier: "VoiceCloneParams" }) as any as S.Schema<VoiceCloneParams>;
-
-export type VoiceSelectionParamsSsmlGenderEnum =
-  | "SSML_VOICE_GENDER_UNSPECIFIED"
-  | "MALE"
-  | "FEMALE"
-  | "NEUTRAL";
-export const VoiceSelectionParamsSsmlGenderEnum = S.String;
+).annotate({ identifier: "AudioConfig" }) as any as S.Schema<AudioConfig>;
 
 /** Configuration for a single speaker in a Gemini TTS multi-speaker setup. Enables dialogue between two speakers. */
 export interface MultispeakerPrebuiltVoice {
@@ -403,89 +326,166 @@ export const CustomVoiceParams = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CustomVoiceParams" }) as any as S.Schema<CustomVoiceParams>;
 
+/** The configuration of Voice Clone feature. */
+export interface VoiceCloneParams {
+  /** Required. Created by GenerateVoiceCloningKey. */
+  voiceCloningKey?: string;
+}
+export const VoiceCloneParams = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    voiceCloningKey: S.optional(S.String),
+  }),
+).annotate({ identifier: "VoiceCloneParams" }) as any as S.Schema<VoiceCloneParams>;
+
+export type VoiceSelectionParamsSsmlGenderEnum =
+  | "SSML_VOICE_GENDER_UNSPECIFIED"
+  | "MALE"
+  | "FEMALE"
+  | "NEUTRAL";
+export const VoiceSelectionParamsSsmlGenderEnum = S.String;
+
 /** Description of which voice to use for a synthesis request. */
 export interface VoiceSelectionParams {
-  /** Optional. The configuration for a voice clone. If [VoiceCloneParams.voice_clone_key] is set, the service chooses the voice clone matching the specified configuration. */
-  voiceClone?: VoiceCloneParams;
-  /** The preferred gender of the voice. If not set, the service will choose a voice based on the other parameters such as language_code and name. Note that this is only a preference, not requirement; if a voice of the appropriate gender is not available, the synthesizer should substitute a voice with a different gender rather than failing the request. */
-  ssmlGender?: VoiceSelectionParamsSsmlGenderEnum | (string & {});
-  /** The name of the voice. If both the name and the gender are not set, the service will choose a voice based on the other parameters such as language_code. */
-  name?: string;
-  /** Optional. The configuration for a Gemini multi-speaker text-to-speech setup. Enables the use of two distinct voices in a single synthesis request. */
-  multiSpeakerVoiceConfig?: MultiSpeakerVoiceConfig;
-  /** The configuration for a custom voice. If [CustomVoiceParams.model] is set, the service will choose the custom voice matching the specified configuration. */
-  customVoice?: CustomVoiceParams;
   /** Optional. The name of the model. If set, the service will choose the model matching the specified configuration. */
   modelName?: string;
   /** Required. The language (and potentially also the region) of the voice expressed as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag, e.g. "en-US". This should not include a script tag (e.g. use "cmn-cn" rather than "cmn-Hant-cn"), because the script will be inferred from the input provided in the SynthesisInput. The TTS service will use this parameter to help choose an appropriate voice. Note that the TTS service may choose a voice with a slightly different language code than the one selected; it may substitute a different region (e.g. using en-US rather than en-CA if there isn't a Canadian voice available), or even a different language, e.g. using "nb" (Norwegian Bokmal) instead of "no" (Norwegian)". */
   languageCode?: string;
+  /** Optional. The configuration for a Gemini multi-speaker text-to-speech setup. Enables the use of two distinct voices in a single synthesis request. */
+  multiSpeakerVoiceConfig?: MultiSpeakerVoiceConfig;
+  /** The name of the voice. If both the name and the gender are not set, the service will choose a voice based on the other parameters such as language_code. */
+  name?: string;
+  /** The configuration for a custom voice. If [CustomVoiceParams.model] is set, the service will choose the custom voice matching the specified configuration. */
+  customVoice?: CustomVoiceParams;
+  /** Optional. The configuration for a voice clone. If [VoiceCloneParams.voice_clone_key] is set, the service chooses the voice clone matching the specified configuration. */
+  voiceClone?: VoiceCloneParams;
+  /** The preferred gender of the voice. If not set, the service will choose a voice based on the other parameters such as language_code and name. Note that this is only a preference, not requirement; if a voice of the appropriate gender is not available, the synthesizer should substitute a voice with a different gender rather than failing the request. */
+  ssmlGender?: VoiceSelectionParamsSsmlGenderEnum | (string & {});
 }
 export const VoiceSelectionParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    voiceClone: S.optional(VoiceCloneParams),
-    ssmlGender: S.optional(VoiceSelectionParamsSsmlGenderEnum),
-    name: S.optional(S.String),
-    multiSpeakerVoiceConfig: S.optional(MultiSpeakerVoiceConfig),
-    customVoice: S.optional(CustomVoiceParams),
     modelName: S.optional(S.String),
     languageCode: S.optional(S.String),
+    multiSpeakerVoiceConfig: S.optional(MultiSpeakerVoiceConfig),
+    name: S.optional(S.String),
+    customVoice: S.optional(CustomVoiceParams),
+    voiceClone: S.optional(VoiceCloneParams),
+    ssmlGender: S.optional(VoiceSelectionParamsSsmlGenderEnum),
   }),
 ).annotate({ identifier: "VoiceSelectionParams" }) as any as S.Schema<VoiceSelectionParams>;
 
-export type AudioConfigAudioEncodingEnum =
-  | "AUDIO_ENCODING_UNSPECIFIED"
-  | "LINEAR16"
-  | "MP3"
-  | "MP3_64_KBPS"
-  | "OGG_OPUS"
-  | "MULAW"
-  | "ALAW"
-  | "PCM"
-  | "M4A";
-export const AudioConfigAudioEncodingEnum = S.String;
-
-/** Description of audio data to be synthesized. */
-export interface AudioConfig {
-  /** Optional. Input only. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. */
-  pitch?: number;
-  /** Required. The format of the audio byte stream. */
-  audioEncoding?: AudioConfigAudioEncodingEnum | (string & {});
-  /** Optional. Input only. An identifier which selects 'audio effects' profiles that are applied on (post synthesized) text to speech. Effects are applied on top of each other in the order they are given. See [audio profiles](https://cloud.google.com/text-to-speech/docs/audio-profiles) for current supported profile ids. */
-  effectsProfileId?: StringList;
-  /** Optional. The synthesis sample rate (in hertz) for this audio. When this is specified in SynthesizeSpeechRequest, if this is different from the voice's natural sample rate, then the synthesizer will honor this request by converting to the desired sample rate (which might result in worse audio quality), unless the specified sample rate is not supported for the encoding chosen, in which case it will fail the request and return google.rpc.Code.INVALID_ARGUMENT. */
-  sampleRateHertz?: number;
-  /** Optional. Input only. Speaking rate/speed, in the range [0.25, 2.0]. 1.0 is the normal native speed supported by the specific voice. 2.0 is twice as fast, and 0.5 is half as fast. If unset(0.0), defaults to the native 1.0 speed. Any other values < 0.25 or > 2.0 will return an error. */
-  speakingRate?: number;
-  /** Optional. Input only. Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. Strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
-  volumeGainDb?: number;
+/** A multi-speaker turn. */
+export interface Turn {
+  /** Required. The speaker of the turn, for example, 'O' or 'Q'. Please refer to documentation for available speakers. */
+  speaker?: string;
+  /** Required. The text to speak. */
+  text?: string;
 }
-export const AudioConfig = /*@__PURE__*/ S.suspend(() =>
+export const Turn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pitch: S.optional(S.Number),
-    audioEncoding: S.optional(AudioConfigAudioEncodingEnum),
-    effectsProfileId: S.optional(StringList),
-    sampleRateHertz: S.optional(S.Number),
-    speakingRate: S.optional(S.Number),
-    volumeGainDb: S.optional(S.Number),
+    speaker: S.optional(S.String),
+    text: S.optional(S.String),
   }),
-).annotate({ identifier: "AudioConfig" }) as any as S.Schema<AudioConfig>;
+).annotate({ identifier: "Turn" }) as any as S.Schema<Turn>;
+
+export type TurnList = Array<Turn>;
+export const TurnList = /*@__PURE__*/ S.Array(Turn) as any as S.Schema<TurnList>;
+
+/** A collection of turns for multi-speaker synthesis. */
+export interface MultiSpeakerMarkup {
+  /** Required. Speaker turns. */
+  turns?: TurnList;
+}
+export const MultiSpeakerMarkup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    turns: S.optional(TurnList),
+  }),
+).annotate({ identifier: "MultiSpeakerMarkup" }) as any as S.Schema<MultiSpeakerMarkup>;
+
+export type CustomPronunciationParamsPhoneticEncodingEnum =
+  | "PHONETIC_ENCODING_UNSPECIFIED"
+  | "PHONETIC_ENCODING_IPA"
+  | "PHONETIC_ENCODING_X_SAMPA"
+  | "PHONETIC_ENCODING_JAPANESE_YOMIGANA"
+  | "PHONETIC_ENCODING_PINYIN";
+export const CustomPronunciationParamsPhoneticEncodingEnum = S.String;
+
+/** Pronunciation customization for a phrase. */
+export interface CustomPronunciationParams {
+  /** The phrase to which the customization is applied. The phrase can be multiple words, such as proper nouns, but shouldn't span the length of the sentence. */
+  phrase?: string;
+  /** The phonetic encoding of the phrase. */
+  phoneticEncoding?: CustomPronunciationParamsPhoneticEncodingEnum | (string & {});
+  /** The pronunciation of the phrase. This must be in the phonetic encoding specified above. */
+  pronunciation?: string;
+}
+export const CustomPronunciationParams = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    phrase: S.optional(S.String),
+    phoneticEncoding: S.optional(CustomPronunciationParamsPhoneticEncodingEnum),
+    pronunciation: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomPronunciationParams",
+}) as any as S.Schema<CustomPronunciationParams>;
+
+export type CustomPronunciationParamsList = Array<CustomPronunciationParams>;
+export const CustomPronunciationParamsList = /*@__PURE__*/ S.Array(
+  CustomPronunciationParams,
+) as any as S.Schema<CustomPronunciationParamsList>;
+
+/** A collection of pronunciation customizations. */
+export interface CustomPronunciations {
+  /** The pronunciation customizations are applied. */
+  pronunciations?: CustomPronunciationParamsList;
+}
+export const CustomPronunciations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pronunciations: S.optional(CustomPronunciationParamsList),
+  }),
+).annotate({ identifier: "CustomPronunciations" }) as any as S.Schema<CustomPronunciations>;
+
+/** Contains text input to be synthesized. Either `text` or `ssml` must be supplied. Supplying both or neither returns google.rpc.Code.INVALID_ARGUMENT. The input size is limited to 5000 bytes. */
+export interface SynthesisInput {
+  /** The SSML document to be synthesized. The SSML document must be valid and well-formed. Otherwise the RPC will fail and return google.rpc.Code.INVALID_ARGUMENT. For more information, see [SSML](https://cloud.google.com/text-to-speech/docs/ssml). */
+  ssml?: string;
+  /** This system instruction is supported only for controllable/promptable voice models. If this system instruction is used, we pass the unedited text to Gemini-TTS. Otherwise, a default system instruction is used. AI Studio calls this system instruction, Style Instructions. */
+  prompt?: string;
+  /** The multi-speaker input to be synthesized. Only applicable for multi-speaker synthesis. */
+  multiSpeakerMarkup?: MultiSpeakerMarkup;
+  /** The raw text to be synthesized. */
+  text?: string;
+  /** Optional. The pronunciation customizations are applied to the input. If this is set, the input is synthesized using the given pronunciation customizations. The initial support is for en-us, with plans to expand to other locales in the future. Instant Clone voices aren't supported. In order to customize the pronunciation of a phrase, there must be an exact match of the phrase in the input types. If using SSML, the phrase must not be inside a phoneme tag. */
+  customPronunciations?: CustomPronunciations;
+  /** Markup for Chirp 3: HD voices specifically. This field may not be used with any other voices. */
+  markup?: string;
+}
+export const SynthesisInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ssml: S.optional(S.String),
+    prompt: S.optional(S.String),
+    multiSpeakerMarkup: S.optional(MultiSpeakerMarkup),
+    text: S.optional(S.String),
+    customPronunciations: S.optional(CustomPronunciations),
+    markup: S.optional(S.String),
+  }),
+).annotate({ identifier: "SynthesisInput" }) as any as S.Schema<SynthesisInput>;
 
 /** The top-level message sent by the client for the `SynthesizeLongAudio` method. */
 export interface SynthesizeLongAudioRequest {
-  /** Required. The Synthesizer requires either plain text or SSML as input. */
-  input?: SynthesisInput;
-  /** Required. The desired voice of the synthesized audio. */
-  voice?: VoiceSelectionParams;
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig;
+  /** Required. The desired voice of the synthesized audio. */
+  voice?: VoiceSelectionParams;
+  /** Required. The Synthesizer requires either plain text or SSML as input. */
+  input?: SynthesisInput;
   /** Required. Specifies a Cloud Storage URI for the synthesis results. Must be specified in the format: `gs://bucket_name/object_name`, and the bucket must already exist. */
   outputGcsUri?: string;
 }
 export const SynthesizeLongAudioRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    input: S.optional(SynthesisInput),
-    voice: S.optional(VoiceSelectionParams),
     audioConfig: S.optional(AudioConfig),
+    voice: S.optional(VoiceSelectionParams),
+    input: S.optional(SynthesisInput),
     outputGcsUri: S.optional(S.String),
   }),
 ).annotate({
@@ -512,18 +512,6 @@ export const SynthesizeLongAudioProjectsLocationsRequest = /*@__PURE__*/ S.suspe
 ).annotate({
   identifier: "SynthesizeLongAudioProjectsLocationsRequest",
 }) as any as S.Schema<SynthesizeLongAudioProjectsLocationsRequest>;
-
-export type SynthesizeSpeechRequestEnableTimePointingItemEnum =
-  | "TIMEPOINT_TYPE_UNSPECIFIED"
-  | "SSML_MARK";
-export const SynthesizeSpeechRequestEnableTimePointingItemEnum = S.String;
-
-export type SynthesizeSpeechRequestEnableTimePointingItemEnumList = Array<
-  SynthesizeSpeechRequestEnableTimePointingItemEnum | (string & {})
->;
-export const SynthesizeSpeechRequestEnableTimePointingItemEnumList = /*@__PURE__*/ S.Array(
-  SynthesizeSpeechRequestEnableTimePointingItemEnum,
-) as any as S.Schema<SynthesizeSpeechRequestEnableTimePointingItemEnumList>;
 
 export type SafetySettingCategoryEnum =
   | "HARM_CATEGORY_UNSPECIFIED"
@@ -574,44 +562,56 @@ export const SafetySettings = /*@__PURE__*/ S.suspend(() =>
 
 /** Used for advanced voice options. */
 export interface AdvancedVoiceOptions {
-  /** Optional. If true, textnorm will be applied to text input. This feature is enabled by default. Only applies for Gemini TTS. */
-  enableTextnorm?: boolean;
-  /** Optional. Input only. This applies to Gemini TTS only. If set, the category specified in the safety setting will be blocked if the harm probability is above the threshold. Otherwise, the safety filter will be disabled by default. */
-  safetySettings?: SafetySettings;
   /** Optional. Input only. Deprecated, use safety_settings instead. If true, relaxes safety filters for Gemini TTS. */
   relaxSafetyFilters?: boolean;
+  /** Optional. Input only. This applies to Gemini TTS only. If set, the category specified in the safety setting will be blocked if the harm probability is above the threshold. Otherwise, the safety filter will be disabled by default. */
+  safetySettings?: SafetySettings;
+  /** Optional. If true, textnorm will be applied to text input. This feature is enabled by default. Only applies for Gemini TTS. */
+  enableTextnorm?: boolean;
   /** Only for Journey voices. If false, the synthesis is context aware and has a higher latency. */
   lowLatencyJourneySynthesis?: boolean;
 }
 export const AdvancedVoiceOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enableTextnorm: S.optional(S.Boolean),
-    safetySettings: S.optional(SafetySettings),
     relaxSafetyFilters: S.optional(S.Boolean),
+    safetySettings: S.optional(SafetySettings),
+    enableTextnorm: S.optional(S.Boolean),
     lowLatencyJourneySynthesis: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "AdvancedVoiceOptions" }) as any as S.Schema<AdvancedVoiceOptions>;
 
+export type SynthesizeSpeechRequestEnableTimePointingItemEnum =
+  | "TIMEPOINT_TYPE_UNSPECIFIED"
+  | "SSML_MARK";
+export const SynthesizeSpeechRequestEnableTimePointingItemEnum = S.String;
+
+export type SynthesizeSpeechRequestEnableTimePointingItemEnumList = Array<
+  SynthesizeSpeechRequestEnableTimePointingItemEnum | (string & {})
+>;
+export const SynthesizeSpeechRequestEnableTimePointingItemEnumList = /*@__PURE__*/ S.Array(
+  SynthesizeSpeechRequestEnableTimePointingItemEnum,
+) as any as S.Schema<SynthesizeSpeechRequestEnableTimePointingItemEnumList>;
+
 /** The top-level message sent by the client for the `SynthesizeSpeech` method. */
 export interface SynthesizeSpeechRequest {
-  /** Required. The Synthesizer requires either plain text or SSML as input. */
-  input?: SynthesisInput;
-  /** Whether and what timepoints are returned in the response. */
-  enableTimePointing?: SynthesizeSpeechRequestEnableTimePointingItemEnumList;
-  /** Optional. Advanced voice options. */
-  advancedVoiceOptions?: AdvancedVoiceOptions;
-  /** Required. The configuration of the synthesized audio. */
-  audioConfig?: AudioConfig;
   /** Required. The desired voice of the synthesized audio. */
   voice?: VoiceSelectionParams;
+  /** Required. The configuration of the synthesized audio. */
+  audioConfig?: AudioConfig;
+  /** Required. The Synthesizer requires either plain text or SSML as input. */
+  input?: SynthesisInput;
+  /** Optional. Advanced voice options. */
+  advancedVoiceOptions?: AdvancedVoiceOptions;
+  /** Whether and what timepoints are returned in the response. */
+  enableTimePointing?: SynthesizeSpeechRequestEnableTimePointingItemEnumList;
 }
 export const SynthesizeSpeechRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    input: S.optional(SynthesisInput),
-    enableTimePointing: S.optional(SynthesizeSpeechRequestEnableTimePointingItemEnumList),
-    advancedVoiceOptions: S.optional(AdvancedVoiceOptions),
-    audioConfig: S.optional(AudioConfig),
     voice: S.optional(VoiceSelectionParams),
+    audioConfig: S.optional(AudioConfig),
+    input: S.optional(SynthesisInput),
+    advancedVoiceOptions: S.optional(AdvancedVoiceOptions),
+    enableTimePointing: S.optional(SynthesizeSpeechRequestEnableTimePointingItemEnumList),
   }),
 ).annotate({ identifier: "SynthesizeSpeechRequest" }) as any as S.Schema<SynthesizeSpeechRequest>;
 
@@ -650,17 +650,17 @@ export const TimepointList = /*@__PURE__*/ S.Array(Timepoint) as any as S.Schema
 
 /** The message returned to the client by the `SynthesizeSpeech` method. */
 export interface SynthesizeSpeechResponse {
-  /** The audio data bytes encoded as specified in the request, including the header for encodings that are wrapped in containers (e.g. MP3, OGG_OPUS). For LINEAR16 audio, we include the WAV header. Note: as with all bytes fields, protobuffers use a pure binary representation, whereas JSON representations use base64. */
-  audioContent?: string;
   /** A link between a position in the original request input and a corresponding time in the output audio. It's only supported via `` of SSML input. */
   timepoints?: TimepointList;
+  /** The audio data bytes encoded as specified in the request, including the header for encodings that are wrapped in containers (e.g. MP3, OGG_OPUS). For LINEAR16 audio, we include the WAV header. Note: as with all bytes fields, protobuffers use a pure binary representation, whereas JSON representations use base64. */
+  audioContent?: string;
   /** The audio metadata of `audio_content`. */
   audioConfig?: AudioConfig;
 }
 export const SynthesizeSpeechResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    audioContent: S.optional(S.String),
     timepoints: S.optional(TimepointList),
+    audioContent: S.optional(S.String),
     audioConfig: S.optional(AudioConfig),
   }),
 ).annotate({ identifier: "SynthesizeSpeechResponse" }) as any as S.Schema<SynthesizeSpeechResponse>;

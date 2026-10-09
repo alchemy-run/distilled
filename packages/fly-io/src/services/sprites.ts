@@ -10,6 +10,189 @@ import * as T from "../traits.ts";
 
 export type { SpritesOpError, SpritesOpContext };
 
+export interface AuthorizeOAuthConnectionRequest {
+  provider: string;
+  /** Comma-separated scopes to request. Replaces the default scope set for this authorization URL. */
+  scopes?: string;
+  /** Comma-separated scopes to add to any scopes already granted for this provider. */
+  add_scopes?: string;
+  /** OAuth callback URI. Defaults to the Sprites API callback for the provider. */
+  redirect_uri?: string;
+  /** Optional state value. If omitted, Sprites generates one that ties the callback to the organization. */
+  state?: string;
+}
+export const AuthorizeOAuthConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.String.pipe(T.Label()),
+    scopes: S.optional(S.String.pipe(T.Query())),
+    add_scopes: S.optional(S.String.pipe(T.Query())),
+    redirect_uri: S.optional(S.String.pipe(T.Query())),
+    state: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/oauth/{provider}/authorize", code: 200 })),
+).annotate({
+  identifier: "AuthorizeOAuthConnectionRequest",
+}) as any as S.Schema<AuthorizeOAuthConnectionRequest>;
+
+/** OAuth authorization response */
+export interface OAuthAuthorizeResponse {
+  /** Provider URL where the user grants access. */
+  authorize_url: string;
+  /** State value that must be sent back to the callback. */
+  state: string;
+}
+export const OAuthAuthorizeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorize_url: S.String,
+    state: S.String,
+  }),
+).annotate({ identifier: "OAuthAuthorizeResponse" }) as any as S.Schema<OAuthAuthorizeResponse>;
+
+export interface ChangeFileModeRequest {
+  name: string;
+  asRoot: boolean;
+  mode: string;
+  path: string;
+  recursive: boolean;
+  workingDir: string;
+}
+export const ChangeFileModeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    asRoot: S.Boolean,
+    mode: S.String,
+    path: S.String,
+    recursive: S.Boolean,
+    workingDir: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/fs/chmod", code: 200 })),
+).annotate({ identifier: "ChangeFileModeRequest" }) as any as S.Schema<ChangeFileModeRequest>;
+
+export interface ChmodResult {
+  mode: string;
+  path: string;
+}
+export const ChmodResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: S.String,
+    path: S.String,
+  }),
+).annotate({ identifier: "ChmodResult" }) as any as S.Schema<ChmodResult>;
+
+export type ChmodResponseAffectedList = Array<ChmodResult>;
+export const ChmodResponseAffectedList = /*@__PURE__*/ S.Array(
+  ChmodResult,
+) as any as S.Schema<ChmodResponseAffectedList>;
+
+export interface ChmodResponse {
+  affected: ChmodResponseAffectedList;
+  count: number;
+}
+export const ChmodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    affected: ChmodResponseAffectedList,
+    count: S.Number,
+  }),
+).annotate({ identifier: "ChmodResponse" }) as any as S.Schema<ChmodResponse>;
+
+export interface ChangeFileOwnerRequest {
+  name: string;
+  asRoot: boolean;
+  gid: unknown;
+  path: string;
+  recursive: boolean;
+  uid: unknown;
+  workingDir: string;
+}
+export const ChangeFileOwnerRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    asRoot: S.Boolean,
+    gid: S.Unknown,
+    path: S.String,
+    recursive: S.Boolean,
+    uid: S.Unknown,
+    workingDir: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/fs/chown", code: 200 })),
+).annotate({ identifier: "ChangeFileOwnerRequest" }) as any as S.Schema<ChangeFileOwnerRequest>;
+
+export interface ChownResult {
+  gid: number;
+  path: string;
+  uid: number;
+}
+export const ChownResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gid: S.Number,
+    path: S.String,
+    uid: S.Number,
+  }),
+).annotate({ identifier: "ChownResult" }) as any as S.Schema<ChownResult>;
+
+export type ChownResponseAffectedList = Array<ChownResult>;
+export const ChownResponseAffectedList = /*@__PURE__*/ S.Array(
+  ChownResult,
+) as any as S.Schema<ChownResponseAffectedList>;
+
+export interface ChownResponse {
+  affected: ChownResponseAffectedList;
+  count: number;
+}
+export const ChownResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    affected: ChownResponseAffectedList,
+    count: S.Number,
+  }),
+).annotate({ identifier: "ChownResponse" }) as any as S.Schema<ChownResponse>;
+
+export interface CopyFileRequest {
+  name: string;
+  asRoot: boolean;
+  dest: string;
+  preserveAttrs: boolean;
+  recursive: boolean;
+  source: string;
+  workingDir: string;
+}
+export const CopyFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    asRoot: S.Boolean,
+    dest: S.String,
+    preserveAttrs: S.Boolean,
+    recursive: S.Boolean,
+    source: S.String,
+    workingDir: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/fs/copy", code: 200 })),
+).annotate({ identifier: "CopyFileRequest" }) as any as S.Schema<CopyFileRequest>;
+
+export interface CopyResult {
+  dest: string;
+  source: string;
+}
+export const CopyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dest: S.String,
+    source: S.String,
+  }),
+).annotate({ identifier: "CopyResult" }) as any as S.Schema<CopyResult>;
+
+export type CopyResponseCopiedList = Array<CopyResult>;
+export const CopyResponseCopiedList = /*@__PURE__*/ S.Array(
+  CopyResult,
+) as any as S.Schema<CopyResponseCopiedList>;
+
+export interface CopyResponse {
+  copied: CopyResponseCopiedList;
+  count: number;
+  totalBytes: number;
+}
+export const CopyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    copied: CopyResponseCopiedList,
+    count: S.Number,
+    totalBytes: S.Number,
+  }),
+).annotate({ identifier: "CopyResponse" }) as any as S.Schema<CopyResponse>;
+
 export interface CreateCheckpointRequest {
   name: string;
   comment?: string;
@@ -46,6 +229,139 @@ export const CreateCheckpointResponse = /*@__PURE__*/ S.suspend(() =>
   CreateCheckpointResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({ identifier: "CreateCheckpointResponse" }) as any as S.Schema<CreateCheckpointResponse>;
 
+/** Provider API paths the connector may call. Supports exact paths and trailing `*` prefix wildcards. */
+export type AccessPolicyAllowedEndpointsList = Array<string>;
+export const AccessPolicyAllowedEndpointsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessPolicyAllowedEndpointsList>;
+
+/** Provider API paths the connector may not call. Block rules are checked before allow rules. */
+export type AccessPolicyBlockedEndpointsList = Array<string>;
+export const AccessPolicyBlockedEndpointsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessPolicyBlockedEndpointsList>;
+
+/** Labels the calling sprite must have. All listed labels are required. */
+export type AccessPolicySpriteLabelsList = Array<string>;
+export const AccessPolicySpriteLabelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessPolicySpriteLabelsList>;
+
+/** Connector access policy */
+export interface AccessPolicy {
+  /** When true, all sprites in the organization may use this connector. */
+  allow_all?: boolean;
+  /** Provider API paths the connector may call. Supports exact paths and trailing `*` prefix wildcards. */
+  allowed_endpoints?: AccessPolicyAllowedEndpointsList;
+  /** Provider API paths the connector may not call. Block rules are checked before allow rules. */
+  blocked_endpoints?: AccessPolicyBlockedEndpointsList;
+  /** Sprite name prefix required to use this connector. */
+  name_prefix?: string;
+  /** Labels the calling sprite must have. All listed labels are required. */
+  sprite_labels?: AccessPolicySpriteLabelsList;
+}
+export const AccessPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allow_all: S.optional(S.Boolean),
+    allowed_endpoints: S.optional(AccessPolicyAllowedEndpointsList),
+    blocked_endpoints: S.optional(AccessPolicyBlockedEndpointsList),
+    name_prefix: S.optional(S.String),
+    sprite_labels: S.optional(AccessPolicySpriteLabelsList),
+  }),
+).annotate({ identifier: "AccessPolicy" }) as any as S.Schema<AccessPolicy>;
+
+export interface CreateOAuthApiKeyConnectionRequest {
+  /** Initial access policy. Empty or missing policies deny sprite use until updated. */
+  access_policy?: AccessPolicy;
+  /** Provider API key. Stored encrypted and never returned by the API. */
+  api_key: string | Redacted.Redacted<string>;
+  /** Required for Upstash Redis: immutable HTTPS database REST URL. Not used by fixed-host providers. */
+  base_api_url?: string;
+  /** API-key provider. */
+  provider: string;
+}
+export const CreateOAuthApiKeyConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_policy: S.optional(AccessPolicy),
+    api_key: S.String.pipe(T.SensitiveValue({})),
+    base_api_url: S.optional(S.String),
+    provider: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/oauth/connections/api_key", code: 200 })),
+).annotate({
+  identifier: "CreateOAuthApiKeyConnectionRequest",
+}) as any as S.Schema<CreateOAuthApiKeyConnectionRequest>;
+
+/** How the connector was created. */
+export type ConnectionConnectionType = "oauth" | "api_key" | "provisioned" | "internal";
+export const ConnectionConnectionType = S.String;
+
+/** Provider notes about this connection, derived from its saved settings. Each has a nullable `title` and a `body`; backticks mark inline code. */
+export type ConnectionNotesList = Array<unknown>;
+export const ConnectionNotesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<ConnectionNotesList>;
+
+/** Connector */
+export interface Connection {
+  /** Policy controlling which sprites and provider endpoints may use this connector. */
+  access_policy?: AccessPolicy;
+  /** How the connector was created. */
+  connection_type?: ConnectionConnectionType;
+  /** Connector ID used in gateway URLs. */
+  id: string;
+  /** When the connector was created. */
+  inserted_at?: string;
+  /** Provider notes about this connection, derived from its saved settings. Each has a nullable `title` and a `body`; backticks mark inline code. */
+  notes?: ConnectionNotesList;
+  /** Provider key. See https://fly.io/sprites/ecosystem/ for current connectors. */
+  provider: string;
+  /** Provider account, workspace, or key identifier. */
+  provider_account_id: string;
+  /** Human-readable provider account name. */
+  provider_account_name?: string;
+  /** Provider-specific metadata such as workspace URLs, custom API base URLs, or icon references. */
+  provider_info?: unknown;
+  /** Comma-separated OAuth scopes granted to the connector. */
+  scopes?: string;
+  /** When the stored token expires, if the provider issues expiring tokens. */
+  token_expires_at?: string;
+  /** When the connector was last updated. */
+  updated_at?: string;
+  /** Provider-specific curl snippet showing how to call the connector through the gateway. */
+  usage_snippet?: string;
+  /** Sprites user ID that created or owns the connector. */
+  user_id?: string;
+}
+export const Connection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_policy: S.optional(AccessPolicy),
+    connection_type: S.optional(ConnectionConnectionType),
+    id: S.String,
+    inserted_at: S.optional(S.String),
+    notes: S.optional(ConnectionNotesList),
+    provider: S.String,
+    provider_account_id: S.String,
+    provider_account_name: S.optional(S.String),
+    provider_info: S.optional(S.Unknown),
+    scopes: S.optional(S.String),
+    token_expires_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+    usage_snippet: S.optional(S.String),
+    user_id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
+
+/** Connector response */
+export interface ConnectionResponse {
+  /** Sanitized connector. Secrets and encrypted token fields are never returned. */
+  connection: Connection;
+}
+export const ConnectionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connection: Connection,
+  }),
+).annotate({ identifier: "ConnectionResponse" }) as any as S.Schema<ConnectionResponse>;
+
 export interface CreateOrganizationTokenRequest {
   /** Fly organization slug */
   org: string;
@@ -76,86 +392,203 @@ export const CreateOrganizationTokenResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationTokenResponse",
 }) as any as S.Schema<CreateOrganizationTokenResponse>;
 
-export type UrlAuth = "sprite" | "public";
-export const UrlAuth = S.String;
+/** Authentication type (default: sprite) */
+export type UrlSettingsRequestAuth = "sprite" | "public";
+export const UrlSettingsRequestAuth = S.String;
 
-export interface UrlSettings {
-  auth?: UrlAuth | (string & {});
-  private_access?: string;
+/** URL settings request */
+export interface UrlSettingsRequest {
+  /** Authentication type (default: sprite) */
+  auth?: UrlSettingsRequestAuth | (string & {});
 }
-export const UrlSettings = /*@__PURE__*/ S.suspend(() =>
+export const UrlSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auth: S.optional(UrlAuth),
-    private_access: S.optional(S.String),
+    auth: S.optional(UrlSettingsRequestAuth),
   }),
-).annotate({ identifier: "UrlSettings" }) as any as S.Schema<UrlSettings>;
+).annotate({ identifier: "UrlSettingsRequest" }) as any as S.Schema<UrlSettingsRequest>;
 
-/** Labels stamped on the sprite (used for ownership / nuke) */
-export type CreateSpriteRequestLabelsList = Array<string>;
-export const CreateSpriteRequestLabelsList = /*@__PURE__*/ S.Array(
+export type SpritesCreatePostRequestLabelsList = Array<string>;
+export const SpritesCreatePostRequestLabelsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateSpriteRequestLabelsList>;
+) as any as S.Schema<SpritesCreatePostRequestLabelsList>;
 
 export interface CreateSpriteRequest {
   /** Unique name for the sprite within the organization */
   name: string;
-  url_settings?: UrlSettings;
-  /** Labels stamped on the sprite (used for ownership / nuke) */
-  labels?: CreateSpriteRequestLabelsList;
+  /** URL access configuration */
+  url_settings?: UrlSettingsRequest;
+  /** Labels stamped on the sprite */
+  labels?: SpritesCreatePostRequestLabelsList;
 }
 export const CreateSpriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
-    url_settings: S.optional(UrlSettings),
-    labels: S.optional(CreateSpriteRequestLabelsList),
+    url_settings: S.optional(UrlSettingsRequest),
+    labels: S.optional(SpritesCreatePostRequestLabelsList),
   }).pipe(T.Http({ method: "POST", uri: "/sprites", code: 200 })),
 ).annotate({ identifier: "CreateSpriteRequest" }) as any as S.Schema<CreateSpriteRequest>;
 
-export type SpriteStatus = "cold" | "warm" | "running";
-export const SpriteStatus = S.String;
-
-export type SpriteLabelsList = Array<string>;
-export const SpriteLabelsList = /*@__PURE__*/ S.Array(
+/** Labels assigned to the sprite. Omitted when empty. */
+export type SpriteResponseLabelsList = Array<string>;
+export const SpriteResponseLabelsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<SpriteLabelsList>;
+) as any as S.Schema<SpriteResponseLabelsList>;
 
-export interface Sprite {
-  id?: string;
-  name?: string;
-  organization?: string;
-  org_slug?: string;
-  url?: string;
-  url_settings?: UrlSettings;
-  status?: SpriteStatus;
-  labels?: SpriteLabelsList;
-  created_at?: string;
-  updated_at?: string;
-  last_started_at?: string | null;
-  last_active_at?: string | null;
+/** Runtime status */
+export type SpriteResponseStatus = "cold" | "warm" | "running";
+export const SpriteResponseStatus = S.String;
+
+/** Authentication type */
+export type UrlSettingsAuth = "sprite" | "public";
+export const UrlSettingsAuth = S.String;
+
+/** Who may access a sprite-authenticated URL. */
+export type UrlSettingsPrivateAccess = "admins" | "organization";
+export const UrlSettingsPrivateAccess = S.String;
+
+/** URL access settings */
+export interface UrlSettings {
+  /** Authentication type */
+  auth: UrlSettingsAuth;
+  /** Who may access a sprite-authenticated URL. */
+  private_access?: UrlSettingsPrivateAccess;
+}
+export const UrlSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    auth: UrlSettingsAuth,
+    private_access: S.optional(UrlSettingsPrivateAccess),
+  }),
+).annotate({ identifier: "UrlSettings" }) as any as S.Schema<UrlSettings>;
+
+/** Sprite resource */
+export interface SpriteResponse {
+  /** Creation timestamp (ISO 8601) */
+  created_at: string;
+  /** Version of the sprite environment image. */
+  environment_version?: string | null;
+  /** Unique sprite identifier */
+  id: string;
+  /** Labels assigned to the sprite. Omitted when empty. */
+  labels?: SpriteResponseLabelsList;
+  /** When the sprite was last observed running (ISO 8601), null if not tracked */
   last_running_at?: string | null;
+  /** When the sprite was last observed warming (ISO 8601), null if not tracked */
+  last_warming_at?: string | null;
+  /** Sprite name within the organization */
+  name: string;
+  /** Organization slug */
+  organization: string;
+  /** Runtime status */
+  status: SpriteResponseStatus;
+  /** Last update timestamp (ISO 8601) */
+  updated_at: string;
+  /** Sprite HTTP endpoint URL */
+  url: string;
+  /** URL access configuration */
+  url_settings?: UrlSettings | null;
+  /** Version configured for or currently running on the sprite. */
   version?: string | null;
 }
-export const Sprite = /*@__PURE__*/ S.suspend(() =>
+export const SpriteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    organization: S.optional(S.String),
-    org_slug: S.optional(S.String),
-    url: S.optional(S.String),
-    url_settings: S.optional(UrlSettings),
-    status: S.optional(SpriteStatus),
-    labels: S.optional(SpriteLabelsList),
-    created_at: S.optional(S.String),
-    updated_at: S.optional(S.String),
-    last_started_at: S.optional(S.NullOr(S.String)),
-    last_active_at: S.optional(S.NullOr(S.String)),
+    created_at: S.String,
+    environment_version: S.optional(S.NullOr(S.String)),
+    id: S.String,
+    labels: S.optional(SpriteResponseLabelsList),
     last_running_at: S.optional(S.NullOr(S.String)),
+    last_warming_at: S.optional(S.NullOr(S.String)),
+    name: S.String,
+    organization: S.String,
+    status: SpriteResponseStatus,
+    updated_at: S.String,
+    url: S.String,
+    url_settings: S.optional(S.NullOr(UrlSettings)),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({ identifier: "Sprite" }) as any as S.Schema<Sprite>;
+).annotate({ identifier: "SpriteResponse" }) as any as S.Schema<SpriteResponse>;
+
+export interface DeleteFileRequest {
+  name: string;
+  asRoot: boolean;
+  path: string;
+  recursive: boolean;
+  workingDir: string;
+}
+export const DeleteFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    asRoot: S.Boolean,
+    path: S.String,
+    recursive: S.Boolean,
+    workingDir: S.String,
+  }).pipe(T.Http({ method: "DELETE", uri: "/sprites/{name}/fs/delete", code: 200 })),
+).annotate({ identifier: "DeleteFileRequest" }) as any as S.Schema<DeleteFileRequest>;
+
+export type DeleteResponseDeletedList = Array<string>;
+export const DeleteResponseDeletedList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeleteResponseDeletedList>;
+
+export interface DeleteResponse {
+  count: number;
+  deleted: DeleteResponseDeletedList;
+}
+export const DeleteResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    deleted: DeleteResponseDeletedList,
+  }),
+).annotate({ identifier: "DeleteResponse" }) as any as S.Schema<DeleteResponse>;
+
+export interface DeleteOAuthConnectionRequest {
+  id: string;
+}
+export const DeleteOAuthConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/oauth/connections/{id}", code: 200 })),
+).annotate({
+  identifier: "DeleteOAuthConnectionRequest",
+}) as any as S.Schema<DeleteOAuthConnectionRequest>;
+
+export interface DeleteOAuthConnectionResponse {}
+export const DeleteOAuthConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteOAuthConnectionResponse",
+}) as any as S.Schema<DeleteOAuthConnectionResponse>;
+
+export interface DeletePrivilegesPolicyRequest {
+  name: string;
+}
+export const DeletePrivilegesPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/sprites/{name}/policy/privileges", code: 200 })),
+).annotate({
+  identifier: "DeletePrivilegesPolicyRequest",
+}) as any as S.Schema<DeletePrivilegesPolicyRequest>;
+
+export interface DeletePrivilegesPolicyResponse {}
+export const DeletePrivilegesPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeletePrivilegesPolicyResponse",
+}) as any as S.Schema<DeletePrivilegesPolicyResponse>;
+
+export interface DeleteResourcesPolicyRequest {
+  name: string;
+}
+export const DeleteResourcesPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/sprites/{name}/policy/resources", code: 200 })),
+).annotate({
+  identifier: "DeleteResourcesPolicyRequest",
+}) as any as S.Schema<DeleteResourcesPolicyRequest>;
+
+export interface DeleteResourcesPolicyResponse {}
+export const DeleteResourcesPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteResourcesPolicyResponse",
+}) as any as S.Schema<DeleteResourcesPolicyResponse>;
 
 export interface DeleteSpriteRequest {
-  /** Unique sprite name */
   name: string;
 }
 export const DeleteSpriteRequest = /*@__PURE__*/ S.suspend(() =>
@@ -169,37 +602,37 @@ export const DeleteSpriteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).
   identifier: "DeleteSpriteResponse",
 }) as any as S.Schema<DeleteSpriteResponse>;
 
-export type ExecCommandRequestCmdList = Array<string>;
-export const ExecCommandRequestCmdList = /*@__PURE__*/ S.Array(
+export type SpriteEnvExecuteCommandRequestCmdList = Array<string>;
+export const SpriteEnvExecuteCommandRequestCmdList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<ExecCommandRequestCmdList>;
+) as any as S.Schema<SpriteEnvExecuteCommandRequestCmdList>;
 
-export type ExecCommandRequestEnvList = Array<string>;
-export const ExecCommandRequestEnvList = /*@__PURE__*/ S.Array(
+export type SpriteEnvExecuteCommandRequestEnvList = Array<string>;
+export const SpriteEnvExecuteCommandRequestEnvList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<ExecCommandRequestEnvList>;
+) as any as S.Schema<SpriteEnvExecuteCommandRequestEnvList>;
 
 export interface ExecCommandRequest {
   name: string;
-  /** Command and args (repeatable) */
-  cmd: ExecCommandRequestCmdList;
-  /** Explicit path to the executable */
+  /** Command to execute (can be repeated for command + args) */
+  cmd: SpriteEnvExecuteCommandRequestCmdList;
+  /** Explicit path to executable (defaults to first `cmd` value or `bash`) */
   path?: string;
-  /** Read stdin from the request body */
+  /** Enable stdin from request body (default: `false`) */
   stdin?: boolean;
-  /** Environment variables as KEY=VALUE (repeatable) */
-  env?: ExecCommandRequestEnvList;
-  /** Working directory */
+  /** Environment variables in `KEY=VALUE` format (can be repeated) */
+  env?: SpriteEnvExecuteCommandRequestEnvList;
+  /** Working directory for the command */
   dir?: string;
   body?: Uint8Array | string;
 }
 export const ExecCommandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    cmd: ExecCommandRequestCmdList.pipe(T.Query()),
+    cmd: SpriteEnvExecuteCommandRequestCmdList.pipe(T.Query()),
     path: S.optional(S.String.pipe(T.Query())),
     stdin: S.optional(S.Boolean.pipe(T.Query())),
-    env: S.optional(ExecCommandRequestEnvList.pipe(T.Query())),
+    env: S.optional(SpriteEnvExecuteCommandRequestEnvList.pipe(T.Query())),
     dir: S.optional(S.String.pipe(T.Query())),
     body: S.optional(S.String.pipe(T.HttpBody())),
   }).pipe(
@@ -227,7 +660,6 @@ export const ExecResult = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetCheckpointRequest {
   name: string;
-  /** Checkpoint identifier (e.g. v7) */
   checkpoint_id: string;
 }
 export const GetCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
@@ -237,22 +669,111 @@ export const GetCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/checkpoints/{checkpoint_id}", code: 200 })),
 ).annotate({ identifier: "GetCheckpointRequest" }) as any as S.Schema<GetCheckpointRequest>;
 
-export interface Checkpoint {
-  id?: string;
-  create_time?: string;
-  source_id?: string;
+export interface CheckpointInfo {
+  /** User-provided description */
   comment?: string;
+  /** When the checkpoint was created */
+  create_time: string;
+  /** Health status (empty = healthy, "mount_failed" = unhealthy) */
   health?: string;
+  /** Checkpoint identifier (e.g., `v7`) */
+  id: string;
+  /** Parent checkpoint ID */
+  source_id?: string;
 }
-export const Checkpoint = /*@__PURE__*/ S.suspend(() =>
+export const CheckpointInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    create_time: S.optional(S.String),
-    source_id: S.optional(S.String),
     comment: S.optional(S.String),
+    create_time: S.String,
     health: S.optional(S.String),
+    id: S.String,
+    source_id: S.optional(S.String),
   }),
-).annotate({ identifier: "Checkpoint" }) as any as S.Schema<Checkpoint>;
+).annotate({ identifier: "CheckpointInfo" }) as any as S.Schema<CheckpointInfo>;
+
+export interface GetNetworkPolicyRequest {
+  name: string;
+}
+export const GetNetworkPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/policy/network", code: 200 })),
+).annotate({ identifier: "GetNetworkPolicyRequest" }) as any as S.Schema<GetNetworkPolicyRequest>;
+
+export interface NetworkPolicyRule {
+  /** `allow` or `deny` */
+  action?: string;
+  /** Domain pattern (e.g., `*.github.com`) */
+  domain?: string;
+  /** Include rules from preset */
+  include?: string;
+}
+export const NetworkPolicyRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.String),
+    domain: S.optional(S.String),
+    include: S.optional(S.String),
+  }),
+).annotate({ identifier: "NetworkPolicyRule" }) as any as S.Schema<NetworkPolicyRule>;
+
+/** List of network policy rules */
+export type NetworkPolicyRequestRulesList = Array<NetworkPolicyRule>;
+export const NetworkPolicyRequestRulesList = /*@__PURE__*/ S.Array(
+  NetworkPolicyRule,
+) as any as S.Schema<NetworkPolicyRequestRulesList>;
+
+export interface NetworkPolicyRequest {
+  /** List of network policy rules */
+  rules: NetworkPolicyRequestRulesList;
+}
+export const NetworkPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rules: NetworkPolicyRequestRulesList,
+  }),
+).annotate({ identifier: "NetworkPolicyRequest" }) as any as S.Schema<NetworkPolicyRequest>;
+
+export interface GetOAuthConnectionRequest {
+  id: string;
+}
+export const GetOAuthConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/oauth/connections/{id}", code: 200 })),
+).annotate({
+  identifier: "GetOAuthConnectionRequest",
+}) as any as S.Schema<GetOAuthConnectionRequest>;
+
+export interface GetPrivilegesPolicyRequest {
+  name: string;
+}
+export const GetPrivilegesPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/policy/privileges", code: 200 })),
+).annotate({
+  identifier: "GetPrivilegesPolicyRequest",
+}) as any as S.Schema<GetPrivilegesPolicyRequest>;
+
+export interface GetPrivilegesPolicyResponse {}
+export const GetPrivilegesPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "GetPrivilegesPolicyResponse",
+}) as any as S.Schema<GetPrivilegesPolicyResponse>;
+
+export interface GetResourcesPolicyRequest {
+  name: string;
+}
+export const GetResourcesPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/policy/resources", code: 200 })),
+).annotate({
+  identifier: "GetResourcesPolicyRequest",
+}) as any as S.Schema<GetResourcesPolicyRequest>;
+
+export interface GetResourcesPolicyResponse {}
+export const GetResourcesPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "GetResourcesPolicyResponse",
+}) as any as S.Schema<GetResourcesPolicyResponse>;
 
 export interface GetServiceRequest {
   name: string;
@@ -265,54 +786,90 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/services/{service_name}", code: 200 })),
 ).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
-export type SpriteServiceArgsList = Array<string>;
-export const SpriteServiceArgsList = /*@__PURE__*/ S.Array(
+/** Command arguments */
+export type ServiceResponseArgsList = Array<string>;
+export const ServiceResponseArgsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<SpriteServiceArgsList>;
+) as any as S.Schema<ServiceResponseArgsList>;
 
-export type SpriteServiceNeedsList = Array<string>;
-export const SpriteServiceNeedsList = /*@__PURE__*/ S.Array(
+/** Service dependencies */
+export type ServiceResponseNeedsList = Array<string>;
+export const ServiceResponseNeedsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<SpriteServiceNeedsList>;
+) as any as S.Schema<ServiceResponseNeedsList>;
 
-export interface SpriteServiceState {
-  name?: string;
-  status?: string;
-  pid?: number;
-  started_at?: string;
+export interface ServiceState {
+  /** Error message if failed */
   error?: string;
+  /** Service name */
+  name: string;
+  /** Process ID when running */
+  pid?: number;
+  /** ISO 8601 timestamp */
+  started_at?: string;
+  /** `stopped`, `starting`, `running`, `stopping`, or `failed` */
+  status: string;
 }
-export const SpriteServiceState = /*@__PURE__*/ S.suspend(() =>
+export const ServiceState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    status: S.optional(S.String),
+    error: S.optional(S.String),
+    name: S.String,
     pid: S.optional(S.Number),
     started_at: S.optional(S.String),
-    error: S.optional(S.String),
+    status: S.String,
   }),
-).annotate({ identifier: "SpriteServiceState" }) as any as S.Schema<SpriteServiceState>;
+).annotate({ identifier: "ServiceState" }) as any as S.Schema<ServiceState>;
 
-export interface SpriteService {
-  name?: string;
-  cmd?: string;
-  args?: SpriteServiceArgsList;
-  needs?: SpriteServiceNeedsList;
-  http_port?: number;
-  state?: SpriteServiceState;
+export interface ServiceResponse {
+  /** Command arguments */
+  args: ServiceResponseArgsList;
+  /** Command to execute */
+  cmd: string;
+  /** HTTP port for proxy routing */
+  http_port?: number | null;
+  /** Service name */
+  name: string;
+  /** Service dependencies */
+  needs: ServiceResponseNeedsList;
+  /** Current runtime state */
+  state?: ServiceState | null;
 }
-export const SpriteService = /*@__PURE__*/ S.suspend(() =>
+export const ServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    cmd: S.optional(S.String),
-    args: S.optional(SpriteServiceArgsList),
-    needs: S.optional(SpriteServiceNeedsList),
-    http_port: S.optional(S.Number),
-    state: S.optional(SpriteServiceState),
+    args: ServiceResponseArgsList,
+    cmd: S.String,
+    http_port: S.optional(S.NullOr(S.Number)),
+    name: S.String,
+    needs: ServiceResponseNeedsList,
+    state: S.optional(S.NullOr(ServiceState)),
   }),
-).annotate({ identifier: "SpriteService" }) as any as S.Schema<SpriteService>;
+).annotate({ identifier: "ServiceResponse" }) as any as S.Schema<ServiceResponse>;
+
+export interface GetServiceLogsRequest {
+  name: string;
+  service_name: string;
+  /** Number of lines to return from log buffer (default: all) */
+  lines?: number;
+  /** Time to follow new logs (default: `0`, no follow) */
+  duration?: number;
+}
+export const GetServiceLogsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    service_name: S.String.pipe(T.Label()),
+    lines: S.optional(S.Number.pipe(T.Query())),
+    duration: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/sprites/{name}/services/{service_name}/logs", code: 200 }),
+  ),
+).annotate({ identifier: "GetServiceLogsRequest" }) as any as S.Schema<GetServiceLogsRequest>;
+
+export interface GetServiceLogsResponse {}
+export const GetServiceLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "GetServiceLogsResponse",
+}) as any as S.Schema<GetServiceLogsResponse>;
 
 export interface GetSpriteRequest {
-  /** Unique sprite name */
   name: string;
 }
 export const GetSpriteRequest = /*@__PURE__*/ S.suspend(() =>
@@ -320,6 +877,28 @@ export const GetSpriteRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}", code: 200 })),
 ).annotate({ identifier: "GetSpriteRequest" }) as any as S.Schema<GetSpriteRequest>;
+
+export interface KillExecSessionRequest {
+  name: string;
+  session_id: string;
+  /** Signal to send (default: `SIGTERM`) */
+  signal?: string;
+  /** Timeout waiting for process to exit (default: `10s`) */
+  timeout?: number;
+}
+export const KillExecSessionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    session_id: S.String.pipe(T.Label()),
+    signal: S.optional(S.String.pipe(T.Query())),
+    timeout: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/exec/{session_id}/kill", code: 200 })),
+).annotate({ identifier: "KillExecSessionRequest" }) as any as S.Schema<KillExecSessionRequest>;
+
+export interface KillExecSessionResponse {}
+export const KillExecSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "KillExecSessionResponse",
+}) as any as S.Schema<KillExecSessionResponse>;
 
 export interface ListCheckpointsRequest {
   name: string;
@@ -330,15 +909,69 @@ export const ListCheckpointsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/checkpoints", code: 200 })),
 ).annotate({ identifier: "ListCheckpointsRequest" }) as any as S.Schema<ListCheckpointsRequest>;
 
-export type ListCheckpointsResponseBodyList = Array<Checkpoint>;
+export type ListCheckpointsResponseBodyList = Array<CheckpointInfo>;
 export const ListCheckpointsResponseBodyList = /*@__PURE__*/ S.Array(
-  Checkpoint,
+  CheckpointInfo,
 ) as any as S.Schema<ListCheckpointsResponseBodyList>;
 
 export type ListCheckpointsResponse = ListCheckpointsResponseBodyList;
 export const ListCheckpointsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCheckpointsResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({ identifier: "ListCheckpointsResponse" }) as any as S.Schema<ListCheckpointsResponse>;
+
+export interface ListDirectoryRequest {
+  name: string;
+  /** Path to the directory to list */
+  path: string;
+  /** Working directory for resolving relative paths */
+  workingDir: string;
+}
+export const ListDirectoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    path: S.String.pipe(T.Query()),
+    workingDir: S.String.pipe(T.Query()),
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/fs/list", code: 200 })),
+).annotate({ identifier: "ListDirectoryRequest" }) as any as S.Schema<ListDirectoryRequest>;
+
+export interface Entry {
+  isDir: boolean;
+  modTime: string;
+  mode: string;
+  name: string;
+  path: string;
+  size: number;
+  type: string;
+}
+export const Entry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isDir: S.Boolean,
+    modTime: S.String,
+    mode: S.String,
+    name: S.String,
+    path: S.String,
+    size: S.Number,
+    type: S.String,
+  }),
+).annotate({ identifier: "Entry" }) as any as S.Schema<Entry>;
+
+export type ListResponseEntriesList = Array<Entry>;
+export const ListResponseEntriesList = /*@__PURE__*/ S.Array(
+  Entry,
+) as any as S.Schema<ListResponseEntriesList>;
+
+export interface ListResponse {
+  count: number;
+  entries: ListResponseEntriesList;
+  path: string;
+}
+export const ListResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    entries: ListResponseEntriesList,
+    path: S.String,
+  }),
+).annotate({ identifier: "ListResponse" }) as any as S.Schema<ListResponse>;
 
 export interface ListExecSessionsRequest {
   name: string;
@@ -349,38 +982,39 @@ export const ListExecSessionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/exec", code: 200 })),
 ).annotate({ identifier: "ListExecSessionsRequest" }) as any as S.Schema<ListExecSessionsRequest>;
 
-export interface ExecSession {
-  id?: string;
-  command?: string;
-  is_active?: boolean;
-  tty?: boolean;
-  created?: string;
-  last_activity?: string;
-  workdir?: string;
-  bytes_per_second?: number;
+export interface ListExecSessionsResponse {}
+export const ListExecSessionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ListExecSessionsResponse",
+}) as any as S.Schema<ListExecSessionsResponse>;
+
+export interface ListOAuthConnectionsRequest {
+  /** Optional provider filter. */
+  provider?: string;
 }
-export const ExecSession = /*@__PURE__*/ S.suspend(() =>
+export const ListOAuthConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    command: S.optional(S.String),
-    is_active: S.optional(S.Boolean),
-    tty: S.optional(S.Boolean),
-    created: S.optional(S.String),
-    last_activity: S.optional(S.String),
-    workdir: S.optional(S.String),
-    bytes_per_second: S.optional(S.Number),
+    provider: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/oauth/connections", code: 200 })),
+).annotate({
+  identifier: "ListOAuthConnectionsRequest",
+}) as any as S.Schema<ListOAuthConnectionsRequest>;
+
+/** Connectors configured for the organization. */
+export type ConnectionListResponseConnectionsList = Array<Connection>;
+export const ConnectionListResponseConnectionsList = /*@__PURE__*/ S.Array(
+  Connection,
+) as any as S.Schema<ConnectionListResponseConnectionsList>;
+
+/** Connector list response */
+export interface ConnectionListResponse {
+  /** Connectors configured for the organization. */
+  connections: ConnectionListResponseConnectionsList;
+}
+export const ConnectionListResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connections: ConnectionListResponseConnectionsList,
   }),
-).annotate({ identifier: "ExecSession" }) as any as S.Schema<ExecSession>;
-
-export type ListExecSessionsResponseBodyList = Array<ExecSession>;
-export const ListExecSessionsResponseBodyList = /*@__PURE__*/ S.Array(
-  ExecSession,
-) as any as S.Schema<ListExecSessionsResponseBodyList>;
-
-export type ListExecSessionsResponse = ListExecSessionsResponseBodyList;
-export const ListExecSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  ListExecSessionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({ identifier: "ListExecSessionsResponse" }) as any as S.Schema<ListExecSessionsResponse>;
+).annotate({ identifier: "ConnectionListResponse" }) as any as S.Schema<ConnectionListResponse>;
 
 export interface ListServicesRequest {
   name: string;
@@ -391,9 +1025,9 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/services", code: 200 })),
 ).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
-export type ListServicesResponseBodyList = Array<SpriteService>;
+export type ListServicesResponseBodyList = Array<ServiceResponse>;
 export const ListServicesResponseBodyList = /*@__PURE__*/ S.Array(
-  SpriteService,
+  ServiceResponse,
 ) as any as S.Schema<ListServicesResponseBodyList>;
 
 export type ListServicesResponse = ListServicesResponseBodyList;
@@ -404,9 +1038,9 @@ export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListSpritesRequest {
   /** Filter sprites by name prefix */
   prefix?: string;
-  /** Maximum number of results (1-50, default 50) */
+  /** Maximum number of results (1-500, default: 50) */
   max_results?: number;
-  /** Token from the previous response */
+  /** Token from previous response for pagination */
   continuation_token?: string;
 }
 export const ListSpritesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -417,35 +1051,95 @@ export const ListSpritesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/sprites", code: 200 })),
 ).annotate({ identifier: "ListSpritesRequest" }) as any as S.Schema<ListSpritesRequest>;
 
-export type ListSpritesResponseSpritesList = Array<Sprite>;
-export const ListSpritesResponseSpritesList = /*@__PURE__*/ S.Array(
-  Sprite,
-) as any as S.Schema<ListSpritesResponseSpritesList>;
+/** List of sprite resources */
+export type SpriteListResponseSpritesList = Array<SpriteResponse>;
+export const SpriteListResponseSpritesList = /*@__PURE__*/ S.Array(
+  SpriteResponse,
+) as any as S.Schema<SpriteListResponseSpritesList>;
 
-export interface ListSpritesResponse {
-  sprites: ListSpritesResponseSpritesList;
-  has_more?: boolean;
-  next_continuation_token?: string | null;
-  name?: string;
-  running?: number;
-  warm?: number;
-  cold?: number;
+/** Paginated sprite list */
+export interface SpriteListResponse {
+  /** Number of returned sprites currently cold. */
+  cold: number;
+  /** Whether more results are available */
+  has_more: boolean;
+  /** Organization slug. */
+  name: string;
+  /** Token for fetching the next page of results */
+  next_continuation_token?: string;
+  /** Number of returned sprites currently running. */
+  running: number;
+  /** Organization-wide active sprite limit. */
   running_limit?: number;
+  /** List of sprite resources */
+  sprites: SpriteListResponseSpritesList;
+  /** Number of returned sprites currently warm. */
+  warm: number;
+  /** Organization-wide warm sprite limit. */
   warm_limit?: number;
 }
-export const ListSpritesResponse = /*@__PURE__*/ S.suspend(() =>
+export const SpriteListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sprites: ListSpritesResponseSpritesList,
-    has_more: S.optional(S.Boolean),
-    next_continuation_token: S.optional(S.NullOr(S.String)),
-    name: S.optional(S.String),
-    running: S.optional(S.Number),
-    warm: S.optional(S.Number),
-    cold: S.optional(S.Number),
+    cold: S.Number,
+    has_more: S.Boolean,
+    name: S.String,
+    next_continuation_token: S.optional(S.String),
+    running: S.Number,
     running_limit: S.optional(S.Number),
+    sprites: SpriteListResponseSpritesList,
+    warm: S.Number,
     warm_limit: S.optional(S.Number),
   }),
-).annotate({ identifier: "ListSpritesResponse" }) as any as S.Schema<ListSpritesResponse>;
+).annotate({ identifier: "SpriteListResponse" }) as any as S.Schema<SpriteListResponse>;
+
+export interface OauthConnectionCallbackRequest {
+  provider: string;
+  /** Initial access policy. Empty or missing policies deny sprite use until updated. */
+  access_policy?: AccessPolicy;
+  /** Authorization code returned by the provider. */
+  code: string;
+  /** Redirect URI used to create the authorization URL. */
+  redirect_uri?: string;
+  /** State value from the authorize response. */
+  state?: string;
+}
+export const OauthConnectionCallbackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.String.pipe(T.Label()),
+    access_policy: S.optional(AccessPolicy),
+    code: S.String,
+    redirect_uri: S.optional(S.String),
+    state: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/oauth/{provider}/callback", code: 200 })),
+).annotate({
+  identifier: "OauthConnectionCallbackRequest",
+}) as any as S.Schema<OauthConnectionCallbackRequest>;
+
+export interface PatchOAuthConnectionRequest {
+  id: string;
+  /** Replacement access policy. */
+  access_policy: AccessPolicy;
+}
+export const PatchOAuthConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    access_policy: AccessPolicy,
+  }).pipe(T.Http({ method: "PATCH", uri: "/oauth/connections/{id}", code: 200 })),
+).annotate({
+  identifier: "PatchOAuthConnectionRequest",
+}) as any as S.Schema<PatchOAuthConnectionRequest>;
+
+export interface ProvisionOAuthConnectionRequest {
+  /** Provider to provision. */
+  provider: string;
+}
+export const ProvisionOAuthConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/oauth/connections/provision", code: 200 })),
+).annotate({
+  identifier: "ProvisionOAuthConnectionRequest",
+}) as any as S.Schema<ProvisionOAuthConnectionRequest>;
 
 /** Command arguments */
 export type PutServiceRequestArgsList = Array<string>;
@@ -462,41 +1156,103 @@ export const PutServiceRequestNeedsList = /*@__PURE__*/ S.Array(
 export interface PutServiceRequest {
   name: string;
   service_name: string;
-  /** Time to monitor logs after starting (default 5s) */
-  duration?: string;
-  /** Command to execute */
-  cmd: string;
+  /** Time to monitor logs after starting (default: `5s`) */
+  duration?: number;
   /** Command arguments */
   args?: PutServiceRequestArgsList;
+  /** Command to execute */
+  cmd: string;
   /** Working directory for the service */
   dir?: string;
+  /** Environment variables to add to the base service environment */
+  env?: unknown;
+  /** HTTP port for proxy routing */
+  http_port?: number | null;
   /** Service dependencies (started first) */
   needs?: PutServiceRequestNeedsList;
-  /** HTTP port for proxy routing */
-  http_port?: number;
 }
 export const PutServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     service_name: S.String.pipe(T.Label()),
-    duration: S.optional(S.String.pipe(T.Query())),
-    cmd: S.String,
+    duration: S.optional(S.Number.pipe(T.Query())),
     args: S.optional(PutServiceRequestArgsList),
+    cmd: S.String,
     dir: S.optional(S.String),
+    env: S.optional(S.Unknown),
+    http_port: S.optional(S.NullOr(S.Number)),
     needs: S.optional(PutServiceRequestNeedsList),
-    http_port: S.optional(S.Number),
   }).pipe(T.Http({ method: "PUT", uri: "/sprites/{name}/services/{service_name}", code: 200 })),
 ).annotate({ identifier: "PutServiceRequest" }) as any as S.Schema<PutServiceRequest>;
 
-export type PutServiceResponseBodyList = Array<StreamEvent>;
-export const PutServiceResponseBodyList = /*@__PURE__*/ S.Array(
-  StreamEvent,
-) as any as S.Schema<PutServiceResponseBodyList>;
+export interface ReadFileRequest {
+  name: string;
+  /** Path to the file to read */
+  path: string;
+  /** Working directory for resolving relative paths */
+  workingDir: string;
+}
+export const ReadFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    path: S.String.pipe(T.Query()),
+    workingDir: S.String.pipe(T.Query()),
+  }).pipe(T.Http({ method: "GET", uri: "/sprites/{name}/fs/read", code: 200 })),
+).annotate({ identifier: "ReadFileRequest" }) as any as S.Schema<ReadFileRequest>;
 
-export type PutServiceResponse = PutServiceResponseBodyList;
-export const PutServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  PutServiceResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({ identifier: "PutServiceResponse" }) as any as S.Schema<PutServiceResponse>;
+export interface ReadFileResponse {}
+export const ReadFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ReadFileResponse",
+}) as any as S.Schema<ReadFileResponse>;
+
+export interface RenameFileRequest {
+  name: string;
+  asRoot: boolean;
+  dest: string;
+  source: string;
+  workingDir: string;
+}
+export const RenameFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    asRoot: S.Boolean,
+    dest: S.String,
+    source: S.String,
+    workingDir: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/fs/rename", code: 200 })),
+).annotate({ identifier: "RenameFileRequest" }) as any as S.Schema<RenameFileRequest>;
+
+export interface RenameResponse {
+  dest: string;
+  source: string;
+}
+export const RenameResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dest: S.String,
+    source: S.String,
+  }),
+).annotate({ identifier: "RenameResponse" }) as any as S.Schema<RenameResponse>;
+
+export interface RestartServiceRequest {
+  name: string;
+  service_name: string;
+  /** Time to monitor logs after starting (default: `5s`) */
+  duration?: number;
+}
+export const RestartServiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    service_name: S.String.pipe(T.Label()),
+    duration: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/sprites/{name}/services/{service_name}/restart", code: 200 }),
+  ),
+).annotate({ identifier: "RestartServiceRequest" }) as any as S.Schema<RestartServiceRequest>;
+
+export interface RestartServiceResponse {}
+export const RestartServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "RestartServiceResponse",
+}) as any as S.Schema<RestartServiceResponse>;
 
 export interface RestoreCheckpointRequest {
   name: string;
@@ -527,15 +1283,126 @@ export const RestoreCheckpointResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreCheckpointResponse",
 }) as any as S.Schema<RestoreCheckpointResponse>;
 
-export interface UpdateSpriteRequest {
-  /** Unique sprite name */
+/** List of network policy rules */
+export type SetNetworkPolicyRequestRulesList = Array<NetworkPolicyRule>;
+export const SetNetworkPolicyRequestRulesList = /*@__PURE__*/ S.Array(
+  NetworkPolicyRule,
+) as any as S.Schema<SetNetworkPolicyRequestRulesList>;
+
+export interface SetNetworkPolicyRequest {
   name: string;
-  url_settings: UrlSettings;
+  /** List of network policy rules */
+  rules: SetNetworkPolicyRequestRulesList;
+}
+export const SetNetworkPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    rules: SetNetworkPolicyRequestRulesList,
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/policy/network", code: 200 })),
+).annotate({ identifier: "SetNetworkPolicyRequest" }) as any as S.Schema<SetNetworkPolicyRequest>;
+
+export interface SetNetworkPolicyResponse {}
+export const SetNetworkPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SetNetworkPolicyResponse",
+}) as any as S.Schema<SetNetworkPolicyResponse>;
+
+export interface SetPrivilegesPolicyRequest {
+  name: string;
+}
+export const SetPrivilegesPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/policy/privileges", code: 200 })),
+).annotate({
+  identifier: "SetPrivilegesPolicyRequest",
+}) as any as S.Schema<SetPrivilegesPolicyRequest>;
+
+export interface SetPrivilegesPolicyResponse {}
+export const SetPrivilegesPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SetPrivilegesPolicyResponse",
+}) as any as S.Schema<SetPrivilegesPolicyResponse>;
+
+export interface SetResourcesPolicyRequest {
+  name: string;
+}
+export const SetResourcesPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/sprites/{name}/policy/resources", code: 200 })),
+).annotate({
+  identifier: "SetResourcesPolicyRequest",
+}) as any as S.Schema<SetResourcesPolicyRequest>;
+
+export interface SetResourcesPolicyResponse {}
+export const SetResourcesPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SetResourcesPolicyResponse",
+}) as any as S.Schema<SetResourcesPolicyResponse>;
+
+export interface StartServiceRequest {
+  name: string;
+  service_name: string;
+  /** Time to monitor logs after starting (default: `5s`) */
+  duration?: number;
+}
+export const StartServiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    service_name: S.String.pipe(T.Label()),
+    duration: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/sprites/{name}/services/{service_name}/start", code: 200 }),
+  ),
+).annotate({ identifier: "StartServiceRequest" }) as any as S.Schema<StartServiceRequest>;
+
+export interface StartServiceResponse {}
+export const StartServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "StartServiceResponse",
+}) as any as S.Schema<StartServiceResponse>;
+
+export interface StopServiceRequest {
+  name: string;
+  service_name: string;
+  /** Timeout waiting for service to stop (default: `10s`) */
+  timeout?: number;
+}
+export const StopServiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    service_name: S.String.pipe(T.Label()),
+    timeout: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/sprites/{name}/services/{service_name}/stop", code: 200 }),
+  ),
+).annotate({ identifier: "StopServiceRequest" }) as any as S.Schema<StopServiceRequest>;
+
+export interface StopServiceResponse {}
+export const StopServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "StopServiceResponse",
+}) as any as S.Schema<StopServiceResponse>;
+
+export interface UpdateOAuthConnectionRequest {
+  id: string;
+  /** Replacement access policy. */
+  access_policy: AccessPolicy;
+}
+export const UpdateOAuthConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    access_policy: AccessPolicy,
+  }).pipe(T.Http({ method: "PUT", uri: "/oauth/connections/{id}", code: 200 })),
+).annotate({
+  identifier: "UpdateOAuthConnectionRequest",
+}) as any as S.Schema<UpdateOAuthConnectionRequest>;
+
+export interface UpdateSpriteRequest {
+  name: string;
+  /** URL access configuration to update */
+  url_settings: UrlSettingsRequest;
 }
 export const UpdateSpriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    url_settings: UrlSettings,
+    url_settings: UrlSettingsRequest,
   }).pipe(T.Http({ method: "PUT", uri: "/sprites/{name}", code: 200 })),
 ).annotate({ identifier: "UpdateSpriteRequest" }) as any as S.Schema<UpdateSpriteRequest>;
 
@@ -545,9 +1412,9 @@ export interface WriteFileRequest {
   path: string;
   /** Working directory for resolving relative paths */
   workingDir: string;
-  /** File permissions in octal (e.g. 0644) */
+  /** File permissions in octal (e.g., '0644') */
   mode?: string;
-  /** Create parent directories if they do not exist */
+  /** Create parent directories if they don't exist */
   mkdir?: boolean;
   body: Uint8Array | string;
 }
@@ -569,21 +1436,81 @@ export const WriteFileRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "WriteFileRequest" }) as any as S.Schema<WriteFileRequest>;
 
-export interface WriteFileResponse {
-  path?: string;
-  size?: number;
-  mode?: string;
+export interface WriteResponse {
+  mode: string;
+  path: string;
+  size: number;
 }
-export const WriteFileResponse = /*@__PURE__*/ S.suspend(() =>
+export const WriteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    size: S.optional(S.Number),
-    mode: S.optional(S.String),
+    mode: S.String,
+    path: S.String,
+    size: S.Number,
   }),
-).annotate({ identifier: "WriteFileResponse" }) as any as S.Schema<WriteFileResponse>;
+).annotate({ identifier: "WriteResponse" }) as any as S.Schema<WriteResponse>;
+
+export type AuthorizeOAuthConnectionError = BadRequest | SpritesNotEnabled | SpritesOpError;
+/** Authorize an OAuth connector Create an OAuth authorization URL for a provider. Use this to start a browser-based consent flow. */
+export const authorizeOAuthConnection: API.OperationMethod<
+  AuthorizeOAuthConnectionRequest,
+  OAuthAuthorizeResponse,
+  AuthorizeOAuthConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AuthorizeOAuthConnectionRequest,
+  output: OAuthAuthorizeResponse,
+  errors: [BadRequest, SpritesNotEnabled],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ChangeFileModeError = BadRequest | NotFound | SpritesOpError;
+/** Change File Mode Change file or directory permissions. */
+export const changeFileMode: API.OperationMethod<
+  ChangeFileModeRequest,
+  ChmodResponse,
+  ChangeFileModeError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ChangeFileModeRequest,
+  output: ChmodResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ChangeFileOwnerError = BadRequest | NotFound | SpritesOpError;
+/** Change File Owner Change file or directory ownership. */
+export const changeFileOwner: API.OperationMethod<
+  ChangeFileOwnerRequest,
+  ChownResponse,
+  ChangeFileOwnerError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ChangeFileOwnerRequest,
+  output: ChownResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CopyFileError = BadRequest | NotFound | SpritesOpError;
+/** Copy File or Directory Copy a file or directory. */
+export const copyFile: API.OperationMethod<
+  CopyFileRequest,
+  CopyResponse,
+  CopyFileError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CopyFileRequest,
+  output: CopyResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CreateCheckpointError = NotFound | SpritesOpError;
-/** Create a checkpoint (NDJSON progress stream) */
+/** Create Checkpoint Create a new checkpoint of the current sprite state. Returns streaming NDJSON progress. */
 export const createCheckpoint: API.OperationMethod<
   CreateCheckpointRequest,
   CreateCheckpointResponse,
@@ -593,6 +1520,21 @@ export const createCheckpoint: API.OperationMethod<
   input: CreateCheckpointRequest,
   output: CreateCheckpointResponse,
   errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateOAuthApiKeyConnectionError = BadRequest | SpritesNotEnabled | SpritesOpError;
+/** Create an API-key connector Create a connector from a user-provided API key for providers that support key validation. */
+export const createOAuthApiKeyConnection: API.OperationMethod<
+  CreateOAuthApiKeyConnectionRequest,
+  ConnectionResponse,
+  CreateOAuthApiKeyConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOAuthApiKeyConnectionRequest,
+  output: ConnectionResponse,
+  errors: [BadRequest, SpritesNotEnabled],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
@@ -612,23 +1554,83 @@ export const createOrganizationToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateSpriteError = BadRequest | Conflict | SpritesOpError;
-/** Create a sprite */
+export type CreateSpriteError = BadRequest | SpritesNotEnabled | Conflict | SpritesOpError;
+/** Create a sprite Create a new sprite with a unique name in your organization */
 export const createSprite: API.OperationMethod<
   CreateSpriteRequest,
-  Sprite,
+  SpriteResponse,
   CreateSpriteError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSpriteRequest,
-  output: Sprite,
-  errors: [BadRequest, Conflict],
+  output: SpriteResponse,
+  errors: [BadRequest, SpritesNotEnabled, Conflict],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteSpriteError = NotFound | SpritesOpError;
-/** Delete a sprite */
+export type DeleteFileError = BadRequest | NotFound | SpritesOpError;
+/** Delete File or Directory Delete a file or directory. */
+export const deleteFile: API.OperationMethod<
+  DeleteFileRequest,
+  DeleteResponse,
+  DeleteFileError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteFileRequest,
+  output: DeleteResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteOAuthConnectionError = SpritesNotEnabled | NotFound | SpritesOpError;
+/** Delete a connector Delete a connector and its encrypted credentials. */
+export const deleteOAuthConnection: API.OperationMethod<
+  DeleteOAuthConnectionRequest,
+  DeleteOAuthConnectionResponse,
+  DeleteOAuthConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOAuthConnectionRequest,
+  output: DeleteOAuthConnectionResponse,
+  errors: [SpritesNotEnabled, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePrivilegesPolicyError = BadRequest | NotFound | SpritesOpError;
+/** Delete Privileges Policy Remove privileges policy to revert to default (unrestricted) behavior. */
+export const deletePrivilegesPolicy: API.OperationMethod<
+  DeletePrivilegesPolicyRequest,
+  DeletePrivilegesPolicyResponse,
+  DeletePrivilegesPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePrivilegesPolicyRequest,
+  output: DeletePrivilegesPolicyResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteResourcesPolicyError = BadRequest | NotFound | SpritesOpError;
+/** Delete Resources Policy Remove resources policy to revert to default behavior. */
+export const deleteResourcesPolicy: API.OperationMethod<
+  DeleteResourcesPolicyRequest,
+  DeleteResourcesPolicyResponse,
+  DeleteResourcesPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteResourcesPolicyRequest,
+  output: DeleteResourcesPolicyResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSpriteError = SpritesNotEnabled | NotFound | SpritesOpError;
+/** Delete a sprite Delete a sprite and all associated resources */
 export const deleteSprite: API.OperationMethod<
   DeleteSpriteRequest,
   DeleteSpriteResponse,
@@ -637,13 +1639,13 @@ export const deleteSprite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSpriteRequest,
   output: DeleteSpriteResponse,
-  errors: [NotFound],
+  errors: [SpritesNotEnabled, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
 export type ExecCommandError = BadRequest | NotFound | SpritesOpError;
-/** Execute a command via HTTP POST (non-TTY). Simpler than the WebSocket exec API. */
+/** Execute Command Execute a command via simple HTTP POST (non-TTY only). Simpler alternative for exec for environments that can't handle websockets. */
 export const execCommand: API.OperationMethod<
   ExecCommandRequest,
   ExecResult,
@@ -658,52 +1660,142 @@ export const execCommand: API.OperationMethod<
 }));
 
 export type GetCheckpointError = NotFound | SpritesOpError;
-/** Get a checkpoint */
+/** Get Checkpoint Get details of a specific checkpoint. */
 export const getCheckpoint: API.OperationMethod<
   GetCheckpointRequest,
-  Checkpoint,
+  CheckpointInfo,
   GetCheckpointError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCheckpointRequest,
-  output: Checkpoint,
+  output: CheckpointInfo,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetNetworkPolicyError = NotFound | SpritesOpError;
+/** Get Network Policy Get the current network policy configuration. */
+export const getNetworkPolicy: API.OperationMethod<
+  GetNetworkPolicyRequest,
+  NetworkPolicyRequest,
+  GetNetworkPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetNetworkPolicyRequest,
+  output: NetworkPolicyRequest,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOAuthConnectionError = SpritesNotEnabled | NotFound | SpritesOpError;
+/** Get a connector Get a single connector by ID. */
+export const getOAuthConnection: API.OperationMethod<
+  GetOAuthConnectionRequest,
+  ConnectionResponse,
+  GetOAuthConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOAuthConnectionRequest,
+  output: ConnectionResponse,
+  errors: [SpritesNotEnabled, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPrivilegesPolicyError = NotFound | SpritesOpError;
+/** Get Privileges Policy Get the current privileges policy configuration (capability and device restrictions). */
+export const getPrivilegesPolicy: API.OperationMethod<
+  GetPrivilegesPolicyRequest,
+  GetPrivilegesPolicyResponse,
+  GetPrivilegesPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPrivilegesPolicyRequest,
+  output: GetPrivilegesPolicyResponse,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetResourcesPolicyError = NotFound | SpritesOpError;
+/** Get Resources Policy Get the current resources policy configuration (memory limits). */
+export const getResourcesPolicy: API.OperationMethod<
+  GetResourcesPolicyRequest,
+  GetResourcesPolicyResponse,
+  GetResourcesPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetResourcesPolicyRequest,
+  output: GetResourcesPolicyResponse,
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
 export type GetServiceError = NotFound | SpritesOpError;
-/** Get a sprite service */
+/** Get Service Get details of a specific service. */
 export const getService: API.OperationMethod<
   GetServiceRequest,
-  SpriteService,
+  ServiceResponse,
   GetServiceError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetServiceRequest,
-  output: SpriteService,
+  output: ServiceResponse,
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSpriteError = NotFound | SpritesOpError;
-/** Get a sprite */
+export type GetServiceLogsError = NotFound | SpritesOpError;
+/** Get Service Logs Stream logs for a service. */
+export const getServiceLogs: API.OperationMethod<
+  GetServiceLogsRequest,
+  GetServiceLogsResponse,
+  GetServiceLogsError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetServiceLogsRequest,
+  output: GetServiceLogsResponse,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSpriteError = SpritesNotEnabled | NotFound | SpritesOpError;
+/** Get a sprite Get details for a specific sprite */
 export const getSprite: API.OperationMethod<
   GetSpriteRequest,
-  Sprite,
+  SpriteResponse,
   GetSpriteError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSpriteRequest,
-  output: Sprite,
+  output: SpriteResponse,
+  errors: [SpritesNotEnabled, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type KillExecSessionError = NotFound | SpritesOpError;
+/** Kill Exec Session Kill an exec session by session ID. Returns streaming NDJSON with kill progress. */
+export const killExecSession: API.OperationMethod<
+  KillExecSessionRequest,
+  KillExecSessionResponse,
+  KillExecSessionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: KillExecSessionRequest,
+  output: KillExecSessionResponse,
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
 export type ListCheckpointsError = NotFound | SpritesOpError;
-/** List checkpoints */
+/** List Checkpoints List all checkpoints. */
 export const listCheckpoints: API.OperationMethod<
   ListCheckpointsRequest,
   ListCheckpointsResponse,
@@ -717,8 +1809,23 @@ export const listCheckpoints: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListDirectoryError = NotFound | SpritesOpError;
+/** List Directory List directory contents. */
+export const listDirectory: API.OperationMethod<
+  ListDirectoryRequest,
+  ListResponse,
+  ListDirectoryError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListDirectoryRequest,
+  output: ListResponse,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListExecSessionsError = NotFound | SpritesOpError;
-/** List active exec sessions */
+/** List Exec Sessions List active exec sessions. */
 export const listExecSessions: API.OperationMethod<
   ListExecSessionsRequest,
   ListExecSessionsResponse,
@@ -732,8 +1839,23 @@ export const listExecSessions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListOAuthConnectionsError = SpritesNotEnabled | SpritesOpError;
+/** List connectors List connectors configured for the authenticated organization. */
+export const listOAuthConnections: API.OperationMethod<
+  ListOAuthConnectionsRequest,
+  ConnectionListResponse,
+  ListOAuthConnectionsError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOAuthConnectionsRequest,
+  output: ConnectionListResponse,
+  errors: [SpritesNotEnabled],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListServicesError = NotFound | SpritesOpError;
-/** List configured sprite services */
+/** List Services List all configured services and their current state. */
 export const listServices: API.OperationMethod<
   ListServicesRequest,
   ListServicesResponse,
@@ -747,19 +1869,19 @@ export const listServices: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListSpritesError = SpritesOpError;
-/** List sprites for the authenticated organization */
+export type ListSpritesError = SpritesNotEnabled | SpritesOpError;
+/** List sprites List all sprites for the authenticated organization */
 export const listSprites: API.PaginatedOperationMethod<
   ListSpritesRequest,
-  ListSpritesResponse,
+  SpriteListResponse,
   ListSpritesError,
   SpritesOpContext,
-  Sprite
+  SpriteResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: ListSpritesRequest,
-    output: ListSpritesResponse,
-    errors: [],
+    output: SpriteListResponse,
+    errors: [SpritesNotEnabled],
     protocol: SpritesProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -773,23 +1895,113 @@ export const listSprites: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type OauthConnectionCallbackError = BadRequest | SpritesNotEnabled | SpritesOpError;
+/** Complete OAuth authorization Exchange an OAuth authorization code for an encrypted connector. */
+export const oauthConnectionCallback: API.OperationMethod<
+  OauthConnectionCallbackRequest,
+  ConnectionResponse,
+  OauthConnectionCallbackError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: OauthConnectionCallbackRequest,
+  output: ConnectionResponse,
+  errors: [BadRequest, SpritesNotEnabled],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchOAuthConnectionError = BadRequest | SpritesNotEnabled | NotFound | SpritesOpError;
+/** Update a connector Update a connector access policy. */
+export const patchOAuthConnection: API.OperationMethod<
+  PatchOAuthConnectionRequest,
+  ConnectionResponse,
+  PatchOAuthConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchOAuthConnectionRequest,
+  output: ConnectionResponse,
+  errors: [BadRequest, SpritesNotEnabled, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ProvisionOAuthConnectionError = BadRequest | SpritesNotEnabled | SpritesOpError;
+/** Provision a connector Provision a system-managed connector for providers that support platform-managed keys. */
+export const provisionOAuthConnection: API.OperationMethod<
+  ProvisionOAuthConnectionRequest,
+  ConnectionResponse,
+  ProvisionOAuthConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ProvisionOAuthConnectionRequest,
+  output: ConnectionResponse,
+  errors: [BadRequest, SpritesNotEnabled],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutServiceError = BadRequest | NotFound | SpritesOpError;
-/** Create or update a sprite service. Returns NDJSON start progress. */
+/** Create Service Create or update a service definition. */
 export const putService: API.OperationMethod<
   PutServiceRequest,
-  PutServiceResponse,
+  ServiceResponse,
   PutServiceError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: PutServiceRequest,
-  output: PutServiceResponse,
+  output: ServiceResponse,
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
+export type ReadFileError = NotFound | SpritesOpError;
+/** Read File Read file contents from the sprite filesystem. Returns raw file bytes. */
+export const readFile: API.OperationMethod<
+  ReadFileRequest,
+  ReadFileResponse,
+  ReadFileError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadFileRequest,
+  output: ReadFileResponse,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RenameFileError = BadRequest | NotFound | SpritesOpError;
+/** Rename File or Directory Rename or move a file or directory. */
+export const renameFile: API.OperationMethod<
+  RenameFileRequest,
+  RenameResponse,
+  RenameFileError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RenameFileRequest,
+  output: RenameResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestartServiceError = NotFound | SpritesOpError;
+/** Restart Service Restart a service (stop if running, then start). Returns streaming NDJSON with stop and start progress. */
+export const restartService: API.OperationMethod<
+  RestartServiceRequest,
+  RestartServiceResponse,
+  RestartServiceError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestartServiceRequest,
+  output: RestartServiceResponse,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RestoreCheckpointError = NotFound | SpritesOpError;
-/** Restore a checkpoint (NDJSON progress stream). Destructive. */
+/** Restore Checkpoint Restore to a specific checkpoint. Returns streaming NDJSON progress. */
 export const restoreCheckpoint: API.OperationMethod<
   RestoreCheckpointRequest,
   RestoreCheckpointResponse,
@@ -803,31 +2015,121 @@ export const restoreCheckpoint: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateSpriteError = NotFound | SpritesOpError;
-/** Update sprite URL auth settings */
-export const updateSprite: API.OperationMethod<
-  UpdateSpriteRequest,
-  Sprite,
-  UpdateSpriteError,
+export type SetNetworkPolicyError = BadRequest | NotFound | SpritesOpError;
+/** Set Network Policy Update the network policy configuration. */
+export const setNetworkPolicy: API.OperationMethod<
+  SetNetworkPolicyRequest,
+  SetNetworkPolicyResponse,
+  SetNetworkPolicyError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSpriteRequest,
-  output: Sprite,
+  input: SetNetworkPolicyRequest,
+  output: SetNetworkPolicyResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetPrivilegesPolicyError = BadRequest | NotFound | SpritesOpError;
+/** Set Privileges Policy Update the privileges policy configuration to restrict capabilities or devices. */
+export const setPrivilegesPolicy: API.OperationMethod<
+  SetPrivilegesPolicyRequest,
+  SetPrivilegesPolicyResponse,
+  SetPrivilegesPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetPrivilegesPolicyRequest,
+  output: SetPrivilegesPolicyResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetResourcesPolicyError = BadRequest | NotFound | SpritesOpError;
+/** Set Resources Policy Update the resources policy configuration to set memory limits. */
+export const setResourcesPolicy: API.OperationMethod<
+  SetResourcesPolicyRequest,
+  SetResourcesPolicyResponse,
+  SetResourcesPolicyError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetResourcesPolicyRequest,
+  output: SetResourcesPolicyResponse,
+  errors: [BadRequest, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StartServiceError = NotFound | SpritesOpError;
+/** Start Service Start a service. Returns streaming NDJSON with stdout/stderr. */
+export const startService: API.OperationMethod<
+  StartServiceRequest,
+  StartServiceResponse,
+  StartServiceError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartServiceRequest,
+  output: StartServiceResponse,
   errors: [NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,
 }));
 
+export type StopServiceError = NotFound | SpritesOpError;
+/** Stop Service Stop a running service. Returns streaming NDJSON with service stop progress. */
+export const stopService: API.OperationMethod<
+  StopServiceRequest,
+  StopServiceResponse,
+  StopServiceError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StopServiceRequest,
+  output: StopServiceResponse,
+  errors: [NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateOAuthConnectionError = BadRequest | SpritesNotEnabled | NotFound | SpritesOpError;
+/** Update a connector Update a connector access policy. */
+export const updateOAuthConnection: API.OperationMethod<
+  UpdateOAuthConnectionRequest,
+  ConnectionResponse,
+  UpdateOAuthConnectionError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOAuthConnectionRequest,
+  output: ConnectionResponse,
+  errors: [BadRequest, SpritesNotEnabled, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateSpriteError = BadRequest | SpritesNotEnabled | NotFound | SpritesOpError;
+/** Update a sprite Update sprite settings such as URL authentication */
+export const updateSprite: API.OperationMethod<
+  UpdateSpriteRequest,
+  SpriteResponse,
+  UpdateSpriteError,
+  SpritesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateSpriteRequest,
+  output: SpriteResponse,
+  errors: [BadRequest, SpritesNotEnabled, NotFound],
+  protocol: SpritesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type WriteFileError = BadRequest | NotFound | SpritesOpError;
-/** Write file contents to the sprite filesystem. Request body is raw file bytes. */
+/** Write File Write file contents to the sprite filesystem. Request body contains raw file bytes. */
 export const writeFile: API.OperationMethod<
   WriteFileRequest,
-  WriteFileResponse,
+  WriteResponse,
   WriteFileError,
   SpritesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: WriteFileRequest,
-  output: WriteFileResponse,
+  output: WriteResponse,
   errors: [BadRequest, NotFound],
   protocol: SpritesProtocol,
   retry: Retry.Retry,

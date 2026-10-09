@@ -64,34 +64,34 @@ export class NotFound
 export interface AggregateFleetV1betaRequest {
   /** Optional. A page token, received from a previous `AggregateFleet` call. Provide this to retrieve the subsequent page. All other parameters should match the parameters in the call that provided the page token except for page_size which can be different. */
   pageToken?: string;
-  /** Optional. Valid values to order by are: * resource_groups_count * resources_count * and all fields supported by `group_by` The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It supports ordering using multiple fields. For example: `order_by = "resource_groups_count"` sorts response in ascending order `order_by = "resource_groups_count DESC"` sorts response in descending order `order_by = "product.type, product.version DESC, location"` orders by type in ascending order, version in descending order and location in ascending order */
-  orderBy?: string;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "baselineDate.year"?: number;
   /** Optional. If unspecified, at most 50 items will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info, 'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` */
-  filter?: string;
-  /** Optional. A field that statistics are grouped by. Valid values are any combination of the following: * container * product.type * product.engine * product.version * location * sub_resource_type * management_type * tag.key * tag.value * tag.source * tag.inherited * label.key * label.value * label.source * has_maintenance_schedule * has_deny_maintenance_schedules Comma separated list. */
-  groupBy?: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "baselineDate.month"?: number;
-  /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
-  parent?: string;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "baselineDate.day"?: number;
+  /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info, 'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` */
+  filter?: string;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "baselineDate.month"?: number;
+  /** Optional. Valid values to order by are: * resource_groups_count * resources_count * and all fields supported by `group_by` The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It supports ordering using multiple fields. For example: `order_by = "resource_groups_count"` sorts response in ascending order `order_by = "resource_groups_count DESC"` sorts response in descending order `order_by = "product.type, product.version DESC, location"` orders by type in ascending order, version in descending order and location in ascending order */
+  orderBy?: string;
+  /** Optional. A field that statistics are grouped by. Valid values are any combination of the following: * container * product.type * product.engine * product.version * location * sub_resource_type * management_type * tag.key * tag.value * tag.source * tag.inherited * label.key * label.value * label.source * has_maintenance_schedule * has_deny_maintenance_schedules Comma separated list. */
+  groupBy?: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "baselineDate.year"?: number;
+  /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
+  parent?: string;
 }
 export const AggregateFleetV1betaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    "baselineDate.year": S.optional(S.Number.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    groupBy: S.optional(S.String.pipe(T.Query())),
-    "baselineDate.month": S.optional(S.Number.pipe(T.Query())),
-    parent: S.optional(S.String.pipe(T.Query())),
     "baselineDate.day": S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    "baselineDate.month": S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    groupBy: S.optional(S.String.pipe(T.Query())),
+    "baselineDate.year": S.optional(S.Number.pipe(T.Query())),
+    parent: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -103,12 +103,11 @@ export const AggregateFleetV1betaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregateFleetV1betaRequest",
 }) as any as S.Schema<AggregateFleetV1betaRequest>;
 
-export type DimensionEditionEnum =
-  | "EDITION_UNSPECIFIED"
-  | "EDITION_ENTERPRISE"
-  | "EDITION_ENTERPRISE_PLUS"
-  | "EDITION_STANDARD";
-export const DimensionEditionEnum = S.String;
+export type DimensionManagementTypeEnum =
+  | "MANAGEMENT_TYPE_UNSPECIFIED"
+  | "MANAGEMENT_TYPE_GCP_MANAGED"
+  | "MANAGEMENT_TYPE_SELF_MANAGED";
+export const DimensionManagementTypeEnum = S.String;
 
 export type DimensionSubResourceTypeEnum =
   | "SUB_RESOURCE_TYPE_UNSPECIFIED"
@@ -122,20 +121,12 @@ export type DimensionSubResourceTypeEnum =
   | "SUB_RESOURCE_TYPE_OTHER";
 export const DimensionSubResourceTypeEnum = S.String;
 
-export type DimensionManagementTypeEnum =
-  | "MANAGEMENT_TYPE_UNSPECIFIED"
-  | "MANAGEMENT_TYPE_GCP_MANAGED"
-  | "MANAGEMENT_TYPE_SELF_MANAGED";
-export const DimensionManagementTypeEnum = S.String;
-
-export type DimensionResourceCategoryEnum =
-  | "RESOURCE_CATEGORY_UNSPECIFIED"
-  | "INSTANCE"
-  | "CLUSTER"
-  | "DATABASE"
-  | "DATASET"
-  | "RESERVATION";
-export const DimensionResourceCategoryEnum = S.String;
+export type DimensionEditionEnum =
+  | "EDITION_UNSPECIFIED"
+  | "EDITION_ENTERPRISE"
+  | "EDITION_ENTERPRISE_PLUS"
+  | "EDITION_STANDARD";
+export const DimensionEditionEnum = S.String;
 
 export type DimensionProductTypeEnum =
   | "PRODUCT_TYPE_UNSPECIFIED"
@@ -150,6 +141,15 @@ export type DimensionProductTypeEnum =
   | "PRODUCT_TYPE_BIGQUERY"
   | "PRODUCT_TYPE_OTHER";
 export const DimensionProductTypeEnum = S.String;
+
+export type DimensionResourceCategoryEnum =
+  | "RESOURCE_CATEGORY_UNSPECIFIED"
+  | "INSTANCE"
+  | "CLUSTER"
+  | "DATABASE"
+  | "DATASET"
+  | "RESERVATION";
+export const DimensionResourceCategoryEnum = S.String;
 
 export type DimensionProductEngineEnum =
   | "ENGINE_UNSPECIFIED"
@@ -171,85 +171,71 @@ export const DimensionProductEngineEnum = S.String;
 
 /** Dimension used to aggregate the fleet. */
 export interface Dimension {
-  /** The edition of the resource. */
-  edition?: DimensionEditionEnum;
-  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
-  container?: string;
-  /** Whether the resource has deny maintenance schedules. */
-  hasDenyMaintenanceSchedules?: boolean;
-  /** Subtype of the resource specified at creation time. */
-  subResourceType?: DimensionSubResourceTypeEnum;
-  /** Tag inheritance value of the resource. */
-  tagInherited?: boolean;
   /** Label key of the resource. */
   labelKey?: string;
+  /** The type of resource defined according to the pattern: {Service Name}/{Type}. Ex: sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance spanner.googleapis.com/Instance */
+  resourceType?: string;
+  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
+  container?: string;
+  /** Label value of the resource. */
+  labelValue?: string;
+  /** The location of the resources. It supports returning only regional locations in Google Cloud. */
+  location?: string;
+  /** Tag inheritance value of the resource. */
+  tagInherited?: boolean;
   /** Tag key of the resource. */
   tagKey?: string;
   /** The management type of the resource. */
   managementType?: DimensionManagementTypeEnum;
-  /** The category of the resource. */
-  resourceCategory?: DimensionResourceCategoryEnum;
-  /** The location of the resources. It supports returning only regional locations in Google Cloud. */
-  location?: string;
-  /** Type to identify a product */
-  productType?: DimensionProductTypeEnum;
-  /** The type of resource defined according to the pattern: {Service Name}/{Type}. Ex: sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance spanner.googleapis.com/Instance */
-  resourceType?: string;
-  /** Label value of the resource. */
-  labelValue?: string;
-  /** Version of the underlying database engine */
-  productVersion?: string;
   /** Label source of the resource. */
   labelSource?: string;
-  /** Tag source of the resource. */
-  tagSource?: string;
+  /** Whether the resource has deny maintenance schedules. */
+  hasDenyMaintenanceSchedules?: boolean;
+  /** Subtype of the resource specified at creation time. */
+  subResourceType?: DimensionSubResourceTypeEnum;
   /** Tag value of the resource. */
   tagValue?: string;
+  /** The edition of the resource. */
+  edition?: DimensionEditionEnum;
   /** Whether the resource has a maintenance schedule. */
   hasMaintenanceSchedule?: boolean;
+  /** Tag source of the resource. */
+  tagSource?: string;
+  /** Type to identify a product */
+  productType?: DimensionProductTypeEnum;
+  /** Version of the underlying database engine */
+  productVersion?: string;
+  /** The category of the resource. */
+  resourceCategory?: DimensionResourceCategoryEnum;
   /** Engine refers to underlying database binary running in an instance. */
   productEngine?: DimensionProductEngineEnum;
 }
 export const Dimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    edition: S.optional(DimensionEditionEnum),
-    container: S.optional(S.String),
-    hasDenyMaintenanceSchedules: S.optional(S.Boolean),
-    subResourceType: S.optional(DimensionSubResourceTypeEnum),
-    tagInherited: S.optional(S.Boolean),
     labelKey: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    container: S.optional(S.String),
+    labelValue: S.optional(S.String),
+    location: S.optional(S.String),
+    tagInherited: S.optional(S.Boolean),
     tagKey: S.optional(S.String),
     managementType: S.optional(DimensionManagementTypeEnum),
-    resourceCategory: S.optional(DimensionResourceCategoryEnum),
-    location: S.optional(S.String),
-    productType: S.optional(DimensionProductTypeEnum),
-    resourceType: S.optional(S.String),
-    labelValue: S.optional(S.String),
-    productVersion: S.optional(S.String),
     labelSource: S.optional(S.String),
-    tagSource: S.optional(S.String),
+    hasDenyMaintenanceSchedules: S.optional(S.Boolean),
+    subResourceType: S.optional(DimensionSubResourceTypeEnum),
     tagValue: S.optional(S.String),
+    edition: S.optional(DimensionEditionEnum),
     hasMaintenanceSchedule: S.optional(S.Boolean),
+    tagSource: S.optional(S.String),
+    productType: S.optional(DimensionProductTypeEnum),
+    productVersion: S.optional(S.String),
+    resourceCategory: S.optional(DimensionResourceCategoryEnum),
     productEngine: S.optional(DimensionProductEngineEnum),
   }),
 ).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 
 export type DimensionList = Array<Dimension>;
 export const DimensionList = /*@__PURE__*/ S.Array(Dimension) as any as S.Schema<DimensionList>;
-
-export type ProductTypeEnum =
-  | "PRODUCT_TYPE_UNSPECIFIED"
-  | "PRODUCT_TYPE_CLOUD_SQL"
-  | "PRODUCT_TYPE_ALLOYDB"
-  | "PRODUCT_TYPE_SPANNER"
-  | "PRODUCT_TYPE_BIGTABLE"
-  | "PRODUCT_TYPE_MEMORYSTORE"
-  | "PRODUCT_TYPE_FIRESTORE"
-  | "PRODUCT_TYPE_COMPUTE_ENGINE"
-  | "PRODUCT_TYPE_ORACLE_ON_GCP"
-  | "PRODUCT_TYPE_BIGQUERY"
-  | "PRODUCT_TYPE_OTHER";
-export const ProductTypeEnum = S.String;
 
 export type ProductEngineEnum =
   | "ENGINE_UNSPECIFIED"
@@ -269,42 +255,56 @@ export type ProductEngineEnum =
   | "ENGINE_OTHER";
 export const ProductEngineEnum = S.String;
 
+export type ProductTypeEnum =
+  | "PRODUCT_TYPE_UNSPECIFIED"
+  | "PRODUCT_TYPE_CLOUD_SQL"
+  | "PRODUCT_TYPE_ALLOYDB"
+  | "PRODUCT_TYPE_SPANNER"
+  | "PRODUCT_TYPE_BIGTABLE"
+  | "PRODUCT_TYPE_MEMORYSTORE"
+  | "PRODUCT_TYPE_FIRESTORE"
+  | "PRODUCT_TYPE_COMPUTE_ENGINE"
+  | "PRODUCT_TYPE_ORACLE_ON_GCP"
+  | "PRODUCT_TYPE_BIGQUERY"
+  | "PRODUCT_TYPE_OTHER";
+export const ProductTypeEnum = S.String;
+
 /** Product specification for databasecenter resources. */
 export interface Product {
-  /** Optional. Type of specific database product. It could be CloudSQL, AlloyDB etc.. */
-  type?: ProductTypeEnum | (string & {});
-  /** Optional. Version of the underlying database engine. Example values: For MySQL, it could be "8.0", "5.7" etc. For Postgres, it could be "14", "15" etc. */
-  version?: string;
   /** Optional. The specific engine that the underlying database is running. */
   engine?: ProductEngineEnum | (string & {});
   /** Optional. Minor version of the underlying database engine. Example values: For MySQL, it could be "8.0.35", "5.7.25" etc. For PostgreSQL, it could be "14.4", "15.5" etc. */
   minorVersion?: string;
+  /** Optional. Version of the underlying database engine. Example values: For MySQL, it could be "8.0", "5.7" etc. For Postgres, it could be "14", "15" etc. */
+  version?: string;
+  /** Optional. Type of specific database product. It could be CloudSQL, AlloyDB etc.. */
+  type?: ProductTypeEnum | (string & {});
 }
 export const Product = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(ProductTypeEnum),
-    version: S.optional(S.String),
     engine: S.optional(ProductEngineEnum),
     minorVersion: S.optional(S.String),
+    version: S.optional(S.String),
+    type: S.optional(ProductTypeEnum),
   }),
 ).annotate({ identifier: "Product" }) as any as S.Schema<Product>;
 
 /** Capture the resource details for resources that are included in the delta counts. */
 export interface ResourceDetails {
+  /** Location of the resource. */
+  location?: string;
   /** Product type of the resource. */
   product?: Product;
   /** Full resource name of the resource. */
   fullResourceName?: string;
-  /** Location of the resource. */
-  location?: string;
   /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
   container?: string;
 }
 export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    location: S.optional(S.String),
     product: S.optional(Product),
     fullResourceName: S.optional(S.String),
-    location: S.optional(S.String),
     container: S.optional(S.String),
   }),
 ).annotate({ identifier: "ResourceDetails" }) as any as S.Schema<ResourceDetails>;
@@ -316,35 +316,35 @@ export const ResourceDetailsList = /*@__PURE__*/ S.Array(
 
 /** Captures the details of items that have increased or decreased in some bucket when compared to some point in history. It is currently used to capture the delta of resources that have been added or removed in the fleet as well as to capture the resources that have a change in Issue/Signal status. */
 export interface DeltaDetails {
-  /** Details of resources that have increased. */
-  increasedResources?: ResourceDetailsList;
   /** Details of resources that have decreased. */
   decreasedResources?: ResourceDetailsList;
+  /** Details of resources that have increased. */
+  increasedResources?: ResourceDetailsList;
 }
 export const DeltaDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    increasedResources: S.optional(ResourceDetailsList),
     decreasedResources: S.optional(ResourceDetailsList),
+    increasedResources: S.optional(ResourceDetailsList),
   }),
 ).annotate({ identifier: "DeltaDetails" }) as any as S.Schema<DeltaDetails>;
 
 /** Individual row grouped by a particular dimension. */
 export interface AggregateFleetRow {
-  /** Number of resource groups that have a particular dimension. */
-  resourceGroupsCount?: number;
-  /** Group by dimension. */
-  dimension?: DimensionList;
-  /** Optional. Delta counts and details of resources which were added to/deleted from fleet. */
-  deltaDetails?: DeltaDetails;
   /** Number of resources that have a particular dimension. */
   resourcesCount?: number;
+  /** Group by dimension. */
+  dimension?: DimensionList;
+  /** Number of resource groups that have a particular dimension. */
+  resourceGroupsCount?: number;
+  /** Optional. Delta counts and details of resources which were added to/deleted from fleet. */
+  deltaDetails?: DeltaDetails;
 }
 export const AggregateFleetRow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceGroupsCount: S.optional(S.Number),
-    dimension: S.optional(DimensionList),
-    deltaDetails: S.optional(DeltaDetails),
     resourcesCount: S.optional(S.Number),
+    dimension: S.optional(DimensionList),
+    resourceGroupsCount: S.optional(S.Number),
+    deltaDetails: S.optional(DeltaDetails),
   }),
 ).annotate({ identifier: "AggregateFleetRow" }) as any as S.Schema<AggregateFleetRow>;
 
@@ -358,46 +358,29 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** The response message to aggregate a fleet by some group by fields. */
 export interface AggregateFleetResponse {
-  /** Count of all resources in the fleet. This includes counts from all pages. */
-  resourceTotalCount?: number;
-  /** Represents a row grouped by the fields in the input. */
-  rows?: AggregateFleetRowList;
-  /** Unordered list. List of unreachable regions from where data could not be retrieved. */
-  unreachable?: StringList;
   /** Output only. The total number of rows in the entire list. */
   totalSize?: string;
-  /** Count of all resource groups in the fleet. This includes counts from all pages. */
-  resourceGroupsTotalCount?: number;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Represents a row grouped by the fields in the input. */
+  rows?: AggregateFleetRowList;
+  /** Count of all resource groups in the fleet. This includes counts from all pages. */
+  resourceGroupsTotalCount?: number;
+  /** Unordered list. List of unreachable regions from where data could not be retrieved. */
+  unreachable?: StringList;
+  /** Count of all resources in the fleet. This includes counts from all pages. */
+  resourceTotalCount?: number;
 }
 export const AggregateFleetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceTotalCount: S.optional(S.Number),
-    rows: S.optional(AggregateFleetRowList),
-    unreachable: S.optional(StringList),
     totalSize: S.optional(S.String),
-    resourceGroupsTotalCount: S.optional(S.Number),
     nextPageToken: S.optional(S.String),
+    rows: S.optional(AggregateFleetRowList),
+    resourceGroupsTotalCount: S.optional(S.Number),
+    unreachable: S.optional(StringList),
+    resourceTotalCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "AggregateFleetResponse" }) as any as S.Schema<AggregateFleetResponse>;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Databasecenter_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-}
-export const Databasecenter_Date = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    month: S.optional(S.Number),
-    day: S.optional(S.Number),
-    year: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Databasecenter_Date" }) as any as S.Schema<Databasecenter_Date>;
 
 export type SignalTypeGroupSignalTypesItemEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
@@ -531,23 +514,40 @@ export const SignalTypeGroupList = /*@__PURE__*/ S.Array(
   SignalTypeGroup,
 ) as any as S.Schema<SignalTypeGroupList>;
 
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Databasecenter_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+}
+export const Databasecenter_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+    month: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Databasecenter_Date" }) as any as S.Schema<Databasecenter_Date>;
+
 /** AggregateIssueStatsRequest represents the input to the AggregateIssueStats method. */
 export interface AggregateIssueStatsRequest {
+  /** Optional. Lists of signal types that are issues. */
+  signalTypeGroups?: SignalTypeGroupList;
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent?: string;
   /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info,'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` */
   filter?: string;
   /** Optional. The baseline date w.r.t. which the delta counts are calculated. If not set, delta counts are not included in the response and the response indicates the current state of the fleet. */
   baselineDate?: Databasecenter_Date;
-  /** Optional. Lists of signal types that are issues. */
-  signalTypeGroups?: SignalTypeGroupList;
 }
 export const AggregateIssueStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    signalTypeGroups: S.optional(SignalTypeGroupList),
     parent: S.optional(S.String),
     filter: S.optional(S.String),
     baselineDate: S.optional(Databasecenter_Date),
-    signalTypeGroups: S.optional(SignalTypeGroupList),
   }),
 ).annotate({
   identifier: "AggregateIssueStatsRequest",
@@ -570,6 +570,15 @@ export const AggregateIssueStatsV1betaRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AggregateIssueStatsV1betaRequest",
 }) as any as S.Schema<AggregateIssueStatsV1betaRequest>;
+
+export type IssueStatsIssueSeverityEnum =
+  | "ISSUE_SEVERITY_UNSPECIFIED"
+  | "ISSUE_SEVERITY_LOW"
+  | "ISSUE_SEVERITY_MEDIUM"
+  | "ISSUE_SEVERITY_HIGH"
+  | "ISSUE_SEVERITY_CRITICAL"
+  | "ISSUE_SEVERITY_IRRELEVANT";
+export const IssueStatsIssueSeverityEnum = S.String;
 
 export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
@@ -677,32 +686,23 @@ export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
 export const IssueStatsSignalTypeEnum = S.String;
 
-export type IssueStatsIssueSeverityEnum =
-  | "ISSUE_SEVERITY_UNSPECIFIED"
-  | "ISSUE_SEVERITY_LOW"
-  | "ISSUE_SEVERITY_MEDIUM"
-  | "ISSUE_SEVERITY_HIGH"
-  | "ISSUE_SEVERITY_CRITICAL"
-  | "ISSUE_SEVERITY_IRRELEVANT";
-export const IssueStatsIssueSeverityEnum = S.String;
-
 /** IssueStats holds stats for a particular signal category. */
 export interface IssueStats {
+  /** Severity of the issue. */
+  issueSeverity?: IssueStatsIssueSeverityEnum;
   /** Type of signal which is an issue. */
   signalType?: IssueStatsSignalTypeEnum;
   /** Number of resources having issues of a given type. */
   resourceCount?: number;
   /** Optional. Delta counts and details of resources for which issue was raised or fixed. */
   deltaDetails?: DeltaDetails;
-  /** Severity of the issue. */
-  issueSeverity?: IssueStatsIssueSeverityEnum;
 }
 export const IssueStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    issueSeverity: S.optional(IssueStatsIssueSeverityEnum),
     signalType: S.optional(IssueStatsSignalTypeEnum),
     resourceCount: S.optional(S.Number),
     deltaDetails: S.optional(DeltaDetails),
-    issueSeverity: S.optional(IssueStatsIssueSeverityEnum),
   }),
 ).annotate({ identifier: "IssueStats" }) as any as S.Schema<IssueStats>;
 
@@ -711,27 +711,27 @@ export const IssueStatsList = /*@__PURE__*/ S.Array(IssueStats) as any as S.Sche
 
 /** IssueGroupStats refers to stats for a particulare combination of relevant health issues of database resources. */
 export interface IssueGroupStats {
-  /** The number of resource groups from the total groups as defined above that are healthy with respect to all of the specified issues. */
-  healthyResourceGroupsCount?: number;
   /** Total count of resources returned by the filter for which any of the specified issues are applicable. */
   resourcesCount?: number;
-  /** Total count of the groups of resources returned by the filter that also have one or more resources for which any of the specified issues are applicable. */
-  resourceGroupsCount?: number;
-  /** The number of resources from the total defined above in field total_resources_count that are healthy with respect to all of the specified issues. */
-  healthyResourcesCount?: number;
   /** Database resource level health card name. This will corresponds to one of the requested input group names. */
   displayName?: string;
   /** List of issues stats containing count of resources having particular issue category. */
   issueStats?: IssueStatsList;
+  /** The number of resources from the total defined above in field total_resources_count that are healthy with respect to all of the specified issues. */
+  healthyResourcesCount?: number;
+  /** Total count of the groups of resources returned by the filter that also have one or more resources for which any of the specified issues are applicable. */
+  resourceGroupsCount?: number;
+  /** The number of resource groups from the total groups as defined above that are healthy with respect to all of the specified issues. */
+  healthyResourceGroupsCount?: number;
 }
 export const IssueGroupStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    healthyResourceGroupsCount: S.optional(S.Number),
     resourcesCount: S.optional(S.Number),
-    resourceGroupsCount: S.optional(S.Number),
-    healthyResourcesCount: S.optional(S.Number),
     displayName: S.optional(S.String),
     issueStats: S.optional(IssueStatsList),
+    healthyResourcesCount: S.optional(S.Number),
+    resourceGroupsCount: S.optional(S.Number),
+    healthyResourceGroupsCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "IssueGroupStats" }) as any as S.Schema<IssueGroupStats>;
 
@@ -742,21 +742,21 @@ export const IssueGroupStatsList = /*@__PURE__*/ S.Array(
 
 /** The response message containing one of more group of relevant health issues for database resources. */
 export interface AggregateIssueStatsResponse {
-  /** List of issue group stats where each group contains stats for resources having a particular combination of relevant issues. */
-  issueGroupStats?: IssueGroupStatsList;
-  /** Unordered list. List of unreachable regions from where data could not be retrieved. */
-  unreachable?: StringList;
-  /** Total count of the resource filtered in based on the user given filter. */
-  totalResourceGroupsCount?: number;
   /** Total count of the resources filtered in based on the user given filter. */
   totalResourcesCount?: number;
+  /** Total count of the resource filtered in based on the user given filter. */
+  totalResourceGroupsCount?: number;
+  /** Unordered list. List of unreachable regions from where data could not be retrieved. */
+  unreachable?: StringList;
+  /** List of issue group stats where each group contains stats for resources having a particular combination of relevant issues. */
+  issueGroupStats?: IssueGroupStatsList;
 }
 export const AggregateIssueStatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    issueGroupStats: S.optional(IssueGroupStatsList),
-    unreachable: S.optional(StringList),
-    totalResourceGroupsCount: S.optional(S.Number),
     totalResourcesCount: S.optional(S.Number),
+    totalResourceGroupsCount: S.optional(S.Number),
+    unreachable: S.optional(StringList),
+    issueGroupStats: S.optional(IssueGroupStatsList),
   }),
 ).annotate({
   identifier: "AggregateIssueStatsResponse",
@@ -768,17 +768,17 @@ export interface AggregateQueryStatsRequest {
   pageSize?: number;
   /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info,'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` Additional specific fields for query stats are: `metric_window`, `query_hash`, `normalized_query`. Example: `metric_window="LAST_ONE_DAY"` (Possible values for `metric_window` are: `LAST_ONE_DAY`, `LAST_ONE_WEEK`, `LAST_TWO_WEEKS`) Example: `query_hash="12345678"` Example: `normalized_query="SELECT * FROM table"` */
   filter?: string;
-  /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
-  orderBy?: string;
   /** Optional. A page token, received from a previous `AggregateQueryStatsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
+  orderBy?: string;
 }
 export const AggregateQueryStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number),
     filter: S.optional(S.String),
-    orderBy: S.optional(S.String),
     pageToken: S.optional(S.String),
+    orderBy: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AggregateQueryStatsRequest",
@@ -805,6 +805,26 @@ export const AggregateQueryStatsFoldersRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregateQueryStatsFoldersRequest",
 }) as any as S.Schema<AggregateQueryStatsFoldersRequest>;
 
+/** ResourceId contains the identifier for a database resource, including the full resource name, resource type, and product. */
+export interface ResourceId {
+  /** The product of the resource, including the type, engine, and version. */
+  product?: Product;
+  /** The type of the resource. sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance */
+  resourceType?: string;
+  /** The full resource name of the resource. */
+  fullResourceName?: string;
+}
+export const ResourceId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: S.optional(Product),
+    resourceType: S.optional(S.String),
+    fullResourceName: S.optional(S.String),
+  }),
+).annotate({ identifier: "ResourceId" }) as any as S.Schema<ResourceId>;
+
+export type ResourceIdList = Array<ResourceId>;
+export const ResourceIdList = /*@__PURE__*/ S.Array(ResourceId) as any as S.Schema<ResourceIdList>;
+
 export type QueryMetricsMetricsWindowEnum =
   | "METRICS_WINDOW_UNSPECIFIED"
   | "LAST_ONE_DAY"
@@ -814,93 +834,73 @@ export const QueryMetricsMetricsWindowEnum = S.String;
 
 /** QueryMetrics contains the metrics related to the query execution. */
 export interface QueryMetrics {
-  /** The average number of rows processed by the query across all runs. */
-  rowsProcessed?: string;
   /** The average execution period of the query across all runs. */
   avgCpuTime?: string;
-  /** The window over which the metrics are aggregated. */
-  metricsWindow?: QueryMetricsMetricsWindowEnum;
   /** The number of times the query was executed. */
   executionCount?: string;
   /** The total CPU time consumed by the query across all runs. */
   totalCpuTime?: string;
+  /** The average number of rows processed by the query across all runs. */
+  rowsProcessed?: string;
+  /** The window over which the metrics are aggregated. */
+  metricsWindow?: QueryMetricsMetricsWindowEnum;
 }
 export const QueryMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rowsProcessed: S.optional(S.String),
     avgCpuTime: S.optional(S.String),
-    metricsWindow: S.optional(QueryMetricsMetricsWindowEnum),
     executionCount: S.optional(S.String),
     totalCpuTime: S.optional(S.String),
+    rowsProcessed: S.optional(S.String),
+    metricsWindow: S.optional(QueryMetricsMetricsWindowEnum),
   }),
 ).annotate({ identifier: "QueryMetrics" }) as any as S.Schema<QueryMetrics>;
 
 /** Metadata about inefficient query signal info for a database resource. */
 export interface InefficientQueryInfo {
-  /** Name of the database where index is required. For example, "db1", which is the name of the database present in the instance. */
-  database?: string;
   /** SQL statement of the index. Based on the ddl type, this will be either CREATE INDEX or DROP INDEX. */
   sqlIndexStatement?: string;
-  /** Name of the table where index is required */
-  table?: string;
   /** Count of queries to be impacted if index is applied */
   impactedQueriesCount?: string;
+  /** Name of the table where index is required */
+  table?: string;
   /** Cost of additional disk usage in bytes */
   storageCostBytes?: string;
+  /** Name of the database where index is required. For example, "db1", which is the name of the database present in the instance. */
+  database?: string;
 }
 export const InefficientQueryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    database: S.optional(S.String),
     sqlIndexStatement: S.optional(S.String),
-    table: S.optional(S.String),
     impactedQueriesCount: S.optional(S.String),
+    table: S.optional(S.String),
     storageCostBytes: S.optional(S.String),
+    database: S.optional(S.String),
   }),
 ).annotate({ identifier: "InefficientQueryInfo" }) as any as S.Schema<InefficientQueryInfo>;
-
-/** ResourceId contains the identifier for a database resource, including the full resource name, resource type, and product. */
-export interface ResourceId {
-  /** The product of the resource, including the type, engine, and version. */
-  product?: Product;
-  /** The full resource name of the resource. */
-  fullResourceName?: string;
-  /** The type of the resource. sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance */
-  resourceType?: string;
-}
-export const ResourceId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    product: S.optional(Product),
-    fullResourceName: S.optional(S.String),
-    resourceType: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResourceId" }) as any as S.Schema<ResourceId>;
-
-export type ResourceIdList = Array<ResourceId>;
-export const ResourceIdList = /*@__PURE__*/ S.Array(ResourceId) as any as S.Schema<ResourceIdList>;
 
 /** QueryStats contains the stats for a particular combination of query_hash, query_string and resource_type. */
 export interface QueryStats {
   /** The query hash of the query. */
   queryHash?: string;
-  /** The query string is normalized query without any PII data. */
-  normalizedQuery?: string;
+  /** The type of the resource. sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance */
+  resourceType?: string;
+  /** The resource ids for which the query stats are collected. */
+  resourceIds?: ResourceIdList;
   /** Metrics related to the query performance. */
   queryMetrics?: QueryMetrics;
   /** Information about inefficient query. */
   inefficientQueryInfo?: InefficientQueryInfo;
-  /** The resource ids for which the query stats are collected. */
-  resourceIds?: ResourceIdList;
-  /** The type of the resource. sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance */
-  resourceType?: string;
+  /** The query string is normalized query without any PII data. */
+  normalizedQuery?: string;
 }
 export const QueryStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     queryHash: S.optional(S.String),
-    normalizedQuery: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    resourceIds: S.optional(ResourceIdList),
     queryMetrics: S.optional(QueryMetrics),
     inefficientQueryInfo: S.optional(InefficientQueryInfo),
-    resourceIds: S.optional(ResourceIdList),
-    resourceType: S.optional(S.String),
+    normalizedQuery: S.optional(S.String),
   }),
 ).annotate({ identifier: "QueryStats" }) as any as S.Schema<QueryStats>;
 
@@ -909,15 +909,15 @@ export const QueryStatsList = /*@__PURE__*/ S.Array(QueryStats) as any as S.Sche
 
 /** QueryStatsInfo contains the aggregated and detailed query stats for a particular combination of relevant query stats for queries having same normalized query. */
 export interface QueryStatsInfo {
-  /** List of query stats for the resources in the group. This stats is stats at resource level for the resources having same normalized query. */
-  queryStats?: QueryStatsList;
   /** Aggregated query stats for the resources for same normalized query. */
   aggregatedQueryStats?: QueryStats;
+  /** List of query stats for the resources in the group. This stats is stats at resource level for the resources having same normalized query. */
+  queryStats?: QueryStatsList;
 }
 export const QueryStatsInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queryStats: S.optional(QueryStatsList),
     aggregatedQueryStats: S.optional(QueryStats),
+    queryStats: S.optional(QueryStatsList),
   }),
 ).annotate({ identifier: "QueryStatsInfo" }) as any as S.Schema<QueryStatsInfo>;
 
@@ -928,18 +928,18 @@ export const QueryStatsInfoList = /*@__PURE__*/ S.Array(
 
 /** The response message containing relevant query stats for database resources. */
 export interface AggregateQueryStatsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-  /** List of query stats where each group contains stats for resources having a particular combination of relevant query stats. */
-  queryStats?: QueryStatsInfoList;
   /** Unordered list. List of unreachable regions from where data could not be retrieved. */
   unreachable?: StringList;
+  /** List of query stats where each group contains stats for resources having a particular combination of relevant query stats. */
+  queryStats?: QueryStatsInfoList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const AggregateQueryStatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    queryStats: S.optional(QueryStatsInfoList),
     unreachable: S.optional(StringList),
+    queryStats: S.optional(QueryStatsInfoList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AggregateQueryStatsResponse",
@@ -986,134 +986,6 @@ export const AggregateQueryStatsProjectsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AggregateQueryStatsProjectsRequest",
 }) as any as S.Schema<AggregateQueryStatsProjectsRequest>;
-
-export type ProductList = Array<Product>;
-export const ProductList = /*@__PURE__*/ S.Array(Product) as any as S.Schema<ProductList>;
-
-export type SignalProductsFiltersSignalTypeEnum =
-  | "SIGNAL_TYPE_UNSPECIFIED"
-  | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
-  | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
-  | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
-  | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
-  | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
-  | "SIGNAL_TYPE_LAST_BACKUP_OLD"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_2_0"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_3"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_2"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_1"
-  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_0"
-  | "SIGNAL_TYPE_VIOLATES_CIS_CONTROLS_V8_0"
-  | "SIGNAL_TYPE_VIOLATES_NIST_800_53"
-  | "SIGNAL_TYPE_VIOLATES_NIST_800_53_R5"
-  | "SIGNAL_TYPE_VIOLATES_NIST_CYBERSECURITY_FRAMEWORK_V1_0"
-  | "SIGNAL_TYPE_VIOLATES_ISO_27001"
-  | "SIGNAL_TYPE_VIOLATES_ISO_27001_V2022"
-  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V3_2_1"
-  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V4_0"
-  | "SIGNAL_TYPE_VIOLATES_CLOUD_CONTROLS_MATRIX_V4"
-  | "SIGNAL_TYPE_VIOLATES_HIPAA"
-  | "SIGNAL_TYPE_VIOLATES_SOC2_V2017"
-  | "SIGNAL_TYPE_LOGS_NOT_OPTIMIZED_FOR_TROUBLESHOOTING"
-  | "SIGNAL_TYPE_QUERY_DURATIONS_NOT_LOGGED"
-  | "SIGNAL_TYPE_VERBOSE_ERROR_LOGGING"
-  | "SIGNAL_TYPE_QUERY_LOCK_WAITS_NOT_LOGGED"
-  | "SIGNAL_TYPE_LOGGING_MOST_ERRORS"
-  | "SIGNAL_TYPE_LOGGING_ONLY_CRITICAL_ERRORS"
-  | "SIGNAL_TYPE_MINIMAL_ERROR_LOGGING"
-  | "SIGNAL_TYPE_QUERY_STATS_LOGGED"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_CLIENT_HOSTNAME"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PARSER_STATS"
-  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PLANNER_STATS"
-  | "SIGNAL_TYPE_NOT_LOGGING_ONLY_DDL_STATEMENTS"
-  | "SIGNAL_TYPE_LOGGING_QUERY_STATS"
-  | "SIGNAL_TYPE_NOT_LOGGING_TEMPORARY_FILES"
-  | "SIGNAL_TYPE_CONNECTION_MAX_NOT_CONFIGURED"
-  | "SIGNAL_TYPE_USER_OPTIONS_CONFIGURED"
-  | "SIGNAL_TYPE_EXPOSED_TO_PUBLIC_ACCESS"
-  | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
-  | "SIGNAL_TYPE_NO_ROOT_PASSWORD"
-  | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
-  | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
-  | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
-  | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
-  | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
-  | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
-  | "SIGNAL_TYPE_DISCONNECTIONS_NOT_LOGGED"
-  | "SIGNAL_TYPE_LOGGING_EXCESSIVE_STATEMENT_INFO"
-  | "SIGNAL_TYPE_EXPOSED_TO_REMOTE_ACCESS"
-  | "SIGNAL_TYPE_DATABASE_NAMES_EXPOSED"
-  | "SIGNAL_TYPE_SENSITIVE_TRACE_INFO_NOT_MASKED"
-  | "SIGNAL_TYPE_PUBLIC_IP_ENABLED"
-  | "SIGNAL_TYPE_IDLE"
-  | "SIGNAL_TYPE_OVERPROVISIONED"
-  | "SIGNAL_TYPE_HIGH_NUMBER_OF_OPEN_TABLES"
-  | "SIGNAL_TYPE_HIGH_NUMBER_OF_TABLES"
-  | "SIGNAL_TYPE_HIGH_TRANSACTION_ID_UTILIZATION"
-  | "SIGNAL_TYPE_UNDERPROVISIONED"
-  | "SIGNAL_TYPE_OUT_OF_DISK"
-  | "SIGNAL_TYPE_SERVER_CERTIFICATE_NEAR_EXPIRY"
-  | "SIGNAL_TYPE_DATABASE_AUDITING_DISABLED"
-  | "SIGNAL_TYPE_RESTRICT_AUTHORIZED_NETWORKS"
-  | "SIGNAL_TYPE_VIOLATE_POLICY_RESTRICT_PUBLIC_IP"
-  | "SIGNAL_TYPE_QUOTA_LIMIT"
-  | "SIGNAL_TYPE_NO_PASSWORD_POLICY"
-  | "SIGNAL_TYPE_CONNECTIONS_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_TMP_TABLES_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_TRANS_LOGS_PERFORMANCE_IMPACT"
-  | "SIGNAL_TYPE_HIGH_JOINS_WITHOUT_INDEXES"
-  | "SIGNAL_TYPE_SUPERUSER_WRITING_TO_USER_TABLES"
-  | "SIGNAL_TYPE_USER_GRANTED_ALL_PERMISSIONS"
-  | "SIGNAL_TYPE_DATA_EXPORT_TO_EXTERNAL_CLOUD_STORAGE_BUCKET"
-  | "SIGNAL_TYPE_DATA_EXPORT_TO_PUBLIC_CLOUD_STORAGE_BUCKET"
-  | "SIGNAL_TYPE_WEAK_PASSWORD_HASH_ALGORITHM"
-  | "SIGNAL_TYPE_NO_USER_PASSWORD_POLICY"
-  | "SIGNAL_TYPE_HOT_NODE"
-  | "SIGNAL_TYPE_NO_DELETION_PROTECTION"
-  | "SIGNAL_TYPE_NO_POINT_IN_TIME_RECOVERY"
-  | "SIGNAL_TYPE_RESOURCE_SUSPENDED"
-  | "SIGNAL_TYPE_EXPENSIVE_COMMANDS"
-  | "SIGNAL_TYPE_NO_MAINTENANCE_POLICY_CONFIGURED"
-  | "SIGNAL_TYPE_INEFFICIENT_QUERY"
-  | "SIGNAL_TYPE_READ_INTENSIVE_WORKLOAD"
-  | "SIGNAL_TYPE_MEMORY_LIMIT"
-  | "SIGNAL_TYPE_MAX_SERVER_MEMORY"
-  | "SIGNAL_TYPE_LARGE_ROWS"
-  | "SIGNAL_TYPE_HIGH_WRITE_PRESSURE"
-  | "SIGNAL_TYPE_HIGH_READ_PRESSURE"
-  | "SIGNAL_TYPE_ENCRYPTION_ORG_POLICY_NOT_SATISFIED"
-  | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
-  | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
-  | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
-  | "SIGNAL_TYPE_REPLICATION_LAG"
-  | "SIGNAL_TYPE_OUTDATED_CLIENT"
-  | "SIGNAL_TYPE_DATABOOST_DISABLED"
-  | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
-  | "SIGNAL_TYPE_EXTENDED_SUPPORT"
-  | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
-  | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
-  | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
-  | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
-export const SignalProductsFiltersSignalTypeEnum = S.String;
-
-/** SignalProductsFilters represents a signal and list of supported products. */
-export interface SignalProductsFilters {
-  /** Optional. Product type of the resource. The version of the product will be ignored in filtering. */
-  products?: ProductList;
-  /** Optional. The type of signal. */
-  signalType?: SignalProductsFiltersSignalTypeEnum | (string & {});
-}
-export const SignalProductsFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    products: S.optional(ProductList),
-    signalType: S.optional(SignalProductsFiltersSignalTypeEnum),
-  }),
-).annotate({ identifier: "SignalProductsFilters" }) as any as S.Schema<SignalProductsFilters>;
-
-export type SignalProductsFiltersList = Array<SignalProductsFilters>;
-export const SignalProductsFiltersList = /*@__PURE__*/ S.Array(
-  SignalProductsFilters,
-) as any as S.Schema<SignalProductsFiltersList>;
 
 export type SignalFilterSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
@@ -1248,35 +1120,163 @@ export const SignalFilterList = /*@__PURE__*/ S.Array(
   SignalFilter,
 ) as any as S.Schema<SignalFilterList>;
 
+export type SignalProductsFiltersSignalTypeEnum =
+  | "SIGNAL_TYPE_UNSPECIFIED"
+  | "SIGNAL_TYPE_RESOURCE_FAILOVER_PROTECTED"
+  | "SIGNAL_TYPE_GROUP_MULTIREGIONAL"
+  | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
+  | "SIGNAL_TYPE_SHORT_BACKUP_RETENTION"
+  | "SIGNAL_TYPE_LAST_BACKUP_FAILED"
+  | "SIGNAL_TYPE_LAST_BACKUP_OLD"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_2_0"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_3"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_2"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_1"
+  | "SIGNAL_TYPE_VIOLATES_CIS_GCP_FOUNDATION_1_0"
+  | "SIGNAL_TYPE_VIOLATES_CIS_CONTROLS_V8_0"
+  | "SIGNAL_TYPE_VIOLATES_NIST_800_53"
+  | "SIGNAL_TYPE_VIOLATES_NIST_800_53_R5"
+  | "SIGNAL_TYPE_VIOLATES_NIST_CYBERSECURITY_FRAMEWORK_V1_0"
+  | "SIGNAL_TYPE_VIOLATES_ISO_27001"
+  | "SIGNAL_TYPE_VIOLATES_ISO_27001_V2022"
+  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V3_2_1"
+  | "SIGNAL_TYPE_VIOLATES_PCI_DSS_V4_0"
+  | "SIGNAL_TYPE_VIOLATES_CLOUD_CONTROLS_MATRIX_V4"
+  | "SIGNAL_TYPE_VIOLATES_HIPAA"
+  | "SIGNAL_TYPE_VIOLATES_SOC2_V2017"
+  | "SIGNAL_TYPE_LOGS_NOT_OPTIMIZED_FOR_TROUBLESHOOTING"
+  | "SIGNAL_TYPE_QUERY_DURATIONS_NOT_LOGGED"
+  | "SIGNAL_TYPE_VERBOSE_ERROR_LOGGING"
+  | "SIGNAL_TYPE_QUERY_LOCK_WAITS_NOT_LOGGED"
+  | "SIGNAL_TYPE_LOGGING_MOST_ERRORS"
+  | "SIGNAL_TYPE_LOGGING_ONLY_CRITICAL_ERRORS"
+  | "SIGNAL_TYPE_MINIMAL_ERROR_LOGGING"
+  | "SIGNAL_TYPE_QUERY_STATS_LOGGED"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_CLIENT_HOSTNAME"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PARSER_STATS"
+  | "SIGNAL_TYPE_EXCESSIVE_LOGGING_OF_PLANNER_STATS"
+  | "SIGNAL_TYPE_NOT_LOGGING_ONLY_DDL_STATEMENTS"
+  | "SIGNAL_TYPE_LOGGING_QUERY_STATS"
+  | "SIGNAL_TYPE_NOT_LOGGING_TEMPORARY_FILES"
+  | "SIGNAL_TYPE_CONNECTION_MAX_NOT_CONFIGURED"
+  | "SIGNAL_TYPE_USER_OPTIONS_CONFIGURED"
+  | "SIGNAL_TYPE_EXPOSED_TO_PUBLIC_ACCESS"
+  | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
+  | "SIGNAL_TYPE_NO_ROOT_PASSWORD"
+  | "SIGNAL_TYPE_WEAK_ROOT_PASSWORD"
+  | "SIGNAL_TYPE_ENCRYPTION_KEY_NOT_CUSTOMER_MANAGED"
+  | "SIGNAL_TYPE_SERVER_AUTHENTICATION_NOT_REQUIRED"
+  | "SIGNAL_TYPE_EXPOSED_TO_EXTERNAL_SCRIPTS"
+  | "SIGNAL_TYPE_EXPOSED_TO_LOCAL_DATA_LOADS"
+  | "SIGNAL_TYPE_CONNECTION_ATTEMPTS_NOT_LOGGED"
+  | "SIGNAL_TYPE_DISCONNECTIONS_NOT_LOGGED"
+  | "SIGNAL_TYPE_LOGGING_EXCESSIVE_STATEMENT_INFO"
+  | "SIGNAL_TYPE_EXPOSED_TO_REMOTE_ACCESS"
+  | "SIGNAL_TYPE_DATABASE_NAMES_EXPOSED"
+  | "SIGNAL_TYPE_SENSITIVE_TRACE_INFO_NOT_MASKED"
+  | "SIGNAL_TYPE_PUBLIC_IP_ENABLED"
+  | "SIGNAL_TYPE_IDLE"
+  | "SIGNAL_TYPE_OVERPROVISIONED"
+  | "SIGNAL_TYPE_HIGH_NUMBER_OF_OPEN_TABLES"
+  | "SIGNAL_TYPE_HIGH_NUMBER_OF_TABLES"
+  | "SIGNAL_TYPE_HIGH_TRANSACTION_ID_UTILIZATION"
+  | "SIGNAL_TYPE_UNDERPROVISIONED"
+  | "SIGNAL_TYPE_OUT_OF_DISK"
+  | "SIGNAL_TYPE_SERVER_CERTIFICATE_NEAR_EXPIRY"
+  | "SIGNAL_TYPE_DATABASE_AUDITING_DISABLED"
+  | "SIGNAL_TYPE_RESTRICT_AUTHORIZED_NETWORKS"
+  | "SIGNAL_TYPE_VIOLATE_POLICY_RESTRICT_PUBLIC_IP"
+  | "SIGNAL_TYPE_QUOTA_LIMIT"
+  | "SIGNAL_TYPE_NO_PASSWORD_POLICY"
+  | "SIGNAL_TYPE_CONNECTIONS_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_TMP_TABLES_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_TRANS_LOGS_PERFORMANCE_IMPACT"
+  | "SIGNAL_TYPE_HIGH_JOINS_WITHOUT_INDEXES"
+  | "SIGNAL_TYPE_SUPERUSER_WRITING_TO_USER_TABLES"
+  | "SIGNAL_TYPE_USER_GRANTED_ALL_PERMISSIONS"
+  | "SIGNAL_TYPE_DATA_EXPORT_TO_EXTERNAL_CLOUD_STORAGE_BUCKET"
+  | "SIGNAL_TYPE_DATA_EXPORT_TO_PUBLIC_CLOUD_STORAGE_BUCKET"
+  | "SIGNAL_TYPE_WEAK_PASSWORD_HASH_ALGORITHM"
+  | "SIGNAL_TYPE_NO_USER_PASSWORD_POLICY"
+  | "SIGNAL_TYPE_HOT_NODE"
+  | "SIGNAL_TYPE_NO_DELETION_PROTECTION"
+  | "SIGNAL_TYPE_NO_POINT_IN_TIME_RECOVERY"
+  | "SIGNAL_TYPE_RESOURCE_SUSPENDED"
+  | "SIGNAL_TYPE_EXPENSIVE_COMMANDS"
+  | "SIGNAL_TYPE_NO_MAINTENANCE_POLICY_CONFIGURED"
+  | "SIGNAL_TYPE_INEFFICIENT_QUERY"
+  | "SIGNAL_TYPE_READ_INTENSIVE_WORKLOAD"
+  | "SIGNAL_TYPE_MEMORY_LIMIT"
+  | "SIGNAL_TYPE_MAX_SERVER_MEMORY"
+  | "SIGNAL_TYPE_LARGE_ROWS"
+  | "SIGNAL_TYPE_HIGH_WRITE_PRESSURE"
+  | "SIGNAL_TYPE_HIGH_READ_PRESSURE"
+  | "SIGNAL_TYPE_ENCRYPTION_ORG_POLICY_NOT_SATISFIED"
+  | "SIGNAL_TYPE_LOCATION_ORG_POLICY_NOT_SATISFIED"
+  | "SIGNAL_TYPE_OUTDATED_MINOR_VERSION"
+  | "SIGNAL_TYPE_SCHEMA_NOT_OPTIMIZED"
+  | "SIGNAL_TYPE_REPLICATION_LAG"
+  | "SIGNAL_TYPE_OUTDATED_CLIENT"
+  | "SIGNAL_TYPE_DATABOOST_DISABLED"
+  | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
+  | "SIGNAL_TYPE_EXTENDED_SUPPORT"
+  | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
+  | "SIGNAL_TYPE_HIGH_MAINTENANCE_DOWNTIME_RISK"
+  | "SIGNAL_TYPE_LOW_CACHE_HIT_AND_MAINTENANCE_DOWNTIME"
+  | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
+export const SignalProductsFiltersSignalTypeEnum = S.String;
+
+export type ProductList = Array<Product>;
+export const ProductList = /*@__PURE__*/ S.Array(Product) as any as S.Schema<ProductList>;
+
+/** SignalProductsFilters represents a signal and list of supported products. */
+export interface SignalProductsFilters {
+  /** Optional. The type of signal. */
+  signalType?: SignalProductsFiltersSignalTypeEnum | (string & {});
+  /** Optional. Product type of the resource. The version of the product will be ignored in filtering. */
+  products?: ProductList;
+}
+export const SignalProductsFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    signalType: S.optional(SignalProductsFiltersSignalTypeEnum),
+    products: S.optional(ProductList),
+  }),
+).annotate({ identifier: "SignalProductsFilters" }) as any as S.Schema<SignalProductsFilters>;
+
+export type SignalProductsFiltersList = Array<SignalProductsFilters>;
+export const SignalProductsFiltersList = /*@__PURE__*/ S.Array(
+  SignalProductsFilters,
+) as any as S.Schema<SignalProductsFiltersList>;
+
 /** QueryDatabaseResourceGroupsRequest is the request to get a list of database groups. */
 export interface QueryDatabaseResourceGroupsRequest {
-  /** Optional. A page token, received from a previous `QueryDatabaseResourceGroupsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page page token. */
-  pageToken?: string;
-  /** Optional. Groups of signal types that are requested. */
-  signalTypeGroups?: SignalTypeGroupList;
   /** Optional. A field that specifies the sort order of the results. The following fields are sortable: * full_resource_name * product.type * product.engine * product.version * container * issue_count * machine_config.vcpu_count * machine_config.memory_size_bytes * machine_config.shard_count * resource_name * issue_severity * signal_type * location * resource_type * instance_type * edition * modes * metrics.p99_cpu_utilization * metrics.p95_cpu_utilization * metrics.current_storage_used_bytes * metrics.node_count * metrics.processing_unit_count * metrics.current_memory_used_bytes * metrics.peak_storage_utilization * metrics.peak_number_connections * metrics.peak_memory_utilization The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. For example: `order_by = "full_resource_name"` sorts response in ascending order `order_by = "full_resource_name DESC"` sorts response in descending order `order_by = "issue_count DESC"` sorts response in descending order of count of all issues associated with a resource. More explicitly, `order_by = "full_resource_name, product"` is not supported. */
   orderBy?: string;
-  /** Optional. Filters based on signal and product. The filter list will be ORed across pairs and ANDed within a signal and products pair. */
-  signalProductsFilters?: SignalProductsFiltersList;
-  /** Optional. If unspecified, at most 50 resource groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent?: string;
   /** Optional. The expression to filter resources. The following fields are filterable: * full_resource_name * resource_type * container * product.type * product.engine * product.version * location * labels * resource_category * machine_config.cpu_count * machine_config.memory_size_bytes * machine_config.shard_count * resource_name * tags * backupdr_config.backupdr_managed * edition * modes The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` Example: `full_resource_name=~"test"` Example: `full_resource_name=~"test.*master"` */
   filter?: string;
+  /** Optional. A page token, received from a previous `QueryDatabaseResourceGroupsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page page token. */
+  pageToken?: string;
+  /** Optional. If unspecified, at most 50 resource groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. Filters based on signals. The list will be ORed together and then ANDed with the `filters` field above. */
   signalFilters?: SignalFilterList;
+  /** Optional. Groups of signal types that are requested. */
+  signalTypeGroups?: SignalTypeGroupList;
+  /** Optional. Filters based on signal and product. The filter list will be ORed across pairs and ANDed within a signal and products pair. */
+  signalProductsFilters?: SignalProductsFiltersList;
 }
 export const QueryDatabaseResourceGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String),
-    signalTypeGroups: S.optional(SignalTypeGroupList),
     orderBy: S.optional(S.String),
-    signalProductsFilters: S.optional(SignalProductsFiltersList),
-    pageSize: S.optional(S.Number),
     parent: S.optional(S.String),
     filter: S.optional(S.String),
+    pageToken: S.optional(S.String),
+    pageSize: S.optional(S.Number),
     signalFilters: S.optional(SignalFilterList),
+    signalTypeGroups: S.optional(SignalTypeGroupList),
+    signalProductsFilters: S.optional(SignalProductsFiltersList),
   }),
 ).annotate({
   identifier: "QueryDatabaseResourceGroupsRequest",
@@ -1300,22 +1300,281 @@ export const QueryDatabaseResourceGroupsV1betaRequest = /*@__PURE__*/ S.suspend(
   identifier: "QueryDatabaseResourceGroupsV1betaRequest",
 }) as any as S.Schema<QueryDatabaseResourceGroupsV1betaRequest>;
 
-/** Count of issues for a group of signals. */
-export interface IssueCount {
-  /** The count of the number of issues associated with those resources that are explicitly filtered in by the filters present in the request. A signal is an issue when its SignalStatus field is set to SIGNAL_STATUS_ISSUE. */
-  issueCount?: number;
-  /** Title of a signal group corresponding to the request. */
-  displayName?: string;
-}
-export const IssueCount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    issueCount: S.optional(S.Number),
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "IssueCount" }) as any as S.Schema<IssueCount>;
+export type MaintenanceInfoPossibleFailureReasonsItemEnum =
+  | "POSSIBLE_FAILURE_REASON_UNSPECIFIED"
+  | "POSSIBLE_FAILURE_REASON_DENY_POLICY_CONFLICT"
+  | "POSSIBLE_FAILURE_REASON_INSTANCE_IN_STOPPED_STATE";
+export const MaintenanceInfoPossibleFailureReasonsItemEnum = S.String;
 
-export type IssueCountList = Array<IssueCount>;
-export const IssueCountList = /*@__PURE__*/ S.Array(IssueCount) as any as S.Schema<IssueCountList>;
+export type MaintenanceInfoPossibleFailureReasonsItemEnumList =
+  Array<MaintenanceInfoPossibleFailureReasonsItemEnum>;
+export const MaintenanceInfoPossibleFailureReasonsItemEnumList = /*@__PURE__*/ S.Array(
+  MaintenanceInfoPossibleFailureReasonsItemEnum,
+) as any as S.Schema<MaintenanceInfoPossibleFailureReasonsItemEnumList>;
+
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+}
+export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minutes: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+    hours: S.optional(S.Number),
+    nanos: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
+
+export type ResourceMaintenanceScheduleDayEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const ResourceMaintenanceScheduleDayEnum = S.String;
+
+export type ResourceMaintenanceSchedulePhaseEnum =
+  | "PHASE_UNSPECIFIED"
+  | "PHASE_WEEK1"
+  | "PHASE_WEEK2"
+  | "PHASE_WEEK5"
+  | "PHASE_ANY";
+export const ResourceMaintenanceSchedulePhaseEnum = S.String;
+
+/** Maintenance window for the database resource. It specifies preferred time and day of the week and phase in some cases, when the maintenance can start. */
+export interface ResourceMaintenanceSchedule {
+  /** Optional. Preferred time to start the maintenance operation on the specified day. */
+  startTime?: TimeOfDay;
+  /** Optional. Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc. */
+  day?: ResourceMaintenanceScheduleDayEnum;
+  /** Optional. Phase of the maintenance window. This is to capture order of maintenance. For example, for Cloud SQL resources, this can be used to capture if the maintenance window is in Week1, Week2, Week5, etc. Non production resources are usually part of early phase. For more details, refer to Cloud SQL resources - https://cloud.google.com/sql/docs/mysql/maintenance */
+  phase?: ResourceMaintenanceSchedulePhaseEnum;
+}
+export const ResourceMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(TimeOfDay),
+    day: S.optional(ResourceMaintenanceScheduleDayEnum),
+    phase: S.optional(ResourceMaintenanceSchedulePhaseEnum),
+  }),
+).annotate({
+  identifier: "ResourceMaintenanceSchedule",
+}) as any as S.Schema<ResourceMaintenanceSchedule>;
+
+/** Deny maintenance period for the database resource. It specifies the time range during which the maintenance cannot start. This is configured by the customer. */
+export interface ResourceMaintenanceDenySchedule {
+  /** Optional. Time in UTC when the deny period starts on start_date and ends on end_date. */
+  time?: TimeOfDay;
+  /** Optional. Deny period end date. */
+  endDate?: Databasecenter_Date;
+  /** Optional. The start date of the deny maintenance period. */
+  startDate?: Databasecenter_Date;
+}
+export const ResourceMaintenanceDenySchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time: S.optional(TimeOfDay),
+    endDate: S.optional(Databasecenter_Date),
+    startDate: S.optional(Databasecenter_Date),
+  }),
+).annotate({
+  identifier: "ResourceMaintenanceDenySchedule",
+}) as any as S.Schema<ResourceMaintenanceDenySchedule>;
+
+export type ResourceMaintenanceDenyScheduleList = Array<ResourceMaintenanceDenySchedule>;
+export const ResourceMaintenanceDenyScheduleList = /*@__PURE__*/ S.Array(
+  ResourceMaintenanceDenySchedule,
+) as any as S.Schema<ResourceMaintenanceDenyScheduleList>;
+
+export type MaintenanceInfoStateEnum =
+  | "MAINTENANCE_STATE_UNSPECIFIED"
+  | "MAINTENANCE_STATE_SCHEDULED"
+  | "MAINTENANCE_STATE_IN_PROGRESS"
+  | "MAINTENANCE_STATE_COMPLETED"
+  | "MAINTENANCE_STATE_FAILED";
+export const MaintenanceInfoStateEnum = S.String;
+
+/** Upcoming maintenance window for the database resource. */
+export interface UpcomingMaintenance {
+  /** Output only. Start time of the upcoming maintenance. Start time is always populated when an upcoming maintenance is scheduled. */
+  startTime?: string;
+  /** Output only. End time of the upcoming maintenance. This is only populated for an engine, if end time is public for the engine. */
+  endTime?: string;
+}
+export const UpcomingMaintenance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "UpcomingMaintenance" }) as any as S.Schema<UpcomingMaintenance>;
+
+/** MaintenanceInfo to capture the maintenance details of database resource. */
+export interface MaintenanceInfo {
+  /** Output only. List of possible reasons why the maintenance is not completed. This is an optional field and is only populated if there are any reasons for failures recorded for the maintenance by DB Center. FAILURE maintenance status may not always have a failure reason. */
+  possibleFailureReasons?: MaintenanceInfoPossibleFailureReasonsItemEnumList;
+  /** Optional. Maintenance window for the database resource. */
+  maintenanceSchedule?: ResourceMaintenanceSchedule;
+  /** Optional. List of Deny maintenance period for the database resource. */
+  denyMaintenanceSchedules?: ResourceMaintenanceDenyScheduleList;
+  /** Output only. Previous maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15". This is available once a minor version maintenance is complete on a database resource. */
+  previousMaintenanceVersion?: string;
+  /** Output only. Resource maintenance state. This is to capture the current state of the maintenance. */
+  state?: MaintenanceInfoStateEnum;
+  /** Output only. Upcoming maintenance window for the database resource. This is only populated for an engine, if upcoming maintenance is scheduled for the resource. This schedule is generated per engine and engine version, and there is only one upcoming maintenance window at any given time. In case of upcoming maintenance, the maintenance_state will be set to SCHEDULED first, and then IN_PROGRESS when the maintenance window starts. */
+  upcomingMaintenance?: UpcomingMaintenance;
+  /** Output only. Current Maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15" */
+  maintenanceVersion?: string;
+  /** Output only. The date when the maintenance version was released. */
+  currentVersionReleaseDate?: Databasecenter_Date;
+}
+export const MaintenanceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    possibleFailureReasons: S.optional(MaintenanceInfoPossibleFailureReasonsItemEnumList),
+    maintenanceSchedule: S.optional(ResourceMaintenanceSchedule),
+    denyMaintenanceSchedules: S.optional(ResourceMaintenanceDenyScheduleList),
+    previousMaintenanceVersion: S.optional(S.String),
+    state: S.optional(MaintenanceInfoStateEnum),
+    upcomingMaintenance: S.optional(UpcomingMaintenance),
+    maintenanceVersion: S.optional(S.String),
+    currentVersionReleaseDate: S.optional(Databasecenter_Date),
+  }),
+).annotate({ identifier: "MaintenanceInfo" }) as any as S.Schema<MaintenanceInfo>;
+
+/** Tag is a key value pair attached to a resource. */
+export interface Tag {
+  /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource. */
+  inherited?: boolean;
+  /** The value part of the tag. */
+  value?: string;
+  /** The source of the tag. According to https://cloud.google.com/resource-manager/docs/tags/tags-overview#tags_and_labels, tags can be created only at the project or organization level. Tags can be inherited from different project as well not just the current project where the database resource is present. Format: "projects/{PROJECT_ID}", "projects/{PROJECT_NUMBER}", "organizations/{ORGANIZATION_ID}" */
+  source?: string;
+  key?: string;
+}
+export const Tag = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inherited: S.optional(S.Boolean),
+    value: S.optional(S.String),
+    source: S.optional(S.String),
+    key: S.optional(S.String),
+  }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+
+export type TagList = Array<Tag>;
+export const TagList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagList>;
+
+/** BackupDRConfig to capture the backup and disaster recovery details of database resource. */
+export interface BackupDRConfig {
+  /** Indicates if the resource is managed by BackupDR. */
+  backupdrManaged?: boolean;
+}
+export const BackupDRConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    backupdrManaged: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "BackupDRConfig" }) as any as S.Schema<BackupDRConfig>;
+
+/** TypedValue represents the value of the metric based on data type. */
+export interface TypedValue {
+  /** The value of the metric as int. */
+  int64Value?: string;
+  /** The value of the metric as double. */
+  doubleValue?: number;
+}
+export const TypedValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    int64Value: S.optional(S.String),
+    doubleValue: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TypedValue" }) as any as S.Schema<TypedValue>;
+
+/** MetricData represents the metric data for a database resource. */
+export interface MetricData {
+  /** The value associated with the metric. */
+  value?: TypedValue;
+  /** The time the metric was observed in the metric source service. */
+  observationTime?: string;
+}
+export const MetricData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(TypedValue),
+    observationTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "MetricData" }) as any as S.Schema<MetricData>;
+
+/** Metrics represents the metrics for a database resource. */
+export interface Metrics {
+  /** Number of nodes in instance for spanner or bigtable. */
+  nodeCount?: MetricData;
+  /** Peak storage utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  peakStorageUtilization?: MetricData;
+  /** Number of processing units in spanner. */
+  processingUnitCount?: MetricData;
+  /** P95 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  p95CpuUtilization?: MetricData;
+  /** Peak number of connections observed for the resource. The value is a positive integer. */
+  peakNumberConnections?: MetricData;
+  /** P99 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  p99CpuUtilization?: MetricData;
+  /** Current storage used by the resource in bytes. */
+  currentStorageUsedBytes?: MetricData;
+  /** Current memory used by the resource in bytes. */
+  currentMemoryUsedBytes?: MetricData;
+  /** Peak memory utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
+  peakMemoryUtilization?: MetricData;
+}
+export const Metrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nodeCount: S.optional(MetricData),
+    peakStorageUtilization: S.optional(MetricData),
+    processingUnitCount: S.optional(MetricData),
+    p95CpuUtilization: S.optional(MetricData),
+    peakNumberConnections: S.optional(MetricData),
+    p99CpuUtilization: S.optional(MetricData),
+    currentStorageUsedBytes: S.optional(MetricData),
+    currentMemoryUsedBytes: S.optional(MetricData),
+    peakMemoryUtilization: S.optional(MetricData),
+  }),
+).annotate({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
+
+/** MachineConfig describes the configuration of a machine specific to a Database Resource. */
+export interface MachineConfig {
+  /** Optional. Max slots for BigQuery Reservations. Max slots are in increments of 50. */
+  maxReservationSlotCount?: string;
+  /** Memory size in bytes. */
+  memorySizeBytes?: string;
+  /** Optional. The number of vCPUs (if applicable). */
+  vcpuCount?: number;
+  /** Optional. Baseline slots for BigQuery Reservations. Baseline slots are in increments of 50. */
+  baselineSlotCount?: string;
+  /** Optional. The number of Shards (if applicable). */
+  shardCount?: number;
+}
+export const MachineConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxReservationSlotCount: S.optional(S.String),
+    memorySizeBytes: S.optional(S.String),
+    vcpuCount: S.optional(S.Number),
+    baselineSlotCount: S.optional(S.String),
+    shardCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "MachineConfig" }) as any as S.Schema<MachineConfig>;
+
+export type DatabaseResourceResourceCategoryEnum =
+  | "RESOURCE_CATEGORY_UNSPECIFIED"
+  | "INSTANCE"
+  | "CLUSTER"
+  | "DATABASE"
+  | "DATASET"
+  | "RESERVATION";
+export const DatabaseResourceResourceCategoryEnum = S.String;
 
 export type DatabaseResourceSubResourceTypeEnum =
   | "SUB_RESOURCE_TYPE_UNSPECIFIED"
@@ -1331,213 +1590,40 @@ export const DatabaseResourceSubResourceTypeEnum = S.String;
 
 /** Label is a key value pair applied to a resource. */
 export interface Label {
-  /** The value part of the label. */
-  value?: string;
-  /** The key part of the label. */
-  key?: string;
   /** The source of the Label. Source is empty if the label is directly attached to the resource and not inherited. */
   source?: string;
+  /** The key part of the label. */
+  key?: string;
+  /** The value part of the label. */
+  value?: string;
 }
 export const Label = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
-    key: S.optional(S.String),
     source: S.optional(S.String),
+    key: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
 
 export type LabelList = Array<Label>;
 export const LabelList = /*@__PURE__*/ S.Array(Label) as any as S.Schema<LabelList>;
 
-export type DatabaseResourceResourceCategoryEnum =
-  | "RESOURCE_CATEGORY_UNSPECIFIED"
-  | "INSTANCE"
-  | "CLUSTER"
-  | "DATABASE"
-  | "DATASET"
-  | "RESERVATION";
-export const DatabaseResourceResourceCategoryEnum = S.String;
+export type SignalSignalStatusEnum =
+  | "SIGNAL_STATUS_UNSPECIFIED"
+  | "SIGNAL_STATUS_NOT_APPLICABLE"
+  | "SIGNAL_STATUS_OK"
+  | "SIGNAL_STATUS_ISSUE"
+  | "SIGNAL_STATUS_NOT_ENABLED";
+export const SignalSignalStatusEnum = S.String;
 
-export type DatabaseResourceEditionEnum =
-  | "EDITION_UNSPECIFIED"
-  | "EDITION_ENTERPRISE"
-  | "EDITION_ENTERPRISE_PLUS"
-  | "EDITION_STANDARD";
-export const DatabaseResourceEditionEnum = S.String;
-
-/** MachineConfig describes the configuration of a machine specific to a Database Resource. */
-export interface MachineConfig {
-  /** Optional. Baseline slots for BigQuery Reservations. Baseline slots are in increments of 50. */
-  baselineSlotCount?: string;
-  /** Optional. Max slots for BigQuery Reservations. Max slots are in increments of 50. */
-  maxReservationSlotCount?: string;
-  /** Optional. The number of Shards (if applicable). */
-  shardCount?: number;
-  /** Memory size in bytes. */
-  memorySizeBytes?: string;
-  /** Optional. The number of vCPUs (if applicable). */
-  vcpuCount?: number;
-}
-export const MachineConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baselineSlotCount: S.optional(S.String),
-    maxReservationSlotCount: S.optional(S.String),
-    shardCount: S.optional(S.Number),
-    memorySizeBytes: S.optional(S.String),
-    vcpuCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "MachineConfig" }) as any as S.Schema<MachineConfig>;
-
-export type LineageProcessTypeEnum =
-  | "PROCESS_TYPE_UNSPECIFIED"
-  | "COMPOSER"
-  | "DATASTREAM"
-  | "DATAFLOW"
-  | "BIGQUERY"
-  | "DATA_FUSION"
-  | "DATAPROC";
-export const LineageProcessTypeEnum = S.String;
-
-/** lineage information of the affiliated resources This captures source, target and process which created the lineage. */
-export interface Lineage {
-  /** Optional. Type of process which created the lineage. */
-  processType?: LineageProcessTypeEnum;
-  /** Optional. FQN of process which created the lineage i.e. dataplex, datastream etc. */
-  processFqn?: string;
-  /** Optional. FQN of source table / column */
-  sourceFqn?: string;
-  /** Optional. FQN of target table / column */
-  targetFqn?: string;
-}
-export const Lineage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    processType: S.optional(LineageProcessTypeEnum),
-    processFqn: S.optional(S.String),
-    sourceFqn: S.optional(S.String),
-    targetFqn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Lineage" }) as any as S.Schema<Lineage>;
-
-export type LineageList = Array<Lineage>;
-export const LineageList = /*@__PURE__*/ S.Array(Lineage) as any as S.Schema<LineageList>;
-
-/** Affiliation information of a resource */
-export interface Affiliation {
-  /** Optional. Full resource name */
-  fullResourceName?: string;
-  /** Optional. Multiple lineages can be created from a resource. For example, a resource can be replicated to multiple target resources. In this case, there will be multiple lineages for the resource, one for each target resource. */
-  lineages?: LineageList;
-  /** Optional. resource id of affiliated resource */
-  resourceId?: string;
-}
-export const Affiliation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fullResourceName: S.optional(S.String),
-    lineages: S.optional(LineageList),
-    resourceId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Affiliation" }) as any as S.Schema<Affiliation>;
-
-export type AffiliationList = Array<Affiliation>;
-export const AffiliationList = /*@__PURE__*/ S.Array(
-  Affiliation,
-) as any as S.Schema<AffiliationList>;
-
-/** TypedValue represents the value of the metric based on data type. */
-export interface TypedValue {
-  /** The value of the metric as double. */
-  doubleValue?: number;
-  /** The value of the metric as int. */
-  int64Value?: string;
-}
-export const TypedValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    doubleValue: S.optional(S.Number),
-    int64Value: S.optional(S.String),
-  }),
-).annotate({ identifier: "TypedValue" }) as any as S.Schema<TypedValue>;
-
-/** MetricData represents the metric data for a database resource. */
-export interface MetricData {
-  /** The time the metric was observed in the metric source service. */
-  observationTime?: string;
-  /** The value associated with the metric. */
-  value?: TypedValue;
-}
-export const MetricData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    observationTime: S.optional(S.String),
-    value: S.optional(TypedValue),
-  }),
-).annotate({ identifier: "MetricData" }) as any as S.Schema<MetricData>;
-
-/** Metrics represents the metrics for a database resource. */
-export interface Metrics {
-  /** Number of processing units in spanner. */
-  processingUnitCount?: MetricData;
-  /** Current memory used by the resource in bytes. */
-  currentMemoryUsedBytes?: MetricData;
-  /** Current storage used by the resource in bytes. */
-  currentStorageUsedBytes?: MetricData;
-  /** P95 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  p95CpuUtilization?: MetricData;
-  /** Peak storage utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  peakStorageUtilization?: MetricData;
-  /** Number of nodes in instance for spanner or bigtable. */
-  nodeCount?: MetricData;
-  /** Peak memory utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  peakMemoryUtilization?: MetricData;
-  /** Peak number of connections observed for the resource. The value is a positive integer. */
-  peakNumberConnections?: MetricData;
-  /** P99 CPU utilization observed for the resource. The value is a fraction between 0.0 and 1.0 (may momentarily exceed 1.0 in some cases). */
-  p99CpuUtilization?: MetricData;
-}
-export const Metrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    processingUnitCount: S.optional(MetricData),
-    currentMemoryUsedBytes: S.optional(MetricData),
-    currentStorageUsedBytes: S.optional(MetricData),
-    p95CpuUtilization: S.optional(MetricData),
-    peakStorageUtilization: S.optional(MetricData),
-    nodeCount: S.optional(MetricData),
-    peakMemoryUtilization: S.optional(MetricData),
-    peakNumberConnections: S.optional(MetricData),
-    p99CpuUtilization: S.optional(MetricData),
-  }),
-).annotate({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
-
-/** BackupDRConfig to capture the backup and disaster recovery details of database resource. */
-export interface BackupDRConfig {
-  /** Indicates if the resource is managed by BackupDR. */
-  backupdrManaged?: boolean;
-}
-export const BackupDRConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backupdrManaged: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "BackupDRConfig" }) as any as S.Schema<BackupDRConfig>;
-
-/** Tag is a key value pair attached to a resource. */
-export interface Tag {
-  /** The value part of the tag. */
-  value?: string;
-  key?: string;
-  /** The source of the tag. According to https://cloud.google.com/resource-manager/docs/tags/tags-overview#tags_and_labels, tags can be created only at the project or organization level. Tags can be inherited from different project as well not just the current project where the database resource is present. Format: "projects/{PROJECT_ID}", "projects/{PROJECT_NUMBER}", "organizations/{ORGANIZATION_ID}" */
-  source?: string;
-  /** Indicates the inheritance status of a tag value attached to the given resource. If the tag value is inherited from one of the resource's ancestors, inherited will be true. If false, then the tag value is directly attached to the resource. */
-  inherited?: boolean;
-}
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    key: S.optional(S.String),
-    source: S.optional(S.String),
-    inherited: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
-
-export type TagList = Array<Tag>;
-export const TagList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagList>;
+export type SignalIssueSeverityEnum =
+  | "ISSUE_SEVERITY_UNSPECIFIED"
+  | "ISSUE_SEVERITY_LOW"
+  | "ISSUE_SEVERITY_MEDIUM"
+  | "ISSUE_SEVERITY_HIGH"
+  | "ISSUE_SEVERITY_CRITICAL"
+  | "ISSUE_SEVERITY_IRRELEVANT";
+export const SignalIssueSeverityEnum = S.String;
 
 export type SignalSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
@@ -1645,22 +1731,98 @@ export type SignalSignalTypeEnum =
   | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
 export const SignalSignalTypeEnum = S.String;
 
-export type SignalIssueSeverityEnum =
-  | "ISSUE_SEVERITY_UNSPECIFIED"
-  | "ISSUE_SEVERITY_LOW"
-  | "ISSUE_SEVERITY_MEDIUM"
-  | "ISSUE_SEVERITY_HIGH"
-  | "ISSUE_SEVERITY_CRITICAL"
-  | "ISSUE_SEVERITY_IRRELEVANT";
-export const SignalIssueSeverityEnum = S.String;
+/** Compliances associated with signals. */
+export interface RegulatoryStandard {
+  /** Name of industry compliance standards, such as such as CIS, PCI, and OWASP. */
+  standard?: string;
+  /** Version of the standard or benchmark, for example, 1.1. */
+  version?: string;
+}
+export const RegulatoryStandard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    standard: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "RegulatoryStandard" }) as any as S.Schema<RegulatoryStandard>;
 
-export type SignalSignalStatusEnum =
-  | "SIGNAL_STATUS_UNSPECIFIED"
-  | "SIGNAL_STATUS_NOT_APPLICABLE"
-  | "SIGNAL_STATUS_OK"
-  | "SIGNAL_STATUS_ISSUE"
-  | "SIGNAL_STATUS_NOT_ENABLED";
-export const SignalSignalStatusEnum = S.String;
+export type RegulatoryStandardList = Array<RegulatoryStandard>;
+export const RegulatoryStandardList = /*@__PURE__*/ S.Array(
+  RegulatoryStandard,
+) as any as S.Schema<RegulatoryStandardList>;
+
+/** Info associated with SCC signals. */
+export interface SCCInfo {
+  /** External URI which points to a SCC page associated with the signal. */
+  externalUri?: string;
+  /** Compliances that are associated with the signal. */
+  regulatoryStandards?: RegulatoryStandardList;
+  /** Name by which SCC calls this signal. */
+  category?: string;
+  /** Name of the signal. */
+  signal?: string;
+}
+export const SCCInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalUri: S.optional(S.String),
+    regulatoryStandards: S.optional(RegulatoryStandardList),
+    category: S.optional(S.String),
+    signal: S.optional(S.String),
+  }),
+).annotate({ identifier: "SCCInfo" }) as any as S.Schema<SCCInfo>;
+
+/** Sub resource details For Spanner/Bigtable instance certain data protection settings are at sub resource level like database/table. This message is used to capture such sub resource details. */
+export interface SubResource {
+  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
+  container?: string;
+  /** Optional. Product information associated with the sub resource where backup retention settings are configured. e.g. ``` product: { type : PRODUCT_TYPE_SPANNER engine : ENGINE_CLOUD_SPANNER_WITH_POSTGRES_DIALECT } ``` for Spanner where backup is configured on database within an instance OPTIONAL */
+  product?: Product;
+  /** Optional. Resource name associated with the sub resource where backup settings are configured. E.g."//spanner.googleapis.com/projects/project1/instances/inst1/databases/db1" for Spanner where backup retention is configured on database within an instance OPTIONAL */
+  fullResourceName?: string;
+  /** Optional. Resource type associated with the sub resource where backup settings are configured. E.g. "spanner.googleapis.com/Database" for Spanner where backup retention is configured on database within an instance OPTIONAL */
+  resourceType?: string;
+}
+export const SubResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    container: S.optional(S.String),
+    product: S.optional(Product),
+    fullResourceName: S.optional(S.String),
+    resourceType: S.optional(S.String),
+  }),
+).annotate({ identifier: "SubResource" }) as any as S.Schema<SubResource>;
+
+/** Metadata about backup retention settings for a database resource. */
+export interface RetentionSettingsInfo {
+  /** Number of backups that will be retained. */
+  quantityBasedRetention?: number;
+  /** Duration based retention period i.e. 172800 seconds (2 days) */
+  durationBasedRetention?: string;
+  /** Timestamp based retention period i.e. till 2024-05-01T00:00:00Z */
+  timestampBasedRetentionTime?: string;
+  /** Optional. Sub resource details associated with the backup configuration. */
+  subResource?: SubResource;
+}
+export const RetentionSettingsInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    quantityBasedRetention: S.optional(S.Number),
+    durationBasedRetention: S.optional(S.String),
+    timestampBasedRetentionTime: S.optional(S.String),
+    subResource: S.optional(SubResource),
+  }),
+).annotate({ identifier: "RetentionSettingsInfo" }) as any as S.Schema<RetentionSettingsInfo>;
+
+/** Deletion protection signal info for a database resource. */
+export interface DeletionProtectionInfo {
+  /** Is deletion protection enabled. */
+  deletionProtectionEnabled?: boolean;
+  /** Optional. Sub resource details associated with the signal. */
+  subResource?: SubResource;
+}
+export const DeletionProtectionInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deletionProtectionEnabled: S.optional(S.Boolean),
+    subResource: S.optional(SubResource),
+  }),
+).annotate({ identifier: "DeletionProtectionInfo" }) as any as S.Schema<DeletionProtectionInfo>;
 
 export type AdditionalDetailSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
@@ -1768,39 +1930,111 @@ export type AdditionalDetailSignalTypeEnum =
   | "SIGNAL_TYPE_MISSING_ENHANCED_PROTECTION";
 export const AdditionalDetailSignalTypeEnum = S.String;
 
-/** Sub resource details For Spanner/Bigtable instance certain data protection settings are at sub resource level like database/table. This message is used to capture such sub resource details. */
-export interface SubResource {
-  /** Optional. Resource type associated with the sub resource where backup settings are configured. E.g. "spanner.googleapis.com/Database" for Spanner where backup retention is configured on database within an instance OPTIONAL */
-  resourceType?: string;
-  /** Optional. Resource name associated with the sub resource where backup settings are configured. E.g."//spanner.googleapis.com/projects/project1/instances/inst1/databases/db1" for Spanner where backup retention is configured on database within an instance OPTIONAL */
-  fullResourceName?: string;
-  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
-  container?: string;
-  /** Optional. Product information associated with the sub resource where backup retention settings are configured. e.g. ``` product: { type : PRODUCT_TYPE_SPANNER engine : ENGINE_CLOUD_SPANNER_WITH_POSTGRES_DIALECT } ``` for Spanner where backup is configured on database within an instance OPTIONAL */
-  product?: Product;
-}
-export const SubResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    fullResourceName: S.optional(S.String),
-    container: S.optional(S.String),
-    product: S.optional(Product),
-  }),
-).annotate({ identifier: "SubResource" }) as any as S.Schema<SubResource>;
+export type AdditionalDetailSignalSourceEnum =
+  | "SIGNAL_SOURCE_UNSPECIFIED"
+  | "SIGNAL_SOURCE_RESOURCE_METADATA"
+  | "SIGNAL_SOURCE_SECURITY_FINDINGS"
+  | "SIGNAL_SOURCE_RECOMMENDER"
+  | "SIGNAL_SOURCE_MODERN_OBSERVABILITY";
+export const AdditionalDetailSignalSourceEnum = S.String;
 
-/** Deletion protection signal info for a database resource. */
-export interface DeletionProtectionInfo {
-  /** Optional. Sub resource details associated with the signal. */
-  subResource?: SubResource;
-  /** Is deletion protection enabled. */
-  deletionProtectionEnabled?: boolean;
+export type ResourceMaintenanceScheduleList = Array<ResourceMaintenanceSchedule>;
+export const ResourceMaintenanceScheduleList = /*@__PURE__*/ S.Array(
+  ResourceMaintenanceSchedule,
+) as any as S.Schema<ResourceMaintenanceScheduleList>;
+
+/** Info associated with maintenance recommendation. */
+export interface MaintenanceRecommendationInfo {
+  /** Optional. List of recommended maintenance schedules for the database resource. */
+  resourceMaintenanceSchedules?: ResourceMaintenanceScheduleList;
 }
-export const DeletionProtectionInfo = /*@__PURE__*/ S.suspend(() =>
+export const MaintenanceRecommendationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subResource: S.optional(SubResource),
-    deletionProtectionEnabled: S.optional(S.Boolean),
+    resourceMaintenanceSchedules: S.optional(ResourceMaintenanceScheduleList),
   }),
-).annotate({ identifier: "DeletionProtectionInfo" }) as any as S.Schema<DeletionProtectionInfo>;
+).annotate({
+  identifier: "MaintenanceRecommendationInfo",
+}) as any as S.Schema<MaintenanceRecommendationInfo>;
+
+export type ResourceSuspensionInfoSuspensionReasonEnum =
+  | "SUSPENSION_REASON_UNSPECIFIED"
+  | "WIPEOUT_HIDE_EVENT"
+  | "WIPEOUT_PURGE_EVENT"
+  | "BILLING_DISABLED"
+  | "ABUSER_DETECTED"
+  | "ENCRYPTION_KEY_INACCESSIBLE"
+  | "REPLICATED_CLUSTER_ENCRYPTION_KEY_INACCESSIBLE";
+export const ResourceSuspensionInfoSuspensionReasonEnum = S.String;
+
+/** Resource suspension info for a database resource. */
+export interface ResourceSuspensionInfo {
+  /** Is resource suspended. */
+  resourceSuspended?: boolean;
+  /** Suspension reason for the resource. */
+  suspensionReason?: ResourceSuspensionInfoSuspensionReasonEnum;
+}
+export const ResourceSuspensionInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceSuspended: S.optional(S.Boolean),
+    suspensionReason: S.optional(ResourceSuspensionInfoSuspensionReasonEnum),
+  }),
+).annotate({ identifier: "ResourceSuspensionInfo" }) as any as S.Schema<ResourceSuspensionInfo>;
+
+export type BackupRunInfoOperationErrorTypeEnum =
+  | "OPERATION_ERROR_TYPE_UNSPECIFIED"
+  | "KMS_KEY_ERROR"
+  | "DATABASE_ERROR"
+  | "STOCKOUT_ERROR"
+  | "CANCELLATION_ERROR"
+  | "SQLSERVER_ERROR"
+  | "INTERNAL_ERROR";
+export const BackupRunInfoOperationErrorTypeEnum = S.String;
+
+export type BackupRunInfoStateEnum = "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED";
+export const BackupRunInfoStateEnum = S.String;
+
+/** Metadata about latest backup run state for a database resource. */
+export interface BackupRunInfo {
+  /** The time the backup operation started. */
+  startTime?: string;
+  /** Optional. OperationErrorType to expose specific error when backup operation of database resource failed, that is state is FAILED. */
+  operationErrorType?: BackupRunInfoOperationErrorTypeEnum;
+  /** Additional information about the error encountered. */
+  errorMessage?: string;
+  /** Optional. Sub resource details associated with the backup run. */
+  subResource?: SubResource;
+  /** Output only. The state of this run. */
+  state?: BackupRunInfoStateEnum;
+  /** The time the backup operation completed. */
+  endTime?: string;
+}
+export const BackupRunInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    operationErrorType: S.optional(BackupRunInfoOperationErrorTypeEnum),
+    errorMessage: S.optional(S.String),
+    subResource: S.optional(SubResource),
+    state: S.optional(BackupRunInfoStateEnum),
+    endTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupRunInfo" }) as any as S.Schema<BackupRunInfo>;
+
+/** Info associated with recommendation. */
+export interface RecommendationInfo {
+  /** Name of recommendation. Examples: organizations/1234/locations/us-central1/recommenders/google.cloudsql.instance.PerformanceRecommender/recommendations/9876 */
+  recommender?: string;
+  /** Contains an identifier for a subtype of recommendations produced for the same recommender. Subtype is a function of content and impact, meaning a new subtype might be added when significant changes to `content` or `primary_impact.category` are introduced. See the Recommenders section to see a list of subtypes for a given Recommender. Examples: For recommender = "google.cloudsql.instance.PerformanceRecommender", recommender_subtype can be "MYSQL_HIGH_NUMBER_OF_OPEN_TABLES_BEST_PRACTICE"/"POSTGRES_HIGH_TRANSACTION_ID_UTILIZATION_BEST_PRACTICE" */
+  recommenderSubtype?: string;
+  /** ID of recommender. Examples: "google.cloudsql.instance.PerformanceRecommender" */
+  recommenderId?: string;
+}
+export const RecommendationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommender: S.optional(S.String),
+    recommenderSubtype: S.optional(S.String),
+    recommenderId: S.optional(S.String),
+  }),
+).annotate({ identifier: "RecommendationInfo" }) as any as S.Schema<RecommendationInfo>;
 
 /** Info associated with outdated minor version. */
 export interface OutdatedMinorVersionInfo {
@@ -1829,273 +2063,50 @@ export const AutomatedBackupPolicyInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "AutomatedBackupPolicyInfo",
 }) as any as S.Schema<AutomatedBackupPolicyInfo>;
 
-/** Compliances associated with signals. */
-export interface RegulatoryStandard {
-  /** Version of the standard or benchmark, for example, 1.1. */
-  version?: string;
-  /** Name of industry compliance standards, such as such as CIS, PCI, and OWASP. */
-  standard?: string;
-}
-export const RegulatoryStandard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    standard: S.optional(S.String),
-  }),
-).annotate({ identifier: "RegulatoryStandard" }) as any as S.Schema<RegulatoryStandard>;
-
-export type RegulatoryStandardList = Array<RegulatoryStandard>;
-export const RegulatoryStandardList = /*@__PURE__*/ S.Array(
-  RegulatoryStandard,
-) as any as S.Schema<RegulatoryStandardList>;
-
-/** Info associated with SCC signals. */
-export interface SCCInfo {
-  /** Name by which SCC calls this signal. */
-  category?: string;
-  /** Name of the signal. */
-  signal?: string;
-  /** Compliances that are associated with the signal. */
-  regulatoryStandards?: RegulatoryStandardList;
-  /** External URI which points to a SCC page associated with the signal. */
-  externalUri?: string;
-}
-export const SCCInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: S.optional(S.String),
-    signal: S.optional(S.String),
-    regulatoryStandards: S.optional(RegulatoryStandardList),
-    externalUri: S.optional(S.String),
-  }),
-).annotate({ identifier: "SCCInfo" }) as any as S.Schema<SCCInfo>;
-
-export type ResourceSuspensionInfoSuspensionReasonEnum =
-  | "SUSPENSION_REASON_UNSPECIFIED"
-  | "WIPEOUT_HIDE_EVENT"
-  | "WIPEOUT_PURGE_EVENT"
-  | "BILLING_DISABLED"
-  | "ABUSER_DETECTED"
-  | "ENCRYPTION_KEY_INACCESSIBLE"
-  | "REPLICATED_CLUSTER_ENCRYPTION_KEY_INACCESSIBLE";
-export const ResourceSuspensionInfoSuspensionReasonEnum = S.String;
-
-/** Resource suspension info for a database resource. */
-export interface ResourceSuspensionInfo {
-  /** Suspension reason for the resource. */
-  suspensionReason?: ResourceSuspensionInfoSuspensionReasonEnum;
-  /** Is resource suspended. */
-  resourceSuspended?: boolean;
-}
-export const ResourceSuspensionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suspensionReason: S.optional(ResourceSuspensionInfoSuspensionReasonEnum),
-    resourceSuspended: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ResourceSuspensionInfo" }) as any as S.Schema<ResourceSuspensionInfo>;
-
-export type AdditionalDetailSignalSourceEnum =
-  | "SIGNAL_SOURCE_UNSPECIFIED"
-  | "SIGNAL_SOURCE_RESOURCE_METADATA"
-  | "SIGNAL_SOURCE_SECURITY_FINDINGS"
-  | "SIGNAL_SOURCE_RECOMMENDER"
-  | "SIGNAL_SOURCE_MODERN_OBSERVABILITY";
-export const AdditionalDetailSignalSourceEnum = S.String;
-
-/** Info associated with recommendation. */
-export interface RecommendationInfo {
-  /** ID of recommender. Examples: "google.cloudsql.instance.PerformanceRecommender" */
-  recommenderId?: string;
-  /** Name of recommendation. Examples: organizations/1234/locations/us-central1/recommenders/google.cloudsql.instance.PerformanceRecommender/recommendations/9876 */
-  recommender?: string;
-  /** Contains an identifier for a subtype of recommendations produced for the same recommender. Subtype is a function of content and impact, meaning a new subtype might be added when significant changes to `content` or `primary_impact.category` are introduced. See the Recommenders section to see a list of subtypes for a given Recommender. Examples: For recommender = "google.cloudsql.instance.PerformanceRecommender", recommender_subtype can be "MYSQL_HIGH_NUMBER_OF_OPEN_TABLES_BEST_PRACTICE"/"POSTGRES_HIGH_TRANSACTION_ID_UTILIZATION_BEST_PRACTICE" */
-  recommenderSubtype?: string;
-}
-export const RecommendationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommenderId: S.optional(S.String),
-    recommender: S.optional(S.String),
-    recommenderSubtype: S.optional(S.String),
-  }),
-).annotate({ identifier: "RecommendationInfo" }) as any as S.Schema<RecommendationInfo>;
-
-/** Metadata about backup retention settings for a database resource. */
-export interface RetentionSettingsInfo {
-  /** Duration based retention period i.e. 172800 seconds (2 days) */
-  durationBasedRetention?: string;
-  /** Optional. Sub resource details associated with the backup configuration. */
-  subResource?: SubResource;
-  /** Number of backups that will be retained. */
-  quantityBasedRetention?: number;
-  /** Timestamp based retention period i.e. till 2024-05-01T00:00:00Z */
-  timestampBasedRetentionTime?: string;
-}
-export const RetentionSettingsInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    durationBasedRetention: S.optional(S.String),
-    subResource: S.optional(SubResource),
-    quantityBasedRetention: S.optional(S.Number),
-    timestampBasedRetentionTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "RetentionSettingsInfo" }) as any as S.Schema<RetentionSettingsInfo>;
-
-export type BackupRunInfoOperationErrorTypeEnum =
-  | "OPERATION_ERROR_TYPE_UNSPECIFIED"
-  | "KMS_KEY_ERROR"
-  | "DATABASE_ERROR"
-  | "STOCKOUT_ERROR"
-  | "CANCELLATION_ERROR"
-  | "SQLSERVER_ERROR"
-  | "INTERNAL_ERROR";
-export const BackupRunInfoOperationErrorTypeEnum = S.String;
-
-export type BackupRunInfoStateEnum = "STATE_UNSPECIFIED" | "SUCCEEDED" | "FAILED";
-export const BackupRunInfoStateEnum = S.String;
-
-/** Metadata about latest backup run state for a database resource. */
-export interface BackupRunInfo {
-  /** The time the backup operation completed. */
-  endTime?: string;
-  /** The time the backup operation started. */
-  startTime?: string;
-  /** Additional information about the error encountered. */
-  errorMessage?: string;
-  /** Optional. OperationErrorType to expose specific error when backup operation of database resource failed, that is state is FAILED. */
-  operationErrorType?: BackupRunInfoOperationErrorTypeEnum;
-  /** Output only. The state of this run. */
-  state?: BackupRunInfoStateEnum;
-  /** Optional. Sub resource details associated with the backup run. */
-  subResource?: SubResource;
-}
-export const BackupRunInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endTime: S.optional(S.String),
-    startTime: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    operationErrorType: S.optional(BackupRunInfoOperationErrorTypeEnum),
-    state: S.optional(BackupRunInfoStateEnum),
-    subResource: S.optional(SubResource),
-  }),
-).annotate({ identifier: "BackupRunInfo" }) as any as S.Schema<BackupRunInfo>;
-
-export type ResourceMaintenanceSchedulePhaseEnum =
-  | "PHASE_UNSPECIFIED"
-  | "PHASE_WEEK1"
-  | "PHASE_WEEK2"
-  | "PHASE_WEEK5"
-  | "PHASE_ANY";
-export const ResourceMaintenanceSchedulePhaseEnum = S.String;
-
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-}
-export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hours: S.optional(S.Number),
-    seconds: S.optional(S.Number),
-    minutes: S.optional(S.Number),
-    nanos: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
-
-export type ResourceMaintenanceScheduleDayEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const ResourceMaintenanceScheduleDayEnum = S.String;
-
-/** Maintenance window for the database resource. It specifies preferred time and day of the week and phase in some cases, when the maintenance can start. */
-export interface ResourceMaintenanceSchedule {
-  /** Optional. Phase of the maintenance window. This is to capture order of maintenance. For example, for Cloud SQL resources, this can be used to capture if the maintenance window is in Week1, Week2, Week5, etc. Non production resources are usually part of early phase. For more details, refer to Cloud SQL resources - https://cloud.google.com/sql/docs/mysql/maintenance */
-  phase?: ResourceMaintenanceSchedulePhaseEnum;
-  /** Optional. Preferred time to start the maintenance operation on the specified day. */
-  startTime?: TimeOfDay;
-  /** Optional. Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc. */
-  day?: ResourceMaintenanceScheduleDayEnum;
-}
-export const ResourceMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    phase: S.optional(ResourceMaintenanceSchedulePhaseEnum),
-    startTime: S.optional(TimeOfDay),
-    day: S.optional(ResourceMaintenanceScheduleDayEnum),
-  }),
-).annotate({
-  identifier: "ResourceMaintenanceSchedule",
-}) as any as S.Schema<ResourceMaintenanceSchedule>;
-
-export type ResourceMaintenanceScheduleList = Array<ResourceMaintenanceSchedule>;
-export const ResourceMaintenanceScheduleList = /*@__PURE__*/ S.Array(
-  ResourceMaintenanceSchedule,
-) as any as S.Schema<ResourceMaintenanceScheduleList>;
-
-/** Info associated with maintenance recommendation. */
-export interface MaintenanceRecommendationInfo {
-  /** Optional. List of recommended maintenance schedules for the database resource. */
-  resourceMaintenanceSchedules?: ResourceMaintenanceScheduleList;
-}
-export const MaintenanceRecommendationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceMaintenanceSchedules: S.optional(ResourceMaintenanceScheduleList),
-  }),
-).annotate({
-  identifier: "MaintenanceRecommendationInfo",
-}) as any as S.Schema<MaintenanceRecommendationInfo>;
-
 /** Details related to signal. */
 export interface AdditionalDetail {
-  /** Type of the signal. */
-  signalType?: AdditionalDetailSignalTypeEnum;
-  /** Deletion protection information applies to signals with type SIGNAL_TYPE_NO_DELETION_PROTECTION */
-  deletionProtectionInfo?: DeletionProtectionInfo;
-  /** Outdated minor version information applies to signals with type SIGNAL_TYPE_OUTDATED_MINOR_VERSION. */
-  outdatedMinorVersionInfo?: OutdatedMinorVersionInfo;
   /** Inefficient query information applies to signals with type SIGNAL_TYPE_INEFFICIENT_QUERY. */
   inefficientQueryInfo?: InefficientQueryInfo;
-  /** Automated backup policy information applies to signals with type SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY. */
-  automatedBackupPolicyInfo?: AutomatedBackupPolicyInfo;
-  /** Event time when signal was recorded by source service. */
-  signalEventTime?: string;
   /** SCC information applies to SCC signals. */
   sccInfo?: SCCInfo;
-  /** Resource suspension information applies to signals with type SIGNAL_TYPE_RESOURCE_SUSPENDED. */
-  resourceSuspensionInfo?: ResourceSuspensionInfo;
-  /** Where the signal is coming from. */
-  signalSource?: AdditionalDetailSignalSourceEnum;
-  /** Recommendation information applies to recommendations. */
-  recommendationInfo?: RecommendationInfo;
+  /** Event time when signal was recorded by source service. */
+  signalEventTime?: string;
   /** Short backup retention information applies to signals with type SIGNAL_TYPE_SHORT_BACKUP_RETENTION. */
   shortBackupRetentionInfo?: RetentionSettingsInfo;
-  /** Backup run information applies to signals with types SIGNAL_TYPE_LAST_BACKUP_FAILED and SIGNAL_TYPE_LAST_BACKUP_OLD. */
-  backupRunInfo?: BackupRunInfo;
+  /** Deletion protection information applies to signals with type SIGNAL_TYPE_NO_DELETION_PROTECTION */
+  deletionProtectionInfo?: DeletionProtectionInfo;
+  /** Type of the signal. */
+  signalType?: AdditionalDetailSignalTypeEnum;
+  /** Where the signal is coming from. */
+  signalSource?: AdditionalDetailSignalSourceEnum;
   /** Maintenance recommendation information applies to signals with type SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES. */
   maintenanceRecommendationInfo?: MaintenanceRecommendationInfo;
+  /** Resource suspension information applies to signals with type SIGNAL_TYPE_RESOURCE_SUSPENDED. */
+  resourceSuspensionInfo?: ResourceSuspensionInfo;
+  /** Backup run information applies to signals with types SIGNAL_TYPE_LAST_BACKUP_FAILED and SIGNAL_TYPE_LAST_BACKUP_OLD. */
+  backupRunInfo?: BackupRunInfo;
+  /** Recommendation information applies to recommendations. */
+  recommendationInfo?: RecommendationInfo;
+  /** Outdated minor version information applies to signals with type SIGNAL_TYPE_OUTDATED_MINOR_VERSION. */
+  outdatedMinorVersionInfo?: OutdatedMinorVersionInfo;
+  /** Automated backup policy information applies to signals with type SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY. */
+  automatedBackupPolicyInfo?: AutomatedBackupPolicyInfo;
 }
 export const AdditionalDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    signalType: S.optional(AdditionalDetailSignalTypeEnum),
-    deletionProtectionInfo: S.optional(DeletionProtectionInfo),
-    outdatedMinorVersionInfo: S.optional(OutdatedMinorVersionInfo),
     inefficientQueryInfo: S.optional(InefficientQueryInfo),
-    automatedBackupPolicyInfo: S.optional(AutomatedBackupPolicyInfo),
-    signalEventTime: S.optional(S.String),
     sccInfo: S.optional(SCCInfo),
-    resourceSuspensionInfo: S.optional(ResourceSuspensionInfo),
-    signalSource: S.optional(AdditionalDetailSignalSourceEnum),
-    recommendationInfo: S.optional(RecommendationInfo),
+    signalEventTime: S.optional(S.String),
     shortBackupRetentionInfo: S.optional(RetentionSettingsInfo),
-    backupRunInfo: S.optional(BackupRunInfo),
+    deletionProtectionInfo: S.optional(DeletionProtectionInfo),
+    signalType: S.optional(AdditionalDetailSignalTypeEnum),
+    signalSource: S.optional(AdditionalDetailSignalSourceEnum),
     maintenanceRecommendationInfo: S.optional(MaintenanceRecommendationInfo),
+    resourceSuspensionInfo: S.optional(ResourceSuspensionInfo),
+    backupRunInfo: S.optional(BackupRunInfo),
+    recommendationInfo: S.optional(RecommendationInfo),
+    outdatedMinorVersionInfo: S.optional(OutdatedMinorVersionInfo),
+    automatedBackupPolicyInfo: S.optional(AutomatedBackupPolicyInfo),
   }),
 ).annotate({ identifier: "AdditionalDetail" }) as any as S.Schema<AdditionalDetail>;
 
@@ -2106,12 +2117,12 @@ export const AdditionalDetailList = /*@__PURE__*/ S.Array(
 
 /** Represents a signal. */
 export interface Signal {
-  /** Type of the signal. */
-  signalType?: SignalSignalTypeEnum;
-  /** Severity of the issue. */
-  issueSeverity?: SignalIssueSeverityEnum;
   /** Status of the signal. */
   signalStatus?: SignalSignalStatusEnum;
+  /** Severity of the issue. */
+  issueSeverity?: SignalIssueSeverityEnum;
+  /** Type of the signal. */
+  signalType?: SignalSignalTypeEnum;
   /** Additional information related to the signal. In the case of composite signals, this field encapsulates details associated with granular signals, having a signal status of "ISSUE"; signals with a status of "OK" are not included. For granular signals, it encompasses information relevant to the signal, regardless of the signal status. */
   additionalDetails?: AdditionalDetailList;
   /** Timestamp when the issue was created (when signal status is ISSUE). */
@@ -2119,9 +2130,9 @@ export interface Signal {
 }
 export const Signal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    signalType: S.optional(SignalSignalTypeEnum),
-    issueSeverity: S.optional(SignalIssueSeverityEnum),
     signalStatus: S.optional(SignalSignalStatusEnum),
+    issueSeverity: S.optional(SignalIssueSeverityEnum),
+    signalType: S.optional(SignalSignalTypeEnum),
     additionalDetails: S.optional(AdditionalDetailList),
     issueCreateTime: S.optional(S.String),
   }),
@@ -2132,17 +2143,17 @@ export const SignalList = /*@__PURE__*/ S.Array(Signal) as any as S.Schema<Signa
 
 /** A group of signals and their counts. */
 export interface SignalGroup {
-  /** When applied to a DatabaseResource represents count of issues associated with the resource. A signal is an issue when its SignalStatus field is set to SIGNAL_STATUS_ISSUE. */
-  issueCount?: number;
   /** Title of a signal group corresponding to the request. */
   displayName?: string;
+  /** When applied to a DatabaseResource represents count of issues associated with the resource. A signal is an issue when its SignalStatus field is set to SIGNAL_STATUS_ISSUE. */
+  issueCount?: number;
   /** List of signals present in the group and associated with the resource. Only applies to a DatabaseResource. */
   signals?: SignalList;
 }
 export const SignalGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    issueCount: S.optional(S.Number),
     displayName: S.optional(S.String),
+    issueCount: S.optional(S.Number),
     signals: S.optional(SignalList),
   }),
 ).annotate({ identifier: "SignalGroup" }) as any as S.Schema<SignalGroup>;
@@ -2152,155 +2163,127 @@ export const SignalGroupList = /*@__PURE__*/ S.Array(
   SignalGroup,
 ) as any as S.Schema<SignalGroupList>;
 
-/** Deny maintenance period for the database resource. It specifies the time range during which the maintenance cannot start. This is configured by the customer. */
-export interface ResourceMaintenanceDenySchedule {
-  /** Optional. The start date of the deny maintenance period. */
-  startDate?: Databasecenter_Date;
-  /** Optional. Time in UTC when the deny period starts on start_date and ends on end_date. */
-  time?: TimeOfDay;
-  /** Optional. Deny period end date. */
-  endDate?: Databasecenter_Date;
+export type DatabaseResourceEditionEnum =
+  | "EDITION_UNSPECIFIED"
+  | "EDITION_ENTERPRISE"
+  | "EDITION_ENTERPRISE_PLUS"
+  | "EDITION_STANDARD";
+export const DatabaseResourceEditionEnum = S.String;
+
+export type LineageProcessTypeEnum =
+  | "PROCESS_TYPE_UNSPECIFIED"
+  | "COMPOSER"
+  | "DATASTREAM"
+  | "DATAFLOW"
+  | "BIGQUERY"
+  | "DATA_FUSION"
+  | "DATAPROC";
+export const LineageProcessTypeEnum = S.String;
+
+/** lineage information of the affiliated resources This captures source, target and process which created the lineage. */
+export interface Lineage {
+  /** Optional. FQN of process which created the lineage i.e. dataplex, datastream etc. */
+  processFqn?: string;
+  /** Optional. FQN of source table / column */
+  sourceFqn?: string;
+  /** Optional. FQN of target table / column */
+  targetFqn?: string;
+  /** Optional. Type of process which created the lineage. */
+  processType?: LineageProcessTypeEnum;
 }
-export const ResourceMaintenanceDenySchedule = /*@__PURE__*/ S.suspend(() =>
+export const Lineage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startDate: S.optional(Databasecenter_Date),
-    time: S.optional(TimeOfDay),
-    endDate: S.optional(Databasecenter_Date),
+    processFqn: S.optional(S.String),
+    sourceFqn: S.optional(S.String),
+    targetFqn: S.optional(S.String),
+    processType: S.optional(LineageProcessTypeEnum),
   }),
-).annotate({
-  identifier: "ResourceMaintenanceDenySchedule",
-}) as any as S.Schema<ResourceMaintenanceDenySchedule>;
+).annotate({ identifier: "Lineage" }) as any as S.Schema<Lineage>;
 
-export type ResourceMaintenanceDenyScheduleList = Array<ResourceMaintenanceDenySchedule>;
-export const ResourceMaintenanceDenyScheduleList = /*@__PURE__*/ S.Array(
-  ResourceMaintenanceDenySchedule,
-) as any as S.Schema<ResourceMaintenanceDenyScheduleList>;
+export type LineageList = Array<Lineage>;
+export const LineageList = /*@__PURE__*/ S.Array(Lineage) as any as S.Schema<LineageList>;
 
-/** Upcoming maintenance window for the database resource. */
-export interface UpcomingMaintenance {
-  /** Output only. End time of the upcoming maintenance. This is only populated for an engine, if end time is public for the engine. */
-  endTime?: string;
-  /** Output only. Start time of the upcoming maintenance. Start time is always populated when an upcoming maintenance is scheduled. */
-  startTime?: string;
+/** Affiliation information of a resource */
+export interface Affiliation {
+  /** Optional. Multiple lineages can be created from a resource. For example, a resource can be replicated to multiple target resources. In this case, there will be multiple lineages for the resource, one for each target resource. */
+  lineages?: LineageList;
+  /** Optional. Full resource name */
+  fullResourceName?: string;
+  /** Optional. resource id of affiliated resource */
+  resourceId?: string;
 }
-export const UpcomingMaintenance = /*@__PURE__*/ S.suspend(() =>
+export const Affiliation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endTime: S.optional(S.String),
-    startTime: S.optional(S.String),
+    lineages: S.optional(LineageList),
+    fullResourceName: S.optional(S.String),
+    resourceId: S.optional(S.String),
   }),
-).annotate({ identifier: "UpcomingMaintenance" }) as any as S.Schema<UpcomingMaintenance>;
+).annotate({ identifier: "Affiliation" }) as any as S.Schema<Affiliation>;
 
-export type MaintenanceInfoStateEnum =
-  | "MAINTENANCE_STATE_UNSPECIFIED"
-  | "MAINTENANCE_STATE_SCHEDULED"
-  | "MAINTENANCE_STATE_IN_PROGRESS"
-  | "MAINTENANCE_STATE_COMPLETED"
-  | "MAINTENANCE_STATE_FAILED";
-export const MaintenanceInfoStateEnum = S.String;
-
-export type MaintenanceInfoPossibleFailureReasonsItemEnum =
-  | "POSSIBLE_FAILURE_REASON_UNSPECIFIED"
-  | "POSSIBLE_FAILURE_REASON_DENY_POLICY_CONFLICT"
-  | "POSSIBLE_FAILURE_REASON_INSTANCE_IN_STOPPED_STATE";
-export const MaintenanceInfoPossibleFailureReasonsItemEnum = S.String;
-
-export type MaintenanceInfoPossibleFailureReasonsItemEnumList =
-  Array<MaintenanceInfoPossibleFailureReasonsItemEnum>;
-export const MaintenanceInfoPossibleFailureReasonsItemEnumList = /*@__PURE__*/ S.Array(
-  MaintenanceInfoPossibleFailureReasonsItemEnum,
-) as any as S.Schema<MaintenanceInfoPossibleFailureReasonsItemEnumList>;
-
-/** MaintenanceInfo to capture the maintenance details of database resource. */
-export interface MaintenanceInfo {
-  /** Optional. Maintenance window for the database resource. */
-  maintenanceSchedule?: ResourceMaintenanceSchedule;
-  /** Optional. List of Deny maintenance period for the database resource. */
-  denyMaintenanceSchedules?: ResourceMaintenanceDenyScheduleList;
-  /** Output only. Upcoming maintenance window for the database resource. This is only populated for an engine, if upcoming maintenance is scheduled for the resource. This schedule is generated per engine and engine version, and there is only one upcoming maintenance window at any given time. In case of upcoming maintenance, the maintenance_state will be set to SCHEDULED first, and then IN_PROGRESS when the maintenance window starts. */
-  upcomingMaintenance?: UpcomingMaintenance;
-  /** Output only. Resource maintenance state. This is to capture the current state of the maintenance. */
-  state?: MaintenanceInfoStateEnum;
-  /** Output only. The date when the maintenance version was released. */
-  currentVersionReleaseDate?: Databasecenter_Date;
-  /** Output only. Previous maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15". This is available once a minor version maintenance is complete on a database resource. */
-  previousMaintenanceVersion?: string;
-  /** Output only. Current Maintenance version of the database resource. Example: "MYSQL_8_0_41.R20250531.01_15" */
-  maintenanceVersion?: string;
-  /** Output only. List of possible reasons why the maintenance is not completed. This is an optional field and is only populated if there are any reasons for failures recorded for the maintenance by DB Center. FAILURE maintenance status may not always have a failure reason. */
-  possibleFailureReasons?: MaintenanceInfoPossibleFailureReasonsItemEnumList;
-}
-export const MaintenanceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maintenanceSchedule: S.optional(ResourceMaintenanceSchedule),
-    denyMaintenanceSchedules: S.optional(ResourceMaintenanceDenyScheduleList),
-    upcomingMaintenance: S.optional(UpcomingMaintenance),
-    state: S.optional(MaintenanceInfoStateEnum),
-    currentVersionReleaseDate: S.optional(Databasecenter_Date),
-    previousMaintenanceVersion: S.optional(S.String),
-    maintenanceVersion: S.optional(S.String),
-    possibleFailureReasons: S.optional(MaintenanceInfoPossibleFailureReasonsItemEnumList),
-  }),
-).annotate({ identifier: "MaintenanceInfo" }) as any as S.Schema<MaintenanceInfo>;
+export type AffiliationList = Array<Affiliation>;
+export const AffiliationList = /*@__PURE__*/ S.Array(
+  Affiliation,
+) as any as S.Schema<AffiliationList>;
 
 /** DatabaseResource represents every individually configured database unit representing compute and/or storage. */
 export interface DatabaseResource {
+  /** Optional. The maintenance information of the resource. */
+  maintenanceInfo?: MaintenanceInfo;
   /** The product this resource represents. */
   product?: Product;
-  /** Subtype of the resource specified at creation time. */
-  subResourceType?: DatabaseResourceSubResourceTypeEnum;
+  /** Tags applied on the resource. The requirements for tags assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/tags/tags-overview */
+  tags?: TagList;
+  /** Optional. Backup and disaster recovery details for the resource. */
+  backupdrConfig?: BackupDRConfig;
+  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
+  container?: string;
+  /** Observable metrics for the resource e.g. CPU utilization, memory utilization, etc. */
+  metrics?: Metrics;
+  /** The location of the resources. It supports returning only regional locations in Google Cloud. These are of the form: "us-central1", "us-east1", etc. See https://cloud.google.com/about/locations for a list of such regions. */
+  location?: string;
+  /** Machine configuration like CPU, memory, etc for the resource. */
+  machineConfig?: MachineConfig;
   /** The name of the resource(The last part of the full resource name). Example: For full resource name - `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1`, resource name - `mysql-1` For full resource name - `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` , resource name - `postgres-1` Note: In some cases, there might be more than one resource with the same resource name. */
   resourceName?: string;
-  /** Labels applied on the resource. The requirements for labels assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/labels-overview#requirements */
-  labels?: LabelList;
   /** The category of the resource. */
   resourceCategory?: DatabaseResourceResourceCategoryEnum;
+  /** Subtype of the resource specified at creation time. */
+  subResourceType?: DatabaseResourceSubResourceTypeEnum;
+  /** The full resource name, based on CAIS resource name format https://cloud.google.com/asset-inventory/docs/resource-name-format Example: `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1` `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` `//spanner.googleapis.com/projects/project-number/instances/spanner-instance-1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1/instances/i1` */
+  fullResourceName?: string;
+  /** List of children associated with a database group. */
+  childResources?: DatabaseResourceList;
+  /** Labels applied on the resource. The requirements for labels assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/labels-overview#requirements */
+  labels?: LabelList;
+  /** The list of signal groups and count of issues related to the resource. Only those signals which have been requested would be included. */
+  signalGroups?: SignalGroupList;
   /** The type of resource defined according to the pattern: {Service Name}/{Type}. Ex: sqladmin.googleapis.com/Instance alloydb.googleapis.com/Cluster alloydb.googleapis.com/Instance spanner.googleapis.com/Instance */
   resourceType?: string;
   /** The edition of the resource. */
   edition?: DatabaseResourceEditionEnum;
-  /** The location of the resources. It supports returning only regional locations in Google Cloud. These are of the form: "us-central1", "us-east1", etc. See https://cloud.google.com/about/locations for a list of such regions. */
-  location?: string;
-  /** The full resource name, based on CAIS resource name format https://cloud.google.com/asset-inventory/docs/resource-name-format Example: `//cloudsql.googleapis.com/projects/project-number/instances/mysql-1` `//cloudsql.googleapis.com/projects/project-number/instances/postgres-1` `//spanner.googleapis.com/projects/project-number/instances/spanner-instance-1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1` `//alloydb.googleapis.com/projects/project-number/locations/us-central1/clusters/c1/instances/i1` */
-  fullResourceName?: string;
-  /** Machine configuration like CPU, memory, etc for the resource. */
-  machineConfig?: MachineConfig;
   /** Optional. Affiliation details of the resource. */
   affiliations?: AffiliationList;
-  /** Observable metrics for the resource e.g. CPU utilization, memory utilization, etc. */
-  metrics?: Metrics;
-  /** Optional. Backup and disaster recovery details for the resource. */
-  backupdrConfig?: BackupDRConfig;
-  /** Tags applied on the resource. The requirements for tags assigned to Google Cloud resources may be found at https://cloud.google.com/resource-manager/docs/tags/tags-overview */
-  tags?: TagList;
-  /** List of children associated with a database group. */
-  childResources?: DatabaseResourceList;
-  /** The list of signal groups and count of issues related to the resource. Only those signals which have been requested would be included. */
-  signalGroups?: SignalGroupList;
-  /** Specifies where the resource is created. For Google Cloud resources, it is the full name of the project. */
-  container?: string;
-  /** Optional. The maintenance information of the resource. */
-  maintenanceInfo?: MaintenanceInfo;
 }
 export const DatabaseResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    maintenanceInfo: S.optional(MaintenanceInfo),
     product: S.optional(Product),
-    subResourceType: S.optional(DatabaseResourceSubResourceTypeEnum),
+    tags: S.optional(TagList),
+    backupdrConfig: S.optional(BackupDRConfig),
+    container: S.optional(S.String),
+    metrics: S.optional(Metrics),
+    location: S.optional(S.String),
+    machineConfig: S.optional(MachineConfig),
     resourceName: S.optional(S.String),
-    labels: S.optional(LabelList),
     resourceCategory: S.optional(DatabaseResourceResourceCategoryEnum),
+    subResourceType: S.optional(DatabaseResourceSubResourceTypeEnum),
+    fullResourceName: S.optional(S.String),
+    childResources: S.optional(S.suspend(() => DatabaseResourceList)),
+    labels: S.optional(LabelList),
+    signalGroups: S.optional(SignalGroupList),
     resourceType: S.optional(S.String),
     edition: S.optional(DatabaseResourceEditionEnum),
-    location: S.optional(S.String),
-    fullResourceName: S.optional(S.String),
-    machineConfig: S.optional(MachineConfig),
     affiliations: S.optional(AffiliationList),
-    metrics: S.optional(Metrics),
-    backupdrConfig: S.optional(BackupDRConfig),
-    tags: S.optional(TagList),
-    childResources: S.optional(S.suspend(() => DatabaseResourceList)),
-    signalGroups: S.optional(SignalGroupList),
-    container: S.optional(S.String),
-    maintenanceInfo: S.optional(MaintenanceInfo),
   }),
 ).annotate({ identifier: "DatabaseResource" }) as any as S.Schema<DatabaseResource>;
 
@@ -2309,17 +2292,34 @@ export const DatabaseResourceList = /*@__PURE__*/ S.Array(
   DatabaseResource,
 ) as any as S.Schema<DatabaseResourceList>;
 
+/** Count of issues for a group of signals. */
+export interface IssueCount {
+  /** Title of a signal group corresponding to the request. */
+  displayName?: string;
+  /** The count of the number of issues associated with those resources that are explicitly filtered in by the filters present in the request. A signal is an issue when its SignalStatus field is set to SIGNAL_STATUS_ISSUE. */
+  issueCount?: number;
+}
+export const IssueCount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    issueCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "IssueCount" }) as any as S.Schema<IssueCount>;
+
+export type IssueCountList = Array<IssueCount>;
+export const IssueCountList = /*@__PURE__*/ S.Array(IssueCount) as any as S.Schema<IssueCountList>;
+
 /** DatabaseResourceGroup represents all resources that serve a common data set. It is considered notionally as a single entity, powered by any number of units of compute and storage. */
 export interface DatabaseResourceGroup {
-  /** The filtered signal groups and the count of issues associated with the resources that have been filtered in. */
-  signalGroups?: IssueCountList;
   /** A database resource that serves as a root of the group of database resources. It is repeated just in case we have the concept of multiple roots in the future, however, it will only be populated with a single value for now. */
   rootResources?: DatabaseResourceList;
+  /** The filtered signal groups and the count of issues associated with the resources that have been filtered in. */
+  signalGroups?: IssueCountList;
 }
 export const DatabaseResourceGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    signalGroups: S.optional(IssueCountList),
     rootResources: S.optional(DatabaseResourceList),
+    signalGroups: S.optional(IssueCountList),
   }),
 ).annotate({ identifier: "DatabaseResourceGroup" }) as any as S.Schema<DatabaseResourceGroup>;
 
@@ -2330,21 +2330,21 @@ export const DatabaseResourceGroupList = /*@__PURE__*/ S.Array(
 
 /** QueryDatabaseResourceGroupsResponse represents the response message containing a list of resource groups. */
 export interface QueryDatabaseResourceGroupsResponse {
+  /** Output only. The total number of resource groups in the entire list. */
+  totalSize?: string;
   /** List of database resource groups that pass the filter. */
   resourceGroups?: DatabaseResourceGroupList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** Unordered list. List of unreachable regions from where data could not be retrieved. */
   unreachable?: StringList;
-  /** Output only. The total number of resource groups in the entire list. */
-  totalSize?: string;
 }
 export const QueryDatabaseResourceGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    totalSize: S.optional(S.String),
     resourceGroups: S.optional(DatabaseResourceGroupList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    totalSize: S.optional(S.String),
   }),
 ).annotate({
   identifier: "QueryDatabaseResourceGroupsResponse",
@@ -2352,12 +2352,12 @@ export const QueryDatabaseResourceGroupsResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** QueryIssuesRequest is the request to get a list of issues. */
 export interface QueryIssuesRequest {
+  /** Optional. Following fields are sortable: SignalType Product Location IssueSeverity The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. */
+  orderBy?: string;
   /** Required. Parent can be a project, a folder, or an organization. The list is limited to the one attached to resources within the `scope` that a user has access to. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent?: string;
   /** Optional. Supported fields are: 'product', `location`, `issue_severity`, 'tags', 'labels', */
   filter?: string;
-  /** Optional. Following fields are sortable: SignalType Product Location IssueSeverity The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. */
-  orderBy?: string;
   /** Optional. If unspecified, at most 50 issues will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Optional. A page token, received from a previous `QueryIssues` call. Provide this to retrieve the subsequent page. All parameters except page size should match the parameters used in the call that provided the page token. */
@@ -2367,9 +2367,9 @@ export interface QueryIssuesRequest {
 }
 export const QueryIssuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    orderBy: S.optional(S.String),
     parent: S.optional(S.String),
     filter: S.optional(S.String),
-    orderBy: S.optional(S.String),
     pageSize: S.optional(S.Number),
     pageToken: S.optional(S.String),
     signalProductsFilters: S.optional(SignalProductsFiltersList),
@@ -2454,18 +2454,18 @@ export const QueryProductsV1betaRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** QueryProductsResponse represents the response containing a list of products. */
 export interface QueryProductsResponse {
-  /** Unordered list. List of unreachable regions from where data could not be retrieved. */
-  unreachable?: StringList;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages */
-  nextPageToken?: string;
   /** List of database products returned. */
   products?: ProductList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages */
+  nextPageToken?: string;
+  /** Unordered list. List of unreachable regions from where data could not be retrieved. */
+  unreachable?: StringList;
 }
 export const QueryProductsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     products: S.optional(ProductList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "QueryProductsResponse" }) as any as S.Schema<QueryProductsResponse>;
 

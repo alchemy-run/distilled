@@ -1,0 +1,708 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.file_uploads#ListFileUploadsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "UPLOADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uploaded"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If supplied, the endpoint will return file uploads with the specified status."
+      }
+    },
+    "com.notion.file_uploads#ListFileUploadsRequest": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.notion.file_uploads#ListFileUploadsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_cursor"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.file_uploads#FileUploadObjectResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `file_upload`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseCreatedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expiry_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "One of: `pending`, `uploaded`, `expired`, `failed`",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "upload_url": {
+          "target": "smithy.api#String"
+        },
+        "complete_url": {
+          "target": "smithy.api#String"
+        },
+        "file_import_result": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseFileImportResult"
+        },
+        "number_of_parts": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseNumberOfParts"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseCreatedByType": {
+      "type": "enum",
+      "members": {
+        "PERSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person"
+          }
+        },
+        "BOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bot"
+          }
+        },
+        "AGENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `person`, `bot`, `agent`"
+      }
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseCreatedBy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseCreatedByType",
+          "traits": {
+            "smithy.api#documentation": "One of: `person`, `bot`, `agent`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "UPLOADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uploaded"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `pending`, `uploaded`, `expired`, `failed`"
+      }
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseFileImportResultErrorType": {
+      "type": "enum",
+      "members": {
+        "VALIDATION_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validation_error"
+          }
+        },
+        "INTERNAL_SYSTEM_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_system_error"
+          }
+        },
+        "DOWNLOAD_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download_error"
+          }
+        },
+        "UPLOAD_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload_error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of error that occurred during file import."
+      }
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseFileImportResultError": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseFileImportResultErrorType",
+          "traits": {
+            "smithy.api#documentation": "The type of error that occurred during file import.",
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short string code representing the error.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable message describing the error.",
+            "smithy.api#required": {}
+          }
+        },
+        "parameter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parameter related to the error, if applicable. Null if not applicable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The HTTP status code associated with the error, if available. Null if not applicable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the error that occurred during file import."
+      }
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseFileImportResult": {
+      "type": "structure",
+      "members": {
+        "imported_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the file was imported into Notion. ISO 8601 format.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates a successful import."
+          }
+        },
+        "success": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Empty object for success type."
+          }
+        },
+        "error": {
+          "target": "com.notion.file_uploads#FileUploadObjectResponseFileImportResultError",
+          "traits": {
+            "smithy.api#documentation": "Details about the error that occurred during file import."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.file_uploads#FileUploadObjectResponseNumberOfParts": {
+      "type": "structure",
+      "members": {
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.file_uploads#ListFileUploadsResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.file_uploads#FileUploadObjectResponse"
+      },
+      "traits": {}
+    },
+    "com.notion.file_uploads#RequestStatusResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.notion.file_uploads#RequestStatusResponseType",
+          "traits": {
+            "smithy.api#documentation": "Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit).",
+            "smithy.api#required": {}
+          }
+        },
+        "incomplete_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the result set is incomplete. Only present when `type` is `incomplete`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.file_uploads#RequestStatusResponseType": {
+      "type": "enum",
+      "members": {
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incomplete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit)."
+      }
+    },
+    "com.notion.file_uploads#ListFileUploadsResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `list`",
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.notion.file_uploads#ListFileUploadsResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `file_upload`",
+            "smithy.api#required": {}
+          }
+        },
+        "file_upload": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_status": {
+          "target": "com.notion.file_uploads#RequestStatusResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.file_uploads#ListFileUploads": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.file_uploads#ListFileUploadsRequest"
+      },
+      "output": {
+        "target": "com.notion.file_uploads#ListFileUploadsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/file_uploads",
+          "code": 200
+        },
+        "smithy.api#documentation": "List file uploads",
+        "smithy.api#paginated": {
+          "inputToken": "start_cursor",
+          "outputToken": "next_cursor",
+          "items": "results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.notion.file_uploads#CreateFileUploadRequestMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE_PART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single_part"
+          }
+        },
+        "MULTI_PART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multi_part"
+          }
+        },
+        "EXTERNAL_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_url"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the file is sent. Defaults to single_part. Use multi_part for files larger than 20 MiB or external_url for a temporary public HTTPS URL."
+      }
+    },
+    "com.notion.file_uploads#CreateFileUploadRequest": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.notion.file_uploads#CreateFileUploadRequestMode",
+          "traits": {
+            "smithy.api#documentation": "How the file is sent. Defaults to single_part. Use multi_part for files larger than 20 MiB or external_url for a temporary public HTTPS URL."
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The filename. Required for multi_part and external_url uploads. Include an extension or provide content_type so one can be inferred."
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The MIME type. It must match the uploaded file and any filename extension."
+          }
+        },
+        "number_of_parts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of parts in a multi_part upload. Required only for multi_part uploads. This must match the number of uploaded parts and the final part_number sent."
+          }
+        },
+        "external_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A public HTTPS URL to import. Required only for external_url uploads."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.file_uploads#CreateFileUpload": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.file_uploads#CreateFileUploadRequest"
+      },
+      "output": {
+        "target": "com.notion.file_uploads#FileUploadObjectResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/file_uploads",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a file upload"
+      }
+    },
+    "com.notion.file_uploads#SendFileUploadRequest": {
+      "type": "structure",
+      "members": {
+        "file_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The raw binary file contents to upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "part_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When uploading files greater than 20MB in parts, this is the current part number. Must be an integer between 1 and 1,000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.file_uploads#SendFileUpload": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.file_uploads#SendFileUploadRequest"
+      },
+      "output": {
+        "target": "com.notion.file_uploads#FileUploadObjectResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/file_uploads/{file_upload_id}/send",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Upload a file",
+        "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.notion.file_uploads#CompleteFileUploadRequest": {
+      "type": "structure",
+      "members": {
+        "file_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.file_uploads#CompleteFileUpload": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.file_uploads#CompleteFileUploadRequest"
+      },
+      "output": {
+        "target": "com.notion.file_uploads#FileUploadObjectResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/file_uploads/{file_upload_id}/complete",
+          "code": 200
+        },
+        "smithy.api#documentation": "Complete a multi-part file upload"
+      }
+    },
+    "com.notion.file_uploads#GetFileUploadRequest": {
+      "type": "structure",
+      "members": {
+        "file_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.file_uploads#GetFileUpload": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.file_uploads#GetFileUploadRequest"
+      },
+      "output": {
+        "target": "com.notion.file_uploads#FileUploadObjectResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/file_uploads/{file_upload_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a file upload"
+      }
+    },
+    "com.notion.file_uploads#FileUploads": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.file_uploads#ListFileUploads"
+        },
+        {
+          "target": "com.notion.file_uploads#CreateFileUpload"
+        },
+        {
+          "target": "com.notion.file_uploads#SendFileUpload"
+        },
+        {
+          "target": "com.notion.file_uploads#CompleteFileUpload"
+        },
+        {
+          "target": "com.notion.file_uploads#GetFileUpload"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

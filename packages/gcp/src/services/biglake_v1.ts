@@ -79,21 +79,21 @@ export class NotFound
 export interface Catalog {
   /** Output only. The deletion time of the catalog. Only set after the catalog is deleted. */
   deleteTime?: string;
-  /** Output only. The last modification time of the catalog. */
-  updateTime?: string;
-  /** Output only. The creation time of the catalog. */
-  createTime?: string;
   /** Output only. The time when this catalog is considered expired. Only set after the catalog is deleted. */
   expireTime?: string;
+  /** Output only. The creation time of the catalog. */
+  createTime?: string;
+  /** Output only. The last modification time of the catalog. */
+  updateTime?: string;
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
   name?: string;
 }
 export const Catalog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deleteTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
     expireTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Catalog" }) as any as S.Schema<Catalog>;
@@ -122,9 +122,6 @@ export const CreateProjectsLocationsCatalogsRequest = /*@__PURE__*/ S.suspend(()
   identifier: "CreateProjectsLocationsCatalogsRequest",
 }) as any as S.Schema<CreateProjectsLocationsCatalogsRequest>;
 
-export type DatabaseTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
-export const DatabaseTypeEnum = S.String;
-
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
@@ -142,32 +139,35 @@ export const HiveDatabaseOptions = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "HiveDatabaseOptions" }) as any as S.Schema<HiveDatabaseOptions>;
 
+export type DatabaseTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
+export const DatabaseTypeEnum = S.String;
+
 /** Database is the container of tables. */
 export interface Database {
-  /** Output only. The creation time of the database. */
-  createTime?: string;
-  /** Output only. The time when this database is considered expired. Only set after the database is deleted. */
-  expireTime?: string;
-  /** Output only. The last modification time of the database. */
-  updateTime?: string;
-  /** The database type. */
-  type?: DatabaseTypeEnum | (string & {});
   /** Options of a Hive database. */
   hiveOptions?: HiveDatabaseOptions;
+  /** Output only. The time when this database is considered expired. Only set after the database is deleted. */
+  expireTime?: string;
   /** Output only. The deletion time of the database. Only set after the database is deleted. */
   deleteTime?: string;
+  /** Output only. The creation time of the database. */
+  createTime?: string;
+  /** Output only. The last modification time of the database. */
+  updateTime?: string;
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
   name?: string;
+  /** The database type. */
+  type?: DatabaseTypeEnum | (string & {});
 }
 export const Database = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    type: S.optional(DatabaseTypeEnum),
     hiveOptions: S.optional(HiveDatabaseOptions),
+    expireTime: S.optional(S.String),
     deleteTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
+    type: S.optional(DatabaseTypeEnum),
   }),
 ).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
 
@@ -194,9 +194,6 @@ export const CreateProjectsLocationsCatalogsDatabasesRequest = /*@__PURE__*/ S.s
 ).annotate({
   identifier: "CreateProjectsLocationsCatalogsDatabasesRequest",
 }) as any as S.Schema<CreateProjectsLocationsCatalogsDatabasesRequest>;
-
-export type TableTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
-export const TableTypeEnum = S.String;
 
 /** Serializer and deserializer information. */
 export interface SerDeInfo {
@@ -246,35 +243,38 @@ export const HiveTableOptions = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "HiveTableOptions" }) as any as S.Schema<HiveTableOptions>;
 
+export type TableTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
+export const TableTypeEnum = S.String;
+
 /** Represents a table. */
 export interface Table {
-  /** The table type. */
-  type?: TableTypeEnum | (string & {});
-  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
-  name?: string;
-  /** Output only. The creation time of the table. */
-  createTime?: string;
-  /** Output only. The time when this table is considered expired. Only set after the table is deleted. */
-  expireTime?: string;
-  /** Output only. The last modification time of the table. */
-  updateTime?: string;
   /** Options of a Hive table. */
   hiveOptions?: HiveTableOptions;
+  /** Output only. The time when this table is considered expired. Only set after the table is deleted. */
+  expireTime?: string;
   /** Output only. The deletion time of the table. Only set after the table is deleted. */
   deleteTime?: string;
   /** The checksum of a table object computed by the server based on the value of other fields. It may be sent on update requests to ensure the client has an up-to-date value before proceeding. It is only checked for update table operations. */
   etag?: string;
+  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
+  name?: string;
+  /** The table type. */
+  type?: TableTypeEnum | (string & {});
+  /** Output only. The creation time of the table. */
+  createTime?: string;
+  /** Output only. The last modification time of the table. */
+  updateTime?: string;
 }
 export const Table = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(TableTypeEnum),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
     hiveOptions: S.optional(HiveTableOptions),
+    expireTime: S.optional(S.String),
     deleteTime: S.optional(S.String),
     etag: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(TableTypeEnum),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Table" }) as any as S.Schema<Table>;
 
@@ -345,15 +345,15 @@ export const DeleteProjectsLocationsCatalogsDatabasesTablesRequest = /*@__PURE__
 }) as any as S.Schema<DeleteProjectsLocationsCatalogsDatabasesTablesRequest>;
 
 export interface GetIamPolicyProjectsCatalogsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsCatalogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -365,28 +365,73 @@ export const GetIamPolicyProjectsCatalogsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIamPolicyProjectsCatalogsRequest",
 }) as any as S.Schema<GetIamPolicyProjectsCatalogsRequest>;
 
+export type AuditLogConfigLogTypeEnum =
+  | "LOG_TYPE_UNSPECIFIED"
+  | "ADMIN_READ"
+  | "DATA_WRITE"
+  | "DATA_READ";
+export const AuditLogConfigLogTypeEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
+export interface AuditLogConfig {
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
+}
+export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logType: S.optional(AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
+  }),
+).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
+
+export type AuditLogConfigList = Array<AuditLogConfig>;
+export const AuditLogConfigList = /*@__PURE__*/ S.Array(
+  AuditLogConfig,
+) as any as S.Schema<AuditLogConfigList>;
+
+/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
+export interface AuditConfig {
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
+}
+export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    auditLogConfigs: S.optional(AuditLogConfigList),
+    service: S.optional(S.String),
+  }),
+).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
+
+export type AuditConfigList = Array<AuditConfig>;
+export const AuditConfigList = /*@__PURE__*/ S.Array(
+  AuditConfig,
+) as any as S.Schema<AuditConfigList>;
+
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
     location: S.optional(S.String),
     expression: S.optional(S.String),
     description: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -408,81 +453,36 @@ export const Binding = /*@__PURE__*/ S.suspend(() =>
 export type BindingList = Array<Binding>;
 export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
 
-export type AuditLogConfigLogTypeEnum =
-  | "LOG_TYPE_UNSPECIFIED"
-  | "ADMIN_READ"
-  | "DATA_WRITE"
-  | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = S.String;
-
-/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
-export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
-}
-export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exemptedMembers: S.optional(StringList),
-    logType: S.optional(AuditLogConfigLogTypeEnum),
-  }),
-).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
-
-export type AuditLogConfigList = Array<AuditLogConfig>;
-export const AuditLogConfigList = /*@__PURE__*/ S.Array(
-  AuditLogConfig,
-) as any as S.Schema<AuditLogConfigList>;
-
-/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
-export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
-}
-export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    service: S.optional(S.String),
-    auditLogConfigs: S.optional(AuditLogConfigList),
-  }),
-).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
-
-export type AuditConfigList = Array<AuditConfig>;
-export const AuditConfigList = /*@__PURE__*/ S.Array(
-  AuditConfig,
-) as any as S.Schema<AuditConfigList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.Number),
-    bindings: S.optional(BindingList),
     etag: S.optional(S.String),
     auditConfigs: S.optional(AuditConfigList),
+    bindings: S.optional(BindingList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
 export interface GetIamPolicyProjectsCatalogsNamespacesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsCatalogsNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -495,15 +495,15 @@ export const GetIamPolicyProjectsCatalogsNamespacesRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetIamPolicyProjectsCatalogsNamespacesRequest>;
 
 export interface GetIamPolicyProjectsCatalogsNamespacesTablesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsCatalogsNamespacesTablesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -552,18 +552,18 @@ export const GetProjectsLocationsCatalogsDatabasesTablesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<GetProjectsLocationsCatalogsDatabasesTablesRequest>;
 
 export interface ListProjectsLocationsCatalogsRequest {
+  /** Required. The parent, which owns this collection of catalogs. Format: projects/{project_id_or_number}/locations/{location_id} */
+  parent: string;
   /** A page token, received from a previous `ListCatalogs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCatalogs` must match the call that provided the page token. */
   pageToken?: string;
   /** The maximum number of catalogs to return. The service may return fewer than this value. If unspecified, at most 50 catalogs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Required. The parent, which owns this collection of catalogs. Format: projects/{project_id_or_number}/locations/{location_id} */
-  parent: string;
 }
 export const ListProjectsLocationsCatalogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -671,15 +671,15 @@ export const TableList = /*@__PURE__*/ S.Array(Table) as any as S.Schema<TableLi
 
 /** Response message for the ListTables method. */
 export interface ListTablesResponse {
-  /** The tables from the specified database. */
-  tables?: TableList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The tables from the specified database. */
+  tables?: TableList;
 }
 export const ListTablesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tables: S.optional(TableList),
     nextPageToken: S.optional(S.String),
+    tables: S.optional(TableList),
   }),
 ).annotate({ identifier: "ListTablesResponse" }) as any as S.Schema<ListTablesResponse>;
 
@@ -704,17 +704,17 @@ export const PatchProjectsLocationsCatalogsDatabasesRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<PatchProjectsLocationsCatalogsDatabasesRequest>;
 
 export interface PatchProjectsLocationsCatalogsDatabasesTablesRequest {
-  /** The list of fields to update. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. */
-  updateMask?: string;
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
+  /** The list of fields to update. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. */
+  updateMask?: string;
   /** Request body */
   body?: Table;
 }
 export const PatchProjectsLocationsCatalogsDatabasesTablesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Table.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://biglake.googleapis.com/" }),

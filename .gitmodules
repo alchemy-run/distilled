@@ -354,10 +354,10 @@
 	ignore = dirty
 	shallow = true
 [submodule "packages/slack/specs/spec-mirror-slack"]
-path = packages/slack/specs/spec-mirror-slack
-url = https://github.com/distilled-mirror/spec-mirror-slack.git
-ignore = dirty
-shallow = true
+	path = packages/slack/specs/spec-mirror-slack
+	url = https://github.com/distilled-mirror/spec-mirror-slack.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/spacetimedb/specs/spec-mirror-spacetimedb"]
 	path = packages/spacetimedb/specs/spec-mirror-spacetimedb
 	url = https://github.com/distilled-mirror/spec-mirror-spacetimedb.git
@@ -418,3 +418,23 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-iceberg.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/zerossl/specs/spec-mirror-zerossl"]
+path = packages/zerossl/specs/spec-mirror-zerossl
+url = https://github.com/distilled-mirror/spec-mirror-zerossl.git
+ignore = dirty
+shallow = true
+[submodule "packages/acme/specs/spec-mirror-acme"]
+path = packages/acme/specs/spec-mirror-acme
+url = https://github.com/distilled-mirror/spec-mirror-acme.git
+ignore = dirty
+shallow = true
+[submodule "packages/notion/specs/spec-mirror-notion"]
+	path = packages/notion/specs/spec-mirror-notion
+	url = https://github.com/distilled-mirror/spec-mirror-notion.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/celld/specs/spec-mirror-celld"]
+path = packages/celld/specs/spec-mirror-celld
+url = https://github.com/distilled-mirror/spec-mirror-celld.git
+ignore = dirty
+shallow = true

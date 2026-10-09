@@ -2,9 +2,10 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const root = path.resolve(import.meta.dirname, "..");
-const source = path.join(root, "specs");
+const source = resolveSpecPath(root, "specs/spec-mirror-celld/specs");
 const destination = path.join(root, ".generated-specs");
 await fs.mkdir(destination, { recursive: true });
 const files = (await fs.readdir(source)).filter((file) => file.endsWith(".json")).sort();

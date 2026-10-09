@@ -174,6 +174,8 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     const headers: Record<string, string> = {
       Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
     };
+    // Bill quota to this project; user credentials need it for many APIs.
+    if (creds.quotaProject) headers["X-Goog-User-Project"] = creds.quotaProject;
     const query = new URLSearchParams();
     let uri = http.uri;
     let rawBody: unknown;

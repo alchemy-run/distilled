@@ -220,15 +220,13 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "rawSlug": {
@@ -269,8 +267,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         }
       }
@@ -437,46 +434,47 @@
           "uri": "/graphql",
           "code": 200
         },
+        "smithy.api#documentation": "Find an add-on by ID or name",
         "smithy.api#readonly": {}
       }
     },
     "com.flyio.addons#AddOnType": {
       "type": "enum",
       "members": {
-        "ARCJET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "arcjet"
-          }
-        },
-        "ENVELOOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "enveloop"
-          }
-        },
-        "FLY_MYSQL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "fly_mysql"
-          }
-        },
-        "KUBERNETES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "kubernetes"
-          }
-        },
         "REDIS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "redis"
           }
         },
+        "UPSTASH_REDIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upstash_redis"
+          }
+        },
+        "UPSTASH_KAFKA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upstash_kafka"
+          }
+        },
+        "UPSTASH_VECTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upstash_vector"
+          }
+        },
         "SENTRY": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "sentry"
+          }
+        },
+        "KUBERNETES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kubernetes"
           }
         },
         "SUPABASE": {
@@ -491,28 +489,28 @@
             "smithy.api#enumValue": "tigris"
           }
         },
-        "UPSTASH_KAFKA": {
+        "ENVELOOP": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "upstash_kafka"
-          }
-        },
-        "UPSTASH_REDIS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "upstash_redis"
-          }
-        },
-        "UPSTASH_VECTOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "upstash_vector"
+            "smithy.api#enumValue": "enveloop"
           }
         },
         "WAFRIS": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "wafris"
+          }
+        },
+        "ARCJET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arcjet"
+          }
+        },
+        "FLY_MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fly_mysql"
           }
         }
       }
@@ -523,25 +521,29 @@
         "after": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the elements in the list that come after the specified cursor."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the elements in the list that come before the specified cursor."
           }
         },
         "first": {
           "target": "smithy.api#Integer",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the first _n_ elements from the list."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the last _n_ elements from the list."
           }
         },
         "type": {
@@ -731,15 +733,13 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "rawSlug": {
@@ -780,8 +780,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         }
       }
@@ -1168,6 +1167,7 @@
           "uri": "/graphql",
           "code": 200
         },
+        "smithy.api#documentation": "List add-ons associated with an organization",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "relay",
@@ -1185,25 +1185,29 @@
         "after": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the elements in the list that come after the specified cursor."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the elements in the list that come before the specified cursor."
           }
         },
         "first": {
           "target": "smithy.api#Integer",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the first _n_ elements from the list."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Returns the last _n_ elements from the list."
           }
         },
         "type": {
@@ -1431,6 +1435,7 @@
           "uri": "/graphql",
           "code": 200
         },
+        "smithy.api#documentation": "List add-on service plans",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "relay",
@@ -1837,15 +1842,13 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "smithy.api#required": {}
           }
         },
         "rawSlug": {
@@ -1899,6 +1902,7 @@
           "uri": "/graphql",
           "code": 200
         },
+        "smithy.api#documentation": "Find an organization by ID",
         "smithy.api#readonly": {}
       }
     },
@@ -1908,63 +1912,76 @@
         "type": {
           "target": "com.flyio.addons#AddOnType",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The add-on type to provision"
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "An optional name for the add-on"
           }
         },
         "organizationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The organization which owns the add-on"
           }
         },
         "appId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "An optional application ID to attach the add-on to after provisioning"
           }
         },
         "planId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The add-on plan ID"
           }
         },
         "primaryRegion": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Desired primary region for the add-on"
           }
         },
         "readRegions": {
           "target": "com.flyio.addons#StringList",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Desired regions to place replicas in"
           }
         },
         "options": {
           "target": "smithy.api#Document",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Options specific to the add-on"
           }
         },
         "organizationPlanId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "A provider organization plan to set along with provisioning"
           }
         },
         "clientMutationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "A unique identifier for the client performing the mutation."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateAddOn"
       }
     },
     "com.flyio.addons#StringList": {
@@ -1979,7 +1996,8 @@
         "input": {
           "target": "com.flyio.addons#CreateAddOnInput",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parameters for CreateAddOn"
           }
         }
       },
@@ -2159,57 +2177,69 @@
         "addOnId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The add-on ID to update"
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The add-on name to update"
           }
         },
         "provider": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The add-on service provider type"
           }
         },
         "planId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The add-on plan ID"
           }
         },
         "readRegions": {
           "target": "com.flyio.addons#StringList",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Desired regions to place replicas in"
           }
         },
         "options": {
           "target": "smithy.api#Document",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Options specific to the add-on"
           }
         },
         "metadata": {
           "target": "smithy.api#Document",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Metadata for the add-on"
           }
         },
         "prodPack": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "Explicit ProdPack intent for Upstash Redis. Can be sent with or without a plan change; when absent, ProdPack is left untouched."
           }
         },
         "clientMutationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "A unique identifier for the client performing the mutation."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of UpdateAddOn"
       }
     },
     "com.flyio.addons#UpdateAddOnRequest": {
@@ -2218,7 +2248,8 @@
         "input": {
           "target": "com.flyio.addons#UpdateAddOnInput",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parameters for UpdateAddOn"
           }
         }
       },
@@ -2398,27 +2429,34 @@
         "addOnId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The ID of the add-on to delete"
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The name of the add-on to delete"
           }
         },
         "provider": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The add-on service provider type"
           }
         },
         "clientMutationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "A unique identifier for the client performing the mutation."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of DeleteAddOn"
       }
     },
     "com.flyio.addons#DeleteAddOnRequest": {
@@ -2427,7 +2465,8 @@
         "input": {
           "target": "com.flyio.addons#DeleteAddOnInput",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parameters for DeleteAddOn"
           }
         }
       },
@@ -2486,21 +2525,27 @@
         "addOnProviderName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The add-on provider name"
           }
         },
         "organizationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "The organization that agrees to the ToS"
           }
         },
         "clientMutationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "A unique identifier for the client performing the mutation."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateExtensionTosAgreement"
       }
     },
     "com.flyio.addons#CreateExtensionTosAgreementRequest": {
@@ -2509,7 +2554,8 @@
         "input": {
           "target": "com.flyio.addons#CreateExtensionTosAgreementInput",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parameters for CreateExtensionTosAgreement"
           }
         }
       },
@@ -2566,15 +2612,20 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the add-on whose password should be reset"
           }
         },
         "clientMutationId": {
           "target": "smithy.api#String",
           "traits": {
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#documentation": "A unique identifier for the client performing the mutation."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of ResetAddOnPassword"
       }
     },
     "com.flyio.addons#ResetAddOnPasswordRequest": {
@@ -2583,7 +2634,8 @@
         "input": {
           "target": "com.flyio.addons#ResetAddOnPasswordInput",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parameters for ResetAddOnPassword"
           }
         }
       },

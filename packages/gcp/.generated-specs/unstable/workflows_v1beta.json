@@ -8,11 +8,98 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.workflows_v1beta#Empty": {
+    "com.gcp.workflows_v1beta#Location": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "labels": {
+          "target": "com.gcp.workflows_v1beta#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Cross-service attributes for the location. For example {\"cloud.googleapis.com/region\": \"us-east1\"}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The friendly name for this location, typically a nearby city name. For example, \"Tokyo\"."
+          }
+        },
+        "metadata": {
+          "target": "com.gcp.workflows_v1beta#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata. For example the available capacity at the given location."
+          }
+        },
+        "locationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The canonical id for this location. For example: `\"us-east1\"`."
+          }
+        }
+      },
       "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+        "smithy.api#documentation": "A resource that represents a Google Cloud location."
+      }
+    },
+    "com.gcp.workflows_v1beta#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.workflows_v1beta#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.workflows_v1beta#ListOperationsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.workflows_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations."
+          }
+        },
+        "operations": {
+          "target": "com.gcp.workflows_v1beta#OperationList",
+          "traits": {
+            "smithy.api#documentation": "A list of operations that matches the specified filter in the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for Operations.ListOperations."
+      }
+    },
+    "com.gcp.workflows_v1beta#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.workflows_v1beta#OperationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.workflows_v1beta#Operation"
       }
     },
     "com.gcp.workflows_v1beta#ListLocationsResponse": {
@@ -44,18 +131,6 @@
     "com.gcp.workflows_v1beta#Operation": {
       "type": "structure",
       "members": {
-        "error": {
-          "target": "com.gcp.workflows_v1beta#Status",
-          "traits": {
-            "smithy.api#documentation": "The error result of the operation in case of failure or cancellation."
-          }
-        },
-        "response": {
-          "target": "com.gcp.workflows_v1beta#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`."
-          }
-        },
         "done": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -66,6 +141,18 @@
           "target": "com.gcp.workflows_v1beta#DocumentMap",
           "traits": {
             "smithy.api#documentation": "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any."
+          }
+        },
+        "response": {
+          "target": "com.gcp.workflows_v1beta#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`."
+          }
+        },
+        "error": {
+          "target": "com.gcp.workflows_v1beta#Status",
+          "traits": {
+            "smithy.api#documentation": "The error result of the operation in case of failure or cancellation."
           }
         },
         "name": {
@@ -79,53 +166,6 @@
         "smithy.api#documentation": "This resource represents a long-running operation that is the result of a network API call."
       }
     },
-    "com.gcp.workflows_v1beta#DocumentMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      }
-    },
-    "com.gcp.workflows_v1beta#ListWorkflowsResponse": {
-      "type": "structure",
-      "members": {
-        "unreachable": {
-          "target": "com.gcp.workflows_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "Unreachable resources."
-          }
-        },
-        "workflows": {
-          "target": "com.gcp.workflows_v1beta#WorkflowList",
-          "traits": {
-            "smithy.api#documentation": "The workflows which match the request."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response for the ListWorkflows method."
-      }
-    },
-    "com.gcp.workflows_v1beta#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.workflows_v1beta#WorkflowList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.workflows_v1beta#Workflow"
-      }
-    },
     "com.gcp.workflows_v1beta#Workflow": {
       "type": "structure",
       "members": {
@@ -135,46 +175,16 @@
             "smithy.api#documentation": "The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}"
           }
         },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Description of the workflow provided by the user. Must be at most 1000 unicode characters long."
-          }
-        },
-        "revisionCreateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The timestamp that the latest revision of the workflow was created."
-          }
-        },
-        "sourceContents": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Workflow code to be executed. The size limit is 128KB."
-          }
-        },
         "serviceAccount": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision."
           }
         },
-        "state": {
-          "target": "com.gcp.workflows_v1beta#WorkflowStateEnum",
-          "traits": {
-            "smithy.api#documentation": "Output only. State of the workflow deployment."
-          }
-        },
-        "labels": {
-          "target": "com.gcp.workflows_v1beta#StringMap",
-          "traits": {
-            "smithy.api#documentation": "Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores and dashes. Label keys must start with a letter. International characters are allowed."
-          }
-        },
-        "revisionId": {
+        "updateTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is \"000001-a4d\", where the first 6 characters define the zero-padded revision ordinal number. They are followed by a hyphen and 3 hexadecimal random characters."
+            "smithy.api#documentation": "Output only. The last update timestamp of the workflow."
           }
         },
         "createTime": {
@@ -183,10 +193,40 @@
             "smithy.api#documentation": "Output only. The timestamp of when the workflow was created."
           }
         },
-        "updateTime": {
+        "revisionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The last update timestamp of the workflow."
+            "smithy.api#documentation": "Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is \"000001-a4d\", where the first 6 characters define the zero-padded revision ordinal number. They are followed by a hyphen and 3 hexadecimal random characters."
+          }
+        },
+        "sourceContents": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workflow code to be executed. The size limit is 128KB."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.workflows_v1beta#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores and dashes. Label keys must start with a letter. International characters are allowed."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the workflow provided by the user. Must be at most 1000 unicode characters long."
+          }
+        },
+        "state": {
+          "target": "com.gcp.workflows_v1beta#WorkflowStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. State of the workflow deployment."
+          }
+        },
+        "revisionCreateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The timestamp that the latest revision of the workflow was created."
           }
         }
       },
@@ -211,126 +251,15 @@
         }
       }
     },
-    "com.gcp.workflows_v1beta#StringMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.workflows_v1beta#ListOperationsResponse": {
-      "type": "structure",
-      "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The standard List next-page token."
-          }
-        },
-        "operations": {
-          "target": "com.gcp.workflows_v1beta#OperationList",
-          "traits": {
-            "smithy.api#documentation": "A list of operations that matches the specified filter in the request."
-          }
-        },
-        "unreachable": {
-          "target": "com.gcp.workflows_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The response message for Operations.ListOperations."
-      }
-    },
-    "com.gcp.workflows_v1beta#OperationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.workflows_v1beta#Operation"
-      }
-    },
-    "com.gcp.workflows_v1beta#Location": {
-      "type": "structure",
-      "members": {
-        "labels": {
-          "target": "com.gcp.workflows_v1beta#StringMap",
-          "traits": {
-            "smithy.api#documentation": "Cross-service attributes for the location. For example {\"cloud.googleapis.com/region\": \"us-east1\"}"
-          }
-        },
-        "locationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The canonical id for this location. For example: `\"us-east1\"`."
-          }
-        },
-        "metadata": {
-          "target": "com.gcp.workflows_v1beta#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "Service-specific metadata. For example the available capacity at the given location."
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The friendly name for this location, typically a nearby city name. For example, \"Tokyo\"."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A resource that represents a Google Cloud location."
-      }
-    },
-    "com.gcp.workflows_v1beta#OperationMetadata": {
-      "type": "structure",
-      "members": {
-        "apiVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "API version used to start the operation."
-          }
-        },
-        "endTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time the operation finished running."
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time the operation was created."
-          }
-        },
-        "verb": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the verb executed by the operation."
-          }
-        },
-        "target": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Server-defined resource path for the target of the operation."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents the metadata of the long-running operation."
-      }
-    },
     "com.gcp.workflows_v1beta#Status": {
       "type": "structure",
       "members": {
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The status code, which should be an enum value of google.rpc.Code."
+          }
+        },
         "message": {
           "target": "smithy.api#String",
           "traits": {
@@ -341,12 +270,6 @@
           "target": "com.gcp.workflows_v1beta#DocumentMapList",
           "traits": {
             "smithy.api#documentation": "A list of messages that carry the error details. There is a common set of message types for APIs to use."
-          }
-        },
-        "code": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The status code, which should be an enum value of google.rpc.Code."
           }
         }
       },
@@ -360,24 +283,86 @@
         "target": "com.gcp.workflows_v1beta#DocumentMap"
       }
     },
+    "com.gcp.workflows_v1beta#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.workflows_v1beta#ListWorkflowsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+          }
+        },
+        "workflows": {
+          "target": "com.gcp.workflows_v1beta#WorkflowList",
+          "traits": {
+            "smithy.api#documentation": "The workflows which match the request."
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.workflows_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "Unreachable resources."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for the ListWorkflows method."
+      }
+    },
+    "com.gcp.workflows_v1beta#WorkflowList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.workflows_v1beta#Workflow"
+      }
+    },
+    "com.gcp.workflows_v1beta#OperationMetadata": {
+      "type": "structure",
+      "members": {
+        "verb": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the verb executed by the operation."
+          }
+        },
+        "apiVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "API version used to start the operation."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the operation was created."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the operation finished running."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-defined resource path for the target of the operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the metadata of the long-running operation."
+      }
+    },
     "com.gcp.workflows_v1beta#ListProjectsLocationsRequest": {
       "type": "structure",
       "members": {
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A filter to narrow down results to a preferred subset. The filtering language accepts strings like `\"displayName=tokyo\"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).",
-            "smithy.api#httpQuery": "filter"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource that owns the locations collection, if applicable.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -392,11 +377,26 @@
             "smithy.api#httpQuery": "pageToken"
           }
         },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A filter to narrow down results to a preferred subset. The filtering language accepts strings like `\"displayName=tokyo\"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
         "extraLocationTypes": {
           "target": "com.gcp.workflows_v1beta#StringList",
           "traits": {
             "smithy.api#documentation": "Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage.",
             "smithy.api#httpQuery": "extraLocationTypes"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource that owns the locations collection, if applicable.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -571,19 +571,18 @@
             "smithy.api#httpQuery": "filter"
           }
         },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The standard list page size.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The standard list page token.",
             "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the operation's parent resource.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
           }
         },
         "returnPartialSuccess": {
@@ -593,11 +592,12 @@
             "smithy.api#httpQuery": "returnPartialSuccess"
           }
         },
-        "pageSize": {
-          "target": "smithy.api#Integer",
+        "name": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The standard list page size.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#documentation": "The name of the operation's parent resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -667,26 +667,40 @@
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
       }
     },
-    "com.gcp.workflows_v1beta#GetProjectsLocationsWorkflowsRequest": {
+    "com.gcp.workflows_v1beta#PatchProjectsLocationsWorkflowsRequest": {
       "type": "structure",
       "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "List of fields to be updated. If not present, the entire workflow will be updated.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. Name of the workflow which information should be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow}",
+            "smithy.api#documentation": "The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.workflows_v1beta#Workflow",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
     },
-    "com.gcp.workflows_v1beta#GetProjectsLocationsWorkflows": {
+    "com.gcp.workflows_v1beta#PatchProjectsLocationsWorkflows": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.workflows_v1beta#GetProjectsLocationsWorkflowsRequest"
+        "target": "com.gcp.workflows_v1beta#PatchProjectsLocationsWorkflowsRequest"
       },
       "output": {
-        "target": "com.gcp.workflows_v1beta#Workflow"
+        "target": "com.gcp.workflows_v1beta#Operation"
       },
       "errors": [
         {
@@ -694,27 +708,25 @@
         },
         {
           "target": "com.gcp.workflows_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.workflows_v1beta#BadRequest"
+        },
+        {
+          "target": "com.gcp.workflows_v1beta#Conflict"
         }
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "GET",
+          "method": "PATCH",
           "uri": "v1beta/{+name}"
         },
-        "smithy.api#documentation": "Gets details of a single Workflow."
+        "smithy.api#documentation": "Updates an existing workflow. Running this method has no impact on already running executions of the workflow. A new revision of the workflow may be created as a result of a successful update operation. In that case, such revision will be used in new workflow executions."
       }
     },
     "com.gcp.workflows_v1beta#ListProjectsLocationsWorkflowsRequest": {
       "type": "structure",
       "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Project and location from which the workflows should be listed. Format: projects/{project}/locations/{location}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -741,6 +753,14 @@
           "traits": {
             "smithy.api#documentation": "Comma-separated list of fields that that specify the order of the results. Default sorting order for a field is ascending. To specify descending order for a field, append a \" desc\" suffix. If not specified, the results will be returned in an unspecified order.",
             "smithy.api#httpQuery": "orderBy"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project and location from which the workflows should be listed. Format: projects/{project}/locations/{location}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -771,49 +791,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.workflows_v1beta#DeleteProjectsLocationsWorkflowsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Name of the workflow to be deleted. Format: projects/{project}/locations/{location}/workflows/{workflow}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.workflows_v1beta#DeleteProjectsLocationsWorkflows": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.workflows_v1beta#DeleteProjectsLocationsWorkflowsRequest"
-      },
-      "output": {
-        "target": "com.gcp.workflows_v1beta#Operation"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.workflows_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.workflows_v1beta#Forbidden"
-        },
-        {
-          "target": "com.gcp.workflows_v1beta#BadRequest"
-        },
-        {
-          "target": "com.gcp.workflows_v1beta#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "v1beta/{+name}"
-        },
-        "smithy.api#documentation": "Deletes a workflow with the specified name. This method also cancels and deletes all running executions of the workflow."
       }
     },
     "com.gcp.workflows_v1beta#CreateProjectsLocationsWorkflowsRequest": {
@@ -873,37 +850,23 @@
         "smithy.api#documentation": "Creates a new workflow. If a workflow with the specified name already exists in the specified project and location, the long running operation will return ALREADY_EXISTS error."
       }
     },
-    "com.gcp.workflows_v1beta#PatchProjectsLocationsWorkflowsRequest": {
+    "com.gcp.workflows_v1beta#DeleteProjectsLocationsWorkflowsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}",
+            "smithy.api#documentation": "Required. Name of the workflow to be deleted. Format: projects/{project}/locations/{location}/workflows/{workflow}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "List of fields to be updated. If not present, the entire workflow will be updated.",
-            "smithy.api#httpQuery": "updateMask"
-          }
-        },
-        "body": {
-          "target": "com.gcp.workflows_v1beta#Workflow",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
     },
-    "com.gcp.workflows_v1beta#PatchProjectsLocationsWorkflows": {
+    "com.gcp.workflows_v1beta#DeleteProjectsLocationsWorkflows": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.workflows_v1beta#PatchProjectsLocationsWorkflowsRequest"
+        "target": "com.gcp.workflows_v1beta#DeleteProjectsLocationsWorkflowsRequest"
       },
       "output": {
         "target": "com.gcp.workflows_v1beta#Operation"
@@ -924,10 +887,47 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "PATCH",
+          "method": "DELETE",
           "uri": "v1beta/{+name}"
         },
-        "smithy.api#documentation": "Updates an existing workflow. Running this method has no impact on already running executions of the workflow. A new revision of the workflow may be created as a result of a successful update operation. In that case, such revision will be used in new workflow executions."
+        "smithy.api#documentation": "Deletes a workflow with the specified name. This method also cancels and deletes all running executions of the workflow."
+      }
+    },
+    "com.gcp.workflows_v1beta#GetProjectsLocationsWorkflowsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the workflow which information should be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.workflows_v1beta#GetProjectsLocationsWorkflows": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.workflows_v1beta#GetProjectsLocationsWorkflowsRequest"
+      },
+      "output": {
+        "target": "com.gcp.workflows_v1beta#Workflow"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.workflows_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.workflows_v1beta#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1beta/{+name}"
+        },
+        "smithy.api#documentation": "Gets details of a single Workflow."
       }
     }
   }

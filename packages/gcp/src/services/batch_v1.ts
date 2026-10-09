@@ -104,39 +104,39 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
-    response: S.optional(DocumentMap),
-    name: S.optional(S.String),
     done: S.optional(S.Boolean),
+    response: S.optional(DocumentMap),
+    error: S.optional(Status),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -168,6 +168,707 @@ export interface Empty {}
 export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Carries information about a Google Cloud service account. */
+export interface ServiceAccount {
+  /** Email address of the service account. */
+  email?: string;
+  /** List of scopes to be enabled for this service account. */
+  scopes?: StringList;
+}
+export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.optional(S.String),
+    scopes: S.optional(StringList),
+  }),
+).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export interface LocationPolicy {
+  /** A list of location names that are allowed for the job's VMs formatted as URLs. Each location can be a region or a zone, but you can only specify one region or multiple zones in one region per job. For example, `["regions/us-central1"]` allow VMs in any zones in region `us-central1`, and `["zones/us-central1-a", "zones/us-central1-c"]` only allow VMs in zones `us-central1-a` and `us-central1-c`. However, `["regions/us-central1", "zones/us-central1-a", "zones/us-central1-b", "zones/us-west1-a"]` causes an error because it contains multiple regions (`us-central1` and `us-west1`). The specified region or zones must be in the same region in which the job is created starting on the following dates: + For projects that have successfully submitted before July 31, 2026 at least one job that uses the `allowedLocations[]` field with any region or zones outside of the job's location, the changes are starting on _June 30, 2027_. + For all other projects, the changes are starting on _July 31, 2026_. For example, for job `projects/123/locations/us-central1/jobs/jobid`, the specified region or zones must be in `us-central1`. Using a different region (e.g. `regions/us-west1`) or a zone not in `us-central1` (e.g. `zones/us-west1-a`) causes an error. */
+  allowedLocations?: StringList;
+}
+export const LocationPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedLocations: S.optional(StringList),
+  }),
+).annotate({ identifier: "LocationPolicy" }) as any as S.Schema<LocationPolicy>;
+
+/** PlacementPolicy describes a group placement policy for the VMs controlled by this AllocationPolicy. */
+export interface PlacementPolicy {
+  /** UNSPECIFIED vs. COLLOCATED (default UNSPECIFIED). Use COLLOCATED when you want VMs to be located close to each other for low network latency between the VMs. No placement policy will be generated when collocation is UNSPECIFIED. */
+  collocation?: string;
+  /** When specified, causes the job to fail if more than max_distance logical switches are required between VMs. Batch uses the most compact possible placement of VMs even when max_distance is not specified. An explicit max_distance makes that level of compactness a strict requirement. Not yet implemented */
+  maxDistance?: string;
+}
+export const PlacementPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collocation: S.optional(S.String),
+    maxDistance: S.optional(S.String),
+  }),
+).annotate({ identifier: "PlacementPolicy" }) as any as S.Schema<PlacementPolicy>;
+
+export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "GVNIC" | "IRDMA" | "MRDMA";
+export const NetworkInterfaceNicTypeEnum = S.String;
+
+/** A network interface. */
+export interface NetworkInterface {
+  /** The URL of an existing network resource. You can specify the network as a full or partial URL. For example, the following are all valid URLs: * https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network} * projects/{project}/global/networks/{network} * global/networks/{network} */
+  network?: string;
+  /** Optional. The NIC type of the network interface. */
+  nicType?: NetworkInterfaceNicTypeEnum | (string & {});
+  /** The URL of an existing subnetwork resource in the network. You can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs: * https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetwork} * projects/{project}/regions/{region}/subnetworks/{subnetwork} * regions/{region}/subnetworks/{subnetwork} */
+  subnetwork?: string;
+  /** Default is false (with an external IP address). Required if no external public IP address is attached to the VM. If no external public IP address, additional configuration is required to allow the VM to access Google Services. See https://cloud.google.com/vpc/docs/configure-private-google-access and https://cloud.google.com/nat/docs/gce-example#create-nat for more information. */
+  noExternalIpAddress?: boolean;
+}
+export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    network: S.optional(S.String),
+    nicType: S.optional(NetworkInterfaceNicTypeEnum),
+    subnetwork: S.optional(S.String),
+    noExternalIpAddress: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
+
+export type NetworkInterfaceList = Array<NetworkInterface>;
+export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
+  NetworkInterface,
+) as any as S.Schema<NetworkInterfaceList>;
+
+/** NetworkPolicy describes VM instance network configurations. */
+export interface NetworkPolicy {
+  /** Network configurations. */
+  networkInterfaces?: NetworkInterfaceList;
+}
+export const NetworkPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    networkInterfaces: S.optional(NetworkInterfaceList),
+  }),
+).annotate({ identifier: "NetworkPolicy" }) as any as S.Schema<NetworkPolicy>;
+
+/** A new persistent disk or a local ssd. A VM can only have one local SSD setting but multiple local SSD partitions. See https://cloud.google.com/compute/docs/disks#pdspecs and https://cloud.google.com/compute/docs/disks#localssds. */
+export interface Disk {
+  /** Disk size in GB. **Non-Boot Disk**: If the `type` specifies a persistent disk, this field is ignored if `data_source` is set as `image` or `snapshot`. If the `type` specifies a local SSD, this field should be a multiple of 375 GB, otherwise, the final size will be the next greater multiple of 375 GB. **Boot Disk**: Batch will calculate the boot disk size based on source image and task requirements if you do not speicify the size. If both this field and the `boot_disk_mib` field in task spec's `compute_resource` are defined, Batch will only honor this field. Also, this field should be no smaller than the source disk's size when the `data_source` is set as `snapshot` or `image`. For example, if you set an image as the `data_source` field and the image's default disk size 30 GB, you can only use this field to make the disk larger or equal to 30 GB. */
+  sizeGb?: string;
+  /** Name of a snapshot used as the data source. Snapshot is not supported as boot disk now. */
+  snapshot?: string;
+  /** Local SSDs are available through both "SCSI" and "NVMe" interfaces. If not indicated, "NVMe" will be the default one for local ssds. This field is ignored for persistent disks as the interface is chosen automatically. See https://cloud.google.com/compute/docs/disks/persistent-disks#choose_an_interface. */
+  diskInterface?: string;
+  /** URL for a VM image to use as the data source for this disk. For example, the following are all valid URLs: * Specify the image by its family name: projects/{project}/global/images/family/{image_family} * Specify the image version: projects/{project}/global/images/{image_version} You can also use Batch customized image in short names. The following image values are supported for a boot disk: * `batch-debian`: use Batch Debian images. * `batch-cos`: use Batch Container-Optimized images. * `batch-hpc-rocky`: use Batch HPC Rocky Linux images. */
+  image?: string;
+  /** Disk type as shown in `gcloud compute disk-types list`. For example, local SSD uses type "local-ssd". Persistent disks and boot disks use "pd-balanced", "pd-extreme", "pd-ssd" or "pd-standard". If not specified, "pd-standard" will be used as the default type for non-boot disks, "pd-balanced" will be used as the default type for boot disks. */
+  type?: string;
+}
+export const Disk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sizeGb: S.optional(S.String),
+    snapshot: S.optional(S.String),
+    diskInterface: S.optional(S.String),
+    image: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({ identifier: "Disk" }) as any as S.Schema<Disk>;
+
+/** Accelerator describes Compute Engine accelerators to be attached to the VM. */
+export interface Accelerator {
+  /** The accelerator type. For example, "nvidia-tesla-t4". See `gcloud compute accelerator-types list`. */
+  type?: string;
+  /** Optional. The NVIDIA GPU driver version that should be installed for this type. You can define the specific driver version such as "470.103.01", following the driver version requirements in https://cloud.google.com/compute/docs/gpus/install-drivers-gpu#minimum-driver. Batch will install the specific accelerator driver if qualified. */
+  driverVersion?: string;
+  /** Deprecated: please use instances[0].install_gpu_drivers instead. */
+  installGpuDrivers?: boolean;
+  /** The number of accelerators of this type. */
+  count?: string;
+}
+export const Accelerator = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    driverVersion: S.optional(S.String),
+    installGpuDrivers: S.optional(S.Boolean),
+    count: S.optional(S.String),
+  }),
+).annotate({ identifier: "Accelerator" }) as any as S.Schema<Accelerator>;
+
+export type AcceleratorList = Array<Accelerator>;
+export const AcceleratorList = /*@__PURE__*/ S.Array(
+  Accelerator,
+) as any as S.Schema<AcceleratorList>;
+
+export type InstancePolicyProvisioningModelEnum =
+  | "PROVISIONING_MODEL_UNSPECIFIED"
+  | "STANDARD"
+  | "SPOT"
+  | "PREEMPTIBLE"
+  | "RESERVATION_BOUND"
+  | "FLEX_START";
+export const InstancePolicyProvisioningModelEnum = S.String;
+
+/** A new or an existing persistent disk (PD) or a local ssd attached to a VM instance. */
+export interface AttachedDisk {
+  /** Device name that the guest operating system will see. It is used by Runnable.volumes field to mount disks. So please specify the device_name if you want Batch to help mount the disk, and it should match the device_name field in volumes. */
+  deviceName?: string;
+  /** Name of an existing PD. */
+  existingDisk?: string;
+  newDisk?: Disk;
+}
+export const AttachedDisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deviceName: S.optional(S.String),
+    existingDisk: S.optional(S.String),
+    newDisk: S.optional(Disk),
+  }),
+).annotate({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
+
+export type AttachedDiskList = Array<AttachedDisk>;
+export const AttachedDiskList = /*@__PURE__*/ S.Array(
+  AttachedDisk,
+) as any as S.Schema<AttachedDiskList>;
+
+/** InstancePolicy describes an instance type and resources attached to each VM created by this InstancePolicy. */
+export interface InstancePolicy {
+  /** Optional. If not specified (default), VMs will consume any applicable reservation. If "NO_RESERVATION" is specified, VMs will not consume any reservation. Otherwise, if specified, VMs will consume only the specified reservation. */
+  reservation?: string;
+  /** Boot disk to be created and attached to each VM by this InstancePolicy. Boot disk will be deleted when the VM is deleted. Batch API now only supports booting from image. */
+  bootDisk?: Disk;
+  /** The accelerators attached to each VM instance. */
+  accelerators?: AcceleratorList;
+  /** The provisioning model. */
+  provisioningModel?: InstancePolicyProvisioningModelEnum | (string & {});
+  /** The minimum CPU platform. See https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform. */
+  minCpuPlatform?: string;
+  /** Non-boot disks to be attached for each VM created by this InstancePolicy. New disks will be deleted when the VM is deleted. A non-boot disk is a disk that can be of a device with a file system or a raw storage drive that is not ready for data storage and accessing. */
+  disks?: AttachedDiskList;
+  /** The Compute Engine machine type. */
+  machineType?: string;
+}
+export const InstancePolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reservation: S.optional(S.String),
+    bootDisk: S.optional(Disk),
+    accelerators: S.optional(AcceleratorList),
+    provisioningModel: S.optional(InstancePolicyProvisioningModelEnum),
+    minCpuPlatform: S.optional(S.String),
+    disks: S.optional(AttachedDiskList),
+    machineType: S.optional(S.String),
+  }),
+).annotate({ identifier: "InstancePolicy" }) as any as S.Schema<InstancePolicy>;
+
+/** InstancePolicyOrTemplate lets you define the type of resources to use for this job either with an InstancePolicy or an instance template. If undefined, Batch picks the type of VM to use and doesn't include optional VM resources such as GPUs and extra disks. */
+export interface InstancePolicyOrTemplate {
+  /** Optional. Set this field true if you want Batch to install Ops Agent on your behalf. Default is false. */
+  installOpsAgent?: boolean;
+  /** Optional. Set this field to `true` if you want Batch to block project-level SSH keys from accessing this job's VMs. Alternatively, you can configure the job to specify a VM instance template that blocks project-level SSH keys. In either case, Batch blocks project-level SSH keys while creating the VMs for this job. Batch allows project-level SSH keys for a job's VMs only if all the following are true: + This field is undefined or set to `false`. + The job's VM instance template (if any) doesn't block project-level SSH keys. Notably, you can override this behavior by manually updating a VM to block or allow project-level SSH keys. For more information about blocking project-level SSH keys, see the Compute Engine documentation: https://cloud.google.com/compute/docs/connect/restrict-ssh-keys#block-keys */
+  blockProjectSshKeys?: boolean;
+  /** Name of an instance template used to create VMs. Named the field as 'instance_template' instead of 'template' to avoid C++ keyword conflict. Batch only supports global instance templates from the same project as the job. You can specify the global instance template as a full or partial URL. */
+  instanceTemplate?: string;
+  /** Set this field true if you want Batch to help fetch drivers from a third party location and install them for GPUs specified in `policy.accelerators` or `instance_template` on your behalf. Default is false. For Container-Optimized Image cases, Batch will install the accelerator driver following milestones of https://cloud.google.com/container-optimized-os/docs/release-notes. For non Container-Optimized Image cases, following https://github.com/GoogleCloudPlatform/compute-gpu-installation/blob/main/linux/install_gpu_driver.py. */
+  installGpuDrivers?: boolean;
+  /** InstancePolicy. */
+  policy?: InstancePolicy;
+}
+export const InstancePolicyOrTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    installOpsAgent: S.optional(S.Boolean),
+    blockProjectSshKeys: S.optional(S.Boolean),
+    instanceTemplate: S.optional(S.String),
+    installGpuDrivers: S.optional(S.Boolean),
+    policy: S.optional(InstancePolicy),
+  }),
+).annotate({ identifier: "InstancePolicyOrTemplate" }) as any as S.Schema<InstancePolicyOrTemplate>;
+
+export type InstancePolicyOrTemplateList = Array<InstancePolicyOrTemplate>;
+export const InstancePolicyOrTemplateList = /*@__PURE__*/ S.Array(
+  InstancePolicyOrTemplate,
+) as any as S.Schema<InstancePolicyOrTemplateList>;
+
+/** A Job's resource allocation policy describes when, where, and how compute resources should be allocated for the Job. */
+export interface AllocationPolicy {
+  /** Defines the service account for Batch-created VMs. If omitted, the [default Compute Engine service account](https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used. Must match the service account specified in any used instance template configured in the Batch job. Includes the following fields: * email: The service account's email address. If not set, the default Compute Engine service account is used. * scopes: Additional OAuth scopes to grant the service account, beyond the default cloud-platform scope. (list of strings) */
+  serviceAccount?: ServiceAccount;
+  /** Custom labels to apply to the job and all the Compute Engine resources that both are created by this allocation policy and support labels. Use labels to group and describe the resources they are applied to. Batch automatically applies predefined labels and supports multiple `labels` fields for each job, which each let you apply custom labels to various resources. Label names that start with "goog-" or "google-" are reserved for predefined labels. For more information about labels with Batch, see [Organize resources using labels](https://cloud.google.com/batch/docs/organize-resources-using-labels). */
+  labels?: StringMap;
+  /** Optional. Tags applied to the VM instances. The tags identify valid sources or targets for network firewalls. Each tag must be 1-63 characters long, and comply with [RFC1035](https://www.ietf.org/rfc/rfc1035.txt). */
+  tags?: StringList;
+  /** Location where compute resources should be allocated for the Job. */
+  location?: LocationPolicy;
+  /** The placement policy. */
+  placement?: PlacementPolicy;
+  /** The network policy. If you define an instance template in the `InstancePolicyOrTemplate` field, Batch will use the network settings in the instance template instead of this field. */
+  network?: NetworkPolicy;
+  /** Describe instances that can be created by this AllocationPolicy. Only instances[0] is supported now. */
+  instances?: InstancePolicyOrTemplateList;
+}
+export const AllocationPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccount: S.optional(ServiceAccount),
+    labels: S.optional(StringMap),
+    tags: S.optional(StringList),
+    location: S.optional(LocationPolicy),
+    placement: S.optional(PlacementPolicy),
+    network: S.optional(NetworkPolicy),
+    instances: S.optional(InstancePolicyOrTemplateList),
+  }),
+).annotate({ identifier: "AllocationPolicy" }) as any as S.Schema<AllocationPolicy>;
+
+/** This Task Execution field includes detail information for task execution procedures, based on StatusEvent types. */
+export interface TaskExecution {
+  /** The exit code of a finished task. If the task succeeded, the exit code will be 0. If the task failed but not due to the following reasons, the exit code will be 50000. Otherwise, it can be from different sources: * Batch known failures: https://cloud.google.com/batch/docs/troubleshooting#reserved-exit-codes. * Batch runnable execution failures; you can rely on Batch logs to further diagnose: https://cloud.google.com/batch/docs/analyze-job-using-logs. If there are multiple runnables failures, Batch only exposes the first error. */
+  exitCode?: number;
+}
+export const TaskExecution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exitCode: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TaskExecution" }) as any as S.Schema<TaskExecution>;
+
+export type StatusEventTaskStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "ASSIGNED"
+  | "RUNNING"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "UNEXECUTED";
+export const StatusEventTaskStateEnum = S.String;
+
+/** Status event. */
+export interface StatusEvent {
+  /** The time this event occurred. */
+  eventTime?: string;
+  /** Task Execution. This field is only defined for task-level status events where the task fails. */
+  taskExecution?: TaskExecution;
+  /** Task State. This field is only defined for task-level status events. */
+  taskState?: StatusEventTaskStateEnum | (string & {});
+  /** Type of the event. */
+  type?: string;
+  /** Description of the event. */
+  description?: string;
+}
+export const StatusEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventTime: S.optional(S.String),
+    taskExecution: S.optional(TaskExecution),
+    taskState: S.optional(StatusEventTaskStateEnum),
+    type: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "StatusEvent" }) as any as S.Schema<StatusEvent>;
+
+export type StatusEventList = Array<StatusEvent>;
+export const StatusEventList = /*@__PURE__*/ S.Array(
+  StatusEvent,
+) as any as S.Schema<StatusEventList>;
+
+export type JobStatusStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "QUEUED"
+  | "SCHEDULED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "DELETION_IN_PROGRESS"
+  | "CANCELLATION_IN_PROGRESS"
+  | "CANCELLED";
+export const JobStatusStateEnum = S.String;
+
+export type InstanceStatusProvisioningModelEnum =
+  | "PROVISIONING_MODEL_UNSPECIFIED"
+  | "STANDARD"
+  | "SPOT"
+  | "PREEMPTIBLE"
+  | "RESERVATION_BOUND"
+  | "FLEX_START";
+export const InstanceStatusProvisioningModelEnum = S.String;
+
+/** VM instance status. */
+export interface InstanceStatus {
+  /** The VM instance provisioning model. */
+  provisioningModel?: InstanceStatusProvisioningModelEnum | (string & {});
+  /** The Compute Engine machine type. */
+  machineType?: string;
+  /** The VM boot disk. */
+  bootDisk?: Disk;
+  /** The max number of tasks can be assigned to this instance type. */
+  taskPack?: string;
+}
+export const InstanceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningModel: S.optional(InstanceStatusProvisioningModelEnum),
+    machineType: S.optional(S.String),
+    bootDisk: S.optional(Disk),
+    taskPack: S.optional(S.String),
+  }),
+).annotate({ identifier: "InstanceStatus" }) as any as S.Schema<InstanceStatus>;
+
+export type InstanceStatusList = Array<InstanceStatus>;
+export const InstanceStatusList = /*@__PURE__*/ S.Array(
+  InstanceStatus,
+) as any as S.Schema<InstanceStatusList>;
+
+/** Aggregated task status for a TaskGroup. */
+export interface TaskGroupStatus {
+  /** Status of instances allocated for the TaskGroup. */
+  instances?: InstanceStatusList;
+  /** Count of task in each state in the TaskGroup. The map key is task state name. */
+  counts?: StringMap;
+}
+export const TaskGroupStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instances: S.optional(InstanceStatusList),
+    counts: S.optional(StringMap),
+  }),
+).annotate({ identifier: "TaskGroupStatus" }) as any as S.Schema<TaskGroupStatus>;
+
+export type TaskGroupStatusMap = { [key: string]: TaskGroupStatus | undefined };
+export const TaskGroupStatusMap = /*@__PURE__*/ S.Record(
+  S.String,
+  TaskGroupStatus,
+) as any as S.Schema<TaskGroupStatusMap>;
+
+/** Job status. */
+export interface JobStatus {
+  /** Job status events */
+  statusEvents?: StatusEventList;
+  /** The duration of time that the Job spent in status RUNNING. */
+  runDuration?: string;
+  /** Job state */
+  state?: JobStatusStateEnum | (string & {});
+  /** Aggregated task status for each TaskGroup in the Job. The map key is TaskGroup ID. */
+  taskGroups?: TaskGroupStatusMap;
+}
+export const JobStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statusEvents: S.optional(StatusEventList),
+    runDuration: S.optional(S.String),
+    state: S.optional(JobStatusStateEnum),
+    taskGroups: S.optional(TaskGroupStatusMap),
+  }),
+).annotate({ identifier: "JobStatus" }) as any as S.Schema<JobStatus>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** Conditions for actions to deal with task failures. */
+export interface ActionCondition {
+  /** Exit codes of a task execution. If there are more than 1 exit codes, when task executes with any of the exit code in the list, the condition is met and the action will be executed. */
+  exitCodes?: IntegerList;
+}
+export const ActionCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exitCodes: S.optional(IntegerList),
+  }),
+).annotate({ identifier: "ActionCondition" }) as any as S.Schema<ActionCondition>;
+
+export type LifecyclePolicyActionEnum = "ACTION_UNSPECIFIED" | "RETRY_TASK" | "FAIL_TASK";
+export const LifecyclePolicyActionEnum = S.String;
+
+/** LifecyclePolicy describes how to deal with task failures based on different conditions. */
+export interface LifecyclePolicy {
+  /** Conditions that decide why a task failure is dealt with a specific action. */
+  actionCondition?: ActionCondition;
+  /** Action to execute when ActionCondition is true. When RETRY_TASK is specified, we will retry failed tasks if we notice any exit code match and fail tasks if no match is found. Likewise, when FAIL_TASK is specified, we will fail tasks if we notice any exit code match and retry tasks if no match is found. */
+  action?: LifecyclePolicyActionEnum | (string & {});
+}
+export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionCondition: S.optional(ActionCondition),
+    action: S.optional(LifecyclePolicyActionEnum),
+  }),
+).annotate({ identifier: "LifecyclePolicy" }) as any as S.Schema<LifecyclePolicy>;
+
+export type LifecyclePolicyList = Array<LifecyclePolicy>;
+export const LifecyclePolicyList = /*@__PURE__*/ S.Array(
+  LifecyclePolicy,
+) as any as S.Schema<LifecyclePolicyList>;
+
+/** Compute resource requirements. ComputeResource defines the amount of resources required for each task. Make sure your tasks have enough resources to successfully run. If you also define the types of resources for a job to use with the [InstancePolicyOrTemplate](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate) field, make sure both fields are compatible with each other. */
+export interface ComputeResource {
+  /** The milliCPU count. `cpuMilli` defines the amount of CPU resources per task in milliCPU units. For example, `1000` corresponds to 1 vCPU per task. If undefined, the default value is `2000`. If you also define the VM's machine type using the `machineType` in [InstancePolicy](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicy) field or inside the `instanceTemplate` in the [InstancePolicyOrTemplate](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate) field, make sure the CPU resources for both fields are compatible with each other and with how many tasks you want to allow to run on the same VM at the same time. For example, if you specify the `n2-standard-2` machine type, which has 2 vCPUs each, you are recommended to set `cpuMilli` no more than `2000`, or you are recommended to run two tasks on the same VM if you set `cpuMilli` to `1000` or less. */
+  cpuMilli?: string;
+  /** Memory in MiB. `memoryMib` defines the amount of memory per task in MiB units. If undefined, the default value is `2000`. If you also define the VM's machine type using the `machineType` in [InstancePolicy](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicy) field or inside the `instanceTemplate` in the [InstancePolicyOrTemplate](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate) field, make sure the memory resources for both fields are compatible with each other and with how many tasks you want to allow to run on the same VM at the same time. For example, if you specify the `n2-standard-2` machine type, which has 8 GiB each, you are recommended to set `memoryMib` to no more than `8192`, or you are recommended to run two tasks on the same VM if you set `memoryMib` to `4096` or less. */
+  memoryMib?: string;
+  /** Extra boot disk size in MiB for each task. */
+  bootDiskMib?: string;
+}
+export const ComputeResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpuMilli: S.optional(S.String),
+    memoryMib: S.optional(S.String),
+    bootDiskMib: S.optional(S.String),
+  }),
+).annotate({ identifier: "ComputeResource" }) as any as S.Schema<ComputeResource>;
+
+/** Container runnable. */
+export interface Container {
+  /** Optional. If set to true, this container runnable uses Image streaming. Use Image streaming to allow the runnable to initialize without waiting for the entire container image to download, which can significantly reduce startup time for large container images. When `enableImageStreaming` is set to true, the container runtime is [containerd](https://containerd.io/) instead of Docker. Additionally, this container runnable only supports the following `container` subfields: `imageUri`, `commands[]`, `entrypoint`, and `volumes[]`; any other `container` subfields are ignored. For more information about the requirements and limitations for using Image streaming with Batch, see the [`image-streaming` sample on GitHub](https://github.com/GoogleCloudPlatform/batch-samples/tree/main/api-samples/image-streaming). */
+  enableImageStreaming?: boolean;
+  /** Required if the container image is from a private Docker registry. The password to login to the Docker registry that contains the image. For security, it is strongly recommended to specify an encrypted password by using a Secret Manager secret: `projects/*\/secrets/*\/versions/*`. Warning: If you specify the password using plain text, you risk the password being exposed to any users who can view the job or its logs. To avoid this risk, specify a secret that contains the password instead. Learn more about [Secret Manager](https://cloud.google.com/secret-manager/docs/) and [using Secret Manager with Batch](https://cloud.google.com/batch/docs/create-run-job-secret-manager). */
+  password?: string;
+  /** Required for some container images. Arbitrary additional options to include in the `docker run` command when running this container—for example, `--network host`. For the `--volume` option, use the `volumes` field for the container. */
+  options?: string;
+  /** Required for some container images. Overrides the `CMD` specified in the container. If there is an `ENTRYPOINT` (either in the container image or with the `entrypoint` field below) then these commands are appended as arguments to the `ENTRYPOINT`. */
+  commands?: StringList;
+  /** If set to true, external network access to and from container will be blocked, containers that are with block_external_network as true can still communicate with each other, network cannot be specified in the `container.options` field. */
+  blockExternalNetwork?: boolean;
+  /** Required. The URI to pull the container image from. */
+  imageUri?: string;
+  /** Required if the container image is from a private Docker registry. The username to login to the Docker registry that contains the image. You can either specify the username directly by using plain text or specify an encrypted username by using a Secret Manager secret: `projects/*\/secrets/*\/versions/*`. However, using a secret is recommended for enhanced security. Caution: If you specify the username using plain text, you risk the username being exposed to any users who can view the job or its logs. To avoid this risk, specify a secret that contains the username instead. Learn more about [Secret Manager](https://cloud.google.com/secret-manager/docs/) and [using Secret Manager with Batch](https://cloud.google.com/batch/docs/create-run-job-secret-manager). */
+  username?: string;
+  /** Volumes to mount (bind mount) from the host machine files or directories into the container, formatted to match `--volume` option for the `docker run` command—for example, `/foo:/bar` or `/foo:/bar:ro`. If the `TaskSpec.Volumes` field is specified but this field is not, Batch will mount each volume from the host machine to the container with the same mount path by default. In this case, the default mount option for containers will be read-only (`ro`) for existing persistent disks and read-write (`rw`) for other volume types, regardless of the original mount options specified in `TaskSpec.Volumes`. If you need different mount settings, you can explicitly configure them in this field. */
+  volumes?: StringList;
+  /** Required for some container images. Overrides the `ENTRYPOINT` specified in the container. */
+  entrypoint?: string;
+}
+export const Container = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enableImageStreaming: S.optional(S.Boolean),
+    password: S.optional(S.String),
+    options: S.optional(S.String),
+    commands: S.optional(StringList),
+    blockExternalNetwork: S.optional(S.Boolean),
+    imageUri: S.optional(S.String),
+    username: S.optional(S.String),
+    volumes: S.optional(StringList),
+    entrypoint: S.optional(S.String),
+  }),
+).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
+
+/** A barrier runnable automatically blocks the execution of subsequent runnables until all the tasks in the task group reach the barrier. */
+export interface Barrier {
+  /** Barriers are identified by their index in runnable list. Names are not required, but if present should be an identifier. */
+  name?: string;
+}
+export const Barrier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Barrier" }) as any as S.Schema<Barrier>;
+
+export interface KMSEnvMap {
+  /** The name of the KMS key that will be used to decrypt the cipher text. */
+  keyName?: string;
+  /** The value of the cipherText response from the `encrypt` method. */
+  cipherText?: string;
+}
+export const KMSEnvMap = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyName: S.optional(S.String),
+    cipherText: S.optional(S.String),
+  }),
+).annotate({ identifier: "KMSEnvMap" }) as any as S.Schema<KMSEnvMap>;
+
+/** An Environment describes a collection of environment variables to set when executing Tasks. */
+export interface Environment {
+  /** A map of environment variable names to Secret Manager secret names. The VM will access the named secrets to set the value of each environment variable. */
+  secretVariables?: StringMap;
+  /** An encrypted JSON dictionary where the key/value pairs correspond to environment variable names and their values. */
+  encryptedVariables?: KMSEnvMap;
+  /** A map of environment variable names to values. */
+  variables?: StringMap;
+}
+export const Environment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretVariables: S.optional(StringMap),
+    encryptedVariables: S.optional(KMSEnvMap),
+    variables: S.optional(StringMap),
+  }),
+).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
+
+/** Script runnable. */
+export interface Script {
+  /** The path to a script file that is accessible from the host VM(s). Unless the script file supports the default `#!/bin/sh` shell interpreter, you must specify an interpreter by including a [shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix) as the first line of the file. For example, to execute the script using bash, include `#!/bin/bash` as the first line of the file. Alternatively, to execute the script using Python3, include `#!/usr/bin/env python3` as the first line of the file. */
+  path?: string;
+  /** The text for a script. Unless the script text supports the default `#!/bin/sh` shell interpreter, you must specify an interpreter by including a [shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix) at the beginning of the text. For example, to execute the script using bash, include `#!/bin/bash\n` at the beginning of the text. Alternatively, to execute the script using Python3, include `#!/usr/bin/env python3\n` at the beginning of the text. */
+  text?: string;
+}
+export const Script = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String),
+    text: S.optional(S.String),
+  }),
+).annotate({ identifier: "Script" }) as any as S.Schema<Script>;
+
+/** Runnable describes instructions for executing a specific script or container as part of a Task. */
+export interface Runnable {
+  /** Timeout for this Runnable. */
+  timeout?: string;
+  /** Optional. DisplayName is an optional field that can be provided by the caller. If provided, it will be used in logs and other outputs to identify the script, making it easier for users to understand the logs. If not provided the index of the runnable will be used for outputs. */
+  displayName?: string;
+  /** Container runnable. */
+  container?: Container;
+  /** Labels for this Runnable. */
+  labels?: StringMap;
+  /** Barrier runnable. */
+  barrier?: Barrier;
+  /** Environment variables for this Runnable (overrides variables set for the whole Task or TaskGroup). */
+  environment?: Environment;
+  /** Normally, a runnable that returns a non-zero exit status fails and causes the task to fail. However, you can set this field to `true` to allow the task to continue executing its other runnables even if this runnable fails. */
+  ignoreExitStatus?: boolean;
+  /** Normally, a runnable that doesn't exit causes its task to fail. However, you can set this field to `true` to configure a background runnable. Background runnables are allowed continue running in the background while the task executes subsequent runnables. For example, background runnables are useful for providing services to other runnables or providing debugging-support tools like SSH servers. Specifically, background runnables are killed automatically (if they have not already exited) a short time after all foreground runnables have completed. Even though this is likely to result in a non-zero exit status for the background runnable, these automatic kills are not treated as task failures. */
+  background?: boolean;
+  /** Script runnable. */
+  script?: Script;
+  /** By default, after a Runnable fails, no further Runnable are executed. This flag indicates that this Runnable must be run even if the Task has already failed. This is useful for Runnables that copy output files off of the VM or for debugging. The always_run flag does not override the Task's overall max_run_duration. If the max_run_duration has expired then no further Runnables will execute, not even always_run Runnables. */
+  alwaysRun?: boolean;
+}
+export const Runnable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeout: S.optional(S.String),
+    displayName: S.optional(S.String),
+    container: S.optional(Container),
+    labels: S.optional(StringMap),
+    barrier: S.optional(Barrier),
+    environment: S.optional(Environment),
+    ignoreExitStatus: S.optional(S.Boolean),
+    background: S.optional(S.Boolean),
+    script: S.optional(Script),
+    alwaysRun: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "Runnable" }) as any as S.Schema<Runnable>;
+
+export type RunnableList = Array<Runnable>;
+export const RunnableList = /*@__PURE__*/ S.Array(Runnable) as any as S.Schema<RunnableList>;
+
+/** Represents an NFS volume. */
+export interface NFS {
+  /** The IP address of the NFS. */
+  server?: string;
+  /** Remote source path exported from the NFS, e.g., "/share". */
+  remotePath?: string;
+}
+export const NFS = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server: S.optional(S.String),
+    remotePath: S.optional(S.String),
+  }),
+).annotate({ identifier: "NFS" }) as any as S.Schema<NFS>;
+
+/** Represents a Google Cloud Storage volume. */
+export interface GCS {
+  /** Remote path, either a bucket name or a subdirectory of a bucket, e.g.: bucket_name, bucket_name/subdirectory/ */
+  remotePath?: string;
+}
+export const GCS = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    remotePath: S.optional(S.String),
+  }),
+).annotate({ identifier: "GCS" }) as any as S.Schema<GCS>;
+
+/** Volume describes a volume and parameters for it to be mounted to a VM. */
+export interface Volume {
+  /** The mount path for the volume, e.g. /mnt/disks/share. */
+  mountPath?: string;
+  /** Mount options vary based on the type of storage volume: * For a Cloud Storage bucket, all the mount options provided by the [`gcsfuse` tool](https://cloud.google.com/storage/docs/gcsfuse-cli) are supported. * For an existing persistent disk, all mount options provided by the [`mount` command](https://man7.org/linux/man-pages/man8/mount.8.html) except writing are supported. This is due to restrictions of [multi-writer mode](https://cloud.google.com/compute/docs/disks/sharing-disks-between-vms). * For any other disk or a Network File System (NFS), all the mount options provided by the `mount` command are supported. */
+  mountOptions?: StringList;
+  /** Device name of an attached disk volume, which should align with a device_name specified by job.allocation_policy.instances[0].policy.disks[i].device_name or defined by the given instance template in job.allocation_policy.instances[0].instance_template. */
+  deviceName?: string;
+  /** A Network File System (NFS) volume. For example, a Filestore file share. */
+  nfs?: NFS;
+  /** A Google Cloud Storage (GCS) volume. */
+  gcs?: GCS;
+}
+export const Volume = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mountPath: S.optional(S.String),
+    mountOptions: S.optional(StringList),
+    deviceName: S.optional(S.String),
+    nfs: S.optional(NFS),
+    gcs: S.optional(GCS),
+  }),
+).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
+
+export type VolumeList = Array<Volume>;
+export const VolumeList = /*@__PURE__*/ S.Array(Volume) as any as S.Schema<VolumeList>;
+
+/** Spec of a task */
+export interface TaskSpec {
+  /** Maximum number of retries on failures. The default, 0, which means never retry. The valid value range is [0, 10]. */
+  maxRetryCount?: number;
+  /** Deprecated: please use environment(non-plural) instead. */
+  environments?: StringMap;
+  /** Maximum duration the task should run before being automatically retried (if enabled) or automatically failed. Format the value of this field as a time limit in seconds followed by `s`—for example, `3600s` for 1 hour. The field accepts any value between 0 and the maximum listed for the `Duration` field type at https://protobuf.dev/reference/protobuf/google.protobuf/#duration; however, the actual maximum run time for a job will be limited to the maximum run time for a job listed at https://cloud.google.com/batch/quotas#max-job-duration. */
+  maxRunDuration?: string;
+  /** Lifecycle management schema when any task in a task group is failed. Currently we only support one lifecycle policy. When the lifecycle policy condition is met, the action in the policy will execute. If task execution result does not meet with the defined lifecycle policy, we consider it as the default policy. Default policy means if the exit code is 0, exit task. If task ends with non-zero exit code, retry the task with max_retry_count. */
+  lifecyclePolicies?: LifecyclePolicyList;
+  /** ComputeResource requirements. */
+  computeResource?: ComputeResource;
+  /** Required. The sequence of one or more runnables (executable scripts, executable containers, and/or barriers) for each task in this task group to run. Each task runs this list of runnables in order. For a task to succeed, all of its script and container runnables each must meet at least one of the following conditions: + The runnable exited with a zero status. + The runnable didn't finish, but you enabled its `background` subfield. + The runnable exited with a non-zero status, but you enabled its `ignore_exit_status` subfield. */
+  runnables?: RunnableList;
+  /** Environment variables to set before running the Task. */
+  environment?: Environment;
+  /** Volumes to mount before running Tasks using this TaskSpec. */
+  volumes?: VolumeList;
+}
+export const TaskSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxRetryCount: S.optional(S.Number),
+    environments: S.optional(StringMap),
+    maxRunDuration: S.optional(S.String),
+    lifecyclePolicies: S.optional(LifecyclePolicyList),
+    computeResource: S.optional(ComputeResource),
+    runnables: S.optional(RunnableList),
+    environment: S.optional(Environment),
+    volumes: S.optional(VolumeList),
+  }),
+).annotate({ identifier: "TaskSpec" }) as any as S.Schema<TaskSpec>;
+
+export type EnvironmentList = Array<Environment>;
+export const EnvironmentList = /*@__PURE__*/ S.Array(
+  Environment,
+) as any as S.Schema<EnvironmentList>;
+
+export type TaskGroupSchedulingPolicyEnum =
+  | "SCHEDULING_POLICY_UNSPECIFIED"
+  | "AS_SOON_AS_POSSIBLE"
+  | "IN_ORDER";
+export const TaskGroupSchedulingPolicyEnum = S.String;
+
+/** A TaskGroup defines one or more Tasks that all share the same TaskSpec. */
+export interface TaskGroup {
+  /** Optional. If not set or set to false, Batch uses the root user to execute runnables. If set to true, Batch runs the runnables using a non-root user. Currently, the non-root user Batch used is generated by OS Login. For more information, see [About OS Login](https://cloud.google.com/compute/docs/oslogin). */
+  runAsNonRoot?: boolean;
+  /** Required. Tasks in the group share the same task spec. */
+  taskSpec?: TaskSpec;
+  /** An array of environment variable mappings, which are passed to Tasks with matching indices. If task_environments is used then task_count should not be specified in the request (and will be ignored). Task count will be the length of task_environments. Tasks get a BATCH_TASK_INDEX and BATCH_TASK_COUNT environment variable, in addition to any environment variables set in task_environments, specifying the number of Tasks in the Task's parent TaskGroup, and the specific Task's index in the TaskGroup (0 through BATCH_TASK_COUNT - 1). */
+  taskEnvironments?: EnvironmentList;
+  /** When true, Batch will populate a file with a list of all VMs assigned to the TaskGroup and set the BATCH_HOSTS_FILE environment variable to the path of that file. Defaults to false. The host file supports up to 1000 VMs. */
+  requireHostsFile?: boolean;
+  /** Scheduling policy for Tasks in the TaskGroup. The default value is AS_SOON_AS_POSSIBLE. */
+  schedulingPolicy?: TaskGroupSchedulingPolicyEnum | (string & {});
+  /** When true, Batch will configure SSH to allow passwordless login between VMs running the Batch tasks in the same TaskGroup. */
+  permissiveSsh?: boolean;
+  /** Output only. TaskGroup name. The system generates this field based on parent Job name. For example: "projects/123456/locations/us-west1/jobs/job01/taskGroups/group01". */
+  name?: string;
+  /** Number of Tasks in the TaskGroup. Default is 1. */
+  taskCount?: string;
+  /** Max number of tasks that can run in parallel. Default to min(task_count, parallel tasks per job limit). See: [Job Limits](https://cloud.google.com/batch/quotas#job_limits). Field parallelism must be 1 if the scheduling_policy is IN_ORDER. */
+  parallelism?: string;
+  /** Max number of tasks that can be run on a VM at the same time. If not specified, the system will decide a value based on available compute resources on a VM and task requirements. */
+  taskCountPerNode?: string;
+}
+export const TaskGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    runAsNonRoot: S.optional(S.Boolean),
+    taskSpec: S.optional(TaskSpec),
+    taskEnvironments: S.optional(EnvironmentList),
+    requireHostsFile: S.optional(S.Boolean),
+    schedulingPolicy: S.optional(TaskGroupSchedulingPolicyEnum),
+    permissiveSsh: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    taskCount: S.optional(S.String),
+    parallelism: S.optional(S.String),
+    taskCountPerNode: S.optional(S.String),
+  }),
+).annotate({ identifier: "TaskGroup" }) as any as S.Schema<TaskGroup>;
+
+export type TaskGroupList = Array<TaskGroup>;
+export const TaskGroupList = /*@__PURE__*/ S.Array(TaskGroup) as any as S.Schema<TaskGroupList>;
 
 export type MessageTypeEnum = "TYPE_UNSPECIFIED" | "JOB_STATE_CHANGED" | "TASK_STATE_CHANGED";
 export const MessageTypeEnum = S.String;
@@ -213,15 +914,15 @@ export const Message = /*@__PURE__*/ S.suspend(() =>
 
 /** Notification configurations. */
 export interface JobNotification {
-  /** The attribute requirements of messages to be sent to this Pub/Sub topic. Without this field, no message will be sent. */
-  message?: Message;
   /** The Pub/Sub topic where notifications for the job, like state changes, will be published. If undefined, no Pub/Sub notifications are sent for this job. Specify the topic using the following format: `projects/{project}/topics/{topic}`. Notably, if you want to specify a Pub/Sub topic that is in a different project than the job, your administrator must grant your project's Batch service agent permission to publish to that topic. For more information about configuring Pub/Sub notifications for a job, see https://cloud.google.com/batch/docs/enable-notifications. */
   pubsubTopic?: string;
+  /** The attribute requirements of messages to be sent to this Pub/Sub topic. Without this field, no message will be sent. */
+  message?: Message;
 }
 export const JobNotification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(Message),
     pubsubTopic: S.optional(S.String),
+    message: S.optional(Message),
   }),
 ).annotate({ identifier: "JobNotification" }) as any as S.Schema<JobNotification>;
 
@@ -248,766 +949,65 @@ export const CloudLoggingOption = /*@__PURE__*/ S.suspend(() =>
 export interface LogsPolicy {
   /** If and where logs should be saved. */
   destination?: LogsPolicyDestinationEnum | (string & {});
-  /** When `destination` is set to `PATH`, you must set this field to the path where you want logs to be saved. This path can point to a local directory on the VM or (if congifured) a directory under the mount path of any Cloud Storage bucket, network file system (NFS), or writable persistent disk that is mounted to the job. For example, if the job has a bucket with `mountPath` set to `/mnt/disks/my-bucket`, you can write logs to the root directory of the `remotePath` of that bucket by setting this field to `/mnt/disks/my-bucket/`. */
-  logsPath?: string;
   /** Optional. When `destination` is set to `CLOUD_LOGGING`, you can optionally set this field to configure additional settings for Cloud Logging. */
   cloudLoggingOption?: CloudLoggingOption;
+  /** When `destination` is set to `PATH`, you must set this field to the path where you want logs to be saved. This path can point to a local directory on the VM or (if congifured) a directory under the mount path of any Cloud Storage bucket, network file system (NFS), or writable persistent disk that is mounted to the job. For example, if the job has a bucket with `mountPath` set to `/mnt/disks/my-bucket`, you can write logs to the root directory of the `remotePath` of that bucket by setting this field to `/mnt/disks/my-bucket/`. */
+  logsPath?: string;
 }
 export const LogsPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     destination: S.optional(LogsPolicyDestinationEnum),
-    logsPath: S.optional(S.String),
     cloudLoggingOption: S.optional(CloudLoggingOption),
+    logsPath: S.optional(S.String),
   }),
 ).annotate({ identifier: "LogsPolicy" }) as any as S.Schema<LogsPolicy>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-/** This Task Execution field includes detail information for task execution procedures, based on StatusEvent types. */
-export interface TaskExecution {
-  /** The exit code of a finished task. If the task succeeded, the exit code will be 0. If the task failed but not due to the following reasons, the exit code will be 50000. Otherwise, it can be from different sources: * Batch known failures: https://cloud.google.com/batch/docs/troubleshooting#reserved-exit-codes. * Batch runnable execution failures; you can rely on Batch logs to further diagnose: https://cloud.google.com/batch/docs/analyze-job-using-logs. If there are multiple runnables failures, Batch only exposes the first error. */
-  exitCode?: number;
-}
-export const TaskExecution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exitCode: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TaskExecution" }) as any as S.Schema<TaskExecution>;
-
-export type StatusEventTaskStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "ASSIGNED"
-  | "RUNNING"
-  | "FAILED"
-  | "SUCCEEDED"
-  | "UNEXECUTED";
-export const StatusEventTaskStateEnum = S.String;
-
-/** Status event. */
-export interface StatusEvent {
-  /** Task Execution. This field is only defined for task-level status events where the task fails. */
-  taskExecution?: TaskExecution;
-  /** Task State. This field is only defined for task-level status events. */
-  taskState?: StatusEventTaskStateEnum | (string & {});
-  /** Type of the event. */
-  type?: string;
-  /** Description of the event. */
-  description?: string;
-  /** The time this event occurred. */
-  eventTime?: string;
-}
-export const StatusEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskExecution: S.optional(TaskExecution),
-    taskState: S.optional(StatusEventTaskStateEnum),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    eventTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "StatusEvent" }) as any as S.Schema<StatusEvent>;
-
-export type StatusEventList = Array<StatusEvent>;
-export const StatusEventList = /*@__PURE__*/ S.Array(
-  StatusEvent,
-) as any as S.Schema<StatusEventList>;
-
-export type JobStatusStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "QUEUED"
-  | "SCHEDULED"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "DELETION_IN_PROGRESS"
-  | "CANCELLATION_IN_PROGRESS"
-  | "CANCELLED";
-export const JobStatusStateEnum = S.String;
-
-/** A new persistent disk or a local ssd. A VM can only have one local SSD setting but multiple local SSD partitions. See https://cloud.google.com/compute/docs/disks#pdspecs and https://cloud.google.com/compute/docs/disks#localssds. */
-export interface Disk {
-  /** Name of a snapshot used as the data source. Snapshot is not supported as boot disk now. */
-  snapshot?: string;
-  /** Disk size in GB. **Non-Boot Disk**: If the `type` specifies a persistent disk, this field is ignored if `data_source` is set as `image` or `snapshot`. If the `type` specifies a local SSD, this field should be a multiple of 375 GB, otherwise, the final size will be the next greater multiple of 375 GB. **Boot Disk**: Batch will calculate the boot disk size based on source image and task requirements if you do not speicify the size. If both this field and the `boot_disk_mib` field in task spec's `compute_resource` are defined, Batch will only honor this field. Also, this field should be no smaller than the source disk's size when the `data_source` is set as `snapshot` or `image`. For example, if you set an image as the `data_source` field and the image's default disk size 30 GB, you can only use this field to make the disk larger or equal to 30 GB. */
-  sizeGb?: string;
-  /** Local SSDs are available through both "SCSI" and "NVMe" interfaces. If not indicated, "NVMe" will be the default one for local ssds. This field is ignored for persistent disks as the interface is chosen automatically. See https://cloud.google.com/compute/docs/disks/persistent-disks#choose_an_interface. */
-  diskInterface?: string;
-  /** Disk type as shown in `gcloud compute disk-types list`. For example, local SSD uses type "local-ssd". Persistent disks and boot disks use "pd-balanced", "pd-extreme", "pd-ssd" or "pd-standard". If not specified, "pd-standard" will be used as the default type for non-boot disks, "pd-balanced" will be used as the default type for boot disks. */
-  type?: string;
-  /** URL for a VM image to use as the data source for this disk. For example, the following are all valid URLs: * Specify the image by its family name: projects/{project}/global/images/family/{image_family} * Specify the image version: projects/{project}/global/images/{image_version} You can also use Batch customized image in short names. The following image values are supported for a boot disk: * `batch-debian`: use Batch Debian images. * `batch-cos`: use Batch Container-Optimized images. * `batch-hpc-rocky`: use Batch HPC Rocky Linux images. */
-  image?: string;
-}
-export const Disk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshot: S.optional(S.String),
-    sizeGb: S.optional(S.String),
-    diskInterface: S.optional(S.String),
-    type: S.optional(S.String),
-    image: S.optional(S.String),
-  }),
-).annotate({ identifier: "Disk" }) as any as S.Schema<Disk>;
-
-export type InstanceStatusProvisioningModelEnum =
-  | "PROVISIONING_MODEL_UNSPECIFIED"
-  | "STANDARD"
-  | "SPOT"
-  | "PREEMPTIBLE"
-  | "RESERVATION_BOUND"
-  | "FLEX_START";
-export const InstanceStatusProvisioningModelEnum = S.String;
-
-/** VM instance status. */
-export interface InstanceStatus {
-  /** The VM boot disk. */
-  bootDisk?: Disk;
-  /** The max number of tasks can be assigned to this instance type. */
-  taskPack?: string;
-  /** The VM instance provisioning model. */
-  provisioningModel?: InstanceStatusProvisioningModelEnum | (string & {});
-  /** The Compute Engine machine type. */
-  machineType?: string;
-}
-export const InstanceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bootDisk: S.optional(Disk),
-    taskPack: S.optional(S.String),
-    provisioningModel: S.optional(InstanceStatusProvisioningModelEnum),
-    machineType: S.optional(S.String),
-  }),
-).annotate({ identifier: "InstanceStatus" }) as any as S.Schema<InstanceStatus>;
-
-export type InstanceStatusList = Array<InstanceStatus>;
-export const InstanceStatusList = /*@__PURE__*/ S.Array(
-  InstanceStatus,
-) as any as S.Schema<InstanceStatusList>;
-
-/** Aggregated task status for a TaskGroup. */
-export interface TaskGroupStatus {
-  /** Status of instances allocated for the TaskGroup. */
-  instances?: InstanceStatusList;
-  /** Count of task in each state in the TaskGroup. The map key is task state name. */
-  counts?: StringMap;
-}
-export const TaskGroupStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instances: S.optional(InstanceStatusList),
-    counts: S.optional(StringMap),
-  }),
-).annotate({ identifier: "TaskGroupStatus" }) as any as S.Schema<TaskGroupStatus>;
-
-export type TaskGroupStatusMap = { [key: string]: TaskGroupStatus | undefined };
-export const TaskGroupStatusMap = /*@__PURE__*/ S.Record(
-  S.String,
-  TaskGroupStatus,
-) as any as S.Schema<TaskGroupStatusMap>;
-
-/** Job status. */
-export interface JobStatus {
-  /** Job status events */
-  statusEvents?: StatusEventList;
-  /** Job state */
-  state?: JobStatusStateEnum | (string & {});
-  /** Aggregated task status for each TaskGroup in the Job. The map key is TaskGroup ID. */
-  taskGroups?: TaskGroupStatusMap;
-  /** The duration of time that the Job spent in status RUNNING. */
-  runDuration?: string;
-}
-export const JobStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusEvents: S.optional(StatusEventList),
-    state: S.optional(JobStatusStateEnum),
-    taskGroups: S.optional(TaskGroupStatusMap),
-    runDuration: S.optional(S.String),
-  }),
-).annotate({ identifier: "JobStatus" }) as any as S.Schema<JobStatus>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Carries information about a Google Cloud service account. */
-export interface ServiceAccount {
-  /** Email address of the service account. */
-  email?: string;
-  /** List of scopes to be enabled for this service account. */
-  scopes?: StringList;
-}
-export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-    scopes: S.optional(StringList),
-  }),
-).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
-
-export type InstancePolicyProvisioningModelEnum =
-  | "PROVISIONING_MODEL_UNSPECIFIED"
-  | "STANDARD"
-  | "SPOT"
-  | "PREEMPTIBLE"
-  | "RESERVATION_BOUND"
-  | "FLEX_START";
-export const InstancePolicyProvisioningModelEnum = S.String;
-
-/** Accelerator describes Compute Engine accelerators to be attached to the VM. */
-export interface Accelerator {
-  /** Deprecated: please use instances[0].install_gpu_drivers instead. */
-  installGpuDrivers?: boolean;
-  /** Optional. The NVIDIA GPU driver version that should be installed for this type. You can define the specific driver version such as "470.103.01", following the driver version requirements in https://cloud.google.com/compute/docs/gpus/install-drivers-gpu#minimum-driver. Batch will install the specific accelerator driver if qualified. */
-  driverVersion?: string;
-  /** The number of accelerators of this type. */
-  count?: string;
-  /** The accelerator type. For example, "nvidia-tesla-t4". See `gcloud compute accelerator-types list`. */
-  type?: string;
-}
-export const Accelerator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    installGpuDrivers: S.optional(S.Boolean),
-    driverVersion: S.optional(S.String),
-    count: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({ identifier: "Accelerator" }) as any as S.Schema<Accelerator>;
-
-export type AcceleratorList = Array<Accelerator>;
-export const AcceleratorList = /*@__PURE__*/ S.Array(
-  Accelerator,
-) as any as S.Schema<AcceleratorList>;
-
-/** A new or an existing persistent disk (PD) or a local ssd attached to a VM instance. */
-export interface AttachedDisk {
-  newDisk?: Disk;
-  /** Name of an existing PD. */
-  existingDisk?: string;
-  /** Device name that the guest operating system will see. It is used by Runnable.volumes field to mount disks. So please specify the device_name if you want Batch to help mount the disk, and it should match the device_name field in volumes. */
-  deviceName?: string;
-}
-export const AttachedDisk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    newDisk: S.optional(Disk),
-    existingDisk: S.optional(S.String),
-    deviceName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AttachedDisk" }) as any as S.Schema<AttachedDisk>;
-
-export type AttachedDiskList = Array<AttachedDisk>;
-export const AttachedDiskList = /*@__PURE__*/ S.Array(
-  AttachedDisk,
-) as any as S.Schema<AttachedDiskList>;
-
-/** InstancePolicy describes an instance type and resources attached to each VM created by this InstancePolicy. */
-export interface InstancePolicy {
-  /** The minimum CPU platform. See https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform. */
-  minCpuPlatform?: string;
-  /** The provisioning model. */
-  provisioningModel?: InstancePolicyProvisioningModelEnum | (string & {});
-  /** The accelerators attached to each VM instance. */
-  accelerators?: AcceleratorList;
-  /** The Compute Engine machine type. */
-  machineType?: string;
-  /** Non-boot disks to be attached for each VM created by this InstancePolicy. New disks will be deleted when the VM is deleted. A non-boot disk is a disk that can be of a device with a file system or a raw storage drive that is not ready for data storage and accessing. */
-  disks?: AttachedDiskList;
-  /** Boot disk to be created and attached to each VM by this InstancePolicy. Boot disk will be deleted when the VM is deleted. Batch API now only supports booting from image. */
-  bootDisk?: Disk;
-  /** Optional. If not specified (default), VMs will consume any applicable reservation. If "NO_RESERVATION" is specified, VMs will not consume any reservation. Otherwise, if specified, VMs will consume only the specified reservation. */
-  reservation?: string;
-}
-export const InstancePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minCpuPlatform: S.optional(S.String),
-    provisioningModel: S.optional(InstancePolicyProvisioningModelEnum),
-    accelerators: S.optional(AcceleratorList),
-    machineType: S.optional(S.String),
-    disks: S.optional(AttachedDiskList),
-    bootDisk: S.optional(Disk),
-    reservation: S.optional(S.String),
-  }),
-).annotate({ identifier: "InstancePolicy" }) as any as S.Schema<InstancePolicy>;
-
-/** InstancePolicyOrTemplate lets you define the type of resources to use for this job either with an InstancePolicy or an instance template. If undefined, Batch picks the type of VM to use and doesn't include optional VM resources such as GPUs and extra disks. */
-export interface InstancePolicyOrTemplate {
-  /** Set this field true if you want Batch to help fetch drivers from a third party location and install them for GPUs specified in `policy.accelerators` or `instance_template` on your behalf. Default is false. For Container-Optimized Image cases, Batch will install the accelerator driver following milestones of https://cloud.google.com/container-optimized-os/docs/release-notes. For non Container-Optimized Image cases, following https://github.com/GoogleCloudPlatform/compute-gpu-installation/blob/main/linux/install_gpu_driver.py. */
-  installGpuDrivers?: boolean;
-  /** Name of an instance template used to create VMs. Named the field as 'instance_template' instead of 'template' to avoid C++ keyword conflict. Batch only supports global instance templates from the same project as the job. You can specify the global instance template as a full or partial URL. */
-  instanceTemplate?: string;
-  /** Optional. Set this field to `true` if you want Batch to block project-level SSH keys from accessing this job's VMs. Alternatively, you can configure the job to specify a VM instance template that blocks project-level SSH keys. In either case, Batch blocks project-level SSH keys while creating the VMs for this job. Batch allows project-level SSH keys for a job's VMs only if all the following are true: + This field is undefined or set to `false`. + The job's VM instance template (if any) doesn't block project-level SSH keys. Notably, you can override this behavior by manually updating a VM to block or allow project-level SSH keys. For more information about blocking project-level SSH keys, see the Compute Engine documentation: https://cloud.google.com/compute/docs/connect/restrict-ssh-keys#block-keys */
-  blockProjectSshKeys?: boolean;
-  /** Optional. Set this field true if you want Batch to install Ops Agent on your behalf. Default is false. */
-  installOpsAgent?: boolean;
-  /** InstancePolicy. */
-  policy?: InstancePolicy;
-}
-export const InstancePolicyOrTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    installGpuDrivers: S.optional(S.Boolean),
-    instanceTemplate: S.optional(S.String),
-    blockProjectSshKeys: S.optional(S.Boolean),
-    installOpsAgent: S.optional(S.Boolean),
-    policy: S.optional(InstancePolicy),
-  }),
-).annotate({ identifier: "InstancePolicyOrTemplate" }) as any as S.Schema<InstancePolicyOrTemplate>;
-
-export type InstancePolicyOrTemplateList = Array<InstancePolicyOrTemplate>;
-export const InstancePolicyOrTemplateList = /*@__PURE__*/ S.Array(
-  InstancePolicyOrTemplate,
-) as any as S.Schema<InstancePolicyOrTemplateList>;
-
-/** PlacementPolicy describes a group placement policy for the VMs controlled by this AllocationPolicy. */
-export interface PlacementPolicy {
-  /** UNSPECIFIED vs. COLLOCATED (default UNSPECIFIED). Use COLLOCATED when you want VMs to be located close to each other for low network latency between the VMs. No placement policy will be generated when collocation is UNSPECIFIED. */
-  collocation?: string;
-  /** When specified, causes the job to fail if more than max_distance logical switches are required between VMs. Batch uses the most compact possible placement of VMs even when max_distance is not specified. An explicit max_distance makes that level of compactness a strict requirement. Not yet implemented */
-  maxDistance?: string;
-}
-export const PlacementPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collocation: S.optional(S.String),
-    maxDistance: S.optional(S.String),
-  }),
-).annotate({ identifier: "PlacementPolicy" }) as any as S.Schema<PlacementPolicy>;
-
-export interface LocationPolicy {
-  /** A list of location names that are allowed for the job's VMs formatted as URLs. Each location can be a region or a zone, but you can only specify one region or multiple zones in one region per job. For example, `["regions/us-central1"]` allow VMs in any zones in region `us-central1`, and `["zones/us-central1-a", "zones/us-central1-c"]` only allow VMs in zones `us-central1-a` and `us-central1-c`. However, `["regions/us-central1", "zones/us-central1-a", "zones/us-central1-b", "zones/us-west1-a"]` causes an error because it contains multiple regions (`us-central1` and `us-west1`). The specified region or zones must be in the same region in which the job is created starting on the following dates: + For projects that have successfully submitted before July 31, 2026 at least one job that uses the `allowedLocations[]` field with any region or zones outside of the job's location, the changes are starting on _June 30, 2027_. + For all other projects, the changes are starting on _July 31, 2026_. For example, for job `projects/123/locations/us-central1/jobs/jobid`, the specified region or zones must be in `us-central1`. Using a different region (e.g. `regions/us-west1`) or a zone not in `us-central1` (e.g. `zones/us-west1-a`) causes an error. */
-  allowedLocations?: StringList;
-}
-export const LocationPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allowedLocations: S.optional(StringList),
-  }),
-).annotate({ identifier: "LocationPolicy" }) as any as S.Schema<LocationPolicy>;
-
-export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "GVNIC" | "IRDMA" | "MRDMA";
-export const NetworkInterfaceNicTypeEnum = S.String;
-
-/** A network interface. */
-export interface NetworkInterface {
-  /** Default is false (with an external IP address). Required if no external public IP address is attached to the VM. If no external public IP address, additional configuration is required to allow the VM to access Google Services. See https://cloud.google.com/vpc/docs/configure-private-google-access and https://cloud.google.com/nat/docs/gce-example#create-nat for more information. */
-  noExternalIpAddress?: boolean;
-  /** The URL of an existing network resource. You can specify the network as a full or partial URL. For example, the following are all valid URLs: * https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network} * projects/{project}/global/networks/{network} * global/networks/{network} */
-  network?: string;
-  /** Optional. The NIC type of the network interface. */
-  nicType?: NetworkInterfaceNicTypeEnum | (string & {});
-  /** The URL of an existing subnetwork resource in the network. You can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs: * https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetwork} * projects/{project}/regions/{region}/subnetworks/{subnetwork} * regions/{region}/subnetworks/{subnetwork} */
-  subnetwork?: string;
-}
-export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    noExternalIpAddress: S.optional(S.Boolean),
-    network: S.optional(S.String),
-    nicType: S.optional(NetworkInterfaceNicTypeEnum),
-    subnetwork: S.optional(S.String),
-  }),
-).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
-
-export type NetworkInterfaceList = Array<NetworkInterface>;
-export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
-  NetworkInterface,
-) as any as S.Schema<NetworkInterfaceList>;
-
-/** NetworkPolicy describes VM instance network configurations. */
-export interface NetworkPolicy {
-  /** Network configurations. */
-  networkInterfaces?: NetworkInterfaceList;
-}
-export const NetworkPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkInterfaces: S.optional(NetworkInterfaceList),
-  }),
-).annotate({ identifier: "NetworkPolicy" }) as any as S.Schema<NetworkPolicy>;
-
-/** A Job's resource allocation policy describes when, where, and how compute resources should be allocated for the Job. */
-export interface AllocationPolicy {
-  /** Defines the service account for Batch-created VMs. If omitted, the [default Compute Engine service account](https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used. Must match the service account specified in any used instance template configured in the Batch job. Includes the following fields: * email: The service account's email address. If not set, the default Compute Engine service account is used. * scopes: Additional OAuth scopes to grant the service account, beyond the default cloud-platform scope. (list of strings) */
-  serviceAccount?: ServiceAccount;
-  /** Optional. Tags applied to the VM instances. The tags identify valid sources or targets for network firewalls. Each tag must be 1-63 characters long, and comply with [RFC1035](https://www.ietf.org/rfc/rfc1035.txt). */
-  tags?: StringList;
-  /** Describe instances that can be created by this AllocationPolicy. Only instances[0] is supported now. */
-  instances?: InstancePolicyOrTemplateList;
-  /** The placement policy. */
-  placement?: PlacementPolicy;
-  /** Location where compute resources should be allocated for the Job. */
-  location?: LocationPolicy;
-  /** Custom labels to apply to the job and all the Compute Engine resources that both are created by this allocation policy and support labels. Use labels to group and describe the resources they are applied to. Batch automatically applies predefined labels and supports multiple `labels` fields for each job, which each let you apply custom labels to various resources. Label names that start with "goog-" or "google-" are reserved for predefined labels. For more information about labels with Batch, see [Organize resources using labels](https://cloud.google.com/batch/docs/organize-resources-using-labels). */
-  labels?: StringMap;
-  /** The network policy. If you define an instance template in the `InstancePolicyOrTemplate` field, Batch will use the network settings in the instance template instead of this field. */
-  network?: NetworkPolicy;
-}
-export const AllocationPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccount: S.optional(ServiceAccount),
-    tags: S.optional(StringList),
-    instances: S.optional(InstancePolicyOrTemplateList),
-    placement: S.optional(PlacementPolicy),
-    location: S.optional(LocationPolicy),
-    labels: S.optional(StringMap),
-    network: S.optional(NetworkPolicy),
-  }),
-).annotate({ identifier: "AllocationPolicy" }) as any as S.Schema<AllocationPolicy>;
-
-export type TaskGroupSchedulingPolicyEnum =
-  | "SCHEDULING_POLICY_UNSPECIFIED"
-  | "AS_SOON_AS_POSSIBLE"
-  | "IN_ORDER";
-export const TaskGroupSchedulingPolicyEnum = S.String;
-
-export interface KMSEnvMap {
-  /** The name of the KMS key that will be used to decrypt the cipher text. */
-  keyName?: string;
-  /** The value of the cipherText response from the `encrypt` method. */
-  cipherText?: string;
-}
-export const KMSEnvMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyName: S.optional(S.String),
-    cipherText: S.optional(S.String),
-  }),
-).annotate({ identifier: "KMSEnvMap" }) as any as S.Schema<KMSEnvMap>;
-
-/** An Environment describes a collection of environment variables to set when executing Tasks. */
-export interface Environment {
-  /** A map of environment variable names to values. */
-  variables?: StringMap;
-  /** A map of environment variable names to Secret Manager secret names. The VM will access the named secrets to set the value of each environment variable. */
-  secretVariables?: StringMap;
-  /** An encrypted JSON dictionary where the key/value pairs correspond to environment variable names and their values. */
-  encryptedVariables?: KMSEnvMap;
-}
-export const Environment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variables: S.optional(StringMap),
-    secretVariables: S.optional(StringMap),
-    encryptedVariables: S.optional(KMSEnvMap),
-  }),
-).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
-
-export type EnvironmentList = Array<Environment>;
-export const EnvironmentList = /*@__PURE__*/ S.Array(
-  Environment,
-) as any as S.Schema<EnvironmentList>;
-
-/** Compute resource requirements. ComputeResource defines the amount of resources required for each task. Make sure your tasks have enough resources to successfully run. If you also define the types of resources for a job to use with the [InstancePolicyOrTemplate](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate) field, make sure both fields are compatible with each other. */
-export interface ComputeResource {
-  /** Memory in MiB. `memoryMib` defines the amount of memory per task in MiB units. If undefined, the default value is `2000`. If you also define the VM's machine type using the `machineType` in [InstancePolicy](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicy) field or inside the `instanceTemplate` in the [InstancePolicyOrTemplate](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate) field, make sure the memory resources for both fields are compatible with each other and with how many tasks you want to allow to run on the same VM at the same time. For example, if you specify the `n2-standard-2` machine type, which has 8 GiB each, you are recommended to set `memoryMib` to no more than `8192`, or you are recommended to run two tasks on the same VM if you set `memoryMib` to `4096` or less. */
-  memoryMib?: string;
-  /** Extra boot disk size in MiB for each task. */
-  bootDiskMib?: string;
-  /** The milliCPU count. `cpuMilli` defines the amount of CPU resources per task in milliCPU units. For example, `1000` corresponds to 1 vCPU per task. If undefined, the default value is `2000`. If you also define the VM's machine type using the `machineType` in [InstancePolicy](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicy) field or inside the `instanceTemplate` in the [InstancePolicyOrTemplate](https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate) field, make sure the CPU resources for both fields are compatible with each other and with how many tasks you want to allow to run on the same VM at the same time. For example, if you specify the `n2-standard-2` machine type, which has 2 vCPUs each, you are recommended to set `cpuMilli` no more than `2000`, or you are recommended to run two tasks on the same VM if you set `cpuMilli` to `1000` or less. */
-  cpuMilli?: string;
-}
-export const ComputeResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    memoryMib: S.optional(S.String),
-    bootDiskMib: S.optional(S.String),
-    cpuMilli: S.optional(S.String),
-  }),
-).annotate({ identifier: "ComputeResource" }) as any as S.Schema<ComputeResource>;
-
-export type LifecyclePolicyActionEnum = "ACTION_UNSPECIFIED" | "RETRY_TASK" | "FAIL_TASK";
-export const LifecyclePolicyActionEnum = S.String;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-/** Conditions for actions to deal with task failures. */
-export interface ActionCondition {
-  /** Exit codes of a task execution. If there are more than 1 exit codes, when task executes with any of the exit code in the list, the condition is met and the action will be executed. */
-  exitCodes?: IntegerList;
-}
-export const ActionCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exitCodes: S.optional(IntegerList),
-  }),
-).annotate({ identifier: "ActionCondition" }) as any as S.Schema<ActionCondition>;
-
-/** LifecyclePolicy describes how to deal with task failures based on different conditions. */
-export interface LifecyclePolicy {
-  /** Action to execute when ActionCondition is true. When RETRY_TASK is specified, we will retry failed tasks if we notice any exit code match and fail tasks if no match is found. Likewise, when FAIL_TASK is specified, we will fail tasks if we notice any exit code match and retry tasks if no match is found. */
-  action?: LifecyclePolicyActionEnum | (string & {});
-  /** Conditions that decide why a task failure is dealt with a specific action. */
-  actionCondition?: ActionCondition;
-}
-export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(LifecyclePolicyActionEnum),
-    actionCondition: S.optional(ActionCondition),
-  }),
-).annotate({ identifier: "LifecyclePolicy" }) as any as S.Schema<LifecyclePolicy>;
-
-export type LifecyclePolicyList = Array<LifecyclePolicy>;
-export const LifecyclePolicyList = /*@__PURE__*/ S.Array(
-  LifecyclePolicy,
-) as any as S.Schema<LifecyclePolicyList>;
-
-/** Script runnable. */
-export interface Script {
-  /** The text for a script. Unless the script text supports the default `#!/bin/sh` shell interpreter, you must specify an interpreter by including a [shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix) at the beginning of the text. For example, to execute the script using bash, include `#!/bin/bash\n` at the beginning of the text. Alternatively, to execute the script using Python3, include `#!/usr/bin/env python3\n` at the beginning of the text. */
-  text?: string;
-  /** The path to a script file that is accessible from the host VM(s). Unless the script file supports the default `#!/bin/sh` shell interpreter, you must specify an interpreter by including a [shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix) as the first line of the file. For example, to execute the script using bash, include `#!/bin/bash` as the first line of the file. Alternatively, to execute the script using Python3, include `#!/usr/bin/env python3` as the first line of the file. */
-  path?: string;
-}
-export const Script = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.optional(S.String),
-    path: S.optional(S.String),
-  }),
-).annotate({ identifier: "Script" }) as any as S.Schema<Script>;
-
-/** A barrier runnable automatically blocks the execution of subsequent runnables until all the tasks in the task group reach the barrier. */
-export interface Barrier {
-  /** Barriers are identified by their index in runnable list. Names are not required, but if present should be an identifier. */
-  name?: string;
-}
-export const Barrier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Barrier" }) as any as S.Schema<Barrier>;
-
-/** Container runnable. */
-export interface Container {
-  /** Required for some container images. Overrides the `CMD` specified in the container. If there is an `ENTRYPOINT` (either in the container image or with the `entrypoint` field below) then these commands are appended as arguments to the `ENTRYPOINT`. */
-  commands?: StringList;
-  /** Required for some container images. Arbitrary additional options to include in the `docker run` command when running this container—for example, `--network host`. For the `--volume` option, use the `volumes` field for the container. */
-  options?: string;
-  /** Optional. If set to true, this container runnable uses Image streaming. Use Image streaming to allow the runnable to initialize without waiting for the entire container image to download, which can significantly reduce startup time for large container images. When `enableImageStreaming` is set to true, the container runtime is [containerd](https://containerd.io/) instead of Docker. Additionally, this container runnable only supports the following `container` subfields: `imageUri`, `commands[]`, `entrypoint`, and `volumes[]`; any other `container` subfields are ignored. For more information about the requirements and limitations for using Image streaming with Batch, see the [`image-streaming` sample on GitHub](https://github.com/GoogleCloudPlatform/batch-samples/tree/main/api-samples/image-streaming). */
-  enableImageStreaming?: boolean;
-  /** Required if the container image is from a private Docker registry. The password to login to the Docker registry that contains the image. For security, it is strongly recommended to specify an encrypted password by using a Secret Manager secret: `projects/*\/secrets/*\/versions/*`. Warning: If you specify the password using plain text, you risk the password being exposed to any users who can view the job or its logs. To avoid this risk, specify a secret that contains the password instead. Learn more about [Secret Manager](https://cloud.google.com/secret-manager/docs/) and [using Secret Manager with Batch](https://cloud.google.com/batch/docs/create-run-job-secret-manager). */
-  password?: string;
-  /** Required for some container images. Overrides the `ENTRYPOINT` specified in the container. */
-  entrypoint?: string;
-  /** If set to true, external network access to and from container will be blocked, containers that are with block_external_network as true can still communicate with each other, network cannot be specified in the `container.options` field. */
-  blockExternalNetwork?: boolean;
-  /** Required. The URI to pull the container image from. */
-  imageUri?: string;
-  /** Volumes to mount (bind mount) from the host machine files or directories into the container, formatted to match `--volume` option for the `docker run` command—for example, `/foo:/bar` or `/foo:/bar:ro`. If the `TaskSpec.Volumes` field is specified but this field is not, Batch will mount each volume from the host machine to the container with the same mount path by default. In this case, the default mount option for containers will be read-only (`ro`) for existing persistent disks and read-write (`rw`) for other volume types, regardless of the original mount options specified in `TaskSpec.Volumes`. If you need different mount settings, you can explicitly configure them in this field. */
-  volumes?: StringList;
-  /** Required if the container image is from a private Docker registry. The username to login to the Docker registry that contains the image. You can either specify the username directly by using plain text or specify an encrypted username by using a Secret Manager secret: `projects/*\/secrets/*\/versions/*`. However, using a secret is recommended for enhanced security. Caution: If you specify the username using plain text, you risk the username being exposed to any users who can view the job or its logs. To avoid this risk, specify a secret that contains the username instead. Learn more about [Secret Manager](https://cloud.google.com/secret-manager/docs/) and [using Secret Manager with Batch](https://cloud.google.com/batch/docs/create-run-job-secret-manager). */
-  username?: string;
-}
-export const Container = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    commands: S.optional(StringList),
-    options: S.optional(S.String),
-    enableImageStreaming: S.optional(S.Boolean),
-    password: S.optional(S.String),
-    entrypoint: S.optional(S.String),
-    blockExternalNetwork: S.optional(S.Boolean),
-    imageUri: S.optional(S.String),
-    volumes: S.optional(StringList),
-    username: S.optional(S.String),
-  }),
-).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
-
-/** Runnable describes instructions for executing a specific script or container as part of a Task. */
-export interface Runnable {
-  /** Timeout for this Runnable. */
-  timeout?: string;
-  /** By default, after a Runnable fails, no further Runnable are executed. This flag indicates that this Runnable must be run even if the Task has already failed. This is useful for Runnables that copy output files off of the VM or for debugging. The always_run flag does not override the Task's overall max_run_duration. If the max_run_duration has expired then no further Runnables will execute, not even always_run Runnables. */
-  alwaysRun?: boolean;
-  /** Normally, a runnable that doesn't exit causes its task to fail. However, you can set this field to `true` to configure a background runnable. Background runnables are allowed continue running in the background while the task executes subsequent runnables. For example, background runnables are useful for providing services to other runnables or providing debugging-support tools like SSH servers. Specifically, background runnables are killed automatically (if they have not already exited) a short time after all foreground runnables have completed. Even though this is likely to result in a non-zero exit status for the background runnable, these automatic kills are not treated as task failures. */
-  background?: boolean;
-  /** Labels for this Runnable. */
-  labels?: StringMap;
-  /** Script runnable. */
-  script?: Script;
-  /** Barrier runnable. */
-  barrier?: Barrier;
-  /** Optional. DisplayName is an optional field that can be provided by the caller. If provided, it will be used in logs and other outputs to identify the script, making it easier for users to understand the logs. If not provided the index of the runnable will be used for outputs. */
-  displayName?: string;
-  /** Normally, a runnable that returns a non-zero exit status fails and causes the task to fail. However, you can set this field to `true` to allow the task to continue executing its other runnables even if this runnable fails. */
-  ignoreExitStatus?: boolean;
-  /** Container runnable. */
-  container?: Container;
-  /** Environment variables for this Runnable (overrides variables set for the whole Task or TaskGroup). */
-  environment?: Environment;
-}
-export const Runnable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeout: S.optional(S.String),
-    alwaysRun: S.optional(S.Boolean),
-    background: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    script: S.optional(Script),
-    barrier: S.optional(Barrier),
-    displayName: S.optional(S.String),
-    ignoreExitStatus: S.optional(S.Boolean),
-    container: S.optional(Container),
-    environment: S.optional(Environment),
-  }),
-).annotate({ identifier: "Runnable" }) as any as S.Schema<Runnable>;
-
-export type RunnableList = Array<Runnable>;
-export const RunnableList = /*@__PURE__*/ S.Array(Runnable) as any as S.Schema<RunnableList>;
-
-/** Represents a Google Cloud Storage volume. */
-export interface GCS {
-  /** Remote path, either a bucket name or a subdirectory of a bucket, e.g.: bucket_name, bucket_name/subdirectory/ */
-  remotePath?: string;
-}
-export const GCS = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    remotePath: S.optional(S.String),
-  }),
-).annotate({ identifier: "GCS" }) as any as S.Schema<GCS>;
-
-/** Represents an NFS volume. */
-export interface NFS {
-  /** The IP address of the NFS. */
-  server?: string;
-  /** Remote source path exported from the NFS, e.g., "/share". */
-  remotePath?: string;
-}
-export const NFS = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    server: S.optional(S.String),
-    remotePath: S.optional(S.String),
-  }),
-).annotate({ identifier: "NFS" }) as any as S.Schema<NFS>;
-
-/** Volume describes a volume and parameters for it to be mounted to a VM. */
-export interface Volume {
-  /** Device name of an attached disk volume, which should align with a device_name specified by job.allocation_policy.instances[0].policy.disks[i].device_name or defined by the given instance template in job.allocation_policy.instances[0].instance_template. */
-  deviceName?: string;
-  /** Mount options vary based on the type of storage volume: * For a Cloud Storage bucket, all the mount options provided by the [`gcsfuse` tool](https://cloud.google.com/storage/docs/gcsfuse-cli) are supported. * For an existing persistent disk, all mount options provided by the [`mount` command](https://man7.org/linux/man-pages/man8/mount.8.html) except writing are supported. This is due to restrictions of [multi-writer mode](https://cloud.google.com/compute/docs/disks/sharing-disks-between-vms). * For any other disk or a Network File System (NFS), all the mount options provided by the `mount` command are supported. */
-  mountOptions?: StringList;
-  /** The mount path for the volume, e.g. /mnt/disks/share. */
-  mountPath?: string;
-  /** A Google Cloud Storage (GCS) volume. */
-  gcs?: GCS;
-  /** A Network File System (NFS) volume. For example, a Filestore file share. */
-  nfs?: NFS;
-}
-export const Volume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deviceName: S.optional(S.String),
-    mountOptions: S.optional(StringList),
-    mountPath: S.optional(S.String),
-    gcs: S.optional(GCS),
-    nfs: S.optional(NFS),
-  }),
-).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
-
-export type VolumeList = Array<Volume>;
-export const VolumeList = /*@__PURE__*/ S.Array(Volume) as any as S.Schema<VolumeList>;
-
-/** Spec of a task */
-export interface TaskSpec {
-  /** Deprecated: please use environment(non-plural) instead. */
-  environments?: StringMap;
-  /** ComputeResource requirements. */
-  computeResource?: ComputeResource;
-  /** Lifecycle management schema when any task in a task group is failed. Currently we only support one lifecycle policy. When the lifecycle policy condition is met, the action in the policy will execute. If task execution result does not meet with the defined lifecycle policy, we consider it as the default policy. Default policy means if the exit code is 0, exit task. If task ends with non-zero exit code, retry the task with max_retry_count. */
-  lifecyclePolicies?: LifecyclePolicyList;
-  /** Required. The sequence of one or more runnables (executable scripts, executable containers, and/or barriers) for each task in this task group to run. Each task runs this list of runnables in order. For a task to succeed, all of its script and container runnables each must meet at least one of the following conditions: + The runnable exited with a zero status. + The runnable didn't finish, but you enabled its `background` subfield. + The runnable exited with a non-zero status, but you enabled its `ignore_exit_status` subfield. */
-  runnables?: RunnableList;
-  /** Environment variables to set before running the Task. */
-  environment?: Environment;
-  /** Maximum duration the task should run before being automatically retried (if enabled) or automatically failed. Format the value of this field as a time limit in seconds followed by `s`—for example, `3600s` for 1 hour. The field accepts any value between 0 and the maximum listed for the `Duration` field type at https://protobuf.dev/reference/protobuf/google.protobuf/#duration; however, the actual maximum run time for a job will be limited to the maximum run time for a job listed at https://cloud.google.com/batch/quotas#max-job-duration. */
-  maxRunDuration?: string;
-  /** Volumes to mount before running Tasks using this TaskSpec. */
-  volumes?: VolumeList;
-  /** Maximum number of retries on failures. The default, 0, which means never retry. The valid value range is [0, 10]. */
-  maxRetryCount?: number;
-}
-export const TaskSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environments: S.optional(StringMap),
-    computeResource: S.optional(ComputeResource),
-    lifecyclePolicies: S.optional(LifecyclePolicyList),
-    runnables: S.optional(RunnableList),
-    environment: S.optional(Environment),
-    maxRunDuration: S.optional(S.String),
-    volumes: S.optional(VolumeList),
-    maxRetryCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TaskSpec" }) as any as S.Schema<TaskSpec>;
-
-/** A TaskGroup defines one or more Tasks that all share the same TaskSpec. */
-export interface TaskGroup {
-  /** Scheduling policy for Tasks in the TaskGroup. The default value is AS_SOON_AS_POSSIBLE. */
-  schedulingPolicy?: TaskGroupSchedulingPolicyEnum | (string & {});
-  /** An array of environment variable mappings, which are passed to Tasks with matching indices. If task_environments is used then task_count should not be specified in the request (and will be ignored). Task count will be the length of task_environments. Tasks get a BATCH_TASK_INDEX and BATCH_TASK_COUNT environment variable, in addition to any environment variables set in task_environments, specifying the number of Tasks in the Task's parent TaskGroup, and the specific Task's index in the TaskGroup (0 through BATCH_TASK_COUNT - 1). */
-  taskEnvironments?: EnvironmentList;
-  /** Required. Tasks in the group share the same task spec. */
-  taskSpec?: TaskSpec;
-  /** When true, Batch will configure SSH to allow passwordless login between VMs running the Batch tasks in the same TaskGroup. */
-  permissiveSsh?: boolean;
-  /** Number of Tasks in the TaskGroup. Default is 1. */
-  taskCount?: string;
-  /** Optional. If not set or set to false, Batch uses the root user to execute runnables. If set to true, Batch runs the runnables using a non-root user. Currently, the non-root user Batch used is generated by OS Login. For more information, see [About OS Login](https://cloud.google.com/compute/docs/oslogin). */
-  runAsNonRoot?: boolean;
-  /** When true, Batch will populate a file with a list of all VMs assigned to the TaskGroup and set the BATCH_HOSTS_FILE environment variable to the path of that file. Defaults to false. The host file supports up to 1000 VMs. */
-  requireHostsFile?: boolean;
-  /** Max number of tasks that can run in parallel. Default to min(task_count, parallel tasks per job limit). See: [Job Limits](https://cloud.google.com/batch/quotas#job_limits). Field parallelism must be 1 if the scheduling_policy is IN_ORDER. */
-  parallelism?: string;
-  /** Max number of tasks that can be run on a VM at the same time. If not specified, the system will decide a value based on available compute resources on a VM and task requirements. */
-  taskCountPerNode?: string;
-  /** Output only. TaskGroup name. The system generates this field based on parent Job name. For example: "projects/123456/locations/us-west1/jobs/job01/taskGroups/group01". */
-  name?: string;
-}
-export const TaskGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schedulingPolicy: S.optional(TaskGroupSchedulingPolicyEnum),
-    taskEnvironments: S.optional(EnvironmentList),
-    taskSpec: S.optional(TaskSpec),
-    permissiveSsh: S.optional(S.Boolean),
-    taskCount: S.optional(S.String),
-    runAsNonRoot: S.optional(S.Boolean),
-    requireHostsFile: S.optional(S.Boolean),
-    parallelism: S.optional(S.String),
-    taskCountPerNode: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "TaskGroup" }) as any as S.Schema<TaskGroup>;
-
-export type TaskGroupList = Array<TaskGroup>;
-export const TaskGroupList = /*@__PURE__*/ S.Array(TaskGroup) as any as S.Schema<TaskGroupList>;
-
 /** The Cloud Batch Job description. */
 export interface Job {
-  /** Output only. When the Job was created. */
-  createTime?: string;
-  /** Output only. A system generated unique ID for the Job. */
-  uid?: string;
-  /** Notification configurations. */
-  notifications?: JobNotificationList;
-  /** Log preservation policy for the Job. */
-  logsPolicy?: LogsPolicy;
-  /** Custom labels to apply to the job and any Cloud Logging [LogEntry](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) that it generates. Use labels to group and describe the resources they are applied to. Batch automatically applies predefined labels and supports multiple `labels` fields for each job, which each let you apply custom labels to various resources. Label names that start with "goog-" or "google-" are reserved for predefined labels. For more information about labels with Batch, see [Organize resources using labels](https://cloud.google.com/batch/docs/organize-resources-using-labels). */
-  labels?: StringMap;
   /** Priority of the Job. The valid value range is [0, 100). Default value is 0. Higher value indicates higher priority. A job with higher priority value is more likely to run earlier if all other requirements are satisfied. */
   priority?: string;
+  /** Compute resource allocation for all TaskGroups in the Job. */
+  allocationPolicy?: AllocationPolicy;
+  /** Custom labels to apply to the job and any Cloud Logging [LogEntry](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) that it generates. Use labels to group and describe the resources they are applied to. Batch automatically applies predefined labels and supports multiple `labels` fields for each job, which each let you apply custom labels to various resources. Label names that start with "goog-" or "google-" are reserved for predefined labels. For more information about labels with Batch, see [Organize resources using labels](https://cloud.google.com/batch/docs/organize-resources-using-labels). */
+  labels?: StringMap;
+  /** Output only. When the Job was created. */
+  createTime?: string;
   /** Output only. Job name. For example: "projects/123456/locations/us-central1/jobs/job01". */
   name?: string;
   /** Output only. Job status. It is read only for users. */
   status?: JobStatus;
-  /** Compute resource allocation for all TaskGroups in the Job. */
-  allocationPolicy?: AllocationPolicy;
   /** Required. TaskGroups in the Job. Only one TaskGroup is supported now. */
   taskGroups?: TaskGroupList;
+  /** Output only. A system generated unique ID for the Job. */
+  uid?: string;
   /** Output only. The last time the Job was updated. */
   updateTime?: string;
+  /** Notification configurations. */
+  notifications?: JobNotificationList;
+  /** Log preservation policy for the Job. */
+  logsPolicy?: LogsPolicy;
 }
 export const Job = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    uid: S.optional(S.String),
-    notifications: S.optional(JobNotificationList),
-    logsPolicy: S.optional(LogsPolicy),
-    labels: S.optional(StringMap),
     priority: S.optional(S.String),
+    allocationPolicy: S.optional(AllocationPolicy),
+    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
     name: S.optional(S.String),
     status: S.optional(JobStatus),
-    allocationPolicy: S.optional(AllocationPolicy),
     taskGroups: S.optional(TaskGroupList),
+    uid: S.optional(S.String),
     updateTime: S.optional(S.String),
+    notifications: S.optional(JobNotificationList),
+    logsPolicy: S.optional(LogsPolicy),
   }),
 ).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 
 export interface CreateProjectsLocationsJobsRequest {
-  /** ID used to uniquely identify the Job within its parent scope. This field should contain at most 63 characters and must start with lowercase characters. Only lowercase characters, numbers and '-' are accepted. The '-' character cannot be the first or the last one. A system generated ID will be used if the field is not set. The job.name field in the request will be ignored and the created resource name of the Job will be "{parent}/jobs/{job_id}". */
-  jobId?: string;
   /** Required. The parent resource name where the Job will be created. Pattern: "projects/{project}/locations/{location}" */
   parent: string;
+  /** ID used to uniquely identify the Job within its parent scope. This field should contain at most 63 characters and must start with lowercase characters. Only lowercase characters, numbers and '-' are accepted. The '-' character cannot be the first or the last one. A system generated ID will be used if the field is not set. The job.name field in the request will be ignored and the created resource name of the Job will be "{parent}/jobs/{job_id}". */
+  jobId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Request body */
@@ -1015,8 +1015,8 @@ export interface CreateProjectsLocationsJobsRequest {
 }
 export const CreateProjectsLocationsJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    jobId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    jobId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Job.pipe(T.HttpBody())),
   }).pipe(
@@ -1078,10 +1078,10 @@ export interface Location {
   displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
 }
@@ -1089,8 +1089,8 @@ export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
     labels: S.optional(StringMap),
-    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -1170,24 +1170,24 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1204,36 +1204,36 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsJobsRequest {
-  /** List filter. */
-  filter?: string;
-  /** Page token. */
-  pageToken?: string;
   /** Optional. Sort results. Supported are "name", "name desc", "create_time", and "create_time desc". */
   orderBy?: string;
+  /** List filter. */
+  filter?: string;
   /** Parent path. */
   parent: string;
+  /** Page token. */
+  pageToken?: string;
   /** Page size. */
   pageSize?: number;
 }
 export const ListProjectsLocationsJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+parent}/jobs", baseUrl: "https://batch.googleapis.com/" }),
@@ -1249,35 +1249,35 @@ export const JobList = /*@__PURE__*/ S.Array(Job) as any as S.Schema<JobList>;
 export interface ListJobsResponse {
   /** Next page token. */
   nextPageToken?: string;
-  /** Jobs. */
-  jobs?: JobList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** Jobs. */
+  jobs?: JobList;
 }
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    jobs: S.optional(JobList),
     unreachable: S.optional(StringList),
+    jobs: S.optional(JobList),
   }),
 ).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 
 export interface ListProjectsLocationsJobsTaskGroupsTasksRequest {
-  /** Page token. */
-  pageToken?: string;
-  /** Required. Name of a TaskGroup from which Tasks are being requested. Pattern: "projects/{project}/locations/{location}/jobs/{job}/taskGroups/{task_group}" */
-  parent: string;
-  /** Task filter, null filter matches all Tasks. Filter string should be of the format State=TaskStatus.State e.g. State=RUNNING */
-  filter?: string;
   /** Page size. */
   pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
+  /** Task filter, null filter matches all Tasks. Filter string should be of the format State=TaskStatus.State e.g. State=RUNNING */
+  filter?: string;
+  /** Required. Name of a TaskGroup from which Tasks are being requested. Pattern: "projects/{project}/locations/{location}/jobs/{job}/taskGroups/{task_group}" */
+  parent: string;
 }
 export const ListProjectsLocationsJobsTaskGroupsTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+parent}/tasks", baseUrl: "https://batch.googleapis.com/" }),
   ),
@@ -1306,24 +1306,24 @@ export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
+  /** The standard list page size. */
+  pageSize?: number;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The standard list page token. */
   pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The standard list filter. */
   filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1340,97 +1340,90 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** The standard List next-page token. */
+  nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
-
-/** VM timing information */
-export interface AgentTimingInfo {
-  /** Boot timestamp of the VM OS */
-  bootTime?: string;
-  /** Startup time of the Batch VM script. */
-  scriptStartupTime?: string;
-  /** Agent startup time */
-  agentStartupTime?: string;
-}
-export const AgentTimingInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bootTime: S.optional(S.String),
-    scriptStartupTime: S.optional(S.String),
-    agentStartupTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentTimingInfo" }) as any as S.Schema<AgentTimingInfo>;
 
 /** VM Agent Metadata. */
 export interface AgentMetadata {
   /** parsed contents of /etc/os-release */
   osRelease?: StringMap;
+  /** Optional. machine type of the VM */
+  machineType?: string;
+  /** If the GCP instance has received preemption notice. */
+  instancePreemptionNoticeReceived?: boolean;
   /** image version for the VM that this agent is installed on. */
   imageVersion?: string;
   /** GCP instance name (go/instance-name). */
   instance?: string;
-  /** If the GCP instance has received preemption notice. */
-  instancePreemptionNoticeReceived?: boolean;
-  /** Agent zone. */
-  zone?: string;
-  /** GCP instance ID (go/instance-id). */
-  instanceId?: string;
-  /** Optional. machine type of the VM */
-  machineType?: string;
-  /** When the VM agent started. Use agent_startup_time instead. */
-  creationTime?: string;
-  /** agent binary version running on VM */
-  version?: string;
   /** Full name of the entity that created this vm. For MIG, this path is: projects/{project}/regions/{region}/InstanceGroupManagers/{igm} The value is retrieved from the vm metadata key of "created-by". */
   creator?: string;
+  /** When the VM agent started. Use agent_startup_time instead. */
+  creationTime?: string;
+  /** Agent zone. */
+  zone?: string;
+  /** agent binary version running on VM */
+  version?: string;
+  /** GCP instance ID (go/instance-id). */
+  instanceId?: string;
 }
 export const AgentMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     osRelease: S.optional(StringMap),
+    machineType: S.optional(S.String),
+    instancePreemptionNoticeReceived: S.optional(S.Boolean),
     imageVersion: S.optional(S.String),
     instance: S.optional(S.String),
-    instancePreemptionNoticeReceived: S.optional(S.Boolean),
-    zone: S.optional(S.String),
-    instanceId: S.optional(S.String),
-    machineType: S.optional(S.String),
-    creationTime: S.optional(S.String),
-    version: S.optional(S.String),
     creator: S.optional(S.String),
+    creationTime: S.optional(S.String),
+    zone: S.optional(S.String),
+    version: S.optional(S.String),
+    instanceId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentMetadata" }) as any as S.Schema<AgentMetadata>;
 
-export type AgentInfoStateEnum =
-  | "AGENT_STATE_UNSPECIFIED"
-  | "AGENT_STARTING"
-  | "AGENT_RUNNING"
-  | "AGENT_STOPPED";
-export const AgentInfoStateEnum = S.String;
+/** VM timing information */
+export interface AgentTimingInfo {
+  /** Startup time of the Batch VM script. */
+  scriptStartupTime?: string;
+  /** Boot timestamp of the VM OS */
+  bootTime?: string;
+  /** Agent startup time */
+  agentStartupTime?: string;
+}
+export const AgentTimingInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scriptStartupTime: S.optional(S.String),
+    bootTime: S.optional(S.String),
+    agentStartupTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentTimingInfo" }) as any as S.Schema<AgentTimingInfo>;
 
 /** Task Info */
 export interface AgentTaskInfo {
-  /** ID of the Task */
-  taskId?: string;
-  /** The status of the Task. If we need agent specific fields we should fork the public TaskStatus into an agent specific one. Or add them below. */
-  taskStatus?: TaskStatus;
   /** The highest index of a runnable started by the agent for this task. The runnables are indexed from 1. Value 0 is undefined. */
   runnable?: string;
+  /** The status of the Task. If we need agent specific fields we should fork the public TaskStatus into an agent specific one. Or add them below. */
+  taskStatus?: TaskStatus;
+  /** ID of the Task */
+  taskId?: string;
 }
 export const AgentTaskInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    taskStatus: S.optional(TaskStatus),
     runnable: S.optional(S.String),
+    taskStatus: S.optional(TaskStatus),
+    taskId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentTaskInfo" }) as any as S.Schema<AgentTaskInfo>;
 
@@ -1439,42 +1432,49 @@ export const AgentTaskInfoList = /*@__PURE__*/ S.Array(
   AgentTaskInfo,
 ) as any as S.Schema<AgentTaskInfoList>;
 
+export type AgentInfoStateEnum =
+  | "AGENT_STATE_UNSPECIFIED"
+  | "AGENT_STARTING"
+  | "AGENT_RUNNING"
+  | "AGENT_STOPPED";
+export const AgentInfoStateEnum = S.String;
+
 /** VM Agent Info. */
 export interface AgentInfo {
-  /** Agent state. */
-  state?: AgentInfoStateEnum | (string & {});
-  /** The assigned task group ID. */
-  taskGroupId?: string;
   /** Task Info. */
   tasks?: AgentTaskInfoList;
-  /** Optional. The assigned Job ID */
-  jobId?: string;
+  /** The assigned task group ID. */
+  taskGroupId?: string;
+  /** Agent state. */
+  state?: AgentInfoStateEnum | (string & {});
   /** When the AgentInfo is generated. */
   reportTime?: string;
+  /** Optional. The assigned Job ID */
+  jobId?: string;
 }
 export const AgentInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(AgentInfoStateEnum),
-    taskGroupId: S.optional(S.String),
     tasks: S.optional(AgentTaskInfoList),
-    jobId: S.optional(S.String),
+    taskGroupId: S.optional(S.String),
+    state: S.optional(AgentInfoStateEnum),
     reportTime: S.optional(S.String),
+    jobId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentInfo" }) as any as S.Schema<AgentInfo>;
 
 /** Request to report agent's state. The Request itself implies the agent is healthy. */
 export interface ReportAgentStateRequest {
-  /** Agent timing info. */
-  agentTimingInfo?: AgentTimingInfo;
   /** Agent metadata. */
   metadata?: AgentMetadata;
+  /** Agent timing info. */
+  agentTimingInfo?: AgentTimingInfo;
   /** Agent info. */
   agentInfo?: AgentInfo;
 }
 export const ReportAgentStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    agentTimingInfo: S.optional(AgentTimingInfo),
     metadata: S.optional(AgentMetadata),
+    agentTimingInfo: S.optional(AgentTimingInfo),
     agentInfo: S.optional(AgentInfo),
   }),
 ).annotate({ identifier: "ReportAgentStateRequest" }) as any as S.Schema<ReportAgentStateRequest>;
@@ -1500,125 +1500,8 @@ export const ReportProjectsLocationsStateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReportProjectsLocationsStateRequest",
 }) as any as S.Schema<ReportProjectsLocationsStateRequest>;
 
-export type AgentTaskIntendedStateEnum =
-  | "INTENDED_STATE_UNSPECIFIED"
-  | "ASSIGNED"
-  | "CANCELLED"
-  | "DELETED";
-export const AgentTaskIntendedStateEnum = S.String;
-
-/** Script runnable representation on the agent side. */
-export interface AgentScript {
-  /** Shell script text. To specify an interpreter, please add a `#!\n` at the beginning of the text.(For example, to execute the script using bash, `#!/bin/bash\n` should be added. To execute the script using`Python3`, `#!/usr/bin/env python3\n` should be added.) Otherwise, the script will by default be executed by `/bin/sh`. */
-  text?: string;
-  /** Script file path on the host VM. To specify an interpreter, please add a `#!`(also known as [shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix))) as the first line of the file.(For example, to execute the script using bash, `#!/bin/bash` should be the first line of the file. To execute the script using`Python3`, `#!/usr/bin/env python3` should be the first line of the file.) Otherwise, the file will by default be executed by `/bin/sh`. */
-  path?: string;
-}
-export const AgentScript = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.optional(S.String),
-    path: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentScript" }) as any as S.Schema<AgentScript>;
-
-/** Container runnable representation on the agent side. */
-export interface AgentContainer {
-  /** Arbitrary additional options to include in the "docker run" command when running this container, e.g. "--network host". */
-  options?: string;
-  /** Overrides the `CMD` specified in the container. If there is an ENTRYPOINT (either in the container image or with the entrypoint field below) then commands are appended as arguments to the ENTRYPOINT. */
-  commands?: StringList;
-  /** Overrides the `ENTRYPOINT` specified in the container. */
-  entrypoint?: string;
-  /** The URI to pull the container image from. */
-  imageUri?: string;
-  /** Volumes to mount (bind mount) from the host machine files or directories into the container, formatted to match docker run's --volume option, e.g. /foo:/bar, or /foo:/bar:ro */
-  volumes?: StringList;
-}
-export const AgentContainer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    options: S.optional(S.String),
-    commands: S.optional(StringList),
-    entrypoint: S.optional(S.String),
-    imageUri: S.optional(S.String),
-    volumes: S.optional(StringList),
-  }),
-).annotate({ identifier: "AgentContainer" }) as any as S.Schema<AgentContainer>;
-
-/** AgentKMSEnvMap contains the encrypted key/value pair to be used in the environment on the Agent side. */
-export interface AgentKMSEnvMap {
-  /** The value of the cipherText response from the `encrypt` method. */
-  cipherText?: string;
-  /** The name of the KMS key that will be used to decrypt the cipher text. */
-  keyName?: string;
-}
-export const AgentKMSEnvMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cipherText: S.optional(S.String),
-    keyName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentKMSEnvMap" }) as any as S.Schema<AgentKMSEnvMap>;
-
-/** AgentEnvironment is the Environment representation between Agent and CLH communication. The environment is used in both task level and agent level. */
-export interface AgentEnvironment {
-  /** An encrypted JSON dictionary where the key/value pairs correspond to environment variable names and their values. */
-  encryptedVariables?: AgentKMSEnvMap;
-  /** A map of environment variable names to Secret Manager secret names. The VM will access the named secrets to set the value of each environment variable. */
-  secretVariables?: StringMap;
-  /** A map of environment variable names to values. */
-  variables?: StringMap;
-}
-export const AgentEnvironment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encryptedVariables: S.optional(AgentKMSEnvMap),
-    secretVariables: S.optional(StringMap),
-    variables: S.optional(StringMap),
-  }),
-).annotate({ identifier: "AgentEnvironment" }) as any as S.Schema<AgentEnvironment>;
-
-/** AgentTaskRunnable is the Runnable representation between Agent and CLH communication. */
-export interface AgentTaskRunnable {
-  /** Script runnable. */
-  script?: AgentScript;
-  /** Timeout for this Runnable. */
-  timeout?: string;
-  /** Container runnable. */
-  container?: AgentContainer;
-  /** This flag allows a Runnable to continue running in the background while the Task executes subsequent Runnables. This is useful to provide services to other Runnables (or to provide debugging support tools like SSH servers). */
-  background?: boolean;
-  /** By default, after a Runnable fails, no further Runnable are executed. This flag indicates that this Runnable must be run even if the Task has already failed. This is useful for Runnables that copy output files off of the VM or for debugging. The always_run flag does not override the Task's overall max_run_duration. If the max_run_duration has expired then no further Runnables will execute, not even always_run Runnables. */
-  alwaysRun?: boolean;
-  /** Normally, a non-zero exit status causes the Task to fail. This flag allows execution of other Runnables to continue instead. */
-  ignoreExitStatus?: boolean;
-  /** Environment variables for this Runnable (overrides variables set for the whole Task or TaskGroup). */
-  environment?: AgentEnvironment;
-}
-export const AgentTaskRunnable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    script: S.optional(AgentScript),
-    timeout: S.optional(S.String),
-    container: S.optional(AgentContainer),
-    background: S.optional(S.Boolean),
-    alwaysRun: S.optional(S.Boolean),
-    ignoreExitStatus: S.optional(S.Boolean),
-    environment: S.optional(AgentEnvironment),
-  }),
-).annotate({ identifier: "AgentTaskRunnable" }) as any as S.Schema<AgentTaskRunnable>;
-
-export type AgentTaskRunnableList = Array<AgentTaskRunnable>;
-export const AgentTaskRunnableList = /*@__PURE__*/ S.Array(
-  AgentTaskRunnable,
-) as any as S.Schema<AgentTaskRunnableList>;
-
-/** AgentTaskLoggingOption contains the options for the logging of the task. */
-export interface AgentTaskLoggingOption {
-  /** Labels to be added to the log entry. Now only cloud logging is supported. */
-  labels?: StringMap;
-}
-export const AgentTaskLoggingOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labels: S.optional(StringMap),
-  }),
-).annotate({ identifier: "AgentTaskLoggingOption" }) as any as S.Schema<AgentTaskLoggingOption>;
+export type AgentTaskTaskSourceEnum = "TASK_SOURCE_UNSPECIFIED" | "BATCH_INTERNAL" | "USER";
+export const AgentTaskTaskSourceEnum = S.String;
 
 /** AgentTaskUserAccount contains the information of a POSIX account on the guest os which is used to execute the runnables. */
 export interface AgentTaskUserAccount {
@@ -1634,57 +1517,164 @@ export const AgentTaskUserAccount = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AgentTaskUserAccount" }) as any as S.Schema<AgentTaskUserAccount>;
 
+/** AgentTaskLoggingOption contains the options for the logging of the task. */
+export interface AgentTaskLoggingOption {
+  /** Labels to be added to the log entry. Now only cloud logging is supported. */
+  labels?: StringMap;
+}
+export const AgentTaskLoggingOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    labels: S.optional(StringMap),
+  }),
+).annotate({ identifier: "AgentTaskLoggingOption" }) as any as S.Schema<AgentTaskLoggingOption>;
+
+/** AgentKMSEnvMap contains the encrypted key/value pair to be used in the environment on the Agent side. */
+export type AgentKMSEnvMap = KMSEnvMap;
+export const AgentKMSEnvMap = KMSEnvMap;
+
+/** AgentEnvironment is the Environment representation between Agent and CLH communication. The environment is used in both task level and agent level. */
+export interface AgentEnvironment {
+  /** A map of environment variable names to values. */
+  variables?: StringMap;
+  /** A map of environment variable names to Secret Manager secret names. The VM will access the named secrets to set the value of each environment variable. */
+  secretVariables?: StringMap;
+  /** An encrypted JSON dictionary where the key/value pairs correspond to environment variable names and their values. */
+  encryptedVariables?: KMSEnvMap;
+}
+export const AgentEnvironment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    variables: S.optional(StringMap),
+    secretVariables: S.optional(StringMap),
+    encryptedVariables: S.optional(KMSEnvMap),
+  }),
+).annotate({ identifier: "AgentEnvironment" }) as any as S.Schema<AgentEnvironment>;
+
+/** Container runnable representation on the agent side. */
+export interface AgentContainer {
+  /** Overrides the `CMD` specified in the container. If there is an ENTRYPOINT (either in the container image or with the entrypoint field below) then commands are appended as arguments to the ENTRYPOINT. */
+  commands?: StringList;
+  /** Overrides the `ENTRYPOINT` specified in the container. */
+  entrypoint?: string;
+  /** Arbitrary additional options to include in the "docker run" command when running this container, e.g. "--network host". */
+  options?: string;
+  /** Volumes to mount (bind mount) from the host machine files or directories into the container, formatted to match docker run's --volume option, e.g. /foo:/bar, or /foo:/bar:ro */
+  volumes?: StringList;
+  /** The URI to pull the container image from. */
+  imageUri?: string;
+}
+export const AgentContainer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    commands: S.optional(StringList),
+    entrypoint: S.optional(S.String),
+    options: S.optional(S.String),
+    volumes: S.optional(StringList),
+    imageUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentContainer" }) as any as S.Schema<AgentContainer>;
+
+/** Script runnable representation on the agent side. */
+export interface AgentScript {
+  /** Script file path on the host VM. To specify an interpreter, please add a `#!`(also known as [shebang line](https://en.wikipedia.org/wiki/Shebang_(Unix))) as the first line of the file.(For example, to execute the script using bash, `#!/bin/bash` should be the first line of the file. To execute the script using`Python3`, `#!/usr/bin/env python3` should be the first line of the file.) Otherwise, the file will by default be executed by `/bin/sh`. */
+  path?: string;
+  /** Shell script text. To specify an interpreter, please add a `#!\n` at the beginning of the text.(For example, to execute the script using bash, `#!/bin/bash\n` should be added. To execute the script using`Python3`, `#!/usr/bin/env python3\n` should be added.) Otherwise, the script will by default be executed by `/bin/sh`. */
+  text?: string;
+}
+export const AgentScript = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String),
+    text: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentScript" }) as any as S.Schema<AgentScript>;
+
+/** AgentTaskRunnable is the Runnable representation between Agent and CLH communication. */
+export interface AgentTaskRunnable {
+  /** Environment variables for this Runnable (overrides variables set for the whole Task or TaskGroup). */
+  environment?: AgentEnvironment;
+  /** Normally, a non-zero exit status causes the Task to fail. This flag allows execution of other Runnables to continue instead. */
+  ignoreExitStatus?: boolean;
+  /** This flag allows a Runnable to continue running in the background while the Task executes subsequent Runnables. This is useful to provide services to other Runnables (or to provide debugging support tools like SSH servers). */
+  background?: boolean;
+  /** Timeout for this Runnable. */
+  timeout?: string;
+  /** Container runnable. */
+  container?: AgentContainer;
+  /** By default, after a Runnable fails, no further Runnable are executed. This flag indicates that this Runnable must be run even if the Task has already failed. This is useful for Runnables that copy output files off of the VM or for debugging. The always_run flag does not override the Task's overall max_run_duration. If the max_run_duration has expired then no further Runnables will execute, not even always_run Runnables. */
+  alwaysRun?: boolean;
+  /** Script runnable. */
+  script?: AgentScript;
+}
+export const AgentTaskRunnable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: S.optional(AgentEnvironment),
+    ignoreExitStatus: S.optional(S.Boolean),
+    background: S.optional(S.Boolean),
+    timeout: S.optional(S.String),
+    container: S.optional(AgentContainer),
+    alwaysRun: S.optional(S.Boolean),
+    script: S.optional(AgentScript),
+  }),
+).annotate({ identifier: "AgentTaskRunnable" }) as any as S.Schema<AgentTaskRunnable>;
+
+export type AgentTaskRunnableList = Array<AgentTaskRunnable>;
+export const AgentTaskRunnableList = /*@__PURE__*/ S.Array(
+  AgentTaskRunnable,
+) as any as S.Schema<AgentTaskRunnableList>;
+
 /** AgentTaskSpec is the user's TaskSpec representation between Agent and CLH communication. */
 export interface AgentTaskSpec {
-  /** AgentTaskRunnable is runanbles that will be executed on the agent. */
-  runnables?: AgentTaskRunnableList;
-  /** Logging option for the task. */
-  loggingOption?: AgentTaskLoggingOption;
-  /** Environment variables to set before running the Task. */
-  environment?: AgentEnvironment;
-  /** Maximum duration the task should run before being automatically retried (if enabled) or automatically failed. Format the value of this field as a time limit in seconds followed by `s`—for example, `3600s` for 1 hour. The field accepts any value between 0 and the maximum listed for the `Duration` field type at https://protobuf.dev/reference/protobuf/google.protobuf/#duration; however, the actual maximum run time for a job will be limited to the maximum run time for a job listed at https://cloud.google.com/batch/quotas#max-job-duration. */
-  maxRunDuration?: string;
   /** User account on the VM to run the runnables in the agentTaskSpec. If not set, the runnable will be run under root user. */
   userAccount?: AgentTaskUserAccount;
+  /** Logging option for the task. */
+  loggingOption?: AgentTaskLoggingOption;
+  /** Maximum duration the task should run before being automatically retried (if enabled) or automatically failed. Format the value of this field as a time limit in seconds followed by `s`—for example, `3600s` for 1 hour. The field accepts any value between 0 and the maximum listed for the `Duration` field type at https://protobuf.dev/reference/protobuf/google.protobuf/#duration; however, the actual maximum run time for a job will be limited to the maximum run time for a job listed at https://cloud.google.com/batch/quotas#max-job-duration. */
+  maxRunDuration?: string;
+  /** Environment variables to set before running the Task. */
+  environment?: AgentEnvironment;
+  /** AgentTaskRunnable is runanbles that will be executed on the agent. */
+  runnables?: AgentTaskRunnableList;
 }
 export const AgentTaskSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    runnables: S.optional(AgentTaskRunnableList),
-    loggingOption: S.optional(AgentTaskLoggingOption),
-    environment: S.optional(AgentEnvironment),
-    maxRunDuration: S.optional(S.String),
     userAccount: S.optional(AgentTaskUserAccount),
+    loggingOption: S.optional(AgentTaskLoggingOption),
+    maxRunDuration: S.optional(S.String),
+    environment: S.optional(AgentEnvironment),
+    runnables: S.optional(AgentTaskRunnableList),
   }),
 ).annotate({ identifier: "AgentTaskSpec" }) as any as S.Schema<AgentTaskSpec>;
 
-export type AgentTaskTaskSourceEnum = "TASK_SOURCE_UNSPECIFIED" | "BATCH_INTERNAL" | "USER";
-export const AgentTaskTaskSourceEnum = S.String;
+export type AgentTaskIntendedStateEnum =
+  | "INTENDED_STATE_UNSPECIFIED"
+  | "ASSIGNED"
+  | "CANCELLED"
+  | "DELETED";
+export const AgentTaskIntendedStateEnum = S.String;
 
 /** TODO(b/182501497) The message needs to be redefined when the Agent API server updates data in storage per the backend design. */
 export interface AgentTask {
   /** Task Spec. This field will be replaced by agent_task_spec below in future. */
   spec?: TaskSpec;
-  /** The highest barrier reached by all tasks in the task's TaskGroup. */
-  reachedBarrier?: string;
-  /** The intended state of the task. */
-  intendedState?: AgentTaskIntendedStateEnum;
-  /** AgentTaskSpec is the taskSpec representation between Agent and CLH communication. This field will replace the TaskSpec field above in future to have a better separation between user-facaing API and internal API. */
-  agentTaskSpec?: AgentTaskSpec;
   /** TaskSource represents the source of the task. */
   taskSource?: AgentTaskTaskSourceEnum;
   /** Task status. */
   status?: TaskStatus;
+  /** AgentTaskSpec is the taskSpec representation between Agent and CLH communication. This field will replace the TaskSpec field above in future to have a better separation between user-facaing API and internal API. */
+  agentTaskSpec?: AgentTaskSpec;
+  /** The intended state of the task. */
+  intendedState?: AgentTaskIntendedStateEnum;
+  /** The highest barrier reached by all tasks in the task's TaskGroup. */
+  reachedBarrier?: string;
   /** Task name. */
   task?: string;
 }
 export const AgentTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spec: S.optional(TaskSpec),
-    reachedBarrier: S.optional(S.String),
-    intendedState: S.optional(AgentTaskIntendedStateEnum),
-    agentTaskSpec: S.optional(AgentTaskSpec),
     taskSource: S.optional(AgentTaskTaskSourceEnum),
     status: S.optional(TaskStatus),
+    agentTaskSpec: S.optional(AgentTaskSpec),
+    intendedState: S.optional(AgentTaskIntendedStateEnum),
+    reachedBarrier: S.optional(S.String),
     task: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentTask" }) as any as S.Schema<AgentTask>;
@@ -1696,19 +1686,19 @@ export const AgentTaskList = /*@__PURE__*/ S.Array(AgentTask) as any as S.Schema
 export interface ReportAgentStateResponse {
   /** Tasks assigned to the agent */
   tasks?: AgentTaskList;
+  /** Default report interval override */
+  defaultReportInterval?: string;
   /** If true, the cloud logging for batch agent will use batch.googleapis.com/Job as monitored resource for Batch job related logging. */
   useBatchMonitoredResource?: boolean;
   /** Minimum report interval override */
   minReportInterval?: string;
-  /** Default report interval override */
-  defaultReportInterval?: string;
 }
 export const ReportAgentStateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tasks: S.optional(AgentTaskList),
+    defaultReportInterval: S.optional(S.String),
     useBatchMonitoredResource: S.optional(S.Boolean),
     minReportInterval: S.optional(S.String),
-    defaultReportInterval: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportAgentStateResponse" }) as any as S.Schema<ReportAgentStateResponse>;
 

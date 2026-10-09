@@ -1,11 +1,11 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * convert — the downloaded Slack Web API reference (specs/) → Smithy JSON
+ * convert — the Slack Web API reference (the spec mirror) → Smithy JSON
  * models in .generated-specs, one per method family.
  *
  * Slack has no OpenAPI document (slack-api-specs froze in 2020), but every
- * docs.slack.dev method page has a structured JSON twin (downloaded by
- * `scripts/download-docs.ts`): `{ desc, http_method, scope, rate_limits,
+ * docs.slack.dev method page has a structured JSON twin (snapshotted daily
+ * by the spec mirror, `specs/spec-mirror-slack`): `{ desc, http_method, scope, rate_limits,
  * json_input_supported, args, output, errors }` where `args`/`output` are
  * JSON-Schema-ish. This script translates each method into an OpenAPI 3.0
  * operation, buckets methods by their index family (`chat`, `conversations`,
@@ -44,9 +44,10 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
-const specsDir = path.join(rootDir, "specs");
+const specsDir = resolveSpecPath(rootDir, "specs/spec-mirror-slack/specs");
 const methodsDir = path.join(specsDir, "methods");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -438,7 +439,9 @@ const buildOutputSchema = (name: string, page: MethodPage): Record<string, any> 
 
 const indexPath = path.join(specsDir, "methods.json");
 if (!fs.existsSync(indexPath)) {
-  throw new Error(`${indexPath} not found — run \`pnpm run download-docs\` first`);
+  throw new Error(
+    `${indexPath} not found — run \`pnpm --filter @distilled.cloud/slack run specs:fetch\``,
+  );
 }
 const index = JSON.parse(fs.readFileSync(indexPath, "utf-8")) as ReadonlyArray<{
   readonly name: string;

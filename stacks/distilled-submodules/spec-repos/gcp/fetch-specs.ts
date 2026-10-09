@@ -55,6 +55,16 @@ const EXTRAS: DirectoryItem[] = [
     discoveryRestUrl: "https://lustre.googleapis.com/$discovery/rest?version=v1",
     preferred: true,
   },
+  {
+    kind: "discovery#directoryItem",
+    id: "storageinsights:v1",
+    name: "storageinsights",
+    version: "v1",
+    title: "Storage Insights API",
+    description: "Provides insights capability on Google Cloud Storage.",
+    discoveryRestUrl: "https://storageinsights.googleapis.com/$discovery/rest?version=v1",
+    preferred: true,
+  },
 ];
 
 const concurrency = 20;

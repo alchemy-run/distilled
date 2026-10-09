@@ -58,11 +58,13 @@ server errors merely because their URN is unknown.
 
 ## Source and limitations
 
-[`manual-specs/acme.json`](./manual-specs/acme.json) is authored from
-[RFC 8555](https://www.rfc-editor.org/rfc/rfc8555), not downloaded or mirrored.
-Edit that model and the handwritten protocol, never generated service files.
-From this package directory, regenerate with `node --conditions=bun scripts/generate.ts`; format
-changed paths with `pnpm exec oxfmt <paths>` from the workspace root.
+`scripts/convert.ts` builds the Smithy model from
+[RFC 8555](https://www.rfc-editor.org/rfc/rfc8555), which the spec mirror
+`specs/spec-mirror-acme` snapshots: every member's name, type, requiredness
+and documentation comes from the RFC's field definitions, and the typed errors
+from its §6.7 registry. Where CAs differ from the RFC, `patches/` says so. Edit
+the converter, patches and handwritten protocol, never generated service files;
+regenerate with `pnpm generate acme` from the workspace root.
 
 The SDK covers directory discovery, nonces, accounts, orders, authorizations,
 challenge responses, certificate downloads, and revocation. It does not deploy

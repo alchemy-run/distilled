@@ -108,16 +108,25 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-/** The target of the Binding. */
-export interface Target {
-  /** The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
-  identifier?: string;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** The AuthProvider of the Binding. */
+export interface AuthProviderBinding {
+  /** Required. The resource name of the target AuthProvider. Format: * `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
+  authProvider?: string;
+  /** Optional. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow. */
+  continueUri?: string;
+  /** Optional. The list of OAuth2 scopes of the AuthProvider. */
+  scopes?: StringList;
 }
-export const Target = /*@__PURE__*/ S.suspend(() =>
+export const AuthProviderBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    identifier: S.optional(S.String),
+    authProvider: S.optional(S.String),
+    continueUri: S.optional(S.String),
+    scopes: S.optional(StringList),
   }),
-).annotate({ identifier: "Target" }) as any as S.Schema<Target>;
+).annotate({ identifier: "AuthProviderBinding" }) as any as S.Schema<AuthProviderBinding>;
 
 /** The source of the Binding. */
 export interface Source {
@@ -130,73 +139,64 @@ export const Source = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** The AuthProvider of the Binding. */
-export interface AuthProviderBinding {
-  /** Optional. The list of OAuth2 scopes of the AuthProvider. */
-  scopes?: StringList;
-  /** Optional. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow. */
-  continueUri?: string;
-  /** Required. The resource name of the target AuthProvider. Format: * `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
-  authProvider?: string;
+/** The target of the Binding. */
+export interface Target {
+  /** The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
+  identifier?: string;
 }
-export const AuthProviderBinding = /*@__PURE__*/ S.suspend(() =>
+export const Target = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    scopes: S.optional(StringList),
-    continueUri: S.optional(S.String),
-    authProvider: S.optional(S.String),
+    identifier: S.optional(S.String),
   }),
-).annotate({ identifier: "AuthProviderBinding" }) as any as S.Schema<AuthProviderBinding>;
+).annotate({ identifier: "Target" }) as any as S.Schema<Target>;
 
 /** Represents a user-defined Binding. */
 export interface Binding {
-  /** Required. The target Agent Registry Resource of the Binding. */
-  target?: Target;
-  /** Optional. User-defined description of a Binding. Can have a maximum length of `2048` characters. */
-  description?: string;
-  /** Required. The target Agent of the Binding. */
-  source?: Source;
-  /** The binding for AuthProvider. */
-  authProviderBinding?: AuthProviderBinding;
-  /** Optional. User-defined display name for the Binding. Can have a maximum length of `63` characters. */
-  displayName?: string;
-  /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
-  name?: string;
   /** Output only. Timestamp when this binding was created. */
   createTime?: string;
+  /** The binding for AuthProvider. */
+  authProviderBinding?: AuthProviderBinding;
+  /** Required. The target Agent of the Binding. */
+  source?: Source;
+  /** Required. The target Agent Registry Resource of the Binding. */
+  target?: Target;
+  /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
+  name?: string;
+  /** Optional. User-defined display name for the Binding. Can have a maximum length of `63` characters. */
+  displayName?: string;
+  /** Optional. User-defined description of a Binding. Can have a maximum length of `2048` characters. */
+  description?: string;
   /** Output only. Timestamp when this binding was last updated. */
   updateTime?: string;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    target: S.optional(Target),
-    description: S.optional(S.String),
-    source: S.optional(Source),
-    authProviderBinding: S.optional(AuthProviderBinding),
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
     createTime: S.optional(S.String),
+    authProviderBinding: S.optional(AuthProviderBinding),
+    source: S.optional(Source),
+    target: S.optional(Target),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
     updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
 export interface CreateProjectsLocationsBindingsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The project and location to create the Binding in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the binding, which will become the final component of the binding's resource name. This value should be 4-63 characters, and must conform to RFC-1034. Specifically, it must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   bindingId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Binding;
 }
 export const CreateProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     bindingId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Binding.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -222,60 +222,43 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
-    code: S.optional(S.Number),
     message: S.optional(S.String),
+    code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
     error: S.optional(Status),
     metadata: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
     name: S.optional(S.String),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
-export type EndpointSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC";
-export const EndpointSpecTypeEnum = S.String;
-
-/** The spec of the endpoint. */
-export interface EndpointSpec {
-  /** Required. The type of the endpoint spec content. */
-  type?: EndpointSpecTypeEnum | (string & {});
-  /** Optional. The content of the endpoint spec. Reserved for future use. */
-  content?: DocumentMap;
-}
-export const EndpointSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(EndpointSpecTypeEnum),
-    content: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "EndpointSpec" }) as any as S.Schema<EndpointSpec>;
 
 export type AgentSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC" | "A2A_AGENT_CARD";
 export const AgentSpecTypeEnum = S.String;
@@ -323,71 +306,88 @@ export const McpServerSpecTypeEnum = S.String;
 
 /** The spec of the MCP Server. */
 export interface McpServerSpec {
-  /** Required. The type of the MCP Server spec content. */
-  type?: McpServerSpecTypeEnum | (string & {});
   /** Optional. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
   content?: DocumentMap;
+  /** Required. The type of the MCP Server spec content. */
+  type?: McpServerSpecTypeEnum | (string & {});
 }
 export const McpServerSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(McpServerSpecTypeEnum),
     content: S.optional(DocumentMap),
+    type: S.optional(McpServerSpecTypeEnum),
   }),
 ).annotate({ identifier: "McpServerSpec" }) as any as S.Schema<McpServerSpec>;
 
+export type EndpointSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC";
+export const EndpointSpecTypeEnum = S.String;
+
+/** The spec of the endpoint. */
+export interface EndpointSpec {
+  /** Required. The type of the endpoint spec content. */
+  type?: EndpointSpecTypeEnum | (string & {});
+  /** Optional. The content of the endpoint spec. Reserved for future use. */
+  content?: DocumentMap;
+}
+export const EndpointSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(EndpointSpecTypeEnum),
+    content: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "EndpointSpec" }) as any as S.Schema<EndpointSpec>;
+
 /** Represents a user-defined Service. */
 export interface Service {
-  /** Output only. The resource name of the resulting Agent, MCP Server, or Endpoint. Format: * `projects/{project}/locations/{location}/mcpServers/{mcp_server}` * `projects/{project}/locations/{location}/agents/{agent}` * `projects/{project}/locations/{location}/endpoints/{endpoint}` */
-  registryResource?: string;
-  /** Output only. Update time. */
-  updateTime?: string;
+  /** Optional. The spec of the Agent. When `agent_spec` is set, the type of the service is Agent. */
+  agentSpec?: AgentSpec;
   /** Optional. User-defined display name for the Service. Can have a maximum length of `63` characters. */
   displayName?: string;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name?: string;
-  /** Output only. Create time. */
-  createTime?: string;
-  /** Optional. The spec of the Endpoint. When `endpoint_spec` is set, the type of the service is Endpoint. */
-  endpointSpec?: EndpointSpec;
-  /** Optional. User-defined description of an Service. Can have a maximum length of `2048` characters. */
-  description?: string;
-  /** Optional. The spec of the Agent. When `agent_spec` is set, the type of the service is Agent. */
-  agentSpec?: AgentSpec;
+  /** Output only. Update time. */
+  updateTime?: string;
   /** Optional. The connection details for the Service. */
   interfaces?: InterfaceList;
   /** Optional. The spec of the MCP Server. When `mcp_server_spec` is set, the type of the service is MCP Server. */
   mcpServerSpec?: McpServerSpec;
+  /** Output only. Create time. */
+  createTime?: string;
+  /** Optional. The spec of the Endpoint. When `endpoint_spec` is set, the type of the service is Endpoint. */
+  endpointSpec?: EndpointSpec;
+  /** Output only. The resource name of the resulting Agent, MCP Server, or Endpoint. Format: * `projects/{project}/locations/{location}/mcpServers/{mcp_server}` * `projects/{project}/locations/{location}/agents/{agent}` * `projects/{project}/locations/{location}/endpoints/{endpoint}` */
+  registryResource?: string;
+  /** Optional. User-defined description of an Service. Can have a maximum length of `2048` characters. */
+  description?: string;
 }
 export const Service = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    registryResource: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    agentSpec: S.optional(AgentSpec),
     displayName: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    endpointSpec: S.optional(EndpointSpec),
-    description: S.optional(S.String),
-    agentSpec: S.optional(AgentSpec),
+    updateTime: S.optional(S.String),
     interfaces: S.optional(InterfaceList),
     mcpServerSpec: S.optional(McpServerSpec),
+    createTime: S.optional(S.String),
+    endpointSpec: S.optional(EndpointSpec),
+    registryResource: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 
 export interface CreateProjectsLocationsServicesRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. The project and location to create the Service in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the service, which will become the final component of the service's resource name. This value should be 4-63 characters, and valid characters are `/a-z-/`. */
   serviceId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: Service;
 }
 export const CreateProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     serviceId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Service.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -401,15 +401,15 @@ export const CreateProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<CreateProjectsLocationsServicesRequest>;
 
 export interface DeleteProjectsLocationsBindingsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -440,15 +440,15 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsServicesRequest {
-  /** Required. The name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
+  name: string;
 }
 export const DeleteProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -461,12 +461,12 @@ export const DeleteProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DeleteProjectsLocationsServicesRequest>;
 
 export interface FetchAvailableProjectsLocationsBindingsRequest {
+  /** Required. The parent, in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
   targetIdentifier?: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Required. The parent, in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
   pageSize?: number;
   /** The identifier of the source Agent. Format: * `urn:agent:{publisher}:{namespace}:{name}` */
@@ -474,9 +474,9 @@ export interface FetchAvailableProjectsLocationsBindingsRequest {
 }
 export const FetchAvailableProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     targetIdentifier: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     sourceIdentifier: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -495,15 +495,15 @@ export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<Bin
 
 /** Message for response to fetching available Bindings. */
 export interface FetchAvailableBindingsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of Bindings. */
   bindings?: BindingList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const FetchAvailableBindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     bindings: S.optional(BindingList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FetchAvailableBindingsResponse",
@@ -530,48 +530,6 @@ export const GetIamPolicyProjectsLocationsAiApplicationsRequest = /*@__PURE__*/ 
   identifier: "GetIamPolicyProjectsLocationsAiApplicationsRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsAiApplicationsRequest>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    expression: S.optional(S.String),
-    location: S.optional(S.String),
-    description: S.optional(S.String),
-    title: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface GoogleIamV1Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-}
-export const GoogleIamV1Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    condition: S.optional(Expr),
-    members: S.optional(StringList),
-    role: S.optional(S.String),
-  }),
-).annotate({ identifier: "GoogleIamV1Binding" }) as any as S.Schema<GoogleIamV1Binding>;
-
-export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
-export const GoogleIamV1BindingList = /*@__PURE__*/ S.Array(
-  GoogleIamV1Binding,
-) as any as S.Schema<GoogleIamV1BindingList>;
-
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -581,15 +539,15 @@ export const GoogleIamV1AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList;
+  /** The log type that this config enables. */
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {});
 }
 export const GoogleIamV1AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    logType: S.optional(GoogleIamV1AuditLogConfigLogTypeEnum),
     exemptedMembers: S.optional(StringList),
+    logType: S.optional(GoogleIamV1AuditLogConfigLogTypeEnum),
   }),
 ).annotate({
   identifier: "GoogleIamV1AuditLogConfig",
@@ -602,15 +560,15 @@ export const GoogleIamV1AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface GoogleIamV1AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: GoogleIamV1AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: GoogleIamV1AuditLogConfigList;
 }
 export const GoogleIamV1AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditLogConfigs: S.optional(GoogleIamV1AuditLogConfigList),
     service: S.optional(S.String),
+    auditLogConfigs: S.optional(GoogleIamV1AuditLogConfigList),
   }),
 ).annotate({ identifier: "GoogleIamV1AuditConfig" }) as any as S.Schema<GoogleIamV1AuditConfig>;
 
@@ -619,22 +577,64 @@ export const GoogleIamV1AuditConfigList = /*@__PURE__*/ S.Array(
   GoogleIamV1AuditConfig,
 ) as any as S.Schema<GoogleIamV1AuditConfigList>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.optional(S.String),
+    location: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface GoogleIamV1Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+}
+export const GoogleIamV1Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role: S.optional(S.String),
+    members: S.optional(StringList),
+    condition: S.optional(Expr),
+  }),
+).annotate({ identifier: "GoogleIamV1Binding" }) as any as S.Schema<GoogleIamV1Binding>;
+
+export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
+export const GoogleIamV1BindingList = /*@__PURE__*/ S.Array(
+  GoogleIamV1Binding,
+) as any as S.Schema<GoogleIamV1BindingList>;
+
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: GoogleIamV1AuditConfigList;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: GoogleIamV1BindingList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
 }
 export const GoogleIamV1Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.Number),
-    bindings: S.optional(GoogleIamV1BindingList),
     auditConfigs: S.optional(GoogleIamV1AuditConfigList),
+    bindings: S.optional(GoogleIamV1BindingList),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "GoogleIamV1Policy" }) as any as S.Schema<GoogleIamV1Policy>;
@@ -658,24 +658,24 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(StringMap),
     locationId: S.optional(S.String),
+    displayName: S.optional(S.String),
     name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -693,25 +693,71 @@ export const GetProjectsLocationsAgentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectsLocationsAgentsRequest",
 }) as any as S.Schema<GetProjectsLocationsAgentsRequest>;
 
+export type DocumentMapMap = { [key: string]: DocumentMap | undefined };
+export const DocumentMapMap = /*@__PURE__*/ S.Record(
+  S.String,
+  DocumentMap,
+) as any as S.Schema<DocumentMapMap>;
+
+export type ProtocolTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT" | "CUSTOM";
+export const ProtocolTypeEnum = S.String;
+
+/** Represents the protocol of an Agent. */
+export interface Protocol {
+  /** Output only. The connection details for the Agent. */
+  interfaces?: InterfaceList;
+  /** Output only. The version of the protocol, for example, the A2A Agent Card version. */
+  protocolVersion?: string;
+  /** Output only. The type of the protocol. */
+  type?: ProtocolTypeEnum;
+}
+export const Protocol = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    interfaces: S.optional(InterfaceList),
+    protocolVersion: S.optional(S.String),
+    type: S.optional(ProtocolTypeEnum),
+  }),
+).annotate({ identifier: "Protocol" }) as any as S.Schema<Protocol>;
+
+export type ProtocolList = Array<Protocol>;
+export const ProtocolList = /*@__PURE__*/ S.Array(Protocol) as any as S.Schema<ProtocolList>;
+
+export type CardTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT_CARD";
+export const CardTypeEnum = S.String;
+
+/** Full Agent Card payload, often obtained from the A2A Agent Card. */
+export interface Card {
+  /** Output only. The content of the agent card. */
+  content?: DocumentMap;
+  /** Output only. The type of agent card. */
+  type?: CardTypeEnum;
+}
+export const Card = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(DocumentMap),
+    type: S.optional(CardTypeEnum),
+  }),
+).annotate({ identifier: "Card" }) as any as S.Schema<Card>;
+
 /** Represents the skills of an Agent. */
 export interface A2ASkill {
-  /** Output only. A human-readable name for the agent's skill. */
-  name?: string;
   /** Output only. Keywords describing the skill. */
   tags?: StringList;
-  /** Output only. Example prompts or scenarios this skill can handle. */
-  examples?: StringList;
   /** Output only. A more detailed description of the skill. */
   description?: string;
+  /** Output only. A human-readable name for the agent's skill. */
+  name?: string;
+  /** Output only. Example prompts or scenarios this skill can handle. */
+  examples?: StringList;
   /** Output only. A unique identifier for the agent's skill. */
   id?: string;
 }
 export const A2ASkill = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     tags: S.optional(StringList),
-    examples: S.optional(StringList),
     description: S.optional(S.String),
+    name: S.optional(S.String),
+    examples: S.optional(StringList),
     id: S.optional(S.String),
   }),
 ).annotate({ identifier: "A2ASkill" }) as any as S.Schema<A2ASkill>;
@@ -719,96 +765,50 @@ export const A2ASkill = /*@__PURE__*/ S.suspend(() =>
 export type A2ASkillList = Array<A2ASkill>;
 export const A2ASkillList = /*@__PURE__*/ S.Array(A2ASkill) as any as S.Schema<A2ASkillList>;
 
-export type ProtocolTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT" | "CUSTOM";
-export const ProtocolTypeEnum = S.String;
-
-/** Represents the protocol of an Agent. */
-export interface Protocol {
-  /** Output only. The type of the protocol. */
-  type?: ProtocolTypeEnum;
-  /** Output only. The connection details for the Agent. */
-  interfaces?: InterfaceList;
-  /** Output only. The version of the protocol, for example, the A2A Agent Card version. */
-  protocolVersion?: string;
-}
-export const Protocol = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ProtocolTypeEnum),
-    interfaces: S.optional(InterfaceList),
-    protocolVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "Protocol" }) as any as S.Schema<Protocol>;
-
-export type ProtocolList = Array<Protocol>;
-export const ProtocolList = /*@__PURE__*/ S.Array(Protocol) as any as S.Schema<ProtocolList>;
-
-export type DocumentMapMap = { [key: string]: DocumentMap | undefined };
-export const DocumentMapMap = /*@__PURE__*/ S.Record(
-  S.String,
-  DocumentMap,
-) as any as S.Schema<DocumentMapMap>;
-
-export type CardTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT_CARD";
-export const CardTypeEnum = S.String;
-
-/** Full Agent Card payload, often obtained from the A2A Agent Card. */
-export interface Card {
-  /** Output only. The type of agent card. */
-  type?: CardTypeEnum;
-  /** Output only. The content of the agent card. */
-  content?: DocumentMap;
-}
-export const Card = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(CardTypeEnum),
-    content: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "Card" }) as any as S.Schema<Card>;
-
 /** Represents an Agent. "A2A" below refers to the Agent-to-Agent protocol. */
 export interface Agent {
   /** Output only. A universally unique identifier for the Agent. */
   uid?: string;
-  /** Output only. Skills the agent possesses, often obtained from the A2A Agent Card. */
-  skills?: A2ASkillList;
-  /** Output only. The connection details for the Agent. */
-  protocols?: ProtocolList;
-  /** Output only. The display name of the agent, often obtained from the A2A Agent Card. */
-  displayName?: string;
-  /** Output only. Create time. */
-  createTime?: string;
-  /** Output only. A stable, globally unique identifier for agents. */
-  agentId?: string;
-  /** Output only. The description of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no description. */
-  description?: string;
   /** Output only. Attributes of the Agent. Valid values: * `agentregistry.googleapis.com/system/Framework`: {"framework": "google-adk"} - the agent framework used to develop the Agent. Example values: "google-adk", "langchain", "custom". * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the Agent. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Agent, for example, the Reasoning Engine URI. */
   attributes?: DocumentMapMap;
-  /** Output only. Update time. */
-  updateTime?: string;
-  /** Identifier. The resource name of an Agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
-  name?: string;
-  /** Output only. Full Agent Card payload, when available. */
-  card?: Card;
-  /** Output only. The location where agent is hosted. The value is defined by the hosting environment (i.e. cloud provider). */
-  location?: string;
   /** Output only. The version of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no version or agent is not an A2A Agent. */
   version?: string;
+  /** Output only. The location where agent is hosted. The value is defined by the hosting environment (i.e. cloud provider). */
+  location?: string;
+  /** Output only. Create time. */
+  createTime?: string;
+  /** Output only. The display name of the agent, often obtained from the A2A Agent Card. */
+  displayName?: string;
+  /** Output only. Update time. */
+  updateTime?: string;
+  /** Output only. The connection details for the Agent. */
+  protocols?: ProtocolList;
+  /** Identifier. The resource name of an Agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
+  name?: string;
+  /** Output only. The description of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no description. */
+  description?: string;
+  /** Output only. Full Agent Card payload, when available. */
+  card?: Card;
+  /** Output only. Skills the agent possesses, often obtained from the A2A Agent Card. */
+  skills?: A2ASkillList;
+  /** Output only. A stable, globally unique identifier for agents. */
+  agentId?: string;
 }
 export const Agent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.optional(S.String),
-    skills: S.optional(A2ASkillList),
-    protocols: S.optional(ProtocolList),
-    displayName: S.optional(S.String),
-    createTime: S.optional(S.String),
-    agentId: S.optional(S.String),
-    description: S.optional(S.String),
     attributes: S.optional(DocumentMapMap),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    card: S.optional(Card),
-    location: S.optional(S.String),
     version: S.optional(S.String),
+    location: S.optional(S.String),
+    createTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    protocols: S.optional(ProtocolList),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    card: S.optional(Card),
+    skills: S.optional(A2ASkillList),
+    agentId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Agent" }) as any as S.Schema<Agent>;
 
@@ -842,32 +842,32 @@ export const GetProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Represents an Endpoint. */
 export interface Endpoint {
-  /** Required. The connection details for the Endpoint. */
-  interfaces?: InterfaceList;
-  /** Output only. Attributes of the Endpoint. Valid values: * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Endpoint, for example, the GKE Deployment. */
-  attributes?: DocumentMapMap;
-  /** Identifier. The resource name of the Endpoint. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
-  name?: string;
   /** Output only. Display name for the Endpoint. */
   displayName?: string;
   /** Output only. Description of an Endpoint. */
   description?: string;
-  /** Output only. A stable, globally unique identifier for Endpoint. */
-  endpointId?: string;
   /** Output only. Create time. */
   createTime?: string;
+  /** Output only. Attributes of the Endpoint. Valid values: * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Endpoint, for example, the GKE Deployment. */
+  attributes?: DocumentMapMap;
+  /** Required. The connection details for the Endpoint. */
+  interfaces?: InterfaceList;
+  /** Identifier. The resource name of the Endpoint. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
+  name?: string;
+  /** Output only. A stable, globally unique identifier for Endpoint. */
+  endpointId?: string;
   /** Output only. Update time. */
   updateTime?: string;
 }
 export const Endpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    interfaces: S.optional(InterfaceList),
-    attributes: S.optional(DocumentMapMap),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
-    endpointId: S.optional(S.String),
     createTime: S.optional(S.String),
+    attributes: S.optional(DocumentMapMap),
+    interfaces: S.optional(InterfaceList),
+    name: S.optional(S.String),
+    endpointId: S.optional(S.String),
     updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
@@ -888,41 +888,41 @@ export const GetProjectsLocationsMcpServersRequest = /*@__PURE__*/ S.suspend(() 
 
 /** Annotations describing the characteristics and behavior of a tool or operation. */
 export interface Annotations {
-  /** Output only. If true, calling the tool repeatedly with the same arguments will have no additional effect on its environment. NOTE: This property is meaningful only when `read_only_hint == false` Default: false */
-  idempotentHint?: boolean;
-  /** Output only. If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. Default: true */
-  openWorldHint?: boolean;
-  /** Output only. A human-readable title for the tool. */
-  title?: string;
   /** Output only. If true, the tool does not modify its environment. Default: false */
   readOnlyHint?: boolean;
+  /** Output only. A human-readable title for the tool. */
+  title?: string;
   /** Output only. If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. NOTE: This property is meaningful only when `read_only_hint == false` Default: true */
   destructiveHint?: boolean;
+  /** Output only. If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. Default: true */
+  openWorldHint?: boolean;
+  /** Output only. If true, calling the tool repeatedly with the same arguments will have no additional effect on its environment. NOTE: This property is meaningful only when `read_only_hint == false` Default: false */
+  idempotentHint?: boolean;
 }
 export const Annotations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idempotentHint: S.optional(S.Boolean),
-    openWorldHint: S.optional(S.Boolean),
-    title: S.optional(S.String),
     readOnlyHint: S.optional(S.Boolean),
+    title: S.optional(S.String),
     destructiveHint: S.optional(S.Boolean),
+    openWorldHint: S.optional(S.Boolean),
+    idempotentHint: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Annotations" }) as any as S.Schema<Annotations>;
 
 /** Represents a single tool provided by an MCP Server. */
 export interface Tool {
-  /** Output only. Annotations associated with the tool. */
-  annotations?: Annotations;
-  /** Output only. Description of what the tool does. */
-  description?: string;
   /** Output only. Human-readable name of the tool. */
   name?: string;
+  /** Output only. Description of what the tool does. */
+  description?: string;
+  /** Output only. Annotations associated with the tool. */
+  annotations?: Annotations;
 }
 export const Tool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    annotations: S.optional(Annotations),
-    description: S.optional(S.String),
     name: S.optional(S.String),
+    description: S.optional(S.String),
+    annotations: S.optional(Annotations),
   }),
 ).annotate({ identifier: "Tool" }) as any as S.Schema<Tool>;
 
@@ -931,36 +931,36 @@ export const ToolList = /*@__PURE__*/ S.Array(Tool) as any as S.Schema<ToolList>
 
 /** Represents an MCP (Model Context Protocol) Server. */
 export interface McpServer {
-  /** Output only. Tools provided by the MCP Server. */
-  tools?: ToolList;
+  /** Output only. Create time. */
+  createTime?: string;
   /** Identifier. The resource name of the MCP Server. Format: `projects/{project}/locations/{location}/mcpServers/{mcp_server}`. */
   name?: string;
-  /** Output only. Update time. */
-  updateTime?: string;
+  /** Output only. A stable, globally unique identifier for MCP Servers. */
+  mcpServerId?: string;
   /** Output only. The display name of the MCP Server. */
   displayName?: string;
   /** Output only. The connection details for the MCP Server. */
   interfaces?: InterfaceList;
+  /** Output only. Update time. */
+  updateTime?: string;
   /** Output only. Attributes of the MCP Server. Valid values: * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the MCP Server. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the MCP Server, for example, the GKE Deployment. */
   attributes?: DocumentMapMap;
-  /** Output only. A stable, globally unique identifier for MCP Servers. */
-  mcpServerId?: string;
-  /** Output only. Create time. */
-  createTime?: string;
   /** Output only. The description of the MCP Server. */
   description?: string;
+  /** Output only. Tools provided by the MCP Server. */
+  tools?: ToolList;
 }
 export const McpServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tools: S.optional(ToolList),
+    createTime: S.optional(S.String),
     name: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    mcpServerId: S.optional(S.String),
     displayName: S.optional(S.String),
     interfaces: S.optional(InterfaceList),
+    updateTime: S.optional(S.String),
     attributes: S.optional(DocumentMapMap),
-    mcpServerId: S.optional(S.String),
-    createTime: S.optional(S.String),
     description: S.optional(S.String),
+    tools: S.optional(ToolList),
   }),
 ).annotate({ identifier: "McpServer" }) as any as S.Schema<McpServer>;
 
@@ -993,24 +993,24 @@ export const GetProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsLocationsServicesRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1040,24 +1040,24 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsAgentsRequest {
-  /** Optional. Filtering results */
-  filter?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
   /** Required. Parent value for ListAgentsRequest */
   parent: string;
+  /** Optional. Filtering results */
+  filter?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsAgentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1074,15 +1074,15 @@ export const AgentList = /*@__PURE__*/ S.Array(Agent) as any as S.Schema<AgentLi
 
 /** Message for response to listing Agents */
 export interface ListAgentsResponse {
-  /** The list of Agents. */
-  agents?: AgentList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of Agents. */
+  agents?: AgentList;
 }
 export const ListAgentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    agents: S.optional(AgentList),
     nextPageToken: S.optional(S.String),
+    agents: S.optional(AgentList),
   }),
 ).annotate({ identifier: "ListAgentsResponse" }) as any as S.Schema<ListAgentsResponse>;
 
@@ -1091,20 +1091,20 @@ export interface ListProjectsLocationsBindingsRequest {
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
   /** Optional. A query string used to filter the list of bindings returned. The filter expression must follow AIP-160 syntax. */
   filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
   pageSize?: number;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
 }
 export const ListProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1118,34 +1118,34 @@ export const ListProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Message for response to listing Bindings */
 export interface ListBindingsResponse {
-  /** The list of Binding resources matching the parent and filter criteria in the request. Each Binding resource follows the format: `projects/{project}/locations/{location}/bindings/{binding}`. */
-  bindings?: BindingList;
   /** A token identifying a page of results the server should return. Used in page_token. */
   nextPageToken?: string;
+  /** The list of Binding resources matching the parent and filter criteria in the request. Each Binding resource follows the format: `projects/{project}/locations/{location}/bindings/{binding}`. */
+  bindings?: BindingList;
 }
 export const ListBindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bindings: S.optional(BindingList),
     nextPageToken: S.optional(S.String),
+    bindings: S.optional(BindingList),
   }),
 ).annotate({ identifier: "ListBindingsResponse" }) as any as S.Schema<ListBindingsResponse>;
 
 export interface ListProjectsLocationsEndpointsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Required. The project and location to list endpoints in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Optional. A query string used to filter the list of endpoints returned. The filter expression must follow AIP-160 syntax. Filtering is supported on the `name`, `display_name`, `description`, `version`, and `interfaces` fields. Some examples: * `name = "projects/p1/locations/l1/endpoints/e1"` * `display_name = "my-endpoint"` * `description = "my-endpoint-description"` * `version = "v1"` * `interfaces.transport = "HTTP_JSON"` */
   filter?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1162,25 +1162,25 @@ export const EndpointList = /*@__PURE__*/ S.Array(Endpoint) as any as S.Schema<E
 
 /** Message for response to listing Endpoints */
 export interface ListEndpointsResponse {
-  /** A token identifying a page of results the server should return. Used in page_token. */
-  nextPageToken?: string;
   /** The list of Endpoint resources matching the parent and filter criteria in the request. Each Endpoint resource follows the format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
   endpoints?: EndpointList;
+  /** A token identifying a page of results the server should return. Used in page_token. */
+  nextPageToken?: string;
 }
 export const ListEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     endpoints: S.optional(EndpointList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListEndpointsResponse" }) as any as S.Schema<ListEndpointsResponse>;
 
 export interface ListProjectsLocationsMcpServersRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Optional. Filtering results */
-  filter?: string;
   /** Optional. Hint for how to order the results */
   orderBy?: string;
+  /** Optional. Filtering results */
+  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
   /** Required. Parent value for ListMcpServersRequest. Format: `projects/{project}/locations/{location}`. */
@@ -1189,8 +1189,8 @@ export interface ListProjectsLocationsMcpServersRequest {
 export const ListProjectsLocationsMcpServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
@@ -1209,37 +1209,37 @@ export const McpServerList = /*@__PURE__*/ S.Array(McpServer) as any as S.Schema
 
 /** Message for response to listing McpServers */
 export interface ListMcpServersResponse {
-  /** The list of McpServers. */
-  mcpServers?: McpServerList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of McpServers. */
+  mcpServers?: McpServerList;
 }
 export const ListMcpServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mcpServers: S.optional(McpServerList),
     nextPageToken: S.optional(S.String),
+    mcpServers: S.optional(McpServerList),
   }),
 ).annotate({ identifier: "ListMcpServersResponse" }) as any as S.Schema<ListMcpServersResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The standard list filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1256,37 +1256,37 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsServicesRequest {
-  /** Optional. A query string used to filter the list of services returned. The filter expression must follow AIP-160 syntax. Filtering is supported on the `name`, `display_name`, `description`, and `labels` fields. Some examples: * `name = "projects/p1/locations/l1/services/s1"` * `display_name = "my-service"` * `description : "myservice description"` * `labels.env = "prod"` */
-  filter?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Required. The project and location to list services in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. A query string used to filter the list of services returned. The filter expression must follow AIP-160 syntax. Filtering is supported on the `name`, `display_name`, `description`, and `labels` fields. Some examples: * `name = "projects/p1/locations/l1/services/s1"` * `display_name = "my-service"` * `description : "myservice description"` * `labels.env = "prod"` */
+  filter?: string;
 }
 export const ListProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1316,10 +1316,10 @@ export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface PatchProjectsLocationsBindingsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Binding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name: string;
   /** Request body */
@@ -1327,8 +1327,8 @@ export interface PatchProjectsLocationsBindingsRequest {
 }
 export const PatchProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     body: S.optional(Binding.pipe(T.HttpBody())),
   }).pipe(
@@ -1343,20 +1343,20 @@ export const PatchProjectsLocationsBindingsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchProjectsLocationsBindingsRequest>;
 
 export interface PatchProjectsLocationsServicesRequest {
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
+  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
   /** Request body */
   body?: Service;
 }
 export const PatchProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Service.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1371,17 +1371,17 @@ export const PatchProjectsLocationsServicesRequest = /*@__PURE__*/ S.suspend(() 
 
 /** Message for searching Agents */
 export interface SearchAgentsRequest {
-  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
-  pageSize?: number;
   /** Optional. Search criteria used to select the Agents to return. If no search criteria is specified then all accessible Agents will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | agentId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | | description | No | Yes | No | Included | | skills | No | Yes | No | Included | | skills.id | No | Yes | No | Included | | skills.name | No | Yes | No | Included | | skills.description | No | Yes | No | Included | | skills.tags | No | Yes | No | Included | | skills.examples | No | Yes | No | Included | Examples: * `agentId="urn:agent:projects-123:projects:123:locations:us-central1:reasoningEngines:1234"` to find the agent with the specified agent ID. * `name:important` to find agents whose name contains `important` as a word. * `displayName:works*` to find agents whose display name contains words that start with `works`. * `skills.tags:test` to find agents whose skills tags contain `test`. * `planner OR booking` to find agents whose metadata contains the words `planner` or `booking`. */
   searchString?: string;
+  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
+  pageSize?: number;
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
   pageToken?: string;
 }
 export const SearchAgentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number),
     searchString: S.optional(S.String),
+    pageSize: S.optional(S.Number),
     pageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "SearchAgentsRequest" }) as any as S.Schema<SearchAgentsRequest>;
@@ -1409,32 +1409,32 @@ export const SearchProjectsLocationsAgentsRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Message for response to searching Agents */
 export interface SearchAgentsResponse {
-  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** A list of Agents that match the `search_string`. */
   agents?: AgentList;
+  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
 }
 export const SearchAgentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     agents: S.optional(AgentList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "SearchAgentsResponse" }) as any as S.Schema<SearchAgentsResponse>;
 
 /** Message for searching MCP Servers */
 export interface SearchMcpServersRequest {
-  /** Optional. Search criteria used to select the MCP Servers to return. If no search criteria is specified then all accessible MCP Servers will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | mcpServerId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | Examples: * `mcpServerId="urn:mcp:projects-123:projects:123:locations:us-central1:agentregistry:services:service-id"` to find the MCP Server with the specified MCP Server ID. * `name:important` to find MCP Servers whose name contains `important` as a word. * `displayName:works*` to find MCP Servers whose display name contains words that start with `works`. * `planner OR booking` to find MCP Servers whose metadata contains the words `planner` or `booking`. * `mcpServerId:service-id AND (displayName:planner OR displayName:booking)` to find MCP Servers whose MCP Server ID contains `service-id` and whose display name contains `planner` or `booking`. */
-  searchString?: string;
-  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
-  pageSize?: number;
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
   pageToken?: string;
+  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
+  pageSize?: number;
+  /** Optional. Search criteria used to select the MCP Servers to return. If no search criteria is specified then all accessible MCP Servers will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | mcpServerId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | Examples: * `mcpServerId="urn:mcp:projects-123:projects:123:locations:us-central1:agentregistry:services:service-id"` to find the MCP Server with the specified MCP Server ID. * `name:important` to find MCP Servers whose name contains `important` as a word. * `displayName:works*` to find MCP Servers whose display name contains words that start with `works`. * `planner OR booking` to find MCP Servers whose metadata contains the words `planner` or `booking`. * `mcpServerId:service-id AND (displayName:planner OR displayName:booking)` to find MCP Servers whose MCP Server ID contains `service-id` and whose display name contains `planner` or `booking`. */
+  searchString?: string;
 }
 export const SearchMcpServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    searchString: S.optional(S.String),
-    pageSize: S.optional(S.Number),
     pageToken: S.optional(S.String),
+    pageSize: S.optional(S.Number),
+    searchString: S.optional(S.String),
   }),
 ).annotate({ identifier: "SearchMcpServersRequest" }) as any as S.Schema<SearchMcpServersRequest>;
 
@@ -1461,29 +1461,29 @@ export const SearchProjectsLocationsMcpServersRequest = /*@__PURE__*/ S.suspend(
 
 /** Message for response to searching MCP Servers */
 export interface SearchMcpServersResponse {
-  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** A list of McpServers that match the `search_string`. */
   mcpServers?: McpServerList;
+  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
 }
 export const SearchMcpServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     mcpServers: S.optional(McpServerList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "SearchMcpServersResponse" }) as any as S.Schema<SearchMcpServersResponse>;
 
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string;
 }
 export const GoogleIamV1SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String),
     policy: S.optional(GoogleIamV1Policy),
+    updateMask: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleIamV1SetIamPolicyRequest",

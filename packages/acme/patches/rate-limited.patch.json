@@ -1,0 +1,30 @@
+{
+  "description": "rateLimited arrives as HTTP 429 with a Retry-After header (RFC 8555 \u00a76.6). The protocol parses Retry-After into `retryAfter`, and the error is retryable as throttling.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.ietf.acme#AcmeRateLimited/members/retryAfter",
+      "before": "code",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Retry-After header parsed as an Effect Duration by the protocol."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.ietf.acme#AcmeRateLimited/traits/smithy.api#httpError",
+      "before": "smithy.api#documentation",
+      "value": 429
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.ietf.acme#AcmeRateLimited/traits/smithy.api#retryable",
+      "before": "smithy.api#documentation",
+      "value": {
+        "throttling": true
+      }
+    }
+  ]
+}

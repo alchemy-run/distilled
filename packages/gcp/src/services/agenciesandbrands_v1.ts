@@ -61,6 +61,44 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type ReportDefinitionMetricsItemEnum =
+  | "METRIC_UNSPECIFIED"
+  | "ACTIVE_VIEW_MEASURABILITY_RATE"
+  | "ACTIVE_VIEW_MEASURABLE"
+  | "ACTIVE_VIEW_VIEWABILITY_RATE"
+  | "ACTIVE_VIEW_VIEWABLE"
+  | "AUCTIONS_WON"
+  | "BIDS"
+  | "BIDS_IN_AUCTION"
+  | "CLICKS"
+  | "CPC"
+  | "CPM"
+  | "CURATION_PARTNER_FEE"
+  | "DISCOUNT_AMOUNT"
+  | "EFFECTIVE_DISCOUNT_RATE"
+  | "ENGAGED_VIEWS"
+  | "IMPRESSIONS"
+  | "PRE_DISCOUNT_SPEND"
+  | "PRE_DISCOUNT_SPEND_WITHOUT_CURATION_PARTNER_FEE"
+  | "REACHED_QUERIES"
+  | "SPEND"
+  | "SPEND_WITHOUT_CURATION_PARTNER_FEE"
+  | "VAST_ERROR_COUNT"
+  | "VIDEO_COMPLETE"
+  | "VIDEO_FIRST_QUARTILE"
+  | "VIDEO_MIDPOINT"
+  | "VIDEO_START"
+  | "VIDEO_THIRD_QUARTILE"
+  | "VIDEO_VTR";
+export const ReportDefinitionMetricsItemEnum = S.String;
+
+export type ReportDefinitionMetricsItemEnumList = Array<
+  ReportDefinitionMetricsItemEnum | (string & {})
+>;
+export const ReportDefinitionMetricsItemEnumList = /*@__PURE__*/ S.Array(
+  ReportDefinitionMetricsItemEnum,
+) as any as S.Schema<ReportDefinitionMetricsItemEnumList>;
+
 export type ReportDefinitionDimensionsItemEnum =
   | "DIMENSION_UNSPECIFIED"
   | "ADVERTISER_DOMAIN"
@@ -118,13 +156,81 @@ export const ReportDefinitionDimensionsItemEnumList = /*@__PURE__*/ S.Array(
   ReportDefinitionDimensionsItemEnum,
 ) as any as S.Schema<ReportDefinitionDimensionsItemEnumList>;
 
-export type ReportDefinitionTimeZoneSourceEnum =
-  | "TIME_ZONE_SOURCE_UNSPECIFIED"
-  | "AD_EXCHANGE"
-  | "UTC"
-  | "PROVIDED"
-  | "AGENCY";
-export const ReportDefinitionTimeZoneSourceEnum = S.String;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Agenciesandbrands_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+}
+export const Agenciesandbrands_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    day: S.optional(S.Number),
+    year: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Agenciesandbrands_Date" }) as any as S.Schema<Agenciesandbrands_Date>;
+
+/** A date range between two fixed dates (inclusive of end date). */
+export interface FixedDateRange {
+  /** Required. The end date (inclusive) of this date range. */
+  endDate?: Agenciesandbrands_Date;
+  /** Required. The start date of this date range. */
+  startDate?: Agenciesandbrands_Date;
+}
+export const FixedDateRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endDate: S.optional(Agenciesandbrands_Date),
+    startDate: S.optional(Agenciesandbrands_Date),
+  }),
+).annotate({ identifier: "FixedDateRange" }) as any as S.Schema<FixedDateRange>;
+
+export type DateRangeRelativeEnum =
+  | "RELATIVE_DATE_RANGE_UNSPECIFIED"
+  | "TODAY"
+  | "YESTERDAY"
+  | "THIS_WEEK_TO_DATE"
+  | "THIS_WEEK_TO_YESTERDAY"
+  | "THIS_MONTH_TO_DATE"
+  | "THIS_MONTH_TO_YESTERDAY"
+  | "THIS_QUARTER_TO_DATE"
+  | "THIS_QUARTER_TO_YESTERDAY"
+  | "THIS_YEAR_TO_DATE"
+  | "THIS_YEAR_TO_YESTERDAY"
+  | "LAST_WEEK"
+  | "LAST_WEEK_STARTING_SUNDAY"
+  | "LAST_MONTH"
+  | "LAST_QUARTER"
+  | "LAST_YEAR"
+  | "LAST_7_DAYS"
+  | "LAST_30_DAYS"
+  | "LAST_60_DAYS"
+  | "LAST_90_DAYS"
+  | "LAST_93_DAYS"
+  | "LAST_180_DAYS"
+  | "LAST_360_DAYS"
+  | "LAST_365_DAYS"
+  | "LAST_3_MONTHS"
+  | "LAST_6_MONTHS"
+  | "LAST_12_MONTHS"
+  | "ALL_AVAILABLE";
+export const DateRangeRelativeEnum = S.String;
+
+/** A date range for a report. */
+export interface DateRange {
+  /** A fixed date range. */
+  fixed?: FixedDateRange;
+  /** A relative date range. */
+  relative?: DateRangeRelativeEnum | (string & {});
+}
+export const DateRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(FixedDateRange),
+    relative: S.optional(DateRangeRelativeEnum),
+  }),
+).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
 
 /** A list of filters. */
 export interface FilterList {
@@ -137,19 +243,36 @@ export const FilterList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FilterList" }) as any as S.Schema<FilterList>;
 
-export type FieldFilterOperationEnum =
-  | "IN"
-  | "NOT_IN"
-  | "CONTAINS"
-  | "NOT_CONTAINS"
-  | "LESS_THAN"
-  | "LESS_THAN_EQUALS"
-  | "GREATER_THAN"
-  | "GREATER_THAN_EQUALS"
-  | "BETWEEN"
-  | "MATCHES"
-  | "NOT_MATCHES";
-export const FieldFilterOperationEnum = S.String;
+export type FieldMetricEnum =
+  | "METRIC_UNSPECIFIED"
+  | "ACTIVE_VIEW_MEASURABILITY_RATE"
+  | "ACTIVE_VIEW_MEASURABLE"
+  | "ACTIVE_VIEW_VIEWABILITY_RATE"
+  | "ACTIVE_VIEW_VIEWABLE"
+  | "AUCTIONS_WON"
+  | "BIDS"
+  | "BIDS_IN_AUCTION"
+  | "CLICKS"
+  | "CPC"
+  | "CPM"
+  | "CURATION_PARTNER_FEE"
+  | "DISCOUNT_AMOUNT"
+  | "EFFECTIVE_DISCOUNT_RATE"
+  | "ENGAGED_VIEWS"
+  | "IMPRESSIONS"
+  | "PRE_DISCOUNT_SPEND"
+  | "PRE_DISCOUNT_SPEND_WITHOUT_CURATION_PARTNER_FEE"
+  | "REACHED_QUERIES"
+  | "SPEND"
+  | "SPEND_WITHOUT_CURATION_PARTNER_FEE"
+  | "VAST_ERROR_COUNT"
+  | "VIDEO_COMPLETE"
+  | "VIDEO_FIRST_QUARTILE"
+  | "VIDEO_MIDPOINT"
+  | "VIDEO_START"
+  | "VIDEO_THIRD_QUARTILE"
+  | "VIDEO_VTR";
+export const FieldMetricEnum = S.String;
 
 export type FieldDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
@@ -201,50 +324,33 @@ export type FieldDimensionEnum =
   | "WEEK";
 export const FieldDimensionEnum = S.String;
 
-export type FieldMetricEnum =
-  | "METRIC_UNSPECIFIED"
-  | "ACTIVE_VIEW_MEASURABILITY_RATE"
-  | "ACTIVE_VIEW_MEASURABLE"
-  | "ACTIVE_VIEW_VIEWABILITY_RATE"
-  | "ACTIVE_VIEW_VIEWABLE"
-  | "AUCTIONS_WON"
-  | "BIDS"
-  | "BIDS_IN_AUCTION"
-  | "CLICKS"
-  | "CPC"
-  | "CPM"
-  | "CURATION_PARTNER_FEE"
-  | "DISCOUNT_AMOUNT"
-  | "EFFECTIVE_DISCOUNT_RATE"
-  | "ENGAGED_VIEWS"
-  | "IMPRESSIONS"
-  | "PRE_DISCOUNT_SPEND"
-  | "PRE_DISCOUNT_SPEND_WITHOUT_CURATION_PARTNER_FEE"
-  | "REACHED_QUERIES"
-  | "SPEND"
-  | "SPEND_WITHOUT_CURATION_PARTNER_FEE"
-  | "VAST_ERROR_COUNT"
-  | "VIDEO_COMPLETE"
-  | "VIDEO_FIRST_QUARTILE"
-  | "VIDEO_MIDPOINT"
-  | "VIDEO_START"
-  | "VIDEO_THIRD_QUARTILE"
-  | "VIDEO_VTR";
-export const FieldMetricEnum = S.String;
-
 /** A dimension or a metric in a report. */
 export interface Field {
-  /** The dimension this field represents. */
-  dimension?: FieldDimensionEnum | (string & {});
   /** The metric this field represents. */
   metric?: FieldMetricEnum | (string & {});
+  /** The dimension this field represents. */
+  dimension?: FieldDimensionEnum | (string & {});
 }
 export const Field = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dimension: S.optional(FieldDimensionEnum),
     metric: S.optional(FieldMetricEnum),
+    dimension: S.optional(FieldDimensionEnum),
   }),
 ).annotate({ identifier: "Field" }) as any as S.Schema<Field>;
+
+export type FieldFilterOperationEnum =
+  | "IN"
+  | "NOT_IN"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "LESS_THAN"
+  | "LESS_THAN_EQUALS"
+  | "GREATER_THAN"
+  | "GREATER_THAN_EQUALS"
+  | "BETWEEN"
+  | "MATCHES"
+  | "NOT_MATCHES";
+export const FieldFilterOperationEnum = S.String;
 
 export type StringList_ = Array<string>;
 export const StringList_ = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList_>;
@@ -260,6 +366,10 @@ export const StringList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "StringList" }) as any as S.Schema<StringList>;
 
+/** A list of integer values. */
+export type IntList = StringList;
+export const IntList = StringList;
+
 export type DoubleList_ = Array<number>;
 export const DoubleList_ = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList_>;
 
@@ -274,39 +384,35 @@ export const DoubleList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DoubleList" }) as any as S.Schema<DoubleList>;
 
-/** A list of integer values. */
-export type IntList = StringList;
-export const IntList = StringList;
-
 /** Represents a single value in a report. */
 export interface ReportValue {
-  /** For bytes values. */
-  bytesValue?: string;
-  /** For integer values. */
-  intValue?: string;
   /** For lists of string values. */
   stringListValue?: StringList;
-  /** For lists of double values. */
-  doubleListValue?: DoubleList;
-  /** For double values. */
-  doubleValue?: number;
+  /** For integer values. */
+  intValue?: string;
   /** For lists of integer values. */
   intListValue?: StringList;
-  /** For boolean values. */
-  boolValue?: boolean;
+  /** For bytes values. */
+  bytesValue?: string;
   /** For string values. */
   stringValue?: string;
+  /** For lists of double values. */
+  doubleListValue?: DoubleList;
+  /** For boolean values. */
+  boolValue?: boolean;
+  /** For double values. */
+  doubleValue?: number;
 }
 export const ReportValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bytesValue: S.optional(S.String),
-    intValue: S.optional(S.String),
     stringListValue: S.optional(StringList),
-    doubleListValue: S.optional(DoubleList),
-    doubleValue: S.optional(S.Number),
+    intValue: S.optional(S.String),
     intListValue: S.optional(StringList),
-    boolValue: S.optional(S.Boolean),
+    bytesValue: S.optional(S.String),
     stringValue: S.optional(S.String),
+    doubleListValue: S.optional(DoubleList),
+    boolValue: S.optional(S.Boolean),
+    doubleValue: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ReportValue" }) as any as S.Schema<ReportValue>;
 
@@ -317,37 +423,37 @@ export const ReportValueList = /*@__PURE__*/ S.Array(
 
 /** A filter on a specific field. */
 export interface FieldFilter {
-  /** Required. The operation of this filter. */
-  operation?: FieldFilterOperationEnum | (string & {});
   /** Required. The field to filter on. */
   field?: Field;
+  /** Required. The operation of this filter. */
+  operation?: FieldFilterOperationEnum | (string & {});
   /** Required. Values to filter to. */
   values?: ReportValueList;
 }
 export const FieldFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operation: S.optional(FieldFilterOperationEnum),
     field: S.optional(Field),
+    operation: S.optional(FieldFilterOperationEnum),
     values: S.optional(ReportValueList),
   }),
 ).annotate({ identifier: "FieldFilter" }) as any as S.Schema<FieldFilter>;
 
 /** A filter over one or more fields. */
 export interface Filter {
-  /** A list of filters whose results are OR-ed. */
-  orFilter?: FilterList;
-  /** A list of filters whose results are AND-ed. */
-  andFilter?: FilterList;
   /** A filter whose result is negated. */
   notFilter?: Filter;
+  /** A list of filters whose results are AND-ed. */
+  andFilter?: FilterList;
+  /** A list of filters whose results are OR-ed. */
+  orFilter?: FilterList;
   /** A filter on a single field. */
   fieldFilter?: FieldFilter;
 }
 export const Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orFilter: S.optional(FilterList),
-    andFilter: S.optional(FilterList),
     notFilter: S.optional(Filter),
+    andFilter: S.optional(FilterList),
+    orFilter: S.optional(FilterList),
     fieldFilter: S.optional(FieldFilter),
   }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
@@ -355,195 +461,89 @@ export const Filter = /*@__PURE__*/ S.suspend(() =>
 export type FilterList_ = Array<Filter>;
 export const FilterList_ = /*@__PURE__*/ S.Array(Filter) as any as S.Schema<FilterList_>;
 
+export type ReportDefinitionTimeZoneSourceEnum =
+  | "TIME_ZONE_SOURCE_UNSPECIFIED"
+  | "AD_EXCHANGE"
+  | "UTC"
+  | "PROVIDED"
+  | "AGENCY";
+export const ReportDefinitionTimeZoneSourceEnum = S.String;
+
 /** Represents a sorting in a report. */
 export interface Sort {
-  /** Required. A field (dimension or metric) to sort by. */
-  field?: Field;
   /** Optional. The sort order. If true the sort will be descending. */
   descending?: boolean;
+  /** Required. A field (dimension or metric) to sort by. */
+  field?: Field;
 }
 export const Sort = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    field: S.optional(Field),
     descending: S.optional(S.Boolean),
+    field: S.optional(Field),
   }),
 ).annotate({ identifier: "Sort" }) as any as S.Schema<Sort>;
 
 export type SortList = Array<Sort>;
 export const SortList = /*@__PURE__*/ S.Array(Sort) as any as S.Schema<SortList>;
 
-export type DateRangeRelativeEnum =
-  | "RELATIVE_DATE_RANGE_UNSPECIFIED"
-  | "TODAY"
-  | "YESTERDAY"
-  | "THIS_WEEK_TO_DATE"
-  | "THIS_WEEK_TO_YESTERDAY"
-  | "THIS_MONTH_TO_DATE"
-  | "THIS_MONTH_TO_YESTERDAY"
-  | "THIS_QUARTER_TO_DATE"
-  | "THIS_QUARTER_TO_YESTERDAY"
-  | "THIS_YEAR_TO_DATE"
-  | "THIS_YEAR_TO_YESTERDAY"
-  | "LAST_WEEK"
-  | "LAST_WEEK_STARTING_SUNDAY"
-  | "LAST_MONTH"
-  | "LAST_QUARTER"
-  | "LAST_YEAR"
-  | "LAST_7_DAYS"
-  | "LAST_30_DAYS"
-  | "LAST_60_DAYS"
-  | "LAST_90_DAYS"
-  | "LAST_93_DAYS"
-  | "LAST_180_DAYS"
-  | "LAST_360_DAYS"
-  | "LAST_365_DAYS"
-  | "LAST_3_MONTHS"
-  | "LAST_6_MONTHS"
-  | "LAST_12_MONTHS"
-  | "ALL_AVAILABLE";
-export const DateRangeRelativeEnum = S.String;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Agenciesandbrands_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-}
-export const Agenciesandbrands_Date = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    month: S.optional(S.Number),
-    year: S.optional(S.Number),
-    day: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Agenciesandbrands_Date" }) as any as S.Schema<Agenciesandbrands_Date>;
-
-/** A date range between two fixed dates (inclusive of end date). */
-export interface FixedDateRange {
-  /** Required. The start date of this date range. */
-  startDate?: Agenciesandbrands_Date;
-  /** Required. The end date (inclusive) of this date range. */
-  endDate?: Agenciesandbrands_Date;
-}
-export const FixedDateRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startDate: S.optional(Agenciesandbrands_Date),
-    endDate: S.optional(Agenciesandbrands_Date),
-  }),
-).annotate({ identifier: "FixedDateRange" }) as any as S.Schema<FixedDateRange>;
-
-/** A date range for a report. */
-export interface DateRange {
-  /** A relative date range. */
-  relative?: DateRangeRelativeEnum | (string & {});
-  /** A fixed date range. */
-  fixed?: FixedDateRange;
-}
-export const DateRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relative: S.optional(DateRangeRelativeEnum),
-    fixed: S.optional(FixedDateRange),
-  }),
-).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
-
-export type ReportDefinitionMetricsItemEnum =
-  | "METRIC_UNSPECIFIED"
-  | "ACTIVE_VIEW_MEASURABILITY_RATE"
-  | "ACTIVE_VIEW_MEASURABLE"
-  | "ACTIVE_VIEW_VIEWABILITY_RATE"
-  | "ACTIVE_VIEW_VIEWABLE"
-  | "AUCTIONS_WON"
-  | "BIDS"
-  | "BIDS_IN_AUCTION"
-  | "CLICKS"
-  | "CPC"
-  | "CPM"
-  | "CURATION_PARTNER_FEE"
-  | "DISCOUNT_AMOUNT"
-  | "EFFECTIVE_DISCOUNT_RATE"
-  | "ENGAGED_VIEWS"
-  | "IMPRESSIONS"
-  | "PRE_DISCOUNT_SPEND"
-  | "PRE_DISCOUNT_SPEND_WITHOUT_CURATION_PARTNER_FEE"
-  | "REACHED_QUERIES"
-  | "SPEND"
-  | "SPEND_WITHOUT_CURATION_PARTNER_FEE"
-  | "VAST_ERROR_COUNT"
-  | "VIDEO_COMPLETE"
-  | "VIDEO_FIRST_QUARTILE"
-  | "VIDEO_MIDPOINT"
-  | "VIDEO_START"
-  | "VIDEO_THIRD_QUARTILE"
-  | "VIDEO_VTR";
-export const ReportDefinitionMetricsItemEnum = S.String;
-
-export type ReportDefinitionMetricsItemEnumList = Array<
-  ReportDefinitionMetricsItemEnum | (string & {})
->;
-export const ReportDefinitionMetricsItemEnumList = /*@__PURE__*/ S.Array(
-  ReportDefinitionMetricsItemEnum,
-) as any as S.Schema<ReportDefinitionMetricsItemEnumList>;
-
 /** The definition of how a report should be run. */
 export interface ReportDefinition {
-  /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
-  dimensions?: ReportDefinitionDimensionsItemEnumList;
-  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
-  timeZone?: string;
-  /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
-  currencyCode?: string;
-  /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
-  timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {});
-  /** Optional. The filters for this report. */
-  filters?: FilterList_;
-  /** Optional. Default sorts to apply to this report. */
-  sorts?: SortList;
-  /** Required. The primary date range of this report. */
-  dateRange?: DateRange;
   /** Required. The list of metrics to report on. If empty, the report will have no metrics. */
   metrics?: ReportDefinitionMetricsItemEnumList;
+  /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
+  currencyCode?: string;
+  /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
+  dimensions?: ReportDefinitionDimensionsItemEnumList;
+  /** Required. The primary date range of this report. */
+  dateRange?: DateRange;
+  /** Optional. The filters for this report. */
+  filters?: FilterList_;
+  /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
+  timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {});
+  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
+  timeZone?: string;
+  /** Optional. Default sorts to apply to this report. */
+  sorts?: SortList;
 }
 export const ReportDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dimensions: S.optional(ReportDefinitionDimensionsItemEnumList),
-    timeZone: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    timeZoneSource: S.optional(ReportDefinitionTimeZoneSourceEnum),
-    filters: S.optional(FilterList_),
-    sorts: S.optional(SortList),
-    dateRange: S.optional(DateRange),
     metrics: S.optional(ReportDefinitionMetricsItemEnumList),
+    currencyCode: S.optional(S.String),
+    dimensions: S.optional(ReportDefinitionDimensionsItemEnumList),
+    dateRange: S.optional(DateRange),
+    filters: S.optional(FilterList_),
+    timeZoneSource: S.optional(ReportDefinitionTimeZoneSourceEnum),
+    timeZone: S.optional(S.String),
+    sorts: S.optional(SortList),
   }),
 ).annotate({ identifier: "ReportDefinition" }) as any as S.Schema<ReportDefinition>;
 
 /** The `Report` resource. */
 export interface Report {
+  /** Optional. Display name for the report. */
+  displayName?: string;
+  /** Required. The report definition of the report. */
+  reportDefinition?: ReportDefinition;
+  /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
+  name?: string;
+  /** Output only. The instant this report was last modified. */
+  updateTime?: string;
+  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
+  locale?: string;
   /** Output only. The instant this report was created. */
   createTime?: string;
   /** Output only. Report ID. */
   reportId?: string;
-  /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
-  name?: string;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string;
-  /** Output only. The instant this report was last modified. */
-  updateTime?: string;
-  /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition;
-  /** Optional. Display name for the report. */
-  displayName?: string;
 }
 export const Report = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    displayName: S.optional(S.String),
+    reportDefinition: S.optional(ReportDefinition),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    locale: S.optional(S.String),
     createTime: S.optional(S.String),
     reportId: S.optional(S.String),
-    name: S.optional(S.String),
-    locale: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    reportDefinition: S.optional(ReportDefinition),
-    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
@@ -595,16 +595,16 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 export interface FetchRowsAgenciesReportsResultsRequest {
   /** Optional. A page token, received from a previous `FetchReportResultRows` call. Provide this to retrieve the second and subsequent batches of rows. */
   pageToken?: string;
-  /** Optional. The maximum number of rows to return. The service may return fewer than this value. If unspecified, at most 1,000 rows will be returned. The maximum value is 10,000; values greater than 10,000 will be reduced to 10,000. */
-  pageSize?: number;
   /** The report result being fetched. Format: `agencies/{account_id}/reports/{report_id}/results/{report_result_id}` */
   name: string;
+  /** Optional. The maximum number of rows to return. The service may return fewer than this value. If unspecified, at most 1,000 rows will be returned. The maximum value is 10,000; values greater than 10,000 will be reduced to 10,000. */
+  pageSize?: number;
 }
 export const FetchRowsAgenciesReportsResultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -656,12 +656,12 @@ export const FixedDateRangeList = /*@__PURE__*/ S.Array(
 
 /** The response message for the fetch report result rows endpoint. */
 export interface FetchReportResultRowsResponse {
+  /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
+  runTime?: string;
   /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
   totalRowCount?: number;
   /** Up to `page_size` rows of report data. */
   rows?: RowList;
-  /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
-  runTime?: string;
   /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
   dateRanges?: FixedDateRangeList;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -669,9 +669,9 @@ export interface FetchReportResultRowsResponse {
 }
 export const FetchReportResultRowsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    runTime: S.optional(S.String),
     totalRowCount: S.optional(S.Number),
     rows: S.optional(RowList),
-    runTime: S.optional(S.String),
     dateRanges: S.optional(FixedDateRangeList),
     nextPageToken: S.optional(S.String),
   }),
@@ -747,47 +747,47 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
-    name: S.optional(S.String),
-    done: S.optional(S.Boolean),
     error: S.optional(Status),
+    name: S.optional(S.String),
+    response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 export interface ListAgenciesReportsRequest {
-  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Number of individual resources to skip while paginating. */
-  skip?: number;
   /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
   filter?: string;
+  /** Required. The parent, which owns this collection of reports. Format: `agencies/{account_id}` */
+  parent: string;
+  /** Optional. Number of individual resources to skip while paginating. */
+  skip?: number;
+  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
   orderBy?: string;
   /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
   pageToken?: string;
-  /** Required. The parent, which owns this collection of reports. Format: `agencies/{account_id}` */
-  parent: string;
 }
 export const ListAgenciesReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    skip: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    skip: S.optional(S.Number.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -804,33 +804,33 @@ export const ReportList = /*@__PURE__*/ S.Array(Report) as any as S.Schema<Repor
 
 /** Response object for `ListReportsResponse` containing matching `Report` objects. */
 export interface ListReportsResponse {
-  /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
-  totalSize?: number;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** The `Report` objects from the specified network. */
   reports?: ReportList;
+  /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
+  totalSize?: number;
 }
 export const ListReportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    totalSize: S.optional(S.Number),
     nextPageToken: S.optional(S.String),
     reports: S.optional(ReportList),
+    totalSize: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ListReportsResponse" }) as any as S.Schema<ListReportsResponse>;
 
 export interface PatchAgenciesReportsRequest {
-  /** Optional. The list of fields to update. */
-  updateMask?: string;
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string;
   /** Request body */
   body?: Report;
 }
 export const PatchAgenciesReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Report.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

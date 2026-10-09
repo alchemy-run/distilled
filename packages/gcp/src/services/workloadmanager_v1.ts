@@ -108,6 +108,395 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
+/** In order to align with the Infra Manager dependency, we create the same TerraformVariable message to represent a Terraform input variable, by following Infra Manager's API documentation: https://cloud.google.com/infrastructure-manager/docs/reference/rest. A Terraform input variable. */
+export interface TerraformVariable {
+  /** Optional. Input variable value. */
+  inputValue?: unknown;
+}
+export const TerraformVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inputValue: S.optional(S.Unknown),
+  }),
+).annotate({ identifier: "TerraformVariable" }) as any as S.Schema<TerraformVariable>;
+
+export type TerraformVariableMap = { [key: string]: TerraformVariable | undefined };
+export const TerraformVariableMap = /*@__PURE__*/ S.Record(
+  S.String,
+  TerraformVariable,
+) as any as S.Schema<TerraformVariableMap>;
+
+export type SapSystemS4ConfigScalingMethodEnum =
+  | "SCALE_METHOD_UNSPECIFIED"
+  | "SCALE_UP"
+  | "SCALE_OUT";
+export const SapSystemS4ConfigScalingMethodEnum = S.String;
+
+export type SapSystemS4ConfigDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "DISTRIBUTED"
+  | "DISTRIBUTED_HA";
+export const SapSystemS4ConfigDeploymentModelEnum = S.String;
+
+export type SapSystemS4ConfigEnvironmentTypeEnum =
+  | "ENVIRONMENT_TYPE_UNSPECIFIED"
+  | "NON_PRODUCTION"
+  | "PRODUCTION";
+export const SapSystemS4ConfigEnvironmentTypeEnum = S.String;
+
+export type SapSystemS4ConfigVersionEnum =
+  | "VERSION_UNSPECIFIED"
+  | "S4_HANA_2021"
+  | "S4_HANA_2022"
+  | "S4_HANA_2023";
+export const SapSystemS4ConfigVersionEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+export type LocationDetailsInternetAccessEnum =
+  | "INTERNETACCESS_UNSPECIFIED"
+  | "ALLOW_EXTERNAL_IP"
+  | "CONFIGURE_NAT";
+export const LocationDetailsInternetAccessEnum = S.String;
+
+/** Message for SAP instance details. */
+export interface LocationDetails {
+  /** Optional. Network project. */
+  networkProject?: string;
+  /** Required. VPC name. */
+  vpcName?: string;
+  /** Required. Region name. */
+  regionName?: string;
+  /** Optional. Network tags. */
+  customTags?: StringList;
+  /** Optional. When the user skips DNS configuration in the UI, `deployment_dns_enabled` is false; otherwise `deployment_dns_enabled` is true. */
+  deploymentDnsEnabled?: boolean;
+  /** Optional. DNS zone name. */
+  dnsZone?: string;
+  /** Optional. DNS zone name suffix. */
+  dnsZoneNameSuffix?: string;
+  /** Required. Subnet name. */
+  subnetName?: string;
+  /** Optional. Zone 2 name. */
+  zone2Name?: string;
+  /** Required. Zone 1 name. */
+  zone1Name?: string;
+  /** Optional. Create firewall. If true, creates a firewall for the deployment. This field provides an option to not always create a firewall for the deployment. */
+  createCommsFirewall?: boolean;
+  internetAccess?: LocationDetailsInternetAccessEnum | (string & {});
+}
+export const LocationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    networkProject: S.optional(S.String),
+    vpcName: S.optional(S.String),
+    regionName: S.optional(S.String),
+    customTags: S.optional(StringList),
+    deploymentDnsEnabled: S.optional(S.Boolean),
+    dnsZone: S.optional(S.String),
+    dnsZoneNameSuffix: S.optional(S.String),
+    subnetName: S.optional(S.String),
+    zone2Name: S.optional(S.String),
+    zone1Name: S.optional(S.String),
+    createCommsFirewall: S.optional(S.Boolean),
+    internetAccess: S.optional(LocationDetailsInternetAccessEnum),
+  }),
+).annotate({ identifier: "LocationDetails" }) as any as S.Schema<LocationDetails>;
+
+/** Message for SAP instance details. */
+export interface DatabaseDetails {
+  /** Optional. Primary DB VM name. */
+  primaryDbVm?: string;
+  /** Database service account. Let customers bring their own SA for the database. */
+  databaseServiceAccount?: string;
+  /** Required. The SID is a three-digit server-specific unique identification code. */
+  sid?: string;
+  /** Required. Image for the database server. */
+  image?: string;
+  /** Optional. Instance ID. */
+  instanceId?: string;
+  /** Required. Disk type. */
+  diskType?: string;
+  /** Required. Machine type. */
+  machineType?: string;
+  /** Optional. Secondary DB VM name. */
+  secondaryDbVm?: string;
+  /** Required. Secret Manager secret. */
+  secretManagerSecret?: string;
+}
+export const DatabaseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryDbVm: S.optional(S.String),
+    databaseServiceAccount: S.optional(S.String),
+    sid: S.optional(S.String),
+    image: S.optional(S.String),
+    instanceId: S.optional(S.String),
+    diskType: S.optional(S.String),
+    machineType: S.optional(S.String),
+    secondaryDbVm: S.optional(S.String),
+    secretManagerSecret: S.optional(S.String),
+  }),
+).annotate({ identifier: "DatabaseDetails" }) as any as S.Schema<DatabaseDetails>;
+
+/** Message for SAP instance details. */
+export interface AppDetails {
+  /** Required. Image for the app server and ASCS server. */
+  image?: string;
+  /** Required. Secret Manager secret. */
+  secretManagerSecret?: string;
+  /** Required. The SAP SID is a three-digit server-specific unique identification code. */
+  sid?: string;
+  /** Optional. Instance ID for app. */
+  appInstanceId?: string;
+  /** Application service account. Let customers bring their own service account for the application. */
+  appServiceAccount?: string;
+  /** Optional. ERS VM name. */
+  ersVm?: string;
+  /** ASCS service account. Let customers bring their own service account for ASCS. */
+  ascsServiceAccount?: string;
+  /** Optional. Storage location. */
+  sharedStorage?: string;
+  /** Optional. Customized VM names. */
+  appVmNames?: StringList;
+  /** Required. Image for the ASCS server. */
+  ascsImage?: string;
+  /** Required. VMs multiplier. */
+  vmsMultiplier?: number;
+  /** Required. ASCS machine type. */
+  ascsMachineType?: string;
+  /** Optional. Instance ID for ERS. */
+  ersInstanceId?: string;
+  /** Optional. ASCS VM name. */
+  ascsVm?: string;
+  /** Optional. Instance ID for ASCS. */
+  ascsInstanceId?: string;
+  /** Required. Machine type. */
+  machineType?: string;
+}
+export const AppDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    image: S.optional(S.String),
+    secretManagerSecret: S.optional(S.String),
+    sid: S.optional(S.String),
+    appInstanceId: S.optional(S.String),
+    appServiceAccount: S.optional(S.String),
+    ersVm: S.optional(S.String),
+    ascsServiceAccount: S.optional(S.String),
+    sharedStorage: S.optional(S.String),
+    appVmNames: S.optional(StringList),
+    ascsImage: S.optional(S.String),
+    vmsMultiplier: S.optional(S.Number),
+    ascsMachineType: S.optional(S.String),
+    ersInstanceId: S.optional(S.String),
+    ascsVm: S.optional(S.String),
+    ascsInstanceId: S.optional(S.String),
+    machineType: S.optional(S.String),
+  }),
+).annotate({ identifier: "AppDetails" }) as any as S.Schema<AppDetails>;
+
+/** Message for SAP system workload. */
+export interface SapSystemS4Config {
+  /** VM prefix. */
+  vmPrefix?: string;
+  /** Required. Supports scale up and scale out. */
+  scalingMethod?: SapSystemS4ConfigScalingMethodEnum | (string & {});
+  /** Required. Supports non-HA and HA models. */
+  deploymentModel?: SapSystemS4ConfigDeploymentModelEnum | (string & {});
+  /** The project that infrastructure is deployed in. Currently only supports the same project where the deployment resource exists. */
+  gcpProjectId?: string;
+  /** Ansible runner service account. Let customers bring their own service account for the Ansible runner. */
+  ansibleRunnerServiceAccount?: string;
+  allowStoppingForUpdate?: boolean;
+  /** Required. Deployment environment. */
+  environmentType?: SapSystemS4ConfigEnvironmentTypeEnum | (string & {});
+  /** Optional. SAP boot disk image. */
+  sapBootDiskImage?: string;
+  /** Required. Media bucket name. */
+  mediaBucketName?: string;
+  /** Required. SAP HANA version. */
+  version?: SapSystemS4ConfigVersionEnum | (string & {});
+  /** Database details. */
+  location?: LocationDetails;
+  /** Database details. */
+  database?: DatabaseDetails;
+  /** Instance details. */
+  app?: AppDetails;
+}
+export const SapSystemS4Config = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmPrefix: S.optional(S.String),
+    scalingMethod: S.optional(SapSystemS4ConfigScalingMethodEnum),
+    deploymentModel: S.optional(SapSystemS4ConfigDeploymentModelEnum),
+    gcpProjectId: S.optional(S.String),
+    ansibleRunnerServiceAccount: S.optional(S.String),
+    allowStoppingForUpdate: S.optional(S.Boolean),
+    environmentType: S.optional(SapSystemS4ConfigEnvironmentTypeEnum),
+    sapBootDiskImage: S.optional(S.String),
+    mediaBucketName: S.optional(S.String),
+    version: S.optional(SapSystemS4ConfigVersionEnum),
+    location: S.optional(LocationDetails),
+    database: S.optional(DatabaseDetails),
+    app: S.optional(AppDetails),
+  }),
+).annotate({ identifier: "SapSystemS4Config" }) as any as S.Schema<SapSystemS4Config>;
+
+export type DeploymentStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED";
+export const DeploymentStateEnum = S.String;
+
+export type DeploymentWorkloadTypeEnum =
+  | "WORKLOAD_TYPE_UNSPECIFIED"
+  | "SAP_S4"
+  | "SQL_SERVER"
+  | "ORACLE";
+export const DeploymentWorkloadTypeEnum = S.String;
+
+export type SqlServerWorkloadOsImageTypeEnum =
+  | "OS_IMAGE_TYPE_UNSPECIFIED"
+  | "PUBLIC_IMAGE"
+  | "CUSTOM_IMAGE";
+export const SqlServerWorkloadOsImageTypeEnum = S.String;
+
+export type SqlServerWorkloadSqlServerEditionEnum =
+  | "SQL_SERVER_EDITION_TYPE_UNSPECIFIED"
+  | "SQL_SERVER_EDITION_TYPE_DEVELOPER"
+  | "SQL_SERVER_EDITION_TYPE_ENTERPRISE"
+  | "SQL_SERVER_EDITION_TYPE_STANDARD"
+  | "SQL_SERVER_EDITION_TYPE_WEB";
+export const SqlServerWorkloadSqlServerEditionEnum = S.String;
+
+/** Pacemaker configuration. */
+export interface Pacemaker {
+  /** Required. Pacemaker cluster username. */
+  pacemakerClusterUsername?: string;
+  /** Required. Pacemaker cluster name. */
+  pacemakerCluster?: string;
+  /** Required. Pacemaker cluster secret name. */
+  pacemakerClusterSecret?: string;
+  /** Required. Bucket location for node certificates. */
+  bucketNameNodeCertificates?: string;
+  /** Required. SQL Pacemaker username. */
+  sqlPacemakerUsername?: string;
+  /** Required. SQL Pacemaker secret name. */
+  sqlPacemakerSecret?: string;
+}
+export const Pacemaker = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pacemakerClusterUsername: S.optional(S.String),
+    pacemakerCluster: S.optional(S.String),
+    pacemakerClusterSecret: S.optional(S.String),
+    bucketNameNodeCertificates: S.optional(S.String),
+    sqlPacemakerUsername: S.optional(S.String),
+    sqlPacemakerSecret: S.optional(S.String),
+  }),
+).annotate({ identifier: "Pacemaker" }) as any as S.Schema<Pacemaker>;
+
+export type SqlLocationDetailsInternetAccessEnum =
+  | "INTERNET_ACCESS_UNSPECIFIED"
+  | "ALLOW_EXTERNAL_IP"
+  | "CONFIGURE_NAT";
+export const SqlLocationDetailsInternetAccessEnum = S.String;
+
+/** Location and networking details for configuring SQL server workload. */
+export interface SqlLocationDetails {
+  /** Optional. Create a new DNS zone when the field is empty. Only shown for `Using an existing DNS`. List of existing DNS zones. Terraform variable name: existing_dns_zone_name. */
+  dnsZone?: string;
+  /** Required. The project that infrastructure is deployed in. Currently only supports the same project where the deployment resource exists. */
+  gcpProjectId?: string;
+  /** Required. Region name. */
+  region?: string;
+  /** Optional. Secondary zone cannot be the same as primary_zone and is only for High Availability deployment mode. */
+  secondaryZone?: string;
+  /** Required. Subnetwork name. */
+  subnetwork?: string;
+  /** Required. Internet Access. */
+  internetAccess?: SqlLocationDetailsInternetAccessEnum | (string & {});
+  /** Required. Primary zone. */
+  primaryZone?: string;
+  /** Optional. Tertiary zone cannot be the same as primary_zone and secondary_zone, and it is only for High Availability deployment mode. */
+  tertiaryZone?: string;
+  /** Required. Network name. */
+  network?: string;
+}
+export const SqlLocationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dnsZone: S.optional(S.String),
+    gcpProjectId: S.optional(S.String),
+    region: S.optional(S.String),
+    secondaryZone: S.optional(S.String),
+    subnetwork: S.optional(S.String),
+    internetAccess: S.optional(SqlLocationDetailsInternetAccessEnum),
+    primaryZone: S.optional(S.String),
+    tertiaryZone: S.optional(S.String),
+    network: S.optional(S.String),
+  }),
+).annotate({ identifier: "SqlLocationDetails" }) as any as S.Schema<SqlLocationDetails>;
+
+export type DatabaseTenancyModelEnum = "TENANCY_MODEL_UNSPECIFIED" | "SHARED" | "SOLE_TENANT";
+export const DatabaseTenancyModelEnum = S.String;
+
+/** Database details. */
+export interface Database {
+  /** Required. Secret Manager secret. */
+  secretManagerSecret?: string;
+  /** Optional. The type of a secondary-sole-tenant node/node group. E.g., compute.googleapis.com/node-name. */
+  secondarySoleTenantNodeType?: string;
+  /** Required. Machine type. */
+  machineType?: string;
+  /** Optional. The name of a secondary-sole-tenant node/node group. */
+  secondarySoleTenantNode?: string;
+  /** Required. Whether to have TempDB on local SSD. */
+  tempdbOnSsd?: boolean;
+  /** Optional. The type of a primary sole-tenant node/node group. E.g., compute.googleapis.com/node-name. */
+  soleTenantNodeType?: string;
+  /** Required. Whether simultaneous multithreading is enabled or not. */
+  smt?: boolean;
+  /** Required. Disk type. */
+  diskType?: string;
+  /** Optional. The name of a primary sole-tenant node/node group. */
+  soleTenantNode?: string;
+  /** Optional. Only useful for Linux High Availability setup. */
+  floatingIpAddress?: string;
+  /** Required. SHARED or SOLE_TENANT. */
+  tenancyModel?: DatabaseTenancyModelEnum | (string & {});
+}
+export const Database = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretManagerSecret: S.optional(S.String),
+    secondarySoleTenantNodeType: S.optional(S.String),
+    machineType: S.optional(S.String),
+    secondarySoleTenantNode: S.optional(S.String),
+    tempdbOnSsd: S.optional(S.Boolean),
+    soleTenantNodeType: S.optional(S.String),
+    smt: S.optional(S.Boolean),
+    diskType: S.optional(S.String),
+    soleTenantNode: S.optional(S.String),
+    floatingIpAddress: S.optional(S.String),
+    tenancyModel: S.optional(DatabaseTenancyModelEnum),
+  }),
+).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
+
+export type SqlServerWorkloadHaTypeEnum = "HA_TYPE_UNSPECIFIED" | "AOAG" | "FCI";
+export const SqlServerWorkloadHaTypeEnum = S.String;
+
+export type SqlServerWorkloadOperatingSystemTypeEnum =
+  | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
+  | "WINDOWS"
+  | "UBUNTU"
+  | "RED_HAT_ENTERPRISE_LINUX"
+  | "SUSE";
+export const SqlServerWorkloadOperatingSystemTypeEnum = S.String;
+
+export type SqlServerWorkloadEnvironmentTypeEnum =
+  | "ENVIRONMENT_TYPE_UNSPECIFIED"
+  | "NON_PRODUCTION"
+  | "PRODUCTION";
+export const SqlServerWorkloadEnvironmentTypeEnum = S.String;
+
 export type SqlServerWorkloadFciTypeEnum = "FCI_TYPE_UNSPECIFIED" | "SHARED_DISK" | "S2D";
 export const SqlServerWorkloadFciTypeEnum = S.String;
 
@@ -126,168 +515,26 @@ export const ActiveDirectoryTypeEnum = S.String;
 
 /** Active Directory details. */
 export interface ActiveDirectory {
-  /** Optional. DNS IP address. */
-  dnsAddress?: string;
-  /** Optional. Human readable form of a domain such as `example.com`. */
-  domain?: string;
-  /** Required. Active Directory type. */
-  type?: ActiveDirectoryTypeEnum | (string & {});
   /** Optional. Domain username. */
   domainUsername?: string;
+  /** Required. Active Directory type. */
+  type?: ActiveDirectoryTypeEnum | (string & {});
+  /** Optional. Human readable form of a domain such as `example.com`. */
+  domain?: string;
   /** Required. Secret Manager secret. */
   secretManagerSecret?: string;
+  /** Optional. DNS IP address. */
+  dnsAddress?: string;
 }
 export const ActiveDirectory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dnsAddress: S.optional(S.String),
-    domain: S.optional(S.String),
-    type: S.optional(ActiveDirectoryTypeEnum),
     domainUsername: S.optional(S.String),
+    type: S.optional(ActiveDirectoryTypeEnum),
+    domain: S.optional(S.String),
     secretManagerSecret: S.optional(S.String),
+    dnsAddress: S.optional(S.String),
   }),
 ).annotate({ identifier: "ActiveDirectory" }) as any as S.Schema<ActiveDirectory>;
-
-export type DatabaseTenancyModelEnum = "TENANCY_MODEL_UNSPECIFIED" | "SHARED" | "SOLE_TENANT";
-export const DatabaseTenancyModelEnum = S.String;
-
-/** Database details. */
-export interface Database {
-  /** Required. Machine type. */
-  machineType?: string;
-  /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
-  /** Optional. The name of a secondary-sole-tenant node/node group. */
-  secondarySoleTenantNode?: string;
-  /** Optional. The type of a primary sole-tenant node/node group. E.g., compute.googleapis.com/node-name. */
-  soleTenantNodeType?: string;
-  /** Required. Disk type. */
-  diskType?: string;
-  /** Optional. Only useful for Linux High Availability setup. */
-  floatingIpAddress?: string;
-  /** Required. SHARED or SOLE_TENANT. */
-  tenancyModel?: DatabaseTenancyModelEnum | (string & {});
-  /** Required. Whether simultaneous multithreading is enabled or not. */
-  smt?: boolean;
-  /** Required. Whether to have TempDB on local SSD. */
-  tempdbOnSsd?: boolean;
-  /** Optional. The name of a primary sole-tenant node/node group. */
-  soleTenantNode?: string;
-  /** Optional. The type of a secondary-sole-tenant node/node group. E.g., compute.googleapis.com/node-name. */
-  secondarySoleTenantNodeType?: string;
-}
-export const Database = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    machineType: S.optional(S.String),
-    secretManagerSecret: S.optional(S.String),
-    secondarySoleTenantNode: S.optional(S.String),
-    soleTenantNodeType: S.optional(S.String),
-    diskType: S.optional(S.String),
-    floatingIpAddress: S.optional(S.String),
-    tenancyModel: S.optional(DatabaseTenancyModelEnum),
-    smt: S.optional(S.Boolean),
-    tempdbOnSsd: S.optional(S.Boolean),
-    soleTenantNode: S.optional(S.String),
-    secondarySoleTenantNodeType: S.optional(S.String),
-  }),
-).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
-
-export type SqlLocationDetailsInternetAccessEnum =
-  | "INTERNET_ACCESS_UNSPECIFIED"
-  | "ALLOW_EXTERNAL_IP"
-  | "CONFIGURE_NAT";
-export const SqlLocationDetailsInternetAccessEnum = S.String;
-
-/** Location and networking details for configuring SQL server workload. */
-export interface SqlLocationDetails {
-  /** Optional. Tertiary zone cannot be the same as primary_zone and secondary_zone, and it is only for High Availability deployment mode. */
-  tertiaryZone?: string;
-  /** Required. Primary zone. */
-  primaryZone?: string;
-  /** Required. Subnetwork name. */
-  subnetwork?: string;
-  /** Required. Internet Access. */
-  internetAccess?: SqlLocationDetailsInternetAccessEnum | (string & {});
-  /** Required. Network name. */
-  network?: string;
-  /** Optional. Secondary zone cannot be the same as primary_zone and is only for High Availability deployment mode. */
-  secondaryZone?: string;
-  /** Required. The project that infrastructure is deployed in. Currently only supports the same project where the deployment resource exists. */
-  gcpProjectId?: string;
-  /** Optional. Create a new DNS zone when the field is empty. Only shown for `Using an existing DNS`. List of existing DNS zones. Terraform variable name: existing_dns_zone_name. */
-  dnsZone?: string;
-  /** Required. Region name. */
-  region?: string;
-}
-export const SqlLocationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tertiaryZone: S.optional(S.String),
-    primaryZone: S.optional(S.String),
-    subnetwork: S.optional(S.String),
-    internetAccess: S.optional(SqlLocationDetailsInternetAccessEnum),
-    network: S.optional(S.String),
-    secondaryZone: S.optional(S.String),
-    gcpProjectId: S.optional(S.String),
-    dnsZone: S.optional(S.String),
-    region: S.optional(S.String),
-  }),
-).annotate({ identifier: "SqlLocationDetails" }) as any as S.Schema<SqlLocationDetails>;
-
-/** Pacemaker configuration. */
-export interface Pacemaker {
-  /** Required. Bucket location for node certificates. */
-  bucketNameNodeCertificates?: string;
-  /** Required. Pacemaker cluster secret name. */
-  pacemakerClusterSecret?: string;
-  /** Required. Pacemaker cluster username. */
-  pacemakerClusterUsername?: string;
-  /** Required. Pacemaker cluster name. */
-  pacemakerCluster?: string;
-  /** Required. SQL Pacemaker username. */
-  sqlPacemakerUsername?: string;
-  /** Required. SQL Pacemaker secret name. */
-  sqlPacemakerSecret?: string;
-}
-export const Pacemaker = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucketNameNodeCertificates: S.optional(S.String),
-    pacemakerClusterSecret: S.optional(S.String),
-    pacemakerClusterUsername: S.optional(S.String),
-    pacemakerCluster: S.optional(S.String),
-    sqlPacemakerUsername: S.optional(S.String),
-    sqlPacemakerSecret: S.optional(S.String),
-  }),
-).annotate({ identifier: "Pacemaker" }) as any as S.Schema<Pacemaker>;
-
-export type SqlServerWorkloadEnvironmentTypeEnum =
-  | "ENVIRONMENT_TYPE_UNSPECIFIED"
-  | "NON_PRODUCTION"
-  | "PRODUCTION";
-export const SqlServerWorkloadEnvironmentTypeEnum = S.String;
-
-export type SqlServerWorkloadOperatingSystemTypeEnum =
-  | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
-  | "WINDOWS"
-  | "UBUNTU"
-  | "RED_HAT_ENTERPRISE_LINUX"
-  | "SUSE";
-export const SqlServerWorkloadOperatingSystemTypeEnum = S.String;
-
-export type SqlServerWorkloadSqlServerEditionEnum =
-  | "SQL_SERVER_EDITION_TYPE_UNSPECIFIED"
-  | "SQL_SERVER_EDITION_TYPE_DEVELOPER"
-  | "SQL_SERVER_EDITION_TYPE_ENTERPRISE"
-  | "SQL_SERVER_EDITION_TYPE_STANDARD"
-  | "SQL_SERVER_EDITION_TYPE_WEB";
-export const SqlServerWorkloadSqlServerEditionEnum = S.String;
-
-export type SqlServerWorkloadOsImageTypeEnum =
-  | "OS_IMAGE_TYPE_UNSPECIFIED"
-  | "PUBLIC_IMAGE"
-  | "CUSTOM_IMAGE";
-export const SqlServerWorkloadOsImageTypeEnum = S.String;
-
-export type SqlServerWorkloadHaTypeEnum = "HA_TYPE_UNSPECIFIED" | "AOAG" | "FCI";
-export const SqlServerWorkloadHaTypeEnum = S.String;
 
 export type SqlServerWorkloadDeploymentModelEnum =
   | "DEPLOYMENT_MODEL_UNSPECIFIED"
@@ -297,366 +544,119 @@ export const SqlServerWorkloadDeploymentModelEnum = S.String;
 
 /** Message for MS SQL workload. */
 export interface SqlServerWorkload {
-  /** Optional. SHARED_DISK or S2D. */
-  fciType?: SqlServerWorkloadFciTypeEnum | (string & {});
-  /** Optional. 2017, 2019, or 2022. */
-  sqlServerVersion?: SqlServerWorkloadSqlServerVersionEnum | (string & {});
-  /** Required. Active Directory details. */
-  activeDirectory?: ActiveDirectory;
-  /** Compute Engine service account. Let customers bring their own service account for Compute Engine. */
-  computeEngineServiceAccount?: string;
-  /** Required. Database details. */
-  database?: Database;
-  /** Required. Location details. */
-  location?: SqlLocationDetails;
-  /** Optional. Pacemaker configuration, only applicable for Linux HA deployments. */
-  pacemaker?: Pacemaker;
-  /** Required. SQL licensing type. */
-  isSqlPayg?: boolean;
-  /** Required. Deployment environment. */
-  environmentType?: SqlServerWorkloadEnvironmentTypeEnum | (string & {});
-  /** Required. Should be unique in the project. */
-  vmPrefix?: string;
-  /** Required. The type of the operating system the SQL server is going to run on top of. */
-  operatingSystemType?: SqlServerWorkloadOperatingSystemTypeEnum | (string & {});
+  /** Optional. OS image type. It's used to create boot disks for VM instances. When either Windows licensing type or SQL licensing type is BYOL, this option is disabled and defaults to a custom image. */
+  osImageType?: SqlServerWorkloadOsImageTypeEnum | (string & {});
   /** Optional. SQL Server Edition type, only applicable when the operating system is Linux. */
   sqlServerEdition?: SqlServerWorkloadSqlServerEditionEnum | (string & {});
   /** Required. Name of the media storing SQL server installation files. */
   mediaBucket?: string;
-  /** Optional. OS image type. It's used to create boot disks for VM instances. When either Windows licensing type or SQL licensing type is BYOL, this option is disabled and defaults to a custom image. */
-  osImageType?: SqlServerWorkloadOsImageTypeEnum | (string & {});
-  /** Required. The image of the operating system. */
-  osImage?: string;
+  /** Optional. Pacemaker configuration, only applicable for Linux HA deployments. */
+  pacemaker?: Pacemaker;
+  /** Required. Location details. */
+  location?: SqlLocationDetails;
+  /** Compute Engine service account. Let customers bring their own service account for Compute Engine. */
+  computeEngineServiceAccount?: string;
+  /** Required. Database details. */
+  database?: Database;
   /** Optional. AOAG or FCI. It is only needed for the High Availability deployment mode. */
   haType?: SqlServerWorkloadHaTypeEnum | (string & {});
+  /** Required. The type of the operating system the SQL server is going to run on top of. */
+  operatingSystemType?: SqlServerWorkloadOperatingSystemTypeEnum | (string & {});
+  /** Required. Deployment environment. */
+  environmentType?: SqlServerWorkloadEnvironmentTypeEnum | (string & {});
+  /** Optional. SHARED_DISK or S2D. */
+  fciType?: SqlServerWorkloadFciTypeEnum | (string & {});
+  /** Optional. 2017, 2019, or 2022. */
+  sqlServerVersion?: SqlServerWorkloadSqlServerVersionEnum | (string & {});
+  /** Required. Should be unique in the project. */
+  vmPrefix?: string;
+  /** Required. The image of the operating system. */
+  osImage?: string;
+  /** Required. Active Directory details. */
+  activeDirectory?: ActiveDirectory;
+  /** Required. SQL licensing type. */
+  isSqlPayg?: boolean;
   /** Required. HIGH_AVAILABILITY or SINGLE_INSTANCE. */
   deploymentModel?: SqlServerWorkloadDeploymentModelEnum | (string & {});
 }
 export const SqlServerWorkload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fciType: S.optional(SqlServerWorkloadFciTypeEnum),
-    sqlServerVersion: S.optional(SqlServerWorkloadSqlServerVersionEnum),
-    activeDirectory: S.optional(ActiveDirectory),
-    computeEngineServiceAccount: S.optional(S.String),
-    database: S.optional(Database),
-    location: S.optional(SqlLocationDetails),
-    pacemaker: S.optional(Pacemaker),
-    isSqlPayg: S.optional(S.Boolean),
-    environmentType: S.optional(SqlServerWorkloadEnvironmentTypeEnum),
-    vmPrefix: S.optional(S.String),
-    operatingSystemType: S.optional(SqlServerWorkloadOperatingSystemTypeEnum),
+    osImageType: S.optional(SqlServerWorkloadOsImageTypeEnum),
     sqlServerEdition: S.optional(SqlServerWorkloadSqlServerEditionEnum),
     mediaBucket: S.optional(S.String),
-    osImageType: S.optional(SqlServerWorkloadOsImageTypeEnum),
-    osImage: S.optional(S.String),
+    pacemaker: S.optional(Pacemaker),
+    location: S.optional(SqlLocationDetails),
+    computeEngineServiceAccount: S.optional(S.String),
+    database: S.optional(Database),
     haType: S.optional(SqlServerWorkloadHaTypeEnum),
+    operatingSystemType: S.optional(SqlServerWorkloadOperatingSystemTypeEnum),
+    environmentType: S.optional(SqlServerWorkloadEnvironmentTypeEnum),
+    fciType: S.optional(SqlServerWorkloadFciTypeEnum),
+    sqlServerVersion: S.optional(SqlServerWorkloadSqlServerVersionEnum),
+    vmPrefix: S.optional(S.String),
+    osImage: S.optional(S.String),
+    activeDirectory: S.optional(ActiveDirectory),
+    isSqlPayg: S.optional(S.Boolean),
     deploymentModel: S.optional(SqlServerWorkloadDeploymentModelEnum),
   }),
 ).annotate({ identifier: "SqlServerWorkload" }) as any as S.Schema<SqlServerWorkload>;
 
-export type DeploymentWorkloadTypeEnum =
-  | "WORKLOAD_TYPE_UNSPECIFIED"
-  | "SAP_S4"
-  | "SQL_SERVER"
-  | "ORACLE";
-export const DeploymentWorkloadTypeEnum = S.String;
-
-export type DeploymentStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "ACTIVE"
-  | "UPDATING"
-  | "DELETING"
-  | "FAILED";
-export const DeploymentStateEnum = S.String;
-
-/** In order to align with the Infra Manager dependency, we create the same TerraformVariable message to represent a Terraform input variable, by following Infra Manager's API documentation: https://cloud.google.com/infrastructure-manager/docs/reference/rest. A Terraform input variable. */
-export interface TerraformVariable {
-  /** Optional. Input variable value. */
-  inputValue?: unknown;
-}
-export const TerraformVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inputValue: S.optional(S.Unknown),
-  }),
-).annotate({ identifier: "TerraformVariable" }) as any as S.Schema<TerraformVariable>;
-
-export type TerraformVariableMap = { [key: string]: TerraformVariable | undefined };
-export const TerraformVariableMap = /*@__PURE__*/ S.Record(
-  S.String,
-  TerraformVariable,
-) as any as S.Schema<TerraformVariableMap>;
-
-export type SapSystemS4ConfigDeploymentModelEnum =
-  | "DEPLOYMENT_MODEL_UNSPECIFIED"
-  | "DISTRIBUTED"
-  | "DISTRIBUTED_HA";
-export const SapSystemS4ConfigDeploymentModelEnum = S.String;
-
-export type SapSystemS4ConfigScalingMethodEnum =
-  | "SCALE_METHOD_UNSPECIFIED"
-  | "SCALE_UP"
-  | "SCALE_OUT";
-export const SapSystemS4ConfigScalingMethodEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Message for SAP instance details. */
-export interface AppDetails {
-  /** Optional. Instance ID for ERS. */
-  ersInstanceId?: string;
-  /** Optional. Customized VM names. */
-  appVmNames?: StringList;
-  /** Required. Image for the ASCS server. */
-  ascsImage?: string;
-  /** Optional. Storage location. */
-  sharedStorage?: string;
-  /** Optional. ERS VM name. */
-  ersVm?: string;
-  /** Required. Machine type. */
-  machineType?: string;
-  /** Optional. ASCS VM name. */
-  ascsVm?: string;
-  /** ASCS service account. Let customers bring their own service account for ASCS. */
-  ascsServiceAccount?: string;
-  /** Required. Image for the app server and ASCS server. */
-  image?: string;
-  /** Required. ASCS machine type. */
-  ascsMachineType?: string;
-  /** Optional. Instance ID for ASCS. */
-  ascsInstanceId?: string;
-  /** Optional. Instance ID for app. */
-  appInstanceId?: string;
-  /** Required. The SAP SID is a three-digit server-specific unique identification code. */
-  sid?: string;
-  /** Application service account. Let customers bring their own service account for the application. */
-  appServiceAccount?: string;
-  /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
-  /** Required. VMs multiplier. */
-  vmsMultiplier?: number;
-}
-export const AppDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ersInstanceId: S.optional(S.String),
-    appVmNames: S.optional(StringList),
-    ascsImage: S.optional(S.String),
-    sharedStorage: S.optional(S.String),
-    ersVm: S.optional(S.String),
-    machineType: S.optional(S.String),
-    ascsVm: S.optional(S.String),
-    ascsServiceAccount: S.optional(S.String),
-    image: S.optional(S.String),
-    ascsMachineType: S.optional(S.String),
-    ascsInstanceId: S.optional(S.String),
-    appInstanceId: S.optional(S.String),
-    sid: S.optional(S.String),
-    appServiceAccount: S.optional(S.String),
-    secretManagerSecret: S.optional(S.String),
-    vmsMultiplier: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AppDetails" }) as any as S.Schema<AppDetails>;
-
-export type SapSystemS4ConfigEnvironmentTypeEnum =
-  | "ENVIRONMENT_TYPE_UNSPECIFIED"
-  | "NON_PRODUCTION"
-  | "PRODUCTION";
-export const SapSystemS4ConfigEnvironmentTypeEnum = S.String;
-
-export type LocationDetailsInternetAccessEnum =
-  | "INTERNETACCESS_UNSPECIFIED"
-  | "ALLOW_EXTERNAL_IP"
-  | "CONFIGURE_NAT";
-export const LocationDetailsInternetAccessEnum = S.String;
-
-/** Message for SAP instance details. */
-export interface LocationDetails {
-  /** Optional. Network project. */
-  networkProject?: string;
-  /** Optional. DNS zone name suffix. */
-  dnsZoneNameSuffix?: string;
-  /** Required. Zone 1 name. */
-  zone1Name?: string;
-  /** Optional. DNS zone name. */
-  dnsZone?: string;
-  /** Optional. Network tags. */
-  customTags?: StringList;
-  /** Optional. When the user skips DNS configuration in the UI, `deployment_dns_enabled` is false; otherwise `deployment_dns_enabled` is true. */
-  deploymentDnsEnabled?: boolean;
-  /** Optional. Zone 2 name. */
-  zone2Name?: string;
-  /** Required. Region name. */
-  regionName?: string;
-  /** Required. Subnet name. */
-  subnetName?: string;
-  /** Required. VPC name. */
-  vpcName?: string;
-  /** Optional. Create firewall. If true, creates a firewall for the deployment. This field provides an option to not always create a firewall for the deployment. */
-  createCommsFirewall?: boolean;
-  internetAccess?: LocationDetailsInternetAccessEnum | (string & {});
-}
-export const LocationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkProject: S.optional(S.String),
-    dnsZoneNameSuffix: S.optional(S.String),
-    zone1Name: S.optional(S.String),
-    dnsZone: S.optional(S.String),
-    customTags: S.optional(StringList),
-    deploymentDnsEnabled: S.optional(S.Boolean),
-    zone2Name: S.optional(S.String),
-    regionName: S.optional(S.String),
-    subnetName: S.optional(S.String),
-    vpcName: S.optional(S.String),
-    createCommsFirewall: S.optional(S.Boolean),
-    internetAccess: S.optional(LocationDetailsInternetAccessEnum),
-  }),
-).annotate({ identifier: "LocationDetails" }) as any as S.Schema<LocationDetails>;
-
-export type SapSystemS4ConfigVersionEnum =
-  | "VERSION_UNSPECIFIED"
-  | "S4_HANA_2021"
-  | "S4_HANA_2022"
-  | "S4_HANA_2023";
-export const SapSystemS4ConfigVersionEnum = S.String;
-
-/** Message for SAP instance details. */
-export interface DatabaseDetails {
-  /** Optional. Secondary DB VM name. */
-  secondaryDbVm?: string;
-  /** Required. The SID is a three-digit server-specific unique identification code. */
-  sid?: string;
-  /** Required. Disk type. */
-  diskType?: string;
-  /** Required. Machine type. */
-  machineType?: string;
-  /** Optional. Primary DB VM name. */
-  primaryDbVm?: string;
-  /** Required. Image for the database server. */
-  image?: string;
-  /** Database service account. Let customers bring their own SA for the database. */
-  databaseServiceAccount?: string;
-  /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
-  /** Optional. Instance ID. */
-  instanceId?: string;
-}
-export const DatabaseDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secondaryDbVm: S.optional(S.String),
-    sid: S.optional(S.String),
-    diskType: S.optional(S.String),
-    machineType: S.optional(S.String),
-    primaryDbVm: S.optional(S.String),
-    image: S.optional(S.String),
-    databaseServiceAccount: S.optional(S.String),
-    secretManagerSecret: S.optional(S.String),
-    instanceId: S.optional(S.String),
-  }),
-).annotate({ identifier: "DatabaseDetails" }) as any as S.Schema<DatabaseDetails>;
-
-/** Message for SAP system workload. */
-export interface SapSystemS4Config {
-  /** The project that infrastructure is deployed in. Currently only supports the same project where the deployment resource exists. */
-  gcpProjectId?: string;
-  /** Required. Supports non-HA and HA models. */
-  deploymentModel?: SapSystemS4ConfigDeploymentModelEnum | (string & {});
-  /** Required. Supports scale up and scale out. */
-  scalingMethod?: SapSystemS4ConfigScalingMethodEnum | (string & {});
-  /** Instance details. */
-  app?: AppDetails;
-  /** Optional. SAP boot disk image. */
-  sapBootDiskImage?: string;
-  /** Required. Deployment environment. */
-  environmentType?: SapSystemS4ConfigEnvironmentTypeEnum | (string & {});
-  /** VM prefix. */
-  vmPrefix?: string;
-  /** Database details. */
-  location?: LocationDetails;
-  /** Required. Media bucket name. */
-  mediaBucketName?: string;
-  /** Ansible runner service account. Let customers bring their own service account for the Ansible runner. */
-  ansibleRunnerServiceAccount?: string;
-  /** Required. SAP HANA version. */
-  version?: SapSystemS4ConfigVersionEnum | (string & {});
-  allowStoppingForUpdate?: boolean;
-  /** Database details. */
-  database?: DatabaseDetails;
-}
-export const SapSystemS4Config = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gcpProjectId: S.optional(S.String),
-    deploymentModel: S.optional(SapSystemS4ConfigDeploymentModelEnum),
-    scalingMethod: S.optional(SapSystemS4ConfigScalingMethodEnum),
-    app: S.optional(AppDetails),
-    sapBootDiskImage: S.optional(S.String),
-    environmentType: S.optional(SapSystemS4ConfigEnvironmentTypeEnum),
-    vmPrefix: S.optional(S.String),
-    location: S.optional(LocationDetails),
-    mediaBucketName: S.optional(S.String),
-    ansibleRunnerServiceAccount: S.optional(S.String),
-    version: S.optional(SapSystemS4ConfigVersionEnum),
-    allowStoppingForUpdate: S.optional(S.Boolean),
-    database: S.optional(DatabaseDetails),
-  }),
-).annotate({ identifier: "SapSystemS4Config" }) as any as S.Schema<SapSystemS4Config>;
-
 /** The Deployment object represents user intent for deploying a specific type of workload. */
 export interface Deployment {
-  /** MS SQL workload input. */
-  sqlServerWorkload?: SqlServerWorkload;
-  /** User-specified Service Account (SA) credentials to be used for Cloud Build. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` The default Cloud Build SA will be used initially if this field is not set during deployment creation. */
-  serviceAccount?: string;
   /** Output only. Update time stamp. */
   updateTime?: string;
-  /** Output only. Create time stamp. */
-  createTime?: string;
-  /** The name of the deployment resource. The format is 'projects/{project_id}/locations/{location_id}/deployments/{deployment_id}'. */
-  name?: string;
-  /** Optional. Workload type of the deployment. */
-  workloadType?: DeploymentWorkloadTypeEnum | (string & {});
-  /** Output only. Current state of the deployment. */
-  state?: DeploymentStateEnum | (string & {});
-  /** Description of the deployment. */
-  description?: string;
-  /** Optional. The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
-  workerPool?: string;
   /** Optional. terraform_variables represents all the Terraform variables for the deployment workload. The key is the name of the Terraform variable, and the value is the TerraformVariable. For example: { "project_id": { "input_value": { "string_value": "my-project-id" } }, "zone": { "input_value": { "string_value": "us-central1-a" } } } */
   terraformVariables?: TerraformVariableMap;
+  /** Output only. Create time stamp. */
+  createTime?: string;
   /** SAP system workload input. */
   sapSystemS4Config?: SapSystemS4Config;
+  /** Output only. Current state of the deployment. */
+  state?: DeploymentStateEnum | (string & {});
+  /** Optional. Workload type of the deployment. */
+  workloadType?: DeploymentWorkloadTypeEnum | (string & {});
+  /** Optional. The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
+  workerPool?: string;
+  /** Description of the deployment. */
+  description?: string;
+  /** User-specified Service Account (SA) credentials to be used for Cloud Build. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` The default Cloud Build SA will be used initially if this field is not set during deployment creation. */
+  serviceAccount?: string;
+  /** The name of the deployment resource. The format is 'projects/{project_id}/locations/{location_id}/deployments/{deployment_id}'. */
+  name?: string;
+  /** MS SQL workload input. */
+  sqlServerWorkload?: SqlServerWorkload;
 }
 export const Deployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sqlServerWorkload: S.optional(SqlServerWorkload),
-    serviceAccount: S.optional(S.String),
     updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    workloadType: S.optional(DeploymentWorkloadTypeEnum),
-    state: S.optional(DeploymentStateEnum),
-    description: S.optional(S.String),
-    workerPool: S.optional(S.String),
     terraformVariables: S.optional(TerraformVariableMap),
+    createTime: S.optional(S.String),
     sapSystemS4Config: S.optional(SapSystemS4Config),
+    state: S.optional(DeploymentStateEnum),
+    workloadType: S.optional(DeploymentWorkloadTypeEnum),
+    workerPool: S.optional(S.String),
+    description: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    name: S.optional(S.String),
+    sqlServerWorkload: S.optional(SqlServerWorkload),
   }),
 ).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 
 export interface CreateProjectsLocationsDeploymentsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. ID of the deployment. */
   deploymentId?: string;
   /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: Deployment;
 }
 export const CreateProjectsLocationsDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestId: S.optional(S.String.pipe(T.Query())),
     deploymentId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Deployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -699,24 +699,24 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
-    error: S.optional(Status),
-    name: S.optional(S.String),
     done: S.optional(S.Boolean),
+    error: S.optional(Status),
+    response: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -767,39 +767,39 @@ export const ActuationOutputErrorCodeEnum = S.String;
 
 /** Message for output of actuation. */
 export interface ActuationOutput {
-  /** Cloud Build instance UUID associated with this revision, without any suffix or prefix */
-  cloudbuildId?: string;
-  /** Output only. Whether the error message is user facing. If true, the error message will be shown in the UI. */
-  hasUserFacingErrorMsg?: boolean;
-  /** Reference to the Terraform template used. */
-  terraformTemplate?: string;
   /** Output only. Failed task name returned from Ansible. */
   ansibleFailedTask?: StringList;
   /** Output only. Error message returned from Terraform. */
   terraformError?: string;
+  /** Reference to the Terraform template used. */
+  terraformTemplate?: string;
+  /** Output only. Error message returned from Ansible. */
+  ansibleError?: string;
+  /** Output only. Whether the error message is user facing. If true, the error message will be shown in the UI. */
+  hasUserFacingErrorMsg?: boolean;
   /** Reference to the Blueprint Controller deployment and revision resource. */
   blueprintId?: string;
   /** A link to the Cloud Storage file that stores build logs. */
   actuateLogs?: string;
-  /** A link to the actuation Cloud Build log. */
-  errorLogs?: string;
   /** Output only. Code describing any errors that may have occurred. If not specified, there is no error in actuation. */
   errorCode?: ActuationOutputErrorCodeEnum | (string & {});
-  /** Output only. Error message returned from Ansible. */
-  ansibleError?: string;
+  /** Cloud Build instance UUID associated with this revision, without any suffix or prefix */
+  cloudbuildId?: string;
+  /** A link to the actuation Cloud Build log. */
+  errorLogs?: string;
 }
 export const ActuationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudbuildId: S.optional(S.String),
-    hasUserFacingErrorMsg: S.optional(S.Boolean),
-    terraformTemplate: S.optional(S.String),
     ansibleFailedTask: S.optional(StringList),
     terraformError: S.optional(S.String),
+    terraformTemplate: S.optional(S.String),
+    ansibleError: S.optional(S.String),
+    hasUserFacingErrorMsg: S.optional(S.Boolean),
     blueprintId: S.optional(S.String),
     actuateLogs: S.optional(S.String),
-    errorLogs: S.optional(S.String),
     errorCode: S.optional(ActuationOutputErrorCodeEnum),
-    ansibleError: S.optional(S.String),
+    cloudbuildId: S.optional(S.String),
+    errorLogs: S.optional(S.String),
   }),
 ).annotate({ identifier: "ActuationOutput" }) as any as S.Schema<ActuationOutput>;
 
@@ -807,40 +807,40 @@ export const ActuationOutput = /*@__PURE__*/ S.suspend(() =>
 export interface Actuation {
   /** Output only. Deployment output. */
   deploymentOutput?: DeploymentOutputList;
-  /** Output only. Actuation state. */
-  state?: ActuationStateEnum | (string & {});
-  /** Output only. Actuation output. */
-  actuationOutput?: ActuationOutput;
-  /** Output only. Start time stamp. */
-  startTime?: string;
   /** The name of the actuation resource. The format is projects/{project}/locations/{location}/deployments/{deployment}/actuations/{actuation}. */
   name?: string;
   /** Output only. End time stamp. */
   endTime?: string;
+  /** Output only. Actuation state. */
+  state?: ActuationStateEnum | (string & {});
+  /** Output only. Start time stamp. */
+  startTime?: string;
+  /** Output only. Actuation output. */
+  actuationOutput?: ActuationOutput;
 }
 export const Actuation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentOutput: S.optional(DeploymentOutputList),
-    state: S.optional(ActuationStateEnum),
-    actuationOutput: S.optional(ActuationOutput),
-    startTime: S.optional(S.String),
     name: S.optional(S.String),
     endTime: S.optional(S.String),
+    state: S.optional(ActuationStateEnum),
+    startTime: S.optional(S.String),
+    actuationOutput: S.optional(ActuationOutput),
   }),
 ).annotate({ identifier: "Actuation" }) as any as S.Schema<Actuation>;
 
 export interface CreateProjectsLocationsDeploymentsActuationsRequest {
-  /** Required. The resource name of the Actuation location using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the Actuation location using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  parent: string;
   /** Request body */
   body?: Actuation;
 }
 export const CreateProjectsLocationsDeploymentsActuationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Actuation.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -853,46 +853,12 @@ export const CreateProjectsLocationsDeploymentsActuationsRequest = /*@__PURE__*/
   identifier: "CreateProjectsLocationsDeploymentsActuationsRequest",
 }) as any as S.Schema<CreateProjectsLocationsDeploymentsActuationsRequest>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
 export type EvaluationEvaluationTypeEnum =
   | "EVALUATION_TYPE_UNSPECIFIED"
   | "SAP"
   | "SQL_SERVER"
   | "OTHER";
 export const EvaluationEvaluationTypeEnum = S.String;
-
-/** A filter for matching Compute Engine instances. */
-export interface GceInstanceFilter {
-  /** If non-empty, only Compute Engine instances associated with at least one of the provided service accounts will be included in the evaluation. */
-  serviceAccounts?: StringList;
-}
-export const GceInstanceFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccounts: S.optional(StringList),
-  }),
-).annotate({ identifier: "GceInstanceFilter" }) as any as S.Schema<GceInstanceFilter>;
-
-/** Resource filter for an evaluation defining the scope of resources to be evaluated. */
-export interface ResourceFilter {
-  /** The scopes of evaluation resource. Format: * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
-  scopes?: StringList;
-  /** The pattern to filter resources by their id For example, a pattern of ".*prod-cluster.*" will match all resources that contain "prod-cluster" in their ID. */
-  resourceIdPatterns?: StringList;
-  /** Labels to filter resources by. Each key-value pair in the map must exist on the resource for it to be included (e.g. VM instance labels). For example, specifying `{ "env": "prod", "database": "nosql" }` will only include resources that have labels `env=prod` and `database=nosql`. */
-  inclusionLabels?: StringMap;
-  /** Filter compute engine resources. */
-  gceInstanceFilter?: GceInstanceFilter;
-}
-export const ResourceFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scopes: S.optional(StringList),
-    resourceIdPatterns: S.optional(StringList),
-    inclusionLabels: S.optional(StringMap),
-    gceInstanceFilter: S.optional(GceInstanceFilter),
-  }),
-).annotate({ identifier: "ResourceFilter" }) as any as S.Schema<ResourceFilter>;
 
 export type ResourceStatusStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
 export const ResourceStatusStateEnum = S.String;
@@ -907,6 +873,40 @@ export const ResourceStatus = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ResourceStatusStateEnum),
   }),
 ).annotate({ identifier: "ResourceStatus" }) as any as S.Schema<ResourceStatus>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+/** A filter for matching Compute Engine instances. */
+export interface GceInstanceFilter {
+  /** If non-empty, only Compute Engine instances associated with at least one of the provided service accounts will be included in the evaluation. */
+  serviceAccounts?: StringList;
+}
+export const GceInstanceFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccounts: S.optional(StringList),
+  }),
+).annotate({ identifier: "GceInstanceFilter" }) as any as S.Schema<GceInstanceFilter>;
+
+/** Resource filter for an evaluation defining the scope of resources to be evaluated. */
+export interface ResourceFilter {
+  /** Labels to filter resources by. Each key-value pair in the map must exist on the resource for it to be included (e.g. VM instance labels). For example, specifying `{ "env": "prod", "database": "nosql" }` will only include resources that have labels `env=prod` and `database=nosql`. */
+  inclusionLabels?: StringMap;
+  /** Filter compute engine resources. */
+  gceInstanceFilter?: GceInstanceFilter;
+  /** The scopes of evaluation resource. Format: * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
+  scopes?: StringList;
+  /** The pattern to filter resources by their id For example, a pattern of ".*prod-cluster.*" will match all resources that contain "prod-cluster" in their ID. */
+  resourceIdPatterns?: StringList;
+}
+export const ResourceFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inclusionLabels: S.optional(StringMap),
+    gceInstanceFilter: S.optional(GceInstanceFilter),
+    scopes: S.optional(StringList),
+    resourceIdPatterns: S.optional(StringList),
+  }),
+).annotate({ identifier: "ResourceFilter" }) as any as S.Schema<ResourceFilter>;
 
 /** BigQuery destination for evaluation results. */
 export interface BigQueryDestination {
@@ -924,56 +924,56 @@ export const BigQueryDestination = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a Workload Manager Evaluation configuration. An Evaluation defines a set of rules to be validated against a scope of Cloud resources. */
 export interface Evaluation {
-  /** The names of the rules used for this evaluation. */
-  ruleNames?: StringList;
-  /** Labels as key value pairs. */
-  labels?: StringMap;
+  /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
+  name?: string;
   /** Evaluation type. */
   evaluationType?: EvaluationEvaluationTypeEnum | (string & {});
   /** Optional. Immutable. Customer-managed encryption key name, in the format projects/*\/locations/*\/keyRings/*\/cryptoKeys/*. The key will be used for CMEK encryption of the evaluation resource. */
   kmsKey?: string;
-  /** Resource filter for an evaluation defining the scope of resources to be evaluated. */
-  resourceFilter?: ResourceFilter;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string;
   /** Output only. [Output only] The current lifecycle state of the evaluation resource. */
   resourceStatus?: ResourceStatus;
+  /** The Cloud Storage bucket name for custom rules. */
+  customRulesBucket?: string;
+  /** Resource filter for an evaluation defining the scope of resources to be evaluated. */
+  resourceFilter?: ResourceFilter;
   /** Description of the Evaluation. */
   description?: string;
+  /** Output only. [Output only] Create time stamp. */
+  createTime?: string;
+  /** Labels as key value pairs. */
+  labels?: StringMap;
+  /** The names of the rules used for this evaluation. */
+  ruleNames?: StringList;
+  /** Crontab format schedule for scheduled evaluation, currently only supports the following fixed schedules: * `0 *\/1 * * *` # Hourly * `0 *\/6 * * *` # Every 6 hours * `0 *\/12 * * *` # Every 12 hours * `0 0 *\/1 * *` # Daily * `0 0 *\/7 * *` # Weekly * `0 0 *\/14 * *` # Every 14 days * `0 0 1 *\/1 *` # Monthly */
+  schedule?: string;
   /** Optional. The BigQuery destination for detailed evaluation results. If this field is specified, the results of each evaluation execution are exported to BigQuery. */
   bigQueryDestination?: BigQueryDestination;
   /** Output only. [Output only] Update time stamp. */
   updateTime?: string;
-  /** The Cloud Storage bucket name for custom rules. */
-  customRulesBucket?: string;
-  /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
-  name?: string;
-  /** Crontab format schedule for scheduled evaluation, currently only supports the following fixed schedules: * `0 *\/1 * * *` # Hourly * `0 *\/6 * * *` # Every 6 hours * `0 *\/12 * * *` # Every 12 hours * `0 0 *\/1 * *` # Daily * `0 0 *\/7 * *` # Weekly * `0 0 *\/14 * *` # Every 14 days * `0 0 1 *\/1 *` # Monthly */
-  schedule?: string;
 }
 export const Evaluation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ruleNames: S.optional(StringList),
-    labels: S.optional(StringMap),
+    name: S.optional(S.String),
     evaluationType: S.optional(EvaluationEvaluationTypeEnum),
     kmsKey: S.optional(S.String),
-    resourceFilter: S.optional(ResourceFilter),
-    createTime: S.optional(S.String),
     resourceStatus: S.optional(ResourceStatus),
+    customRulesBucket: S.optional(S.String),
+    resourceFilter: S.optional(ResourceFilter),
     description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    ruleNames: S.optional(StringList),
+    schedule: S.optional(S.String),
     bigQueryDestination: S.optional(BigQueryDestination),
     updateTime: S.optional(S.String),
-    customRulesBucket: S.optional(S.String),
-    name: S.optional(S.String),
-    schedule: S.optional(S.String),
   }),
 ).annotate({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
 
 export interface CreateProjectsLocationsEvaluationsRequest {
-  /** Required. The resource prefix of the evaluation location using the form: `projects/{project_id}/locations/{location_id}`. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource prefix of the evaluation location using the form: `projects/{project_id}/locations/{location_id}`. */
+  parent: string;
   /** Required. Id of the requesting object. */
   evaluationId?: string;
   /** Request body */
@@ -981,8 +981,8 @@ export interface CreateProjectsLocationsEvaluationsRequest {
 }
 export const CreateProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     evaluationId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Evaluation.pipe(T.HttpBody())),
   }).pipe(
@@ -997,15 +997,15 @@ export const CreateProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<CreateProjectsLocationsEvaluationsRequest>;
 
 export interface DeleteProjectsLocationsDeploymentsRequest {
-  /** Optional. If set to true, any actuation will also be deleted. Follows the best practice from https://aip.dev/135#cascading-delete. */
-  force?: boolean;
   /** Required. Name of the resource. */
   name: string;
+  /** Optional. If set to true, any actuation will also be deleted. Follows the best practice from https://aip.dev/135#cascading-delete. */
+  force?: boolean;
 }
 export const DeleteProjectsLocationsDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    force: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1036,18 +1036,18 @@ export const DeleteProjectsLocationsDeploymentsActuationsRequest = /*@__PURE__*/
 }) as any as S.Schema<DeleteProjectsLocationsDeploymentsActuationsRequest>;
 
 export interface DeleteProjectsLocationsEvaluationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Name of the resource. */
   name: string;
   /** Optional. Followed the best practice from https://aip.dev/135#cascading-delete. */
   force?: boolean;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1060,15 +1060,15 @@ export const DeleteProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<DeleteProjectsLocationsEvaluationsRequest>;
 
 export interface DeleteProjectsLocationsEvaluationsExecutionsRequest {
-  /** Required. Name of the resource. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Name of the resource. */
+  name: string;
 }
 export const DeleteProjectsLocationsEvaluationsExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1081,15 +1081,15 @@ export const DeleteProjectsLocationsEvaluationsExecutionsRequest = /*@__PURE__*/
 }) as any as S.Schema<DeleteProjectsLocationsEvaluationsExecutionsRequest>;
 
 export interface DeleteProjectsLocationsInsightsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The system id of the SAP system resource to delete. Formatted as projects/{project}/locations/{location}/sapSystems/{sap_system_id} */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsInsightsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1139,24 +1139,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
     name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -1214,203 +1214,14 @@ export const GetProjectsLocationsDiscoveredprofilesRequest = /*@__PURE__*/ S.sus
   identifier: "GetProjectsLocationsDiscoveredprofilesRequest",
 }) as any as S.Schema<GetProjectsLocationsDiscoveredprofilesRequest>;
 
-export type SapWorkloadArchitectureEnum =
-  | "ARCHITECTURE_UNSPECIFIED"
-  | "INVALID"
-  | "CENTRALIZED"
-  | "DISTRIBUTED"
-  | "DISTRIBUTED_HA"
-  | "STANDALONE_DATABASE"
-  | "STANDALONE_DATABASE_HA";
-export const SapWorkloadArchitectureEnum = S.String;
+export type WorkloadProfileWorkloadTypeEnum = "WORKLOAD_TYPE_UNSPECIFIED" | "S4_HANA";
+export const WorkloadProfileWorkloadTypeEnum = S.String;
 
 export type SapComponentTopologyTypeEnum =
   | "TOPOLOGY_TYPE_UNSPECIFIED"
   | "TOPOLOGY_SCALE_UP"
   | "TOPOLOGY_SCALE_OUT";
 export const SapComponentTopologyTypeEnum = S.String;
-
-export type InstancePropertiesRolesItemEnum =
-  | "INSTANCE_ROLE_UNSPECIFIED"
-  | "INSTANCE_ROLE_ASCS"
-  | "INSTANCE_ROLE_ERS"
-  | "INSTANCE_ROLE_APP_SERVER"
-  | "INSTANCE_ROLE_HANA_PRIMARY"
-  | "INSTANCE_ROLE_HANA_SECONDARY";
-export const InstancePropertiesRolesItemEnum = S.String;
-
-export type InstancePropertiesRolesItemEnumList = Array<InstancePropertiesRolesItemEnum>;
-export const InstancePropertiesRolesItemEnumList = /*@__PURE__*/ S.Array(
-  InstancePropertiesRolesItemEnum,
-) as any as S.Schema<InstancePropertiesRolesItemEnumList>;
-
-/** The IAM permission status. */
-export interface IAMPermission {
-  /** Output only. Whether the permission is granted. */
-  granted?: boolean;
-  /** Output only. The name of the permission. */
-  name?: string;
-}
-export const IAMPermission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    granted: S.optional(S.Boolean),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "IAMPermission" }) as any as S.Schema<IAMPermission>;
-
-export type IAMPermissionList = Array<IAMPermission>;
-export const IAMPermissionList = /*@__PURE__*/ S.Array(
-  IAMPermission,
-) as any as S.Schema<IAMPermissionList>;
-
-export type ServiceStatesStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CONFIG_FAILURE"
-  | "IAM_FAILURE"
-  | "FUNCTIONALITY_FAILURE"
-  | "ENABLED"
-  | "DISABLED";
-export const ServiceStatesStateEnum = S.String;
-
-/** The state of the service. */
-export interface ServiceStates {
-  /** Optional. Output only. The IAM permissions for the service. */
-  iamPermissions?: IAMPermissionList;
-  /** Output only. The overall state of the service. */
-  state?: ServiceStatesStateEnum;
-}
-export const ServiceStates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    iamPermissions: S.optional(IAMPermissionList),
-    state: S.optional(ServiceStatesStateEnum),
-  }),
-).annotate({ identifier: "ServiceStates" }) as any as S.Schema<ServiceStates>;
-
-/** Agent status. */
-export interface AgentStates {
-  /** Optional. Whether the agent is fully enabled. If false, the agent is has some issues. */
-  isFullyEnabled?: boolean;
-  /** Optional. The Process metrics of the agent. */
-  processMetrics?: ServiceStates;
-  /** Optional. The installed version of the agent on the host. */
-  installedVersion?: string;
-  /** Optional. The System discovery metrics of the agent. */
-  systemDiscovery?: ServiceStates;
-  /** Optional. HANA monitoring metrics of the agent. */
-  hanaMonitoring?: ServiceStates;
-  /** Optional. The available version of the agent in artifact registry. */
-  availableVersion?: string;
-}
-export const AgentStates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isFullyEnabled: S.optional(S.Boolean),
-    processMetrics: S.optional(ServiceStates),
-    installedVersion: S.optional(S.String),
-    systemDiscovery: S.optional(ServiceStates),
-    hanaMonitoring: S.optional(ServiceStates),
-    availableVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentStates" }) as any as S.Schema<AgentStates>;
-
-/** SAP instance properties. */
-export interface SapInstanceProperties {
-  /** Optional. SAP Instance numbers. They are from '00' to '99'. */
-  numbers?: StringList;
-  /** Optional. Sap Instance Agent status. */
-  agentStates?: AgentStates;
-}
-export const SapInstanceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    numbers: S.optional(StringList),
-    agentStates: S.optional(AgentStates),
-  }),
-).annotate({ identifier: "SapInstanceProperties" }) as any as S.Schema<SapInstanceProperties>;
-
-/** Maintenance Event */
-export interface UpcomingMaintenanceEvent {
-  /** Optional. Type */
-  type?: string;
-  /** Optional. Start time */
-  startTime?: string;
-  /** Optional. Maintenance status */
-  maintenanceStatus?: string;
-  /** Optional. Instance maintenance behavior. Could be `MIGRATE` or `TERMINATE`. */
-  onHostMaintenance?: string;
-  /** Optional. End time */
-  endTime?: string;
-}
-export const UpcomingMaintenanceEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    startTime: S.optional(S.String),
-    maintenanceStatus: S.optional(S.String),
-    onHostMaintenance: S.optional(S.String),
-    endTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "UpcomingMaintenanceEvent" }) as any as S.Schema<UpcomingMaintenanceEvent>;
-
-/** Instance Properties. */
-export interface InstanceProperties {
-  /** Optional. Instance roles. */
-  roles?: InstancePropertiesRolesItemEnumList;
-  /** Optional. SAP Instance properties. */
-  sapInstanceProperties?: SapInstanceProperties;
-  /** Optional. Instance number. */
-  instanceNumber?: string;
-  /** Optional. the next maintenance event on VM */
-  upcomingMaintenanceEvent?: UpcomingMaintenanceEvent;
-  /** Optional. Instance status. */
-  status?: string;
-  /** Optional. Instance machine type. */
-  machineType?: string;
-}
-export const InstanceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roles: S.optional(InstancePropertiesRolesItemEnumList),
-    sapInstanceProperties: S.optional(SapInstanceProperties),
-    instanceNumber: S.optional(S.String),
-    upcomingMaintenanceEvent: S.optional(UpcomingMaintenanceEvent),
-    status: S.optional(S.String),
-    machineType: S.optional(S.String),
-  }),
-).annotate({ identifier: "InstanceProperties" }) as any as S.Schema<InstanceProperties>;
-
-export type CloudResourceKindEnum =
-  | "RESOURCE_KIND_UNSPECIFIED"
-  | "RESOURCE_KIND_INSTANCE"
-  | "RESOURCE_KIND_DISK"
-  | "RESOURCE_KIND_ADDRESS"
-  | "RESOURCE_KIND_FILESTORE"
-  | "RESOURCE_KIND_HEALTH_CHECK"
-  | "RESOURCE_KIND_FORWARDING_RULE"
-  | "RESOURCE_KIND_BACKEND_SERVICE"
-  | "RESOURCE_KIND_SUBNETWORK"
-  | "RESOURCE_KIND_NETWORK"
-  | "RESOURCE_KIND_PUBLIC_ADDRESS"
-  | "RESOURCE_KIND_INSTANCE_GROUP";
-export const CloudResourceKindEnum = S.String;
-
-/** The resource on GCP */
-export interface CloudResource {
-  /** Output only. All instance properties. */
-  instanceProperties?: InstanceProperties;
-  /** Output only. */
-  kind?: CloudResourceKindEnum;
-  /** Output only. resource name Example: compute.googleapis.com/projects/wlm-obs-dev/zones/us-central1-a/instances/sap-pri */
-  name?: string;
-}
-export const CloudResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceProperties: S.optional(InstanceProperties),
-    kind: S.optional(CloudResourceKindEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudResource" }) as any as S.Schema<CloudResource>;
-
-export type CloudResourceList = Array<CloudResource>;
-export const CloudResourceList = /*@__PURE__*/ S.Array(
-  CloudResource,
-) as any as S.Schema<CloudResourceList>;
 
 export type BackupPropertiesLatestBackupStatusEnum =
   | "BACKUP_STATE_UNSPECIFIED"
@@ -1456,28 +1267,220 @@ export const DatabaseProperties = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DatabaseProperties" }) as any as S.Schema<DatabaseProperties>;
 
+export type InstancePropertiesRolesItemEnum =
+  | "INSTANCE_ROLE_UNSPECIFIED"
+  | "INSTANCE_ROLE_ASCS"
+  | "INSTANCE_ROLE_ERS"
+  | "INSTANCE_ROLE_APP_SERVER"
+  | "INSTANCE_ROLE_HANA_PRIMARY"
+  | "INSTANCE_ROLE_HANA_SECONDARY";
+export const InstancePropertiesRolesItemEnum = S.String;
+
+export type InstancePropertiesRolesItemEnumList = Array<InstancePropertiesRolesItemEnum>;
+export const InstancePropertiesRolesItemEnumList = /*@__PURE__*/ S.Array(
+  InstancePropertiesRolesItemEnum,
+) as any as S.Schema<InstancePropertiesRolesItemEnumList>;
+
+/** Maintenance Event */
+export interface UpcomingMaintenanceEvent {
+  /** Optional. Start time */
+  startTime?: string;
+  /** Optional. Maintenance status */
+  maintenanceStatus?: string;
+  /** Optional. Instance maintenance behavior. Could be `MIGRATE` or `TERMINATE`. */
+  onHostMaintenance?: string;
+  /** Optional. Type */
+  type?: string;
+  /** Optional. End time */
+  endTime?: string;
+}
+export const UpcomingMaintenanceEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    maintenanceStatus: S.optional(S.String),
+    onHostMaintenance: S.optional(S.String),
+    type: S.optional(S.String),
+    endTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "UpcomingMaintenanceEvent" }) as any as S.Schema<UpcomingMaintenanceEvent>;
+
+export type ServiceStatesStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CONFIG_FAILURE"
+  | "IAM_FAILURE"
+  | "FUNCTIONALITY_FAILURE"
+  | "ENABLED"
+  | "DISABLED";
+export const ServiceStatesStateEnum = S.String;
+
+/** The IAM permission status. */
+export interface IAMPermission {
+  /** Output only. The name of the permission. */
+  name?: string;
+  /** Output only. Whether the permission is granted. */
+  granted?: boolean;
+}
+export const IAMPermission = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    granted: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "IAMPermission" }) as any as S.Schema<IAMPermission>;
+
+export type IAMPermissionList = Array<IAMPermission>;
+export const IAMPermissionList = /*@__PURE__*/ S.Array(
+  IAMPermission,
+) as any as S.Schema<IAMPermissionList>;
+
+/** The state of the service. */
+export interface ServiceStates {
+  /** Output only. The overall state of the service. */
+  state?: ServiceStatesStateEnum;
+  /** Optional. Output only. The IAM permissions for the service. */
+  iamPermissions?: IAMPermissionList;
+}
+export const ServiceStates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(ServiceStatesStateEnum),
+    iamPermissions: S.optional(IAMPermissionList),
+  }),
+).annotate({ identifier: "ServiceStates" }) as any as S.Schema<ServiceStates>;
+
+/** Agent status. */
+export interface AgentStates {
+  /** Optional. The available version of the agent in artifact registry. */
+  availableVersion?: string;
+  /** Optional. Whether the agent is fully enabled. If false, the agent is has some issues. */
+  isFullyEnabled?: boolean;
+  /** Optional. The Process metrics of the agent. */
+  processMetrics?: ServiceStates;
+  /** Optional. HANA monitoring metrics of the agent. */
+  hanaMonitoring?: ServiceStates;
+  /** Optional. The System discovery metrics of the agent. */
+  systemDiscovery?: ServiceStates;
+  /** Optional. The installed version of the agent on the host. */
+  installedVersion?: string;
+}
+export const AgentStates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    availableVersion: S.optional(S.String),
+    isFullyEnabled: S.optional(S.Boolean),
+    processMetrics: S.optional(ServiceStates),
+    hanaMonitoring: S.optional(ServiceStates),
+    systemDiscovery: S.optional(ServiceStates),
+    installedVersion: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentStates" }) as any as S.Schema<AgentStates>;
+
+/** SAP instance properties. */
+export interface SapInstanceProperties {
+  /** Optional. Sap Instance Agent status. */
+  agentStates?: AgentStates;
+  /** Optional. SAP Instance numbers. They are from '00' to '99'. */
+  numbers?: StringList;
+}
+export const SapInstanceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentStates: S.optional(AgentStates),
+    numbers: S.optional(StringList),
+  }),
+).annotate({ identifier: "SapInstanceProperties" }) as any as S.Schema<SapInstanceProperties>;
+
+/** Instance Properties. */
+export interface InstanceProperties {
+  /** Optional. Instance number. */
+  instanceNumber?: string;
+  /** Optional. Instance machine type. */
+  machineType?: string;
+  /** Optional. Instance status. */
+  status?: string;
+  /** Optional. Instance roles. */
+  roles?: InstancePropertiesRolesItemEnumList;
+  /** Optional. the next maintenance event on VM */
+  upcomingMaintenanceEvent?: UpcomingMaintenanceEvent;
+  /** Optional. SAP Instance properties. */
+  sapInstanceProperties?: SapInstanceProperties;
+}
+export const InstanceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceNumber: S.optional(S.String),
+    machineType: S.optional(S.String),
+    status: S.optional(S.String),
+    roles: S.optional(InstancePropertiesRolesItemEnumList),
+    upcomingMaintenanceEvent: S.optional(UpcomingMaintenanceEvent),
+    sapInstanceProperties: S.optional(SapInstanceProperties),
+  }),
+).annotate({ identifier: "InstanceProperties" }) as any as S.Schema<InstanceProperties>;
+
+export type CloudResourceKindEnum =
+  | "RESOURCE_KIND_UNSPECIFIED"
+  | "RESOURCE_KIND_INSTANCE"
+  | "RESOURCE_KIND_DISK"
+  | "RESOURCE_KIND_ADDRESS"
+  | "RESOURCE_KIND_FILESTORE"
+  | "RESOURCE_KIND_HEALTH_CHECK"
+  | "RESOURCE_KIND_FORWARDING_RULE"
+  | "RESOURCE_KIND_BACKEND_SERVICE"
+  | "RESOURCE_KIND_SUBNETWORK"
+  | "RESOURCE_KIND_NETWORK"
+  | "RESOURCE_KIND_PUBLIC_ADDRESS"
+  | "RESOURCE_KIND_INSTANCE_GROUP";
+export const CloudResourceKindEnum = S.String;
+
+/** The resource on GCP */
+export interface CloudResource {
+  /** Output only. resource name Example: compute.googleapis.com/projects/wlm-obs-dev/zones/us-central1-a/instances/sap-pri */
+  name?: string;
+  /** Output only. All instance properties. */
+  instanceProperties?: InstanceProperties;
+  /** Output only. */
+  kind?: CloudResourceKindEnum;
+}
+export const CloudResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    instanceProperties: S.optional(InstanceProperties),
+    kind: S.optional(CloudResourceKindEnum),
+  }),
+).annotate({ identifier: "CloudResource" }) as any as S.Schema<CloudResource>;
+
+export type CloudResourceList = Array<CloudResource>;
+export const CloudResourceList = /*@__PURE__*/ S.Array(
+  CloudResource,
+) as any as S.Schema<CloudResourceList>;
+
 /** The component of sap workload */
 export interface SapComponent {
-  /** The detected topology of the component. */
-  topologyType?: SapComponentTopologyTypeEnum;
-  /** Output only. resources in the component */
-  resources?: CloudResourceList;
-  /** Output only. All instance properties. */
-  databaseProperties?: DatabaseProperties;
   /** Output only. sid is the sap component identificator */
   sid?: string;
+  /** The detected topology of the component. */
+  topologyType?: SapComponentTopologyTypeEnum;
+  /** Output only. All instance properties. */
+  databaseProperties?: DatabaseProperties;
   /** List of host URIs that are part of the HA configuration if present. An empty list indicates the component is not configured for HA. */
   haHosts?: StringList;
+  /** Output only. resources in the component */
+  resources?: CloudResourceList;
 }
 export const SapComponent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    topologyType: S.optional(SapComponentTopologyTypeEnum),
-    resources: S.optional(CloudResourceList),
-    databaseProperties: S.optional(DatabaseProperties),
     sid: S.optional(S.String),
+    topologyType: S.optional(SapComponentTopologyTypeEnum),
+    databaseProperties: S.optional(DatabaseProperties),
     haHosts: S.optional(StringList),
+    resources: S.optional(CloudResourceList),
   }),
 ).annotate({ identifier: "SapComponent" }) as any as S.Schema<SapComponent>;
+
+export type SapWorkloadArchitectureEnum =
+  | "ARCHITECTURE_UNSPECIFIED"
+  | "INVALID"
+  | "CENTRALIZED"
+  | "DISTRIBUTED"
+  | "DISTRIBUTED_HA"
+  | "STANDALONE_DATABASE"
+  | "STANDALONE_DATABASE_HA";
+export const SapWorkloadArchitectureEnum = S.String;
 
 /** Contains the details of a product. */
 export interface Product {
@@ -1498,50 +1501,47 @@ export const ProductList = /*@__PURE__*/ S.Array(Product) as any as S.Schema<Pro
 
 /** The body of sap workload */
 export interface SapWorkload {
-  /** Output only. The architecture. */
-  architecture?: SapWorkloadArchitectureEnum;
   /** Output only. database component */
   database?: SapComponent;
+  /** Output only. The architecture. */
+  architecture?: SapWorkloadArchitectureEnum;
   /** Output only. application component */
   application?: SapComponent;
-  /** Output only. The products on this workload. */
-  products?: ProductList;
   /** Output only. The metadata for SAP workload. */
   metadata?: StringMap;
+  /** Output only. The products on this workload. */
+  products?: ProductList;
 }
 export const SapWorkload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    architecture: S.optional(SapWorkloadArchitectureEnum),
     database: S.optional(SapComponent),
+    architecture: S.optional(SapWorkloadArchitectureEnum),
     application: S.optional(SapComponent),
-    products: S.optional(ProductList),
     metadata: S.optional(StringMap),
+    products: S.optional(ProductList),
   }),
 ).annotate({ identifier: "SapWorkload" }) as any as S.Schema<SapWorkload>;
 
-export type WorkloadProfileWorkloadTypeEnum = "WORKLOAD_TYPE_UNSPECIFIED" | "S4_HANA";
-export const WorkloadProfileWorkloadTypeEnum = S.String;
-
 /** Workload resource. */
 export interface WorkloadProfile {
-  /** Optional. such as name, description, version. More example can be found in deployment */
-  labels?: StringMap;
-  /** Required. time when the workload data was refreshed */
-  refreshedTime?: string;
-  /** The sap workload content */
-  sapWorkload?: SapWorkload;
-  /** Required. The type of the workload */
-  workloadType?: WorkloadProfileWorkloadTypeEnum;
   /** Identifier. name of resource names have the form 'projects/{project_id}/locations/{location}/workloadProfiles/{workload_id}' */
   name?: string;
+  /** Optional. such as name, description, version. More example can be found in deployment */
+  labels?: StringMap;
+  /** Required. The type of the workload */
+  workloadType?: WorkloadProfileWorkloadTypeEnum;
+  /** The sap workload content */
+  sapWorkload?: SapWorkload;
+  /** Required. time when the workload data was refreshed */
+  refreshedTime?: string;
 }
 export const WorkloadProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    refreshedTime: S.optional(S.String),
-    sapWorkload: S.optional(SapWorkload),
-    workloadType: S.optional(WorkloadProfileWorkloadTypeEnum),
     name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    workloadType: S.optional(WorkloadProfileWorkloadTypeEnum),
+    sapWorkload: S.optional(SapWorkload),
+    refreshedTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkloadProfile" }) as any as S.Schema<WorkloadProfile>;
 
@@ -1563,29 +1563,6 @@ export const GetProjectsLocationsDiscoveredprofilesHealthRequest = /*@__PURE__*/
   identifier: "GetProjectsLocationsDiscoveredprofilesHealthRequest",
 }) as any as S.Schema<GetProjectsLocationsDiscoveredprofilesHealthRequest>;
 
-export type WorkloadProfileHealthStateEnum =
-  | "HEALTH_STATE_UNSPECIFIED"
-  | "HEALTHY"
-  | "UNHEALTHY"
-  | "CRITICAL"
-  | "UNSUPPORTED";
-export const WorkloadProfileHealthStateEnum = S.String;
-
-export type ComponentHealthStateEnum =
-  | "HEALTH_STATE_UNSPECIFIED"
-  | "HEALTHY"
-  | "UNHEALTHY"
-  | "CRITICAL"
-  | "UNSUPPORTED";
-export const ComponentHealthStateEnum = S.String;
-
-export type ComponentHealthComponentHealthTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TYPE_REQUIRED"
-  | "TYPE_OPTIONAL"
-  | "TYPE_SPECIAL";
-export const ComponentHealthComponentHealthTypeEnum = S.String;
-
 export type HealthCheckStateEnum =
   | "STATE_UNSPECIFIED"
   | "PASSED"
@@ -1597,24 +1574,24 @@ export const HealthCheckStateEnum = S.String;
 
 /** HealthCheck contains the detailed health check of a component based on asource. */
 export interface HealthCheck {
-  /** Output only. The state of the health check. */
-  state?: HealthCheckStateEnum;
-  /** Output only. The health check source metric name. */
-  metric?: string;
-  /** Output only. The message of the health check. */
-  message?: string;
-  /** Output only. The resource the check performs on. */
-  resource?: CloudResource;
   /** Output only. The source of the health check. */
   source?: string;
+  /** Output only. The message of the health check. */
+  message?: string;
+  /** Output only. The health check source metric name. */
+  metric?: string;
+  /** Output only. The resource the check performs on. */
+  resource?: CloudResource;
+  /** Output only. The state of the health check. */
+  state?: HealthCheckStateEnum;
 }
 export const HealthCheck = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(HealthCheckStateEnum),
-    metric: S.optional(S.String),
-    message: S.optional(S.String),
-    resource: S.optional(CloudResource),
     source: S.optional(S.String),
+    message: S.optional(S.String),
+    metric: S.optional(S.String),
+    resource: S.optional(CloudResource),
+    state: S.optional(HealthCheckStateEnum),
   }),
 ).annotate({ identifier: "HealthCheck" }) as any as S.Schema<HealthCheck>;
 
@@ -1623,26 +1600,41 @@ export const HealthCheckList = /*@__PURE__*/ S.Array(
   HealthCheck,
 ) as any as S.Schema<HealthCheckList>;
 
+export type ComponentHealthComponentHealthTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TYPE_REQUIRED"
+  | "TYPE_OPTIONAL"
+  | "TYPE_SPECIAL";
+export const ComponentHealthComponentHealthTypeEnum = S.String;
+
+export type ComponentHealthStateEnum =
+  | "HEALTH_STATE_UNSPECIFIED"
+  | "HEALTHY"
+  | "UNHEALTHY"
+  | "CRITICAL"
+  | "UNSUPPORTED";
+export const ComponentHealthStateEnum = S.String;
+
 /** HealthCondition contains the detailed health check of each component. */
 export interface ComponentHealth {
-  /** Output only. The health state of the component. */
-  state?: ComponentHealthStateEnum;
+  /** The detailed health checks of the component. */
+  componentHealthChecks?: HealthCheckList;
   /** Sub component health. */
   subComponentsHealth?: ComponentHealthList;
   /** Output only. The type of the component health. */
   componentHealthType?: ComponentHealthComponentHealthTypeEnum;
-  /** The detailed health checks of the component. */
-  componentHealthChecks?: HealthCheckList;
   /** The component of a workload. */
   component?: string;
+  /** Output only. The health state of the component. */
+  state?: ComponentHealthStateEnum;
 }
 export const ComponentHealth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(ComponentHealthStateEnum),
+    componentHealthChecks: S.optional(HealthCheckList),
     subComponentsHealth: S.optional(S.suspend(() => ComponentHealthList)),
     componentHealthType: S.optional(ComponentHealthComponentHealthTypeEnum),
-    componentHealthChecks: S.optional(HealthCheckList),
     component: S.optional(S.String),
+    state: S.optional(ComponentHealthStateEnum),
   }),
 ).annotate({ identifier: "ComponentHealth" }) as any as S.Schema<ComponentHealth>;
 
@@ -1651,20 +1643,28 @@ export const ComponentHealthList = /*@__PURE__*/ S.Array(
   ComponentHealth,
 ) as any as S.Schema<ComponentHealthList>;
 
+export type WorkloadProfileHealthStateEnum =
+  | "HEALTH_STATE_UNSPECIFIED"
+  | "HEALTHY"
+  | "UNHEALTHY"
+  | "CRITICAL"
+  | "UNSUPPORTED";
+export const WorkloadProfileHealthStateEnum = S.String;
+
 /** WorkloadProfileHealth contains the detailed health check of workload. */
 export interface WorkloadProfileHealth {
-  /** Output only. The health state of the workload. */
-  state?: WorkloadProfileHealthStateEnum;
-  /** The detailed condition reports of each component. */
-  componentsHealth?: ComponentHealthList;
   /** The time when the health check was performed. */
   checkTime?: string;
+  /** The detailed condition reports of each component. */
+  componentsHealth?: ComponentHealthList;
+  /** Output only. The health state of the workload. */
+  state?: WorkloadProfileHealthStateEnum;
 }
 export const WorkloadProfileHealth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(WorkloadProfileHealthStateEnum),
-    componentsHealth: S.optional(ComponentHealthList),
     checkTime: S.optional(S.String),
+    componentsHealth: S.optional(ComponentHealthList),
+    state: S.optional(WorkloadProfileHealthStateEnum),
   }),
 ).annotate({ identifier: "WorkloadProfileHealth" }) as any as S.Schema<WorkloadProfileHealth>;
 
@@ -1704,66 +1704,11 @@ export const GetProjectsLocationsEvaluationsExecutionsRequest = /*@__PURE__*/ S.
   identifier: "GetProjectsLocationsEvaluationsExecutionsRequest",
 }) as any as S.Schema<GetProjectsLocationsEvaluationsExecutionsRequest>;
 
-export type RuleExecutionResultStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STATE_SUCCESS"
-  | "STATE_FAILURE"
-  | "STATE_SKIPPED";
-export const RuleExecutionResultStateEnum = S.String;
-
-/** Execution result summary per rule. */
-export interface RuleExecutionResult {
-  /** Output only. The execution status. */
-  state?: RuleExecutionResultStateEnum | (string & {});
-  /** Execution message, if any. */
-  message?: string;
-  /** Rule name as plain text like `sap-hana-configured`. */
-  rule?: string;
-  /** Number of total scanned resources. */
-  scannedResourceCount?: string;
-  /** Number of violations. */
-  resultCount?: string;
-}
-export const RuleExecutionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(RuleExecutionResultStateEnum),
-    message: S.optional(S.String),
-    rule: S.optional(S.String),
-    scannedResourceCount: S.optional(S.String),
-    resultCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "RuleExecutionResult" }) as any as S.Schema<RuleExecutionResult>;
-
-export type RuleExecutionResultList = Array<RuleExecutionResult>;
-export const RuleExecutionResultList = /*@__PURE__*/ S.Array(
-  RuleExecutionResult,
-) as any as S.Schema<RuleExecutionResultList>;
-
-/** Execution summary. */
-export interface Summary {
-  /** Output only. Number of new fixes compared to the previous execution. */
-  newFixes?: string;
-  /** Output only. Number of new failures compared to the previous execution. */
-  newFailures?: string;
-  /** Output only. Number of failures. */
-  failures?: string;
-}
-export const Summary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    newFixes: S.optional(S.String),
-    newFailures: S.optional(S.String),
-    failures: S.optional(S.String),
-  }),
-).annotate({ identifier: "Summary" }) as any as S.Schema<Summary>;
+export type ExecutionRunTypeEnum = "TYPE_UNSPECIFIED" | "ONE_TIME" | "SCHEDULED";
+export const ExecutionRunTypeEnum = S.String;
 
 export type ExecutionStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "SUCCEEDED" | "FAILED";
 export const ExecutionStateEnum = S.String;
-
-export type ExecutionEngineEnum = "ENGINE_UNSPECIFIED" | "ENGINE_SCANNER" | "V2";
-export const ExecutionEngineEnum = S.String;
-
-export type ExecutionRunTypeEnum = "TYPE_UNSPECIFIED" | "ONE_TIME" | "SCHEDULED";
-export const ExecutionRunTypeEnum = S.String;
 
 /** Additional information generated by an execution. */
 export interface Notice {
@@ -1779,26 +1724,81 @@ export const Notice = /*@__PURE__*/ S.suspend(() =>
 export type NoticeList = Array<Notice>;
 export const NoticeList = /*@__PURE__*/ S.Array(Notice) as any as S.Schema<NoticeList>;
 
+/** Execution summary. */
+export interface Summary {
+  /** Output only. Number of new failures compared to the previous execution. */
+  newFailures?: string;
+  /** Output only. Number of new fixes compared to the previous execution. */
+  newFixes?: string;
+  /** Output only. Number of failures. */
+  failures?: string;
+}
+export const Summary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    newFailures: S.optional(S.String),
+    newFixes: S.optional(S.String),
+    failures: S.optional(S.String),
+  }),
+).annotate({ identifier: "Summary" }) as any as S.Schema<Summary>;
+
+export type RuleExecutionResultStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STATE_SUCCESS"
+  | "STATE_FAILURE"
+  | "STATE_SKIPPED";
+export const RuleExecutionResultStateEnum = S.String;
+
+/** Execution result summary per rule. */
+export interface RuleExecutionResult {
+  /** Rule name as plain text like `sap-hana-configured`. */
+  rule?: string;
+  /** Number of violations. */
+  resultCount?: string;
+  /** Execution message, if any. */
+  message?: string;
+  /** Output only. The execution status. */
+  state?: RuleExecutionResultStateEnum | (string & {});
+  /** Number of total scanned resources. */
+  scannedResourceCount?: string;
+}
+export const RuleExecutionResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rule: S.optional(S.String),
+    resultCount: S.optional(S.String),
+    message: S.optional(S.String),
+    state: S.optional(RuleExecutionResultStateEnum),
+    scannedResourceCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RuleExecutionResult" }) as any as S.Schema<RuleExecutionResult>;
+
+export type RuleExecutionResultList = Array<RuleExecutionResult>;
+export const RuleExecutionResultList = /*@__PURE__*/ S.Array(
+  RuleExecutionResult,
+) as any as S.Schema<RuleExecutionResultList>;
+
+export type ExecutionEngineEnum = "ENGINE_UNSPECIFIED" | "ENGINE_SCANNER" | "V2";
+export const ExecutionEngineEnum = S.String;
+
 export type ExternalDataSourcesTypeEnum = "TYPE_UNSPECIFIED" | "BIG_QUERY_TABLE";
 export const ExternalDataSourcesTypeEnum = S.String;
 
 /** External data sources for an execution. */
 export interface ExternalDataSources {
-  /** Optional. Name of external data source. The name will be used inside the rego/sql to refer the external data. */
-  name?: string;
-  /** Required. The asset type of the external data source. This can be a supported Cloud Asset Inventory asset type (see https://cloud.google.com/asset-inventory/docs/supported-asset-types) to override the default asset type, or it can be a custom type defined by the user. */
-  assetType?: string;
-  /** Required. URI of external data source. example of bq table {project_ID}.{dataset_ID}.{table_ID}. */
-  uri?: string;
   /** Required. Type of external data source. */
   type?: ExternalDataSourcesTypeEnum | (string & {});
+  /** Optional. Name of external data source. The name will be used inside the rego/sql to refer the external data. */
+  name?: string;
+  /** Required. URI of external data source. example of bq table {project_ID}.{dataset_ID}.{table_ID}. */
+  uri?: string;
+  /** Required. The asset type of the external data source. This can be a supported Cloud Asset Inventory asset type (see https://cloud.google.com/asset-inventory/docs/supported-asset-types) to override the default asset type, or it can be a custom type defined by the user. */
+  assetType?: string;
 }
 export const ExternalDataSources = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    assetType: S.optional(S.String),
-    uri: S.optional(S.String),
     type: S.optional(ExternalDataSourcesTypeEnum),
+    name: S.optional(S.String),
+    uri: S.optional(S.String),
+    assetType: S.optional(S.String),
   }),
 ).annotate({ identifier: "ExternalDataSources" }) as any as S.Schema<ExternalDataSources>;
 
@@ -1809,48 +1809,48 @@ export const ExternalDataSourcesList = /*@__PURE__*/ S.Array(
 
 /** Execution that represents a single run of an Evaluation. */
 export interface Execution {
-  /** Labels as key value pairs. */
-  labels?: StringMap;
-  /** Output only. [Output only] End time stamp. */
-  endTime?: string;
   /** Output only. [Output only] Inventory time stamp. */
   inventoryTime?: string;
-  /** Output only. Execution result summary per rule. */
-  ruleResults?: RuleExecutionResultList;
-  /** Output only. [Output only] Evaluation ID. */
-  evaluationId?: string;
-  /** Output only. [Output only] Result summary for the execution. */
-  resultSummary?: Summary;
-  /** Output only. [Output only] State. */
-  state?: ExecutionStateEnum | (string & {});
-  /** Optional. Engine. */
-  engine?: ExecutionEngineEnum | (string & {});
-  /** Type which represents whether the execution executed directly by user or scheduled according to the `Evaluation.schedule` field. */
-  runType?: ExecutionRunTypeEnum | (string & {});
   /** The name of execution resource. The format is projects/{project}/locations/{location}/evaluations/{evaluation}/executions/{execution}. */
   name?: string;
+  /** Type which represents whether the execution executed directly by user or scheduled according to the `Evaluation.schedule` field. */
+  runType?: ExecutionRunTypeEnum | (string & {});
+  /** Output only. [Output only] State. */
+  state?: ExecutionStateEnum | (string & {});
   /** Output only. Additional information generated by the execution. */
   notices?: NoticeList;
-  /** Optional. External data sources. */
-  externalDataSources?: ExternalDataSourcesList;
+  /** Output only. [Output only] Evaluation ID. */
+  evaluationId?: string;
   /** Output only. [Output only] Start time stamp. */
   startTime?: string;
+  /** Output only. [Output only] Result summary for the execution. */
+  resultSummary?: Summary;
+  /** Output only. [Output only] End time stamp. */
+  endTime?: string;
+  /** Output only. Execution result summary per rule. */
+  ruleResults?: RuleExecutionResultList;
+  /** Optional. Engine. */
+  engine?: ExecutionEngineEnum | (string & {});
+  /** Labels as key value pairs. */
+  labels?: StringMap;
+  /** Optional. External data sources. */
+  externalDataSources?: ExternalDataSourcesList;
 }
 export const Execution = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    endTime: S.optional(S.String),
     inventoryTime: S.optional(S.String),
-    ruleResults: S.optional(RuleExecutionResultList),
-    evaluationId: S.optional(S.String),
-    resultSummary: S.optional(Summary),
-    state: S.optional(ExecutionStateEnum),
-    engine: S.optional(ExecutionEngineEnum),
-    runType: S.optional(ExecutionRunTypeEnum),
     name: S.optional(S.String),
+    runType: S.optional(ExecutionRunTypeEnum),
+    state: S.optional(ExecutionStateEnum),
     notices: S.optional(NoticeList),
-    externalDataSources: S.optional(ExternalDataSourcesList),
+    evaluationId: S.optional(S.String),
     startTime: S.optional(S.String),
+    resultSummary: S.optional(Summary),
+    endTime: S.optional(S.String),
+    ruleResults: S.optional(RuleExecutionResultList),
+    engine: S.optional(ExecutionEngineEnum),
+    labels: S.optional(StringMap),
+    externalDataSources: S.optional(ExternalDataSourcesList),
   }),
 ).annotate({ identifier: "Execution" }) as any as S.Schema<Execution>;
 
@@ -1875,22 +1875,22 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1920,24 +1920,24 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsDeploymentsRequest {
+  /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Optional. Filter resource following https://google.aip.dev/160. */
+  filter?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
-  /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Optional. Filter resource following https://google.aip.dev/160. */
-  filter?: string;
 }
 export const ListProjectsLocationsDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1954,28 +1954,28 @@ export const DeploymentList = /*@__PURE__*/ S.Array(Deployment) as any as S.Sche
 
 /** Message for response to listing deployments. */
 export interface ListDeploymentsResponse {
-  /** The list of deployments. */
-  deployments?: DeploymentList;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
+  /** The list of deployments. */
+  deployments?: DeploymentList;
 }
 export const ListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deployments: S.optional(DeploymentList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    deployments: S.optional(DeploymentList),
   }),
 ).annotate({ identifier: "ListDeploymentsResponse" }) as any as S.Schema<ListDeploymentsResponse>;
 
 export interface ListProjectsLocationsDeploymentsActuationsRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Required. The resource prefix of the Actuation using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  parent: string;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Required. The resource prefix of the Actuation using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  parent: string;
   /** Optional. Filtering results. */
   filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
@@ -1984,8 +1984,8 @@ export interface ListProjectsLocationsDeploymentsActuationsRequest {
 export const ListProjectsLocationsDeploymentsActuationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
@@ -2004,37 +2004,37 @@ export const ActuationList = /*@__PURE__*/ S.Array(Actuation) as any as S.Schema
 
 /** The response object from `ListActuations`. */
 export interface ListActuationsResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList;
   /** The list of actuations. */
   actuations?: ActuationList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
 }
 export const ListActuationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     actuations: S.optional(ActuationList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListActuationsResponse" }) as any as S.Schema<ListActuationsResponse>;
 
 export interface ListProjectsLocationsDiscoveredprofilesRequest {
-  /** Required. Parent value for ListDiscoveredProfilesRequest */
-  parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Required. Parent value for ListDiscoveredProfilesRequest */
+  parent: string;
   /** Optional. Filtering results */
   filter?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsDiscoveredprofilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2053,42 +2053,42 @@ export const WorkloadProfileList = /*@__PURE__*/ S.Array(
 
 /** List discovered profile Response returns discovered profiles from agents */
 export interface ListDiscoveredProfilesResponse {
+  /** Output only. The list of workload profiles */
+  workloadProfiles?: WorkloadProfileList;
   /** Output only. A token identifying a page of results the server should return */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** Output only. The list of workload profiles */
-  workloadProfiles?: WorkloadProfileList;
 }
 export const ListDiscoveredProfilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    workloadProfiles: S.optional(WorkloadProfileList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    workloadProfiles: S.optional(WorkloadProfileList),
   }),
 ).annotate({
   identifier: "ListDiscoveredProfilesResponse",
 }) as any as S.Schema<ListDiscoveredProfilesResponse>;
 
 export interface ListProjectsLocationsEvaluationsRequest {
-  /** Hint for how to order the results. */
-  orderBy?: string;
-  /** Filter to be applied when listing the evaluation results. */
-  filter?: string;
-  /** Required. Parent value for ListEvaluationsRequest. */
-  parent: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Hint for how to order the results. */
+  orderBy?: string;
+  /** Required. Parent value for ListEvaluationsRequest. */
+  parent: string;
+  /** Filter to be applied when listing the evaluation results. */
+  filter?: string;
 }
 export const ListProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2105,40 +2105,40 @@ export const EvaluationList = /*@__PURE__*/ S.Array(Evaluation) as any as S.Sche
 
 /** Response message for the ListEvaluations RPC. */
 export interface ListEvaluationsResponse {
-  /** The list of evaluations. */
-  evaluations?: EvaluationList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** The list of evaluations. */
+  evaluations?: EvaluationList;
 }
 export const ListEvaluationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    evaluations: S.optional(EvaluationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    evaluations: S.optional(EvaluationList),
   }),
 ).annotate({ identifier: "ListEvaluationsResponse" }) as any as S.Schema<ListEvaluationsResponse>;
 
 export interface ListProjectsLocationsEvaluationsExecutionsRequest {
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
-  /** Filtering results. */
-  filter?: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Required. The resource prefix of the Execution using the form: `projects/{project}/locations/{location}/evaluations/{evaluation}`. */
   parent: string;
+  /** Filtering results. */
+  filter?: string;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsEvaluationsExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2155,37 +2155,37 @@ export const ExecutionList = /*@__PURE__*/ S.Array(Execution) as any as S.Schema
 
 /** Response message for the ListExecutions RPC. */
 export interface ListExecutionsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** The list of Execution. */
-  executions?: ExecutionList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of Execution. */
+  executions?: ExecutionList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    executions: S.optional(ExecutionList),
     nextPageToken: S.optional(S.String),
+    executions: S.optional(ExecutionList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListExecutionsResponse" }) as any as S.Schema<ListExecutionsResponse>;
 
 export interface ListProjectsLocationsEvaluationsExecutionsResultsRequest {
-  /** Filtering results. */
-  filter?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Required. The execution results. Format: {parent}/evaluations/*\/executions/*\/results. */
   parent: string;
+  /** Filtering results. */
+  filter?: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
 }
 export const ListProjectsLocationsEvaluationsExecutionsResultsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -2197,6 +2197,57 @@ export const ListProjectsLocationsEvaluationsExecutionsResultsRequest = /*@__PUR
 ).annotate({
   identifier: "ListProjectsLocationsEvaluationsExecutionsResultsRequest",
 }) as any as S.Schema<ListProjectsLocationsEvaluationsExecutionsResultsRequest>;
+
+/** A ShellCommand is invoked via the agent's command line executor. */
+export interface ShellCommand {
+  /** Optional. If not specified, the default timeout is 60 seconds. */
+  timeoutSeconds?: number;
+  /** Arguments to be passed to the command. */
+  args?: string;
+  /** The name of the command to be executed. */
+  command?: string;
+}
+export const ShellCommand = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeoutSeconds: S.optional(S.Number),
+    args: S.optional(S.String),
+    command: S.optional(S.String),
+  }),
+).annotate({ identifier: "ShellCommand" }) as any as S.Schema<ShellCommand>;
+
+/** An AgentCommand specifies a one-time executable program for the agent to run. */
+export interface AgentCommand {
+  /** A map of key/value pairs that can be used to specify additional one-time executable settings. */
+  parameters?: StringMap;
+  /** The name of the agent one-time executable that will be invoked. */
+  command?: string;
+}
+export const AgentCommand = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parameters: S.optional(StringMap),
+    command: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentCommand" }) as any as S.Schema<AgentCommand>;
+
+/** Command specifies the type of command to execute. */
+export interface Command {
+  /** ShellCommand is invoked via the agent's command line executor. */
+  shellCommand?: ShellCommand;
+  /** AgentCommand specifies a one-time executable program for the agent to run. */
+  agentCommand?: AgentCommand;
+}
+export const Command = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shellCommand: S.optional(ShellCommand),
+    agentCommand: S.optional(AgentCommand),
+  }),
+).annotate({ identifier: "Command" }) as any as S.Schema<Command>;
+
+export type CommandList = Array<Command>;
+export const CommandList = /*@__PURE__*/ S.Array(Command) as any as S.Schema<CommandList>;
+
+export type ExecutionResultTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_PASSED" | "TYPE_VIOLATED";
+export const ExecutionResultTypeEnum = S.String;
 
 /** The rule output of the violation. */
 export interface RuleOutput {
@@ -2219,118 +2270,67 @@ export const RuleOutputList = /*@__PURE__*/ S.Array(RuleOutput) as any as S.Sche
 export interface ViolationDetails {
   /** Output only. The rule output of the violation. */
   ruleOutput?: RuleOutputList;
-  /** The name of the asset. */
-  asset?: string;
   /** Details of the violation. */
   observed?: StringMap;
+  /** The name of the asset. */
+  asset?: string;
   /** The service account associated with the resource. */
   serviceAccount?: string;
 }
 export const ViolationDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleOutput: S.optional(RuleOutputList),
-    asset: S.optional(S.String),
     observed: S.optional(StringMap),
+    asset: S.optional(S.String),
     serviceAccount: S.optional(S.String),
   }),
 ).annotate({ identifier: "ViolationDetails" }) as any as S.Schema<ViolationDetails>;
 
 /** Resource in execution result. */
 export interface Resource {
-  /** The service account associated with the resource. */
-  serviceAccount?: string;
-  /** The type of resource. */
-  type?: string;
   /** The name of the resource. */
   name?: string;
+  /** The type of resource. */
+  type?: string;
+  /** The service account associated with the resource. */
+  serviceAccount?: string;
 }
 export const Resource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceAccount: S.optional(S.String),
-    type: S.optional(S.String),
     name: S.optional(S.String),
+    type: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 
-export type ExecutionResultTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_PASSED" | "TYPE_VIOLATED";
-export const ExecutionResultTypeEnum = S.String;
-
-/** An AgentCommand specifies a one-time executable program for the agent to run. */
-export interface AgentCommand {
-  /** The name of the agent one-time executable that will be invoked. */
-  command?: string;
-  /** A map of key/value pairs that can be used to specify additional one-time executable settings. */
-  parameters?: StringMap;
-}
-export const AgentCommand = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    command: S.optional(S.String),
-    parameters: S.optional(StringMap),
-  }),
-).annotate({ identifier: "AgentCommand" }) as any as S.Schema<AgentCommand>;
-
-/** A ShellCommand is invoked via the agent's command line executor. */
-export interface ShellCommand {
-  /** Optional. If not specified, the default timeout is 60 seconds. */
-  timeoutSeconds?: number;
-  /** The name of the command to be executed. */
-  command?: string;
-  /** Arguments to be passed to the command. */
-  args?: string;
-}
-export const ShellCommand = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeoutSeconds: S.optional(S.Number),
-    command: S.optional(S.String),
-    args: S.optional(S.String),
-  }),
-).annotate({ identifier: "ShellCommand" }) as any as S.Schema<ShellCommand>;
-
-/** Command specifies the type of command to execute. */
-export interface Command {
-  /** AgentCommand specifies a one-time executable program for the agent to run. */
-  agentCommand?: AgentCommand;
-  /** ShellCommand is invoked via the agent's command line executor. */
-  shellCommand?: ShellCommand;
-}
-export const Command = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    agentCommand: S.optional(AgentCommand),
-    shellCommand: S.optional(ShellCommand),
-  }),
-).annotate({ identifier: "Command" }) as any as S.Schema<Command>;
-
-export type CommandList = Array<Command>;
-export const CommandList = /*@__PURE__*/ S.Array(Command) as any as S.Schema<CommandList>;
-
 /** The result of an execution. */
 export interface ExecutionResult {
+  /** The URL for the documentation of the rule. */
+  documentationUrl?: string;
+  /** The commands to remediate the violation. */
+  commands?: CommandList;
+  /** The rule that is violated in an evaluation. */
+  rule?: string;
+  /** Execution result type of the scanned resource. */
+  type?: ExecutionResultTypeEnum;
   /** The severity of violation. */
   severity?: string;
   /** The details of violation in an evaluation result. */
   violationDetails?: ViolationDetails;
-  /** The rule that is violated in an evaluation. */
-  rule?: string;
-  /** The URL for the documentation of the rule. */
-  documentationUrl?: string;
   /** The resource that violates the rule. */
   resource?: Resource;
-  /** Execution result type of the scanned resource. */
-  type?: ExecutionResultTypeEnum;
-  /** The commands to remediate the violation. */
-  commands?: CommandList;
   /** The violation message of an execution. */
   violationMessage?: string;
 }
 export const ExecutionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    documentationUrl: S.optional(S.String),
+    commands: S.optional(CommandList),
+    rule: S.optional(S.String),
+    type: S.optional(ExecutionResultTypeEnum),
     severity: S.optional(S.String),
     violationDetails: S.optional(ViolationDetails),
-    rule: S.optional(S.String),
-    documentationUrl: S.optional(S.String),
     resource: S.optional(Resource),
-    type: S.optional(ExecutionResultTypeEnum),
-    commands: S.optional(CommandList),
     violationMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "ExecutionResult" }) as any as S.Schema<ExecutionResult>;
@@ -2359,26 +2359,26 @@ export const ListExecutionResultsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsEvaluationsExecutionsScannedResourcesRequest {
   /** Rule name. */
   rule?: string;
-  /** Filtering results. */
-  filter?: string;
-  /** Required. Parent for ListScannedResourcesRequest. */
-  parent: string;
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. Parent for ListScannedResourcesRequest. */
+  parent: string;
+  /** Filtering results. */
+  filter?: string;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsEvaluationsExecutionsScannedResourcesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rule: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2411,39 +2411,39 @@ export const ScannedResourceList = /*@__PURE__*/ S.Array(
 
 /** Response message for the ListScannedResources RPC. */
 export interface ListScannedResourcesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** All scanned resources in response. */
   scannedResources?: ScannedResourceList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListScannedResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     scannedResources: S.optional(ScannedResourceList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListScannedResourcesResponse",
 }) as any as S.Schema<ListScannedResourcesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2460,18 +2460,18 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** The standard List next-page token. */
+  nextPageToken?: string;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
@@ -2485,24 +2485,24 @@ export const ListProjectsLocationsRulesEvaluationTypeEnum = S.String;
 export interface ListProjectsLocationsRulesRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** The Cloud Storage bucket name for custom rules. */
-  customRulesBucket?: string;
-  /** Filter based on primary_category, secondary_category. */
-  filter?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** The Cloud Storage bucket name for custom rules. */
+  customRulesBucket?: string;
   /** Required. The [project] on which to execute the request. The format is: projects/{project_id}/locations/{location} Currently, the pre-defined rules are global available to all projects and all regions. */
   parent: string;
+  /** Filter based on primary_category, secondary_category. */
+  filter?: string;
   /** Optional. The evaluation type of the rules will be applied to. The Cloud Storage bucket name for custom rules. */
   evaluationType?: ListProjectsLocationsRulesEvaluationTypeEnum | (string & {});
 }
 export const ListProjectsLocationsRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    customRulesBucket: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    customRulesBucket: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     evaluationType: S.optional(ListProjectsLocationsRulesEvaluationTypeEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2520,48 +2520,48 @@ export const RuleRuleTypeEnum = S.String;
 
 /** A rule to be evaluated. */
 export interface Rule {
-  /** The CAI asset type of the rule is evaluating, for joined asset types, it will be the corresponding primary asset types. */
-  assetType?: string;
-  /** The type of the rule. */
-  ruleType?: RuleRuleTypeEnum;
-  /** Rule name. */
-  name?: string;
   /** The name display in UI. */
   displayName?: string;
-  /** List of user-defined tags. */
-  tags?: StringList;
-  /** The document url for the rule. */
-  uri?: string;
-  /** The remediation for the rule. */
-  remediation?: string;
-  /** The message template for rule. */
-  errorMessage?: string;
-  /** Output only. The version of the rule. */
-  revisionId?: string;
   /** The secondary category. */
   secondaryCategory?: string;
+  /** The document url for the rule. */
+  uri?: string;
+  /** List of user-defined tags. */
+  tags?: StringList;
+  /** The primary category. */
+  primaryCategory?: string;
+  /** The message template for rule. */
+  errorMessage?: string;
+  /** The type of the rule. */
+  ruleType?: RuleRuleTypeEnum;
+  /** The remediation for the rule. */
+  remediation?: string;
   /** The severity of the rule. */
   severity?: string;
   /** Describe rule in plain language. */
   description?: string;
-  /** The primary category. */
-  primaryCategory?: string;
+  /** The CAI asset type of the rule is evaluating, for joined asset types, it will be the corresponding primary asset types. */
+  assetType?: string;
+  /** Rule name. */
+  name?: string;
+  /** Output only. The version of the rule. */
+  revisionId?: string;
 }
 export const Rule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assetType: S.optional(S.String),
-    ruleType: S.optional(RuleRuleTypeEnum),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
-    tags: S.optional(StringList),
-    uri: S.optional(S.String),
-    remediation: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    revisionId: S.optional(S.String),
     secondaryCategory: S.optional(S.String),
+    uri: S.optional(S.String),
+    tags: S.optional(StringList),
+    primaryCategory: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    ruleType: S.optional(RuleRuleTypeEnum),
+    remediation: S.optional(S.String),
     severity: S.optional(S.String),
     description: S.optional(S.String),
-    primaryCategory: S.optional(S.String),
+    assetType: S.optional(S.String),
+    name: S.optional(S.String),
+    revisionId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 
@@ -2580,10 +2580,10 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export interface PatchProjectsLocationsEvaluationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Evaluation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string;
   /** Request body */
@@ -2591,8 +2591,8 @@ export interface PatchProjectsLocationsEvaluationsRequest {
 }
 export const PatchProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Evaluation.pipe(T.HttpBody())),
   }).pipe(
@@ -2608,18 +2608,18 @@ export const PatchProjectsLocationsEvaluationsRequest = /*@__PURE__*/ S.suspend(
 
 /** Request message for the RunEvaluation RPC. */
 export interface RunEvaluationRequest {
+  /** Required. ID of the execution which will be created. */
+  executionId?: string;
   /** Required. The resource being created. */
   execution?: Execution;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. ID of the execution which will be created. */
-  executionId?: string;
 }
 export const RunEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    executionId: S.optional(S.String),
     execution: S.optional(Execution),
     requestId: S.optional(S.String),
-    executionId: S.optional(S.String),
   }),
 ).annotate({ identifier: "RunEvaluationRequest" }) as any as S.Schema<RunEvaluationRequest>;
 
@@ -2644,6 +2644,725 @@ export const RunProjectsLocationsEvaluationsExecutionsRequest = /*@__PURE__*/ S.
   identifier: "RunProjectsLocationsEvaluationsExecutionsRequest",
 }) as any as S.Schema<RunProjectsLocationsEvaluationsExecutionsRequest>;
 
+/** Message describing SAP discovery system metadata */
+export interface SapDiscoveryMetadata {
+  /** Optional. Customer defined, something like "E-commerce pre prod" */
+  definedSystem?: string;
+  /** Optional. Customer region string for customer's use. Does not represent GCP region. */
+  customerRegion?: string;
+  /** Optional. Should be "prod", "QA", "dev", "staging", etc. */
+  environmentType?: string;
+  /** Optional. This SAP product name */
+  sapProduct?: string;
+}
+export const SapDiscoveryMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    definedSystem: S.optional(S.String),
+    customerRegion: S.optional(S.String),
+    environmentType: S.optional(S.String),
+    sapProduct: S.optional(S.String),
+  }),
+).annotate({ identifier: "SapDiscoveryMetadata" }) as any as S.Schema<SapDiscoveryMetadata>;
+
+/** A SAP software component name, version, and type. */
+export interface SapDiscoveryWorkloadPropertiesSoftwareComponentProperties {
+  /** Optional. The component's major version. */
+  version?: string;
+  /** Optional. Name of the component. */
+  name?: string;
+  /** Optional. The component's minor version. */
+  extVersion?: string;
+  /** Optional. The component's type. */
+  type?: string;
+}
+export const SapDiscoveryWorkloadPropertiesSoftwareComponentProperties = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      version: S.optional(S.String),
+      name: S.optional(S.String),
+      extVersion: S.optional(S.String),
+      type: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "SapDiscoveryWorkloadPropertiesSoftwareComponentProperties",
+}) as any as S.Schema<SapDiscoveryWorkloadPropertiesSoftwareComponentProperties>;
+
+export type SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList =
+  Array<SapDiscoveryWorkloadPropertiesSoftwareComponentProperties>;
+export const SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList = /*@__PURE__*/ S.Array(
+  SapDiscoveryWorkloadPropertiesSoftwareComponentProperties,
+) as any as S.Schema<SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList>;
+
+/** A product name and version. */
+export interface SapDiscoveryWorkloadPropertiesProductVersion {
+  /** Optional. Name of the product. */
+  name?: string;
+  /** Optional. Version of the product. */
+  version?: string;
+}
+export const SapDiscoveryWorkloadPropertiesProductVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SapDiscoveryWorkloadPropertiesProductVersion",
+}) as any as S.Schema<SapDiscoveryWorkloadPropertiesProductVersion>;
+
+export type SapDiscoveryWorkloadPropertiesProductVersionList =
+  Array<SapDiscoveryWorkloadPropertiesProductVersion>;
+export const SapDiscoveryWorkloadPropertiesProductVersionList = /*@__PURE__*/ S.Array(
+  SapDiscoveryWorkloadPropertiesProductVersion,
+) as any as S.Schema<SapDiscoveryWorkloadPropertiesProductVersionList>;
+
+/** A set of properties describing an SAP workload. */
+export interface SapDiscoveryWorkloadProperties {
+  /** Optional. A list of SAP software components and their versions running on the system. */
+  softwareComponentVersions?: SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList;
+  /** Optional. List of SAP Products and their versions running on the system. */
+  productVersions?: SapDiscoveryWorkloadPropertiesProductVersionList;
+}
+export const SapDiscoveryWorkloadProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    softwareComponentVersions: S.optional(
+      SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList,
+    ),
+    productVersions: S.optional(SapDiscoveryWorkloadPropertiesProductVersionList),
+  }),
+).annotate({
+  identifier: "SapDiscoveryWorkloadProperties",
+}) as any as S.Schema<SapDiscoveryWorkloadProperties>;
+
+export type SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum =
+  | "DATABASE_TYPE_UNSPECIFIED"
+  | "HANA"
+  | "MAX_DB"
+  | "DB2"
+  | "ORACLE"
+  | "SQLSERVER"
+  | "ASE";
+export const SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum = S.String;
+
+/** A set of properties describing an SAP Database layer. */
+export interface SapDiscoveryComponentDatabaseProperties {
+  /** Optional. Instance number of the SAP instance. */
+  instanceNumber?: string;
+  /** Optional. The version of the database software running in the system. */
+  databaseVersion?: string;
+  /** Optional. SID of the system database. */
+  databaseSid?: string;
+  /** Optional. URI of the recognized shared NFS of the database. May be empty if the database has only a single node. */
+  sharedNfsUri?: string;
+  /** Optional. Landscape ID from the HANA nameserver. */
+  landscapeId?: string;
+  /** Required. URI of the recognized primary instance of the database. */
+  primaryInstanceUri?: string;
+  /** Required. Type of the database. HANA, DB2, etc. */
+  databaseType?: SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum | (string & {});
+}
+export const SapDiscoveryComponentDatabaseProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceNumber: S.optional(S.String),
+    databaseVersion: S.optional(S.String),
+    databaseSid: S.optional(S.String),
+    sharedNfsUri: S.optional(S.String),
+    landscapeId: S.optional(S.String),
+    primaryInstanceUri: S.optional(S.String),
+    databaseType: S.optional(SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum),
+  }),
+).annotate({
+  identifier: "SapDiscoveryComponentDatabaseProperties",
+}) as any as S.Schema<SapDiscoveryComponentDatabaseProperties>;
+
+export type SapDiscoveryComponentTopologyTypeEnum =
+  | "TOPOLOGY_TYPE_UNSPECIFIED"
+  | "TOPOLOGY_SCALE_UP"
+  | "TOPOLOGY_SCALE_OUT";
+export const SapDiscoveryComponentTopologyTypeEnum = S.String;
+
+export type SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum =
+  | "APPLICATION_TYPE_UNSPECIFIED"
+  | "NETWEAVER"
+  | "NETWEAVER_ABAP"
+  | "NETWEAVER_JAVA";
+export const SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum = S.String;
+
+/** A set of properties describing an SAP Application layer. */
+export interface SapDiscoveryComponentApplicationProperties {
+  /** Optional. Kernel version for Netweaver running in the system. */
+  kernelVersion?: string;
+  /** Optional. Resource URI of the recognized ASCS host of the application. */
+  ascsUri?: string;
+  /** Required. Type of the application. Netweaver, etc. */
+  applicationType?: SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum | (string & {});
+  /** Optional. Instance number of the SAP application instance. */
+  appInstanceNumber?: string;
+  /** Optional. Resource URI of the recognized shared NFS of the application. May be empty if the application server has only a single node. */
+  nfsUri?: string;
+  /** Optional. Instance number of the ERS instance. */
+  ersInstanceNumber?: string;
+  /** Optional. Instance number of the ASCS instance. */
+  ascsInstanceNumber?: string;
+  /** Optional. Deprecated: ApplicationType now tells you whether this is ABAP or Java. */
+  abap?: boolean;
+}
+export const SapDiscoveryComponentApplicationProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kernelVersion: S.optional(S.String),
+    ascsUri: S.optional(S.String),
+    applicationType: S.optional(SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum),
+    appInstanceNumber: S.optional(S.String),
+    nfsUri: S.optional(S.String),
+    ersInstanceNumber: S.optional(S.String),
+    ascsInstanceNumber: S.optional(S.String),
+    abap: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "SapDiscoveryComponentApplicationProperties",
+}) as any as S.Schema<SapDiscoveryComponentApplicationProperties>;
+
+export type SapDiscoveryResourceInstancePropertiesInstanceRoleEnum =
+  | "INSTANCE_ROLE_UNSPECIFIED"
+  | "INSTANCE_ROLE_ASCS"
+  | "INSTANCE_ROLE_ERS"
+  | "INSTANCE_ROLE_APP_SERVER"
+  | "INSTANCE_ROLE_DATABASE"
+  | "INSTANCE_ROLE_ASCS_ERS"
+  | "INSTANCE_ROLE_ASCS_APP_SERVER"
+  | "INSTANCE_ROLE_ASCS_DATABASE"
+  | "INSTANCE_ROLE_ERS_APP_SERVER"
+  | "INSTANCE_ROLE_ERS_DATABASE"
+  | "INSTANCE_ROLE_APP_SERVER_DATABASE"
+  | "INSTANCE_ROLE_ASCS_ERS_APP_SERVER"
+  | "INSTANCE_ROLE_ASCS_ERS_DATABASE"
+  | "INSTANCE_ROLE_ASCS_APP_SERVER_DATABASE"
+  | "INSTANCE_ROLE_ERS_APP_SERVER_DATABASE"
+  | "INSTANCE_ROLE_ASCS_ERS_APP_SERVER_DATABASE";
+export const SapDiscoveryResourceInstancePropertiesInstanceRoleEnum = S.String;
+
+/** Disk mount on the instance. */
+export interface SapDiscoveryResourceInstancePropertiesDiskMount {
+  /** Optional. Name of the disk. */
+  name?: string;
+  /** Optional. Names of the disks providing this mount point. */
+  diskNames?: StringList;
+  /** Optional. Filesystem mount point. */
+  mountPoint?: string;
+}
+export const SapDiscoveryResourceInstancePropertiesDiskMount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    diskNames: S.optional(StringList),
+    mountPoint: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SapDiscoveryResourceInstancePropertiesDiskMount",
+}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesDiskMount>;
+
+export type SapDiscoveryResourceInstancePropertiesDiskMountList =
+  Array<SapDiscoveryResourceInstancePropertiesDiskMount>;
+export const SapDiscoveryResourceInstancePropertiesDiskMountList = /*@__PURE__*/ S.Array(
+  SapDiscoveryResourceInstancePropertiesDiskMount,
+) as any as S.Schema<SapDiscoveryResourceInstancePropertiesDiskMountList>;
+
+/** Fields to describe an SAP application server instance. */
+export interface SapDiscoveryResourceInstancePropertiesAppInstance {
+  /** Optional. Instance number of the SAP application instance. */
+  number?: string;
+  /** Optional. Instance name of the SAP application instance. */
+  name?: string;
+}
+export const SapDiscoveryResourceInstancePropertiesAppInstance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    number: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SapDiscoveryResourceInstancePropertiesAppInstance",
+}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesAppInstance>;
+
+export type SapDiscoveryResourceInstancePropertiesAppInstanceList =
+  Array<SapDiscoveryResourceInstancePropertiesAppInstance>;
+export const SapDiscoveryResourceInstancePropertiesAppInstanceList = /*@__PURE__*/ S.Array(
+  SapDiscoveryResourceInstancePropertiesAppInstance,
+) as any as S.Schema<SapDiscoveryResourceInstancePropertiesAppInstanceList>;
+
+/** Version is reported as Major.Minor.Build.Patch. */
+export interface SapDiscoveryResourceInstancePropertiesKernelVersionVersion {
+  /** Optional. The build version number. */
+  build?: number;
+  /** Optional. The patch version number. */
+  patch?: number;
+  /** Optional. The major version number. */
+  major?: number;
+  /** Optional. The minor version number. */
+  minor?: number;
+  /** Optional. A catch-all for any unparsed version components. This is in case the number of points in the version string exceeds the expected count of 4. */
+  remainder?: string;
+}
+export const SapDiscoveryResourceInstancePropertiesKernelVersionVersion = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      build: S.optional(S.Number),
+      patch: S.optional(S.Number),
+      major: S.optional(S.Number),
+      minor: S.optional(S.Number),
+      remainder: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "SapDiscoveryResourceInstancePropertiesKernelVersionVersion",
+}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesKernelVersionVersion>;
+
+/** KernelVersion encapsulates the kernel version data for the system. */
+export interface SapDiscoveryResourceInstancePropertiesKernelVersion {
+  /** Optional. Raw string of the kernel version. */
+  rawString?: string;
+  /** Optional. Captures the OS-specific kernel version, the portion of the string up to the first dash. */
+  osKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion;
+  /** Optional. Captures the distro-specific kernel version, the portion of the string following the first dash. */
+  distroKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion;
+}
+export const SapDiscoveryResourceInstancePropertiesKernelVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rawString: S.optional(S.String),
+    osKernel: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersionVersion),
+    distroKernel: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersionVersion),
+  }),
+).annotate({
+  identifier: "SapDiscoveryResourceInstancePropertiesKernelVersion",
+}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesKernelVersion>;
+
+/** A set of properties only present for an instance type resource */
+export interface SapDiscoveryResourceInstanceProperties {
+  /** Optional. Bitmask of instance role, a resource may have multiple roles at once. */
+  instanceRole?: SapDiscoveryResourceInstancePropertiesInstanceRoleEnum | (string & {});
+  /** Optional. The VM's instance number. */
+  instanceNumber?: string;
+  /** Optional. Disk mounts on the instance. */
+  diskMounts?: SapDiscoveryResourceInstancePropertiesDiskMountList;
+  /** Optional. App server instances on the host */
+  appInstances?: SapDiscoveryResourceInstancePropertiesAppInstanceList;
+  /** Optional. A virtual hostname of the instance if it has one. */
+  virtualHostname?: string;
+  /** Optional. A list of instance URIs that are part of a cluster with this one. */
+  clusterInstances?: StringList;
+  /** Optional. Instance is part of a DR site. */
+  isDrSite?: boolean;
+  /** Optional. The kernel version of the instance. */
+  osKernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion;
+}
+export const SapDiscoveryResourceInstanceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceRole: S.optional(SapDiscoveryResourceInstancePropertiesInstanceRoleEnum),
+    instanceNumber: S.optional(S.String),
+    diskMounts: S.optional(SapDiscoveryResourceInstancePropertiesDiskMountList),
+    appInstances: S.optional(SapDiscoveryResourceInstancePropertiesAppInstanceList),
+    virtualHostname: S.optional(S.String),
+    clusterInstances: S.optional(StringList),
+    isDrSite: S.optional(S.Boolean),
+    osKernelVersion: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersion),
+  }),
+).annotate({
+  identifier: "SapDiscoveryResourceInstanceProperties",
+}) as any as S.Schema<SapDiscoveryResourceInstanceProperties>;
+
+export type SapDiscoveryResourceResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "RESOURCE_TYPE_COMPUTE"
+  | "RESOURCE_TYPE_STORAGE"
+  | "RESOURCE_TYPE_NETWORK";
+export const SapDiscoveryResourceResourceTypeEnum = S.String;
+
+export type SapDiscoveryResourceResourceKindEnum =
+  | "RESOURCE_KIND_UNSPECIFIED"
+  | "RESOURCE_KIND_INSTANCE"
+  | "RESOURCE_KIND_DISK"
+  | "RESOURCE_KIND_ADDRESS"
+  | "RESOURCE_KIND_FILESTORE"
+  | "RESOURCE_KIND_HEALTH_CHECK"
+  | "RESOURCE_KIND_FORWARDING_RULE"
+  | "RESOURCE_KIND_BACKEND_SERVICE"
+  | "RESOURCE_KIND_SUBNETWORK"
+  | "RESOURCE_KIND_NETWORK"
+  | "RESOURCE_KIND_PUBLIC_ADDRESS"
+  | "RESOURCE_KIND_INSTANCE_GROUP";
+export const SapDiscoveryResourceResourceKindEnum = S.String;
+
+/** Message describing a resource. */
+export interface SapDiscoveryResource {
+  /** Optional. A set of properties only applying to instance type resources. */
+  instanceProperties?: SapDiscoveryResourceInstanceProperties;
+  /** Required. The type of this resource. */
+  resourceType?: SapDiscoveryResourceResourceTypeEnum | (string & {});
+  /** Required. ComputeInstance, ComputeDisk, VPC, Bare Metal server, etc. */
+  resourceKind?: SapDiscoveryResourceResourceKindEnum | (string & {});
+  /** Required. URI of the resource, includes project, location, and name. */
+  resourceUri?: string;
+  /** Required. Unix timestamp of when this resource last had its discovery data updated. */
+  updateTime?: string;
+  /** Optional. A list of resource URIs related to this resource. */
+  relatedResources?: StringList;
+}
+export const SapDiscoveryResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceProperties: S.optional(SapDiscoveryResourceInstanceProperties),
+    resourceType: S.optional(SapDiscoveryResourceResourceTypeEnum),
+    resourceKind: S.optional(SapDiscoveryResourceResourceKindEnum),
+    resourceUri: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    relatedResources: S.optional(StringList),
+  }),
+).annotate({ identifier: "SapDiscoveryResource" }) as any as S.Schema<SapDiscoveryResource>;
+
+export type SapDiscoveryResourceList = Array<SapDiscoveryResource>;
+export const SapDiscoveryResourceList = /*@__PURE__*/ S.Array(
+  SapDiscoveryResource,
+) as any as S.Schema<SapDiscoveryResourceList>;
+
+/** A replication site used in Disaster Recovery (DR) configurations. */
+export interface SapDiscoveryComponentReplicationSite {
+  /** Optional. The system component for the site. */
+  component?: SapDiscoveryComponent;
+  /** Optional. The name of the source site from which this one replicates. */
+  sourceSite?: string;
+}
+export const SapDiscoveryComponentReplicationSite = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    component: S.optional(S.suspend(() => SapDiscoveryComponent)),
+    sourceSite: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SapDiscoveryComponentReplicationSite",
+}) as any as S.Schema<SapDiscoveryComponentReplicationSite>;
+
+export type SapDiscoveryComponentReplicationSiteList = Array<SapDiscoveryComponentReplicationSite>;
+export const SapDiscoveryComponentReplicationSiteList = /*@__PURE__*/ S.Array(
+  SapDiscoveryComponentReplicationSite,
+) as any as S.Schema<SapDiscoveryComponentReplicationSiteList>;
+
+/** Message describing the system component. */
+export interface SapDiscoveryComponent {
+  /** Required. Pantheon Project in which the resources reside. */
+  hostProject?: string;
+  /** Optional. The component is a SAP database. */
+  databaseProperties?: SapDiscoveryComponentDatabaseProperties;
+  /** Optional. The detected topology of the component. */
+  topologyType?: SapDiscoveryComponentTopologyTypeEnum | (string & {});
+  /** Optional. The component is a SAP application. */
+  applicationProperties?: SapDiscoveryComponentApplicationProperties;
+  /** Optional. A list of host URIs that are part of the HA configuration if present. An empty list indicates the component is not configured for HA. */
+  haHosts?: StringList;
+  /** Optional. The SAP identifier, used by the SAP software and helps differentiate systems for customers. */
+  sid?: string;
+  /** Optional. The region this component's resources are primarily located in. */
+  region?: string;
+  /** Optional. The resources in a component. */
+  resources?: SapDiscoveryResourceList;
+  /** Optional. A list of replication sites used in Disaster Recovery (DR) configurations. */
+  replicationSites?: SapDiscoveryComponentReplicationSiteList;
+}
+export const SapDiscoveryComponent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostProject: S.optional(S.String),
+    databaseProperties: S.optional(SapDiscoveryComponentDatabaseProperties),
+    topologyType: S.optional(SapDiscoveryComponentTopologyTypeEnum),
+    applicationProperties: S.optional(SapDiscoveryComponentApplicationProperties),
+    haHosts: S.optional(StringList),
+    sid: S.optional(S.String),
+    region: S.optional(S.String),
+    resources: S.optional(SapDiscoveryResourceList),
+    replicationSites: S.optional(SapDiscoveryComponentReplicationSiteList),
+  }),
+).annotate({ identifier: "SapDiscoveryComponent" }) as any as S.Schema<SapDiscoveryComponent>;
+
+/** The schema of SAP system discovery data. */
+export interface SapDiscovery {
+  /** Required. Unix timestamp this system has been updated last. */
+  updateTime?: string;
+  /** Optional. The GCP project number that this SapSystem belongs to. */
+  projectNumber?: string;
+  /** Output only. A combination of database SID, database instance URI and tenant DB name to make a unique identifier per-system. */
+  systemId?: string;
+  /** Optional. The metadata for SAP system discovery data. */
+  metadata?: SapDiscoveryMetadata;
+  /** Optional. Whether to use DR reconciliation or not. */
+  useDrReconciliation?: boolean;
+  /** Optional. The properties of the workload. */
+  workloadProperties?: SapDiscoveryWorkloadProperties;
+  /** Optional. An SAP system may run without an application layer. */
+  applicationLayer?: SapDiscoveryComponent;
+  /** Required. An SAP System must have a database. */
+  databaseLayer?: SapDiscoveryComponent;
+}
+export const SapDiscovery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    updateTime: S.optional(S.String),
+    projectNumber: S.optional(S.String),
+    systemId: S.optional(S.String),
+    metadata: S.optional(SapDiscoveryMetadata),
+    useDrReconciliation: S.optional(S.Boolean),
+    workloadProperties: S.optional(SapDiscoveryWorkloadProperties),
+    applicationLayer: S.optional(SapDiscoveryComponent),
+    databaseLayer: S.optional(SapDiscoveryComponent),
+  }),
+).annotate({ identifier: "SapDiscovery" }) as any as S.Schema<SapDiscovery>;
+
+export type AgentStatusSystemdServiceRunningEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusSystemdServiceRunningEnum = S.String;
+
+export type AgentStatusSystemdServiceEnabledEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusSystemdServiceEnabledEnum = S.String;
+
+export type AgentStatusServiceStatusStateEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusServiceStatusStateEnum = S.String;
+
+/** The configuration value. */
+export interface AgentStatusConfigValue {
+  /** Output only. The name of the configuration value. */
+  name?: string;
+  /** Output only. The value of the configuration value. */
+  value?: string;
+  /** Output only. Whether the configuration value is the default value or overridden. */
+  isDefault?: boolean;
+}
+export const AgentStatusConfigValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+    isDefault: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AgentStatusConfigValue" }) as any as S.Schema<AgentStatusConfigValue>;
+
+export type AgentStatusConfigValueList = Array<AgentStatusConfigValue>;
+export const AgentStatusConfigValueList = /*@__PURE__*/ S.Array(
+  AgentStatusConfigValue,
+) as any as S.Schema<AgentStatusConfigValueList>;
+
+export type AgentStatusServiceStatusFullyFunctionalEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusServiceStatusFullyFunctionalEnum = S.String;
+
+export type AgentStatusIAMPermissionGrantedEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusIAMPermissionGrantedEnum = S.String;
+
+/** The IAM permission status. */
+export interface AgentStatusIAMPermission {
+  /** Output only. The name of the permission. */
+  name?: string;
+  /** Output only. Whether the permission is granted. */
+  granted?: AgentStatusIAMPermissionGrantedEnum | (string & {});
+}
+export const AgentStatusIAMPermission = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    granted: S.optional(AgentStatusIAMPermissionGrantedEnum),
+  }),
+).annotate({ identifier: "AgentStatusIAMPermission" }) as any as S.Schema<AgentStatusIAMPermission>;
+
+export type AgentStatusIAMPermissionList = Array<AgentStatusIAMPermission>;
+export const AgentStatusIAMPermissionList = /*@__PURE__*/ S.Array(
+  AgentStatusIAMPermission,
+) as any as S.Schema<AgentStatusIAMPermissionList>;
+
+/** The status of a service (process metrics, host metrics, etc.). */
+export interface AgentStatusServiceStatus {
+  /** Output only. The state of the service (enabled or disabled in the configuration). */
+  state?: AgentStatusServiceStatusStateEnum | (string & {});
+  /** Output only. The error message for the service if it is not fully functional. */
+  errorMessage?: string;
+  /** Output only. The configuration values for the service. */
+  configValues?: AgentStatusConfigValueList;
+  /** Output only. The name of the service. */
+  name?: string;
+  /** Output only. The message to display when the service state is unspecified. */
+  unspecifiedStateMessage?: string;
+  /** Output only. Whether the service is fully functional (all checks passed). */
+  fullyFunctional?: AgentStatusServiceStatusFullyFunctionalEnum | (string & {});
+  /** Output only. The permissions required for the service. */
+  iamPermissions?: AgentStatusIAMPermissionList;
+}
+export const AgentStatusServiceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(AgentStatusServiceStatusStateEnum),
+    errorMessage: S.optional(S.String),
+    configValues: S.optional(AgentStatusConfigValueList),
+    name: S.optional(S.String),
+    unspecifiedStateMessage: S.optional(S.String),
+    fullyFunctional: S.optional(AgentStatusServiceStatusFullyFunctionalEnum),
+    iamPermissions: S.optional(AgentStatusIAMPermissionList),
+  }),
+).annotate({ identifier: "AgentStatusServiceStatus" }) as any as S.Schema<AgentStatusServiceStatus>;
+
+export type AgentStatusServiceStatusList = Array<AgentStatusServiceStatus>;
+export const AgentStatusServiceStatusList = /*@__PURE__*/ S.Array(
+  AgentStatusServiceStatus,
+) as any as S.Schema<AgentStatusServiceStatusList>;
+
+/** The reference to public documentation. */
+export interface AgentStatusReference {
+  /** Output only. The name of the reference. */
+  name?: string;
+  /** Output only. The URL of the reference. */
+  url?: string;
+}
+export const AgentStatusReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentStatusReference" }) as any as S.Schema<AgentStatusReference>;
+
+export type AgentStatusReferenceList = Array<AgentStatusReference>;
+export const AgentStatusReferenceList = /*@__PURE__*/ S.Array(
+  AgentStatusReference,
+) as any as S.Schema<AgentStatusReferenceList>;
+
+export type AgentStatusCloudApiAccessFullScopesGrantedEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusCloudApiAccessFullScopesGrantedEnum = S.String;
+
+export type AgentStatusConfigurationValidEnum =
+  | "UNSPECIFIED_STATE"
+  | "SUCCESS_STATE"
+  | "FAILURE_STATE"
+  | "ERROR_STATE";
+export const AgentStatusConfigurationValidEnum = S.String;
+
+/** The schema of agent status data. */
+export interface AgentStatus {
+  /** Output only. Whether the agent service is running in systemd. */
+  systemdServiceRunning?: AgentStatusSystemdServiceRunningEnum | (string & {});
+  /** Output only. The URI of the instance. Format: projects//zones//instances/ */
+  instanceUri?: string;
+  /** Output only. The kernel version of the system. */
+  kernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion;
+  /** Output only. Whether the agent service is enabled in systemd. */
+  systemdServiceEnabled?: AgentStatusSystemdServiceEnabledEnum | (string & {});
+  /** Output only. The services (process metrics, host metrics, etc.). */
+  services?: AgentStatusServiceStatusList;
+  /** Output only. The error message for the agent configuration if invalid. */
+  configurationErrorMessage?: string;
+  /** Output only. The installed version of the agent on the host. */
+  installedVersion?: string;
+  /** Output only. The available version of the agent in artifact registry. */
+  availableVersion?: string;
+  /** Output only. Optional references to public documentation. */
+  references?: AgentStatusReferenceList;
+  /** Output only. The name of the agent. */
+  agentName?: string;
+  /** Output only. Whether the agent has full access to Cloud APIs. */
+  cloudApiAccessFullScopesGranted?: AgentStatusCloudApiAccessFullScopesGrantedEnum | (string & {});
+  /** Output only. The path to the agent configuration file. */
+  configurationFilePath?: string;
+  /** Output only. Whether the agent configuration is valid. */
+  configurationValid?: AgentStatusConfigurationValidEnum | (string & {});
+}
+export const AgentStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    systemdServiceRunning: S.optional(AgentStatusSystemdServiceRunningEnum),
+    instanceUri: S.optional(S.String),
+    kernelVersion: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersion),
+    systemdServiceEnabled: S.optional(AgentStatusSystemdServiceEnabledEnum),
+    services: S.optional(AgentStatusServiceStatusList),
+    configurationErrorMessage: S.optional(S.String),
+    installedVersion: S.optional(S.String),
+    availableVersion: S.optional(S.String),
+    references: S.optional(AgentStatusReferenceList),
+    agentName: S.optional(S.String),
+    cloudApiAccessFullScopesGranted: S.optional(AgentStatusCloudApiAccessFullScopesGrantedEnum),
+    configurationFilePath: S.optional(S.String),
+    configurationValid: S.optional(AgentStatusConfigurationValidEnum),
+  }),
+).annotate({ identifier: "AgentStatus" }) as any as S.Schema<AgentStatus>;
+
+export type SapValidationValidationDetailSapValidationTypeEnum =
+  | "SAP_VALIDATION_TYPE_UNSPECIFIED"
+  | "SYSTEM"
+  | "COROSYNC"
+  | "PACEMAKER"
+  | "HANA"
+  | "NETWEAVER"
+  | "HANA_SECURITY"
+  | "CUSTOM";
+export const SapValidationValidationDetailSapValidationTypeEnum = S.String;
+
+/** Message describing the SAP validation metrics. */
+export interface SapValidationValidationDetail {
+  /** Optional. The SAP system that the validation data is from. */
+  sapValidationType?: SapValidationValidationDetailSapValidationTypeEnum | (string & {});
+  /** Optional. Was there a SAP system detected for this validation type. */
+  isPresent?: boolean;
+  /** Optional. The pairs of metrics data: field name & field value. */
+  details?: StringMap;
+}
+export const SapValidationValidationDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sapValidationType: S.optional(SapValidationValidationDetailSapValidationTypeEnum),
+    isPresent: S.optional(S.Boolean),
+    details: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "SapValidationValidationDetail",
+}) as any as S.Schema<SapValidationValidationDetail>;
+
+export type SapValidationValidationDetailList = Array<SapValidationValidationDetail>;
+export const SapValidationValidationDetailList = /*@__PURE__*/ S.Array(
+  SapValidationValidationDetail,
+) as any as S.Schema<SapValidationValidationDetailList>;
+
+/** A presentation of SAP workload insight. The schema of SAP workloads validation related data. */
+export interface SapValidation {
+  /** Optional. The zone of the instance that the Insight data comes from. */
+  zone?: string;
+  /** Required. The project_id of the cloud project that the Insight data comes from. */
+  projectId?: string;
+  /** Optional. A list of SAP validation metrics data. */
+  validationDetails?: SapValidationValidationDetailList;
+}
+export const SapValidation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zone: S.optional(S.String),
+    projectId: S.optional(S.String),
+    validationDetails: S.optional(SapValidationValidationDetailList),
+  }),
+).annotate({ identifier: "SapValidation" }) as any as S.Schema<SapValidation>;
+
+/** A presentation of OpenShift workload insight. The schema of OpenShift workloads validation related data. */
+export interface OpenShiftValidation {
+  /** Required. The OpenShift cluster ID (e.g. 8371bb05-7cac-4d38-82c0-0f58c4f6f936). */
+  clusterId?: string;
+  /** Required. The validation details of the OpenShift cluster in JSON format. */
+  validationDetails?: DocumentMap;
+}
+export const OpenShiftValidation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterId: S.optional(S.String),
+    validationDetails: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "OpenShiftValidation" }) as any as S.Schema<OpenShiftValidation>;
+
 export type TorsoValidationWorkloadTypeEnum =
   | "WORKLOAD_TYPE_UNSPECIFIED"
   | "MYSQL"
@@ -2655,21 +3374,21 @@ export const TorsoValidationWorkloadTypeEnum = S.String;
 export interface TorsoValidation {
   /** Required. agent_version lists the version of the agent that collected this data. */
   agentVersion?: string;
-  /** Required. validation_details contains the pairs of validation data: field name & field value. */
-  validationDetails?: StringMap;
-  /** Required. workload_type specifies the type of torso workload. */
-  workloadType?: TorsoValidationWorkloadTypeEnum | (string & {});
   /** Optional. instance_name lists the human readable name of the instance that the data comes from. */
   instanceName?: string;
+  /** Required. workload_type specifies the type of torso workload. */
+  workloadType?: TorsoValidationWorkloadTypeEnum | (string & {});
+  /** Required. validation_details contains the pairs of validation data: field name & field value. */
+  validationDetails?: StringMap;
   /** Required. project_id lists the human readable cloud project that the data comes from. */
   projectId?: string;
 }
 export const TorsoValidation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agentVersion: S.optional(S.String),
-    validationDetails: S.optional(StringMap),
-    workloadType: S.optional(TorsoValidationWorkloadTypeEnum),
     instanceName: S.optional(S.String),
+    workloadType: S.optional(TorsoValidationWorkloadTypeEnum),
+    validationDetails: S.optional(StringMap),
     projectId: S.optional(S.String),
   }),
 ).annotate({ identifier: "TorsoValidation" }) as any as S.Schema<TorsoValidation>;
@@ -2731,759 +3450,53 @@ export const SqlserverValidationValidationDetailList = /*@__PURE__*/ S.Array(
 
 /** A presentation of SQLServer workload insight. The schema of SqlServer workloads validation related data. */
 export interface SqlserverValidation {
-  /** Required. The instance_name of the instance that the Insight data comes from. According to https://linter.aip.dev/122/name-suffix: field names should not use the _name suffix unless the field would be ambiguous without it. */
-  instance?: string;
-  /** Optional. The agent version collected this data point */
-  agentVersion?: string;
   /** Required. The project_id of the cloud project that the Insight data comes from. */
   projectId?: string;
+  /** Optional. The agent version collected this data point */
+  agentVersion?: string;
+  /** Required. The instance_name of the instance that the Insight data comes from. According to https://linter.aip.dev/122/name-suffix: field names should not use the _name suffix unless the field would be ambiguous without it. */
+  instance?: string;
   /** Optional. A list of SqlServer validation metrics data. */
   validationDetails?: SqlserverValidationValidationDetailList;
 }
 export const SqlserverValidation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instance: S.optional(S.String),
-    agentVersion: S.optional(S.String),
     projectId: S.optional(S.String),
+    agentVersion: S.optional(S.String),
+    instance: S.optional(S.String),
     validationDetails: S.optional(SqlserverValidationValidationDetailList),
   }),
 ).annotate({ identifier: "SqlserverValidation" }) as any as S.Schema<SqlserverValidation>;
 
-/** A presentation of OpenShift workload insight. The schema of OpenShift workloads validation related data. */
-export interface OpenShiftValidation {
-  /** Required. The OpenShift cluster ID (e.g. 8371bb05-7cac-4d38-82c0-0f58c4f6f936). */
-  clusterId?: string;
-  /** Required. The validation details of the OpenShift cluster in JSON format. */
-  validationDetails?: DocumentMap;
-}
-export const OpenShiftValidation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterId: S.optional(S.String),
-    validationDetails: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "OpenShiftValidation" }) as any as S.Schema<OpenShiftValidation>;
-
-export type AgentStatusSystemdServiceEnabledEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusSystemdServiceEnabledEnum = S.String;
-
-export type AgentStatusConfigurationValidEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusConfigurationValidEnum = S.String;
-
-/** Version is reported as Major.Minor.Build.Patch. */
-export interface SapDiscoveryResourceInstancePropertiesKernelVersionVersion {
-  /** Optional. The build version number. */
-  build?: number;
-  /** Optional. A catch-all for any unparsed version components. This is in case the number of points in the version string exceeds the expected count of 4. */
-  remainder?: string;
-  /** Optional. The major version number. */
-  major?: number;
-  /** Optional. The patch version number. */
-  patch?: number;
-  /** Optional. The minor version number. */
-  minor?: number;
-}
-export const SapDiscoveryResourceInstancePropertiesKernelVersionVersion = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      build: S.optional(S.Number),
-      remainder: S.optional(S.String),
-      major: S.optional(S.Number),
-      patch: S.optional(S.Number),
-      minor: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "SapDiscoveryResourceInstancePropertiesKernelVersionVersion",
-}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesKernelVersionVersion>;
-
-/** KernelVersion encapsulates the kernel version data for the system. */
-export interface SapDiscoveryResourceInstancePropertiesKernelVersion {
-  /** Optional. Captures the distro-specific kernel version, the portion of the string following the first dash. */
-  distroKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion;
-  /** Optional. Captures the OS-specific kernel version, the portion of the string up to the first dash. */
-  osKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion;
-  /** Optional. Raw string of the kernel version. */
-  rawString?: string;
-}
-export const SapDiscoveryResourceInstancePropertiesKernelVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    distroKernel: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersionVersion),
-    osKernel: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersionVersion),
-    rawString: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SapDiscoveryResourceInstancePropertiesKernelVersion",
-}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesKernelVersion>;
-
-/** The reference to public documentation. */
-export interface AgentStatusReference {
-  /** Output only. The URL of the reference. */
-  url?: string;
-  /** Output only. The name of the reference. */
-  name?: string;
-}
-export const AgentStatusReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentStatusReference" }) as any as S.Schema<AgentStatusReference>;
-
-export type AgentStatusReferenceList = Array<AgentStatusReference>;
-export const AgentStatusReferenceList = /*@__PURE__*/ S.Array(
-  AgentStatusReference,
-) as any as S.Schema<AgentStatusReferenceList>;
-
-export type AgentStatusSystemdServiceRunningEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusSystemdServiceRunningEnum = S.String;
-
-export type AgentStatusCloudApiAccessFullScopesGrantedEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusCloudApiAccessFullScopesGrantedEnum = S.String;
-
-export type AgentStatusServiceStatusStateEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusServiceStatusStateEnum = S.String;
-
-export type AgentStatusServiceStatusFullyFunctionalEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusServiceStatusFullyFunctionalEnum = S.String;
-
-/** The configuration value. */
-export interface AgentStatusConfigValue {
-  /** Output only. Whether the configuration value is the default value or overridden. */
-  isDefault?: boolean;
-  /** Output only. The name of the configuration value. */
-  name?: string;
-  /** Output only. The value of the configuration value. */
-  value?: string;
-}
-export const AgentStatusConfigValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isDefault: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentStatusConfigValue" }) as any as S.Schema<AgentStatusConfigValue>;
-
-export type AgentStatusConfigValueList = Array<AgentStatusConfigValue>;
-export const AgentStatusConfigValueList = /*@__PURE__*/ S.Array(
-  AgentStatusConfigValue,
-) as any as S.Schema<AgentStatusConfigValueList>;
-
-export type AgentStatusIAMPermissionGrantedEnum =
-  | "UNSPECIFIED_STATE"
-  | "SUCCESS_STATE"
-  | "FAILURE_STATE"
-  | "ERROR_STATE";
-export const AgentStatusIAMPermissionGrantedEnum = S.String;
-
-/** The IAM permission status. */
-export interface AgentStatusIAMPermission {
-  /** Output only. Whether the permission is granted. */
-  granted?: AgentStatusIAMPermissionGrantedEnum | (string & {});
-  /** Output only. The name of the permission. */
-  name?: string;
-}
-export const AgentStatusIAMPermission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    granted: S.optional(AgentStatusIAMPermissionGrantedEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentStatusIAMPermission" }) as any as S.Schema<AgentStatusIAMPermission>;
-
-export type AgentStatusIAMPermissionList = Array<AgentStatusIAMPermission>;
-export const AgentStatusIAMPermissionList = /*@__PURE__*/ S.Array(
-  AgentStatusIAMPermission,
-) as any as S.Schema<AgentStatusIAMPermissionList>;
-
-/** The status of a service (process metrics, host metrics, etc.). */
-export interface AgentStatusServiceStatus {
-  /** Output only. The message to display when the service state is unspecified. */
-  unspecifiedStateMessage?: string;
-  /** Output only. The state of the service (enabled or disabled in the configuration). */
-  state?: AgentStatusServiceStatusStateEnum | (string & {});
-  /** Output only. Whether the service is fully functional (all checks passed). */
-  fullyFunctional?: AgentStatusServiceStatusFullyFunctionalEnum | (string & {});
-  /** Output only. The configuration values for the service. */
-  configValues?: AgentStatusConfigValueList;
-  /** Output only. The error message for the service if it is not fully functional. */
-  errorMessage?: string;
-  /** Output only. The permissions required for the service. */
-  iamPermissions?: AgentStatusIAMPermissionList;
-  /** Output only. The name of the service. */
-  name?: string;
-}
-export const AgentStatusServiceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    unspecifiedStateMessage: S.optional(S.String),
-    state: S.optional(AgentStatusServiceStatusStateEnum),
-    fullyFunctional: S.optional(AgentStatusServiceStatusFullyFunctionalEnum),
-    configValues: S.optional(AgentStatusConfigValueList),
-    errorMessage: S.optional(S.String),
-    iamPermissions: S.optional(AgentStatusIAMPermissionList),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentStatusServiceStatus" }) as any as S.Schema<AgentStatusServiceStatus>;
-
-export type AgentStatusServiceStatusList = Array<AgentStatusServiceStatus>;
-export const AgentStatusServiceStatusList = /*@__PURE__*/ S.Array(
-  AgentStatusServiceStatus,
-) as any as S.Schema<AgentStatusServiceStatusList>;
-
-/** The schema of agent status data. */
-export interface AgentStatus {
-  /** Output only. Whether the agent service is enabled in systemd. */
-  systemdServiceEnabled?: AgentStatusSystemdServiceEnabledEnum | (string & {});
-  /** Output only. Whether the agent configuration is valid. */
-  configurationValid?: AgentStatusConfigurationValidEnum | (string & {});
-  /** Output only. The kernel version of the system. */
-  kernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion;
-  /** Output only. Optional references to public documentation. */
-  references?: AgentStatusReferenceList;
-  /** Output only. The path to the agent configuration file. */
-  configurationFilePath?: string;
-  /** Output only. Whether the agent service is running in systemd. */
-  systemdServiceRunning?: AgentStatusSystemdServiceRunningEnum | (string & {});
-  /** Output only. The available version of the agent in artifact registry. */
-  availableVersion?: string;
-  /** Output only. The installed version of the agent on the host. */
-  installedVersion?: string;
-  /** Output only. Whether the agent has full access to Cloud APIs. */
-  cloudApiAccessFullScopesGranted?: AgentStatusCloudApiAccessFullScopesGrantedEnum | (string & {});
-  /** Output only. The URI of the instance. Format: projects//zones//instances/ */
-  instanceUri?: string;
-  /** Output only. The services (process metrics, host metrics, etc.). */
-  services?: AgentStatusServiceStatusList;
-  /** Output only. The error message for the agent configuration if invalid. */
-  configurationErrorMessage?: string;
-  /** Output only. The name of the agent. */
-  agentName?: string;
-}
-export const AgentStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    systemdServiceEnabled: S.optional(AgentStatusSystemdServiceEnabledEnum),
-    configurationValid: S.optional(AgentStatusConfigurationValidEnum),
-    kernelVersion: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersion),
-    references: S.optional(AgentStatusReferenceList),
-    configurationFilePath: S.optional(S.String),
-    systemdServiceRunning: S.optional(AgentStatusSystemdServiceRunningEnum),
-    availableVersion: S.optional(S.String),
-    installedVersion: S.optional(S.String),
-    cloudApiAccessFullScopesGranted: S.optional(AgentStatusCloudApiAccessFullScopesGrantedEnum),
-    instanceUri: S.optional(S.String),
-    services: S.optional(AgentStatusServiceStatusList),
-    configurationErrorMessage: S.optional(S.String),
-    agentName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentStatus" }) as any as S.Schema<AgentStatus>;
-
-export type SapValidationValidationDetailSapValidationTypeEnum =
-  | "SAP_VALIDATION_TYPE_UNSPECIFIED"
-  | "SYSTEM"
-  | "COROSYNC"
-  | "PACEMAKER"
-  | "HANA"
-  | "NETWEAVER"
-  | "HANA_SECURITY"
-  | "CUSTOM";
-export const SapValidationValidationDetailSapValidationTypeEnum = S.String;
-
-/** Message describing the SAP validation metrics. */
-export interface SapValidationValidationDetail {
-  /** Optional. The SAP system that the validation data is from. */
-  sapValidationType?: SapValidationValidationDetailSapValidationTypeEnum | (string & {});
-  /** Optional. The pairs of metrics data: field name & field value. */
-  details?: StringMap;
-  /** Optional. Was there a SAP system detected for this validation type. */
-  isPresent?: boolean;
-}
-export const SapValidationValidationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sapValidationType: S.optional(SapValidationValidationDetailSapValidationTypeEnum),
-    details: S.optional(StringMap),
-    isPresent: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SapValidationValidationDetail",
-}) as any as S.Schema<SapValidationValidationDetail>;
-
-export type SapValidationValidationDetailList = Array<SapValidationValidationDetail>;
-export const SapValidationValidationDetailList = /*@__PURE__*/ S.Array(
-  SapValidationValidationDetail,
-) as any as S.Schema<SapValidationValidationDetailList>;
-
-/** A presentation of SAP workload insight. The schema of SAP workloads validation related data. */
-export interface SapValidation {
-  /** Optional. A list of SAP validation metrics data. */
-  validationDetails?: SapValidationValidationDetailList;
-  /** Required. The project_id of the cloud project that the Insight data comes from. */
-  projectId?: string;
-  /** Optional. The zone of the instance that the Insight data comes from. */
-  zone?: string;
-}
-export const SapValidation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validationDetails: S.optional(SapValidationValidationDetailList),
-    projectId: S.optional(S.String),
-    zone: S.optional(S.String),
-  }),
-).annotate({ identifier: "SapValidation" }) as any as S.Schema<SapValidation>;
-
-/** A SAP software component name, version, and type. */
-export interface SapDiscoveryWorkloadPropertiesSoftwareComponentProperties {
-  /** Optional. The component's type. */
-  type?: string;
-  /** Optional. The component's major version. */
-  version?: string;
-  /** Optional. The component's minor version. */
-  extVersion?: string;
-  /** Optional. Name of the component. */
-  name?: string;
-}
-export const SapDiscoveryWorkloadPropertiesSoftwareComponentProperties = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: S.optional(S.String),
-      version: S.optional(S.String),
-      extVersion: S.optional(S.String),
-      name: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "SapDiscoveryWorkloadPropertiesSoftwareComponentProperties",
-}) as any as S.Schema<SapDiscoveryWorkloadPropertiesSoftwareComponentProperties>;
-
-export type SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList =
-  Array<SapDiscoveryWorkloadPropertiesSoftwareComponentProperties>;
-export const SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList = /*@__PURE__*/ S.Array(
-  SapDiscoveryWorkloadPropertiesSoftwareComponentProperties,
-) as any as S.Schema<SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList>;
-
-/** A product name and version. */
-export type SapDiscoveryWorkloadPropertiesProductVersion = Product;
-export const SapDiscoveryWorkloadPropertiesProductVersion = Product;
-
-export type SapDiscoveryWorkloadPropertiesProductVersionList = Array<Product>;
-export const SapDiscoveryWorkloadPropertiesProductVersionList = /*@__PURE__*/ S.Array(
-  Product,
-) as any as S.Schema<SapDiscoveryWorkloadPropertiesProductVersionList>;
-
-/** A set of properties describing an SAP workload. */
-export interface SapDiscoveryWorkloadProperties {
-  /** Optional. A list of SAP software components and their versions running on the system. */
-  softwareComponentVersions?: SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList;
-  /** Optional. List of SAP Products and their versions running on the system. */
-  productVersions?: SapDiscoveryWorkloadPropertiesProductVersionList;
-}
-export const SapDiscoveryWorkloadProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    softwareComponentVersions: S.optional(
-      SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList,
-    ),
-    productVersions: S.optional(SapDiscoveryWorkloadPropertiesProductVersionList),
-  }),
-).annotate({
-  identifier: "SapDiscoveryWorkloadProperties",
-}) as any as S.Schema<SapDiscoveryWorkloadProperties>;
-
-/** Message describing SAP discovery system metadata */
-export interface SapDiscoveryMetadata {
-  /** Optional. This SAP product name */
-  sapProduct?: string;
-  /** Optional. Customer region string for customer's use. Does not represent GCP region. */
-  customerRegion?: string;
-  /** Optional. Should be "prod", "QA", "dev", "staging", etc. */
-  environmentType?: string;
-  /** Optional. Customer defined, something like "E-commerce pre prod" */
-  definedSystem?: string;
-}
-export const SapDiscoveryMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sapProduct: S.optional(S.String),
-    customerRegion: S.optional(S.String),
-    environmentType: S.optional(S.String),
-    definedSystem: S.optional(S.String),
-  }),
-).annotate({ identifier: "SapDiscoveryMetadata" }) as any as S.Schema<SapDiscoveryMetadata>;
-
-export type SapDiscoveryResourceResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "RESOURCE_TYPE_COMPUTE"
-  | "RESOURCE_TYPE_STORAGE"
-  | "RESOURCE_TYPE_NETWORK";
-export const SapDiscoveryResourceResourceTypeEnum = S.String;
-
-export type SapDiscoveryResourceResourceKindEnum =
-  | "RESOURCE_KIND_UNSPECIFIED"
-  | "RESOURCE_KIND_INSTANCE"
-  | "RESOURCE_KIND_DISK"
-  | "RESOURCE_KIND_ADDRESS"
-  | "RESOURCE_KIND_FILESTORE"
-  | "RESOURCE_KIND_HEALTH_CHECK"
-  | "RESOURCE_KIND_FORWARDING_RULE"
-  | "RESOURCE_KIND_BACKEND_SERVICE"
-  | "RESOURCE_KIND_SUBNETWORK"
-  | "RESOURCE_KIND_NETWORK"
-  | "RESOURCE_KIND_PUBLIC_ADDRESS"
-  | "RESOURCE_KIND_INSTANCE_GROUP";
-export const SapDiscoveryResourceResourceKindEnum = S.String;
-
-/** Disk mount on the instance. */
-export interface SapDiscoveryResourceInstancePropertiesDiskMount {
-  /** Optional. Names of the disks providing this mount point. */
-  diskNames?: StringList;
-  /** Optional. Filesystem mount point. */
-  mountPoint?: string;
-  /** Optional. Name of the disk. */
-  name?: string;
-}
-export const SapDiscoveryResourceInstancePropertiesDiskMount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskNames: S.optional(StringList),
-    mountPoint: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SapDiscoveryResourceInstancePropertiesDiskMount",
-}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesDiskMount>;
-
-export type SapDiscoveryResourceInstancePropertiesDiskMountList =
-  Array<SapDiscoveryResourceInstancePropertiesDiskMount>;
-export const SapDiscoveryResourceInstancePropertiesDiskMountList = /*@__PURE__*/ S.Array(
-  SapDiscoveryResourceInstancePropertiesDiskMount,
-) as any as S.Schema<SapDiscoveryResourceInstancePropertiesDiskMountList>;
-
-/** Fields to describe an SAP application server instance. */
-export interface SapDiscoveryResourceInstancePropertiesAppInstance {
-  /** Optional. Instance number of the SAP application instance. */
-  number?: string;
-  /** Optional. Instance name of the SAP application instance. */
-  name?: string;
-}
-export const SapDiscoveryResourceInstancePropertiesAppInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    number: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SapDiscoveryResourceInstancePropertiesAppInstance",
-}) as any as S.Schema<SapDiscoveryResourceInstancePropertiesAppInstance>;
-
-export type SapDiscoveryResourceInstancePropertiesAppInstanceList =
-  Array<SapDiscoveryResourceInstancePropertiesAppInstance>;
-export const SapDiscoveryResourceInstancePropertiesAppInstanceList = /*@__PURE__*/ S.Array(
-  SapDiscoveryResourceInstancePropertiesAppInstance,
-) as any as S.Schema<SapDiscoveryResourceInstancePropertiesAppInstanceList>;
-
-export type SapDiscoveryResourceInstancePropertiesInstanceRoleEnum =
-  | "INSTANCE_ROLE_UNSPECIFIED"
-  | "INSTANCE_ROLE_ASCS"
-  | "INSTANCE_ROLE_ERS"
-  | "INSTANCE_ROLE_APP_SERVER"
-  | "INSTANCE_ROLE_DATABASE"
-  | "INSTANCE_ROLE_ASCS_ERS"
-  | "INSTANCE_ROLE_ASCS_APP_SERVER"
-  | "INSTANCE_ROLE_ASCS_DATABASE"
-  | "INSTANCE_ROLE_ERS_APP_SERVER"
-  | "INSTANCE_ROLE_ERS_DATABASE"
-  | "INSTANCE_ROLE_APP_SERVER_DATABASE"
-  | "INSTANCE_ROLE_ASCS_ERS_APP_SERVER"
-  | "INSTANCE_ROLE_ASCS_ERS_DATABASE"
-  | "INSTANCE_ROLE_ASCS_APP_SERVER_DATABASE"
-  | "INSTANCE_ROLE_ERS_APP_SERVER_DATABASE"
-  | "INSTANCE_ROLE_ASCS_ERS_APP_SERVER_DATABASE";
-export const SapDiscoveryResourceInstancePropertiesInstanceRoleEnum = S.String;
-
-/** A set of properties only present for an instance type resource */
-export interface SapDiscoveryResourceInstanceProperties {
-  /** Optional. Disk mounts on the instance. */
-  diskMounts?: SapDiscoveryResourceInstancePropertiesDiskMountList;
-  /** Optional. Instance is part of a DR site. */
-  isDrSite?: boolean;
-  /** Optional. A list of instance URIs that are part of a cluster with this one. */
-  clusterInstances?: StringList;
-  /** Optional. App server instances on the host */
-  appInstances?: SapDiscoveryResourceInstancePropertiesAppInstanceList;
-  /** Optional. Bitmask of instance role, a resource may have multiple roles at once. */
-  instanceRole?: SapDiscoveryResourceInstancePropertiesInstanceRoleEnum | (string & {});
-  /** Optional. The VM's instance number. */
-  instanceNumber?: string;
-  /** Optional. A virtual hostname of the instance if it has one. */
-  virtualHostname?: string;
-  /** Optional. The kernel version of the instance. */
-  osKernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion;
-}
-export const SapDiscoveryResourceInstanceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskMounts: S.optional(SapDiscoveryResourceInstancePropertiesDiskMountList),
-    isDrSite: S.optional(S.Boolean),
-    clusterInstances: S.optional(StringList),
-    appInstances: S.optional(SapDiscoveryResourceInstancePropertiesAppInstanceList),
-    instanceRole: S.optional(SapDiscoveryResourceInstancePropertiesInstanceRoleEnum),
-    instanceNumber: S.optional(S.String),
-    virtualHostname: S.optional(S.String),
-    osKernelVersion: S.optional(SapDiscoveryResourceInstancePropertiesKernelVersion),
-  }),
-).annotate({
-  identifier: "SapDiscoveryResourceInstanceProperties",
-}) as any as S.Schema<SapDiscoveryResourceInstanceProperties>;
-
-/** Message describing a resource. */
-export interface SapDiscoveryResource {
-  /** Required. Unix timestamp of when this resource last had its discovery data updated. */
-  updateTime?: string;
-  /** Required. The type of this resource. */
-  resourceType?: SapDiscoveryResourceResourceTypeEnum | (string & {});
-  /** Required. ComputeInstance, ComputeDisk, VPC, Bare Metal server, etc. */
-  resourceKind?: SapDiscoveryResourceResourceKindEnum | (string & {});
-  /** Required. URI of the resource, includes project, location, and name. */
-  resourceUri?: string;
-  /** Optional. A set of properties only applying to instance type resources. */
-  instanceProperties?: SapDiscoveryResourceInstanceProperties;
-  /** Optional. A list of resource URIs related to this resource. */
-  relatedResources?: StringList;
-}
-export const SapDiscoveryResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    updateTime: S.optional(S.String),
-    resourceType: S.optional(SapDiscoveryResourceResourceTypeEnum),
-    resourceKind: S.optional(SapDiscoveryResourceResourceKindEnum),
-    resourceUri: S.optional(S.String),
-    instanceProperties: S.optional(SapDiscoveryResourceInstanceProperties),
-    relatedResources: S.optional(StringList),
-  }),
-).annotate({ identifier: "SapDiscoveryResource" }) as any as S.Schema<SapDiscoveryResource>;
-
-export type SapDiscoveryResourceList = Array<SapDiscoveryResource>;
-export const SapDiscoveryResourceList = /*@__PURE__*/ S.Array(
-  SapDiscoveryResource,
-) as any as S.Schema<SapDiscoveryResourceList>;
-
-export type SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum =
-  | "DATABASE_TYPE_UNSPECIFIED"
-  | "HANA"
-  | "MAX_DB"
-  | "DB2"
-  | "ORACLE"
-  | "SQLSERVER"
-  | "ASE";
-export const SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum = S.String;
-
-/** A set of properties describing an SAP Database layer. */
-export interface SapDiscoveryComponentDatabaseProperties {
-  /** Optional. The version of the database software running in the system. */
-  databaseVersion?: string;
-  /** Optional. URI of the recognized shared NFS of the database. May be empty if the database has only a single node. */
-  sharedNfsUri?: string;
-  /** Optional. SID of the system database. */
-  databaseSid?: string;
-  /** Optional. Landscape ID from the HANA nameserver. */
-  landscapeId?: string;
-  /** Optional. Instance number of the SAP instance. */
-  instanceNumber?: string;
-  /** Required. URI of the recognized primary instance of the database. */
-  primaryInstanceUri?: string;
-  /** Required. Type of the database. HANA, DB2, etc. */
-  databaseType?: SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum | (string & {});
-}
-export const SapDiscoveryComponentDatabaseProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    databaseVersion: S.optional(S.String),
-    sharedNfsUri: S.optional(S.String),
-    databaseSid: S.optional(S.String),
-    landscapeId: S.optional(S.String),
-    instanceNumber: S.optional(S.String),
-    primaryInstanceUri: S.optional(S.String),
-    databaseType: S.optional(SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum),
-  }),
-).annotate({
-  identifier: "SapDiscoveryComponentDatabaseProperties",
-}) as any as S.Schema<SapDiscoveryComponentDatabaseProperties>;
-
-/** A replication site used in Disaster Recovery (DR) configurations. */
-export interface SapDiscoveryComponentReplicationSite {
-  /** Optional. The name of the source site from which this one replicates. */
-  sourceSite?: string;
-  /** Optional. The system component for the site. */
-  component?: SapDiscoveryComponent;
-}
-export const SapDiscoveryComponentReplicationSite = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceSite: S.optional(S.String),
-    component: S.optional(S.suspend(() => SapDiscoveryComponent)),
-  }),
-).annotate({
-  identifier: "SapDiscoveryComponentReplicationSite",
-}) as any as S.Schema<SapDiscoveryComponentReplicationSite>;
-
-export type SapDiscoveryComponentReplicationSiteList = Array<SapDiscoveryComponentReplicationSite>;
-export const SapDiscoveryComponentReplicationSiteList = /*@__PURE__*/ S.Array(
-  SapDiscoveryComponentReplicationSite,
-) as any as S.Schema<SapDiscoveryComponentReplicationSiteList>;
-
-export type SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum =
-  | "APPLICATION_TYPE_UNSPECIFIED"
-  | "NETWEAVER"
-  | "NETWEAVER_ABAP"
-  | "NETWEAVER_JAVA";
-export const SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum = S.String;
-
-/** A set of properties describing an SAP Application layer. */
-export interface SapDiscoveryComponentApplicationProperties {
-  /** Optional. Deprecated: ApplicationType now tells you whether this is ABAP or Java. */
-  abap?: boolean;
-  /** Optional. Kernel version for Netweaver running in the system. */
-  kernelVersion?: string;
-  /** Required. Type of the application. Netweaver, etc. */
-  applicationType?: SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum | (string & {});
-  /** Optional. Instance number of the SAP application instance. */
-  appInstanceNumber?: string;
-  /** Optional. Resource URI of the recognized shared NFS of the application. May be empty if the application server has only a single node. */
-  nfsUri?: string;
-  /** Optional. Instance number of the ASCS instance. */
-  ascsInstanceNumber?: string;
-  /** Optional. Resource URI of the recognized ASCS host of the application. */
-  ascsUri?: string;
-  /** Optional. Instance number of the ERS instance. */
-  ersInstanceNumber?: string;
-}
-export const SapDiscoveryComponentApplicationProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    abap: S.optional(S.Boolean),
-    kernelVersion: S.optional(S.String),
-    applicationType: S.optional(SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum),
-    appInstanceNumber: S.optional(S.String),
-    nfsUri: S.optional(S.String),
-    ascsInstanceNumber: S.optional(S.String),
-    ascsUri: S.optional(S.String),
-    ersInstanceNumber: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SapDiscoveryComponentApplicationProperties",
-}) as any as S.Schema<SapDiscoveryComponentApplicationProperties>;
-
-export type SapDiscoveryComponentTopologyTypeEnum =
-  | "TOPOLOGY_TYPE_UNSPECIFIED"
-  | "TOPOLOGY_SCALE_UP"
-  | "TOPOLOGY_SCALE_OUT";
-export const SapDiscoveryComponentTopologyTypeEnum = S.String;
-
-/** Message describing the system component. */
-export interface SapDiscoveryComponent {
-  /** Optional. The resources in a component. */
-  resources?: SapDiscoveryResourceList;
-  /** Optional. The component is a SAP database. */
-  databaseProperties?: SapDiscoveryComponentDatabaseProperties;
-  /** Optional. The SAP identifier, used by the SAP software and helps differentiate systems for customers. */
-  sid?: string;
-  /** Optional. A list of replication sites used in Disaster Recovery (DR) configurations. */
-  replicationSites?: SapDiscoveryComponentReplicationSiteList;
-  /** Optional. A list of host URIs that are part of the HA configuration if present. An empty list indicates the component is not configured for HA. */
-  haHosts?: StringList;
-  /** Optional. The component is a SAP application. */
-  applicationProperties?: SapDiscoveryComponentApplicationProperties;
-  /** Required. Pantheon Project in which the resources reside. */
-  hostProject?: string;
-  /** Optional. The region this component's resources are primarily located in. */
-  region?: string;
-  /** Optional. The detected topology of the component. */
-  topologyType?: SapDiscoveryComponentTopologyTypeEnum | (string & {});
-}
-export const SapDiscoveryComponent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resources: S.optional(SapDiscoveryResourceList),
-    databaseProperties: S.optional(SapDiscoveryComponentDatabaseProperties),
-    sid: S.optional(S.String),
-    replicationSites: S.optional(SapDiscoveryComponentReplicationSiteList),
-    haHosts: S.optional(StringList),
-    applicationProperties: S.optional(SapDiscoveryComponentApplicationProperties),
-    hostProject: S.optional(S.String),
-    region: S.optional(S.String),
-    topologyType: S.optional(SapDiscoveryComponentTopologyTypeEnum),
-  }),
-).annotate({ identifier: "SapDiscoveryComponent" }) as any as S.Schema<SapDiscoveryComponent>;
-
-/** The schema of SAP system discovery data. */
-export interface SapDiscovery {
-  /** Optional. The properties of the workload. */
-  workloadProperties?: SapDiscoveryWorkloadProperties;
-  /** Optional. The GCP project number that this SapSystem belongs to. */
-  projectNumber?: string;
-  /** Optional. The metadata for SAP system discovery data. */
-  metadata?: SapDiscoveryMetadata;
-  /** Output only. A combination of database SID, database instance URI and tenant DB name to make a unique identifier per-system. */
-  systemId?: string;
-  /** Optional. An SAP system may run without an application layer. */
-  applicationLayer?: SapDiscoveryComponent;
-  /** Optional. Whether to use DR reconciliation or not. */
-  useDrReconciliation?: boolean;
-  /** Required. Unix timestamp this system has been updated last. */
-  updateTime?: string;
-  /** Required. An SAP System must have a database. */
-  databaseLayer?: SapDiscoveryComponent;
-}
-export const SapDiscovery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workloadProperties: S.optional(SapDiscoveryWorkloadProperties),
-    projectNumber: S.optional(S.String),
-    metadata: S.optional(SapDiscoveryMetadata),
-    systemId: S.optional(S.String),
-    applicationLayer: S.optional(SapDiscoveryComponent),
-    useDrReconciliation: S.optional(S.Boolean),
-    updateTime: S.optional(S.String),
-    databaseLayer: S.optional(SapDiscoveryComponent),
-  }),
-).annotate({ identifier: "SapDiscovery" }) as any as S.Schema<SapDiscovery>;
-
 /** A presentation of host resource usage where the workload runs. */
 export interface Insight {
-  /** The insights data for workload validation of torso workloads. */
-  torsoValidation?: TorsoValidation;
-  /** The insights data for the sqlserver workload validation. */
-  sqlserverValidation?: SqlserverValidation;
-  /** Output only. [Output only] Create time stamp */
-  sentTime?: string;
-  /** The insights data for the OpenShift workload validation. */
-  openShiftValidation?: OpenShiftValidation;
+  /** The insights data for SAP system discovery. This is a copy of SAP System proto and should get updated whenever that one changes. */
+  sapDiscovery?: SapDiscovery;
   /** The insights data for the agent status. */
   agentStatus?: AgentStatus;
   /** The insights data for the SAP workload validation. */
   sapValidation?: SapValidation;
+  /** The insights data for the OpenShift workload validation. */
+  openShiftValidation?: OpenShiftValidation;
+  /** Output only. [Output only] Create time stamp */
+  sentTime?: string;
   /** Optional. The instance id where the insight is generated from */
   instanceId?: string;
-  /** The insights data for SAP system discovery. This is a copy of SAP System proto and should get updated whenever that one changes. */
-  sapDiscovery?: SapDiscovery;
+  /** The insights data for workload validation of torso workloads. */
+  torsoValidation?: TorsoValidation;
+  /** The insights data for the sqlserver workload validation. */
+  sqlserverValidation?: SqlserverValidation;
 }
 export const Insight = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    torsoValidation: S.optional(TorsoValidation),
-    sqlserverValidation: S.optional(SqlserverValidation),
-    sentTime: S.optional(S.String),
-    openShiftValidation: S.optional(OpenShiftValidation),
+    sapDiscovery: S.optional(SapDiscovery),
     agentStatus: S.optional(AgentStatus),
     sapValidation: S.optional(SapValidation),
+    openShiftValidation: S.optional(OpenShiftValidation),
+    sentTime: S.optional(S.String),
     instanceId: S.optional(S.String),
-    sapDiscovery: S.optional(SapDiscovery),
+    torsoValidation: S.optional(TorsoValidation),
+    sqlserverValidation: S.optional(SqlserverValidation),
   }),
 ).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
 
@@ -3491,16 +3504,16 @@ export const Insight = /*@__PURE__*/ S.suspend(() =>
 export interface WriteInsightRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. The agent version collected this data point. */
-  agentVersion?: string;
   /** Required. The metrics data details. */
   insight?: Insight;
+  /** Optional. The agent version collected this data point. */
+  agentVersion?: string;
 }
 export const WriteInsightRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String),
-    agentVersion: S.optional(S.String),
     insight: S.optional(Insight),
+    agentVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "WriteInsightRequest" }) as any as S.Schema<WriteInsightRequest>;
 

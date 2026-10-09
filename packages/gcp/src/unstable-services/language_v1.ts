@@ -66,21 +66,21 @@ export const DocumentTypeEnum = S.String;
 
 /** Represents the input to API methods. */
 export interface Document {
+  /** The content of the input in string format. Cloud audit logging exempt since it is based on user data. */
+  content?: string;
   /** The language of the document (if not specified, the language is automatically detected). Both ISO and BCP-47 language codes are accepted. [Language Support](https://cloud.google.com/natural-language/docs/languages) lists currently supported languages for each API method. If the language (either specified by the caller or automatically detected) is not supported by the called API method, an `INVALID_ARGUMENT` error is returned. */
   language?: string;
   /** Required. If the type is not set or is `TYPE_UNSPECIFIED`, returns an `INVALID_ARGUMENT` error. */
   type?: DocumentTypeEnum | (string & {});
   /** The Google Cloud Storage URI where the file content is located. This URI must be of the form: gs://bucket_name/object_name. For more details, see https://cloud.google.com/storage/docs/reference-uris. NOTE: Cloud Storage object versioning is not supported. */
   gcsContentUri?: string;
-  /** The content of the input in string format. Cloud audit logging exempt since it is based on user data. */
-  content?: string;
 }
 export const Document = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    content: S.optional(S.String),
     language: S.optional(S.String),
     type: S.optional(DocumentTypeEnum),
     gcsContentUri: S.optional(S.String),
-    content: S.optional(S.String),
   }),
 ).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
 
@@ -149,6 +149,9 @@ export type EntityTypeEnum =
   | "PRICE";
 export const EntityTypeEnum = S.String;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 /** Represents a text span in the input document. */
 export interface TextSpan {
   /** The content of the text span, which is a substring of the document. */
@@ -168,18 +171,18 @@ export const EntityMentionTypeEnum = S.String;
 
 /** Represents a mention for an entity in the text. Currently, proper noun mentions are supported. */
 export interface EntityMention {
-  /** For calls to AnalyzeEntitySentiment or if AnnotateTextRequest.Features.extract_entity_sentiment is set to true, this field will contain the sentiment expressed for this mention of the entity in the provided document. */
-  sentiment?: Sentiment;
   /** The mention text. */
   text?: TextSpan;
   /** The type of the entity mention. */
   type?: EntityMentionTypeEnum;
+  /** For calls to AnalyzeEntitySentiment or if AnnotateTextRequest.Features.extract_entity_sentiment is set to true, this field will contain the sentiment expressed for this mention of the entity in the provided document. */
+  sentiment?: Sentiment;
 }
 export const EntityMention = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sentiment: S.optional(Sentiment),
     text: S.optional(TextSpan),
     type: S.optional(EntityMentionTypeEnum),
+    sentiment: S.optional(Sentiment),
   }),
 ).annotate({ identifier: "EntityMention" }) as any as S.Schema<EntityMention>;
 
@@ -188,32 +191,29 @@ export const EntityMentionList = /*@__PURE__*/ S.Array(
   EntityMention,
 ) as any as S.Schema<EntityMentionList>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
 /** Represents a phrase in the text that is a known entity, such as a person, an organization, or location. The API associates information, such as salience and mentions, with entities. */
 export interface Entity {
-  /** The salience score associated with the entity in the [0, 1.0] range. The salience score for an entity provides information about the importance or centrality of that entity to the entire document text. Scores closer to 0 are less salient, while scores closer to 1.0 are highly salient. */
-  salience?: number;
+  /** The representative name for the entity. */
+  name?: string;
   /** For calls to AnalyzeEntitySentiment or if AnnotateTextRequest.Features.extract_entity_sentiment is set to true, this field will contain the aggregate sentiment expressed for this entity in the provided document. */
   sentiment?: Sentiment;
   /** The entity type. */
   type?: EntityTypeEnum;
-  /** The mentions of this entity in the input document. The API currently supports proper noun mentions. */
-  mentions?: EntityMentionList;
   /** Metadata associated with the entity. For most entity types, the metadata is a Wikipedia URL (`wikipedia_url`) and Knowledge Graph MID (`mid`), if they are available. For the metadata associated with other entity types, see the Type table below. */
   metadata?: StringMap;
-  /** The representative name for the entity. */
-  name?: string;
+  /** The salience score associated with the entity in the [0, 1.0] range. The salience score for an entity provides information about the importance or centrality of that entity to the entire document text. Scores closer to 0 are less salient, while scores closer to 1.0 are highly salient. */
+  salience?: number;
+  /** The mentions of this entity in the input document. The API currently supports proper noun mentions. */
+  mentions?: EntityMentionList;
 }
 export const Entity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    salience: S.optional(S.Number),
+    name: S.optional(S.String),
     sentiment: S.optional(Sentiment),
     type: S.optional(EntityTypeEnum),
-    mentions: S.optional(EntityMentionList),
     metadata: S.optional(StringMap),
-    name: S.optional(S.String),
+    salience: S.optional(S.Number),
+    mentions: S.optional(EntityMentionList),
   }),
 ).annotate({ identifier: "Entity" }) as any as S.Schema<Entity>;
 
@@ -222,15 +222,15 @@ export const EntityList = /*@__PURE__*/ S.Array(Entity) as any as S.Schema<Entit
 
 /** The entity analysis response message. */
 export interface AnalyzeEntitiesResponse {
-  /** The recognized entities in the input document. */
-  entities?: EntityList;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
   language?: string;
+  /** The recognized entities in the input document. */
+  entities?: EntityList;
 }
 export const AnalyzeEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entities: S.optional(EntityList),
     language: S.optional(S.String),
+    entities: S.optional(EntityList),
   }),
 ).annotate({ identifier: "AnalyzeEntitiesResponse" }) as any as S.Schema<AnalyzeEntitiesResponse>;
 
@@ -239,15 +239,15 @@ export const AnalyzeEntitySentimentRequestEncodingTypeEnum = S.String;
 
 /** The entity-level sentiment analysis request message. */
 export interface AnalyzeEntitySentimentRequest {
-  /** The encoding type used by the API to calculate offsets. */
-  encodingType?: AnalyzeEntitySentimentRequestEncodingTypeEnum | (string & {});
   /** Required. Input document. */
   document?: Document;
+  /** The encoding type used by the API to calculate offsets. */
+  encodingType?: AnalyzeEntitySentimentRequestEncodingTypeEnum | (string & {});
 }
 export const AnalyzeEntitySentimentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encodingType: S.optional(AnalyzeEntitySentimentRequestEncodingTypeEnum),
     document: S.optional(Document),
+    encodingType: S.optional(AnalyzeEntitySentimentRequestEncodingTypeEnum),
   }),
 ).annotate({
   identifier: "AnalyzeEntitySentimentRequest",
@@ -292,15 +292,15 @@ export const AnalyzeSentimentRequestEncodingTypeEnum = S.String;
 
 /** The sentiment analysis request message. */
 export interface AnalyzeSentimentRequest {
-  /** Required. Input document. */
-  document?: Document;
   /** The encoding type used by the API to calculate sentence offsets. */
   encodingType?: AnalyzeSentimentRequestEncodingTypeEnum | (string & {});
+  /** Required. Input document. */
+  document?: Document;
 }
 export const AnalyzeSentimentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    document: S.optional(Document),
     encodingType: S.optional(AnalyzeSentimentRequestEncodingTypeEnum),
+    document: S.optional(Document),
   }),
 ).annotate({ identifier: "AnalyzeSentimentRequest" }) as any as S.Schema<AnalyzeSentimentRequest>;
 
@@ -343,16 +343,16 @@ export const SentenceList = /*@__PURE__*/ S.Array(Sentence) as any as S.Schema<S
 export interface AnalyzeSentimentResponse {
   /** The sentiment for all the sentences in the document. */
   sentences?: SentenceList;
-  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
   /** The overall sentiment of the input document. */
   documentSentiment?: Sentiment;
+  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
+  language?: string;
 }
 export const AnalyzeSentimentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sentences: S.optional(SentenceList),
-    language: S.optional(S.String),
     documentSentiment: S.optional(Sentiment),
+    language: S.optional(S.String),
   }),
 ).annotate({ identifier: "AnalyzeSentimentResponse" }) as any as S.Schema<AnalyzeSentimentResponse>;
 
@@ -479,20 +479,48 @@ export const DependencyEdgeLabelEnum = S.String;
 
 /** Represents dependency parse tree information for a token. (For more information on dependency labels, see http://www.aclweb.org/anthology/P13-2017 */
 export interface DependencyEdge {
-  /** The parse label for the token. */
-  label?: DependencyEdgeLabelEnum;
   /** Represents the head of this token in the dependency tree. This is the index of the token which has an arc going to this token. The index is the position of the token in the array of tokens returned by the API method. If this token is a root token, then the `head_token_index` is its own index. */
   headTokenIndex?: number;
+  /** The parse label for the token. */
+  label?: DependencyEdgeLabelEnum;
 }
 export const DependencyEdge = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    label: S.optional(DependencyEdgeLabelEnum),
     headTokenIndex: S.optional(S.Number),
+    label: S.optional(DependencyEdgeLabelEnum),
   }),
 ).annotate({ identifier: "DependencyEdge" }) as any as S.Schema<DependencyEdge>;
 
+export type PartOfSpeechFormEnum =
+  | "FORM_UNKNOWN"
+  | "ADNOMIAL"
+  | "AUXILIARY"
+  | "COMPLEMENTIZER"
+  | "FINAL_ENDING"
+  | "GERUND"
+  | "REALIS"
+  | "IRREALIS"
+  | "SHORT"
+  | "LONG"
+  | "ORDER"
+  | "SPECIFIC";
+export const PartOfSpeechFormEnum = S.String;
+
+export type PartOfSpeechAspectEnum =
+  | "ASPECT_UNKNOWN"
+  | "PERFECTIVE"
+  | "IMPERFECTIVE"
+  | "PROGRESSIVE";
+export const PartOfSpeechAspectEnum = S.String;
+
 export type PartOfSpeechVoiceEnum = "VOICE_UNKNOWN" | "ACTIVE" | "CAUSATIVE" | "PASSIVE";
 export const PartOfSpeechVoiceEnum = S.String;
+
+export type PartOfSpeechNumberEnum = "NUMBER_UNKNOWN" | "SINGULAR" | "PLURAL" | "DUAL";
+export const PartOfSpeechNumberEnum = S.String;
+
+export type PartOfSpeechProperEnum = "PROPER_UNKNOWN" | "PROPER" | "NOT_PROPER";
+export const PartOfSpeechProperEnum = S.String;
 
 export type PartOfSpeechTagEnum =
   | "UNKNOWN"
@@ -511,51 +539,13 @@ export type PartOfSpeechTagEnum =
   | "AFFIX";
 export const PartOfSpeechTagEnum = S.String;
 
-export type PartOfSpeechCaseEnum =
-  | "CASE_UNKNOWN"
-  | "ACCUSATIVE"
-  | "ADVERBIAL"
-  | "COMPLEMENTIVE"
-  | "DATIVE"
-  | "GENITIVE"
-  | "INSTRUMENTAL"
-  | "LOCATIVE"
-  | "NOMINATIVE"
-  | "OBLIQUE"
-  | "PARTITIVE"
-  | "PREPOSITIONAL"
-  | "REFLEXIVE_CASE"
-  | "RELATIVE_CASE"
-  | "VOCATIVE";
-export const PartOfSpeechCaseEnum = S.String;
-
-export type PartOfSpeechNumberEnum = "NUMBER_UNKNOWN" | "SINGULAR" | "PLURAL" | "DUAL";
-export const PartOfSpeechNumberEnum = S.String;
-
-export type PartOfSpeechAspectEnum =
-  | "ASPECT_UNKNOWN"
-  | "PERFECTIVE"
-  | "IMPERFECTIVE"
-  | "PROGRESSIVE";
-export const PartOfSpeechAspectEnum = S.String;
-
-export type PartOfSpeechFormEnum =
-  | "FORM_UNKNOWN"
-  | "ADNOMIAL"
-  | "AUXILIARY"
-  | "COMPLEMENTIZER"
-  | "FINAL_ENDING"
-  | "GERUND"
-  | "REALIS"
-  | "IRREALIS"
-  | "SHORT"
-  | "LONG"
-  | "ORDER"
-  | "SPECIFIC";
-export const PartOfSpeechFormEnum = S.String;
-
-export type PartOfSpeechGenderEnum = "GENDER_UNKNOWN" | "FEMININE" | "MASCULINE" | "NEUTER";
-export const PartOfSpeechGenderEnum = S.String;
+export type PartOfSpeechPersonEnum =
+  | "PERSON_UNKNOWN"
+  | "FIRST"
+  | "SECOND"
+  | "THIRD"
+  | "REFLEXIVE_PERSON";
+export const PartOfSpeechPersonEnum = S.String;
 
 export type PartOfSpeechMoodEnum =
   | "MOOD_UNKNOWN"
@@ -577,60 +567,70 @@ export type PartOfSpeechTenseEnum =
   | "PLUPERFECT";
 export const PartOfSpeechTenseEnum = S.String;
 
-export type PartOfSpeechPersonEnum =
-  | "PERSON_UNKNOWN"
-  | "FIRST"
-  | "SECOND"
-  | "THIRD"
-  | "REFLEXIVE_PERSON";
-export const PartOfSpeechPersonEnum = S.String;
+export type PartOfSpeechGenderEnum = "GENDER_UNKNOWN" | "FEMININE" | "MASCULINE" | "NEUTER";
+export const PartOfSpeechGenderEnum = S.String;
 
-export type PartOfSpeechProperEnum = "PROPER_UNKNOWN" | "PROPER" | "NOT_PROPER";
-export const PartOfSpeechProperEnum = S.String;
+export type PartOfSpeechCaseEnum =
+  | "CASE_UNKNOWN"
+  | "ACCUSATIVE"
+  | "ADVERBIAL"
+  | "COMPLEMENTIVE"
+  | "DATIVE"
+  | "GENITIVE"
+  | "INSTRUMENTAL"
+  | "LOCATIVE"
+  | "NOMINATIVE"
+  | "OBLIQUE"
+  | "PARTITIVE"
+  | "PREPOSITIONAL"
+  | "REFLEXIVE_CASE"
+  | "RELATIVE_CASE"
+  | "VOCATIVE";
+export const PartOfSpeechCaseEnum = S.String;
 
 export type PartOfSpeechReciprocityEnum = "RECIPROCITY_UNKNOWN" | "RECIPROCAL" | "NON_RECIPROCAL";
 export const PartOfSpeechReciprocityEnum = S.String;
 
 /** Represents part of speech information for a token. Parts of speech are as defined in http://www.lrec-conf.org/proceedings/lrec2012/pdf/274_Paper.pdf */
 export interface PartOfSpeech {
-  /** The grammatical voice. */
-  voice?: PartOfSpeechVoiceEnum;
-  /** The part of speech tag. */
-  tag?: PartOfSpeechTagEnum;
-  /** The grammatical case. */
-  case?: PartOfSpeechCaseEnum;
-  /** The grammatical number. */
-  number?: PartOfSpeechNumberEnum;
-  /** The grammatical aspect. */
-  aspect?: PartOfSpeechAspectEnum;
   /** The grammatical form. */
   form?: PartOfSpeechFormEnum;
-  /** The grammatical gender. */
-  gender?: PartOfSpeechGenderEnum;
+  /** The grammatical aspect. */
+  aspect?: PartOfSpeechAspectEnum;
+  /** The grammatical voice. */
+  voice?: PartOfSpeechVoiceEnum;
+  /** The grammatical number. */
+  number?: PartOfSpeechNumberEnum;
+  /** The grammatical properness. */
+  proper?: PartOfSpeechProperEnum;
+  /** The part of speech tag. */
+  tag?: PartOfSpeechTagEnum;
+  /** The grammatical person. */
+  person?: PartOfSpeechPersonEnum;
   /** The grammatical mood. */
   mood?: PartOfSpeechMoodEnum;
   /** The grammatical tense. */
   tense?: PartOfSpeechTenseEnum;
-  /** The grammatical person. */
-  person?: PartOfSpeechPersonEnum;
-  /** The grammatical properness. */
-  proper?: PartOfSpeechProperEnum;
+  /** The grammatical gender. */
+  gender?: PartOfSpeechGenderEnum;
+  /** The grammatical case. */
+  case?: PartOfSpeechCaseEnum;
   /** The grammatical reciprocity. */
   reciprocity?: PartOfSpeechReciprocityEnum;
 }
 export const PartOfSpeech = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    voice: S.optional(PartOfSpeechVoiceEnum),
-    tag: S.optional(PartOfSpeechTagEnum),
-    case: S.optional(PartOfSpeechCaseEnum),
-    number: S.optional(PartOfSpeechNumberEnum),
-    aspect: S.optional(PartOfSpeechAspectEnum),
     form: S.optional(PartOfSpeechFormEnum),
-    gender: S.optional(PartOfSpeechGenderEnum),
+    aspect: S.optional(PartOfSpeechAspectEnum),
+    voice: S.optional(PartOfSpeechVoiceEnum),
+    number: S.optional(PartOfSpeechNumberEnum),
+    proper: S.optional(PartOfSpeechProperEnum),
+    tag: S.optional(PartOfSpeechTagEnum),
+    person: S.optional(PartOfSpeechPersonEnum),
     mood: S.optional(PartOfSpeechMoodEnum),
     tense: S.optional(PartOfSpeechTenseEnum),
-    person: S.optional(PartOfSpeechPersonEnum),
-    proper: S.optional(PartOfSpeechProperEnum),
+    gender: S.optional(PartOfSpeechGenderEnum),
+    case: S.optional(PartOfSpeechCaseEnum),
     reciprocity: S.optional(PartOfSpeechReciprocityEnum),
   }),
 ).annotate({ identifier: "PartOfSpeech" }) as any as S.Schema<PartOfSpeech>;
@@ -639,19 +639,19 @@ export const PartOfSpeech = /*@__PURE__*/ S.suspend(() =>
 export interface Token {
   /** Dependency tree parse for this token. */
   dependencyEdge?: DependencyEdge;
+  /** The token text. */
+  text?: TextSpan;
   /** Parts of speech tag for this token. */
   partOfSpeech?: PartOfSpeech;
   /** [Lemma](https://en.wikipedia.org/wiki/Lemma_%28morphology%29) of the token. */
   lemma?: string;
-  /** The token text. */
-  text?: TextSpan;
 }
 export const Token = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dependencyEdge: S.optional(DependencyEdge),
+    text: S.optional(TextSpan),
     partOfSpeech: S.optional(PartOfSpeech),
     lemma: S.optional(S.String),
-    text: S.optional(TextSpan),
   }),
 ).annotate({ identifier: "Token" }) as any as S.Schema<Token>;
 
@@ -660,23 +660,20 @@ export const TokenList = /*@__PURE__*/ S.Array(Token) as any as S.Schema<TokenLi
 
 /** The syntax analysis response message. */
 export interface AnalyzeSyntaxResponse {
-  /** Tokens, along with their syntactic information, in the input document. */
-  tokens?: TokenList;
   /** Sentences in the input document. */
   sentences?: SentenceList;
+  /** Tokens, along with their syntactic information, in the input document. */
+  tokens?: TokenList;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
   language?: string;
 }
 export const AnalyzeSyntaxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokens: S.optional(TokenList),
     sentences: S.optional(SentenceList),
+    tokens: S.optional(TokenList),
     language: S.optional(S.String),
   }),
 ).annotate({ identifier: "AnalyzeSyntaxResponse" }) as any as S.Schema<AnalyzeSyntaxResponse>;
-
-export type AnnotateTextRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
-export const AnnotateTextRequestEncodingTypeEnum = S.String;
 
 export type ClassificationModelOptionsV2ModelContentCategoriesVersionEnum =
   | "CONTENT_CATEGORIES_VERSION_UNSPECIFIED"
@@ -727,49 +724,52 @@ export const ClassificationModelOptions = /*@__PURE__*/ S.suspend(() =>
 
 /** All available features for sentiment, syntax, and semantic analysis. Setting each one to true will enable that specific analysis for the input. */
 export interface AnnotateTextRequestFeatures {
+  /** Classify the full document into categories. */
+  classifyText?: boolean;
+  /** Extract syntax information. */
+  extractSyntax?: boolean;
   /** Extract entities. */
   extractEntities?: boolean;
   /** Extract document-level sentiment. */
   extractDocumentSentiment?: boolean;
-  /** Optional. The model options to use for classification. Defaults to v1 options if not specified. Only used if `classify_text` is set to true. */
-  classificationModelOptions?: ClassificationModelOptions;
-  /** Moderate the document for harmful and sensitive categories. */
-  moderateText?: boolean;
   /** Extract entities and their associated sentiment. */
   extractEntitySentiment?: boolean;
-  /** Extract syntax information. */
-  extractSyntax?: boolean;
-  /** Classify the full document into categories. */
-  classifyText?: boolean;
+  /** Moderate the document for harmful and sensitive categories. */
+  moderateText?: boolean;
+  /** Optional. The model options to use for classification. Defaults to v1 options if not specified. Only used if `classify_text` is set to true. */
+  classificationModelOptions?: ClassificationModelOptions;
 }
 export const AnnotateTextRequestFeatures = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    classifyText: S.optional(S.Boolean),
+    extractSyntax: S.optional(S.Boolean),
     extractEntities: S.optional(S.Boolean),
     extractDocumentSentiment: S.optional(S.Boolean),
-    classificationModelOptions: S.optional(ClassificationModelOptions),
-    moderateText: S.optional(S.Boolean),
     extractEntitySentiment: S.optional(S.Boolean),
-    extractSyntax: S.optional(S.Boolean),
-    classifyText: S.optional(S.Boolean),
+    moderateText: S.optional(S.Boolean),
+    classificationModelOptions: S.optional(ClassificationModelOptions),
   }),
 ).annotate({
   identifier: "AnnotateTextRequestFeatures",
 }) as any as S.Schema<AnnotateTextRequestFeatures>;
 
+export type AnnotateTextRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
+export const AnnotateTextRequestEncodingTypeEnum = S.String;
+
 /** The request message for the text annotation API, which can perform multiple analysis types (sentiment, entities, and syntax) in one call. */
 export interface AnnotateTextRequest {
+  /** Required. The enabled features. */
+  features?: AnnotateTextRequestFeatures;
   /** The encoding type used by the API to calculate offsets. */
   encodingType?: AnnotateTextRequestEncodingTypeEnum | (string & {});
   /** Required. Input document. */
   document?: Document;
-  /** Required. The enabled features. */
-  features?: AnnotateTextRequestFeatures;
 }
 export const AnnotateTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    features: S.optional(AnnotateTextRequestFeatures),
     encodingType: S.optional(AnnotateTextRequestEncodingTypeEnum),
     document: S.optional(Document),
-    features: S.optional(AnnotateTextRequestFeatures),
   }),
 ).annotate({ identifier: "AnnotateTextRequest" }) as any as S.Schema<AnnotateTextRequest>;
 
@@ -793,15 +793,15 @@ export const AnnotateTextDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a category returned from the text classifier. */
 export interface ClassificationCategory {
-  /** The classifier's confidence of the category. Number represents how certain the classifier is that this category represents the given text. */
-  confidence?: number;
   /** The name of the category representing the document. */
   name?: string;
+  /** The classifier's confidence of the category. Number represents how certain the classifier is that this category represents the given text. */
+  confidence?: number;
 }
 export const ClassificationCategory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    confidence: S.optional(S.Number),
     name: S.optional(S.String),
+    confidence: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ClassificationCategory" }) as any as S.Schema<ClassificationCategory>;
 
@@ -812,30 +812,30 @@ export const ClassificationCategoryList = /*@__PURE__*/ S.Array(
 
 /** The text annotations response message. */
 export interface AnnotateTextResponse {
+  /** Entities, along with their semantic information, in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_entities. */
+  entities?: EntityList;
   /** The overall sentiment for the document. Populated if the user enables AnnotateTextRequest.Features.extract_document_sentiment. */
   documentSentiment?: Sentiment;
   /** Harmful and sensitive categories identified in the input document. */
   moderationCategories?: ClassificationCategoryList;
   /** Categories identified in the input document. */
   categories?: ClassificationCategoryList;
-  /** Entities, along with their semantic information, in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_entities. */
-  entities?: EntityList;
-  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
   /** Sentences in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_syntax. */
   sentences?: SentenceList;
   /** Tokens, along with their syntactic information, in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_syntax. */
   tokens?: TokenList;
+  /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
+  language?: string;
 }
 export const AnnotateTextResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    entities: S.optional(EntityList),
     documentSentiment: S.optional(Sentiment),
     moderationCategories: S.optional(ClassificationCategoryList),
     categories: S.optional(ClassificationCategoryList),
-    entities: S.optional(EntityList),
-    language: S.optional(S.String),
     sentences: S.optional(SentenceList),
     tokens: S.optional(TokenList),
+    language: S.optional(S.String),
   }),
 ).annotate({ identifier: "AnnotateTextResponse" }) as any as S.Schema<AnnotateTextResponse>;
 

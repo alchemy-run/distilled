@@ -66,57 +66,57 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** Request to get the IDP authentication URL. */
 export interface IdentitytoolkitRelyingpartyCreateAuthUriRequest {
-  /** Explicitly specify the auth flow type. Currently only support "CODE_FLOW" type. The field is only used for Google provider. */
-  authFlowType?: string;
-  /** The email or federated ID of the user. */
-  identifier?: string;
-  /** The developer's consumer key for OpenId OAuth Extension */
-  oauthConsumerKey?: string;
-  /** The app ID of the mobile app, base64(CERT_SHA1):PACKAGE_NAME for Android, BUNDLE_ID for iOS. */
-  appId?: string;
-  /** The hosted domain to restrict sign-in to accounts at that domain for Google Apps hosted accounts. */
-  hostedDomain?: string;
-  /** Additional oauth scopes, beyond the basid user profile, that the user would be prompted to grant */
-  oauthScope?: string;
-  /** Tenant project number to be used for idp discovery. */
-  tenantProjectNumber?: string;
-  /** The session_id passed by client. */
-  sessionId?: string;
-  /** The URI to which the IDP redirects the user after the federated login flow. */
-  continueUri?: string;
-  /** The relying party OAuth client ID. */
-  clientId?: string;
   /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
   tenantId?: string;
-  /** The native app package for OTA installation. */
-  otaApp?: string;
-  /** Optional realm for OpenID protocol. The sub string "scheme://domain:port" of the param "continueUri" is used if this is not set. */
-  openidRealm?: string;
+  /** The session_id passed by client. */
+  sessionId?: string;
+  /** The query parameter that client can customize by themselves in auth url. The following parameters are reserved for server so that they cannot be customized by clients: client_id, response_type, scope, redirect_uri, state, oauth_token. */
+  customParameter?: StringMap;
+  /** The app ID of the mobile app, base64(CERT_SHA1):PACKAGE_NAME for Android, BUNDLE_ID for iOS. */
+  appId?: string;
   /** The opaque value used by the client to maintain context info between the authentication request and the IDP callback. */
   context?: string;
   /** The IdP ID. For white listed IdPs it's a short domain name e.g. google.com, aol.com, live.net and yahoo.com. For other OpenID IdPs it's the OP identifier. */
   providerId?: string;
-  /** The query parameter that client can customize by themselves in auth url. The following parameters are reserved for server so that they cannot be customized by clients: client_id, response_type, scope, redirect_uri, state, oauth_token. */
-  customParameter?: StringMap;
+  /** Optional realm for OpenID protocol. The sub string "scheme://domain:port" of the param "continueUri" is used if this is not set. */
+  openidRealm?: string;
+  /** Explicitly specify the auth flow type. Currently only support "CODE_FLOW" type. The field is only used for Google provider. */
+  authFlowType?: string;
+  /** The developer's consumer key for OpenId OAuth Extension */
+  oauthConsumerKey?: string;
+  /** The email or federated ID of the user. */
+  identifier?: string;
+  /** The native app package for OTA installation. */
+  otaApp?: string;
+  /** The relying party OAuth client ID. */
+  clientId?: string;
+  /** Additional oauth scopes, beyond the basid user profile, that the user would be prompted to grant */
+  oauthScope?: string;
+  /** The hosted domain to restrict sign-in to accounts at that domain for Google Apps hosted accounts. */
+  hostedDomain?: string;
+  /** Tenant project number to be used for idp discovery. */
+  tenantProjectNumber?: string;
+  /** The URI to which the IDP redirects the user after the federated login flow. */
+  continueUri?: string;
 }
 export const IdentitytoolkitRelyingpartyCreateAuthUriRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authFlowType: S.optional(S.String),
-    identifier: S.optional(S.String),
-    oauthConsumerKey: S.optional(S.String),
-    appId: S.optional(S.String),
-    hostedDomain: S.optional(S.String),
-    oauthScope: S.optional(S.String),
-    tenantProjectNumber: S.optional(S.String),
-    sessionId: S.optional(S.String),
-    continueUri: S.optional(S.String),
-    clientId: S.optional(S.String),
     tenantId: S.optional(S.String),
-    otaApp: S.optional(S.String),
-    openidRealm: S.optional(S.String),
+    sessionId: S.optional(S.String),
+    customParameter: S.optional(StringMap),
+    appId: S.optional(S.String),
     context: S.optional(S.String),
     providerId: S.optional(S.String),
-    customParameter: S.optional(StringMap),
+    openidRealm: S.optional(S.String),
+    authFlowType: S.optional(S.String),
+    oauthConsumerKey: S.optional(S.String),
+    identifier: S.optional(S.String),
+    otaApp: S.optional(S.String),
+    clientId: S.optional(S.String),
+    oauthScope: S.optional(S.String),
+    hostedDomain: S.optional(S.String),
+    tenantProjectNumber: S.optional(S.String),
+    continueUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyCreateAuthUriRequest",
@@ -145,52 +145,52 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Response of creating the IDP authentication URL. */
 export interface CreateAuthUriResponse {
-  /** True if captcha is required. */
-  captchaRequired?: boolean;
-  /** All sign-in methods this user has used. */
-  signinMethods?: StringList;
-  /** The URI used by the IDP to authenticate the user. */
-  authUri?: string;
   /** The fixed string identitytoolkit#CreateAuthUriResponse". */
   kind?: string;
-  /** Whether the user is registered if the identifier is an email. */
-  registered?: boolean;
   /** Session ID which should be passed in the following verifyAssertion request. */
   sessionId?: string;
-  /** The provider ID of the auth URI. */
-  providerId?: string;
-  /** all providers the user has once used to do federated login */
-  allProviders?: StringList;
   /** True if the authUri is for user's existing provider. */
   forExistingProvider?: boolean;
+  /** The URI used by the IDP to authenticate the user. */
+  authUri?: string;
+  /** all providers the user has once used to do federated login */
+  allProviders?: StringList;
+  /** The provider ID of the auth URI. */
+  providerId?: string;
+  /** True if captcha is required. */
+  captchaRequired?: boolean;
+  /** Whether the user is registered if the identifier is an email. */
+  registered?: boolean;
+  /** All sign-in methods this user has used. */
+  signinMethods?: StringList;
 }
 export const CreateAuthUriResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    captchaRequired: S.optional(S.Boolean),
-    signinMethods: S.optional(StringList),
-    authUri: S.optional(S.String),
     kind: S.optional(S.String),
-    registered: S.optional(S.Boolean),
     sessionId: S.optional(S.String),
-    providerId: S.optional(S.String),
-    allProviders: S.optional(StringList),
     forExistingProvider: S.optional(S.Boolean),
+    authUri: S.optional(S.String),
+    allProviders: S.optional(StringList),
+    providerId: S.optional(S.String),
+    captchaRequired: S.optional(S.Boolean),
+    registered: S.optional(S.Boolean),
+    signinMethods: S.optional(StringList),
   }),
 ).annotate({ identifier: "CreateAuthUriResponse" }) as any as S.Schema<CreateAuthUriResponse>;
 
 /** Request to delete account. */
 export interface IdentitytoolkitRelyingpartyDeleteAccountRequest {
-  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
-  delegatedProjectNumber?: string;
   /** The GITKit token or STS id token of the authenticated user. */
   idToken?: string;
+  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
+  delegatedProjectNumber?: string;
   /** The local ID of the user. */
   localId?: string;
 }
 export const IdentitytoolkitRelyingpartyDeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    delegatedProjectNumber: S.optional(S.String),
     idToken: S.optional(S.String),
+    delegatedProjectNumber: S.optional(S.String),
     localId: S.optional(S.String),
   }),
 ).annotate({
@@ -228,21 +228,21 @@ export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to download user account in batch. */
 export interface IdentitytoolkitRelyingpartyDownloadAccountRequest {
-  /** The max number of results to return in the response. */
-  maxResults?: number;
   /** The token for the next page. This should be taken from the previous response. */
   nextPageToken?: string;
-  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
-  delegatedProjectNumber?: string;
   /** Specify which project (field value is actually project id) to operate. Only used when provided credential. */
   targetProjectId?: string;
+  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
+  delegatedProjectNumber?: string;
+  /** The max number of results to return in the response. */
+  maxResults?: number;
 }
 export const IdentitytoolkitRelyingpartyDownloadAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number),
     nextPageToken: S.optional(S.String),
-    delegatedProjectNumber: S.optional(S.String),
     targetProjectId: S.optional(S.String),
+    delegatedProjectNumber: S.optional(S.String),
+    maxResults: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyDownloadAccountRequest",
@@ -267,33 +267,33 @@ export const DownloadAccountRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DownloadAccountRelyingpartyRequest>;
 
 export interface UserInfoProviderUserInfoItem {
+  /** The user's photo url at the IDP. */
+  photoUrl?: string;
+  /** The IdP ID. For white listed IdPs it's a short domain name, e.g., google.com, aol.com, live.net and yahoo.com. For other OpenID IdPs it's the OP identifier. */
+  providerId?: string;
+  /** User's raw identifier directly returned from IDP. */
+  rawId?: string;
+  /** User's email at IDP. */
+  email?: string;
+  /** The user's display name at the IDP. */
+  displayName?: string;
   /** User's identifier at IDP. */
   federatedId?: string;
   /** User's phone number. */
   phoneNumber?: string;
-  /** User's email at IDP. */
-  email?: string;
-  /** User's raw identifier directly returned from IDP. */
-  rawId?: string;
   /** User's screen name at Twitter or login name at Github. */
   screenName?: string;
-  /** The user's photo url at the IDP. */
-  photoUrl?: string;
-  /** The user's display name at the IDP. */
-  displayName?: string;
-  /** The IdP ID. For white listed IdPs it's a short domain name, e.g., google.com, aol.com, live.net and yahoo.com. For other OpenID IdPs it's the OP identifier. */
-  providerId?: string;
 }
 export const UserInfoProviderUserInfoItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    photoUrl: S.optional(S.String),
+    providerId: S.optional(S.String),
+    rawId: S.optional(S.String),
+    email: S.optional(S.String),
+    displayName: S.optional(S.String),
     federatedId: S.optional(S.String),
     phoneNumber: S.optional(S.String),
-    email: S.optional(S.String),
-    rawId: S.optional(S.String),
     screenName: S.optional(S.String),
-    photoUrl: S.optional(S.String),
-    displayName: S.optional(S.String),
-    providerId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UserInfoProviderUserInfoItem",
@@ -306,66 +306,66 @@ export const UserInfoProviderUserInfoItemList = /*@__PURE__*/ S.Array(
 
 /** Template for an individual account info. */
 export interface UserInfo {
-  /** Timestamp in seconds for valid login token. */
-  validSince?: string;
-  /** The name of the user. */
-  displayName?: string;
-  /** The user's hashed password. */
-  passwordHash?: string;
-  /** The email of the user. */
-  email?: string;
-  /** last login timestamp. */
-  lastLoginAt?: string;
-  /** The custom attributes to be set in the user's id token. */
-  customAttributes?: string;
-  /** The user's plain text password. */
-  rawPassword?: string;
-  /** The local ID of the user. */
-  localId?: string;
-  /** The user's password salt. */
-  salt?: string;
-  /** The URL of the user profile photo. */
-  photoUrl?: string;
-  /** The IDP of the user. */
-  providerUserInfo?: UserInfoProviderUserInfoItemList;
-  /** The timestamp when the password was last updated. */
-  passwordUpdatedAt?: number;
-  /** Whether the user is disabled. */
-  disabled?: boolean;
-  /** User creation timestamp. */
-  createdAt?: string;
-  /** Whether the email has been verified. */
-  emailVerified?: boolean;
-  /** User's phone number. */
-  phoneNumber?: string;
-  /** Whether the user is authenticated by the developer. */
-  customAuth?: boolean;
-  /** User's screen name at Twitter or login name at Github. */
-  screenName?: string;
   /** Version of the user's password. */
   version?: number;
+  /** last login timestamp. */
+  lastLoginAt?: string;
+  /** Whether the user is authenticated by the developer. */
+  customAuth?: boolean;
+  /** The URL of the user profile photo. */
+  photoUrl?: string;
+  /** The local ID of the user. */
+  localId?: string;
+  /** Timestamp in seconds for valid login token. */
+  validSince?: string;
+  /** User creation timestamp. */
+  createdAt?: string;
+  /** The custom attributes to be set in the user's id token. */
+  customAttributes?: string;
+  /** The IDP of the user. */
+  providerUserInfo?: UserInfoProviderUserInfoItemList;
+  /** Whether the user is disabled. */
+  disabled?: boolean;
+  /** The timestamp when the password was last updated. */
+  passwordUpdatedAt?: number;
+  /** User's phone number. */
+  phoneNumber?: string;
+  /** User's screen name at Twitter or login name at Github. */
+  screenName?: string;
+  /** The user's password salt. */
+  salt?: string;
+  /** The name of the user. */
+  displayName?: string;
+  /** The user's plain text password. */
+  rawPassword?: string;
+  /** The email of the user. */
+  email?: string;
+  /** Whether the email has been verified. */
+  emailVerified?: boolean;
+  /** The user's hashed password. */
+  passwordHash?: string;
 }
 export const UserInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validSince: S.optional(S.String),
-    displayName: S.optional(S.String),
-    passwordHash: S.optional(S.String),
-    email: S.optional(S.String),
-    lastLoginAt: S.optional(S.String),
-    customAttributes: S.optional(S.String),
-    rawPassword: S.optional(S.String),
-    localId: S.optional(S.String),
-    salt: S.optional(S.String),
-    photoUrl: S.optional(S.String),
-    providerUserInfo: S.optional(UserInfoProviderUserInfoItemList),
-    passwordUpdatedAt: S.optional(S.Number),
-    disabled: S.optional(S.Boolean),
-    createdAt: S.optional(S.String),
-    emailVerified: S.optional(S.Boolean),
-    phoneNumber: S.optional(S.String),
-    customAuth: S.optional(S.Boolean),
-    screenName: S.optional(S.String),
     version: S.optional(S.Number),
+    lastLoginAt: S.optional(S.String),
+    customAuth: S.optional(S.Boolean),
+    photoUrl: S.optional(S.String),
+    localId: S.optional(S.String),
+    validSince: S.optional(S.String),
+    createdAt: S.optional(S.String),
+    customAttributes: S.optional(S.String),
+    providerUserInfo: S.optional(UserInfoProviderUserInfoItemList),
+    disabled: S.optional(S.Boolean),
+    passwordUpdatedAt: S.optional(S.Number),
+    phoneNumber: S.optional(S.String),
+    screenName: S.optional(S.String),
+    salt: S.optional(S.String),
+    displayName: S.optional(S.String),
+    rawPassword: S.optional(S.String),
+    email: S.optional(S.String),
+    emailVerified: S.optional(S.Boolean),
+    passwordHash: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserInfo" }) as any as S.Schema<UserInfo>;
 
@@ -374,35 +374,35 @@ export const UserInfoList = /*@__PURE__*/ S.Array(UserInfo) as any as S.Schema<U
 
 /** Response of downloading accounts in batch. */
 export interface DownloadAccountResponse {
-  /** The user accounts data. */
-  users?: UserInfoList;
   /** The next page token. To be used in a subsequent request to return the next page of results. */
   nextPageToken?: string;
+  /** The user accounts data. */
+  users?: UserInfoList;
   /** The fixed string "identitytoolkit#DownloadAccountResponse". */
   kind?: string;
 }
 export const DownloadAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    users: S.optional(UserInfoList),
     nextPageToken: S.optional(S.String),
+    users: S.optional(UserInfoList),
     kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "DownloadAccountResponse" }) as any as S.Schema<DownloadAccountResponse>;
 
 /** Request to sign in with email. */
 export interface IdentitytoolkitRelyingpartyEmailLinkSigninRequest {
-  /** Token for linking flow. */
-  idToken?: string;
-  /** The email address of the user. */
-  email?: string;
   /** The confirmation code. */
   oobCode?: string;
+  /** The email address of the user. */
+  email?: string;
+  /** Token for linking flow. */
+  idToken?: string;
 }
 export const IdentitytoolkitRelyingpartyEmailLinkSigninRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idToken: S.optional(S.String),
-    email: S.optional(S.String),
     oobCode: S.optional(S.String),
+    email: S.optional(S.String),
+    idToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyEmailLinkSigninRequest",
@@ -430,51 +430,51 @@ export const EmailLinkSigninRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 export interface EmailLinkSigninResponse {
   /** The STS id token to login the newly signed in user. */
   idToken?: string;
-  /** The user's email. */
-  email?: string;
-  /** Whether the user is new. */
-  isNewUser?: boolean;
   /** The fixed string "identitytoolkit#EmailLinkSigninResponse". */
   kind?: string;
+  /** Whether the user is new. */
+  isNewUser?: boolean;
+  /** The refresh token for the signed in user. */
+  refreshToken?: string;
   /** The RP local ID of the user. */
   localId?: string;
   /** Expiration time of STS id token in seconds. */
   expiresIn?: string;
-  /** The refresh token for the signed in user. */
-  refreshToken?: string;
+  /** The user's email. */
+  email?: string;
 }
 export const EmailLinkSigninResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idToken: S.optional(S.String),
-    email: S.optional(S.String),
-    isNewUser: S.optional(S.Boolean),
     kind: S.optional(S.String),
+    isNewUser: S.optional(S.Boolean),
+    refreshToken: S.optional(S.String),
     localId: S.optional(S.String),
     expiresIn: S.optional(S.String),
-    refreshToken: S.optional(S.String),
+    email: S.optional(S.String),
   }),
 ).annotate({ identifier: "EmailLinkSigninResponse" }) as any as S.Schema<EmailLinkSigninResponse>;
 
 /** Request to get the account information. */
 export interface IdentitytoolkitRelyingpartyGetAccountInfoRequest {
-  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
-  delegatedProjectNumber?: string;
   /** The list of emails of the users to inquiry. */
   email?: StringList;
   /** The list of local ID's of the users to inquiry. */
   localId?: StringList;
-  /** Privileged caller can query users by specified phone number. */
-  phoneNumber?: StringList;
+  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
+  delegatedProjectNumber?: string;
   /** The GITKit token of the authenticated user. */
   idToken?: string;
+  /** Privileged caller can query users by specified phone number. */
+  phoneNumber?: StringList;
 }
 export const IdentitytoolkitRelyingpartyGetAccountInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    delegatedProjectNumber: S.optional(S.String),
     email: S.optional(StringList),
     localId: S.optional(StringList),
-    phoneNumber: S.optional(StringList),
+    delegatedProjectNumber: S.optional(S.String),
     idToken: S.optional(S.String),
+    phoneNumber: S.optional(StringList),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyGetAccountInfoRequest",
@@ -500,68 +500,68 @@ export const GetAccountInfoRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response of getting account information. */
 export interface GetAccountInfoResponse {
-  /** The fixed string "identitytoolkit#GetAccountInfoResponse". */
-  kind?: string;
   /** The info of the users. */
   users?: UserInfoList;
+  /** The fixed string "identitytoolkit#GetAccountInfoResponse". */
+  kind?: string;
 }
 export const GetAccountInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     users: S.optional(UserInfoList),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "GetAccountInfoResponse" }) as any as S.Schema<GetAccountInfoResponse>;
 
 /** Request of getting a code for user confirmation (reset password, change email etc.) */
 export interface Relyingparty {
-  /** The user's Gitkit login token for email change. */
-  idToken?: string;
   /** The recaptcha challenge presented to the user. */
   challenge?: string;
-  /** The url to continue to the Gitkit app */
-  continueUrl?: string;
-  /** whether or not to install the android app on the device where the link is opened */
-  androidInstallApp?: boolean;
+  /** The user's Gitkit login token for email change. */
+  idToken?: string;
   /** The fixed string "identitytoolkit#relyingparty". */
   kind?: string;
+  /** iOS app store id to download the app if it's not already installed */
+  iOSAppStoreId?: string;
   /** The recaptcha response from the user. */
   captchaResp?: string;
-  /** android package name of the android app to handle the action code */
-  androidPackageName?: string;
-  /** The new email if the code is for email change. */
-  newEmail?: string;
+  /** The url to continue to the Gitkit app */
+  continueUrl?: string;
   /** the iOS bundle id of iOS app to handle the action code */
   iOSBundleId?: string;
+  /** The IP address of the user. */
+  userIp?: string;
+  /** The new email if the code is for email change. */
+  newEmail?: string;
   /** The request type. */
   requestType?: string;
+  /** The email of the user. */
+  email?: string;
   /** minimum version of the app. if the version on the device is lower than this version then the user is taken to the play store to upgrade the app */
   androidMinimumVersion?: string;
   /** whether or not the app can handle the oob code without first going to web */
   canHandleCodeInApp?: boolean;
-  /** The email of the user. */
-  email?: string;
-  /** iOS app store id to download the app if it's not already installed */
-  iOSAppStoreId?: string;
-  /** The IP address of the user. */
-  userIp?: string;
+  /** android package name of the android app to handle the action code */
+  androidPackageName?: string;
+  /** whether or not to install the android app on the device where the link is opened */
+  androidInstallApp?: boolean;
 }
 export const Relyingparty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idToken: S.optional(S.String),
     challenge: S.optional(S.String),
-    continueUrl: S.optional(S.String),
-    androidInstallApp: S.optional(S.Boolean),
+    idToken: S.optional(S.String),
     kind: S.optional(S.String),
+    iOSAppStoreId: S.optional(S.String),
     captchaResp: S.optional(S.String),
-    androidPackageName: S.optional(S.String),
-    newEmail: S.optional(S.String),
+    continueUrl: S.optional(S.String),
     iOSBundleId: S.optional(S.String),
+    userIp: S.optional(S.String),
+    newEmail: S.optional(S.String),
     requestType: S.optional(S.String),
+    email: S.optional(S.String),
     androidMinimumVersion: S.optional(S.String),
     canHandleCodeInApp: S.optional(S.Boolean),
-    email: S.optional(S.String),
-    iOSAppStoreId: S.optional(S.String),
-    userIp: S.optional(S.String),
+    androidPackageName: S.optional(S.String),
+    androidInstallApp: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Relyingparty" }) as any as S.Schema<Relyingparty>;
 
@@ -585,33 +585,33 @@ export const GetOobConfirmationCodeRelyingpartyRequest = /*@__PURE__*/ S.suspend
 
 /** Response of getting a code for user confirmation (reset password, change email etc.). */
 export interface GetOobConfirmationCodeResponse {
-  /** The email address that the email is sent to. */
-  email?: string;
   /** The code to be send to the user. */
   oobCode?: string;
   /** The fixed string "identitytoolkit#GetOobConfirmationCodeResponse". */
   kind?: string;
+  /** The email address that the email is sent to. */
+  email?: string;
 }
 export const GetOobConfirmationCodeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    email: S.optional(S.String),
     oobCode: S.optional(S.String),
     kind: S.optional(S.String),
+    email: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetOobConfirmationCodeResponse",
 }) as any as S.Schema<GetOobConfirmationCodeResponse>;
 
 export interface GetProjectConfigRelyingpartyRequest {
-  /** GCP project number of the request. */
-  projectNumber?: string;
   /** Delegated GCP project number of the request. */
   delegatedProjectNumber?: string;
+  /** GCP project number of the request. */
+  projectNumber?: string;
 }
 export const GetProjectConfigRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectNumber: S.optional(S.String.pipe(T.Query())),
     delegatedProjectNumber: S.optional(S.String.pipe(T.Query())),
+    projectNumber: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -625,53 +625,53 @@ export const GetProjectConfigRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Template for an email template. */
 export interface EmailTemplate {
-  /** From address of the email. */
-  from?: string;
+  /** From display name. */
+  fromDisplayName?: string;
+  /** Email body. */
+  body?: string;
   /** Reply-to address. */
   replyTo?: string;
   /** Email body format. */
   format?: string;
-  /** From display name. */
-  fromDisplayName?: string;
   /** Subject of the email. */
   subject?: string;
-  /** Email body. */
-  body?: string;
+  /** From address of the email. */
+  from?: string;
 }
 export const EmailTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    from: S.optional(S.String),
+    fromDisplayName: S.optional(S.String),
+    body: S.optional(S.String),
     replyTo: S.optional(S.String),
     format: S.optional(S.String),
-    fromDisplayName: S.optional(S.String),
     subject: S.optional(S.String),
-    body: S.optional(S.String),
+    from: S.optional(S.String),
   }),
 ).annotate({ identifier: "EmailTemplate" }) as any as S.Schema<EmailTemplate>;
 
 /** Template for a single idp configuration. */
 export interface IdpConfig {
-  /** Whether this IDP is enabled. */
-  enabled?: boolean;
-  /** OAuth2 client secret. */
-  secret?: string;
+  /** OAuth2 provider. */
+  provider?: string;
+  /** OAuth2 client ID. */
+  clientId?: string;
   /** Whitelisted client IDs for audience check. */
   whitelistedAudiences?: StringList;
   /** Percent of users who will be prompted/redirected federated login for this IDP. */
   experimentPercent?: number;
-  /** OAuth2 client ID. */
-  clientId?: string;
-  /** OAuth2 provider. */
-  provider?: string;
+  /** Whether this IDP is enabled. */
+  enabled?: boolean;
+  /** OAuth2 client secret. */
+  secret?: string;
 }
 export const IdpConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
-    secret: S.optional(S.String),
+    provider: S.optional(S.String),
+    clientId: S.optional(S.String),
     whitelistedAudiences: S.optional(StringList),
     experimentPercent: S.optional(S.Number),
-    clientId: S.optional(S.String),
-    provider: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    secret: S.optional(S.String),
   }),
 ).annotate({ identifier: "IdpConfig" }) as any as S.Schema<IdpConfig>;
 
@@ -680,44 +680,44 @@ export const IdpConfigList = /*@__PURE__*/ S.Array(IdpConfig) as any as S.Schema
 
 /** Response of getting the project configuration. */
 export interface IdentitytoolkitRelyingpartyGetProjectConfigResponse {
-  /** Authorized domains. */
-  authorizedDomains?: StringList;
-  dynamicLinksDomain?: string;
-  /** Whether to allow password user sign in or sign up. */
-  allowPasswordUser?: boolean;
-  /** Whether to use email sending provided by Firebear. */
-  useEmailSending?: boolean;
-  /** Change email template. */
-  changeEmailTemplate?: EmailTemplate;
-  /** Verify email template. */
-  verifyEmailTemplate?: EmailTemplate;
-  /** Reset password email template. */
-  resetPasswordTemplate?: EmailTemplate;
-  /** Project ID of the relying party. */
-  projectId?: string;
-  /** Whether anonymous user is enabled. */
-  enableAnonymousUser?: boolean;
-  /** Legacy reset password email template. */
-  legacyResetPasswordTemplate?: EmailTemplate;
-  /** OAuth2 provider configuration. */
-  idpConfig?: IdpConfigList;
   /** Browser API key, needed when making http request to Apiary. */
   apiKey?: string;
+  /** Authorized domains. */
+  authorizedDomains?: StringList;
+  /** Whether to use email sending provided by Firebear. */
+  useEmailSending?: boolean;
+  /** Project ID of the relying party. */
+  projectId?: string;
+  /** Change email template. */
+  changeEmailTemplate?: EmailTemplate;
+  /** Reset password email template. */
+  resetPasswordTemplate?: EmailTemplate;
+  /** OAuth2 provider configuration. */
+  idpConfig?: IdpConfigList;
+  /** Legacy reset password email template. */
+  legacyResetPasswordTemplate?: EmailTemplate;
+  /** Whether anonymous user is enabled. */
+  enableAnonymousUser?: boolean;
+  /** Whether to allow password user sign in or sign up. */
+  allowPasswordUser?: boolean;
+  /** Verify email template. */
+  verifyEmailTemplate?: EmailTemplate;
+  dynamicLinksDomain?: string;
 }
 export const IdentitytoolkitRelyingpartyGetProjectConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authorizedDomains: S.optional(StringList),
-    dynamicLinksDomain: S.optional(S.String),
-    allowPasswordUser: S.optional(S.Boolean),
-    useEmailSending: S.optional(S.Boolean),
-    changeEmailTemplate: S.optional(EmailTemplate),
-    verifyEmailTemplate: S.optional(EmailTemplate),
-    resetPasswordTemplate: S.optional(EmailTemplate),
-    projectId: S.optional(S.String),
-    enableAnonymousUser: S.optional(S.Boolean),
-    legacyResetPasswordTemplate: S.optional(EmailTemplate),
-    idpConfig: S.optional(IdpConfigList),
     apiKey: S.optional(S.String),
+    authorizedDomains: S.optional(StringList),
+    useEmailSending: S.optional(S.Boolean),
+    projectId: S.optional(S.String),
+    changeEmailTemplate: S.optional(EmailTemplate),
+    resetPasswordTemplate: S.optional(EmailTemplate),
+    idpConfig: S.optional(IdpConfigList),
+    legacyResetPasswordTemplate: S.optional(EmailTemplate),
+    enableAnonymousUser: S.optional(S.Boolean),
+    allowPasswordUser: S.optional(S.Boolean),
+    verifyEmailTemplate: S.optional(EmailTemplate),
+    dynamicLinksDomain: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyGetProjectConfigResponse",
@@ -760,17 +760,17 @@ export const GetRecaptchaParamRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Response of getting recaptcha param. */
 export interface GetRecaptchaParamResponse {
-  /** The stoken field for the recaptcha widget, used to request captcha challenge. */
-  recaptchaStoken?: string;
   /** Site key registered at recaptcha. */
   recaptchaSiteKey?: string;
+  /** The stoken field for the recaptcha widget, used to request captcha challenge. */
+  recaptchaStoken?: string;
   /** The fixed string "identitytoolkit#GetRecaptchaParamResponse". */
   kind?: string;
 }
 export const GetRecaptchaParamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recaptchaStoken: S.optional(S.String),
     recaptchaSiteKey: S.optional(S.String),
+    recaptchaStoken: S.optional(S.String),
     kind: S.optional(S.String),
   }),
 ).annotate({
@@ -779,21 +779,21 @@ export const GetRecaptchaParamResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to reset the password. */
 export interface IdentitytoolkitRelyingpartyResetPasswordRequest {
-  /** The email address of the user. */
-  email?: string;
-  /** The old password inputted by the user. */
-  oldPassword?: string;
   /** The confirmation code. */
   oobCode?: string;
+  /** The email address of the user. */
+  email?: string;
   /** The new password inputted by the user. */
   newPassword?: string;
+  /** The old password inputted by the user. */
+  oldPassword?: string;
 }
 export const IdentitytoolkitRelyingpartyResetPasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    email: S.optional(S.String),
-    oldPassword: S.optional(S.String),
     oobCode: S.optional(S.String),
+    email: S.optional(S.String),
     newPassword: S.optional(S.String),
+    oldPassword: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyResetPasswordRequest",
@@ -821,39 +821,39 @@ export const ResetPasswordRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ResetPasswordResponse {
   /** The fixed string "identitytoolkit#ResetPasswordResponse". */
   kind?: string;
+  /** If the out-of-band code is for email recovery, the user's new email. */
+  newEmail?: string;
   /** The user's email. If the out-of-band code is for email recovery, the user's original email. */
   email?: string;
   /** The request type. */
   requestType?: string;
-  /** If the out-of-band code is for email recovery, the user's new email. */
-  newEmail?: string;
 }
 export const ResetPasswordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
+    newEmail: S.optional(S.String),
     email: S.optional(S.String),
     requestType: S.optional(S.String),
-    newEmail: S.optional(S.String),
   }),
 ).annotate({ identifier: "ResetPasswordResponse" }) as any as S.Schema<ResetPasswordResponse>;
 
 /** Request for Identitytoolkit-SendVerificationCode */
 export interface IdentitytoolkitRelyingpartySendVerificationCodeRequest {
-  /** Recaptcha solution. */
-  recaptchaToken?: string;
+  /** Receipt of successful app token validation with APNS. */
+  iosReceipt?: string;
   /** The phone number to send the verification code to in E.164 format. */
   phoneNumber?: string;
   /** Secret delivered to iOS app via APNS. */
   iosSecret?: string;
-  /** Receipt of successful app token validation with APNS. */
-  iosReceipt?: string;
+  /** Recaptcha solution. */
+  recaptchaToken?: string;
 }
 export const IdentitytoolkitRelyingpartySendVerificationCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recaptchaToken: S.optional(S.String),
+    iosReceipt: S.optional(S.String),
     phoneNumber: S.optional(S.String),
     iosSecret: S.optional(S.String),
-    iosReceipt: S.optional(S.String),
+    recaptchaToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartySendVerificationCodeRequest",
@@ -892,78 +892,78 @@ export const IdentitytoolkitRelyingpartySendVerificationCodeResponse = /*@__PURE
 
 /** Request to set the account information. */
 export interface IdentitytoolkitRelyingpartySetAccountInfoRequest {
-  /** Last login timestamp. */
-  lastLoginAt?: string;
-  /** The photo url of the user. */
-  photoUrl?: string;
-  /** The local ID of the user. */
-  localId?: string;
+  /** Response to the captcha. */
+  captchaResponse?: string;
   /** The associated IDPs of the user. */
   provider?: StringList;
   /** The timestamp when the account is created. */
   createdAt?: string;
-  /** The name of the user. */
-  displayName?: string;
-  /** The attributes users request to delete. */
-  deleteAttribute?: StringList;
-  /** The out-of-band code of the change email request. */
-  oobCode?: string;
-  /** Mark the email as verified or not. */
-  emailVerified?: boolean;
-  /** Timestamp in seconds for valid login token. */
-  validSince?: string;
-  /** The captcha challenge. */
-  captchaChallenge?: string;
-  /** Response to the captcha. */
-  captchaResponse?: string;
-  /** The custom attributes to be set in the user's id token. */
-  customAttributes?: string;
-  /** The email of the user. */
-  email?: string;
-  /** Privileged caller can update user with specified phone number. */
-  phoneNumber?: string;
-  /** Mark the user to upgrade to federated login. */
-  upgradeToFederatedLogin?: boolean;
-  /** The GITKit token of the authenticated user. */
-  idToken?: string;
-  /** Whether to disable the user. */
-  disableUser?: boolean;
-  /** Whether return sts id token and refresh token instead of gitkit token. */
-  returnSecureToken?: boolean;
-  /** The new password of the user. */
-  password?: string;
-  /** The IDPs the user request to delete. */
-  deleteProvider?: StringList;
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
   delegatedProjectNumber?: string;
+  /** The IDPs the user request to delete. */
+  deleteProvider?: StringList;
+  /** The attributes users request to delete. */
+  deleteAttribute?: StringList;
+  /** Last login timestamp. */
+  lastLoginAt?: string;
+  /** Timestamp in seconds for valid login token. */
+  validSince?: string;
+  /** Mark the user to upgrade to federated login. */
+  upgradeToFederatedLogin?: boolean;
+  /** The captcha challenge. */
+  captchaChallenge?: string;
+  /** The local ID of the user. */
+  localId?: string;
+  /** The new password of the user. */
+  password?: string;
+  /** The name of the user. */
+  displayName?: string;
+  /** The GITKit token of the authenticated user. */
+  idToken?: string;
+  /** The out-of-band code of the change email request. */
+  oobCode?: string;
+  /** The custom attributes to be set in the user's id token. */
+  customAttributes?: string;
+  /** Privileged caller can update user with specified phone number. */
+  phoneNumber?: string;
   /** Instance id token of the app. */
   instanceId?: string;
+  /** Mark the email as verified or not. */
+  emailVerified?: boolean;
+  /** Whether to disable the user. */
+  disableUser?: boolean;
+  /** The photo url of the user. */
+  photoUrl?: string;
+  /** Whether return sts id token and refresh token instead of gitkit token. */
+  returnSecureToken?: boolean;
+  /** The email of the user. */
+  email?: string;
 }
 export const IdentitytoolkitRelyingpartySetAccountInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastLoginAt: S.optional(S.String),
-    photoUrl: S.optional(S.String),
-    localId: S.optional(S.String),
+    captchaResponse: S.optional(S.String),
     provider: S.optional(StringList),
     createdAt: S.optional(S.String),
-    displayName: S.optional(S.String),
-    deleteAttribute: S.optional(StringList),
-    oobCode: S.optional(S.String),
-    emailVerified: S.optional(S.Boolean),
-    validSince: S.optional(S.String),
-    captchaChallenge: S.optional(S.String),
-    captchaResponse: S.optional(S.String),
-    customAttributes: S.optional(S.String),
-    email: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
-    upgradeToFederatedLogin: S.optional(S.Boolean),
-    idToken: S.optional(S.String),
-    disableUser: S.optional(S.Boolean),
-    returnSecureToken: S.optional(S.Boolean),
-    password: S.optional(S.String),
-    deleteProvider: S.optional(StringList),
     delegatedProjectNumber: S.optional(S.String),
+    deleteProvider: S.optional(StringList),
+    deleteAttribute: S.optional(StringList),
+    lastLoginAt: S.optional(S.String),
+    validSince: S.optional(S.String),
+    upgradeToFederatedLogin: S.optional(S.Boolean),
+    captchaChallenge: S.optional(S.String),
+    localId: S.optional(S.String),
+    password: S.optional(S.String),
+    displayName: S.optional(S.String),
+    idToken: S.optional(S.String),
+    oobCode: S.optional(S.String),
+    customAttributes: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
     instanceId: S.optional(S.String),
+    emailVerified: S.optional(S.Boolean),
+    disableUser: S.optional(S.Boolean),
+    photoUrl: S.optional(S.String),
+    returnSecureToken: S.optional(S.Boolean),
+    email: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartySetAccountInfoRequest",
@@ -990,18 +990,18 @@ export const SetAccountInfoRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 export interface SetAccountInfoResponseProviderUserInfoItem {
   /** The user's display name at the IDP. */
   displayName?: string;
-  /** The user's photo url at the IDP. */
-  photoUrl?: string;
   /** User's identifier at IDP. */
   federatedId?: string;
+  /** The user's photo url at the IDP. */
+  photoUrl?: string;
   /** The IdP ID. For whitelisted IdPs it's a short domain name, e.g., google.com, aol.com, live.net and yahoo.com. For other OpenID IdPs it's the OP identifier. */
   providerId?: string;
 }
 export const SetAccountInfoResponseProviderUserInfoItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    photoUrl: S.optional(S.String),
     federatedId: S.optional(S.String),
+    photoUrl: S.optional(S.String),
     providerId: S.optional(S.String),
   }),
 ).annotate({
@@ -1016,85 +1016,85 @@ export const SetAccountInfoResponseProviderUserInfoItemList = /*@__PURE__*/ S.Ar
 
 /** Respone of setting the account information. */
 export interface SetAccountInfoResponse {
-  /** The Gitkit id token to login the newly sign up user. */
-  idToken?: string;
-  /** The photo url of the user. */
-  photoUrl?: string;
-  /** If email has been verified. */
-  emailVerified?: boolean;
   /** The local ID of the user. */
   localId?: string;
+  /** The photo url of the user. */
+  photoUrl?: string;
   /** If idToken is STS id token, then this field will be refresh token. */
   refreshToken?: string;
-  /** The user's profiles at the associated IdPs. */
-  providerUserInfo?: SetAccountInfoResponseProviderUserInfoItemList;
-  /** The name of the user. */
-  displayName?: string;
-  /** The user's hashed password. */
-  passwordHash?: string;
   /** The fixed string "identitytoolkit#SetAccountInfoResponse". */
   kind?: string;
+  /** The user's profiles at the associated IdPs. */
+  providerUserInfo?: SetAccountInfoResponseProviderUserInfoItemList;
   /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
   expiresIn?: string;
-  /** The email of the user. */
-  email?: string;
   /** The new email the user attempts to change to. */
   newEmail?: string;
+  /** The user's hashed password. */
+  passwordHash?: string;
+  /** If email has been verified. */
+  emailVerified?: boolean;
+  /** The email of the user. */
+  email?: string;
+  /** The Gitkit id token to login the newly sign up user. */
+  idToken?: string;
+  /** The name of the user. */
+  displayName?: string;
 }
 export const SetAccountInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idToken: S.optional(S.String),
-    photoUrl: S.optional(S.String),
-    emailVerified: S.optional(S.Boolean),
     localId: S.optional(S.String),
+    photoUrl: S.optional(S.String),
     refreshToken: S.optional(S.String),
-    providerUserInfo: S.optional(SetAccountInfoResponseProviderUserInfoItemList),
-    displayName: S.optional(S.String),
-    passwordHash: S.optional(S.String),
     kind: S.optional(S.String),
+    providerUserInfo: S.optional(SetAccountInfoResponseProviderUserInfoItemList),
     expiresIn: S.optional(S.String),
-    email: S.optional(S.String),
     newEmail: S.optional(S.String),
+    passwordHash: S.optional(S.String),
+    emailVerified: S.optional(S.Boolean),
+    email: S.optional(S.String),
+    idToken: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "SetAccountInfoResponse" }) as any as S.Schema<SetAccountInfoResponse>;
 
 /** Request to set the project configuration. */
 export interface IdentitytoolkitRelyingpartySetProjectConfigRequest {
-  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
-  delegatedProjectNumber?: string;
-  /** Whether to enable anonymous user. */
-  enableAnonymousUser?: boolean;
-  /** Verify email template. */
-  verifyEmailTemplate?: EmailTemplate;
   /** Whether to use email sending provided by Firebear. */
   useEmailSending?: boolean;
+  /** Whether to enable anonymous user. */
+  enableAnonymousUser?: boolean;
   /** Whether to allow password user sign in or sign up. */
   allowPasswordUser?: boolean;
-  /** Change email template. */
-  changeEmailTemplate?: EmailTemplate;
-  /** Authorized domains for widget redirect. */
-  authorizedDomains?: StringList;
-  /** Browser API key, needed when making http request to Apiary. */
-  apiKey?: string;
+  /** Verify email template. */
+  verifyEmailTemplate?: EmailTemplate;
   /** Legacy reset password email template. */
   legacyResetPasswordTemplate?: EmailTemplate;
   /** Reset password email template. */
   resetPasswordTemplate?: EmailTemplate;
+  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
+  delegatedProjectNumber?: string;
+  /** Browser API key, needed when making http request to Apiary. */
+  apiKey?: string;
+  /** Authorized domains for widget redirect. */
+  authorizedDomains?: StringList;
+  /** Change email template. */
+  changeEmailTemplate?: EmailTemplate;
   /** Oauth2 provider configuration. */
   idpConfig?: IdpConfigList;
 }
 export const IdentitytoolkitRelyingpartySetProjectConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    delegatedProjectNumber: S.optional(S.String),
-    enableAnonymousUser: S.optional(S.Boolean),
-    verifyEmailTemplate: S.optional(EmailTemplate),
     useEmailSending: S.optional(S.Boolean),
+    enableAnonymousUser: S.optional(S.Boolean),
     allowPasswordUser: S.optional(S.Boolean),
-    changeEmailTemplate: S.optional(EmailTemplate),
-    authorizedDomains: S.optional(StringList),
-    apiKey: S.optional(S.String),
+    verifyEmailTemplate: S.optional(EmailTemplate),
     legacyResetPasswordTemplate: S.optional(EmailTemplate),
     resetPasswordTemplate: S.optional(EmailTemplate),
+    delegatedProjectNumber: S.optional(S.String),
+    apiKey: S.optional(S.String),
+    authorizedDomains: S.optional(StringList),
+    changeEmailTemplate: S.optional(EmailTemplate),
     idpConfig: S.optional(IdpConfigList),
   }),
 ).annotate({
@@ -1134,15 +1134,15 @@ export const IdentitytoolkitRelyingpartySetProjectConfigResponse = /*@__PURE__*/
 
 /** Request to sign out user. */
 export interface IdentitytoolkitRelyingpartySignOutUserRequest {
-  /** Instance id token of the app. */
-  instanceId?: string;
   /** The local ID of the user. */
   localId?: string;
+  /** Instance id token of the app. */
+  instanceId?: string;
 }
 export const IdentitytoolkitRelyingpartySignOutUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instanceId: S.optional(S.String),
     localId: S.optional(S.String),
+    instanceId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartySignOutUserRequest",
@@ -1181,51 +1181,51 @@ export const IdentitytoolkitRelyingpartySignOutUserResponse = /*@__PURE__*/ S.su
 
 /** Request to signup new user, create anonymous user or anonymous user reauth. */
 export interface IdentitytoolkitRelyingpartySignupNewUserRequest {
+  /** Privileged caller can create user with specified phone number. */
+  phoneNumber?: string;
+  /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
+  tenantId?: string;
   /** Privileged caller can create user with specified user id. */
   localId?: string;
   /** The name of the user. */
   displayName?: string;
-  /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
-  tenantId?: string;
-  /** The photo url of the user. */
-  photoUrl?: string;
-  /** Tenant project number to be used for idp discovery. */
-  tenantProjectNumber?: string;
-  /** Instance id token of the app. */
-  instanceId?: string;
-  /** The GITKit token of the authenticated user. */
-  idToken?: string;
-  /** The email of the user. */
-  email?: string;
-  /** The new password of the user. */
-  password?: string;
-  /** Whether to disable the user. Only can be used by service account. */
-  disabled?: boolean;
   /** The captcha challenge. */
   captchaChallenge?: string;
-  /** Privileged caller can create user with specified phone number. */
-  phoneNumber?: string;
-  /** Mark the email as verified or not. Only can be used by service account. */
-  emailVerified?: boolean;
+  /** The photo url of the user. */
+  photoUrl?: string;
+  /** Instance id token of the app. */
+  instanceId?: string;
+  /** Tenant project number to be used for idp discovery. */
+  tenantProjectNumber?: string;
+  /** The email of the user. */
+  email?: string;
   /** Response to the captcha. */
   captchaResponse?: string;
+  /** Whether to disable the user. Only can be used by service account. */
+  disabled?: boolean;
+  /** Mark the email as verified or not. Only can be used by service account. */
+  emailVerified?: boolean;
+  /** The new password of the user. */
+  password?: string;
+  /** The GITKit token of the authenticated user. */
+  idToken?: string;
 }
 export const IdentitytoolkitRelyingpartySignupNewUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    phoneNumber: S.optional(S.String),
+    tenantId: S.optional(S.String),
     localId: S.optional(S.String),
     displayName: S.optional(S.String),
-    tenantId: S.optional(S.String),
-    photoUrl: S.optional(S.String),
-    tenantProjectNumber: S.optional(S.String),
-    instanceId: S.optional(S.String),
-    idToken: S.optional(S.String),
-    email: S.optional(S.String),
-    password: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
     captchaChallenge: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
-    emailVerified: S.optional(S.Boolean),
+    photoUrl: S.optional(S.String),
+    instanceId: S.optional(S.String),
+    tenantProjectNumber: S.optional(S.String),
+    email: S.optional(S.String),
     captchaResponse: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
+    emailVerified: S.optional(S.Boolean),
+    password: S.optional(S.String),
+    idToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartySignupNewUserRequest",
@@ -1251,77 +1251,77 @@ export const SignupNewUserRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response of signing up new user, creating anonymous user or anonymous user reauth. */
 export interface SignupNewUserResponse {
-  /** The fixed string "identitytoolkit#SignupNewUserResponse". */
-  kind?: string;
+  /** If idToken is STS id token, then this field will be refresh token. */
+  refreshToken?: string;
+  /** The Gitkit id token to login the newly sign up user. */
+  idToken?: string;
+  /** The RP local ID of the user. */
+  localId?: string;
   /** The name of the user. */
   displayName?: string;
   /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
   expiresIn?: string;
   /** The email of the user. */
   email?: string;
-  /** The RP local ID of the user. */
-  localId?: string;
-  /** The Gitkit id token to login the newly sign up user. */
-  idToken?: string;
-  /** If idToken is STS id token, then this field will be refresh token. */
-  refreshToken?: string;
+  /** The fixed string "identitytoolkit#SignupNewUserResponse". */
+  kind?: string;
 }
 export const SignupNewUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
+    refreshToken: S.optional(S.String),
+    idToken: S.optional(S.String),
+    localId: S.optional(S.String),
     displayName: S.optional(S.String),
     expiresIn: S.optional(S.String),
     email: S.optional(S.String),
-    localId: S.optional(S.String),
-    idToken: S.optional(S.String),
-    refreshToken: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "SignupNewUserResponse" }) as any as S.Schema<SignupNewUserResponse>;
 
 /** Request to upload user account in batch. */
 export interface IdentitytoolkitRelyingpartyUploadAccountRequest {
-  /** If true, backend will do sanity check(including duplicate email and federated id) when uploading account. */
-  sanityCheck?: boolean;
-  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
-  delegatedProjectNumber?: string;
-  dkLen?: number;
-  /** The password hash algorithm. */
-  hashAlgorithm?: string;
-  /** Rounds for hash calculation. Used by scrypt and similar algorithms. */
-  rounds?: number;
   /** The account info to be stored. */
   users?: UserInfoList;
   blockSize?: number;
-  /** The salt separator. */
-  saltSeparator?: string;
-  /** The key for to hash the password. */
-  signerKey?: string;
   parallelization?: number;
-  /** The following 4 fields are for standard scrypt algorithm. */
-  cpuMemCost?: number;
-  /** Whether allow overwrite existing account when user local_id exists. */
-  allowOverwrite?: boolean;
+  /** Rounds for hash calculation. Used by scrypt and similar algorithms. */
+  rounds?: number;
   /** Memory cost for hash calculation. Used by scrypt similar algorithms. */
   memoryCost?: number;
+  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
+  delegatedProjectNumber?: string;
   /** Specify which project (field value is actually project id) to operate. Only used when provided credential. */
   targetProjectId?: string;
+  /** Whether allow overwrite existing account when user local_id exists. */
+  allowOverwrite?: boolean;
+  /** The following 4 fields are for standard scrypt algorithm. */
+  cpuMemCost?: number;
+  /** The key for to hash the password. */
+  signerKey?: string;
+  /** If true, backend will do sanity check(including duplicate email and federated id) when uploading account. */
+  sanityCheck?: boolean;
+  /** The password hash algorithm. */
+  hashAlgorithm?: string;
+  /** The salt separator. */
+  saltSeparator?: string;
+  dkLen?: number;
 }
 export const IdentitytoolkitRelyingpartyUploadAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sanityCheck: S.optional(S.Boolean),
-    delegatedProjectNumber: S.optional(S.String),
-    dkLen: S.optional(S.Number),
-    hashAlgorithm: S.optional(S.String),
-    rounds: S.optional(S.Number),
     users: S.optional(UserInfoList),
     blockSize: S.optional(S.Number),
-    saltSeparator: S.optional(S.String),
-    signerKey: S.optional(S.String),
     parallelization: S.optional(S.Number),
-    cpuMemCost: S.optional(S.Number),
-    allowOverwrite: S.optional(S.Boolean),
+    rounds: S.optional(S.Number),
     memoryCost: S.optional(S.Number),
+    delegatedProjectNumber: S.optional(S.String),
     targetProjectId: S.optional(S.String),
+    allowOverwrite: S.optional(S.Boolean),
+    cpuMemCost: S.optional(S.Number),
+    signerKey: S.optional(S.String),
+    sanityCheck: S.optional(S.Boolean),
+    hashAlgorithm: S.optional(S.String),
+    saltSeparator: S.optional(S.String),
+    dkLen: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyUploadAccountRequest",
@@ -1383,46 +1383,46 @@ export const UploadAccountResponse = /*@__PURE__*/ S.suspend(() =>
 export interface IdentitytoolkitRelyingpartyVerifyAssertionRequest {
   /** Instance id token of the app. */
   instanceId?: string;
-  /** Whether return sts id token and refresh token instead of gitkit token. */
-  returnSecureToken?: boolean;
   /** Whether return 200 and IDP credential rather than throw exception when federated id is already linked. */
   returnIdpCredential?: boolean;
   /** Tenant project number to be used for idp discovery. */
   tenantProjectNumber?: string;
-  /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
-  tenantId?: string;
-  /** The URI to which the IDP redirects the user back. It may contain federated login result params added by the IDP. */
-  requestUri?: string;
+  /** Whether to return refresh tokens. */
+  returnRefreshToken?: boolean;
+  /** Whether return sts id token and refresh token instead of gitkit token. */
+  returnSecureToken?: boolean;
+  /** The post body if the request is a HTTP POST. */
+  postBody?: string;
   /** The GITKit token for the non-trusted IDP pending to be confirmed by the user. */
   pendingIdToken?: string;
   /** Session ID, which should match the one in previous createAuthUri request. */
   sessionId?: string;
-  /** When it's true, automatically creates a new account if the user doesn't exist. When it's false, allows existing user to sign in normally and throws exception if the user doesn't exist. */
-  autoCreate?: boolean;
-  /** The post body if the request is a HTTP POST. */
-  postBody?: string;
+  /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
+  tenantId?: string;
+  /** The URI to which the IDP redirects the user back. It may contain federated login result params added by the IDP. */
+  requestUri?: string;
   /** The GITKit token of the authenticated user. */
   idToken?: string;
+  /** When it's true, automatically creates a new account if the user doesn't exist. When it's false, allows existing user to sign in normally and throws exception if the user doesn't exist. */
+  autoCreate?: boolean;
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
   delegatedProjectNumber?: string;
-  /** Whether to return refresh tokens. */
-  returnRefreshToken?: boolean;
 }
 export const IdentitytoolkitRelyingpartyVerifyAssertionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceId: S.optional(S.String),
-    returnSecureToken: S.optional(S.Boolean),
     returnIdpCredential: S.optional(S.Boolean),
     tenantProjectNumber: S.optional(S.String),
-    tenantId: S.optional(S.String),
-    requestUri: S.optional(S.String),
+    returnRefreshToken: S.optional(S.Boolean),
+    returnSecureToken: S.optional(S.Boolean),
+    postBody: S.optional(S.String),
     pendingIdToken: S.optional(S.String),
     sessionId: S.optional(S.String),
-    autoCreate: S.optional(S.Boolean),
-    postBody: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    requestUri: S.optional(S.String),
     idToken: S.optional(S.String),
+    autoCreate: S.optional(S.Boolean),
     delegatedProjectNumber: S.optional(S.String),
-    returnRefreshToken: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyVerifyAssertionRequest",
@@ -1448,146 +1448,146 @@ export const VerifyAssertionRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response of verifying the IDP assertion. */
 export interface VerifyAssertionResponse {
-  /** Whether the assertion is from a non-trusted IDP and need account linking confirmation. */
-  needConfirmation?: boolean;
-  /** The custom scheme used by mobile app. */
-  appScheme?: string;
-  /** It's the identifier param in the createAuthUri request if the identifier is an email. It can be used to check whether the user input email is different from the asserted email. */
-  inputEmail?: string;
-  /** The IdP ID. For white listed IdPs it's a short domain name e.g. google.com, aol.com, live.net and yahoo.com. If the "providerId" param is set to OpenID OP identifer other than the whilte listed IdPs the OP identifier is returned. If the "identifier" param is federated ID in the createAuthUri request. The domain part of the federated ID is returned. */
-  providerId?: string;
-  /** True if it's a new user sign-in, false if it's a returning user. */
-  isNewUser?: boolean;
-  /** Whether need client to supply email to complete the federated login flow. */
-  needEmail?: boolean;
-  /** Raw IDP-returned user info. */
-  rawUserInfo?: string;
-  /** The value is true if the IDP is also the email provider. It means the user owns the email. */
-  emailVerified?: boolean;
   /** The birth date of the IdP account. */
   dateOfBirth?: string;
-  /** The display name of the user. */
-  displayName?: string;
-  /** The full name of the user. */
-  fullName?: string;
-  /** The original email stored in the mapping storage. It's returned when the federated ID is associated to a different email. */
-  originalEmail?: string;
-  /** The unique ID identifies the IdP account. */
-  federatedId?: string;
-  /** The ID token. */
-  idToken?: string;
-  /** The language preference of the user. */
-  language?: string;
-  /** The opaque value used by the client to maintain context info between the authentication request and the IDP callback. */
-  context?: string;
   /** The last name of the user. */
   lastName?: string;
-  /** The email returned by the IdP. NOTE: The federated login user may not own the email. */
-  email?: string;
-  /** The scope for the OpenID OAuth extension. */
-  oauthScope?: string;
-  /** The RP local ID if it's already been mapped to the IdP account identified by the federated ID. */
-  localId?: string;
-  /** The lifetime in seconds of the OAuth2 access token. */
-  oauthExpireIn?: number;
-  /** The screen_name of a Twitter user or the login name at Github. */
-  screenName?: string;
-  /** The URI of the public accessible profiel picture. */
-  photoUrl?: string;
-  /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
-  expiresIn?: string;
-  /** The OAuth2 access token. */
-  oauthAccessToken?: string;
-  /** It's true if the email is recycled. */
-  emailRecycled?: boolean;
-  /** URL for OTA app installation. */
-  appInstallationUrl?: string;
-  /** The action code. */
-  action?: string;
-  /** If idToken is STS id token, then this field will be refresh token. */
-  refreshToken?: string;
-  /** The OAuth1 access token secret. */
-  oauthTokenSecret?: string;
-  /** The first name of the user. */
-  firstName?: string;
-  /** The OAuth2 authorization code. */
-  oauthAuthorizationCode?: string;
   /** The user approved request token for the OpenID OAuth extension. */
   oauthRequestToken?: string;
+  /** Whether the assertion is from a non-trusted IDP and need account linking confirmation. */
+  needConfirmation?: boolean;
+  /** The value is true if the IDP is also the email provider. It means the user owns the email. */
+  emailVerified?: boolean;
+  /** The OAuth2 access token. */
+  oauthAccessToken?: string;
+  /** The email returned by the IdP. NOTE: The federated login user may not own the email. */
+  email?: string;
+  /** The original email stored in the mapping storage. It's returned when the federated ID is associated to a different email. */
+  originalEmail?: string;
+  /** The scope for the OpenID OAuth extension. */
+  oauthScope?: string;
+  /** If idToken is STS id token, then this field will be refresh token. */
+  refreshToken?: string;
+  /** The OIDC id token. */
+  oauthIdToken?: string;
   /** The timezone of the user. */
   timeZone?: string;
+  /** The full name of the user. */
+  fullName?: string;
+  /** The IdP ID. For white listed IdPs it's a short domain name e.g. google.com, aol.com, live.net and yahoo.com. If the "providerId" param is set to OpenID OP identifer other than the whilte listed IdPs the OP identifier is returned. If the "identifier" param is federated ID in the createAuthUri request. The domain part of the federated ID is returned. */
+  providerId?: string;
+  /** It's true if the email is recycled. */
+  emailRecycled?: boolean;
+  /** The custom scheme used by mobile app. */
+  appScheme?: string;
+  /** The ID token. */
+  idToken?: string;
+  /** It's the identifier param in the createAuthUri request if the identifier is an email. It can be used to check whether the user input email is different from the asserted email. */
+  inputEmail?: string;
+  /** The action code. */
+  action?: string;
+  /** The URI of the public accessible profiel picture. */
+  photoUrl?: string;
+  /** The unique ID identifies the IdP account. */
+  federatedId?: string;
+  /** Raw IDP-returned user info. */
+  rawUserInfo?: string;
+  /** The RP local ID if it's already been mapped to the IdP account identified by the federated ID. */
+  localId?: string;
+  /** Whether need client to supply email to complete the federated login flow. */
+  needEmail?: boolean;
+  /** URL for OTA app installation. */
+  appInstallationUrl?: string;
+  /** When action is 'map', contains the idps which can be used for confirmation. */
+  verifiedProvider?: StringList;
   /** Client error code. */
   errorMessage?: string;
   /** The nick name of the user. */
   nickName?: string;
-  /** When action is 'map', contains the idps which can be used for confirmation. */
-  verifiedProvider?: StringList;
+  /** The OAuth2 authorization code. */
+  oauthAuthorizationCode?: string;
+  /** The screen_name of a Twitter user or the login name at Github. */
+  screenName?: string;
+  /** The opaque value used by the client to maintain context info between the authentication request and the IDP callback. */
+  context?: string;
+  /** True if it's a new user sign-in, false if it's a returning user. */
+  isNewUser?: boolean;
+  /** The language preference of the user. */
+  language?: string;
+  /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
+  expiresIn?: string;
+  /** The first name of the user. */
+  firstName?: string;
+  /** The OAuth1 access token secret. */
+  oauthTokenSecret?: string;
+  /** The display name of the user. */
+  displayName?: string;
   /** The fixed string "identitytoolkit#VerifyAssertionResponse". */
   kind?: string;
-  /** The OIDC id token. */
-  oauthIdToken?: string;
+  /** The lifetime in seconds of the OAuth2 access token. */
+  oauthExpireIn?: number;
 }
 export const VerifyAssertionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    needConfirmation: S.optional(S.Boolean),
-    appScheme: S.optional(S.String),
-    inputEmail: S.optional(S.String),
-    providerId: S.optional(S.String),
-    isNewUser: S.optional(S.Boolean),
-    needEmail: S.optional(S.Boolean),
-    rawUserInfo: S.optional(S.String),
-    emailVerified: S.optional(S.Boolean),
     dateOfBirth: S.optional(S.String),
-    displayName: S.optional(S.String),
-    fullName: S.optional(S.String),
-    originalEmail: S.optional(S.String),
-    federatedId: S.optional(S.String),
-    idToken: S.optional(S.String),
-    language: S.optional(S.String),
-    context: S.optional(S.String),
     lastName: S.optional(S.String),
-    email: S.optional(S.String),
-    oauthScope: S.optional(S.String),
-    localId: S.optional(S.String),
-    oauthExpireIn: S.optional(S.Number),
-    screenName: S.optional(S.String),
-    photoUrl: S.optional(S.String),
-    expiresIn: S.optional(S.String),
-    oauthAccessToken: S.optional(S.String),
-    emailRecycled: S.optional(S.Boolean),
-    appInstallationUrl: S.optional(S.String),
-    action: S.optional(S.String),
-    refreshToken: S.optional(S.String),
-    oauthTokenSecret: S.optional(S.String),
-    firstName: S.optional(S.String),
-    oauthAuthorizationCode: S.optional(S.String),
     oauthRequestToken: S.optional(S.String),
+    needConfirmation: S.optional(S.Boolean),
+    emailVerified: S.optional(S.Boolean),
+    oauthAccessToken: S.optional(S.String),
+    email: S.optional(S.String),
+    originalEmail: S.optional(S.String),
+    oauthScope: S.optional(S.String),
+    refreshToken: S.optional(S.String),
+    oauthIdToken: S.optional(S.String),
     timeZone: S.optional(S.String),
+    fullName: S.optional(S.String),
+    providerId: S.optional(S.String),
+    emailRecycled: S.optional(S.Boolean),
+    appScheme: S.optional(S.String),
+    idToken: S.optional(S.String),
+    inputEmail: S.optional(S.String),
+    action: S.optional(S.String),
+    photoUrl: S.optional(S.String),
+    federatedId: S.optional(S.String),
+    rawUserInfo: S.optional(S.String),
+    localId: S.optional(S.String),
+    needEmail: S.optional(S.Boolean),
+    appInstallationUrl: S.optional(S.String),
+    verifiedProvider: S.optional(StringList),
     errorMessage: S.optional(S.String),
     nickName: S.optional(S.String),
-    verifiedProvider: S.optional(StringList),
+    oauthAuthorizationCode: S.optional(S.String),
+    screenName: S.optional(S.String),
+    context: S.optional(S.String),
+    isNewUser: S.optional(S.Boolean),
+    language: S.optional(S.String),
+    expiresIn: S.optional(S.String),
+    firstName: S.optional(S.String),
+    oauthTokenSecret: S.optional(S.String),
+    displayName: S.optional(S.String),
     kind: S.optional(S.String),
-    oauthIdToken: S.optional(S.String),
+    oauthExpireIn: S.optional(S.Number),
   }),
 ).annotate({ identifier: "VerifyAssertionResponse" }) as any as S.Schema<VerifyAssertionResponse>;
 
 /** Request to verify a custom token */
 export interface IdentitytoolkitRelyingpartyVerifyCustomTokenRequest {
-  /** Instance id token of the app. */
-  instanceId?: string;
-  /** Whether return sts id token and refresh token instead of gitkit token. */
-  returnSecureToken?: boolean;
   /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
   delegatedProjectNumber?: string;
+  /** Whether return sts id token and refresh token instead of gitkit token. */
+  returnSecureToken?: boolean;
   /** The custom token to verify */
   token?: string;
+  /** Instance id token of the app. */
+  instanceId?: string;
 }
 export const IdentitytoolkitRelyingpartyVerifyCustomTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instanceId: S.optional(S.String),
-    returnSecureToken: S.optional(S.Boolean),
     delegatedProjectNumber: S.optional(S.String),
+    returnSecureToken: S.optional(S.Boolean),
     token: S.optional(S.String),
+    instanceId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyVerifyCustomTokenRequest",
@@ -1613,24 +1613,24 @@ export const VerifyCustomTokenRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Response from verifying a custom token */
 export interface VerifyCustomTokenResponse {
-  /** The GITKit token for authenticated user. */
-  idToken?: string;
   /** The fixed string "identitytoolkit#VerifyCustomTokenResponse". */
   kind?: string;
   /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
   expiresIn?: string;
-  /** True if it's a new user sign-in, false if it's a returning user. */
-  isNewUser?: boolean;
+  /** The GITKit token for authenticated user. */
+  idToken?: string;
   /** If idToken is STS id token, then this field will be refresh token. */
   refreshToken?: string;
+  /** True if it's a new user sign-in, false if it's a returning user. */
+  isNewUser?: boolean;
 }
 export const VerifyCustomTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idToken: S.optional(S.String),
     kind: S.optional(S.String),
     expiresIn: S.optional(S.String),
-    isNewUser: S.optional(S.Boolean),
+    idToken: S.optional(S.String),
     refreshToken: S.optional(S.String),
+    isNewUser: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "VerifyCustomTokenResponse",
@@ -1638,42 +1638,42 @@ export const VerifyCustomTokenResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to verify the password. */
 export interface IdentitytoolkitRelyingpartyVerifyPasswordRequest {
-  /** Tenant project number to be used for idp discovery. */
-  tenantProjectNumber?: string;
-  /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
-  tenantId?: string;
+  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
+  delegatedProjectNumber?: string;
+  /** Instance id token of the app. */
+  instanceId?: string;
   /** The GITKit token of the authenticated user. */
   idToken?: string;
   /** The password inputed by the user. */
   password?: string;
-  /** Instance id token of the app. */
-  instanceId?: string;
-  /** Whether return sts id token and refresh token instead of gitkit token. */
-  returnSecureToken?: boolean;
   /** The GITKit token for the non-trusted IDP, which is to be confirmed by the user. */
   pendingIdToken?: string;
-  /** Response to the captcha. */
-  captchaResponse?: string;
-  /** GCP project number of the requesting delegated app. Currently only intended for Firebase V1 migration. */
-  delegatedProjectNumber?: string;
-  /** The email of the user. */
-  email?: string;
   /** The captcha challenge. */
   captchaChallenge?: string;
+  /** For multi-tenant use cases, in order to construct sign-in URL with the correct IDP parameters, Firebear needs to know which Tenant to retrieve IDP configs from. */
+  tenantId?: string;
+  /** Response to the captcha. */
+  captchaResponse?: string;
+  /** The email of the user. */
+  email?: string;
+  /** Tenant project number to be used for idp discovery. */
+  tenantProjectNumber?: string;
+  /** Whether return sts id token and refresh token instead of gitkit token. */
+  returnSecureToken?: boolean;
 }
 export const IdentitytoolkitRelyingpartyVerifyPasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tenantProjectNumber: S.optional(S.String),
-    tenantId: S.optional(S.String),
+    delegatedProjectNumber: S.optional(S.String),
+    instanceId: S.optional(S.String),
     idToken: S.optional(S.String),
     password: S.optional(S.String),
-    instanceId: S.optional(S.String),
-    returnSecureToken: S.optional(S.Boolean),
     pendingIdToken: S.optional(S.String),
-    captchaResponse: S.optional(S.String),
-    delegatedProjectNumber: S.optional(S.String),
-    email: S.optional(S.String),
     captchaChallenge: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    captchaResponse: S.optional(S.String),
+    email: S.optional(S.String),
+    tenantProjectNumber: S.optional(S.String),
+    returnSecureToken: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyVerifyPasswordRequest",
@@ -1699,68 +1699,68 @@ export const VerifyPasswordRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Request of verifying the password. */
 export interface VerifyPasswordResponse {
-  /** The GITKit token for authenticated user. */
-  idToken?: string;
-  /** The URI of the user's photo at IdP */
-  photoUrl?: string;
   /** The RP local ID if it's already been mapped to the IdP account identified by the federated ID. */
   localId?: string;
+  /** The URI of the user's photo at IdP */
+  photoUrl?: string;
+  /** The fixed string "identitytoolkit#VerifyPasswordResponse". */
+  kind?: string;
+  /** The name of the user. */
+  displayName?: string;
+  /** If idToken is STS id token, then this field will be refresh token. */
+  refreshToken?: string;
+  /** The email returned by the IdP. NOTE: The federated login user may not own the email. */
+  email?: string;
   /** The OAuth2 access token. */
   oauthAccessToken?: string;
   /** If idToken is STS id token, then this field will be expiration time of STS id token in seconds. */
   expiresIn?: string;
-  /** The email returned by the IdP. NOTE: The federated login user may not own the email. */
-  email?: string;
-  /** The fixed string "identitytoolkit#VerifyPasswordResponse". */
-  kind?: string;
-  /** The lifetime in seconds of the OAuth2 access token. */
-  oauthExpireIn?: number;
-  /** If idToken is STS id token, then this field will be refresh token. */
-  refreshToken?: string;
-  /** Whether the email is registered. */
-  registered?: boolean;
   /** The OAuth2 authorization code. */
   oauthAuthorizationCode?: string;
-  /** The name of the user. */
-  displayName?: string;
+  /** Whether the email is registered. */
+  registered?: boolean;
+  /** The GITKit token for authenticated user. */
+  idToken?: string;
+  /** The lifetime in seconds of the OAuth2 access token. */
+  oauthExpireIn?: number;
 }
 export const VerifyPasswordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idToken: S.optional(S.String),
-    photoUrl: S.optional(S.String),
     localId: S.optional(S.String),
+    photoUrl: S.optional(S.String),
+    kind: S.optional(S.String),
+    displayName: S.optional(S.String),
+    refreshToken: S.optional(S.String),
+    email: S.optional(S.String),
     oauthAccessToken: S.optional(S.String),
     expiresIn: S.optional(S.String),
-    email: S.optional(S.String),
-    kind: S.optional(S.String),
-    oauthExpireIn: S.optional(S.Number),
-    refreshToken: S.optional(S.String),
-    registered: S.optional(S.Boolean),
     oauthAuthorizationCode: S.optional(S.String),
-    displayName: S.optional(S.String),
+    registered: S.optional(S.Boolean),
+    idToken: S.optional(S.String),
+    oauthExpireIn: S.optional(S.Number),
   }),
 ).annotate({ identifier: "VerifyPasswordResponse" }) as any as S.Schema<VerifyPasswordResponse>;
 
 /** Request for Identitytoolkit-VerifyPhoneNumber */
 export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest {
-  operation?: string;
   /** The session info previously returned by IdentityToolkit-SendVerificationCode. */
   sessionInfo?: string;
-  idToken?: string;
-  temporaryProof?: string;
-  phoneNumber?: string;
   code?: string;
   verificationProof?: string;
+  temporaryProof?: string;
+  phoneNumber?: string;
+  idToken?: string;
+  operation?: string;
 }
 export const IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operation: S.optional(S.String),
     sessionInfo: S.optional(S.String),
-    idToken: S.optional(S.String),
-    temporaryProof: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
     code: S.optional(S.String),
     verificationProof: S.optional(S.String),
+    temporaryProof: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    idToken: S.optional(S.String),
+    operation: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest",
@@ -1786,29 +1786,29 @@ export const VerifyPhoneNumberRelyingpartyRequest = /*@__PURE__*/ S.suspend(() =
 
 /** Response for Identitytoolkit-VerifyPhoneNumber */
 export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse {
-  temporaryProofExpiresIn?: string;
-  idToken?: string;
-  refreshToken?: string;
-  temporaryProof?: string;
-  localId?: string;
-  phoneNumber?: string;
-  isNewUser?: boolean;
-  verificationProof?: string;
   expiresIn?: string;
+  phoneNumber?: string;
+  temporaryProofExpiresIn?: string;
   verificationProofExpiresIn?: string;
+  localId?: string;
+  temporaryProof?: string;
+  refreshToken?: string;
+  verificationProof?: string;
+  idToken?: string;
+  isNewUser?: boolean;
 }
 export const IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    temporaryProofExpiresIn: S.optional(S.String),
-    idToken: S.optional(S.String),
-    refreshToken: S.optional(S.String),
-    temporaryProof: S.optional(S.String),
-    localId: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
-    isNewUser: S.optional(S.Boolean),
-    verificationProof: S.optional(S.String),
     expiresIn: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    temporaryProofExpiresIn: S.optional(S.String),
     verificationProofExpiresIn: S.optional(S.String),
+    localId: S.optional(S.String),
+    temporaryProof: S.optional(S.String),
+    refreshToken: S.optional(S.String),
+    verificationProof: S.optional(S.String),
+    idToken: S.optional(S.String),
+    isNewUser: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse",

@@ -61,15 +61,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface BucketBySession {
-  /** Specifies that only sessions of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
+export interface BucketByActivity {
+  /** Specifies that only activity segments of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
   minDurationMillis?: string;
+  /** The default activity stream will be used if a specific activityDataSourceId is not specified. */
+  activityDataSourceId?: string;
 }
-export const BucketBySession = /*@__PURE__*/ S.suspend(() =>
+export const BucketByActivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     minDurationMillis: S.optional(S.String),
+    activityDataSourceId: S.optional(S.String),
   }),
-).annotate({ identifier: "BucketBySession" }) as any as S.Schema<BucketBySession>;
+).annotate({ identifier: "BucketByActivity" }) as any as S.Schema<BucketByActivity>;
 
 export type AggregateRequestFilteredDataQualityStandardItemEnum =
   | "dataQualityUnknown"
@@ -91,6 +94,35 @@ export const AggregateRequestFilteredDataQualityStandardItemEnumList = /*@__PURE
   AggregateRequestFilteredDataQualityStandardItemEnum,
 ) as any as S.Schema<AggregateRequestFilteredDataQualityStandardItemEnumList>;
 
+export type BucketByTimePeriodTypeEnum = "day" | "week" | "month";
+export const BucketByTimePeriodTypeEnum = S.String;
+
+export interface BucketByTimePeriod {
+  type?: BucketByTimePeriodTypeEnum | (string & {});
+  /** org.joda.timezone.DateTimeZone */
+  timeZoneId?: string;
+  value?: number;
+}
+export const BucketByTimePeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(BucketByTimePeriodTypeEnum),
+    timeZoneId: S.optional(S.String),
+    value: S.optional(S.Number),
+  }),
+).annotate({ identifier: "BucketByTimePeriod" }) as any as S.Schema<BucketByTimePeriod>;
+
+export interface BucketByTime {
+  /** Specifies that result buckets aggregate data by exactly durationMillis time frames. Time frames that contain no data will be included in the response with an empty dataset. */
+  durationMillis?: string;
+  period?: BucketByTimePeriod;
+}
+export const BucketByTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    durationMillis: S.optional(S.String),
+    period: S.optional(BucketByTimePeriod),
+  }),
+).annotate({ identifier: "BucketByTime" }) as any as S.Schema<BucketByTime>;
+
 /** The specification of which data to aggregate. */
 export interface AggregateBy {
   /** A data source ID to aggregate. Only data from the specified data source ID will be included in the aggregation. If specified, this data source must exist; the OAuth scopes in the supplied credentials must grant read access to this data type. The dataset in the response will have the same data source ID. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
@@ -110,79 +142,47 @@ export const AggregateByList = /*@__PURE__*/ S.Array(
   AggregateBy,
 ) as any as S.Schema<AggregateByList>;
 
-export interface BucketByActivity {
-  /** Specifies that only activity segments of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
+export interface BucketBySession {
+  /** Specifies that only sessions of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
   minDurationMillis?: string;
-  /** The default activity stream will be used if a specific activityDataSourceId is not specified. */
-  activityDataSourceId?: string;
 }
-export const BucketByActivity = /*@__PURE__*/ S.suspend(() =>
+export const BucketBySession = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     minDurationMillis: S.optional(S.String),
-    activityDataSourceId: S.optional(S.String),
   }),
-).annotate({ identifier: "BucketByActivity" }) as any as S.Schema<BucketByActivity>;
-
-export type BucketByTimePeriodTypeEnum = "day" | "week" | "month";
-export const BucketByTimePeriodTypeEnum = S.String;
-
-export interface BucketByTimePeriod {
-  value?: number;
-  /** org.joda.timezone.DateTimeZone */
-  timeZoneId?: string;
-  type?: BucketByTimePeriodTypeEnum | (string & {});
-}
-export const BucketByTimePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.Number),
-    timeZoneId: S.optional(S.String),
-    type: S.optional(BucketByTimePeriodTypeEnum),
-  }),
-).annotate({ identifier: "BucketByTimePeriod" }) as any as S.Schema<BucketByTimePeriod>;
-
-export interface BucketByTime {
-  /** Specifies that result buckets aggregate data by exactly durationMillis time frames. Time frames that contain no data will be included in the response with an empty dataset. */
-  durationMillis?: string;
-  period?: BucketByTimePeriod;
-}
-export const BucketByTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    durationMillis: S.optional(S.String),
-    period: S.optional(BucketByTimePeriod),
-  }),
-).annotate({ identifier: "BucketByTime" }) as any as S.Schema<BucketByTime>;
+).annotate({ identifier: "BucketBySession" }) as any as S.Schema<BucketBySession>;
 
 /** Next id: 10 */
 export interface AggregateRequest {
-  /** Specifies that data be aggregated by user sessions. Data that does not fall within the time range of a session will not be included in the response. Mutually exclusive of other bucketing specifications. */
-  bucketBySession?: BucketBySession;
+  /** Specifies that data be aggregated by the type of activity being performed when the data was recorded. All data that was recorded during a certain activity type (.for the given time range) will be aggregated into the same bucket. Data that was recorded while the user was not active will not be included in the response. Mutually exclusive of other bucketing specifications. */
+  bucketByActivityType?: BucketByActivity;
+  /** Specifies that data be aggregated each activity segment recorded for a user. Similar to bucketByActivitySegment, but bucketing is done for each activity segment rather than all segments of the same type. Mutually exclusive of other bucketing specifications. */
+  bucketByActivitySegment?: BucketByActivity;
   /** DO NOT POPULATE THIS FIELD. It is ignored. */
   filteredDataQualityStandard?: AggregateRequestFilteredDataQualityStandardItemEnumList;
+  /** Specifies that data be aggregated by a single time interval. Mutually exclusive of other bucketing specifications. */
+  bucketByTime?: BucketByTime;
+  /** The start of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. */
+  startTimeMillis?: string;
   /** The end of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. The maximum allowed difference between start_time_millis // and end_time_millis is 7776000000 (roughly 90 days). */
   endTimeMillis?: string;
   /** The specification of data to be aggregated. At least one aggregateBy spec must be provided. All data that is specified will be aggregated using the same bucketing criteria. There will be one dataset in the response for every aggregateBy spec. */
   aggregateBy?: AggregateByList;
-  /** The start of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. */
-  startTimeMillis?: string;
-  /** Specifies that data be aggregated by the type of activity being performed when the data was recorded. All data that was recorded during a certain activity type (.for the given time range) will be aggregated into the same bucket. Data that was recorded while the user was not active will not be included in the response. Mutually exclusive of other bucketing specifications. */
-  bucketByActivityType?: BucketByActivity;
-  /** Specifies that data be aggregated by a single time interval. Mutually exclusive of other bucketing specifications. */
-  bucketByTime?: BucketByTime;
-  /** Specifies that data be aggregated each activity segment recorded for a user. Similar to bucketByActivitySegment, but bucketing is done for each activity segment rather than all segments of the same type. Mutually exclusive of other bucketing specifications. */
-  bucketByActivitySegment?: BucketByActivity;
+  /** Specifies that data be aggregated by user sessions. Data that does not fall within the time range of a session will not be included in the response. Mutually exclusive of other bucketing specifications. */
+  bucketBySession?: BucketBySession;
 }
 export const AggregateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bucketBySession: S.optional(BucketBySession),
+    bucketByActivityType: S.optional(BucketByActivity),
+    bucketByActivitySegment: S.optional(BucketByActivity),
     filteredDataQualityStandard: S.optional(
       AggregateRequestFilteredDataQualityStandardItemEnumList,
     ),
+    bucketByTime: S.optional(BucketByTime),
+    startTimeMillis: S.optional(S.String),
     endTimeMillis: S.optional(S.String),
     aggregateBy: S.optional(AggregateByList),
-    startTimeMillis: S.optional(S.String),
-    bucketByActivityType: S.optional(BucketByActivity),
-    bucketByTime: S.optional(BucketByTime),
-    bucketByActivitySegment: S.optional(BucketByActivity),
+    bucketBySession: S.optional(BucketBySession),
   }),
 ).annotate({ identifier: "AggregateRequest" }) as any as S.Schema<AggregateRequest>;
 
@@ -208,56 +208,56 @@ export const AggregateUsersDatasetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AggregateUsersDatasetRequest>;
 
 export interface Application {
-  /** An optional URI that can be used to link back to the application. */
-  detailsUrl?: string;
   /** Package name for this application. This is used as a unique identifier when created by Android applications, but cannot be specified by REST clients. REST clients will have their developer project number reflected into the Data Source data stream IDs, instead of the packageName. */
   packageName?: string;
   /** The name of this application. This is required for REST clients, but we do not enforce uniqueness of this name. It is provided as a matter of convenience for other developers who would like to identify which REST created an Application or Data Source. */
   name?: string;
   /** Version of the application. You should update this field whenever the application changes in a way that affects the computation of the data. */
   version?: string;
+  /** An optional URI that can be used to link back to the application. */
+  detailsUrl?: string;
 }
 export const Application = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    detailsUrl: S.optional(S.String),
     packageName: S.optional(S.String),
     name: S.optional(S.String),
     version: S.optional(S.String),
+    detailsUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 
 /** Sessions contain metadata, such as a user-friendly name and time interval information. */
 export interface Session {
-  /** An end time, in milliseconds since epoch, inclusive. */
-  endTimeMillis?: string;
-  /** Session active time. While start_time_millis and end_time_millis define the full session time, the active time can be shorter and specified by active_time_millis. If the inactive time during the session is known, it should also be inserted via a com.google.activity.segment data point with a STILL activity value */
-  activeTimeMillis?: string;
   /** A human readable name of the session. */
   name?: string;
-  /** A description for this session. */
-  description?: string;
   /** A client-generated identifier that is unique across all sessions owned by this particular user. */
   id?: string;
-  /** The type of activity this session represents. */
-  activityType?: number;
-  /** A timestamp that indicates when the session was last modified. */
-  modifiedTimeMillis?: string;
   /** The application that created the session. */
   application?: Application;
   /** A start time, in milliseconds since epoch, inclusive. */
   startTimeMillis?: string;
+  /** Session active time. While start_time_millis and end_time_millis define the full session time, the active time can be shorter and specified by active_time_millis. If the inactive time during the session is known, it should also be inserted via a com.google.activity.segment data point with a STILL activity value */
+  activeTimeMillis?: string;
+  /** The type of activity this session represents. */
+  activityType?: number;
+  /** A description for this session. */
+  description?: string;
+  /** A timestamp that indicates when the session was last modified. */
+  modifiedTimeMillis?: string;
+  /** An end time, in milliseconds since epoch, inclusive. */
+  endTimeMillis?: string;
 }
 export const Session = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endTimeMillis: S.optional(S.String),
-    activeTimeMillis: S.optional(S.String),
     name: S.optional(S.String),
-    description: S.optional(S.String),
     id: S.optional(S.String),
-    activityType: S.optional(S.Number),
-    modifiedTimeMillis: S.optional(S.String),
     application: S.optional(Application),
     startTimeMillis: S.optional(S.String),
+    activeTimeMillis: S.optional(S.String),
+    activityType: S.optional(S.Number),
+    description: S.optional(S.String),
+    modifiedTimeMillis: S.optional(S.String),
+    endTimeMillis: S.optional(S.String),
   }),
 ).annotate({ identifier: "Session" }) as any as S.Schema<Session>;
 
@@ -290,21 +290,21 @@ export const ValueMapValEntryList = /*@__PURE__*/ S.Array(
 
 /** Holder object for the value of a single field in a data point. A field value has a particular format and is only ever set to one of an integer or a floating point value. */
 export interface Value {
-  /** Integer value. When this is set, other values must not be set. */
-  intVal?: number;
   /** Floating point value. When this is set, other values must not be set. */
   fpVal?: number;
   /** Map value. The valid key space and units for the corresponding value of each entry should be documented as part of the data type definition. Keys should be kept small whenever possible. Data streams with large keys and high data frequency may be down sampled. */
   mapVal?: ValueMapValEntryList;
   /** String value. When this is set, other values must not be set. Strings should be kept small whenever possible. Data streams with large string values and high data frequency may be down sampled. */
   stringVal?: string;
+  /** Integer value. When this is set, other values must not be set. */
+  intVal?: number;
 }
 export const Value = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    intVal: S.optional(S.Number),
     fpVal: S.optional(S.Number),
     mapVal: S.optional(ValueMapValEntryList),
     stringVal: S.optional(S.String),
+    intVal: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Value" }) as any as S.Schema<Value>;
 
@@ -313,33 +313,33 @@ export const ValueList = /*@__PURE__*/ S.Array(Value) as any as S.Schema<ValueLi
 
 /** Represents a single data point, generated by a particular data source. A data point holds a value for each field, an end timestamp and an optional start time. The exact semantics of each of these attributes are specified in the documentation for the particular data type. A data point can represent an instantaneous measurement, reading or input observation, as well as averages or aggregates over a time interval. Check the data type documentation to determine which is the case for a particular data type. Data points always contain one value for each field of the data type. */
 export interface DataPoint {
-  /** DO NOT USE THIS FIELD. It is ignored, and not stored. */
-  computationTimeMillis?: string;
-  /** If the data point is contained in a dataset for a derived data source, this field will be populated with the data source stream ID that created the data point originally. WARNING: do not rely on this field for anything other than debugging. The value of this field, if it is set at all, is an implementation detail and is not guaranteed to remain consistent. */
-  originDataSourceId?: string;
-  /** Indicates the last time this data point was modified. Useful only in contexts where we are listing the data changes, rather than representing the current state of the data. */
-  modifiedTimeMillis?: string;
-  /** The data type defining the format of the values in this data point. */
-  dataTypeName?: string;
   /** Values of each data type field for the data point. It is expected that each value corresponding to a data type field will occur in the same order that the field is listed with in the data type specified in a data source. Only one of integer and floating point fields will be populated, depending on the format enum value within data source's type field. */
   value?: ValueList;
   /** The raw timestamp from the original SensorEvent. */
   rawTimestampNanos?: string;
-  /** The end time of the interval represented by this data point, in nanoseconds since epoch. */
-  endTimeNanos?: string;
   /** The start time of the interval represented by this data point, in nanoseconds since epoch. */
   startTimeNanos?: string;
+  /** DO NOT USE THIS FIELD. It is ignored, and not stored. */
+  computationTimeMillis?: string;
+  /** If the data point is contained in a dataset for a derived data source, this field will be populated with the data source stream ID that created the data point originally. WARNING: do not rely on this field for anything other than debugging. The value of this field, if it is set at all, is an implementation detail and is not guaranteed to remain consistent. */
+  originDataSourceId?: string;
+  /** The end time of the interval represented by this data point, in nanoseconds since epoch. */
+  endTimeNanos?: string;
+  /** The data type defining the format of the values in this data point. */
+  dataTypeName?: string;
+  /** Indicates the last time this data point was modified. Useful only in contexts where we are listing the data changes, rather than representing the current state of the data. */
+  modifiedTimeMillis?: string;
 }
 export const DataPoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    computationTimeMillis: S.optional(S.String),
-    originDataSourceId: S.optional(S.String),
-    modifiedTimeMillis: S.optional(S.String),
-    dataTypeName: S.optional(S.String),
     value: S.optional(ValueList),
     rawTimestampNanos: S.optional(S.String),
-    endTimeNanos: S.optional(S.String),
     startTimeNanos: S.optional(S.String),
+    computationTimeMillis: S.optional(S.String),
+    originDataSourceId: S.optional(S.String),
+    endTimeNanos: S.optional(S.String),
+    dataTypeName: S.optional(S.String),
+    modifiedTimeMillis: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 
@@ -348,24 +348,24 @@ export const DataPointList = /*@__PURE__*/ S.Array(DataPoint) as any as S.Schema
 
 /** A dataset represents a projection container for data points. They do not carry any info of their own. Datasets represent a set of data points from a particular data source. A data point can be found in more than one dataset. */
 export interface Dataset {
+  /** A partial list of data points contained in the dataset, ordered by endTimeNanos. This list is considered complete when retrieving a small dataset and partial when patching a dataset or retrieving a dataset that is too large to include in a single response. */
+  point?: DataPointList;
+  /** The data stream ID of the data source that created the points in this dataset. */
+  dataSourceId?: string;
   /** The smallest start time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the first part of the dataset identifier. */
   minStartTimeNs?: string;
   /** This token will be set when a dataset is received in response to a GET request and the dataset is too large to be included in a single response. Provide this value in a subsequent GET request to return the next page of data points within this dataset. */
   nextPageToken?: string;
   /** The largest end time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the second part of the dataset identifier. */
   maxEndTimeNs?: string;
-  /** A partial list of data points contained in the dataset, ordered by endTimeNanos. This list is considered complete when retrieving a small dataset and partial when patching a dataset or retrieving a dataset that is too large to include in a single response. */
-  point?: DataPointList;
-  /** The data stream ID of the data source that created the points in this dataset. */
-  dataSourceId?: string;
 }
 export const Dataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    point: S.optional(DataPointList),
+    dataSourceId: S.optional(S.String),
     minStartTimeNs: S.optional(S.String),
     nextPageToken: S.optional(S.String),
     maxEndTimeNs: S.optional(S.String),
-    point: S.optional(DataPointList),
-    dataSourceId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
 
@@ -383,24 +383,24 @@ export const AggregateBucketTypeEnum = S.String;
 export interface AggregateBucket {
   /** Available for Bucket.Type.ACTIVITY_TYPE, Bucket.Type.ACTIVITY_SEGMENT */
   activity?: number;
-  /** Available for Bucket.Type.SESSION */
-  session?: Session;
-  /** The start time for the aggregated data, in milliseconds since epoch, inclusive. */
-  startTimeMillis?: string;
-  /** There will be one dataset per AggregateBy in the request. */
-  dataset?: DatasetList;
   /** The end time for the aggregated data, in milliseconds since epoch, inclusive. */
   endTimeMillis?: string;
+  /** Available for Bucket.Type.SESSION */
+  session?: Session;
+  /** There will be one dataset per AggregateBy in the request. */
+  dataset?: DatasetList;
+  /** The start time for the aggregated data, in milliseconds since epoch, inclusive. */
+  startTimeMillis?: string;
   /** The type of a bucket signifies how the data aggregation is performed in the bucket. */
   type?: AggregateBucketTypeEnum;
 }
 export const AggregateBucket = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     activity: S.optional(S.Number),
-    session: S.optional(Session),
-    startTimeMillis: S.optional(S.String),
-    dataset: S.optional(DatasetList),
     endTimeMillis: S.optional(S.String),
+    session: S.optional(Session),
+    dataset: S.optional(DatasetList),
+    startTimeMillis: S.optional(S.String),
     type: S.optional(AggregateBucketTypeEnum),
   }),
 ).annotate({ identifier: "AggregateBucket" }) as any as S.Schema<AggregateBucket>;
@@ -433,29 +433,26 @@ export const DeviceTypeEnum = S.String;
 
 /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. Each sensor is exposed as a data source. The main purpose of the device information contained in this class is to identify the hardware of a particular data source. This can be useful in different ways, including: - Distinguishing two similar sensors on different devices (the step counter on two nexus 5 phones, for instance) - Display the source of data to the user (by using the device make / model) - Treat data differently depending on sensor type (accelerometers on a watch may give different patterns than those on a phone) - Build different analysis models for each device/version. */
 export interface Device {
-  /** Manufacturer of the product/hardware. */
-  manufacturer?: string;
-  /** End-user visible model name for the device. */
-  model?: string;
   /** Version string for the device hardware/software. */
   version?: string;
-  /** The serial number or other unique ID for the hardware. This field is obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the uid field in clear and normal form. The obfuscation preserves equality; that is, given two IDs, if id1 == id2, obfuscated(id1) == obfuscated(id2). */
-  uid?: string;
   /** A constant representing the type of the device. */
   type?: DeviceTypeEnum | (string & {});
+  /** End-user visible model name for the device. */
+  model?: string;
+  /** Manufacturer of the product/hardware. */
+  manufacturer?: string;
+  /** The serial number or other unique ID for the hardware. This field is obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the uid field in clear and normal form. The obfuscation preserves equality; that is, given two IDs, if id1 == id2, obfuscated(id1) == obfuscated(id2). */
+  uid?: string;
 }
 export const Device = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    manufacturer: S.optional(S.String),
-    model: S.optional(S.String),
     version: S.optional(S.String),
-    uid: S.optional(S.String),
     type: S.optional(DeviceTypeEnum),
+    model: S.optional(S.String),
+    manufacturer: S.optional(S.String),
+    uid: S.optional(S.String),
   }),
 ).annotate({ identifier: "Device" }) as any as S.Schema<Device>;
-
-export type DataSourceTypeEnum = "raw" | "derived";
-export const DataSourceTypeEnum = S.String;
 
 export type DataTypeFieldFormatEnum =
   | "integer"
@@ -469,17 +466,17 @@ export const DataTypeFieldFormatEnum = S.String;
 
 /** In case of multi-dimensional data (such as an accelerometer with x, y, and z axes) each field represents one dimension. Each data type field has a unique name which identifies it. The field also defines the format of the data (int, float, etc.). This message is only instantiated in code and not used for wire comms or stored in any way. */
 export interface DataTypeField {
-  /** Defines the name and format of data. Unlike data type names, field names are not namespaced, and only need to be unique within the data type. */
-  name?: string;
-  optional?: boolean;
   /** The different supported formats for each field in a data type. */
   format?: DataTypeFieldFormatEnum | (string & {});
+  optional?: boolean;
+  /** Defines the name and format of data. Unlike data type names, field names are not namespaced, and only need to be unique within the data type. */
+  name?: string;
 }
 export const DataTypeField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    optional: S.optional(S.Boolean),
     format: S.optional(DataTypeFieldFormatEnum),
+    optional: S.optional(S.Boolean),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataTypeField" }) as any as S.Schema<DataTypeField>;
 
@@ -500,6 +497,9 @@ export const DataType = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataType" }) as any as S.Schema<DataType>;
+
+export type DataSourceTypeEnum = "raw" | "derived";
+export const DataSourceTypeEnum = S.String;
 
 export type DataSourceDataQualityStandardItemEnum =
   | "dataQualityUnknown"
@@ -523,32 +523,32 @@ export const DataSourceDataQualityStandardItemEnumList = /*@__PURE__*/ S.Array(
 
 /** Definition of a unique source of sensor data. Data sources can expose raw data coming from hardware sensors on local or companion devices. They can also expose derived data, created by transforming or merging other data sources. Multiple data sources can exist for the same data type. Every data point inserted into or read from this service has an associated data source. The data source contains enough information to uniquely identify its data, including the hardware device and the application that collected and/or transformed the data. It also holds useful metadata, such as the hardware and application versions, and the device type. Each data source produces a unique stream of data, with a unique identifier. Not all changes to data source affect the stream identifier, so that data collected by updated versions of the same application/device can still be considered to belong to the same data stream. */
 export interface DataSource {
-  /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
-  device?: Device;
   /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
   dataStreamId?: string;
-  /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
-  type?: DataSourceTypeEnum | (string & {});
-  /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
-  dataType?: DataType;
   /** Information about an application which feeds sensor data into the platform. */
   application?: Application;
+  /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
+  device?: Device;
+  /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
+  dataType?: DataType;
   /** An end-user visible name for this data source. */
   name?: string;
   /** The stream name uniquely identifies this particular data source among other data sources of the same type from the same underlying producer. Setting the stream name is optional, but should be done whenever an application exposes two streams for the same data type, or when a device has two equivalent sensors. */
   dataStreamName?: string;
+  /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
+  type?: DataSourceTypeEnum | (string & {});
   /** DO NOT POPULATE THIS FIELD. It is never populated in responses from the platform, and is ignored in queries. It will be removed in a future version entirely. */
   dataQualityStandard?: DataSourceDataQualityStandardItemEnumList;
 }
 export const DataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    device: S.optional(Device),
     dataStreamId: S.optional(S.String),
-    type: S.optional(DataSourceTypeEnum),
-    dataType: S.optional(DataType),
     application: S.optional(Application),
+    device: S.optional(Device),
+    dataType: S.optional(DataType),
     name: S.optional(S.String),
     dataStreamName: S.optional(S.String),
+    type: S.optional(DataSourceTypeEnum),
     dataQualityStandard: S.optional(DataSourceDataQualityStandardItemEnumList),
   }),
 ).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
@@ -596,18 +596,18 @@ export const DeleteUsersDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteUsersDataSourcesRequest>;
 
 export interface DeleteUsersDataSourcesDatasetsRequest {
-  /** Delete a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
-  /** Dataset identifier that is a composite of the minimum data point start time and maximum data point end time represented as nanoseconds from the epoch. The ID is formatted like: "startTime-endTime" where startTime and endTime are 64 bit integers. */
-  datasetId: string;
   /** The data stream ID of the data source that created the dataset. */
   dataSourceId: string;
+  /** Dataset identifier that is a composite of the minimum data point start time and maximum data point end time represented as nanoseconds from the epoch. The ID is formatted like: "startTime-endTime" where startTime and endTime are 64 bit integers. */
+  datasetId: string;
+  /** Delete a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
 }
 export const DeleteUsersDataSourcesDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.String.pipe(T.Label()),
-    datasetId: S.String.pipe(T.Label()),
     dataSourceId: S.String.pipe(T.Label()),
+    datasetId: S.String.pipe(T.Label()),
+    userId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -653,15 +653,15 @@ export const DeleteUsersSessionsResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<DeleteUsersSessionsResponse>;
 
 export interface GetUsersDataSourcesRequest {
-  /** The data stream ID of the data source to retrieve. */
-  dataSourceId: string;
   /** Retrieve a data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
+  /** The data stream ID of the data source to retrieve. */
+  dataSourceId: string;
 }
 export const GetUsersDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataSourceId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
+    dataSourceId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -674,24 +674,24 @@ export const GetUsersDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUsersDataSourcesRequest>;
 
 export interface GetUsersDataSourcesDatasetsRequest {
-  /** The continuation token, which is used to page through large datasets. To get the next page of a dataset, set this parameter to the value of nextPageToken from the previous response. Each subsequent call will yield a partial dataset with data point end timestamps that are strictly smaller than those in the previous partial response. */
-  pageToken?: string;
-  /** The data stream ID of the data source that created the dataset. */
-  dataSourceId: string;
-  /** Retrieve a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
   /** Dataset identifier that is a composite of the minimum data point start time and maximum data point end time represented as nanoseconds from the epoch. The ID is formatted like: "startTime-endTime" where startTime and endTime are 64 bit integers. */
   datasetId: string;
+  /** The data stream ID of the data source that created the dataset. */
+  dataSourceId: string;
   /** If specified, no more than this many data points will be included in the dataset. If there are more data points in the dataset, nextPageToken will be set in the dataset response. The limit is applied from the end of the time range. That is, if pageToken is absent, the limit most recent data points will be returned. */
   limit?: number;
+  /** The continuation token, which is used to page through large datasets. To get the next page of a dataset, set this parameter to the value of nextPageToken from the previous response. Each subsequent call will yield a partial dataset with data point end timestamps that are strictly smaller than those in the previous partial response. */
+  pageToken?: string;
+  /** Retrieve a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
 }
 export const GetUsersDataSourcesDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    dataSourceId: S.String.pipe(T.Label()),
-    userId: S.String.pipe(T.Label()),
     datasetId: S.String.pipe(T.Label()),
+    dataSourceId: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    userId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -707,15 +707,15 @@ export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export interface ListUsersDataSourcesRequest {
-  /** List data sources for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
   /** The names of data types to include in the list. If not specified, all data sources will be returned. */
   dataTypeName?: StringList;
+  /** List data sources for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
 }
 export const ListUsersDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.String.pipe(T.Label()),
     dataTypeName: S.optional(StringList.pipe(T.Query())),
+    userId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -741,21 +741,21 @@ export const ListDataSourcesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListDataSourcesResponse" }) as any as S.Schema<ListDataSourcesResponse>;
 
 export interface ListUsersDataSourcesDataPointChangesRequest {
-  /** List data points for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
   /** The data stream ID of the data source that created the dataset. */
   dataSourceId: string;
-  /** If specified, no more than this many data point changes will be included in the response. */
-  limit?: number;
+  /** List data points for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
   /** The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of nextPageToken from the previous response. */
   pageToken?: string;
+  /** If specified, no more than this many data point changes will be included in the response. */
+  limit?: number;
 }
 export const ListUsersDataSourcesDataPointChangesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.String.pipe(T.Label()),
     dataSourceId: S.String.pipe(T.Label()),
-    limit: S.optional(S.Number.pipe(T.Query())),
+    userId: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -768,21 +768,21 @@ export const ListUsersDataSourcesDataPointChangesRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListUsersDataSourcesDataPointChangesRequest>;
 
 export interface ListDataPointChangesResponse {
+  /** Inserted data points for the user. */
+  insertedDataPoint?: DataPointList;
+  /** The data stream ID of the data source with data point changes. */
+  dataSourceId?: string;
   /** The continuation token, which is used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
   nextPageToken?: string;
   /** Deleted data points for the user. Note, for modifications this should be parsed before handling insertions. */
   deletedDataPoint?: DataPointList;
-  /** The data stream ID of the data source with data point changes. */
-  dataSourceId?: string;
-  /** Inserted data points for the user. */
-  insertedDataPoint?: DataPointList;
 }
 export const ListDataPointChangesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    insertedDataPoint: S.optional(DataPointList),
+    dataSourceId: S.optional(S.String),
     nextPageToken: S.optional(S.String),
     deletedDataPoint: S.optional(DataPointList),
-    dataSourceId: S.optional(S.String),
-    insertedDataPoint: S.optional(DataPointList),
   }),
 ).annotate({
   identifier: "ListDataPointChangesResponse",
@@ -792,27 +792,27 @@ export type IntegerList = Array<number>;
 export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
 
 export interface ListUsersSessionsRequest {
-  /** If non-empty, only sessions with these activity types should be returned. */
-  activityType?: IntegerList;
-  /** If true, and if both startTime and endTime are omitted, session deletions will be returned. */
-  includeDeleted?: boolean;
+  /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but startTime is specified, all sessions ending after startTime to the end of time will be returned. */
+  endTime?: string;
   /** The continuation token, which is used for incremental syncing. To get the next batch of changes, set this parameter to the value of nextPageToken from the previous response. The page token is ignored if either start or end time is specified. If none of start time, end time, and the page token is specified, sessions modified in the last 30 days are returned. */
   pageToken?: string;
   /** List sessions for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
-  /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but startTime is specified, all sessions ending after startTime to the end of time will be returned. */
-  endTime?: string;
+  /** If true, and if both startTime and endTime are omitted, session deletions will be returned. */
+  includeDeleted?: boolean;
   /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but endTime is specified, all sessions starting before endTime and ending after the start of time up to (endTime + 1 day) will be returned. */
   startTime?: string;
+  /** If non-empty, only sessions with these activity types should be returned. */
+  activityType?: IntegerList;
 }
 export const ListUsersSessionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    activityType: S.optional(IntegerList.pipe(T.Query())),
-    includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    endTime: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     userId: S.String.pipe(T.Label()),
-    endTime: S.optional(S.String.pipe(T.Query())),
+    includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
     startTime: S.optional(S.String.pipe(T.Query())),
+    activityType: S.optional(IntegerList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -826,39 +826,39 @@ export type SessionList = Array<Session>;
 export const SessionList = /*@__PURE__*/ S.Array(Session) as any as S.Schema<SessionList>;
 
 export interface ListSessionsResponse {
+  /** Flag to indicate server has more data to transfer. DO NOT USE THIS FIELD. It is never populated in responses from the server. */
+  hasMoreData?: boolean;
   /** Sessions starting before endTime of the request and ending after startTime of the request up to (endTime of the request + 1 day). */
   session?: SessionList;
   /** The sync token which is used to sync further changes. This will only be provided if both startTime and endTime are omitted from the request. */
   nextPageToken?: string;
   /** If includeDeleted is set to true in the request, and startTime and endTime are omitted, this will include sessions which were deleted since the last sync. */
   deletedSession?: SessionList;
-  /** Flag to indicate server has more data to transfer. DO NOT USE THIS FIELD. It is never populated in responses from the server. */
-  hasMoreData?: boolean;
 }
 export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    hasMoreData: S.optional(S.Boolean),
     session: S.optional(SessionList),
     nextPageToken: S.optional(S.String),
     deletedSession: S.optional(SessionList),
-    hasMoreData: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "ListSessionsResponse" }) as any as S.Schema<ListSessionsResponse>;
 
 export interface PatchUsersDataSourcesDatasetsRequest {
-  /** This field is not used, and can be safely omitted. */
-  datasetId: string;
   /** Patch a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
   /** The data stream ID of the data source that created the dataset. */
   dataSourceId: string;
+  /** This field is not used, and can be safely omitted. */
+  datasetId: string;
   /** Request body */
   body?: Dataset;
 }
 export const PatchUsersDataSourcesDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datasetId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
     dataSourceId: S.String.pipe(T.Label()),
+    datasetId: S.String.pipe(T.Label()),
     body: S.optional(Dataset.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -872,17 +872,17 @@ export const PatchUsersDataSourcesDatasetsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PatchUsersDataSourcesDatasetsRequest>;
 
 export interface UpdateUsersDataSourcesRequest {
-  /** The data stream ID of the data source to update. */
-  dataSourceId: string;
   /** Update the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
+  /** The data stream ID of the data source to update. */
+  dataSourceId: string;
   /** Request body */
   body?: DataSource;
 }
 export const UpdateUsersDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataSourceId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
+    dataSourceId: S.String.pipe(T.Label()),
     body: S.optional(DataSource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
