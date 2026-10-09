@@ -388,6 +388,15 @@ export class MagicTransitNotOnboarded
     [{ code: 1012 }],
   ) {}
 
+export class MagicWanNotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MagicWanNotEnabled>()("MagicWanNotEnabled", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 1101, message: { includes: "feature not enabled" } }],
+  ) {}
+
 export class MagicWanUnauthorized
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MagicWanUnauthorized>()("MagicWanUnauthorized", {
@@ -15385,7 +15394,11 @@ export const bulkPutRoutes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateAppError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type CreateAppError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Creates a new App for an account */
 export const createApp: API.OperationMethod<
   CreateAppRequest,
@@ -15395,7 +15408,13 @@ export const createApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
   output: CreateAppResponse,
-  errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -15560,7 +15579,11 @@ export const createRoute: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateSiteError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type CreateSiteError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Creates a new Site */
 export const createSite: API.OperationMethod<
   CreateSiteRequest,
@@ -15570,12 +15593,22 @@ export const createSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSiteRequest,
   output: CreateSiteResponse,
-  errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateSiteAclError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type CreateSiteAclError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Creates a new Site ACL. */
 export const createSiteAcl: API.OperationMethod<
   CreateSiteAclRequest,
@@ -15585,12 +15618,22 @@ export const createSiteAcl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSiteAclRequest,
   output: CreateSiteAclResponse,
-  errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateSiteLanError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type CreateSiteLanError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Creates a new Site LAN. If the site is in high availability mode, static_addressing is required along with secondary and virtual address. */
 export const createSiteLan: API.PaginatedOperationMethod<
   CreateSiteLanRequest,
@@ -15602,7 +15645,13 @@ export const createSiteLan: API.PaginatedOperationMethod<
   () => ({
     input: CreateSiteLanRequest,
     output: CreateSiteLanResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -15625,7 +15674,11 @@ export const createSitesAppConfiguration: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateSiteWanError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type CreateSiteWanError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Creates a new Site WAN. */
 export const createSiteWan: API.PaginatedOperationMethod<
   CreateSiteWanRequest,
@@ -15637,7 +15690,13 @@ export const createSiteWan: API.PaginatedOperationMethod<
   () => ({
     input: CreateSiteWanRequest,
     output: CreateSiteWanResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -15645,7 +15704,12 @@ export const createSiteWan: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type DeleteAppError = AppNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type DeleteAppError =
+  | AppNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Deletes specific Account App. */
 export const deleteApp: API.OperationMethod<
   DeleteAppRequest,
@@ -15655,7 +15719,14 @@ export const deleteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
   output: DeleteAppResponse,
-  errors: [AppNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    AppNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -15810,7 +15881,12 @@ export const deleteRoute: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteSiteError = SiteNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type DeleteSiteError =
+  | SiteNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Remove a specific Site. */
 export const deleteSite: API.OperationMethod<
   DeleteSiteRequest,
@@ -15820,7 +15896,14 @@ export const deleteSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSiteRequest,
   output: DeleteSiteResponse,
-  errors: [SiteNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    SiteNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -15829,6 +15912,7 @@ export type DeleteSiteAclError =
   | SiteAclNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Remove a specific Site ACL. */
 export const deleteSiteAcl: API.OperationMethod<
@@ -15843,6 +15927,7 @@ export const deleteSiteAcl: API.OperationMethod<
     SiteAclNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -15854,6 +15939,7 @@ export type DeleteSiteLanError =
   | SiteLanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Remove a specific Site LAN. */
 export const deleteSiteLan: API.OperationMethod<
@@ -15868,6 +15954,7 @@ export const deleteSiteLan: API.OperationMethod<
     SiteLanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -15894,6 +15981,7 @@ export type DeleteSiteWanError =
   | SiteWanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Remove a specific Site WAN. */
 export const deleteSiteWan: API.OperationMethod<
@@ -15908,6 +15996,7 @@ export const deleteSiteWan: API.OperationMethod<
     SiteWanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16175,7 +16264,12 @@ export const getRoute: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetSiteError = SiteNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type GetSiteError =
+  | SiteNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Get a specific Site. */
 export const getSite: API.OperationMethod<
   GetSiteRequest,
@@ -16185,7 +16279,14 @@ export const getSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSiteRequest,
   output: GetSiteResponse,
-  errors: [SiteNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    SiteNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -16194,6 +16295,7 @@ export type GetSiteAclError =
   | SiteAclNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Get a specific Site ACL. */
 export const getSiteAcl: API.OperationMethod<
@@ -16208,6 +16310,7 @@ export const getSiteAcl: API.OperationMethod<
     SiteAclNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16219,6 +16322,7 @@ export type GetSiteLanError =
   | SiteLanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Get a specific Site LAN. */
 export const getSiteLan: API.OperationMethod<
@@ -16233,6 +16337,7 @@ export const getSiteLan: API.OperationMethod<
     SiteLanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16244,6 +16349,7 @@ export type GetSiteWanError =
   | SiteWanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Get a specific Site WAN. */
 export const getSiteWan: API.OperationMethod<
@@ -16258,6 +16364,7 @@ export const getSiteWan: API.OperationMethod<
     SiteWanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16265,7 +16372,11 @@ export const getSiteWan: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListAppsError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type ListAppsError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Lists Apps associated with an account. */
 export const listApps: API.PaginatedOperationMethod<
   ListAppsRequest,
@@ -16277,7 +16388,13 @@ export const listApps: API.PaginatedOperationMethod<
   () => ({
     input: ListAppsRequest,
     output: ListAppsResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -16515,7 +16632,11 @@ export const listRoutes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListSiteAclsError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type ListSiteAclsError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Lists Site ACLs associated with an account. */
 export const listSiteAcls: API.PaginatedOperationMethod<
   ListSiteAclsRequest,
@@ -16527,7 +16648,13 @@ export const listSiteAcls: API.PaginatedOperationMethod<
   () => ({
     input: ListSiteAclsRequest,
     output: ListSiteAclsResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -16535,7 +16662,11 @@ export const listSiteAcls: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type ListSiteLansError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type ListSiteLansError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Lists Site LANs associated with an account. */
 export const listSiteLans: API.PaginatedOperationMethod<
   ListSiteLansRequest,
@@ -16547,7 +16678,13 @@ export const listSiteLans: API.PaginatedOperationMethod<
   () => ({
     input: ListSiteLansRequest,
     output: ListSiteLansResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -16555,7 +16692,11 @@ export const listSiteLans: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type ListSitesError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type ListSitesError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Lists Sites associated with an account. Use connectorid query param to return sites where connectorid matches either site.ConnectorID or site.SecondaryConnectorID. */
 export const listSites: API.PaginatedOperationMethod<
   ListSitesRequest,
@@ -16567,7 +16708,13 @@ export const listSites: API.PaginatedOperationMethod<
   () => ({
     input: ListSitesRequest,
     output: ListSitesResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -16590,7 +16737,11 @@ export const listSitesAppConfiguration: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListSiteWansError = MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type ListSiteWansError =
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Lists Site WANs associated with an account. */
 export const listSiteWans: API.PaginatedOperationMethod<
   ListSiteWansRequest,
@@ -16602,7 +16753,13 @@ export const listSiteWans: API.PaginatedOperationMethod<
   () => ({
     input: ListSiteWansRequest,
     output: ListSiteWansResponse,
-    errors: [MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+    errors: [
+      MagicWanUnauthorized,
+      Forbidden,
+      MagicWanNotEnabled,
+      CloudflareRateLimited,
+      CloudflareError,
+    ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: { mode: "single", items: "result" } as const,
@@ -16610,7 +16767,12 @@ export const listSiteWans: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type PatchAppError = AppNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type PatchAppError =
+  | AppNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Updates an Account App */
 export const patchApp: API.OperationMethod<
   PatchAppRequest,
@@ -16620,7 +16782,14 @@ export const patchApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppRequest,
   output: PatchAppResponse,
-  errors: [AppNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    AppNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -16655,7 +16824,12 @@ export const patchConnector: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PatchSiteError = SiteNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type PatchSiteError =
+  | SiteNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Patch a specific Site. */
 export const patchSite: API.OperationMethod<
   PatchSiteRequest,
@@ -16665,7 +16839,14 @@ export const patchSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchSiteRequest,
   output: PatchSiteResponse,
-  errors: [SiteNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    SiteNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -16674,6 +16855,7 @@ export type PatchSiteAclError =
   | SiteAclNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Patch a specific Site ACL. */
 export const patchSiteAcl: API.OperationMethod<
@@ -16688,6 +16870,7 @@ export const patchSiteAcl: API.OperationMethod<
     SiteAclNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16699,6 +16882,7 @@ export type PatchSiteLanError =
   | SiteLanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Patch a specific Site LAN. */
 export const patchSiteLan: API.OperationMethod<
@@ -16713,6 +16897,7 @@ export const patchSiteLan: API.OperationMethod<
     SiteLanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16724,6 +16909,7 @@ export type PatchSiteWanError =
   | SiteWanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Patch a specific Site WAN. */
 export const patchSiteWan: API.OperationMethod<
@@ -16738,6 +16924,7 @@ export const patchSiteWan: API.OperationMethod<
     SiteWanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16805,7 +16992,12 @@ export const stopPcap: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateAppError = AppNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type UpdateAppError =
+  | AppNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Updates an Account App */
 export const updateApp: API.OperationMethod<
   UpdateAppRequest,
@@ -16815,7 +17007,14 @@ export const updateApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAppRequest,
   output: UpdateAppResponse,
-  errors: [AppNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    AppNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -16925,7 +17124,12 @@ export const updateRoute: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateSiteError = SiteNotFound | MagicWanUnauthorized | Forbidden | CloudflareOpError;
+export type UpdateSiteError =
+  | SiteNotFound
+  | MagicWanUnauthorized
+  | Forbidden
+  | MagicWanNotEnabled
+  | CloudflareOpError;
 /** Update a specific Site. */
 export const updateSite: API.OperationMethod<
   UpdateSiteRequest,
@@ -16935,7 +17139,14 @@ export const updateSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSiteRequest,
   output: UpdateSiteResponse,
-  errors: [SiteNotFound, MagicWanUnauthorized, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    SiteNotFound,
+    MagicWanUnauthorized,
+    Forbidden,
+    MagicWanNotEnabled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -16944,6 +17155,7 @@ export type UpdateSiteAclError =
   | SiteAclNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Update a specific Site ACL. */
 export const updateSiteAcl: API.OperationMethod<
@@ -16958,6 +17170,7 @@ export const updateSiteAcl: API.OperationMethod<
     SiteAclNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -16969,6 +17182,7 @@ export type UpdateSiteLanError =
   | SiteLanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Update a specific Site LAN. */
 export const updateSiteLan: API.OperationMethod<
@@ -16983,6 +17197,7 @@ export const updateSiteLan: API.OperationMethod<
     SiteLanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -17009,6 +17224,7 @@ export type UpdateSiteWanError =
   | SiteWanNotFound
   | MagicWanUnauthorized
   | Forbidden
+  | MagicWanNotEnabled
   | CloudflareOpError;
 /** Update a specific Site WAN. */
 export const updateSiteWan: API.OperationMethod<
@@ -17023,6 +17239,7 @@ export const updateSiteWan: API.OperationMethod<
     SiteWanNotFound,
     MagicWanUnauthorized,
     Forbidden,
+    MagicWanNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],

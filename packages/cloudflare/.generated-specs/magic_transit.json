@@ -19889,6 +19889,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -21041,6 +21044,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -21164,6 +21170,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -21305,6 +21314,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -21418,6 +21430,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -21519,6 +21534,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -22185,6 +22203,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -22286,6 +22307,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -22395,6 +22419,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -22522,6 +22549,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -24591,6 +24621,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -24698,6 +24731,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -24807,6 +24843,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -24934,6 +24973,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -25050,6 +25092,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -25876,6 +25921,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -25945,6 +25993,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26014,6 +26065,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26082,6 +26136,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26149,6 +26206,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26519,6 +26579,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26652,6 +26715,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26793,6 +26859,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -26964,6 +27033,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -27398,6 +27470,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -28059,6 +28134,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -28193,6 +28271,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -28335,6 +28416,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -28507,6 +28591,9 @@
         },
         {
           "target": "com.cloudflare.magic_transit#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
         }
       ]
     },
@@ -28721,6 +28808,28 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.magic_transit#MagicWanNotEnabled": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 1101,
+            "message": {
+              "includes": "feature not enabled"
+            }
+          }
+        ]
       }
     }
   }
