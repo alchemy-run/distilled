@@ -463,7 +463,6 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   serverAlias: "server_alias",
   serverDescription: "server_description",
   serverId: "server_id",
-  serviceAuth_401Redirect: "service_auth_401_redirect",
   serviceModeV2: "service_mode_v2",
   serviceToken: "service_token",
   serviceTokenId: "service_token_id",
@@ -10277,6 +10276,10 @@ export interface AccessApplicationsCreateResultEndUserApplication {
   name?: string | null;
   /** List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored. */
   selfHostedDomains?: AccessApplicationsCreateResultEndUserApplicationSelfHostedDomainsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultEndUserApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10304,6 +10307,8 @@ export const AccessApplicationsCreateResultEndUserApplication = /*@__PURE__*/ S.
         T.Body("self_hosted_domains"),
       ),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultEndUserApplication",
@@ -12744,6 +12749,10 @@ export interface AccessApplicationsCreateResultSelfHostedApplication {
   tags?: AccessApplicationsCreateResultSelfHostedApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultSelfHostedApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12829,6 +12838,8 @@ export const AccessApplicationsCreateResultSelfHostedApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultSelfHostedApplication",
@@ -14971,6 +14982,14 @@ export interface AccessApplicationsCreateResultSaaSApplication {
   tags?: AccessApplicationsCreateResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsCreateResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15001,6 +15020,10 @@ export const AccessApplicationsCreateResultSaaSApplication = /*@__PURE__*/ S.sus
     ),
     tags: S.optional(S.NullOr(AccessApplicationsCreateResultSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsCreateResultSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultSaaSApplication",
@@ -17357,6 +17380,10 @@ export interface AccessApplicationsCreateResultBrowserSSHApplication {
   tags?: AccessApplicationsCreateResultBrowserSSHApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultBrowserSSHApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17442,6 +17469,8 @@ export const AccessApplicationsCreateResultBrowserSSHApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultBrowserSSHApplication",
@@ -19798,6 +19827,10 @@ export interface AccessApplicationsCreateResultBrowserVNCApplication {
   tags?: AccessApplicationsCreateResultBrowserVNCApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultBrowserVNCApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19883,6 +19916,8 @@ export const AccessApplicationsCreateResultBrowserVNCApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultBrowserVNCApplication",
@@ -21281,6 +21316,10 @@ export interface AccessApplicationsCreateResultAppLauncherApplication {
   sessionDuration?: string | null;
   /** Determines when to skip the App Launcher landing page. */
   skipAppLauncherLoginPage?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultAppLauncherApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -21326,6 +21365,8 @@ export const AccessApplicationsCreateResultAppLauncherApplication = /*@__PURE__*
     skipAppLauncherLoginPage: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("skip_app_launcher_login_page")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultAppLauncherApplication",
@@ -22688,6 +22729,10 @@ export interface AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplic
   policies?: AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -22718,6 +22763,8 @@ export const AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplicatio
         S.NullOr(AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplication",
@@ -24080,6 +24127,10 @@ export interface AccessApplicationsCreateResultBrowserIsolationPermissionsApplic
   policies?: AccessApplicationsCreateResultBrowserIsolationPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultBrowserIsolationPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -24110,6 +24161,8 @@ export const AccessApplicationsCreateResultBrowserIsolationPermissionsApplicatio
         S.NullOr(AccessApplicationsCreateResultBrowserIsolationPermissionsApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsCreateResultBrowserIsolationPermissionsApplication",
@@ -25472,6 +25525,10 @@ export interface AccessApplicationsCreateResultGatewayIdentityProxyEndpointAppli
   policies?: AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -25502,6 +25559,8 @@ export const AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicati
         S.NullOr(AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplication",
@@ -26833,6 +26892,10 @@ export interface AccessApplicationsCreateResultBookmarkApplication {
   tags?: AccessApplicationsCreateResultBookmarkApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsCreateResultBookmarkApplicationType | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultBookmarkApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -26845,6 +26908,8 @@ export const AccessApplicationsCreateResultBookmarkApplication = /*@__PURE__*/ S
     policies: S.optional(S.NullOr(AccessApplicationsCreateResultBookmarkApplicationPoliciesList)),
     tags: S.optional(S.NullOr(AccessApplicationsCreateResultBookmarkApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsCreateResultBookmarkApplicationType)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultBookmarkApplication",
@@ -28381,6 +28446,10 @@ export interface AccessApplicationsCreateResultInfrastructureApplication {
   /** The name of the application. */
   name?: string | null;
   policies?: AccessApplicationsCreateResultInfrastructureApplicationPoliciesList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultInfrastructureApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -28399,6 +28468,8 @@ export const AccessApplicationsCreateResultInfrastructureApplication = /*@__PURE
     policies: S.optional(
       S.NullOr(AccessApplicationsCreateResultInfrastructureApplicationPoliciesList),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultInfrastructureApplication",
@@ -31022,6 +31093,10 @@ export interface AccessApplicationsCreateResultBrowserRDPApplication {
   tags?: AccessApplicationsCreateResultBrowserRDPApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultBrowserRDPApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31110,6 +31185,8 @@ export const AccessApplicationsCreateResultBrowserRDPApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultBrowserRDPApplication",
@@ -33316,6 +33393,10 @@ export interface AccessApplicationsCreateResultMcpServerApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsCreateResultMcpServerApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultMcpServerApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33370,6 +33451,8 @@ export const AccessApplicationsCreateResultMcpServerApplication = /*@__PURE__*/ 
     ),
     sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
     tags: S.optional(S.NullOr(AccessApplicationsCreateResultMcpServerApplicationTagsList)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultMcpServerApplication",
@@ -35587,6 +35670,10 @@ export interface AccessApplicationsCreateResultMcpServerPortalApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsCreateResultMcpServerPortalApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsCreateResultMcpServerPortalApplication = /*@__PURE__*/ S.suspend(
   () =>
@@ -35645,6 +35732,8 @@ export const AccessApplicationsCreateResultMcpServerPortalApplication = /*@__PUR
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
       tags: S.optional(S.NullOr(AccessApplicationsCreateResultMcpServerPortalApplicationTagsList)),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultMcpServerPortalApplication",
@@ -35678,6 +35767,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "domain",
       "name",
       "selfHostedDomains",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -35714,6 +35805,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "id",
@@ -35729,6 +35822,10 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -35765,6 +35862,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -35801,6 +35900,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -35821,6 +35922,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "policies",
       "sessionDuration",
       "skipAppLauncherLoginPage",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -35835,6 +35938,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -35849,6 +35954,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -35863,9 +35970,33 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
-    ["id", "appLauncherVisible", "aud", "domain", "logoUrl", "name", "policies", "tags", "type"],
-    ["targetCriteria", "type", "id", "aud", "mfaConfig", "name", "policies"],
+    [
+      "id",
+      "appLauncherVisible",
+      "aud",
+      "domain",
+      "logoUrl",
+      "name",
+      "policies",
+      "tags",
+      "type",
+      "createdAt",
+      "updatedAt",
+    ],
+    [
+      "targetCriteria",
+      "type",
+      "id",
+      "aud",
+      "mfaConfig",
+      "name",
+      "policies",
+      "createdAt",
+      "updatedAt",
+    ],
     [
       "domain",
       "targetCriteria",
@@ -35902,6 +36033,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -35925,6 +36058,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -35949,6 +36084,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
   ]),
 );
@@ -43398,10 +43535,14 @@ export const AccessPoliciesCreateRequestConnectionRulesRdp = /*@__PURE__*/ S.sus
 export interface AccessPoliciesCreateRequestConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesCreateRequestConnectionRulesRdp;
+  ssh?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh;
 }
 export const AccessPoliciesCreateRequestConnectionRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rdp: S.optional(AccessPoliciesCreateRequestConnectionRulesRdp),
+    ssh: S.optional(
+      AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh,
+    ),
   }),
 ).annotate({
   identifier: "AccessPoliciesCreateRequestConnectionRules",
@@ -43584,13 +43725,32 @@ export const AccessPoliciesCreateResponseConnectionRulesRdp = /*@__PURE__*/ S.su
   identifier: "AccessPoliciesCreateResponseConnectionRulesRdp",
 }) as any as S.Schema<AccessPoliciesCreateResponseConnectionRulesRdp>;
 
+export interface AccessPoliciesResponseConnectionRulesSsh {
+  usernames?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList | null;
+  allowEmailAlias?: boolean | null;
+}
+export const AccessPoliciesResponseConnectionRulesSsh = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    usernames: S.optional(
+      S.NullOr(
+        AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList,
+      ),
+    ),
+    allowEmailAlias: S.optional(S.NullOr(S.Boolean).pipe(T.Body("allow_email_alias"))),
+  }),
+).annotate({
+  identifier: "AccessPoliciesResponseConnectionRulesSsh",
+}) as any as S.Schema<AccessPoliciesResponseConnectionRulesSsh>;
+
 export interface AccessPoliciesCreateResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesCreateResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesCreateResponseConnectionRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rdp: S.optional(S.NullOr(AccessPoliciesCreateResponseConnectionRulesRdp)),
+    ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
   }),
 ).annotate({
   identifier: "AccessPoliciesCreateResponseConnectionRules",
@@ -64389,6 +64549,10 @@ export interface AccessApplicationsGetResultEndUserApplication {
   name?: string | null;
   /** List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored. */
   selfHostedDomains?: AccessApplicationsGetResultEndUserApplicationSelfHostedDomainsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultEndUserApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -64416,6 +64580,8 @@ export const AccessApplicationsGetResultEndUserApplication = /*@__PURE__*/ S.sus
         T.Body("self_hosted_domains"),
       ),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultEndUserApplication",
@@ -66766,6 +66932,10 @@ export interface AccessApplicationsGetResultSelfHostedApplication {
   tags?: AccessApplicationsGetResultSelfHostedApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultSelfHostedApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -66851,6 +67021,8 @@ export const AccessApplicationsGetResultSelfHostedApplication = /*@__PURE__*/ S.
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultSelfHostedApplication",
@@ -68944,6 +69116,14 @@ export interface AccessApplicationsGetResultSaaSApplication {
   tags?: AccessApplicationsGetResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsGetResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -68974,6 +69154,10 @@ export const AccessApplicationsGetResultSaaSApplication = /*@__PURE__*/ S.suspen
     ),
     tags: S.optional(S.NullOr(AccessApplicationsGetResultSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsGetResultSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultSaaSApplication",
@@ -71324,6 +71508,10 @@ export interface AccessApplicationsGetResultBrowserSSHApplication {
   tags?: AccessApplicationsGetResultBrowserSSHApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultBrowserSSHApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -71409,6 +71597,8 @@ export const AccessApplicationsGetResultBrowserSSHApplication = /*@__PURE__*/ S.
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultBrowserSSHApplication",
@@ -73759,6 +73949,10 @@ export interface AccessApplicationsGetResultBrowserVNCApplication {
   tags?: AccessApplicationsGetResultBrowserVNCApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultBrowserVNCApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -73844,6 +74038,8 @@ export const AccessApplicationsGetResultBrowserVNCApplication = /*@__PURE__*/ S.
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultBrowserVNCApplication",
@@ -75217,6 +75413,10 @@ export interface AccessApplicationsGetResultAppLauncherApplication {
   sessionDuration?: string | null;
   /** Determines when to skip the App Launcher landing page. */
   skipAppLauncherLoginPage?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultAppLauncherApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -75260,6 +75460,8 @@ export const AccessApplicationsGetResultAppLauncherApplication = /*@__PURE__*/ S
     skipAppLauncherLoginPage: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("skip_app_launcher_login_page")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultAppLauncherApplication",
@@ -76622,6 +76824,10 @@ export interface AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicati
   policies?: AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultDeviceEnrollmentPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -76652,6 +76858,8 @@ export const AccessApplicationsGetResultDeviceEnrollmentPermissionsApplication =
         S.NullOr(AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsGetResultDeviceEnrollmentPermissionsApplication",
@@ -78014,6 +78222,10 @@ export interface AccessApplicationsGetResultBrowserIsolationPermissionsApplicati
   policies?: AccessApplicationsGetResultBrowserIsolationPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultBrowserIsolationPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -78044,6 +78256,8 @@ export const AccessApplicationsGetResultBrowserIsolationPermissionsApplication =
         S.NullOr(AccessApplicationsGetResultBrowserIsolationPermissionsApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsGetResultBrowserIsolationPermissionsApplication",
@@ -79406,6 +79620,10 @@ export interface AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicat
   policies?: AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultGatewayIdentityProxyEndpointApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -79436,6 +79654,8 @@ export const AccessApplicationsGetResultGatewayIdentityProxyEndpointApplication 
         S.NullOr(AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsGetResultGatewayIdentityProxyEndpointApplication",
@@ -80767,6 +80987,10 @@ export interface AccessApplicationsGetResultBookmarkApplication {
   tags?: AccessApplicationsGetResultBookmarkApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsGetResultBookmarkApplicationType | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultBookmarkApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -80779,6 +81003,8 @@ export const AccessApplicationsGetResultBookmarkApplication = /*@__PURE__*/ S.su
     policies: S.optional(S.NullOr(AccessApplicationsGetResultBookmarkApplicationPoliciesList)),
     tags: S.optional(S.NullOr(AccessApplicationsGetResultBookmarkApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsGetResultBookmarkApplicationType)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultBookmarkApplication",
@@ -82310,6 +82536,10 @@ export interface AccessApplicationsGetResultInfrastructureApplication {
   /** The name of the application. */
   name?: string | null;
   policies?: AccessApplicationsGetResultInfrastructureApplicationPoliciesList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultInfrastructureApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -82328,6 +82558,8 @@ export const AccessApplicationsGetResultInfrastructureApplication = /*@__PURE__*
     policies: S.optional(
       S.NullOr(AccessApplicationsGetResultInfrastructureApplicationPoliciesList),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultInfrastructureApplication",
@@ -84938,6 +85170,10 @@ export interface AccessApplicationsGetResultBrowserRDPApplication {
   tags?: AccessApplicationsGetResultBrowserRDPApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultBrowserRDPApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -85026,6 +85262,8 @@ export const AccessApplicationsGetResultBrowserRDPApplication = /*@__PURE__*/ S.
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultBrowserRDPApplication",
@@ -87225,6 +87463,10 @@ export interface AccessApplicationsGetResultMcpServerApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsGetResultMcpServerApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultMcpServerApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -87279,6 +87521,8 @@ export const AccessApplicationsGetResultMcpServerApplication = /*@__PURE__*/ S.s
     ),
     sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
     tags: S.optional(S.NullOr(AccessApplicationsGetResultMcpServerApplicationTagsList)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultMcpServerApplication",
@@ -89492,6 +89736,10 @@ export interface AccessApplicationsGetResultMcpServerPortalApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsGetResultMcpServerPortalApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsGetResultMcpServerPortalApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -89549,6 +89797,8 @@ export const AccessApplicationsGetResultMcpServerPortalApplication = /*@__PURE__
     ),
     sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
     tags: S.optional(S.NullOr(AccessApplicationsGetResultMcpServerPortalApplicationTagsList)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultMcpServerPortalApplication",
@@ -89582,6 +89832,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "domain",
       "name",
       "selfHostedDomains",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -89618,6 +89870,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "id",
@@ -89633,6 +89887,10 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -89669,6 +89927,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -89705,6 +89965,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -89725,6 +89987,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "policies",
       "sessionDuration",
       "skipAppLauncherLoginPage",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -89739,6 +90003,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -89753,6 +90019,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -89767,9 +90035,33 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
-    ["id", "appLauncherVisible", "aud", "domain", "logoUrl", "name", "policies", "tags", "type"],
-    ["targetCriteria", "type", "id", "aud", "mfaConfig", "name", "policies"],
+    [
+      "id",
+      "appLauncherVisible",
+      "aud",
+      "domain",
+      "logoUrl",
+      "name",
+      "policies",
+      "tags",
+      "type",
+      "createdAt",
+      "updatedAt",
+    ],
+    [
+      "targetCriteria",
+      "type",
+      "id",
+      "aud",
+      "mfaConfig",
+      "name",
+      "policies",
+      "createdAt",
+      "updatedAt",
+    ],
     [
       "domain",
       "targetCriteria",
@@ -89806,6 +90098,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -89829,6 +90123,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -89853,6 +90149,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
   ]),
 );
@@ -94103,10 +94401,12 @@ export const AccessPoliciesGetResponseConnectionRulesRdp = /*@__PURE__*/ S.suspe
 export interface AccessPoliciesGetResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesGetResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesGetResponseConnectionRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rdp: S.optional(S.NullOr(AccessPoliciesGetResponseConnectionRulesRdp)),
+    ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
   }),
 ).annotate({
   identifier: "AccessPoliciesGetResponseConnectionRules",
@@ -119161,6 +119461,10 @@ export interface AccessApplicationsListResultItemEndUserApplication {
   name?: string | null;
   /** List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored. */
   selfHostedDomains?: AccessApplicationsListResultItemEndUserApplicationSelfHostedDomainsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemEndUserApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -119188,6 +119492,8 @@ export const AccessApplicationsListResultItemEndUserApplication = /*@__PURE__*/ 
         T.Body("self_hosted_domains"),
       ),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemEndUserApplication",
@@ -121548,6 +121854,10 @@ export interface AccessApplicationsListResultItemSelfHostedApplication {
   tags?: AccessApplicationsListResultItemSelfHostedApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemSelfHostedApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -121635,6 +121945,8 @@ export const AccessApplicationsListResultItemSelfHostedApplication = /*@__PURE__
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemSelfHostedApplication",
@@ -123742,6 +124054,14 @@ export interface AccessApplicationsListResultItemSaaSApplication {
   tags?: AccessApplicationsListResultItemSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsListResultItemSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -123774,6 +124094,10 @@ export const AccessApplicationsListResultItemSaaSApplication = /*@__PURE__*/ S.s
     ),
     tags: S.optional(S.NullOr(AccessApplicationsListResultItemSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsListResultItemSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemSaaSApplication",
@@ -126134,6 +126458,10 @@ export interface AccessApplicationsListResultItemBrowserSSHApplication {
   tags?: AccessApplicationsListResultItemBrowserSSHApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemBrowserSSHApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -126221,6 +126549,8 @@ export const AccessApplicationsListResultItemBrowserSSHApplication = /*@__PURE__
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemBrowserSSHApplication",
@@ -128581,6 +128911,10 @@ export interface AccessApplicationsListResultItemBrowserVNCApplication {
   tags?: AccessApplicationsListResultItemBrowserVNCApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemBrowserVNCApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -128668,6 +129002,8 @@ export const AccessApplicationsListResultItemBrowserVNCApplication = /*@__PURE__
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemBrowserVNCApplication",
@@ -130046,6 +130382,10 @@ export interface AccessApplicationsListResultItemAppLauncherApplication {
   sessionDuration?: string | null;
   /** Determines when to skip the App Launcher landing page. */
   skipAppLauncherLoginPage?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemAppLauncherApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -130091,6 +130431,8 @@ export const AccessApplicationsListResultItemAppLauncherApplication = /*@__PURE_
     skipAppLauncherLoginPage: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("skip_app_launcher_login_page")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemAppLauncherApplication",
@@ -131454,6 +131796,10 @@ export interface AccessApplicationsListResultItemDeviceEnrollmentPermissionsAppl
   policies?: AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -131486,6 +131832,8 @@ export const AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplicat
         ),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplication",
@@ -132849,6 +133197,10 @@ export interface AccessApplicationsListResultItemBrowserIsolationPermissionsAppl
   policies?: AccessApplicationsListResultItemBrowserIsolationPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemBrowserIsolationPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -132881,6 +133233,8 @@ export const AccessApplicationsListResultItemBrowserIsolationPermissionsApplicat
         ),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsListResultItemBrowserIsolationPermissionsApplication",
@@ -134244,6 +134598,10 @@ export interface AccessApplicationsListResultItemGatewayIdentityProxyEndpointApp
   policies?: AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -134276,6 +134634,8 @@ export const AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplica
         ),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplication",
@@ -135608,6 +135968,10 @@ export interface AccessApplicationsListResultItemBookmarkApplication {
   tags?: AccessApplicationsListResultItemBookmarkApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsListResultItemBookmarkApplicationType | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemBookmarkApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -135620,6 +135984,8 @@ export const AccessApplicationsListResultItemBookmarkApplication = /*@__PURE__*/
     policies: S.optional(S.NullOr(AccessApplicationsListResultItemBookmarkApplicationPoliciesList)),
     tags: S.optional(S.NullOr(AccessApplicationsListResultItemBookmarkApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsListResultItemBookmarkApplicationType)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemBookmarkApplication",
@@ -137166,6 +137532,10 @@ export interface AccessApplicationsListResultItemInfrastructureApplication {
   /** The name of the application. */
   name?: string | null;
   policies?: AccessApplicationsListResultItemInfrastructureApplicationPoliciesList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemInfrastructureApplication = /*@__PURE__*/ S.suspend(
   () =>
@@ -137186,6 +137556,8 @@ export const AccessApplicationsListResultItemInfrastructureApplication = /*@__PU
       policies: S.optional(
         S.NullOr(AccessApplicationsListResultItemInfrastructureApplicationPoliciesList),
       ),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemInfrastructureApplication",
@@ -139816,6 +140188,10 @@ export interface AccessApplicationsListResultItemBrowserRDPApplication {
   tags?: AccessApplicationsListResultItemBrowserRDPApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemBrowserRDPApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -139906,6 +140282,8 @@ export const AccessApplicationsListResultItemBrowserRDPApplication = /*@__PURE__
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemBrowserRDPApplication",
@@ -142117,6 +142495,10 @@ export interface AccessApplicationsListResultItemMcpServerApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsListResultItemMcpServerApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemMcpServerApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -142173,6 +142555,8 @@ export const AccessApplicationsListResultItemMcpServerApplication = /*@__PURE__*
     ),
     sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
     tags: S.optional(S.NullOr(AccessApplicationsListResultItemMcpServerApplicationTagsList)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemMcpServerApplication",
@@ -144393,6 +144777,10 @@ export interface AccessApplicationsListResultItemMcpServerPortalApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsListResultItemMcpServerPortalApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsListResultItemMcpServerPortalApplication = /*@__PURE__*/ S.suspend(
   () =>
@@ -144453,6 +144841,8 @@ export const AccessApplicationsListResultItemMcpServerPortalApplication = /*@__P
       tags: S.optional(
         S.NullOr(AccessApplicationsListResultItemMcpServerPortalApplicationTagsList),
       ),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemMcpServerPortalApplication",
@@ -144486,6 +144876,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "domain",
       "name",
       "selfHostedDomains",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -144522,6 +144914,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "id",
@@ -144537,6 +144931,10 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -144573,6 +144971,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -144609,6 +145009,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -144629,6 +145031,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "policies",
       "sessionDuration",
       "skipAppLauncherLoginPage",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -144643,6 +145047,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -144657,6 +145063,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -144671,9 +145079,33 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
-    ["id", "appLauncherVisible", "aud", "domain", "logoUrl", "name", "policies", "tags", "type"],
-    ["targetCriteria", "type", "id", "aud", "mfaConfig", "name", "policies"],
+    [
+      "id",
+      "appLauncherVisible",
+      "aud",
+      "domain",
+      "logoUrl",
+      "name",
+      "policies",
+      "tags",
+      "type",
+      "createdAt",
+      "updatedAt",
+    ],
+    [
+      "targetCriteria",
+      "type",
+      "id",
+      "aud",
+      "mfaConfig",
+      "name",
+      "policies",
+      "createdAt",
+      "updatedAt",
+    ],
     [
       "domain",
       "targetCriteria",
@@ -144710,6 +145142,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -144733,6 +145167,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -144757,6 +145193,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
   ]),
 );
@@ -147039,10 +147477,12 @@ export const AccessPoliciesListResultItemConnectionRulesRdp = /*@__PURE__*/ S.su
 export interface AccessPoliciesListResultItemConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesListResultItemConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesListResultItemConnectionRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rdp: S.optional(S.NullOr(AccessPoliciesListResultItemConnectionRulesRdp)),
+    ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
   }),
 ).annotate({
   identifier: "AccessPoliciesListResultItemConnectionRules",
@@ -180122,6 +180562,10 @@ export interface AccessApplicationsUpdateResultEndUserApplication {
   name?: string | null;
   /** List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored. */
   selfHostedDomains?: AccessApplicationsUpdateResultEndUserApplicationSelfHostedDomainsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultEndUserApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -180149,6 +180593,8 @@ export const AccessApplicationsUpdateResultEndUserApplication = /*@__PURE__*/ S.
         T.Body("self_hosted_domains"),
       ),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultEndUserApplication",
@@ -182505,6 +182951,10 @@ export interface AccessApplicationsUpdateResultSelfHostedApplication {
   tags?: AccessApplicationsUpdateResultSelfHostedApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultSelfHostedApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -182590,6 +183040,8 @@ export const AccessApplicationsUpdateResultSelfHostedApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultSelfHostedApplication",
@@ -184695,6 +185147,14 @@ export interface AccessApplicationsUpdateResultSaaSApplication {
   tags?: AccessApplicationsUpdateResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsUpdateResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -184725,6 +185185,10 @@ export const AccessApplicationsUpdateResultSaaSApplication = /*@__PURE__*/ S.sus
     ),
     tags: S.optional(S.NullOr(AccessApplicationsUpdateResultSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsUpdateResultSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultSaaSApplication",
@@ -187081,6 +187545,10 @@ export interface AccessApplicationsUpdateResultBrowserSSHApplication {
   tags?: AccessApplicationsUpdateResultBrowserSSHApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultBrowserSSHApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -187166,6 +187634,8 @@ export const AccessApplicationsUpdateResultBrowserSSHApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultBrowserSSHApplication",
@@ -189522,6 +189992,10 @@ export interface AccessApplicationsUpdateResultBrowserVNCApplication {
   tags?: AccessApplicationsUpdateResultBrowserVNCApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultBrowserVNCApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -189607,6 +190081,8 @@ export const AccessApplicationsUpdateResultBrowserVNCApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultBrowserVNCApplication",
@@ -190985,6 +191461,10 @@ export interface AccessApplicationsUpdateResultAppLauncherApplication {
   sessionDuration?: string | null;
   /** Determines when to skip the App Launcher landing page. */
   skipAppLauncherLoginPage?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultAppLauncherApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -191030,6 +191510,8 @@ export const AccessApplicationsUpdateResultAppLauncherApplication = /*@__PURE__*
     skipAppLauncherLoginPage: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("skip_app_launcher_login_page")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultAppLauncherApplication",
@@ -192392,6 +192874,10 @@ export interface AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplic
   policies?: AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -192422,6 +192908,8 @@ export const AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplicatio
         S.NullOr(AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplication",
@@ -193784,6 +194272,10 @@ export interface AccessApplicationsUpdateResultBrowserIsolationPermissionsApplic
   policies?: AccessApplicationsUpdateResultBrowserIsolationPermissionsApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultBrowserIsolationPermissionsApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -193814,6 +194306,8 @@ export const AccessApplicationsUpdateResultBrowserIsolationPermissionsApplicatio
         S.NullOr(AccessApplicationsUpdateResultBrowserIsolationPermissionsApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsUpdateResultBrowserIsolationPermissionsApplication",
@@ -195176,6 +195670,10 @@ export interface AccessApplicationsUpdateResultGatewayIdentityProxyEndpointAppli
   policies?: AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicationPoliciesList | null;
   /** The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications. */
   sessionDuration?: string | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -195206,6 +195704,8 @@ export const AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicati
         S.NullOr(AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicationPoliciesList),
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
   ).annotate({
     identifier: "AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplication",
@@ -196537,6 +197037,10 @@ export interface AccessApplicationsUpdateResultBookmarkApplication {
   tags?: AccessApplicationsUpdateResultBookmarkApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsUpdateResultBookmarkApplicationType | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultBookmarkApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -196549,6 +197053,8 @@ export const AccessApplicationsUpdateResultBookmarkApplication = /*@__PURE__*/ S
     policies: S.optional(S.NullOr(AccessApplicationsUpdateResultBookmarkApplicationPoliciesList)),
     tags: S.optional(S.NullOr(AccessApplicationsUpdateResultBookmarkApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsUpdateResultBookmarkApplicationType)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultBookmarkApplication",
@@ -198085,6 +198591,10 @@ export interface AccessApplicationsUpdateResultInfrastructureApplication {
   /** The name of the application. */
   name?: string | null;
   policies?: AccessApplicationsUpdateResultInfrastructureApplicationPoliciesList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultInfrastructureApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -198103,6 +198613,8 @@ export const AccessApplicationsUpdateResultInfrastructureApplication = /*@__PURE
     policies: S.optional(
       S.NullOr(AccessApplicationsUpdateResultInfrastructureApplicationPoliciesList),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultInfrastructureApplication",
@@ -200726,6 +201238,10 @@ export interface AccessApplicationsUpdateResultBrowserRDPApplication {
   tags?: AccessApplicationsUpdateResultBrowserRDPApplicationTagsList | null;
   /** Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application. */
   useClientlessIsolationAppLauncherUrl?: boolean | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultBrowserRDPApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -200814,6 +201330,8 @@ export const AccessApplicationsUpdateResultBrowserRDPApplication = /*@__PURE__*/
     useClientlessIsolationAppLauncherUrl: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("use_clientless_isolation_app_launcher_url")),
     ),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultBrowserRDPApplication",
@@ -203020,6 +203538,10 @@ export interface AccessApplicationsUpdateResultMcpServerApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsUpdateResultMcpServerApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultMcpServerApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -203074,6 +203596,8 @@ export const AccessApplicationsUpdateResultMcpServerApplication = /*@__PURE__*/ 
     ),
     sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
     tags: S.optional(S.NullOr(AccessApplicationsUpdateResultMcpServerApplicationTagsList)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultMcpServerApplication",
@@ -205291,6 +205815,10 @@ export interface AccessApplicationsUpdateResultMcpServerPortalApplication {
   sessionDuration?: string | null;
   /** The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard. */
   tags?: AccessApplicationsUpdateResultMcpServerPortalApplicationTagsList | null;
+  /** When the application was created. */
+  createdAt?: string | null;
+  /** When the application was last updated. */
+  updatedAt?: string | null;
 }
 export const AccessApplicationsUpdateResultMcpServerPortalApplication = /*@__PURE__*/ S.suspend(
   () =>
@@ -205349,6 +205877,8 @@ export const AccessApplicationsUpdateResultMcpServerPortalApplication = /*@__PUR
       ),
       sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
       tags: S.optional(S.NullOr(AccessApplicationsUpdateResultMcpServerPortalApplicationTagsList)),
+      createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+      updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultMcpServerPortalApplication",
@@ -205382,6 +205912,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "domain",
       "name",
       "selfHostedDomains",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -205418,6 +205950,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "id",
@@ -205433,6 +205967,10 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -205469,6 +206007,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "domain",
@@ -205505,6 +206045,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -205525,6 +206067,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "policies",
       "sessionDuration",
       "skipAppLauncherLoginPage",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -205539,6 +206083,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -205553,6 +206099,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -205567,9 +206115,33 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "name",
       "policies",
       "sessionDuration",
+      "createdAt",
+      "updatedAt",
     ],
-    ["id", "appLauncherVisible", "aud", "domain", "logoUrl", "name", "policies", "tags", "type"],
-    ["targetCriteria", "type", "id", "aud", "mfaConfig", "name", "policies"],
+    [
+      "id",
+      "appLauncherVisible",
+      "aud",
+      "domain",
+      "logoUrl",
+      "name",
+      "policies",
+      "tags",
+      "type",
+      "createdAt",
+      "updatedAt",
+    ],
+    [
+      "targetCriteria",
+      "type",
+      "id",
+      "aud",
+      "mfaConfig",
+      "name",
+      "policies",
+      "createdAt",
+      "updatedAt",
+    ],
     [
       "domain",
       "targetCriteria",
@@ -205606,6 +206178,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "skipInterstitial",
       "tags",
       "useClientlessIsolationAppLauncherUrl",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -205629,6 +206203,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
     [
       "type",
@@ -205653,6 +206229,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "sessionDuration",
       "tags",
+      "createdAt",
+      "updatedAt",
     ],
   ]),
 );
@@ -212114,10 +212692,14 @@ export const AccessPoliciesUpdateRequestConnectionRulesRdp = /*@__PURE__*/ S.sus
 export interface AccessPoliciesUpdateRequestConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesUpdateRequestConnectionRulesRdp;
+  ssh?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh;
 }
 export const AccessPoliciesUpdateRequestConnectionRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rdp: S.optional(AccessPoliciesUpdateRequestConnectionRulesRdp),
+    ssh: S.optional(
+      AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh,
+    ),
   }),
 ).annotate({
   identifier: "AccessPoliciesUpdateRequestConnectionRules",
@@ -212312,10 +212894,12 @@ export const AccessPoliciesUpdateResponseConnectionRulesRdp = /*@__PURE__*/ S.su
 export interface AccessPoliciesUpdateResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesUpdateResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesUpdateResponseConnectionRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rdp: S.optional(S.NullOr(AccessPoliciesUpdateResponseConnectionRulesRdp)),
+    ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
   }),
 ).annotate({
   identifier: "AccessPoliciesUpdateResponseConnectionRules",
