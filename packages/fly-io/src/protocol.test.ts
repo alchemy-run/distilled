@@ -10,7 +10,7 @@ import { credentials } from "./credentials.ts";
 import { BadRequest, FlyIoParseError, UnknownFlyIoError } from "./errors.ts";
 import type { FlyIoOpContext } from "./protocol.ts";
 import * as Retry from "./retry.ts";
-import { addOn, agreedToProviderTos } from "./services/addons.ts";
+import { addOn, agreedToProviderTos, createAddOn } from "./services/addons.ts";
 import {
   MachineStartFromCreatedState,
   MachineWaitTimeout,
@@ -240,6 +240,96 @@ describe("GraphQL response validation", () => {
     expect(error).toMatchObject({ body: "[REDACTED]" });
     expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
+});
+
+describe("GraphQL success decoding", () => {
+  const publicUrl = `redis://default:${SECRET}@fly-decoder-test.upstash.io:6379`;
+  const addOnFields = {
+    id: "addon-id",
+    name: "decoder-test",
+    primaryRegion: "iad",
+    readRegions: [],
+    status: "ready",
+    errorMessage: null,
+    publicUrl,
+    privateIp: null,
+    password: SECRET,
+    ssoLink: null,
+    environment: null,
+    options: null,
+    metadata: null,
+    createdAt: "2026-10-08T00:00:00Z",
+    updatedAt: "2026-10-08T00:00:00Z",
+    addOnPlanName: null,
+  };
+  const modes = [
+    ["lenient", ResponseValidation.lenient],
+    ["strict", ResponseValidation.strict],
+  ] as const;
+
+  for (const [name, mode] of modes) {
+    test(`addOn returns the password and public URL redacted in ${name} mode`, async () => {
+      const result = await Effect.runPromise(
+        addOn({ name: "decoder-test" }).pipe(
+          Retry.none,
+          Effect.provide(
+            respondWith(
+              200,
+              JSON.stringify({
+                data: {
+                  addOn: {
+                    ...addOnFields,
+                    addOnPlan: null,
+                    addOnProvider: null,
+                    organization: {
+                      id: "org-id",
+                      name: "Decoder Test",
+                      slug: "decoder-test",
+                      rawSlug: "decoder-test",
+                      paidPlan: false,
+                      billable: false,
+                      provisionsBetaExtensions: false,
+                    },
+                    app: null,
+                  },
+                },
+              }),
+            ),
+          ),
+          Effect.provide(mode),
+        ),
+      );
+      expect(Redacted.isRedacted(result.password)).toBe(true);
+      expect(Redacted.isRedacted(result.publicUrl)).toBe(true);
+      expect(Redacted.value(result.password as Redacted.Redacted<string>)).toBe(SECRET);
+      expect(Redacted.value(result.publicUrl as Redacted.Redacted<string>)).toBe(publicUrl);
+      expect(result.name).toBe("decoder-test");
+      expect(inspect(result, { depth: Infinity })).not.toContain(SECRET);
+    });
+
+    test(`createAddOn returns the password and public URL redacted in ${name} mode`, async () => {
+      const result = await Effect.runPromise(
+        createAddOn({ input: { type: "upstash_redis", name: "decoder-test" } }).pipe(
+          Retry.none,
+          Effect.provide(
+            respondWith(
+              200,
+              JSON.stringify({
+                data: { createAddOn: { addOn: addOnFields, clientMutationId: null } },
+              }),
+            ),
+          ),
+          Effect.provide(mode),
+        ),
+      );
+      expect(Redacted.isRedacted(result.addOn.password)).toBe(true);
+      expect(Redacted.isRedacted(result.addOn.publicUrl)).toBe(true);
+      expect(Redacted.value(result.addOn.password as Redacted.Redacted<string>)).toBe(SECRET);
+      expect(Redacted.value(result.addOn.publicUrl as Redacted.Redacted<string>)).toBe(publicUrl);
+      expect(result.addOn.name).toBe("decoder-test");
+      expect(inspect(result, { depth: Infinity })).not.toContain(SECRET);
+    });
+  }
 });
 
 describe("Sprites success decoding", () => {
