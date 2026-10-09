@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -26,6 +27,7 @@ import * as Retry from "./retry.ts";
 import {
   CreateBillingMeterEvent2,
   CreateCustomer,
+  CreateEphemeralKey,
   CreateFile,
   DeleteProduct,
   GetCustomer,
@@ -35,6 +37,7 @@ import {
 
 const BASE_URL = "https://stripe.test";
 const API_KEY = "sk_test_123";
+const SECRET = "sentinel-secret-7f3a";
 
 interface Recorded {
   readonly method: string;
@@ -515,5 +518,29 @@ describe("Success decoding", () => {
       () => new Response("ok"),
     );
     expect(await strict.result).toBeInstanceOf(StripeParseError);
+  });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const { result } = run(
+        CreateEphemeralKey({}).pipe(Effect.provide(mode), Effect.flip),
+        () => new Response(`{"secret":"${SECRET}`),
+      );
+      const error = await result;
+      expect(error).toBeInstanceOf(StripeParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const { result } = run(
+      CreateEphemeralKey({}).pipe(Effect.provide(ResponseValidation.strict), Effect.flip),
+      () => json({ secret: SECRET }),
+    );
+    const error = await result;
+    expect(error).toBeInstanceOf(StripeParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 });
