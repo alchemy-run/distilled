@@ -1,8 +1,9 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Sse from "effect/encoding/Sse";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
@@ -11,7 +12,7 @@ import * as Ref from "effect/Ref";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
-import type * as Stream from "effect/Stream";
+import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import * as Pagination from "./pagination.ts";
 import { makeDefault, type Policy as RetryPolicy } from "./retry.ts";
@@ -70,6 +71,19 @@ export class Protocol extends Context.Service<
        */
       readonly errors: ReadonlyArray<ApiErrorClass>;
       /** The operation's config (memoized per operation — see {@link ProtocolOperationConfig}). */
+      readonly config: ProtocolOperationConfig;
+    }) => Effect.Effect<unknown>;
+    /**
+     * Decode ONE server-sent event's payload for an event-stream operation
+     * (see {@link makeStream}). `data` is the event's `data` field parsed as
+     * JSON (or the raw string when it isn't JSON). Protocols apply the same
+     * 2xx post-processing they apply to a JSON body — wire→TS key mapping,
+     * strict-mode validation, sensitive wrapping. Optional: protocols without
+     * it get the parsed `data` verbatim.
+     */
+    readonly decodeEvent?: (args: {
+      readonly data: unknown;
+      readonly outputAst: AST.AST;
       readonly config: ProtocolOperationConfig;
     }) => Effect.Effect<unknown>;
   }
@@ -438,6 +452,177 @@ export function makePaginated<
     );
 
   return withStreams(fn);
+}
+
+//#endregion
+
+//#region MakeStream
+
+/**
+ * How an operation's success response streams (the `com.distilled#eventStream`
+ * operation trait). The response body is `text/event-stream`; each event's
+ * `data` is one value of the operation's output schema.
+ */
+export interface EventStreamTrait {
+  /**
+   * Request body member forced to `true` on every call — for APIs where one
+   * endpoint serves both a JSON response and an event stream, selected by a
+   * body flag (OpenAI / Anthropic / OpenRouter `stream: true`).
+   */
+  readonly requestFlag?: string;
+  /**
+   * A `data` payload that marks the end of the stream rather than an event
+   * (OpenAI-style chat completions send `data: [DONE]`). The stream completes
+   * when it arrives.
+   */
+  readonly done?: string;
+}
+
+export interface StreamOperationConfig<
+  I extends S.Top,
+  O extends S.Top,
+  PE,
+  PR,
+  E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
+> extends OperationConfig<I, O, PE, PR, E> {
+  eventStream: EventStreamTrait;
+}
+
+/**
+ * An event-stream operation: usable both ways an {@link OperationMethod} is,
+ * but each call yields a `Stream` of events instead of one response.
+ *
+ * 1. Direct call: `op(input)` — a `Stream` with requirements.
+ * 2. Yield first: `const fn = yield* op` — captures the current context and
+ *    returns a requirement-free stream factory.
+ */
+export type StreamOperationMethod<I, A, E, R> = Effect.Effect<
+  (input: I) => Stream.Stream<A, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Stream.Stream<A, E, R>);
+
+const parseEventData = (data: string): unknown => {
+  try {
+    return JSON.parse(data);
+  } catch {
+    return data;
+  }
+};
+
+/**
+ * Like {@link make}, for operations whose success response is a
+ * `text/event-stream`. A non-2xx response fails the stream with the
+ * operation's typed error (decoded exactly as {@link make} would); a 2xx
+ * response becomes a `Stream` of decoded events. An SSE `retry:` directive
+ * ends the stream — reconnection is the caller's policy.
+ */
+export function makeStream<
+  I extends S.Top,
+  O extends S.Top,
+  PE,
+  PR,
+  const E extends readonly ApiErrorClass[] = readonly [],
+>(
+  configFn: () => StreamOperationConfig<I, O, PE, PR, E>,
+): StreamOperationMethod<
+  S.Schema.Type<I>,
+  S.Schema.Type<O>,
+  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  PR | HttpClient.HttpClient
+> {
+  interface Prepared {
+    readonly cfg: StreamOperationConfig<I, O, PE, PR, E>;
+    readonly inputAst: AST.AST;
+    readonly outputAst: AST.AST;
+  }
+  let prepared: Prepared | undefined;
+  const prepare = (): Prepared => {
+    if (prepared) return prepared;
+    const cfg = configFn();
+    prepared = { cfg, inputAst: cfg.input!.ast, outputAst: cfg.output!.ast };
+    return prepared;
+  };
+
+  const fn = (input: unknown): Stream.Stream<any, any, any> =>
+    Stream.suspend(() => {
+      const { cfg, inputAst, outputAst } = prepare();
+      const { requestFlag, done } = cfg.eventStream;
+      const wireInput =
+        requestFlag && input !== null && typeof input === "object"
+          ? { ...(input as Record<string, unknown>), [requestFlag]: true }
+          : input;
+      return Stream.unwrap(
+        Effect.flatMap(protocolContext(cfg.protocol), (protocolCtx) =>
+          Effect.gen(function* () {
+            const protocol = yield* Protocol;
+            const client = yield* HttpClient.HttpClient;
+            const request = yield* protocol.encode({ input: wireInput, inputAst, config: cfg });
+            const response = yield* client.execute(
+              HttpClientRequest.setHeader(request, "accept", "text/event-stream"),
+            );
+            if (response.status < 200 || response.status >= 300) {
+              // The protocol's decode turns a non-2xx response into the
+              // operation's typed error; it never succeeds here.
+              yield* protocol.decode({
+                response,
+                outputAst,
+                errors: cfg.errors ?? [],
+                config: cfg,
+              });
+              return Stream.empty;
+            }
+            const decodeEvent = protocol.decodeEvent;
+            return response.stream.pipe(
+              Stream.decodeText(),
+              Stream.pipeThroughChannel(Sse.decode()),
+              Stream.catchTag("Retry", () => Stream.empty),
+              Stream.takeWhile((event) => done === undefined || event.data !== done),
+              Stream.filter((event) => event.data.length > 0),
+              Stream.mapEffect((event) => {
+                const data = parseEventData(event.data);
+                return decodeEvent
+                  ? decodeEvent({ data, outputAst, config: cfg }).pipe(
+                      Effect.provideContext(protocolCtx),
+                    )
+                  : Effect.succeed(data);
+              }),
+            );
+          }).pipe(Effect.provideContext(protocolCtx)),
+        ),
+      );
+    });
+
+  // Yieldable, with the same fallback-not-snapshot context semantics as
+  // `make`'s Proto.asEffect: call-time fiber entries win over the captured
+  // context.
+  const Proto = {
+    [Symbol.iterator](this: any) {
+      return new SingleShotGen(this.asEffect());
+    },
+    pipe(this: any) {
+      return pipeArguments(this.asEffect(), arguments);
+    },
+    asEffect() {
+      return Effect.map(
+        Effect.context(),
+        (context) => (input: unknown) =>
+          Stream.updateContext(fn(input), (current): Context.Context<any> =>
+            Context.merge(context, current),
+          ),
+      );
+    },
+  };
+  Object.assign(fn, Proto);
+  Object.defineProperties(fn, {
+    input: { get: () => prepare().cfg.input, configurable: true },
+    output: { get: () => prepare().cfg.output, configurable: true },
+    errors: { get: () => prepare().cfg.errors ?? [], configurable: true },
+    eventStream: { get: () => prepare().cfg.eventStream, configurable: true },
+  });
+
+  return fn as any;
 }
 
 //#endregion

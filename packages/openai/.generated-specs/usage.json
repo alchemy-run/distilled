@@ -1,0 +1,3394 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.usage#GetCostsRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCostsRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCostsRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCostsRequestLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCostsRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "LINE_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "line_item"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "API_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_source"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCostsRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetCostsRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCostsRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetCostsRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently only `1d` is supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetCostsRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only costs for these projects."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetCostsRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only costs for these API keys."
+          }
+        },
+        "line_items": {
+          "target": "com.openai.usage#GetCostsRequestLineItemsList",
+          "traits": {
+            "smithy.api#httpQuery": "line_items",
+            "smithy.api#documentation": "Return only costs for these exact line item names. Each value must match the complete `line_item` value, for example `gpt-6-astra, input_tokens`."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetCostsRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the costs by the specified fields. Supported fields include `project_id`, `user_id`, `line_item`, `api_key_id`, and `api_source`. Support for combining `user_id` with `project_id` grouping or the `project_ids` filter depends on the organization and requested time range. Unsupported combinations return HTTP 400. When grouped by `api_source`, results use `agents_api` for attributed Agents API activity and `unlabeled` for all other activity. Without source grouping, `api_source` is null."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of buckets to be returned. Limit can range between 1 and 180, and the default is 7.\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#UsageResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.usage#UsageResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next_page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageTimeBucket": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageTimeBucketObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.openai.usage#UsageTimeBucketResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageTimeBucketObject": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageCompletionsResult": {
+      "type": "structure",
+      "members": {
+        "api_source": {
+          "target": "com.openai.usage#UsageCompletionsResultApiSource",
+          "traits": {
+            "smithy.api#documentation": "When grouped by `api_source`, `agents_api` identifies attributed Agents API activity and `unlabeled` includes all records without published source attribution, including historical and unknown origins. Unlabeled does not imply direct API usage. Without source grouping, this field is null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.usage#UsageCompletionsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of input tokens used, including cached and cache-write tokens. This includes text, audio, and image tokens. For customers subscribed to Scale Tier, this includes Scale Tier tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_cached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of cached input tokens used across text, audio, and image inputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens."
+          }
+        },
+        "input_cache_write_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of input tokens written to the cache with a 30-minute retention period."
+          }
+        },
+        "input_cache_write_12h_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of input tokens written to the cache with a 12-hour retention period."
+          }
+        },
+        "input_uncached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of uncached input tokens used across text, audio, and image inputs, excluding cache-write tokens."
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of output tokens used across text, audio, and image outputs. For customers subscribed to Scale Tier, this includes Scale Tier tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_text_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of uncached text input tokens used, excluding cache-write tokens."
+          }
+        },
+        "output_text_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of text output tokens used."
+          }
+        },
+        "input_cached_text_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of cached text input tokens used."
+          }
+        },
+        "input_audio_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of uncached audio input tokens used."
+          }
+        },
+        "input_cached_audio_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of cached audio input tokens used."
+          }
+        },
+        "output_audio_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of audio output tokens used."
+          }
+        },
+        "input_image_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of uncached image input tokens used."
+          }
+        },
+        "input_cached_image_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of cached image input tokens used."
+          }
+        },
+        "output_image_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of image output tokens used."
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of requests made to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "batch": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_tier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated completions usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageCompletionsResultApiSource": {
+      "type": "enum",
+      "members": {
+        "AGENTS_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agents_api"
+          }
+        },
+        "UNLABELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlabeled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageCompletionsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_COMPLETIONS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.completions.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageEmbeddingsResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageEmbeddingsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of input tokens used.",
+            "smithy.api#required": {}
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of requests made to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated embeddings usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageEmbeddingsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_EMBEDDINGS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.embeddings.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageModerationsResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageModerationsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The aggregated number of input tokens used.",
+            "smithy.api#required": {}
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of requests made to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated moderations usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageModerationsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_MODERATIONS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.moderations.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageImagesResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageImagesResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "images": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of images processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of requests made to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated images usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageImagesResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_IMAGES_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.images.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageAudioSpeechesResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageAudioSpeechesResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "characters": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of characters processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of requests made to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated audio speeches usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageAudioSpeechesResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_AUDIO_SPEECHES_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.audio_speeches.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageAudioTranscriptionsResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageAudioTranscriptionsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of seconds processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of requests made to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated audio transcriptions usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageAudioTranscriptionsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_AUDIO_TRANSCRIPTIONS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.audio_transcriptions.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageVectorStoresResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageVectorStoresResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usage_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The vector stores usage in bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated vector stores usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageVectorStoresResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_VECTOR_STORES_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.vector_stores.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageCodeInterpreterSessionsResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageCodeInterpreterSessionsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "num_sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of code interpreter sessions.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated code interpreter sessions usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageCodeInterpreterSessionsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_CODE_INTERPRETER_SESSIONS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.code_interpreter_sessions.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageFileSearchCallsResult": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.usage#UsageFileSearchCallsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "num_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of file search calls.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated file search calls usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageFileSearchCallsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_FILE_SEARCHES_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.file_searches.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageWebSearchCallsResult": {
+      "type": "structure",
+      "members": {
+        "api_source": {
+          "target": "com.openai.usage#UsageWebSearchCallsResultApiSource",
+          "traits": {
+            "smithy.api#documentation": "When grouped by `api_source`, `agents_api` identifies attributed Agents API activity and `unlabeled` includes all records without published source attribution, including historical and unknown origins. Unlabeled does not imply direct API usage. Without source grouping, this field is null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.usage#UsageWebSearchCallsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "num_model_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of model requests.",
+            "smithy.api#required": {}
+          }
+        },
+        "num_requests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of web search calls.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "context_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated web search calls usage details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#UsageWebSearchCallsResultApiSource": {
+      "type": "enum",
+      "members": {
+        "AGENTS_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agents_api"
+          }
+        },
+        "UNLABELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlabeled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageWebSearchCallsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USAGE_WEB_SEARCHES_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.usage.web_searches.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#CostsResult": {
+      "type": "structure",
+      "members": {
+        "api_source": {
+          "target": "com.openai.usage#CostsResultApiSource",
+          "traits": {
+            "smithy.api#documentation": "When grouped by `api_source`, `agents_api` identifies attributed Agents API activity and `unlabeled` includes all records without published source attribution, including historical and unknown origins. Unlabeled does not imply direct API usage. Without source grouping, this field is null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.usage#CostsResultObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "com.openai.usage#CostsResultAmount",
+          "traits": {
+            "smithy.api#documentation": "The monetary value in its associated currency."
+          }
+        },
+        "line_item": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quantity_unit": {
+          "target": "com.openai.usage#CostsResultQuantityUnit",
+          "traits": {
+            "smithy.api#documentation": "The unit of the `quantity` value. If no single supported unit applies to the result, this field is `null`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregated costs details of the specific time bucket."
+      }
+    },
+    "com.openai.usage#CostsResultApiSource": {
+      "type": "enum",
+      "members": {
+        "AGENTS_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agents_api"
+          }
+        },
+        "UNLABELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlabeled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#CostsResultObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_COSTS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.costs.result"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#CostsResultAmount": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The numeric value of the cost."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lowercase ISO-4217 currency e.g. \"usd\""
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The monetary value in its associated currency."
+      }
+    },
+    "com.openai.usage#CostsResultQuantityUnitCase1": {
+      "type": "enum",
+      "members": {
+        "TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tokens"
+          }
+        },
+        "_1000_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1000_tokens"
+          }
+        },
+        "DURATION_SECONDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration_seconds"
+          }
+        },
+        "DURATION_MINUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration_minutes"
+          }
+        },
+        "DURATION_HOURS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration_hours"
+          }
+        },
+        "GIBIBYTE_HOURS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gibibyte_hours"
+          }
+        },
+        "IMAGES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "images"
+          }
+        },
+        "CHARACTERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "characters"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#CostsResultQuantityUnit": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.usage#CostsResultQuantityUnitCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The unit of the `quantity` value. If no single supported unit applies to the result, this field is `null`."
+      }
+    },
+    "com.openai.usage#UsageTimeBucketResultsItem": {
+      "type": "union",
+      "members": {
+        "UsageCompletionsResult": {
+          "target": "com.openai.usage#UsageCompletionsResult"
+        },
+        "UsageEmbeddingsResult": {
+          "target": "com.openai.usage#UsageEmbeddingsResult"
+        },
+        "UsageModerationsResult": {
+          "target": "com.openai.usage#UsageModerationsResult"
+        },
+        "UsageImagesResult": {
+          "target": "com.openai.usage#UsageImagesResult"
+        },
+        "UsageAudioSpeechesResult": {
+          "target": "com.openai.usage#UsageAudioSpeechesResult"
+        },
+        "UsageAudioTranscriptionsResult": {
+          "target": "com.openai.usage#UsageAudioTranscriptionsResult"
+        },
+        "UsageVectorStoresResult": {
+          "target": "com.openai.usage#UsageVectorStoresResult"
+        },
+        "UsageCodeInterpreterSessionsResult": {
+          "target": "com.openai.usage#UsageCodeInterpreterSessionsResult"
+        },
+        "UsageFileSearchCallsResult": {
+          "target": "com.openai.usage#UsageFileSearchCallsResult"
+        },
+        "UsageWebSearchCallsResult": {
+          "target": "com.openai.usage#UsageWebSearchCallsResult"
+        },
+        "CostsResult": {
+          "target": "com.openai.usage#CostsResult"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageTimeBucketResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#UsageTimeBucketResultsItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#UsageResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#UsageTimeBucket"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCosts": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetCostsRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/costs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Costs\n\nGet costs details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetAudioSpeechesUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioSpeechesUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetAudioSpeechesUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetAudioSpeechesUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetAudioSpeechesUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetAudioSpeechesUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetAudioSpeechesUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetAudioSpeechesUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model` or any combination of them."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetAudioSpeechesUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetAudioSpeechesUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/audio_speeches",
+          "code": 200
+        },
+        "smithy.api#documentation": "Audio speeches\n\nGet audio speeches usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model` or any combination of them."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetAudioTranscriptionsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetAudioTranscriptionsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/audio_transcriptions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Audio transcriptions\n\nGet audio transcriptions usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetCodeInterpreterSessionsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCodeInterpreterSessionsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCodeInterpreterSessionsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCodeInterpreterSessionsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetCodeInterpreterSessionsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCodeInterpreterSessionsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetCodeInterpreterSessionsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetCodeInterpreterSessionsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetCodeInterpreterSessionsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetCodeInterpreterSessionsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetCodeInterpreterSessionsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/code_interpreter_sessions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Code interpreter sessions\n\nGet code interpreter sessions usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetCompletionsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch"
+          }
+        },
+        "SERVICE_TIER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_tier"
+          }
+        },
+        "API_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_source"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetCompletionsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetCompletionsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetCompletionsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetCompletionsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetCompletionsUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetCompletionsUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetCompletionsUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "batch": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "batch",
+            "smithy.api#documentation": "If `true`, return batch jobs only. If `false`, return non-batch jobs only. By default, return both.\n"
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetCompletionsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model`, `batch`, `service_tier`, `api_source` or any combination of them. When grouped by `api_source`, results use `agents_api` for attributed Agents API activity and `unlabeled` for all other activity. Without source grouping, `api_source` is null."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetCompletionsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetCompletionsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/completions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Completions\n\nGet completions usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetEmbeddingsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetEmbeddingsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetEmbeddingsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetEmbeddingsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetEmbeddingsUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetEmbeddingsUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetEmbeddingsUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetEmbeddingsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model` or any combination of them."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetEmbeddingsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetEmbeddingsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/embeddings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Embeddings\n\nGet embeddings usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestVectorStoreIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "VECTOR_STORE_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store_id"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetFileSearchCallsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetFileSearchCallsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetFileSearchCallsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetFileSearchCallsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetFileSearchCallsUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetFileSearchCallsUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "vector_store_ids": {
+          "target": "com.openai.usage#GetFileSearchCallsUsageRequestVectorStoreIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "vector_store_ids",
+            "smithy.api#documentation": "Return only usage for these vector stores."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetFileSearchCallsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `vector_store_id` or any combination of them."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetFileSearchCallsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetFileSearchCallsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/file_search_calls",
+          "code": 200
+        },
+        "smithy.api#documentation": "File search calls\n\nGet file search calls usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetImagesUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestSourcesItem": {
+      "type": "enum",
+      "members": {
+        "IMAGE_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image.generation"
+          }
+        },
+        "IMAGE_EDIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image.edit"
+          }
+        },
+        "IMAGE_VARIATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image.variation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetImagesUsageRequestSourcesItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestSizesItem": {
+      "type": "enum",
+      "members": {
+        "_256X256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "256x256"
+          }
+        },
+        "_512X512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "512x512"
+          }
+        },
+        "_1024X1024": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1024x1024"
+          }
+        },
+        "_1792X1792": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1792x1792"
+          }
+        },
+        "_1024X1792": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1024x1792"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestSizesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetImagesUsageRequestSizesItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size"
+          }
+        },
+        "SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "source"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetImagesUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetImagesUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetImagesUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "sources": {
+          "target": "com.openai.usage#GetImagesUsageRequestSourcesList",
+          "traits": {
+            "smithy.api#httpQuery": "sources",
+            "smithy.api#documentation": "Return only usages for these sources. Possible values are `image.generation`, `image.edit`, `image.variation` or any combination of them."
+          }
+        },
+        "sizes": {
+          "target": "com.openai.usage#GetImagesUsageRequestSizesList",
+          "traits": {
+            "smithy.api#httpQuery": "sizes",
+            "smithy.api#documentation": "Return only usages for these image sizes. Possible values are `256x256`, `512x512`, `1024x1024`, `1792x1792`, `1024x1792` or any combination of them."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetImagesUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetImagesUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetImagesUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetImagesUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetImagesUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model`, `size`, `source` or any combination of them."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetImagesUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetImagesUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/images",
+          "code": 200
+        },
+        "smithy.api#documentation": "Images\n\nGet images usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetModerationsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetModerationsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetModerationsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetModerationsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetModerationsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetModerationsUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetModerationsUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetModerationsUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetModerationsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model` or any combination of them."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetModerationsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetModerationsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/moderations",
+          "code": 200
+        },
+        "smithy.api#documentation": "Moderations\n\nGet moderations usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetVectorStoresUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetVectorStoresUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetVectorStoresUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetVectorStoresUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetVectorStoresUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetVectorStoresUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetVectorStoresUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetVectorStoresUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetVectorStoresUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetVectorStoresUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetVectorStoresUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/vector_stores",
+          "code": 200
+        },
+        "smithy.api#documentation": "Vector stores\n\nGet vector stores usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestBucketWidth": {
+      "type": "enum",
+      "members": {
+        "_1M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1m"
+          }
+        },
+        "_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1h"
+          }
+        },
+        "_1D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestApiKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestContextLevelsItem": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestContextLevelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetWebSearchCallsUsageRequestContextLevelsItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestGroupByItem": {
+      "type": "enum",
+      "members": {
+        "PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id"
+          }
+        },
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "API_KEY_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key_id"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "CONTEXT_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "context_level"
+          }
+        },
+        "API_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_source"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.usage#GetWebSearchCallsUsageRequestGroupByItem"
+      },
+      "traits": {}
+    },
+    "com.openai.usage#GetWebSearchCallsUsageRequest": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (Unix seconds) of the query time range, inclusive."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "End time (Unix seconds) of the query time range, exclusive."
+          }
+        },
+        "bucket_width": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestBucketWidth",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_width",
+            "smithy.api#documentation": "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Return only usage for these projects."
+          }
+        },
+        "user_ids": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestUserIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "user_ids",
+            "smithy.api#documentation": "Return only usage for these users."
+          }
+        },
+        "api_key_ids": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestApiKeyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_key_ids",
+            "smithy.api#documentation": "Return only usage for these API keys."
+          }
+        },
+        "models": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestModelsList",
+          "traits": {
+            "smithy.api#httpQuery": "models",
+            "smithy.api#documentation": "Return only usage for these models."
+          }
+        },
+        "context_levels": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestContextLevelsList",
+          "traits": {
+            "smithy.api#httpQuery": "context_levels",
+            "smithy.api#documentation": "Return only web search usage for these context levels."
+          }
+        },
+        "group_by": {
+          "target": "com.openai.usage#GetWebSearchCallsUsageRequestGroupByList",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Group the usage data by the specified fields. Support fields include `project_id`, `user_id`, `api_key_id`, `model`, `context_level`, `api_source` or any combination of them. When grouped by `api_source`, results use `agents_api` for attributed Agents API activity and `unlabeled` for all other activity. Without source grouping, `api_source` is null."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A cursor for use in pagination. Corresponding to the `next_page` field from the previous response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.usage#GetWebSearchCallsUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.usage#GetWebSearchCallsUsageRequest"
+      },
+      "output": {
+        "target": "com.openai.usage#UsageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.usage#BadRequest"
+        },
+        {
+          "target": "com.openai.usage#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/usage/web_search_calls",
+          "code": 200
+        },
+        "smithy.api#documentation": "Web search calls\n\nGet web search calls usage details for the organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "next_page",
+          "items": "data"
+        },
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.usage#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.usage#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.usage#Usage": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.usage#GetCosts"
+        },
+        {
+          "target": "com.openai.usage#GetAudioSpeechesUsage"
+        },
+        {
+          "target": "com.openai.usage#GetAudioTranscriptionsUsage"
+        },
+        {
+          "target": "com.openai.usage#GetCodeInterpreterSessionsUsage"
+        },
+        {
+          "target": "com.openai.usage#GetCompletionsUsage"
+        },
+        {
+          "target": "com.openai.usage#GetEmbeddingsUsage"
+        },
+        {
+          "target": "com.openai.usage#GetFileSearchCallsUsage"
+        },
+        {
+          "target": "com.openai.usage#GetImagesUsage"
+        },
+        {
+          "target": "com.openai.usage#GetModerationsUsage"
+        },
+        {
+          "target": "com.openai.usage#GetVectorStoresUsage"
+        },
+        {
+          "target": "com.openai.usage#GetWebSearchCallsUsage"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Legacy Completions streams end with a literal `data: [DONE]` event (documented on CreateCompletionRequest.stream). Mark it as the stream terminator so it is not decoded as a CreateCompletionResponse chunk.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.completions#CreateCompletionStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    }
+  ]
+}

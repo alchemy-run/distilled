@@ -1,0 +1,544 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.project_groups#ListProjectGroupsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.project_groups#ListProjectGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of project groups to return. Defaults to 20."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for pagination. Provide the ID of the last group from the previous response to fetch the next page."
+          }
+        },
+        "order": {
+          "target": "com.openai.project_groups#ListProjectGroupsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for the returned groups."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_groups#ProjectGroupListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_groups#ProjectGroupListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.project_groups#ProjectGroupListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "Project group memberships returned in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether additional project group memberships are available.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor to fetch the next page of results, or `null` when there are no more results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of groups that have access to a project."
+      }
+    },
+    "com.openai.project_groups#ProjectGroupListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `list`."
+      }
+    },
+    "com.openai.project_groups#ProjectGroup": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_groups#ProjectGroupObject",
+          "traits": {
+            "smithy.api#documentation": "Always `project.group`.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the group that has access to the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "group_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "group_type": {
+          "target": "com.openai.project_groups#ProjectGroupGroupType",
+          "traits": {
+            "smithy.api#documentation": "The type of the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the group was granted project access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about a group's membership in a project."
+      }
+    },
+    "com.openai.project_groups#ProjectGroupObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `project.group`."
+      }
+    },
+    "com.openai.project_groups#ProjectGroupGroupType": {
+      "type": "enum",
+      "members": {
+        "GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group"
+          }
+        },
+        "TENANT_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant_group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the group."
+      }
+    },
+    "com.openai.project_groups#ProjectGroupListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.project_groups#ProjectGroup"
+      },
+      "traits": {
+        "smithy.api#documentation": "Project group memberships returned in the current page."
+      }
+    },
+    "com.openai.project_groups#ListProjectGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_groups#ListProjectGroupsRequest"
+      },
+      "output": {
+        "target": "com.openai.project_groups#ProjectGroupListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_groups#BadRequest"
+        },
+        {
+          "target": "com.openai.project_groups#Forbidden"
+        },
+        {
+          "target": "com.openai.project_groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project groups\n\nLists the groups that have access to a project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "next",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.project_groups#AddProjectGroupRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the group to add to the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the project role to grant to the group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_groups#AddProjectGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_groups#AddProjectGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.project_groups#ProjectGroup"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_groups#BadRequest"
+        },
+        {
+          "target": "com.openai.project_groups#Forbidden"
+        },
+        {
+          "target": "com.openai.project_groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add project group\n\nGrants a group access to a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.project_groups#GetProjectGroupRequestGroupType": {
+      "type": "enum",
+      "members": {
+        "GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group"
+          }
+        },
+        "TENANT_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant_group"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.project_groups#GetProjectGroupRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to retrieve."
+          }
+        },
+        "group_type": {
+          "target": "com.openai.project_groups#GetProjectGroupRequestGroupType",
+          "traits": {
+            "smithy.api#httpQuery": "group_type",
+            "smithy.api#documentation": "The type of group to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_groups#GetProjectGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_groups#GetProjectGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.project_groups#ProjectGroup"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_groups#BadRequest"
+        },
+        {
+          "target": "com.openai.project_groups#Forbidden"
+        },
+        {
+          "target": "com.openai.project_groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/groups/{group_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project group\n\nRetrieves a project's group.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.project_groups#RemoveProjectGroupRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to remove from the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_groups#ProjectGroupDeletedResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_groups#ProjectGroupDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `project.group.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the group membership in the project was removed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after removing a group from a project."
+      }
+    },
+    "com.openai.project_groups#ProjectGroupDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GROUP_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.group.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `project.group.deleted`."
+      }
+    },
+    "com.openai.project_groups#RemoveProjectGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_groups#RemoveProjectGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.project_groups#ProjectGroupDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_groups#BadRequest"
+        },
+        {
+          "target": "com.openai.project_groups#Forbidden"
+        },
+        {
+          "target": "com.openai.project_groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/groups/{group_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove project group\n\nRevokes a group's access to a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.project_groups#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.project_groups#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.project_groups#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.project_groups#ProjectGroups": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.project_groups#ListProjectGroups"
+        },
+        {
+          "target": "com.openai.project_groups#AddProjectGroup"
+        },
+        {
+          "target": "com.openai.project_groups#GetProjectGroup"
+        },
+        {
+          "target": "com.openai.project_groups#RemoveProjectGroup"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

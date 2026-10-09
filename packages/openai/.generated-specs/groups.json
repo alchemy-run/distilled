@@ -1,0 +1,573 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.groups#ListGroupsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.groups#ListGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of groups to be returned. Limit can range between 0 and 1000, and the default is 100.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is a group ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with group_abc, your subsequent call can include `after=group_abc` in order to fetch the next page of the list.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.groups#ListGroupsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Specifies the sort order of the returned groups."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.groups#GroupListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.groups#GroupListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.groups#GroupListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "Groups returned in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether additional groups are available when paginating.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor to fetch the next page of results, or `null` if there are no more results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of organization groups."
+      }
+    },
+    "com.openai.groups#GroupListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `list`."
+      }
+    },
+    "com.openai.groups#GroupResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the group was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_scim_managed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the group is managed through SCIM and controlled by your identity provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "group_type": {
+          "target": "com.openai.groups#GroupResponseGroupType",
+          "traits": {
+            "smithy.api#documentation": "The type of the group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about an organization group."
+      }
+    },
+    "com.openai.groups#GroupResponseGroupType": {
+      "type": "enum",
+      "members": {
+        "GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group"
+          }
+        },
+        "TENANT_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant_group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the group."
+      }
+    },
+    "com.openai.groups#GroupListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.groups#GroupResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Groups returned in the current page."
+      }
+    },
+    "com.openai.groups#ListGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.groups#ListGroupsRequest"
+      },
+      "output": {
+        "target": "com.openai.groups#GroupListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.groups#BadRequest"
+        },
+        {
+          "target": "com.openai.groups#Forbidden"
+        },
+        {
+          "target": "com.openai.groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "List groups\n\nLists all groups in the organization.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "next",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.groups#CreateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human readable name for the group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.groups#CreateGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.groups#CreateGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.groups#GroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.groups#BadRequest"
+        },
+        {
+          "target": "com.openai.groups#Forbidden"
+        },
+        {
+          "target": "com.openai.groups#NotFound"
+        },
+        {
+          "target": "com.openai.groups#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create group\n\nCreates a new group in the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.groups#GetGroupRequest": {
+      "type": "structure",
+      "members": {
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.groups#GetGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.groups#GetGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.groups#GroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.groups#BadRequest"
+        },
+        {
+          "target": "com.openai.groups#Forbidden"
+        },
+        {
+          "target": "com.openai.groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/groups/{group_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve group\n\nRetrieves a group.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.groups#UpdateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New display name for the group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.groups#GroupResourceWithSuccess": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated display name for the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the group was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_scim_managed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the group is managed through SCIM and controlled by your identity provider.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response returned after updating a group."
+      }
+    },
+    "com.openai.groups#UpdateGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.groups#UpdateGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.groups#GroupResourceWithSuccess"
+      },
+      "errors": [
+        {
+          "target": "com.openai.groups#BadRequest"
+        },
+        {
+          "target": "com.openai.groups#Forbidden"
+        },
+        {
+          "target": "com.openai.groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/groups/{group_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update group\n\nUpdates a group's information.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.groups#DeleteGroupRequest": {
+      "type": "structure",
+      "members": {
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.groups#GroupDeletedResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.groups#GroupDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `group.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the deleted group.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the group was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting a group."
+      }
+    },
+    "com.openai.groups#GroupDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "GROUP_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `group.deleted`."
+      }
+    },
+    "com.openai.groups#DeleteGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.groups#DeleteGroupRequest"
+      },
+      "output": {
+        "target": "com.openai.groups#GroupDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.groups#BadRequest"
+        },
+        {
+          "target": "com.openai.groups#Forbidden"
+        },
+        {
+          "target": "com.openai.groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/groups/{group_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete group\n\nDeletes a group from the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.groups#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.groups#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.groups#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.groups#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.openai.groups#Groups": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.groups#ListGroups"
+        },
+        {
+          "target": "com.openai.groups#CreateGroup"
+        },
+        {
+          "target": "com.openai.groups#GetGroup"
+        },
+        {
+          "target": "com.openai.groups#UpdateGroup"
+        },
+        {
+          "target": "com.openai.groups#DeleteGroup"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

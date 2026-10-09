@@ -1,0 +1,82 @@
+{
+  "description": "OpenRouter returns 403 both for forbidden requests (guardrail blocks, missing permission) and when a moderated model flags the input: `{ error: { code: 403, message: \"... your input was flagged ...\", metadata: { reasons, flagged_input, provider_name, model_slug } } }`. The spec only declares a generic 403, so moderation failures get their own ModerationFlagged class on the inference operations, matched by the flagged message or the presence of `error.metadata.flagged_input` (both more specific than the bare 403 Forbidden matcher). It carries no httpError so it is not categorised as an auth error. Source: https://openrouter.ai/docs/api-reference/errors (ModerationErrorMetadata), fetched 2026-10-05. Each `*Stream` sibling has its own `errors` list, so the stream operations are patched explicitly (asserted in src/response-validation.test.ts).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#ModerationFlagged",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The selected model requires moderation and the input was flagged. `error.metadata` carries `reasons`, `flagged_input`, `provider_name` and `model_slug`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "flagged"
+              }
+            },
+            {
+              "status": 403,
+              "body": {
+                "/error/metadata/flagged_input": {
+                  "matches": "^"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateChatCompletion/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateResponse/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateMessage/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateEmbeddings/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateChatCompletionStream/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateResponseStream/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateMessageStream/errors/-",
+      "value": {
+        "target": "com.openrouter.api#ModerationFlagged"
+      }
+    }
+  ]
+}

@@ -1,0 +1,778 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.project_group_role_assignments#ListProjectGroupRoleAssignmentsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.project_group_role_assignments#ListProjectGroupRoleAssignmentsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to inspect."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of project role assignments to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for pagination. Provide the value from the previous response's `next` field to continue listing project roles."
+          }
+        },
+        "order": {
+          "target": "com.openai.project_group_role_assignments#ListProjectGroupRoleAssignmentsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for the returned project roles."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#RoleListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_group_role_assignments#RoleListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.project_group_role_assignments#RoleListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "Role assignments returned in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether additional assignments are available when paginating.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor to fetch the next page of results, or `null` when there are no more assignments.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of roles assigned to a principal."
+      }
+    },
+    "com.openai.project_group_role_assignments#RoleListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `list`."
+      }
+    },
+    "com.openai.project_group_role_assignments#AssignedRoleDetails": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.openai.project_group_role_assignments#AssignedRoleDetailsPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource type the role applies to.",
+            "smithy.api#required": {}
+          }
+        },
+        "predefined_role": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the role is predefined by OpenAI.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "When the role was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "When the role was last updated.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the actor who created the role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by_user_obj": {
+          "target": "com.openai.project_group_role_assignments#AssignedRoleDetailsCreatedByUserObjMap",
+          "traits": {
+            "smithy.api#documentation": "User details for the actor that created the role, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.project_group_role_assignments#AssignedRoleDetailsMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Arbitrary metadata stored on the role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "assignment_sources": {
+          "target": "com.openai.project_group_role_assignments#AssignedRoleDetailsAssignmentSourcesList",
+          "traits": {
+            "smithy.api#documentation": "Principals from which the role assignment is inherited, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed information about a role assignment entry returned when listing assignments."
+      }
+    },
+    "com.openai.project_group_role_assignments#AssignedRoleDetailsPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permissions associated with the role."
+      }
+    },
+    "com.openai.project_group_role_assignments#AssignedRoleDetailsCreatedByUserObjMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.openai.project_group_role_assignments#AssignedRoleDetailsMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.openai.project_group_role_assignments#AssignedRoleDetailsAssignmentSourcesItem": {
+      "type": "structure",
+      "members": {
+        "principal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "principal_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.project_group_role_assignments#AssignedRoleDetailsAssignmentSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.project_group_role_assignments#AssignedRoleDetailsAssignmentSourcesItem"
+      },
+      "traits": {}
+    },
+    "com.openai.project_group_role_assignments#RoleListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.project_group_role_assignments#AssignedRoleDetails"
+      },
+      "traits": {
+        "smithy.api#documentation": "Role assignments returned in the current page."
+      }
+    },
+    "com.openai.project_group_role_assignments#ListProjectGroupRoleAssignments": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_group_role_assignments#ListProjectGroupRoleAssignmentsRequest"
+      },
+      "output": {
+        "target": "com.openai.project_group_role_assignments#RoleListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_group_role_assignments#BadRequest"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#Forbidden"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/projects/{project_id}/groups/{group_id}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project group role assignments\n\nLists the project roles assigned to a group within a project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "next",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.project_group_role_assignments#AssignProjectGroupRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group that should receive the project role."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the role to assign.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#GroupRoleAssignment": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_group_role_assignments#GroupRoleAssignmentObject",
+          "traits": {
+            "smithy.api#documentation": "Always `group.role`.",
+            "smithy.api#required": {}
+          }
+        },
+        "group": {
+          "target": "com.openai.project_group_role_assignments#Group",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.project_group_role_assignments#Role",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Role assignment linking a group to a role."
+      }
+    },
+    "com.openai.project_group_role_assignments#GroupRoleAssignmentObject": {
+      "type": "enum",
+      "members": {
+        "GROUP_ROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group.role"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `group.role`."
+      }
+    },
+    "com.openai.project_group_role_assignments#Group": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_group_role_assignments#GroupObject",
+          "traits": {
+            "smithy.api#documentation": "Always `group`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the group.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the group was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "scim_managed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the group is managed through SCIM.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Summary information about a group returned in role assignment responses."
+      }
+    },
+    "com.openai.project_group_role_assignments#GroupObject": {
+      "type": "enum",
+      "members": {
+        "GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `group`."
+      }
+    },
+    "com.openai.project_group_role_assignments#Role": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.project_group_role_assignments#RoleObject",
+          "traits": {
+            "smithy.api#documentation": "Always `role`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.openai.project_group_role_assignments#RolePermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Permissions granted by the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource type the role is bound to (for example `api.organization` or `api.project`).",
+            "smithy.api#required": {}
+          }
+        },
+        "predefined_role": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the role is predefined and managed by OpenAI.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about a role that can be assigned through the public Roles API."
+      }
+    },
+    "com.openai.project_group_role_assignments#RoleObject": {
+      "type": "enum",
+      "members": {
+        "ROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `role`."
+      }
+    },
+    "com.openai.project_group_role_assignments#RolePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permissions granted by the role."
+      }
+    },
+    "com.openai.project_group_role_assignments#AssignProjectGroupRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_group_role_assignments#AssignProjectGroupRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.project_group_role_assignments#GroupRoleAssignment"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_group_role_assignments#BadRequest"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#Forbidden"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/projects/{project_id}/groups/{group_id}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Assign project role to group\n\nAssigns a project role to a group within a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#GetProjectGroupRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group to inspect."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project role to retrieve for the group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#GetProjectGroupRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_group_role_assignments#GetProjectGroupRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.project_group_role_assignments#AssignedRoleDetails"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_group_role_assignments#BadRequest"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#Forbidden"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/projects/{project_id}/groups/{group_id}/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project group role\n\nRetrieves a project role assigned to a group.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#UnassignProjectGroupRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to modify."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the group whose project role assignment should be removed."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project role to remove from the group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#DeletedRoleAssignmentResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the deleted assignment, such as `group.role.deleted` or `user.role.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the assignment was removed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after unassigning a role."
+      }
+    },
+    "com.openai.project_group_role_assignments#UnassignProjectGroupRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.project_group_role_assignments#UnassignProjectGroupRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.project_group_role_assignments#DeletedRoleAssignmentResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.project_group_role_assignments#BadRequest"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#Forbidden"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/projects/{project_id}/groups/{group_id}/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unassign project role from group\n\nUnassigns a project role from a group within a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.project_group_role_assignments#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.project_group_role_assignments#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.project_group_role_assignments#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.project_group_role_assignments#ProjectGroupRoleAssignments": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.project_group_role_assignments#ListProjectGroupRoleAssignments"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#AssignProjectGroupRole"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#GetProjectGroupRole"
+        },
+        {
+          "target": "com.openai.project_group_role_assignments#UnassignProjectGroupRole"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

@@ -1,6 +1,10 @@
 {
   "files": [],
   "references": [
+    { "path": "./packages/acp/tsconfig.json" },
+    { "path": "./packages/acp/tsconfig.scripts.json" },
+    { "path": "./packages/codex/tsconfig.json" },
+    { "path": "./packages/codex/tsconfig.scripts.json" },
     { "path": "./packages/acme/tsconfig.json" },
     { "path": "./packages/acme/tsconfig.scripts.json" },
     { "path": "./packages/zerossl/tsconfig.json" },
@@ -193,6 +197,12 @@
     },
     {
       "path": "./packages/adyen/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.scripts.json"
     },
     {
       "path": "./packages/coolify/tsconfig.json"
@@ -469,6 +479,18 @@
     },
     {
       "path": "./packages/opencode/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/openai/tsconfig.json"
+    },
+    {
+      "path": "./packages/openai/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/openrouter/tsconfig.json"
+    },
+    {
+      "path": "./packages/openrouter/tsconfig.scripts.json"
     },
     {
       "path": "./packages/growthbook/tsconfig.json"

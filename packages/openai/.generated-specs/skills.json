@@ -1,0 +1,1051 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.skills#OrderEnum": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#ListSkillsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of items to retrieve"
+          }
+        },
+        "order": {
+          "target": "com.openai.skills#OrderEnum",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order of results by timestamp. Use `asc` for ascending order or `desc` for descending order."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Identifier for the last item from the previous pagination request"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#SkillListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.skills#SkillListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The type of object returned, must be `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.skills#SkillListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of items",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more items available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#SkillListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of object returned, must be `list`."
+      }
+    },
+    "com.openai.skills#SkillResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.skills#SkillResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is `skill`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (seconds) for when the skill was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "default_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default version for the skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest version for the skill.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#SkillResourceObject": {
+      "type": "enum",
+      "members": {
+        "SKILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skill"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is `skill`."
+      }
+    },
+    "com.openai.skills#SkillListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.skills#SkillResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of items"
+      }
+    },
+    "com.openai.skills#ListSkills": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#ListSkillsRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/skills",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Skills\n\nList all skills for the current project.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.skills#CreateSkillRequestFilesCase0List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Blob"
+      },
+      "traits": {
+        "smithy.api#documentation": "Skill files to upload (directory upload) or a single zip file."
+      }
+    },
+    "com.openai.skills#CreateSkillRequestFiles": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.skills#CreateSkillRequestFilesCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#CreateSkillRequest": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.openai.skills#CreateSkillRequestFiles",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#CreateSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#CreateSkillRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/skills",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Skill\n\nCreate a new skill."
+      }
+    },
+    "com.openai.skills#GetSkillRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#GetSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#GetSkillRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/skills/{skill_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Skill\n\nGet a skill by its ID."
+      }
+    },
+    "com.openai.skills#UpdateSkillDefaultVersionRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill."
+          }
+        },
+        "default_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The skill version number to set as default.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#UpdateSkillDefaultVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#UpdateSkillDefaultVersionRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        },
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/skills/{skill_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Skill Default Version\n\nUpdate the default version pointer for a skill."
+      }
+    },
+    "com.openai.skills#DeleteSkillRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#DeletedSkillResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.skills#DeletedSkillResourceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#DeletedSkillResourceObject": {
+      "type": "enum",
+      "members": {
+        "SKILL_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skill.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#DeleteSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#DeleteSkillRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#DeletedSkillResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/skills/{skill_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Skill\n\nDelete a skill by its ID."
+      }
+    },
+    "com.openai.skills#GetSkillContentRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill to download."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#GetSkillContentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.skills#GetSkillContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#GetSkillContentRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#GetSkillContentResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/skills/{skill_id}/content",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Skill Content\n\nDownload a skill zip bundle by its ID."
+      }
+    },
+    "com.openai.skills#ListSkillVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of versions to retrieve."
+          }
+        },
+        "order": {
+          "target": "com.openai.skills#OrderEnum",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order of results by version number."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "The skill version ID to start after."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#SkillVersionListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.skills#SkillVersionListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The type of object returned, must be `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.skills#SkillVersionListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of items",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more items available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#SkillVersionListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of object returned, must be `list`."
+      }
+    },
+    "com.openai.skills#SkillVersionResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.skills#SkillVersionResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is `skill.version`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the skill version.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the skill for this version.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version number for this skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (seconds) for when the version was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the skill version.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the skill version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#SkillVersionResourceObject": {
+      "type": "enum",
+      "members": {
+        "SKILL_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skill.version"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is `skill.version`."
+      }
+    },
+    "com.openai.skills#SkillVersionListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.skills#SkillVersionResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of items"
+      }
+    },
+    "com.openai.skills#ListSkillVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#ListSkillVersionsRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillVersionListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        },
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/skills/{skill_id}/versions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Skill Versions\n\nList skill versions for a skill.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.skills#CreateSkillVersionRequestFilesCase0List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Blob"
+      },
+      "traits": {
+        "smithy.api#documentation": "Skill files to upload (directory upload) or a single zip file."
+      }
+    },
+    "com.openai.skills#CreateSkillVersionRequestFiles": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.skills#CreateSkillVersionRequestFilesCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#CreateSkillVersionRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill to version."
+          }
+        },
+        "files": {
+          "target": "com.openai.skills#CreateSkillVersionRequestFiles",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to set this version as the default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#CreateSkillVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#CreateSkillVersionRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillVersionResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        },
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/skills/{skill_id}/versions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Skill Version\n\nCreate a new immutable skill version."
+      }
+    },
+    "com.openai.skills#GetSkillVersionRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#GetSkillVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#GetSkillVersionRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#SkillVersionResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        },
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/skills/{skill_id}/versions/{version}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Skill Version\n\nGet a specific skill version."
+      }
+    },
+    "com.openai.skills#DeleteSkillVersionRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The skill version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#DeletedSkillVersionResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.skills#DeletedSkillVersionResourceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deleted skill version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#DeletedSkillVersionResourceObject": {
+      "type": "enum",
+      "members": {
+        "SKILL_VERSION_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skill.version.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.skills#DeleteSkillVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#DeleteSkillVersionRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#DeletedSkillVersionResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        },
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/skills/{skill_id}/versions/{version}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Skill Version\n\nDelete a skill version."
+      }
+    },
+    "com.openai.skills#GetSkillVersionContentRequest": {
+      "type": "structure",
+      "members": {
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier of the skill."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The skill version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.skills#GetSkillVersionContentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.skills#GetSkillVersionContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.skills#GetSkillVersionContentRequest"
+      },
+      "output": {
+        "target": "com.openai.skills#GetSkillVersionContentResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.skills#BadRequest"
+        },
+        {
+          "target": "com.openai.skills#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/skills/{skill_id}/versions/{version}/content",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Skill Version Content\n\nDownload a skill version zip bundle."
+      }
+    },
+    "com.openai.skills#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.skills#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.skills#Skills": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.skills#ListSkills"
+        },
+        {
+          "target": "com.openai.skills#CreateSkill"
+        },
+        {
+          "target": "com.openai.skills#GetSkill"
+        },
+        {
+          "target": "com.openai.skills#UpdateSkillDefaultVersion"
+        },
+        {
+          "target": "com.openai.skills#DeleteSkill"
+        },
+        {
+          "target": "com.openai.skills#GetSkillContent"
+        },
+        {
+          "target": "com.openai.skills#ListSkillVersions"
+        },
+        {
+          "target": "com.openai.skills#CreateSkillVersion"
+        },
+        {
+          "target": "com.openai.skills#GetSkillVersion"
+        },
+        {
+          "target": "com.openai.skills#DeleteSkillVersion"
+        },
+        {
+          "target": "com.openai.skills#GetSkillVersionContent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

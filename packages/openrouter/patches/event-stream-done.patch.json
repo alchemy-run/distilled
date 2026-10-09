@@ -1,0 +1,30 @@
+{
+  "description": "Every OpenRouter event stream ends with the sentinel frame `data: [DONE]` (the spec marks each text/event-stream response with `x-speakeasy-sse-sentinel: [DONE]`, which the converter does not read). Without `done` the sentinel is decoded as one more event. Source: https://openrouter.ai/openapi.json (fetched 2026-10-05), https://openrouter.ai/docs/api-reference/streaming.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateChatCompletionStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateResponseStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateMessageStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateImageStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#CreateInternChatCompletion/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    }
+  ]
+}

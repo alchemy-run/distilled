@@ -1,0 +1,10 @@
+{
+  "description": "POST /keys returns the new API key's secret in `key` (\"The actual API key string (only shown once)\") as a plain string, so it surfaces as `string` and leaks into logs and traces. Mark it `x-sensitive` so it decodes as `Redacted`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1keys/post/responses/201/content/application~1json/schema/properties/key/x-sensitive",
+      "value": true
+    }
+  ]
+}

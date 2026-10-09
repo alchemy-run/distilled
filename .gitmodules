@@ -413,6 +413,29 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/acp/specs/spec-mirror-acp"]
+	path = packages/acp/specs/spec-mirror-acp
+	url = https://github.com/distilled-mirror/spec-mirror-acp.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/openrouter/specs/spec-mirror-openrouter"]
+	path = packages/openrouter/specs/spec-mirror-openrouter
+	url = https://github.com/distilled-mirror/spec-mirror-openrouter.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/codex/specs/spec-mirror-codex"]
+	path = packages/codex/specs/spec-mirror-codex
+	url = https://github.com/distilled-mirror/spec-mirror-codex.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/openai/specs/spec-mirror-openai"]
+	path = packages/openai/specs/spec-mirror-openai
+	url = https://github.com/distilled-mirror/spec-mirror-openai.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/anthropic/specs/spec-mirror-anthropic"]
+	path = packages/anthropic/specs/spec-mirror-anthropic
+	url = https://github.com/distilled-mirror/spec-mirror-anthropic.git
 [submodule "packages/iceberg/specs/spec-mirror-iceberg"]
 	path = packages/iceberg/specs/spec-mirror-iceberg
 	url = https://github.com/distilled-mirror/spec-mirror-iceberg.git

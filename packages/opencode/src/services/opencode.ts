@@ -3703,16 +3703,6 @@ export const GlobalDisposeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
 ).annotate({ identifier: "GlobalDisposeResponse" }) as any as S.Schema<GlobalDisposeResponse>;
 
-export interface GlobalEventRequest {}
-export const GlobalEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/event", code: 200 })),
-).annotate({ identifier: "GlobalEventRequest" }) as any as S.Schema<GlobalEventRequest>;
-
-export interface GlobalEventResponse {}
-export const GlobalEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GlobalEventResponse",
-}) as any as S.Schema<GlobalEventResponse>;
-
 export interface GlobalHealthRequest {}
 export const GlobalHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/health", code: 200 })),
@@ -5891,27 +5881,27 @@ export const PtyShellsResponse = /*@__PURE__*/ S.suspend(() =>
   PtyShellsResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({ identifier: "PtyShellsResponse" }) as any as S.Schema<PtyShellsResponse>;
 
-export type EventTuiPromptAppendType = "tui.prompt.append";
-export const EventTuiPromptAppendType = S.String;
+export type EventTuiPromptAppendType2 = "tui.prompt.append";
+export const EventTuiPromptAppendType2 = S.String;
 
-export type EventTuiPromptAppendProperties = FindTextResponseBodyItemPath;
-export const EventTuiPromptAppendProperties = FindTextResponseBodyItemPath;
+export type EventTuiPromptAppendProperties2 = FindTextResponseBodyItemPath;
+export const EventTuiPromptAppendProperties2 = FindTextResponseBodyItemPath;
 
-export interface EventTuiPromptAppend {
-  type: EventTuiPromptAppendType;
+export interface EventTuiPromptAppend2 {
+  type: EventTuiPromptAppendType2;
   properties: FindTextResponseBodyItemPath;
 }
-export const EventTuiPromptAppend = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiPromptAppend2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: EventTuiPromptAppendType,
+    type: EventTuiPromptAppendType2,
     properties: FindTextResponseBodyItemPath,
   }),
-).annotate({ identifier: "EventTuiPromptAppend" }) as any as S.Schema<EventTuiPromptAppend>;
+).annotate({ identifier: "EventTuiPromptAppend2" }) as any as S.Schema<EventTuiPromptAppend2>;
 
-export type EventTuiCommandExecuteType = "tui.command.execute";
-export const EventTuiCommandExecuteType = S.String;
+export type EventTuiCommandExecuteType2 = "tui.command.execute";
+export const EventTuiCommandExecuteType2 = S.String;
 
-export type EventTuiCommandExecutePropertiesCommandCase0 =
+export type EventTuiCommandExecutePropertiesCommandCase02 =
   | "session.list"
   | "session.new"
   | "session.share"
@@ -5928,101 +5918,101 @@ export type EventTuiCommandExecutePropertiesCommandCase0 =
   | "prompt.clear"
   | "prompt.submit"
   | "agent.cycle";
-export const EventTuiCommandExecutePropertiesCommandCase0 = S.String;
+export const EventTuiCommandExecutePropertiesCommandCase02 = S.String;
 
-export type EventTuiCommandExecutePropertiesCommand =
-  | EventTuiCommandExecutePropertiesCommandCase0
+export type EventTuiCommandExecutePropertiesCommand2 =
+  | EventTuiCommandExecutePropertiesCommandCase02
   | string;
-export const EventTuiCommandExecutePropertiesCommand =
-  S.Unknown as any as S.Schema<EventTuiCommandExecutePropertiesCommand>;
+export const EventTuiCommandExecutePropertiesCommand2 =
+  S.Unknown as any as S.Schema<EventTuiCommandExecutePropertiesCommand2>;
 
-export interface EventTuiCommandExecuteProperties {
-  command: EventTuiCommandExecutePropertiesCommand;
+export interface EventTuiCommandExecuteProperties2 {
+  command: EventTuiCommandExecutePropertiesCommand2;
 }
-export const EventTuiCommandExecuteProperties = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiCommandExecuteProperties2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    command: EventTuiCommandExecutePropertiesCommand,
+    command: EventTuiCommandExecutePropertiesCommand2,
   }),
 ).annotate({
-  identifier: "EventTuiCommandExecuteProperties",
-}) as any as S.Schema<EventTuiCommandExecuteProperties>;
+  identifier: "EventTuiCommandExecuteProperties2",
+}) as any as S.Schema<EventTuiCommandExecuteProperties2>;
 
-export interface EventTuiCommandExecute {
-  type: EventTuiCommandExecuteType;
-  properties: EventTuiCommandExecuteProperties;
+export interface EventTuiCommandExecute2 {
+  type: EventTuiCommandExecuteType2;
+  properties: EventTuiCommandExecuteProperties2;
 }
-export const EventTuiCommandExecute = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiCommandExecute2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: EventTuiCommandExecuteType,
-    properties: EventTuiCommandExecuteProperties,
+    type: EventTuiCommandExecuteType2,
+    properties: EventTuiCommandExecuteProperties2,
   }),
-).annotate({ identifier: "EventTuiCommandExecute" }) as any as S.Schema<EventTuiCommandExecute>;
+).annotate({ identifier: "EventTuiCommandExecute2" }) as any as S.Schema<EventTuiCommandExecute2>;
 
-export type EventTuiToastShowType = "tui.toast.show";
-export const EventTuiToastShowType = S.String;
+export type EventTuiToastShowType2 = "tui.toast.show";
+export const EventTuiToastShowType2 = S.String;
 
-export type EventTuiToastShowPropertiesVariant = "info" | "success" | "warning" | "error";
-export const EventTuiToastShowPropertiesVariant = S.String;
+export type EventTuiToastShowPropertiesVariant2 = "info" | "success" | "warning" | "error";
+export const EventTuiToastShowPropertiesVariant2 = S.String;
 
-export interface EventTuiToastShowProperties {
+export interface EventTuiToastShowProperties2 {
   title?: string;
   message: string;
-  variant: EventTuiToastShowPropertiesVariant | (string & {});
+  variant: EventTuiToastShowPropertiesVariant2 | (string & {});
   duration?: number;
 }
-export const EventTuiToastShowProperties = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiToastShowProperties2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.optional(S.String),
     message: S.String,
-    variant: EventTuiToastShowPropertiesVariant,
+    variant: EventTuiToastShowPropertiesVariant2,
     duration: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "EventTuiToastShowProperties",
-}) as any as S.Schema<EventTuiToastShowProperties>;
+  identifier: "EventTuiToastShowProperties2",
+}) as any as S.Schema<EventTuiToastShowProperties2>;
 
-export interface EventTuiToastShow {
-  type: EventTuiToastShowType;
-  properties: EventTuiToastShowProperties;
+export interface EventTuiToastShow2 {
+  type: EventTuiToastShowType2;
+  properties: EventTuiToastShowProperties2;
 }
-export const EventTuiToastShow = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiToastShow2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: EventTuiToastShowType,
-    properties: EventTuiToastShowProperties,
+    type: EventTuiToastShowType2,
+    properties: EventTuiToastShowProperties2,
   }),
-).annotate({ identifier: "EventTuiToastShow" }) as any as S.Schema<EventTuiToastShow>;
+).annotate({ identifier: "EventTuiToastShow2" }) as any as S.Schema<EventTuiToastShow2>;
 
-export type EventTuiSessionSelectType = "tui.session.select";
-export const EventTuiSessionSelectType = S.String;
+export type EventTuiSessionSelectType2 = "tui.session.select";
+export const EventTuiSessionSelectType2 = S.String;
 
-export interface EventTuiSessionSelectProperties {
+export interface EventTuiSessionSelectProperties2 {
   /** Session ID to navigate to */
   sessionID: string;
 }
-export const EventTuiSessionSelectProperties = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiSessionSelectProperties2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String,
   }),
 ).annotate({
-  identifier: "EventTuiSessionSelectProperties",
-}) as any as S.Schema<EventTuiSessionSelectProperties>;
+  identifier: "EventTuiSessionSelectProperties2",
+}) as any as S.Schema<EventTuiSessionSelectProperties2>;
 
-export interface EventTuiSessionSelect {
-  type: EventTuiSessionSelectType;
-  properties: EventTuiSessionSelectProperties;
+export interface EventTuiSessionSelect2 {
+  type: EventTuiSessionSelectType2;
+  properties: EventTuiSessionSelectProperties2;
 }
-export const EventTuiSessionSelect = /*@__PURE__*/ S.suspend(() =>
+export const EventTuiSessionSelect2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: EventTuiSessionSelectType,
-    properties: EventTuiSessionSelectProperties,
+    type: EventTuiSessionSelectType2,
+    properties: EventTuiSessionSelectProperties2,
   }),
-).annotate({ identifier: "EventTuiSessionSelect" }) as any as S.Schema<EventTuiSessionSelect>;
+).annotate({ identifier: "EventTuiSessionSelect2" }) as any as S.Schema<EventTuiSessionSelect2>;
 
 export type PublishTuiRequestBody =
-  | EventTuiPromptAppend
-  | EventTuiCommandExecute
-  | EventTuiToastShow
-  | EventTuiSessionSelect;
+  | EventTuiPromptAppend2
+  | EventTuiCommandExecute2
+  | EventTuiToastShow2
+  | EventTuiSessionSelect2;
 export const PublishTuiRequestBody = S.Unknown as any as S.Schema<PublishTuiRequestBody>;
 
 export interface PublishTuiRequest {
@@ -8258,20 +8248,10088 @@ export const SubscribeEventRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/event", code: 200 })),
 ).annotate({ identifier: "SubscribeEventRequest" }) as any as S.Schema<SubscribeEventRequest>;
 
-export interface SubscribeEventResponse {}
-export const SubscribeEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "SubscribeEventResponse",
-}) as any as S.Schema<SubscribeEventResponse>;
+export type EventModelsDevRefreshedType = "models-dev.refreshed";
+export const EventModelsDevRefreshedType = S.String;
+
+export interface EventModelsDevRefreshed {
+  id: string;
+  type: EventModelsDevRefreshedType;
+  properties: unknown;
+}
+export const EventModelsDevRefreshed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventModelsDevRefreshedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventModelsDevRefreshed" }) as any as S.Schema<EventModelsDevRefreshed>;
+
+export type EventIntegrationUpdatedType = "integration.updated";
+export const EventIntegrationUpdatedType = S.String;
+
+export interface EventIntegrationUpdated {
+  id: string;
+  type: EventIntegrationUpdatedType;
+  properties: unknown;
+}
+export const EventIntegrationUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventIntegrationUpdatedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventIntegrationUpdated" }) as any as S.Schema<EventIntegrationUpdated>;
+
+export type EventIntegrationConnectionUpdatedType = "integration.connection.updated";
+export const EventIntegrationConnectionUpdatedType = S.String;
+
+export interface EventIntegrationConnectionUpdatedProperties {
+  integrationID: string;
+}
+export const EventIntegrationConnectionUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    integrationID: S.String,
+  }),
+).annotate({
+  identifier: "EventIntegrationConnectionUpdatedProperties",
+}) as any as S.Schema<EventIntegrationConnectionUpdatedProperties>;
+
+export interface EventIntegrationConnectionUpdated {
+  id: string;
+  type: EventIntegrationConnectionUpdatedType;
+  properties: EventIntegrationConnectionUpdatedProperties;
+}
+export const EventIntegrationConnectionUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventIntegrationConnectionUpdatedType,
+    properties: EventIntegrationConnectionUpdatedProperties,
+  }),
+).annotate({
+  identifier: "EventIntegrationConnectionUpdated",
+}) as any as S.Schema<EventIntegrationConnectionUpdated>;
+
+export type EventCatalogUpdatedType = "catalog.updated";
+export const EventCatalogUpdatedType = S.String;
+
+export interface EventCatalogUpdated {
+  id: string;
+  type: EventCatalogUpdatedType;
+  properties: unknown;
+}
+export const EventCatalogUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventCatalogUpdatedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventCatalogUpdated" }) as any as S.Schema<EventCatalogUpdated>;
+
+export type EventSessionCreatedType = "session.created";
+export const EventSessionCreatedType = S.String;
+
+export interface EventSessionCreatedProperties {
+  sessionID: string;
+  info: Session;
+}
+export const EventSessionCreatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    info: Session,
+  }),
+).annotate({
+  identifier: "EventSessionCreatedProperties",
+}) as any as S.Schema<EventSessionCreatedProperties>;
+
+export interface EventSessionCreated {
+  id: string;
+  type: EventSessionCreatedType;
+  properties: EventSessionCreatedProperties;
+}
+export const EventSessionCreated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionCreatedType,
+    properties: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "EventSessionCreated" }) as any as S.Schema<EventSessionCreated>;
+
+export type EventSessionUpdatedType = "session.updated";
+export const EventSessionUpdatedType = S.String;
+
+export type EventSessionUpdatedProperties = EventSessionCreatedProperties;
+export const EventSessionUpdatedProperties = EventSessionCreatedProperties;
+
+export interface EventSessionUpdated {
+  id: string;
+  type: EventSessionUpdatedType;
+  properties: EventSessionCreatedProperties;
+}
+export const EventSessionUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionUpdatedType,
+    properties: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "EventSessionUpdated" }) as any as S.Schema<EventSessionUpdated>;
+
+export type EventSessionDeletedType = "session.deleted";
+export const EventSessionDeletedType = S.String;
+
+export type EventSessionDeletedProperties = EventSessionCreatedProperties;
+export const EventSessionDeletedProperties = EventSessionCreatedProperties;
+
+export interface EventSessionDeleted {
+  id: string;
+  type: EventSessionDeletedType;
+  properties: EventSessionCreatedProperties;
+}
+export const EventSessionDeleted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionDeletedType,
+    properties: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "EventSessionDeleted" }) as any as S.Schema<EventSessionDeleted>;
+
+export type EventMessageUpdatedType = "message.updated";
+export const EventMessageUpdatedType = S.String;
+
+export interface EventMessageUpdatedProperties {
+  sessionID: string;
+  info: Message;
+}
+export const EventMessageUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    info: Message,
+  }),
+).annotate({
+  identifier: "EventMessageUpdatedProperties",
+}) as any as S.Schema<EventMessageUpdatedProperties>;
+
+export interface EventMessageUpdated {
+  id: string;
+  type: EventMessageUpdatedType;
+  properties: EventMessageUpdatedProperties;
+}
+export const EventMessageUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMessageUpdatedType,
+    properties: EventMessageUpdatedProperties,
+  }),
+).annotate({ identifier: "EventMessageUpdated" }) as any as S.Schema<EventMessageUpdated>;
+
+export type EventMessageRemovedType = "message.removed";
+export const EventMessageRemovedType = S.String;
+
+export interface EventMessageRemovedProperties {
+  sessionID: string;
+  messageID: string;
+}
+export const EventMessageRemovedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    messageID: S.String,
+  }),
+).annotate({
+  identifier: "EventMessageRemovedProperties",
+}) as any as S.Schema<EventMessageRemovedProperties>;
+
+export interface EventMessageRemoved {
+  id: string;
+  type: EventMessageRemovedType;
+  properties: EventMessageRemovedProperties;
+}
+export const EventMessageRemoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMessageRemovedType,
+    properties: EventMessageRemovedProperties,
+  }),
+).annotate({ identifier: "EventMessageRemoved" }) as any as S.Schema<EventMessageRemoved>;
+
+export type EventMessagePartUpdatedType = "message.part.updated";
+export const EventMessagePartUpdatedType = S.String;
+
+export interface EventMessagePartUpdatedProperties {
+  sessionID: string;
+  part: Part;
+  time: number;
+}
+export const EventMessagePartUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    part: Part,
+    time: S.Number,
+  }),
+).annotate({
+  identifier: "EventMessagePartUpdatedProperties",
+}) as any as S.Schema<EventMessagePartUpdatedProperties>;
+
+export interface EventMessagePartUpdated {
+  id: string;
+  type: EventMessagePartUpdatedType;
+  properties: EventMessagePartUpdatedProperties;
+}
+export const EventMessagePartUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMessagePartUpdatedType,
+    properties: EventMessagePartUpdatedProperties,
+  }),
+).annotate({ identifier: "EventMessagePartUpdated" }) as any as S.Schema<EventMessagePartUpdated>;
+
+export type EventMessagePartRemovedType = "message.part.removed";
+export const EventMessagePartRemovedType = S.String;
+
+export interface EventMessagePartRemovedProperties {
+  sessionID: string;
+  messageID: string;
+  partID: string;
+}
+export const EventMessagePartRemovedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    messageID: S.String,
+    partID: S.String,
+  }),
+).annotate({
+  identifier: "EventMessagePartRemovedProperties",
+}) as any as S.Schema<EventMessagePartRemovedProperties>;
+
+export interface EventMessagePartRemoved {
+  id: string;
+  type: EventMessagePartRemovedType;
+  properties: EventMessagePartRemovedProperties;
+}
+export const EventMessagePartRemoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMessagePartRemovedType,
+    properties: EventMessagePartRemovedProperties,
+  }),
+).annotate({ identifier: "EventMessagePartRemoved" }) as any as S.Schema<EventMessagePartRemoved>;
+
+export type EventSessionNextAgentSwitchedType = "session.next.agent.switched";
+export const EventSessionNextAgentSwitchedType = S.String;
+
+export interface EventSessionNextAgentSwitchedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  agent: string;
+}
+export const EventSessionNextAgentSwitchedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    agent: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextAgentSwitchedProperties",
+}) as any as S.Schema<EventSessionNextAgentSwitchedProperties>;
+
+export interface EventSessionNextAgentSwitched {
+  id: string;
+  type: EventSessionNextAgentSwitchedType;
+  properties: EventSessionNextAgentSwitchedProperties;
+}
+export const EventSessionNextAgentSwitched = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextAgentSwitchedType,
+    properties: EventSessionNextAgentSwitchedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextAgentSwitched",
+}) as any as S.Schema<EventSessionNextAgentSwitched>;
+
+export type EventSessionNextModelSwitchedType = "session.next.model.switched";
+export const EventSessionNextModelSwitchedType = S.String;
+
+export interface EventSessionNextModelSwitchedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  model: CreateSessionRequestModel;
+}
+export const EventSessionNextModelSwitchedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    model: CreateSessionRequestModel,
+  }),
+).annotate({
+  identifier: "EventSessionNextModelSwitchedProperties",
+}) as any as S.Schema<EventSessionNextModelSwitchedProperties>;
+
+export interface EventSessionNextModelSwitched {
+  id: string;
+  type: EventSessionNextModelSwitchedType;
+  properties: EventSessionNextModelSwitchedProperties;
+}
+export const EventSessionNextModelSwitched = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextModelSwitchedType,
+    properties: EventSessionNextModelSwitchedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextModelSwitched",
+}) as any as S.Schema<EventSessionNextModelSwitched>;
+
+export type EventSessionNextMovedType = "session.next.moved";
+export const EventSessionNextMovedType = S.String;
+
+export interface EventSessionNextMovedProperties {
+  timestamp: number;
+  sessionID: string;
+  location: LocationRef;
+  subdirectory?: string;
+}
+export const EventSessionNextMovedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    location: LocationRef,
+    subdirectory: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EventSessionNextMovedProperties",
+}) as any as S.Schema<EventSessionNextMovedProperties>;
+
+export interface EventSessionNextMoved {
+  id: string;
+  type: EventSessionNextMovedType;
+  properties: EventSessionNextMovedProperties;
+}
+export const EventSessionNextMoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextMovedType,
+    properties: EventSessionNextMovedProperties,
+  }),
+).annotate({ identifier: "EventSessionNextMoved" }) as any as S.Schema<EventSessionNextMoved>;
+
+export type EventSessionNextPromptedType = "session.next.prompted";
+export const EventSessionNextPromptedType = S.String;
+
+export interface PromptSource {
+  start: number;
+  end: number;
+  text: string;
+}
+export const PromptSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    start: S.Number,
+    end: S.Number,
+    text: S.String,
+  }),
+).annotate({ identifier: "PromptSource" }) as any as S.Schema<PromptSource>;
+
+export interface PromptFileAttachment {
+  uri: string;
+  mime: string;
+  name?: string;
+  description?: string;
+  source?: PromptSource;
+}
+export const PromptFileAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.String,
+    mime: S.String,
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    source: S.optional(PromptSource),
+  }),
+).annotate({ identifier: "PromptFileAttachment" }) as any as S.Schema<PromptFileAttachment>;
+
+export type PromptFilesList = Array<PromptFileAttachment>;
+export const PromptFilesList = /*@__PURE__*/ S.Array(
+  PromptFileAttachment,
+) as any as S.Schema<PromptFilesList>;
+
+export interface PromptAgentAttachment {
+  name: string;
+  source?: PromptSource;
+}
+export const PromptAgentAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    source: S.optional(PromptSource),
+  }),
+).annotate({ identifier: "PromptAgentAttachment" }) as any as S.Schema<PromptAgentAttachment>;
+
+export type PromptAgentsList = Array<PromptAgentAttachment>;
+export const PromptAgentsList = /*@__PURE__*/ S.Array(
+  PromptAgentAttachment,
+) as any as S.Schema<PromptAgentsList>;
+
+export interface Prompt {
+  text: string;
+  files?: PromptFilesList;
+  agents?: PromptAgentsList;
+}
+export const Prompt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    files: S.optional(PromptFilesList),
+    agents: S.optional(PromptAgentsList),
+  }),
+).annotate({ identifier: "Prompt" }) as any as S.Schema<Prompt>;
+
+export type EventSessionNextPromptedPropertiesDelivery = "steer" | "queue";
+export const EventSessionNextPromptedPropertiesDelivery = S.String;
+
+export interface EventSessionNextPromptedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: EventSessionNextPromptedPropertiesDelivery;
+}
+export const EventSessionNextPromptedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: EventSessionNextPromptedPropertiesDelivery,
+  }),
+).annotate({
+  identifier: "EventSessionNextPromptedProperties",
+}) as any as S.Schema<EventSessionNextPromptedProperties>;
+
+export interface EventSessionNextPrompted {
+  id: string;
+  type: EventSessionNextPromptedType;
+  properties: EventSessionNextPromptedProperties;
+}
+export const EventSessionNextPrompted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextPromptedType,
+    properties: EventSessionNextPromptedProperties,
+  }),
+).annotate({ identifier: "EventSessionNextPrompted" }) as any as S.Schema<EventSessionNextPrompted>;
+
+export type EventSessionNextPromptAdmittedType = "session.next.prompt.admitted";
+export const EventSessionNextPromptAdmittedType = S.String;
+
+export type EventSessionNextPromptAdmittedPropertiesDelivery = "steer" | "queue";
+export const EventSessionNextPromptAdmittedPropertiesDelivery = S.String;
+
+export interface EventSessionNextPromptAdmittedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: EventSessionNextPromptAdmittedPropertiesDelivery;
+}
+export const EventSessionNextPromptAdmittedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: EventSessionNextPromptAdmittedPropertiesDelivery,
+  }),
+).annotate({
+  identifier: "EventSessionNextPromptAdmittedProperties",
+}) as any as S.Schema<EventSessionNextPromptAdmittedProperties>;
+
+export interface EventSessionNextPromptAdmitted {
+  id: string;
+  type: EventSessionNextPromptAdmittedType;
+  properties: EventSessionNextPromptAdmittedProperties;
+}
+export const EventSessionNextPromptAdmitted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextPromptAdmittedType,
+    properties: EventSessionNextPromptAdmittedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextPromptAdmitted",
+}) as any as S.Schema<EventSessionNextPromptAdmitted>;
+
+export type EventSessionNextContextUpdatedType = "session.next.context.updated";
+export const EventSessionNextContextUpdatedType = S.String;
+
+export interface EventSessionNextContextUpdatedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  text: string;
+}
+export const EventSessionNextContextUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    text: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextContextUpdatedProperties",
+}) as any as S.Schema<EventSessionNextContextUpdatedProperties>;
+
+export interface EventSessionNextContextUpdated {
+  id: string;
+  type: EventSessionNextContextUpdatedType;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export const EventSessionNextContextUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextContextUpdatedType,
+    properties: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextContextUpdated",
+}) as any as S.Schema<EventSessionNextContextUpdated>;
+
+export type EventSessionNextSyntheticType = "session.next.synthetic";
+export const EventSessionNextSyntheticType = S.String;
+
+export type EventSessionNextSyntheticProperties = EventSessionNextContextUpdatedProperties;
+export const EventSessionNextSyntheticProperties = EventSessionNextContextUpdatedProperties;
+
+export interface EventSessionNextSynthetic {
+  id: string;
+  type: EventSessionNextSyntheticType;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export const EventSessionNextSynthetic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextSyntheticType,
+    properties: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextSynthetic",
+}) as any as S.Schema<EventSessionNextSynthetic>;
+
+export type EventSessionNextShellStartedType = "session.next.shell.started";
+export const EventSessionNextShellStartedType = S.String;
+
+export interface EventSessionNextShellStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  callID: string;
+  command: string;
+}
+export const EventSessionNextShellStartedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    callID: S.String,
+    command: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextShellStartedProperties",
+}) as any as S.Schema<EventSessionNextShellStartedProperties>;
+
+export interface EventSessionNextShellStarted {
+  id: string;
+  type: EventSessionNextShellStartedType;
+  properties: EventSessionNextShellStartedProperties;
+}
+export const EventSessionNextShellStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextShellStartedType,
+    properties: EventSessionNextShellStartedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextShellStarted",
+}) as any as S.Schema<EventSessionNextShellStarted>;
+
+export type EventSessionNextShellEndedType = "session.next.shell.ended";
+export const EventSessionNextShellEndedType = S.String;
+
+export interface EventSessionNextShellEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  callID: string;
+  output: string;
+}
+export const EventSessionNextShellEndedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    callID: S.String,
+    output: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextShellEndedProperties",
+}) as any as S.Schema<EventSessionNextShellEndedProperties>;
+
+export interface EventSessionNextShellEnded {
+  id: string;
+  type: EventSessionNextShellEndedType;
+  properties: EventSessionNextShellEndedProperties;
+}
+export const EventSessionNextShellEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextShellEndedType,
+    properties: EventSessionNextShellEndedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextShellEnded",
+}) as any as S.Schema<EventSessionNextShellEnded>;
+
+export type EventSessionNextStepStartedType = "session.next.step.started";
+export const EventSessionNextStepStartedType = S.String;
+
+export interface EventSessionNextStepStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  agent: string;
+  model: CreateSessionRequestModel;
+  snapshot?: string;
+}
+export const EventSessionNextStepStartedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    agent: S.String,
+    model: CreateSessionRequestModel,
+    snapshot: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EventSessionNextStepStartedProperties",
+}) as any as S.Schema<EventSessionNextStepStartedProperties>;
+
+export interface EventSessionNextStepStarted {
+  id: string;
+  type: EventSessionNextStepStartedType;
+  properties: EventSessionNextStepStartedProperties;
+}
+export const EventSessionNextStepStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextStepStartedType,
+    properties: EventSessionNextStepStartedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextStepStarted",
+}) as any as S.Schema<EventSessionNextStepStarted>;
+
+export type EventSessionNextStepEndedType = "session.next.step.ended";
+export const EventSessionNextStepEndedType = S.String;
+
+export type EventSessionNextStepEndedPropertiesTokensCache = ModelCostCache;
+export const EventSessionNextStepEndedPropertiesTokensCache = ModelCostCache;
+
+export type EventSessionNextStepEndedPropertiesTokens = SessionTokens;
+export const EventSessionNextStepEndedPropertiesTokens = SessionTokens;
+
+export type EventSessionNextStepEndedPropertiesFilesList = Array<string>;
+export const EventSessionNextStepEndedPropertiesFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventSessionNextStepEndedPropertiesFilesList>;
+
+export interface EventSessionNextStepEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: EventSessionNextStepEndedPropertiesFilesList;
+}
+export const EventSessionNextStepEndedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    finish: S.String,
+    cost: S.Number,
+    tokens: SessionTokens,
+    snapshot: S.optional(S.String),
+    files: S.optional(EventSessionNextStepEndedPropertiesFilesList),
+  }),
+).annotate({
+  identifier: "EventSessionNextStepEndedProperties",
+}) as any as S.Schema<EventSessionNextStepEndedProperties>;
+
+export interface EventSessionNextStepEnded {
+  id: string;
+  type: EventSessionNextStepEndedType;
+  properties: EventSessionNextStepEndedProperties;
+}
+export const EventSessionNextStepEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextStepEndedType,
+    properties: EventSessionNextStepEndedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextStepEnded",
+}) as any as S.Schema<EventSessionNextStepEnded>;
+
+export type EventSessionNextStepFailedType = "session.next.step.failed";
+export const EventSessionNextStepFailedType = S.String;
+
+export type SessionErrorUnknownType = "unknown";
+export const SessionErrorUnknownType = S.String;
+
+export interface SessionErrorUnknown {
+  type: SessionErrorUnknownType;
+  message: string;
+}
+export const SessionErrorUnknown = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SessionErrorUnknownType,
+    message: S.String,
+  }),
+).annotate({ identifier: "SessionErrorUnknown" }) as any as S.Schema<SessionErrorUnknown>;
+
+export interface EventSessionNextStepFailedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  error: SessionErrorUnknown;
+}
+export const EventSessionNextStepFailedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    error: SessionErrorUnknown,
+  }),
+).annotate({
+  identifier: "EventSessionNextStepFailedProperties",
+}) as any as S.Schema<EventSessionNextStepFailedProperties>;
+
+export interface EventSessionNextStepFailed {
+  id: string;
+  type: EventSessionNextStepFailedType;
+  properties: EventSessionNextStepFailedProperties;
+}
+export const EventSessionNextStepFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextStepFailedType,
+    properties: EventSessionNextStepFailedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextStepFailed",
+}) as any as S.Schema<EventSessionNextStepFailed>;
+
+export type EventSessionNextTextStartedType = "session.next.text.started";
+export const EventSessionNextTextStartedType = S.String;
+
+export interface EventSessionNextTextStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  textID: string;
+}
+export const EventSessionNextTextStartedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    textID: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextTextStartedProperties",
+}) as any as S.Schema<EventSessionNextTextStartedProperties>;
+
+export interface EventSessionNextTextStarted {
+  id: string;
+  type: EventSessionNextTextStartedType;
+  properties: EventSessionNextTextStartedProperties;
+}
+export const EventSessionNextTextStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextTextStartedType,
+    properties: EventSessionNextTextStartedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextTextStarted",
+}) as any as S.Schema<EventSessionNextTextStarted>;
+
+export type EventSessionNextTextDeltaType = "session.next.text.delta";
+export const EventSessionNextTextDeltaType = S.String;
+
+export interface EventSessionNextTextDeltaProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  textID: string;
+  delta: string;
+}
+export const EventSessionNextTextDeltaProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    textID: S.String,
+    delta: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextTextDeltaProperties",
+}) as any as S.Schema<EventSessionNextTextDeltaProperties>;
+
+export interface EventSessionNextTextDelta {
+  id: string;
+  type: EventSessionNextTextDeltaType;
+  properties: EventSessionNextTextDeltaProperties;
+}
+export const EventSessionNextTextDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextTextDeltaType,
+    properties: EventSessionNextTextDeltaProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextTextDelta",
+}) as any as S.Schema<EventSessionNextTextDelta>;
+
+export type EventSessionNextTextEndedType = "session.next.text.ended";
+export const EventSessionNextTextEndedType = S.String;
+
+export interface EventSessionNextTextEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  textID: string;
+  text: string;
+}
+export const EventSessionNextTextEndedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    textID: S.String,
+    text: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextTextEndedProperties",
+}) as any as S.Schema<EventSessionNextTextEndedProperties>;
+
+export interface EventSessionNextTextEnded {
+  id: string;
+  type: EventSessionNextTextEndedType;
+  properties: EventSessionNextTextEndedProperties;
+}
+export const EventSessionNextTextEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextTextEndedType,
+    properties: EventSessionNextTextEndedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextTextEnded",
+}) as any as S.Schema<EventSessionNextTextEnded>;
+
+export type EventSessionNextReasoningStartedType = "session.next.reasoning.started";
+export const EventSessionNextReasoningStartedType = S.String;
+
+export type LLMProviderMetadata = { [key: string]: unknown | undefined };
+export const LLMProviderMetadata = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<LLMProviderMetadata>;
+
+export interface EventSessionNextReasoningStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  reasoningID: string;
+  providerMetadata?: LLMProviderMetadata;
+}
+export const EventSessionNextReasoningStartedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    reasoningID: S.String,
+    providerMetadata: S.optional(LLMProviderMetadata),
+  }),
+).annotate({
+  identifier: "EventSessionNextReasoningStartedProperties",
+}) as any as S.Schema<EventSessionNextReasoningStartedProperties>;
+
+export interface EventSessionNextReasoningStarted {
+  id: string;
+  type: EventSessionNextReasoningStartedType;
+  properties: EventSessionNextReasoningStartedProperties;
+}
+export const EventSessionNextReasoningStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextReasoningStartedType,
+    properties: EventSessionNextReasoningStartedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextReasoningStarted",
+}) as any as S.Schema<EventSessionNextReasoningStarted>;
+
+export type EventSessionNextReasoningDeltaType = "session.next.reasoning.delta";
+export const EventSessionNextReasoningDeltaType = S.String;
+
+export interface EventSessionNextReasoningDeltaProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  reasoningID: string;
+  delta: string;
+}
+export const EventSessionNextReasoningDeltaProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    reasoningID: S.String,
+    delta: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextReasoningDeltaProperties",
+}) as any as S.Schema<EventSessionNextReasoningDeltaProperties>;
+
+export interface EventSessionNextReasoningDelta {
+  id: string;
+  type: EventSessionNextReasoningDeltaType;
+  properties: EventSessionNextReasoningDeltaProperties;
+}
+export const EventSessionNextReasoningDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextReasoningDeltaType,
+    properties: EventSessionNextReasoningDeltaProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextReasoningDelta",
+}) as any as S.Schema<EventSessionNextReasoningDelta>;
+
+export type EventSessionNextReasoningEndedType = "session.next.reasoning.ended";
+export const EventSessionNextReasoningEndedType = S.String;
+
+export interface EventSessionNextReasoningEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  reasoningID: string;
+  text: string;
+  providerMetadata?: LLMProviderMetadata;
+}
+export const EventSessionNextReasoningEndedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    reasoningID: S.String,
+    text: S.String,
+    providerMetadata: S.optional(LLMProviderMetadata),
+  }),
+).annotate({
+  identifier: "EventSessionNextReasoningEndedProperties",
+}) as any as S.Schema<EventSessionNextReasoningEndedProperties>;
+
+export interface EventSessionNextReasoningEnded {
+  id: string;
+  type: EventSessionNextReasoningEndedType;
+  properties: EventSessionNextReasoningEndedProperties;
+}
+export const EventSessionNextReasoningEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextReasoningEndedType,
+    properties: EventSessionNextReasoningEndedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextReasoningEnded",
+}) as any as S.Schema<EventSessionNextReasoningEnded>;
+
+export type EventSessionNextToolInputStartedType = "session.next.tool.input.started";
+export const EventSessionNextToolInputStartedType = S.String;
+
+export interface EventSessionNextToolInputStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  name: string;
+}
+export const EventSessionNextToolInputStartedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolInputStartedProperties",
+}) as any as S.Schema<EventSessionNextToolInputStartedProperties>;
+
+export interface EventSessionNextToolInputStarted {
+  id: string;
+  type: EventSessionNextToolInputStartedType;
+  properties: EventSessionNextToolInputStartedProperties;
+}
+export const EventSessionNextToolInputStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolInputStartedType,
+    properties: EventSessionNextToolInputStartedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolInputStarted",
+}) as any as S.Schema<EventSessionNextToolInputStarted>;
+
+export type EventSessionNextToolInputDeltaType = "session.next.tool.input.delta";
+export const EventSessionNextToolInputDeltaType = S.String;
+
+export interface EventSessionNextToolInputDeltaProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  delta: string;
+}
+export const EventSessionNextToolInputDeltaProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    delta: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolInputDeltaProperties",
+}) as any as S.Schema<EventSessionNextToolInputDeltaProperties>;
+
+export interface EventSessionNextToolInputDelta {
+  id: string;
+  type: EventSessionNextToolInputDeltaType;
+  properties: EventSessionNextToolInputDeltaProperties;
+}
+export const EventSessionNextToolInputDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolInputDeltaType,
+    properties: EventSessionNextToolInputDeltaProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolInputDelta",
+}) as any as S.Schema<EventSessionNextToolInputDelta>;
+
+export type EventSessionNextToolInputEndedType = "session.next.tool.input.ended";
+export const EventSessionNextToolInputEndedType = S.String;
+
+export interface EventSessionNextToolInputEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  text: string;
+}
+export const EventSessionNextToolInputEndedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    text: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolInputEndedProperties",
+}) as any as S.Schema<EventSessionNextToolInputEndedProperties>;
+
+export interface EventSessionNextToolInputEnded {
+  id: string;
+  type: EventSessionNextToolInputEndedType;
+  properties: EventSessionNextToolInputEndedProperties;
+}
+export const EventSessionNextToolInputEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolInputEndedType,
+    properties: EventSessionNextToolInputEndedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolInputEnded",
+}) as any as S.Schema<EventSessionNextToolInputEnded>;
+
+export type EventSessionNextToolCalledType = "session.next.tool.called";
+export const EventSessionNextToolCalledType = S.String;
+
+export interface EventSessionNextToolCalledPropertiesProvider {
+  executed: boolean;
+  metadata?: LLMProviderMetadata;
+}
+export const EventSessionNextToolCalledPropertiesProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    executed: S.Boolean,
+    metadata: S.optional(LLMProviderMetadata),
+  }),
+).annotate({
+  identifier: "EventSessionNextToolCalledPropertiesProvider",
+}) as any as S.Schema<EventSessionNextToolCalledPropertiesProvider>;
+
+export interface EventSessionNextToolCalledProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  tool: string;
+  input: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export const EventSessionNextToolCalledProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    tool: S.String,
+    input: S.Unknown,
+    provider: EventSessionNextToolCalledPropertiesProvider,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolCalledProperties",
+}) as any as S.Schema<EventSessionNextToolCalledProperties>;
+
+export interface EventSessionNextToolCalled {
+  id: string;
+  type: EventSessionNextToolCalledType;
+  properties: EventSessionNextToolCalledProperties;
+}
+export const EventSessionNextToolCalled = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolCalledType,
+    properties: EventSessionNextToolCalledProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolCalled",
+}) as any as S.Schema<EventSessionNextToolCalled>;
+
+export type EventSessionNextToolProgressType = "session.next.tool.progress";
+export const EventSessionNextToolProgressType = S.String;
+
+export type ToolTextContentType = "text";
+export const ToolTextContentType = S.String;
+
+export interface ToolTextContent {
+  type: ToolTextContentType;
+  text: string;
+}
+export const ToolTextContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ToolTextContentType,
+    text: S.String,
+  }),
+).annotate({ identifier: "ToolTextContent" }) as any as S.Schema<ToolTextContent>;
+
+export type ToolFileContentType = "file";
+export const ToolFileContentType = S.String;
+
+export interface ToolFileContent {
+  type: ToolFileContentType;
+  uri: string;
+  mime: string;
+  name?: string;
+}
+export const ToolFileContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ToolFileContentType,
+    uri: S.String,
+    mime: S.String,
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolFileContent" }) as any as S.Schema<ToolFileContent>;
+
+export type LLMToolContent = ToolTextContent | ToolFileContent;
+export const LLMToolContent = S.Unknown as any as S.Schema<LLMToolContent>;
+
+export type EventSessionNextToolProgressPropertiesContentList = Array<LLMToolContent>;
+export const EventSessionNextToolProgressPropertiesContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<EventSessionNextToolProgressPropertiesContentList>;
+
+export interface EventSessionNextToolProgressProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: EventSessionNextToolProgressPropertiesContentList;
+}
+export const EventSessionNextToolProgressProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: EventSessionNextToolProgressPropertiesContentList,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolProgressProperties",
+}) as any as S.Schema<EventSessionNextToolProgressProperties>;
+
+export interface EventSessionNextToolProgress {
+  id: string;
+  type: EventSessionNextToolProgressType;
+  properties: EventSessionNextToolProgressProperties;
+}
+export const EventSessionNextToolProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolProgressType,
+    properties: EventSessionNextToolProgressProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolProgress",
+}) as any as S.Schema<EventSessionNextToolProgress>;
+
+export type EventSessionNextToolSuccessType = "session.next.tool.success";
+export const EventSessionNextToolSuccessType = S.String;
+
+export type EventSessionNextToolSuccessPropertiesContentList = Array<LLMToolContent>;
+export const EventSessionNextToolSuccessPropertiesContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<EventSessionNextToolSuccessPropertiesContentList>;
+
+export type EventSessionNextToolSuccessPropertiesOutputPathsList = Array<string>;
+export const EventSessionNextToolSuccessPropertiesOutputPathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventSessionNextToolSuccessPropertiesOutputPathsList>;
+
+export type EventSessionNextToolSuccessPropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const EventSessionNextToolSuccessPropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export interface EventSessionNextToolSuccessProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: EventSessionNextToolSuccessPropertiesContentList;
+  outputPaths?: EventSessionNextToolSuccessPropertiesOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export const EventSessionNextToolSuccessProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: EventSessionNextToolSuccessPropertiesContentList,
+    outputPaths: S.optional(EventSessionNextToolSuccessPropertiesOutputPathsList),
+    result: S.optional(S.Unknown),
+    provider: EventSessionNextToolCalledPropertiesProvider,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolSuccessProperties",
+}) as any as S.Schema<EventSessionNextToolSuccessProperties>;
+
+export interface EventSessionNextToolSuccess {
+  id: string;
+  type: EventSessionNextToolSuccessType;
+  properties: EventSessionNextToolSuccessProperties;
+}
+export const EventSessionNextToolSuccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolSuccessType,
+    properties: EventSessionNextToolSuccessProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolSuccess",
+}) as any as S.Schema<EventSessionNextToolSuccess>;
+
+export type EventSessionNextToolFailedType = "session.next.tool.failed";
+export const EventSessionNextToolFailedType = S.String;
+
+export type EventSessionNextToolFailedPropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const EventSessionNextToolFailedPropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export interface EventSessionNextToolFailedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  error: SessionErrorUnknown;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export const EventSessionNextToolFailedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    error: SessionErrorUnknown,
+    result: S.optional(S.Unknown),
+    provider: EventSessionNextToolCalledPropertiesProvider,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolFailedProperties",
+}) as any as S.Schema<EventSessionNextToolFailedProperties>;
+
+export interface EventSessionNextToolFailed {
+  id: string;
+  type: EventSessionNextToolFailedType;
+  properties: EventSessionNextToolFailedProperties;
+}
+export const EventSessionNextToolFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextToolFailedType,
+    properties: EventSessionNextToolFailedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextToolFailed",
+}) as any as S.Schema<EventSessionNextToolFailed>;
+
+export type EventSessionNextRetriedType = "session.next.retried";
+export const EventSessionNextRetriedType = S.String;
+
+export type SessionNextRetryErrorResponseHeadersMap = { [key: string]: string | undefined };
+export const SessionNextRetryErrorResponseHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SessionNextRetryErrorResponseHeadersMap>;
+
+export type SessionNextRetryErrorMetadataMap = { [key: string]: string | undefined };
+export const SessionNextRetryErrorMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SessionNextRetryErrorMetadataMap>;
+
+export interface SessionNextRetryError {
+  message: string;
+  statusCode?: number;
+  isRetryable: boolean;
+  responseHeaders?: SessionNextRetryErrorResponseHeadersMap;
+  responseBody?: string;
+  metadata?: SessionNextRetryErrorMetadataMap;
+}
+export const SessionNextRetryError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    statusCode: S.optional(S.Number),
+    isRetryable: S.Boolean,
+    responseHeaders: S.optional(SessionNextRetryErrorResponseHeadersMap),
+    responseBody: S.optional(S.String),
+    metadata: S.optional(SessionNextRetryErrorMetadataMap),
+  }),
+).annotate({ identifier: "SessionNextRetryError" }) as any as S.Schema<SessionNextRetryError>;
+
+export interface EventSessionNextRetriedProperties {
+  timestamp: number;
+  sessionID: string;
+  attempt: number;
+  error: SessionNextRetryError;
+}
+export const EventSessionNextRetriedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    attempt: S.Number,
+    error: SessionNextRetryError,
+  }),
+).annotate({
+  identifier: "EventSessionNextRetriedProperties",
+}) as any as S.Schema<EventSessionNextRetriedProperties>;
+
+export interface EventSessionNextRetried {
+  id: string;
+  type: EventSessionNextRetriedType;
+  properties: EventSessionNextRetriedProperties;
+}
+export const EventSessionNextRetried = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextRetriedType,
+    properties: EventSessionNextRetriedProperties,
+  }),
+).annotate({ identifier: "EventSessionNextRetried" }) as any as S.Schema<EventSessionNextRetried>;
+
+export type EventSessionNextCompactionStartedType = "session.next.compaction.started";
+export const EventSessionNextCompactionStartedType = S.String;
+
+export type EventSessionNextCompactionStartedPropertiesReason = "auto" | "manual";
+export const EventSessionNextCompactionStartedPropertiesReason = S.String;
+
+export interface EventSessionNextCompactionStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: EventSessionNextCompactionStartedPropertiesReason;
+}
+export const EventSessionNextCompactionStartedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: EventSessionNextCompactionStartedPropertiesReason,
+  }),
+).annotate({
+  identifier: "EventSessionNextCompactionStartedProperties",
+}) as any as S.Schema<EventSessionNextCompactionStartedProperties>;
+
+export interface EventSessionNextCompactionStarted {
+  id: string;
+  type: EventSessionNextCompactionStartedType;
+  properties: EventSessionNextCompactionStartedProperties;
+}
+export const EventSessionNextCompactionStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextCompactionStartedType,
+    properties: EventSessionNextCompactionStartedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextCompactionStarted",
+}) as any as S.Schema<EventSessionNextCompactionStarted>;
+
+export type EventSessionNextCompactionDeltaType = "session.next.compaction.delta";
+export const EventSessionNextCompactionDeltaType = S.String;
+
+export type EventSessionNextCompactionDeltaProperties = EventSessionNextContextUpdatedProperties;
+export const EventSessionNextCompactionDeltaProperties = EventSessionNextContextUpdatedProperties;
+
+export interface EventSessionNextCompactionDelta {
+  id: string;
+  type: EventSessionNextCompactionDeltaType;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export const EventSessionNextCompactionDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextCompactionDeltaType,
+    properties: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextCompactionDelta",
+}) as any as S.Schema<EventSessionNextCompactionDelta>;
+
+export type EventSessionNextCompactionEndedType = "session.next.compaction.ended";
+export const EventSessionNextCompactionEndedType = S.String;
+
+export type EventSessionNextCompactionEndedPropertiesReason = "auto" | "manual";
+export const EventSessionNextCompactionEndedPropertiesReason = S.String;
+
+export interface EventSessionNextCompactionEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: EventSessionNextCompactionEndedPropertiesReason;
+  text: string;
+  recent: string;
+}
+export const EventSessionNextCompactionEndedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: EventSessionNextCompactionEndedPropertiesReason,
+    text: S.String,
+    recent: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextCompactionEndedProperties",
+}) as any as S.Schema<EventSessionNextCompactionEndedProperties>;
+
+export interface EventSessionNextCompactionEnded {
+  id: string;
+  type: EventSessionNextCompactionEndedType;
+  properties: EventSessionNextCompactionEndedProperties;
+}
+export const EventSessionNextCompactionEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextCompactionEndedType,
+    properties: EventSessionNextCompactionEndedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextCompactionEnded",
+}) as any as S.Schema<EventSessionNextCompactionEnded>;
+
+export type EventSessionNextRevertStagedType = "session.next.revert.staged";
+export const EventSessionNextRevertStagedType = S.String;
+
+export interface EventSessionNextRevertStagedProperties {
+  timestamp: number;
+  sessionID: string;
+  revert: RevertState;
+}
+export const EventSessionNextRevertStagedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    revert: RevertState,
+  }),
+).annotate({
+  identifier: "EventSessionNextRevertStagedProperties",
+}) as any as S.Schema<EventSessionNextRevertStagedProperties>;
+
+export interface EventSessionNextRevertStaged {
+  id: string;
+  type: EventSessionNextRevertStagedType;
+  properties: EventSessionNextRevertStagedProperties;
+}
+export const EventSessionNextRevertStaged = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextRevertStagedType,
+    properties: EventSessionNextRevertStagedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextRevertStaged",
+}) as any as S.Schema<EventSessionNextRevertStaged>;
+
+export type EventSessionNextRevertClearedType = "session.next.revert.cleared";
+export const EventSessionNextRevertClearedType = S.String;
+
+export interface EventSessionNextRevertClearedProperties {
+  timestamp: number;
+  sessionID: string;
+}
+export const EventSessionNextRevertClearedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextRevertClearedProperties",
+}) as any as S.Schema<EventSessionNextRevertClearedProperties>;
+
+export interface EventSessionNextRevertCleared {
+  id: string;
+  type: EventSessionNextRevertClearedType;
+  properties: EventSessionNextRevertClearedProperties;
+}
+export const EventSessionNextRevertCleared = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextRevertClearedType,
+    properties: EventSessionNextRevertClearedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextRevertCleared",
+}) as any as S.Schema<EventSessionNextRevertCleared>;
+
+export type EventSessionNextRevertCommittedType = "session.next.revert.committed";
+export const EventSessionNextRevertCommittedType = S.String;
+
+export interface EventSessionNextRevertCommittedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+}
+export const EventSessionNextRevertCommittedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionNextRevertCommittedProperties",
+}) as any as S.Schema<EventSessionNextRevertCommittedProperties>;
+
+export interface EventSessionNextRevertCommitted {
+  id: string;
+  type: EventSessionNextRevertCommittedType;
+  properties: EventSessionNextRevertCommittedProperties;
+}
+export const EventSessionNextRevertCommitted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionNextRevertCommittedType,
+    properties: EventSessionNextRevertCommittedProperties,
+  }),
+).annotate({
+  identifier: "EventSessionNextRevertCommitted",
+}) as any as S.Schema<EventSessionNextRevertCommitted>;
+
+export type EventMessagePartDeltaType = "message.part.delta";
+export const EventMessagePartDeltaType = S.String;
+
+export interface EventMessagePartDeltaProperties {
+  sessionID: string;
+  messageID: string;
+  partID: string;
+  field: string;
+  delta: string;
+}
+export const EventMessagePartDeltaProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    messageID: S.String,
+    partID: S.String,
+    field: S.String,
+    delta: S.String,
+  }),
+).annotate({
+  identifier: "EventMessagePartDeltaProperties",
+}) as any as S.Schema<EventMessagePartDeltaProperties>;
+
+export interface EventMessagePartDelta {
+  id: string;
+  type: EventMessagePartDeltaType;
+  properties: EventMessagePartDeltaProperties;
+}
+export const EventMessagePartDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMessagePartDeltaType,
+    properties: EventMessagePartDeltaProperties,
+  }),
+).annotate({ identifier: "EventMessagePartDelta" }) as any as S.Schema<EventMessagePartDelta>;
+
+export type EventSessionDiffType = "session.diff";
+export const EventSessionDiffType = S.String;
+
+export type EventSessionDiffPropertiesDiffList = Array<SnapshotFileDiff>;
+export const EventSessionDiffPropertiesDiffList = /*@__PURE__*/ S.Array(
+  SnapshotFileDiff,
+) as any as S.Schema<EventSessionDiffPropertiesDiffList>;
+
+export interface EventSessionDiffProperties {
+  sessionID: string;
+  diff: EventSessionDiffPropertiesDiffList;
+}
+export const EventSessionDiffProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    diff: EventSessionDiffPropertiesDiffList,
+  }),
+).annotate({
+  identifier: "EventSessionDiffProperties",
+}) as any as S.Schema<EventSessionDiffProperties>;
+
+export interface EventSessionDiff {
+  id: string;
+  type: EventSessionDiffType;
+  properties: EventSessionDiffProperties;
+}
+export const EventSessionDiff = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionDiffType,
+    properties: EventSessionDiffProperties,
+  }),
+).annotate({ identifier: "EventSessionDiff" }) as any as S.Schema<EventSessionDiff>;
+
+export type EventSessionErrorType = "session.error";
+export const EventSessionErrorType = S.String;
+
+export type EventSessionErrorPropertiesError =
+  | ProviderAuthError
+  | UnknownError
+  | MessageOutputLengthError
+  | MessageAbortedError
+  | StructuredOutputError
+  | ContextOverflowError
+  | ContentFilterError
+  | APIError;
+export const EventSessionErrorPropertiesError =
+  S.Unknown as any as S.Schema<EventSessionErrorPropertiesError>;
+
+export interface EventSessionErrorProperties {
+  sessionID?: string;
+  error?: EventSessionErrorPropertiesError;
+}
+export const EventSessionErrorProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.optional(S.String),
+    error: S.optional(EventSessionErrorPropertiesError),
+  }),
+).annotate({
+  identifier: "EventSessionErrorProperties",
+}) as any as S.Schema<EventSessionErrorProperties>;
+
+export interface EventSessionError {
+  id: string;
+  type: EventSessionErrorType;
+  properties: EventSessionErrorProperties;
+}
+export const EventSessionError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionErrorType,
+    properties: EventSessionErrorProperties,
+  }),
+).annotate({ identifier: "EventSessionError" }) as any as S.Schema<EventSessionError>;
+
+export type EventInstallationUpdatedType = "installation.updated";
+export const EventInstallationUpdatedType = S.String;
+
+export interface EventInstallationUpdatedProperties {
+  version: string;
+}
+export const EventInstallationUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.String,
+  }),
+).annotate({
+  identifier: "EventInstallationUpdatedProperties",
+}) as any as S.Schema<EventInstallationUpdatedProperties>;
+
+export interface EventInstallationUpdated {
+  id: string;
+  type: EventInstallationUpdatedType;
+  properties: EventInstallationUpdatedProperties;
+}
+export const EventInstallationUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventInstallationUpdatedType,
+    properties: EventInstallationUpdatedProperties,
+  }),
+).annotate({ identifier: "EventInstallationUpdated" }) as any as S.Schema<EventInstallationUpdated>;
+
+export type EventInstallationUpdateAvailableType = "installation.update-available";
+export const EventInstallationUpdateAvailableType = S.String;
+
+export type EventInstallationUpdateAvailableProperties = EventInstallationUpdatedProperties;
+export const EventInstallationUpdateAvailableProperties = EventInstallationUpdatedProperties;
+
+export interface EventInstallationUpdateAvailable {
+  id: string;
+  type: EventInstallationUpdateAvailableType;
+  properties: EventInstallationUpdatedProperties;
+}
+export const EventInstallationUpdateAvailable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventInstallationUpdateAvailableType,
+    properties: EventInstallationUpdatedProperties,
+  }),
+).annotate({
+  identifier: "EventInstallationUpdateAvailable",
+}) as any as S.Schema<EventInstallationUpdateAvailable>;
+
+export type EventFileEditedType = "file.edited";
+export const EventFileEditedType = S.String;
+
+export interface EventFileEditedProperties {
+  file: string;
+}
+export const EventFileEditedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    file: S.String,
+  }),
+).annotate({
+  identifier: "EventFileEditedProperties",
+}) as any as S.Schema<EventFileEditedProperties>;
+
+export interface EventFileEdited {
+  id: string;
+  type: EventFileEditedType;
+  properties: EventFileEditedProperties;
+}
+export const EventFileEdited = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventFileEditedType,
+    properties: EventFileEditedProperties,
+  }),
+).annotate({ identifier: "EventFileEdited" }) as any as S.Schema<EventFileEdited>;
+
+export type EventReferenceUpdatedType = "reference.updated";
+export const EventReferenceUpdatedType = S.String;
+
+export interface EventReferenceUpdated {
+  id: string;
+  type: EventReferenceUpdatedType;
+  properties: unknown;
+}
+export const EventReferenceUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventReferenceUpdatedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventReferenceUpdated" }) as any as S.Schema<EventReferenceUpdated>;
+
+export type EventPermissionV2AskedType = "permission.v2.asked";
+export const EventPermissionV2AskedType = S.String;
+
+export type EventPermissionV2AskedPropertiesResourcesList = Array<string>;
+export const EventPermissionV2AskedPropertiesResourcesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventPermissionV2AskedPropertiesResourcesList>;
+
+export type EventPermissionV2AskedPropertiesSaveList = Array<string>;
+export const EventPermissionV2AskedPropertiesSaveList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventPermissionV2AskedPropertiesSaveList>;
+
+export interface EventPermissionV2AskedProperties {
+  id: string;
+  sessionID: string;
+  action: string;
+  resources: EventPermissionV2AskedPropertiesResourcesList;
+  save?: EventPermissionV2AskedPropertiesSaveList;
+  metadata?: unknown;
+  source?: PermissionV2Source;
+}
+export const EventPermissionV2AskedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    action: S.String,
+    resources: EventPermissionV2AskedPropertiesResourcesList,
+    save: S.optional(EventPermissionV2AskedPropertiesSaveList),
+    metadata: S.optional(S.Unknown),
+    source: S.optional(PermissionV2Source),
+  }),
+).annotate({
+  identifier: "EventPermissionV2AskedProperties",
+}) as any as S.Schema<EventPermissionV2AskedProperties>;
+
+export interface EventPermissionV2Asked {
+  id: string;
+  type: EventPermissionV2AskedType;
+  properties: EventPermissionV2AskedProperties;
+}
+export const EventPermissionV2Asked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPermissionV2AskedType,
+    properties: EventPermissionV2AskedProperties,
+  }),
+).annotate({ identifier: "EventPermissionV2Asked" }) as any as S.Schema<EventPermissionV2Asked>;
+
+export type EventPermissionV2RepliedType = "permission.v2.replied";
+export const EventPermissionV2RepliedType = S.String;
+
+export interface EventPermissionV2RepliedProperties {
+  sessionID: string;
+  requestID: string;
+  reply: PermissionV2Reply;
+}
+export const EventPermissionV2RepliedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    reply: PermissionV2Reply,
+  }),
+).annotate({
+  identifier: "EventPermissionV2RepliedProperties",
+}) as any as S.Schema<EventPermissionV2RepliedProperties>;
+
+export interface EventPermissionV2Replied {
+  id: string;
+  type: EventPermissionV2RepliedType;
+  properties: EventPermissionV2RepliedProperties;
+}
+export const EventPermissionV2Replied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPermissionV2RepliedType,
+    properties: EventPermissionV2RepliedProperties,
+  }),
+).annotate({ identifier: "EventPermissionV2Replied" }) as any as S.Schema<EventPermissionV2Replied>;
+
+export type EventPluginAddedType = "plugin.added";
+export const EventPluginAddedType = S.String;
+
+export interface EventPluginAddedProperties {
+  id: string;
+}
+export const EventPluginAddedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }),
+).annotate({
+  identifier: "EventPluginAddedProperties",
+}) as any as S.Schema<EventPluginAddedProperties>;
+
+export interface EventPluginAdded {
+  id: string;
+  type: EventPluginAddedType;
+  properties: EventPluginAddedProperties;
+}
+export const EventPluginAdded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPluginAddedType,
+    properties: EventPluginAddedProperties,
+  }),
+).annotate({ identifier: "EventPluginAdded" }) as any as S.Schema<EventPluginAdded>;
+
+export type EventProjectDirectoriesUpdatedType = "project.directories.updated";
+export const EventProjectDirectoriesUpdatedType = S.String;
+
+export interface EventProjectDirectoriesUpdatedProperties {
+  projectID: string;
+}
+export const EventProjectDirectoriesUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectID: S.String,
+  }),
+).annotate({
+  identifier: "EventProjectDirectoriesUpdatedProperties",
+}) as any as S.Schema<EventProjectDirectoriesUpdatedProperties>;
+
+export interface EventProjectDirectoriesUpdated {
+  id: string;
+  type: EventProjectDirectoriesUpdatedType;
+  properties: EventProjectDirectoriesUpdatedProperties;
+}
+export const EventProjectDirectoriesUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventProjectDirectoriesUpdatedType,
+    properties: EventProjectDirectoriesUpdatedProperties,
+  }),
+).annotate({
+  identifier: "EventProjectDirectoriesUpdated",
+}) as any as S.Schema<EventProjectDirectoriesUpdated>;
+
+export type EventFileWatcherUpdatedType = "file.watcher.updated";
+export const EventFileWatcherUpdatedType = S.String;
+
+export type EventFileWatcherUpdatedPropertiesEvent = "add" | "change" | "unlink";
+export const EventFileWatcherUpdatedPropertiesEvent = S.String;
+
+export interface EventFileWatcherUpdatedProperties {
+  file: string;
+  event: EventFileWatcherUpdatedPropertiesEvent;
+}
+export const EventFileWatcherUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    file: S.String,
+    event: EventFileWatcherUpdatedPropertiesEvent,
+  }),
+).annotate({
+  identifier: "EventFileWatcherUpdatedProperties",
+}) as any as S.Schema<EventFileWatcherUpdatedProperties>;
+
+export interface EventFileWatcherUpdated {
+  id: string;
+  type: EventFileWatcherUpdatedType;
+  properties: EventFileWatcherUpdatedProperties;
+}
+export const EventFileWatcherUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventFileWatcherUpdatedType,
+    properties: EventFileWatcherUpdatedProperties,
+  }),
+).annotate({ identifier: "EventFileWatcherUpdated" }) as any as S.Schema<EventFileWatcherUpdated>;
+
+export type EventPtyCreatedType = "pty.created";
+export const EventPtyCreatedType = S.String;
+
+export interface EventPtyCreatedProperties {
+  info: Pty;
+}
+export const EventPtyCreatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    info: Pty,
+  }),
+).annotate({
+  identifier: "EventPtyCreatedProperties",
+}) as any as S.Schema<EventPtyCreatedProperties>;
+
+export interface EventPtyCreated {
+  id: string;
+  type: EventPtyCreatedType;
+  properties: EventPtyCreatedProperties;
+}
+export const EventPtyCreated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPtyCreatedType,
+    properties: EventPtyCreatedProperties,
+  }),
+).annotate({ identifier: "EventPtyCreated" }) as any as S.Schema<EventPtyCreated>;
+
+export type EventPtyUpdatedType = "pty.updated";
+export const EventPtyUpdatedType = S.String;
+
+export type EventPtyUpdatedProperties = EventPtyCreatedProperties;
+export const EventPtyUpdatedProperties = EventPtyCreatedProperties;
+
+export interface EventPtyUpdated {
+  id: string;
+  type: EventPtyUpdatedType;
+  properties: EventPtyCreatedProperties;
+}
+export const EventPtyUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPtyUpdatedType,
+    properties: EventPtyCreatedProperties,
+  }),
+).annotate({ identifier: "EventPtyUpdated" }) as any as S.Schema<EventPtyUpdated>;
+
+export type EventPtyExitedType = "pty.exited";
+export const EventPtyExitedType = S.String;
+
+export interface EventPtyExitedProperties {
+  id: string;
+  exitCode: number;
+}
+export const EventPtyExitedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    exitCode: S.Number,
+  }),
+).annotate({ identifier: "EventPtyExitedProperties" }) as any as S.Schema<EventPtyExitedProperties>;
+
+export interface EventPtyExited {
+  id: string;
+  type: EventPtyExitedType;
+  properties: EventPtyExitedProperties;
+}
+export const EventPtyExited = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPtyExitedType,
+    properties: EventPtyExitedProperties,
+  }),
+).annotate({ identifier: "EventPtyExited" }) as any as S.Schema<EventPtyExited>;
+
+export type EventPtyDeletedType = "pty.deleted";
+export const EventPtyDeletedType = S.String;
+
+export type EventPtyDeletedProperties = EventPluginAddedProperties;
+export const EventPtyDeletedProperties = EventPluginAddedProperties;
+
+export interface EventPtyDeleted {
+  id: string;
+  type: EventPtyDeletedType;
+  properties: EventPluginAddedProperties;
+}
+export const EventPtyDeleted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPtyDeletedType,
+    properties: EventPluginAddedProperties,
+  }),
+).annotate({ identifier: "EventPtyDeleted" }) as any as S.Schema<EventPtyDeleted>;
+
+export type EventQuestionV2AskedType = "question.v2.asked";
+export const EventQuestionV2AskedType = S.String;
+
+/** Questions to ask */
+export type EventQuestionV2AskedPropertiesQuestionsList = Array<QuestionV2Info>;
+export const EventQuestionV2AskedPropertiesQuestionsList = /*@__PURE__*/ S.Array(
+  QuestionV2Info,
+) as any as S.Schema<EventQuestionV2AskedPropertiesQuestionsList>;
+
+export interface EventQuestionV2AskedProperties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: EventQuestionV2AskedPropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export const EventQuestionV2AskedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    questions: EventQuestionV2AskedPropertiesQuestionsList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({
+  identifier: "EventQuestionV2AskedProperties",
+}) as any as S.Schema<EventQuestionV2AskedProperties>;
+
+export interface EventQuestionV2Asked {
+  id: string;
+  type: EventQuestionV2AskedType;
+  properties: EventQuestionV2AskedProperties;
+}
+export const EventQuestionV2Asked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventQuestionV2AskedType,
+    properties: EventQuestionV2AskedProperties,
+  }),
+).annotate({ identifier: "EventQuestionV2Asked" }) as any as S.Schema<EventQuestionV2Asked>;
+
+export type EventQuestionV2RepliedType = "question.v2.replied";
+export const EventQuestionV2RepliedType = S.String;
+
+export type EventQuestionV2RepliedPropertiesAnswersList = Array<QuestionV2Answer>;
+export const EventQuestionV2RepliedPropertiesAnswersList = /*@__PURE__*/ S.Array(
+  QuestionV2Answer,
+) as any as S.Schema<EventQuestionV2RepliedPropertiesAnswersList>;
+
+export interface EventQuestionV2RepliedProperties {
+  sessionID: string;
+  requestID: string;
+  answers: EventQuestionV2RepliedPropertiesAnswersList;
+}
+export const EventQuestionV2RepliedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    answers: EventQuestionV2RepliedPropertiesAnswersList,
+  }),
+).annotate({
+  identifier: "EventQuestionV2RepliedProperties",
+}) as any as S.Schema<EventQuestionV2RepliedProperties>;
+
+export interface EventQuestionV2Replied {
+  id: string;
+  type: EventQuestionV2RepliedType;
+  properties: EventQuestionV2RepliedProperties;
+}
+export const EventQuestionV2Replied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventQuestionV2RepliedType,
+    properties: EventQuestionV2RepliedProperties,
+  }),
+).annotate({ identifier: "EventQuestionV2Replied" }) as any as S.Schema<EventQuestionV2Replied>;
+
+export type EventQuestionV2RejectedType = "question.v2.rejected";
+export const EventQuestionV2RejectedType = S.String;
+
+export interface EventQuestionV2RejectedProperties {
+  sessionID: string;
+  requestID: string;
+}
+export const EventQuestionV2RejectedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+  }),
+).annotate({
+  identifier: "EventQuestionV2RejectedProperties",
+}) as any as S.Schema<EventQuestionV2RejectedProperties>;
+
+export interface EventQuestionV2Rejected {
+  id: string;
+  type: EventQuestionV2RejectedType;
+  properties: EventQuestionV2RejectedProperties;
+}
+export const EventQuestionV2Rejected = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventQuestionV2RejectedType,
+    properties: EventQuestionV2RejectedProperties,
+  }),
+).annotate({ identifier: "EventQuestionV2Rejected" }) as any as S.Schema<EventQuestionV2Rejected>;
+
+export type EventTodoUpdatedType = "todo.updated";
+export const EventTodoUpdatedType = S.String;
+
+export type EventTodoUpdatedPropertiesTodosList = Array<Todo>;
+export const EventTodoUpdatedPropertiesTodosList = /*@__PURE__*/ S.Array(
+  Todo,
+) as any as S.Schema<EventTodoUpdatedPropertiesTodosList>;
+
+export interface EventTodoUpdatedProperties {
+  sessionID: string;
+  todos: EventTodoUpdatedPropertiesTodosList;
+}
+export const EventTodoUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    todos: EventTodoUpdatedPropertiesTodosList,
+  }),
+).annotate({
+  identifier: "EventTodoUpdatedProperties",
+}) as any as S.Schema<EventTodoUpdatedProperties>;
+
+export interface EventTodoUpdated {
+  id: string;
+  type: EventTodoUpdatedType;
+  properties: EventTodoUpdatedProperties;
+}
+export const EventTodoUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventTodoUpdatedType,
+    properties: EventTodoUpdatedProperties,
+  }),
+).annotate({ identifier: "EventTodoUpdated" }) as any as S.Schema<EventTodoUpdated>;
+
+export type EventLspUpdatedType = "lsp.updated";
+export const EventLspUpdatedType = S.String;
+
+export interface EventLspUpdated {
+  id: string;
+  type: EventLspUpdatedType;
+  properties: unknown;
+}
+export const EventLspUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventLspUpdatedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventLspUpdated" }) as any as S.Schema<EventLspUpdated>;
+
+export type EventPermissionAskedType = "permission.asked";
+export const EventPermissionAskedType = S.String;
+
+export type EventPermissionAskedPropertiesPatternsList = Array<string>;
+export const EventPermissionAskedPropertiesPatternsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventPermissionAskedPropertiesPatternsList>;
+
+export type EventPermissionAskedPropertiesAlwaysList = Array<string>;
+export const EventPermissionAskedPropertiesAlwaysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventPermissionAskedPropertiesAlwaysList>;
+
+export type EventPermissionAskedPropertiesTool = PermissionRequestTool;
+export const EventPermissionAskedPropertiesTool = PermissionRequestTool;
+
+export interface EventPermissionAskedProperties {
+  id: string;
+  sessionID: string;
+  permission: string;
+  patterns: EventPermissionAskedPropertiesPatternsList;
+  metadata: unknown;
+  always: EventPermissionAskedPropertiesAlwaysList;
+  tool?: PermissionRequestTool;
+}
+export const EventPermissionAskedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    permission: S.String,
+    patterns: EventPermissionAskedPropertiesPatternsList,
+    metadata: S.Unknown,
+    always: EventPermissionAskedPropertiesAlwaysList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({
+  identifier: "EventPermissionAskedProperties",
+}) as any as S.Schema<EventPermissionAskedProperties>;
+
+export interface EventPermissionAsked {
+  id: string;
+  type: EventPermissionAskedType;
+  properties: EventPermissionAskedProperties;
+}
+export const EventPermissionAsked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPermissionAskedType,
+    properties: EventPermissionAskedProperties,
+  }),
+).annotate({ identifier: "EventPermissionAsked" }) as any as S.Schema<EventPermissionAsked>;
+
+export type EventPermissionRepliedType = "permission.replied";
+export const EventPermissionRepliedType = S.String;
+
+export type EventPermissionRepliedPropertiesReply = "once" | "always" | "reject";
+export const EventPermissionRepliedPropertiesReply = S.String;
+
+export interface EventPermissionRepliedProperties {
+  sessionID: string;
+  requestID: string;
+  reply: EventPermissionRepliedPropertiesReply;
+}
+export const EventPermissionRepliedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    reply: EventPermissionRepliedPropertiesReply,
+  }),
+).annotate({
+  identifier: "EventPermissionRepliedProperties",
+}) as any as S.Schema<EventPermissionRepliedProperties>;
+
+export interface EventPermissionReplied {
+  id: string;
+  type: EventPermissionRepliedType;
+  properties: EventPermissionRepliedProperties;
+}
+export const EventPermissionReplied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventPermissionRepliedType,
+    properties: EventPermissionRepliedProperties,
+  }),
+).annotate({ identifier: "EventPermissionReplied" }) as any as S.Schema<EventPermissionReplied>;
+
+export type EventTuiPromptAppendType = "tui.prompt.append";
+export const EventTuiPromptAppendType = S.String;
+
+export type EventTuiPromptAppendProperties = FindTextResponseBodyItemPath;
+export const EventTuiPromptAppendProperties = FindTextResponseBodyItemPath;
+
+export interface EventTuiPromptAppend {
+  id: string;
+  type: EventTuiPromptAppendType;
+  properties: FindTextResponseBodyItemPath;
+}
+export const EventTuiPromptAppend = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventTuiPromptAppendType,
+    properties: FindTextResponseBodyItemPath,
+  }),
+).annotate({ identifier: "EventTuiPromptAppend" }) as any as S.Schema<EventTuiPromptAppend>;
+
+export type EventTuiCommandExecuteType = "tui.command.execute";
+export const EventTuiCommandExecuteType = S.String;
+
+export type EventTuiCommandExecutePropertiesCommandCase0 =
+  | "session.list"
+  | "session.new"
+  | "session.share"
+  | "session.interrupt"
+  | "session.compact"
+  | "session.page.up"
+  | "session.page.down"
+  | "session.line.up"
+  | "session.line.down"
+  | "session.half.page.up"
+  | "session.half.page.down"
+  | "session.first"
+  | "session.last"
+  | "prompt.clear"
+  | "prompt.submit"
+  | "agent.cycle";
+export const EventTuiCommandExecutePropertiesCommandCase0 = S.String;
+
+export type EventTuiCommandExecutePropertiesCommand =
+  | EventTuiCommandExecutePropertiesCommandCase0
+  | string;
+export const EventTuiCommandExecutePropertiesCommand =
+  S.Unknown as any as S.Schema<EventTuiCommandExecutePropertiesCommand>;
+
+export interface EventTuiCommandExecuteProperties {
+  command: EventTuiCommandExecutePropertiesCommand;
+}
+export const EventTuiCommandExecuteProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    command: EventTuiCommandExecutePropertiesCommand,
+  }),
+).annotate({
+  identifier: "EventTuiCommandExecuteProperties",
+}) as any as S.Schema<EventTuiCommandExecuteProperties>;
+
+export interface EventTuiCommandExecute {
+  id: string;
+  type: EventTuiCommandExecuteType;
+  properties: EventTuiCommandExecuteProperties;
+}
+export const EventTuiCommandExecute = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventTuiCommandExecuteType,
+    properties: EventTuiCommandExecuteProperties,
+  }),
+).annotate({ identifier: "EventTuiCommandExecute" }) as any as S.Schema<EventTuiCommandExecute>;
+
+export type EventTuiToastShowType = "tui.toast.show";
+export const EventTuiToastShowType = S.String;
+
+export type EventTuiToastShowPropertiesVariant = "info" | "success" | "warning" | "error";
+export const EventTuiToastShowPropertiesVariant = S.String;
+
+export interface EventTuiToastShowProperties {
+  title?: string;
+  message: string;
+  variant: EventTuiToastShowPropertiesVariant;
+  duration?: number;
+}
+export const EventTuiToastShowProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    message: S.String,
+    variant: EventTuiToastShowPropertiesVariant,
+    duration: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "EventTuiToastShowProperties",
+}) as any as S.Schema<EventTuiToastShowProperties>;
+
+export interface EventTuiToastShow {
+  id: string;
+  type: EventTuiToastShowType;
+  properties: EventTuiToastShowProperties;
+}
+export const EventTuiToastShow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventTuiToastShowType,
+    properties: EventTuiToastShowProperties,
+  }),
+).annotate({ identifier: "EventTuiToastShow" }) as any as S.Schema<EventTuiToastShow>;
+
+export type EventTuiSessionSelectType = "tui.session.select";
+export const EventTuiSessionSelectType = S.String;
+
+export type EventTuiSessionSelectProperties = EventTuiSessionSelectProperties2;
+export const EventTuiSessionSelectProperties = EventTuiSessionSelectProperties2;
+
+export interface EventTuiSessionSelect {
+  id: string;
+  type: EventTuiSessionSelectType;
+  properties: EventTuiSessionSelectProperties2;
+}
+export const EventTuiSessionSelect = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventTuiSessionSelectType,
+    properties: EventTuiSessionSelectProperties2,
+  }),
+).annotate({ identifier: "EventTuiSessionSelect" }) as any as S.Schema<EventTuiSessionSelect>;
+
+export type EventMcpToolsChangedType = "mcp.tools.changed";
+export const EventMcpToolsChangedType = S.String;
+
+export interface EventMcpToolsChangedProperties {
+  server: string;
+}
+export const EventMcpToolsChangedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server: S.String,
+  }),
+).annotate({
+  identifier: "EventMcpToolsChangedProperties",
+}) as any as S.Schema<EventMcpToolsChangedProperties>;
+
+export interface EventMcpToolsChanged {
+  id: string;
+  type: EventMcpToolsChangedType;
+  properties: EventMcpToolsChangedProperties;
+}
+export const EventMcpToolsChanged = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMcpToolsChangedType,
+    properties: EventMcpToolsChangedProperties,
+  }),
+).annotate({ identifier: "EventMcpToolsChanged" }) as any as S.Schema<EventMcpToolsChanged>;
+
+export type EventMcpBrowserOpenFailedType = "mcp.browser.open.failed";
+export const EventMcpBrowserOpenFailedType = S.String;
+
+export interface EventMcpBrowserOpenFailedProperties {
+  mcpName: string;
+  url: string;
+}
+export const EventMcpBrowserOpenFailedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mcpName: S.String,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "EventMcpBrowserOpenFailedProperties",
+}) as any as S.Schema<EventMcpBrowserOpenFailedProperties>;
+
+export interface EventMcpBrowserOpenFailed {
+  id: string;
+  type: EventMcpBrowserOpenFailedType;
+  properties: EventMcpBrowserOpenFailedProperties;
+}
+export const EventMcpBrowserOpenFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventMcpBrowserOpenFailedType,
+    properties: EventMcpBrowserOpenFailedProperties,
+  }),
+).annotate({
+  identifier: "EventMcpBrowserOpenFailed",
+}) as any as S.Schema<EventMcpBrowserOpenFailed>;
+
+export type EventCommandExecutedType = "command.executed";
+export const EventCommandExecutedType = S.String;
+
+export interface EventCommandExecutedProperties {
+  name: string;
+  sessionID: string;
+  arguments: string;
+  messageID: string;
+}
+export const EventCommandExecutedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    sessionID: S.String,
+    arguments: S.String,
+    messageID: S.String,
+  }),
+).annotate({
+  identifier: "EventCommandExecutedProperties",
+}) as any as S.Schema<EventCommandExecutedProperties>;
+
+export interface EventCommandExecuted {
+  id: string;
+  type: EventCommandExecutedType;
+  properties: EventCommandExecutedProperties;
+}
+export const EventCommandExecuted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventCommandExecutedType,
+    properties: EventCommandExecutedProperties,
+  }),
+).annotate({ identifier: "EventCommandExecuted" }) as any as S.Schema<EventCommandExecuted>;
+
+export type EventProjectUpdatedType = "project.updated";
+export const EventProjectUpdatedType = S.String;
+
+export type EventProjectUpdatedPropertiesSandboxesList = Array<string>;
+export const EventProjectUpdatedPropertiesSandboxesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EventProjectUpdatedPropertiesSandboxesList>;
+
+export interface EventProjectUpdatedProperties {
+  id: string;
+  worktree: string;
+  vcs?: ProjectVcs;
+  name?: string;
+  icon?: ProjectIcon;
+  commands?: ProjectCommands;
+  time: ProjectTime;
+  sandboxes: EventProjectUpdatedPropertiesSandboxesList;
+}
+export const EventProjectUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    worktree: S.String,
+    vcs: S.optional(ProjectVcs),
+    name: S.optional(S.String),
+    icon: S.optional(ProjectIcon),
+    commands: S.optional(ProjectCommands),
+    time: ProjectTime,
+    sandboxes: EventProjectUpdatedPropertiesSandboxesList,
+  }),
+).annotate({
+  identifier: "EventProjectUpdatedProperties",
+}) as any as S.Schema<EventProjectUpdatedProperties>;
+
+export interface EventProjectUpdated {
+  id: string;
+  type: EventProjectUpdatedType;
+  properties: EventProjectUpdatedProperties;
+}
+export const EventProjectUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventProjectUpdatedType,
+    properties: EventProjectUpdatedProperties,
+  }),
+).annotate({ identifier: "EventProjectUpdated" }) as any as S.Schema<EventProjectUpdated>;
+
+export type EventSessionStatusType = "session.status";
+export const EventSessionStatusType = S.String;
+
+export interface EventSessionStatusProperties {
+  sessionID: string;
+  status: SessionStatus;
+}
+export const EventSessionStatusProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    status: SessionStatus,
+  }),
+).annotate({
+  identifier: "EventSessionStatusProperties",
+}) as any as S.Schema<EventSessionStatusProperties>;
+
+export interface EventSessionStatus {
+  id: string;
+  type: EventSessionStatusType;
+  properties: EventSessionStatusProperties;
+}
+export const EventSessionStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionStatusType,
+    properties: EventSessionStatusProperties,
+  }),
+).annotate({ identifier: "EventSessionStatus" }) as any as S.Schema<EventSessionStatus>;
+
+export type EventSessionIdleType = "session.idle";
+export const EventSessionIdleType = S.String;
+
+export interface EventSessionIdleProperties {
+  sessionID: string;
+}
+export const EventSessionIdleProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+  }),
+).annotate({
+  identifier: "EventSessionIdleProperties",
+}) as any as S.Schema<EventSessionIdleProperties>;
+
+export interface EventSessionIdle {
+  id: string;
+  type: EventSessionIdleType;
+  properties: EventSessionIdleProperties;
+}
+export const EventSessionIdle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionIdleType,
+    properties: EventSessionIdleProperties,
+  }),
+).annotate({ identifier: "EventSessionIdle" }) as any as S.Schema<EventSessionIdle>;
+
+export type EventQuestionAskedType = "question.asked";
+export const EventQuestionAskedType = S.String;
+
+/** Questions to ask */
+export type EventQuestionAskedPropertiesQuestionsList = Array<QuestionInfo>;
+export const EventQuestionAskedPropertiesQuestionsList = /*@__PURE__*/ S.Array(
+  QuestionInfo,
+) as any as S.Schema<EventQuestionAskedPropertiesQuestionsList>;
+
+export interface EventQuestionAskedProperties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: EventQuestionAskedPropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export const EventQuestionAskedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    questions: EventQuestionAskedPropertiesQuestionsList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({
+  identifier: "EventQuestionAskedProperties",
+}) as any as S.Schema<EventQuestionAskedProperties>;
+
+export interface EventQuestionAsked {
+  id: string;
+  type: EventQuestionAskedType;
+  properties: EventQuestionAskedProperties;
+}
+export const EventQuestionAsked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventQuestionAskedType,
+    properties: EventQuestionAskedProperties,
+  }),
+).annotate({ identifier: "EventQuestionAsked" }) as any as S.Schema<EventQuestionAsked>;
+
+export type EventQuestionRepliedType = "question.replied";
+export const EventQuestionRepliedType = S.String;
+
+export type EventQuestionRepliedPropertiesAnswersList = Array<QuestionAnswer>;
+export const EventQuestionRepliedPropertiesAnswersList = /*@__PURE__*/ S.Array(
+  QuestionAnswer,
+) as any as S.Schema<EventQuestionRepliedPropertiesAnswersList>;
+
+export interface EventQuestionRepliedProperties {
+  sessionID: string;
+  requestID: string;
+  answers: EventQuestionRepliedPropertiesAnswersList;
+}
+export const EventQuestionRepliedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    answers: EventQuestionRepliedPropertiesAnswersList,
+  }),
+).annotate({
+  identifier: "EventQuestionRepliedProperties",
+}) as any as S.Schema<EventQuestionRepliedProperties>;
+
+export interface EventQuestionReplied {
+  id: string;
+  type: EventQuestionRepliedType;
+  properties: EventQuestionRepliedProperties;
+}
+export const EventQuestionReplied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventQuestionRepliedType,
+    properties: EventQuestionRepliedProperties,
+  }),
+).annotate({ identifier: "EventQuestionReplied" }) as any as S.Schema<EventQuestionReplied>;
+
+export type EventQuestionRejectedType = "question.rejected";
+export const EventQuestionRejectedType = S.String;
+
+export type EventQuestionRejectedProperties = EventQuestionV2RejectedProperties;
+export const EventQuestionRejectedProperties = EventQuestionV2RejectedProperties;
+
+export interface EventQuestionRejected {
+  id: string;
+  type: EventQuestionRejectedType;
+  properties: EventQuestionV2RejectedProperties;
+}
+export const EventQuestionRejected = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventQuestionRejectedType,
+    properties: EventQuestionV2RejectedProperties,
+  }),
+).annotate({ identifier: "EventQuestionRejected" }) as any as S.Schema<EventQuestionRejected>;
+
+export type EventSessionCompactedType = "session.compacted";
+export const EventSessionCompactedType = S.String;
+
+export type EventSessionCompactedProperties = EventSessionIdleProperties;
+export const EventSessionCompactedProperties = EventSessionIdleProperties;
+
+export interface EventSessionCompacted {
+  id: string;
+  type: EventSessionCompactedType;
+  properties: EventSessionIdleProperties;
+}
+export const EventSessionCompacted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventSessionCompactedType,
+    properties: EventSessionIdleProperties,
+  }),
+).annotate({ identifier: "EventSessionCompacted" }) as any as S.Schema<EventSessionCompacted>;
+
+export type EventVcsBranchUpdatedType = "vcs.branch.updated";
+export const EventVcsBranchUpdatedType = S.String;
+
+export interface EventVcsBranchUpdatedProperties {
+  branch?: string;
+}
+export const EventVcsBranchUpdatedProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    branch: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EventVcsBranchUpdatedProperties",
+}) as any as S.Schema<EventVcsBranchUpdatedProperties>;
+
+export interface EventVcsBranchUpdated {
+  id: string;
+  type: EventVcsBranchUpdatedType;
+  properties: EventVcsBranchUpdatedProperties;
+}
+export const EventVcsBranchUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventVcsBranchUpdatedType,
+    properties: EventVcsBranchUpdatedProperties,
+  }),
+).annotate({ identifier: "EventVcsBranchUpdated" }) as any as S.Schema<EventVcsBranchUpdated>;
+
+export type EventWorkspaceReadyType = "workspace.ready";
+export const EventWorkspaceReadyType = S.String;
+
+export interface EventWorkspaceReadyProperties {
+  name: string;
+}
+export const EventWorkspaceReadyProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({
+  identifier: "EventWorkspaceReadyProperties",
+}) as any as S.Schema<EventWorkspaceReadyProperties>;
+
+export interface EventWorkspaceReady {
+  id: string;
+  type: EventWorkspaceReadyType;
+  properties: EventWorkspaceReadyProperties;
+}
+export const EventWorkspaceReady = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventWorkspaceReadyType,
+    properties: EventWorkspaceReadyProperties,
+  }),
+).annotate({ identifier: "EventWorkspaceReady" }) as any as S.Schema<EventWorkspaceReady>;
+
+export type EventWorkspaceFailedType = "workspace.failed";
+export const EventWorkspaceFailedType = S.String;
+
+export type EventWorkspaceFailedProperties = MessageAbortedErrorData;
+export const EventWorkspaceFailedProperties = MessageAbortedErrorData;
+
+export interface EventWorkspaceFailed {
+  id: string;
+  type: EventWorkspaceFailedType;
+  properties: MessageAbortedErrorData;
+}
+export const EventWorkspaceFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventWorkspaceFailedType,
+    properties: MessageAbortedErrorData,
+  }),
+).annotate({ identifier: "EventWorkspaceFailed" }) as any as S.Schema<EventWorkspaceFailed>;
+
+export type EventWorkspaceStatusType = "workspace.status";
+export const EventWorkspaceStatusType = S.String;
+
+export type EventWorkspaceStatusPropertiesStatus =
+  | "connected"
+  | "connecting"
+  | "disconnected"
+  | "error";
+export const EventWorkspaceStatusPropertiesStatus = S.String;
+
+export interface EventWorkspaceStatusProperties {
+  workspaceID: string;
+  status: EventWorkspaceStatusPropertiesStatus;
+}
+export const EventWorkspaceStatusProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceID: S.String,
+    status: EventWorkspaceStatusPropertiesStatus,
+  }),
+).annotate({
+  identifier: "EventWorkspaceStatusProperties",
+}) as any as S.Schema<EventWorkspaceStatusProperties>;
+
+export interface EventWorkspaceStatus {
+  id: string;
+  type: EventWorkspaceStatusType;
+  properties: EventWorkspaceStatusProperties;
+}
+export const EventWorkspaceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventWorkspaceStatusType,
+    properties: EventWorkspaceStatusProperties,
+  }),
+).annotate({ identifier: "EventWorkspaceStatus" }) as any as S.Schema<EventWorkspaceStatus>;
+
+export type EventWorktreeReadyType = "worktree.ready";
+export const EventWorktreeReadyType = S.String;
+
+export interface EventWorktreeReadyProperties {
+  name: string;
+  branch?: string;
+}
+export const EventWorktreeReadyProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    branch: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EventWorktreeReadyProperties",
+}) as any as S.Schema<EventWorktreeReadyProperties>;
+
+export interface EventWorktreeReady {
+  id: string;
+  type: EventWorktreeReadyType;
+  properties: EventWorktreeReadyProperties;
+}
+export const EventWorktreeReady = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventWorktreeReadyType,
+    properties: EventWorktreeReadyProperties,
+  }),
+).annotate({ identifier: "EventWorktreeReady" }) as any as S.Schema<EventWorktreeReady>;
+
+export type EventWorktreeFailedType = "worktree.failed";
+export const EventWorktreeFailedType = S.String;
+
+export type EventWorktreeFailedProperties = MessageAbortedErrorData;
+export const EventWorktreeFailedProperties = MessageAbortedErrorData;
+
+export interface EventWorktreeFailed {
+  id: string;
+  type: EventWorktreeFailedType;
+  properties: MessageAbortedErrorData;
+}
+export const EventWorktreeFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventWorktreeFailedType,
+    properties: MessageAbortedErrorData,
+  }),
+).annotate({ identifier: "EventWorktreeFailed" }) as any as S.Schema<EventWorktreeFailed>;
+
+export type EventServerConnectedType = "server.connected";
+export const EventServerConnectedType = S.String;
+
+export interface EventServerConnected {
+  id: string;
+  type: EventServerConnectedType;
+  properties: unknown;
+}
+export const EventServerConnected = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventServerConnectedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventServerConnected" }) as any as S.Schema<EventServerConnected>;
+
+export type EventGlobalDisposedType = "global.disposed";
+export const EventGlobalDisposedType = S.String;
+
+export interface EventGlobalDisposed {
+  id: string;
+  type: EventGlobalDisposedType;
+  properties: unknown;
+}
+export const EventGlobalDisposed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventGlobalDisposedType,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "EventGlobalDisposed" }) as any as S.Schema<EventGlobalDisposed>;
+
+export type EventServerInstanceDisposedType = "server.instance.disposed";
+export const EventServerInstanceDisposedType = S.String;
+
+export type EventServerInstanceDisposedProperties = MoveSessionDestination;
+export const EventServerInstanceDisposedProperties = MoveSessionDestination;
+
+export interface EventServerInstanceDisposed {
+  id: string;
+  type: EventServerInstanceDisposedType;
+  properties: MoveSessionDestination;
+}
+export const EventServerInstanceDisposed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: EventServerInstanceDisposedType,
+    properties: MoveSessionDestination,
+  }),
+).annotate({
+  identifier: "EventServerInstanceDisposed",
+}) as any as S.Schema<EventServerInstanceDisposed>;
+
+export type Event =
+  | EventModelsDevRefreshed
+  | EventIntegrationUpdated
+  | EventIntegrationConnectionUpdated
+  | EventCatalogUpdated
+  | EventSessionCreated
+  | EventSessionUpdated
+  | EventSessionDeleted
+  | EventMessageUpdated
+  | EventMessageRemoved
+  | EventMessagePartUpdated
+  | EventMessagePartRemoved
+  | EventSessionNextAgentSwitched
+  | EventSessionNextModelSwitched
+  | EventSessionNextMoved
+  | EventSessionNextPrompted
+  | EventSessionNextPromptAdmitted
+  | EventSessionNextContextUpdated
+  | EventSessionNextSynthetic
+  | EventSessionNextShellStarted
+  | EventSessionNextShellEnded
+  | EventSessionNextStepStarted
+  | EventSessionNextStepEnded
+  | EventSessionNextStepFailed
+  | EventSessionNextTextStarted
+  | EventSessionNextTextDelta
+  | EventSessionNextTextEnded
+  | EventSessionNextReasoningStarted
+  | EventSessionNextReasoningDelta
+  | EventSessionNextReasoningEnded
+  | EventSessionNextToolInputStarted
+  | EventSessionNextToolInputDelta
+  | EventSessionNextToolInputEnded
+  | EventSessionNextToolCalled
+  | EventSessionNextToolProgress
+  | EventSessionNextToolSuccess
+  | EventSessionNextToolFailed
+  | EventSessionNextRetried
+  | EventSessionNextCompactionStarted
+  | EventSessionNextCompactionDelta
+  | EventSessionNextCompactionEnded
+  | EventSessionNextRevertStaged
+  | EventSessionNextRevertCleared
+  | EventSessionNextRevertCommitted
+  | EventMessagePartDelta
+  | EventSessionDiff
+  | EventSessionError
+  | EventInstallationUpdated
+  | EventInstallationUpdateAvailable
+  | EventFileEdited
+  | EventReferenceUpdated
+  | EventPermissionV2Asked
+  | EventPermissionV2Replied
+  | EventPluginAdded
+  | EventProjectDirectoriesUpdated
+  | EventFileWatcherUpdated
+  | EventPtyCreated
+  | EventPtyUpdated
+  | EventPtyExited
+  | EventPtyDeleted
+  | EventQuestionV2Asked
+  | EventQuestionV2Replied
+  | EventQuestionV2Rejected
+  | EventTodoUpdated
+  | EventLspUpdated
+  | EventPermissionAsked
+  | EventPermissionReplied
+  | EventTuiPromptAppend
+  | EventTuiCommandExecute
+  | EventTuiToastShow
+  | EventTuiSessionSelect
+  | EventMcpToolsChanged
+  | EventMcpBrowserOpenFailed
+  | EventCommandExecuted
+  | EventProjectUpdated
+  | EventSessionStatus
+  | EventSessionIdle
+  | EventQuestionAsked
+  | EventQuestionReplied
+  | EventQuestionRejected
+  | EventSessionCompacted
+  | EventVcsBranchUpdated
+  | EventWorkspaceReady
+  | EventWorkspaceFailed
+  | EventWorkspaceStatus
+  | EventWorktreeReady
+  | EventWorktreeFailed
+  | EventServerConnected
+  | EventGlobalDisposed
+  | EventServerInstanceDisposed;
+export const Event = S.Unknown as any as S.Schema<Event>;
+
+export type SubscribeEventResponse = Event;
+export const SubscribeEventResponse = /*@__PURE__*/ S.suspend(() =>
+  Event.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "SubscribeEventResponse" }) as any as S.Schema<SubscribeEventResponse>;
+
+export interface SubscribeGlobalEventRequest {}
+export const SubscribeGlobalEventRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/event", code: 200 })),
+).annotate({
+  identifier: "SubscribeGlobalEventRequest",
+}) as any as S.Schema<SubscribeGlobalEventRequest>;
+
+export type GlobalEventPayloadCase0Type = "models-dev.refreshed";
+export const GlobalEventPayloadCase0Type = S.String;
+
+export interface GlobalEventPayloadCase0 {
+  id: string;
+  type: GlobalEventPayloadCase0Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase0Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase0" }) as any as S.Schema<GlobalEventPayloadCase0>;
+
+export type GlobalEventPayloadCase1Type = "integration.updated";
+export const GlobalEventPayloadCase1Type = S.String;
+
+export interface GlobalEventPayloadCase1 {
+  id: string;
+  type: GlobalEventPayloadCase1Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase1Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase1" }) as any as S.Schema<GlobalEventPayloadCase1>;
+
+export type GlobalEventPayloadCase2Type = "integration.connection.updated";
+export const GlobalEventPayloadCase2Type = S.String;
+
+export type GlobalEventPayloadCase2Properties = EventIntegrationConnectionUpdatedProperties;
+export const GlobalEventPayloadCase2Properties = EventIntegrationConnectionUpdatedProperties;
+
+export interface GlobalEventPayloadCase2 {
+  id: string;
+  type: GlobalEventPayloadCase2Type;
+  properties: EventIntegrationConnectionUpdatedProperties;
+}
+export const GlobalEventPayloadCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase2Type,
+    properties: EventIntegrationConnectionUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase2" }) as any as S.Schema<GlobalEventPayloadCase2>;
+
+export type GlobalEventPayloadCase3Type = "catalog.updated";
+export const GlobalEventPayloadCase3Type = S.String;
+
+export interface GlobalEventPayloadCase3 {
+  id: string;
+  type: GlobalEventPayloadCase3Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase3Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase3" }) as any as S.Schema<GlobalEventPayloadCase3>;
+
+export type GlobalEventPayloadCase4Type = "session.created";
+export const GlobalEventPayloadCase4Type = S.String;
+
+export type GlobalEventPayloadCase4Properties = EventSessionCreatedProperties;
+export const GlobalEventPayloadCase4Properties = EventSessionCreatedProperties;
+
+export interface GlobalEventPayloadCase4 {
+  id: string;
+  type: GlobalEventPayloadCase4Type;
+  properties: EventSessionCreatedProperties;
+}
+export const GlobalEventPayloadCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase4Type,
+    properties: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase4" }) as any as S.Schema<GlobalEventPayloadCase4>;
+
+export type GlobalEventPayloadCase5Type = "session.updated";
+export const GlobalEventPayloadCase5Type = S.String;
+
+export type GlobalEventPayloadCase5Properties = EventSessionCreatedProperties;
+export const GlobalEventPayloadCase5Properties = EventSessionCreatedProperties;
+
+export interface GlobalEventPayloadCase5 {
+  id: string;
+  type: GlobalEventPayloadCase5Type;
+  properties: EventSessionCreatedProperties;
+}
+export const GlobalEventPayloadCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase5Type,
+    properties: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase5" }) as any as S.Schema<GlobalEventPayloadCase5>;
+
+export type GlobalEventPayloadCase6Type = "session.deleted";
+export const GlobalEventPayloadCase6Type = S.String;
+
+export type GlobalEventPayloadCase6Properties = EventSessionCreatedProperties;
+export const GlobalEventPayloadCase6Properties = EventSessionCreatedProperties;
+
+export interface GlobalEventPayloadCase6 {
+  id: string;
+  type: GlobalEventPayloadCase6Type;
+  properties: EventSessionCreatedProperties;
+}
+export const GlobalEventPayloadCase6 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase6Type,
+    properties: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase6" }) as any as S.Schema<GlobalEventPayloadCase6>;
+
+export type GlobalEventPayloadCase7Type = "message.updated";
+export const GlobalEventPayloadCase7Type = S.String;
+
+export type GlobalEventPayloadCase7Properties = EventMessageUpdatedProperties;
+export const GlobalEventPayloadCase7Properties = EventMessageUpdatedProperties;
+
+export interface GlobalEventPayloadCase7 {
+  id: string;
+  type: GlobalEventPayloadCase7Type;
+  properties: EventMessageUpdatedProperties;
+}
+export const GlobalEventPayloadCase7 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase7Type,
+    properties: EventMessageUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase7" }) as any as S.Schema<GlobalEventPayloadCase7>;
+
+export type GlobalEventPayloadCase8Type = "message.removed";
+export const GlobalEventPayloadCase8Type = S.String;
+
+export type GlobalEventPayloadCase8Properties = EventMessageRemovedProperties;
+export const GlobalEventPayloadCase8Properties = EventMessageRemovedProperties;
+
+export interface GlobalEventPayloadCase8 {
+  id: string;
+  type: GlobalEventPayloadCase8Type;
+  properties: EventMessageRemovedProperties;
+}
+export const GlobalEventPayloadCase8 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase8Type,
+    properties: EventMessageRemovedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase8" }) as any as S.Schema<GlobalEventPayloadCase8>;
+
+export type GlobalEventPayloadCase9Type = "message.part.updated";
+export const GlobalEventPayloadCase9Type = S.String;
+
+export type GlobalEventPayloadCase9Properties = EventMessagePartUpdatedProperties;
+export const GlobalEventPayloadCase9Properties = EventMessagePartUpdatedProperties;
+
+export interface GlobalEventPayloadCase9 {
+  id: string;
+  type: GlobalEventPayloadCase9Type;
+  properties: EventMessagePartUpdatedProperties;
+}
+export const GlobalEventPayloadCase9 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase9Type,
+    properties: EventMessagePartUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase9" }) as any as S.Schema<GlobalEventPayloadCase9>;
+
+export type GlobalEventPayloadCase10Type = "message.part.removed";
+export const GlobalEventPayloadCase10Type = S.String;
+
+export type GlobalEventPayloadCase10Properties = EventMessagePartRemovedProperties;
+export const GlobalEventPayloadCase10Properties = EventMessagePartRemovedProperties;
+
+export interface GlobalEventPayloadCase10 {
+  id: string;
+  type: GlobalEventPayloadCase10Type;
+  properties: EventMessagePartRemovedProperties;
+}
+export const GlobalEventPayloadCase10 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase10Type,
+    properties: EventMessagePartRemovedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase10" }) as any as S.Schema<GlobalEventPayloadCase10>;
+
+export type GlobalEventPayloadCase11Type = "session.next.agent.switched";
+export const GlobalEventPayloadCase11Type = S.String;
+
+export type GlobalEventPayloadCase11Properties = EventSessionNextAgentSwitchedProperties;
+export const GlobalEventPayloadCase11Properties = EventSessionNextAgentSwitchedProperties;
+
+export interface GlobalEventPayloadCase11 {
+  id: string;
+  type: GlobalEventPayloadCase11Type;
+  properties: EventSessionNextAgentSwitchedProperties;
+}
+export const GlobalEventPayloadCase11 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase11Type,
+    properties: EventSessionNextAgentSwitchedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase11" }) as any as S.Schema<GlobalEventPayloadCase11>;
+
+export type GlobalEventPayloadCase12Type = "session.next.model.switched";
+export const GlobalEventPayloadCase12Type = S.String;
+
+export type GlobalEventPayloadCase12Properties = EventSessionNextModelSwitchedProperties;
+export const GlobalEventPayloadCase12Properties = EventSessionNextModelSwitchedProperties;
+
+export interface GlobalEventPayloadCase12 {
+  id: string;
+  type: GlobalEventPayloadCase12Type;
+  properties: EventSessionNextModelSwitchedProperties;
+}
+export const GlobalEventPayloadCase12 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase12Type,
+    properties: EventSessionNextModelSwitchedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase12" }) as any as S.Schema<GlobalEventPayloadCase12>;
+
+export type GlobalEventPayloadCase13Type = "session.next.moved";
+export const GlobalEventPayloadCase13Type = S.String;
+
+export type GlobalEventPayloadCase13Properties = EventSessionNextMovedProperties;
+export const GlobalEventPayloadCase13Properties = EventSessionNextMovedProperties;
+
+export interface GlobalEventPayloadCase13 {
+  id: string;
+  type: GlobalEventPayloadCase13Type;
+  properties: EventSessionNextMovedProperties;
+}
+export const GlobalEventPayloadCase13 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase13Type,
+    properties: EventSessionNextMovedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase13" }) as any as S.Schema<GlobalEventPayloadCase13>;
+
+export type GlobalEventPayloadCase14Type = "session.next.prompted";
+export const GlobalEventPayloadCase14Type = S.String;
+
+export type GlobalEventPayloadCase14PropertiesDelivery = "steer" | "queue";
+export const GlobalEventPayloadCase14PropertiesDelivery = S.String;
+
+export interface GlobalEventPayloadCase14Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: GlobalEventPayloadCase14PropertiesDelivery;
+}
+export const GlobalEventPayloadCase14Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: GlobalEventPayloadCase14PropertiesDelivery,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase14Properties",
+}) as any as S.Schema<GlobalEventPayloadCase14Properties>;
+
+export interface GlobalEventPayloadCase14 {
+  id: string;
+  type: GlobalEventPayloadCase14Type;
+  properties: GlobalEventPayloadCase14Properties;
+}
+export const GlobalEventPayloadCase14 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase14Type,
+    properties: GlobalEventPayloadCase14Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase14" }) as any as S.Schema<GlobalEventPayloadCase14>;
+
+export type GlobalEventPayloadCase15Type = "session.next.prompt.admitted";
+export const GlobalEventPayloadCase15Type = S.String;
+
+export type GlobalEventPayloadCase15PropertiesDelivery = "steer" | "queue";
+export const GlobalEventPayloadCase15PropertiesDelivery = S.String;
+
+export interface GlobalEventPayloadCase15Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: GlobalEventPayloadCase15PropertiesDelivery;
+}
+export const GlobalEventPayloadCase15Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: GlobalEventPayloadCase15PropertiesDelivery,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase15Properties",
+}) as any as S.Schema<GlobalEventPayloadCase15Properties>;
+
+export interface GlobalEventPayloadCase15 {
+  id: string;
+  type: GlobalEventPayloadCase15Type;
+  properties: GlobalEventPayloadCase15Properties;
+}
+export const GlobalEventPayloadCase15 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase15Type,
+    properties: GlobalEventPayloadCase15Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase15" }) as any as S.Schema<GlobalEventPayloadCase15>;
+
+export type GlobalEventPayloadCase16Type = "session.next.context.updated";
+export const GlobalEventPayloadCase16Type = S.String;
+
+export type GlobalEventPayloadCase16Properties = EventSessionNextContextUpdatedProperties;
+export const GlobalEventPayloadCase16Properties = EventSessionNextContextUpdatedProperties;
+
+export interface GlobalEventPayloadCase16 {
+  id: string;
+  type: GlobalEventPayloadCase16Type;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export const GlobalEventPayloadCase16 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase16Type,
+    properties: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase16" }) as any as S.Schema<GlobalEventPayloadCase16>;
+
+export type GlobalEventPayloadCase17Type = "session.next.synthetic";
+export const GlobalEventPayloadCase17Type = S.String;
+
+export type GlobalEventPayloadCase17Properties = EventSessionNextContextUpdatedProperties;
+export const GlobalEventPayloadCase17Properties = EventSessionNextContextUpdatedProperties;
+
+export interface GlobalEventPayloadCase17 {
+  id: string;
+  type: GlobalEventPayloadCase17Type;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export const GlobalEventPayloadCase17 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase17Type,
+    properties: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase17" }) as any as S.Schema<GlobalEventPayloadCase17>;
+
+export type GlobalEventPayloadCase18Type = "session.next.shell.started";
+export const GlobalEventPayloadCase18Type = S.String;
+
+export type GlobalEventPayloadCase18Properties = EventSessionNextShellStartedProperties;
+export const GlobalEventPayloadCase18Properties = EventSessionNextShellStartedProperties;
+
+export interface GlobalEventPayloadCase18 {
+  id: string;
+  type: GlobalEventPayloadCase18Type;
+  properties: EventSessionNextShellStartedProperties;
+}
+export const GlobalEventPayloadCase18 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase18Type,
+    properties: EventSessionNextShellStartedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase18" }) as any as S.Schema<GlobalEventPayloadCase18>;
+
+export type GlobalEventPayloadCase19Type = "session.next.shell.ended";
+export const GlobalEventPayloadCase19Type = S.String;
+
+export type GlobalEventPayloadCase19Properties = EventSessionNextShellEndedProperties;
+export const GlobalEventPayloadCase19Properties = EventSessionNextShellEndedProperties;
+
+export interface GlobalEventPayloadCase19 {
+  id: string;
+  type: GlobalEventPayloadCase19Type;
+  properties: EventSessionNextShellEndedProperties;
+}
+export const GlobalEventPayloadCase19 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase19Type,
+    properties: EventSessionNextShellEndedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase19" }) as any as S.Schema<GlobalEventPayloadCase19>;
+
+export type GlobalEventPayloadCase20Type = "session.next.step.started";
+export const GlobalEventPayloadCase20Type = S.String;
+
+export type GlobalEventPayloadCase20Properties = EventSessionNextStepStartedProperties;
+export const GlobalEventPayloadCase20Properties = EventSessionNextStepStartedProperties;
+
+export interface GlobalEventPayloadCase20 {
+  id: string;
+  type: GlobalEventPayloadCase20Type;
+  properties: EventSessionNextStepStartedProperties;
+}
+export const GlobalEventPayloadCase20 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase20Type,
+    properties: EventSessionNextStepStartedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase20" }) as any as S.Schema<GlobalEventPayloadCase20>;
+
+export type GlobalEventPayloadCase21Type = "session.next.step.ended";
+export const GlobalEventPayloadCase21Type = S.String;
+
+export type GlobalEventPayloadCase21PropertiesTokensCache = ModelCostCache;
+export const GlobalEventPayloadCase21PropertiesTokensCache = ModelCostCache;
+
+export type GlobalEventPayloadCase21PropertiesTokens = SessionTokens;
+export const GlobalEventPayloadCase21PropertiesTokens = SessionTokens;
+
+export type GlobalEventPayloadCase21PropertiesFilesList = Array<string>;
+export const GlobalEventPayloadCase21PropertiesFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase21PropertiesFilesList>;
+
+export interface GlobalEventPayloadCase21Properties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: GlobalEventPayloadCase21PropertiesFilesList;
+}
+export const GlobalEventPayloadCase21Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    finish: S.String,
+    cost: S.Number,
+    tokens: SessionTokens,
+    snapshot: S.optional(S.String),
+    files: S.optional(GlobalEventPayloadCase21PropertiesFilesList),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase21Properties",
+}) as any as S.Schema<GlobalEventPayloadCase21Properties>;
+
+export interface GlobalEventPayloadCase21 {
+  id: string;
+  type: GlobalEventPayloadCase21Type;
+  properties: GlobalEventPayloadCase21Properties;
+}
+export const GlobalEventPayloadCase21 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase21Type,
+    properties: GlobalEventPayloadCase21Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase21" }) as any as S.Schema<GlobalEventPayloadCase21>;
+
+export type GlobalEventPayloadCase22Type = "session.next.step.failed";
+export const GlobalEventPayloadCase22Type = S.String;
+
+export type GlobalEventPayloadCase22Properties = EventSessionNextStepFailedProperties;
+export const GlobalEventPayloadCase22Properties = EventSessionNextStepFailedProperties;
+
+export interface GlobalEventPayloadCase22 {
+  id: string;
+  type: GlobalEventPayloadCase22Type;
+  properties: EventSessionNextStepFailedProperties;
+}
+export const GlobalEventPayloadCase22 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase22Type,
+    properties: EventSessionNextStepFailedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase22" }) as any as S.Schema<GlobalEventPayloadCase22>;
+
+export type GlobalEventPayloadCase23Type = "session.next.text.started";
+export const GlobalEventPayloadCase23Type = S.String;
+
+export type GlobalEventPayloadCase23Properties = EventSessionNextTextStartedProperties;
+export const GlobalEventPayloadCase23Properties = EventSessionNextTextStartedProperties;
+
+export interface GlobalEventPayloadCase23 {
+  id: string;
+  type: GlobalEventPayloadCase23Type;
+  properties: EventSessionNextTextStartedProperties;
+}
+export const GlobalEventPayloadCase23 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase23Type,
+    properties: EventSessionNextTextStartedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase23" }) as any as S.Schema<GlobalEventPayloadCase23>;
+
+export type GlobalEventPayloadCase24Type = "session.next.text.delta";
+export const GlobalEventPayloadCase24Type = S.String;
+
+export type GlobalEventPayloadCase24Properties = EventSessionNextTextDeltaProperties;
+export const GlobalEventPayloadCase24Properties = EventSessionNextTextDeltaProperties;
+
+export interface GlobalEventPayloadCase24 {
+  id: string;
+  type: GlobalEventPayloadCase24Type;
+  properties: EventSessionNextTextDeltaProperties;
+}
+export const GlobalEventPayloadCase24 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase24Type,
+    properties: EventSessionNextTextDeltaProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase24" }) as any as S.Schema<GlobalEventPayloadCase24>;
+
+export type GlobalEventPayloadCase25Type = "session.next.text.ended";
+export const GlobalEventPayloadCase25Type = S.String;
+
+export type GlobalEventPayloadCase25Properties = EventSessionNextTextEndedProperties;
+export const GlobalEventPayloadCase25Properties = EventSessionNextTextEndedProperties;
+
+export interface GlobalEventPayloadCase25 {
+  id: string;
+  type: GlobalEventPayloadCase25Type;
+  properties: EventSessionNextTextEndedProperties;
+}
+export const GlobalEventPayloadCase25 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase25Type,
+    properties: EventSessionNextTextEndedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase25" }) as any as S.Schema<GlobalEventPayloadCase25>;
+
+export type GlobalEventPayloadCase26Type = "session.next.reasoning.started";
+export const GlobalEventPayloadCase26Type = S.String;
+
+export type GlobalEventPayloadCase26Properties = EventSessionNextReasoningStartedProperties;
+export const GlobalEventPayloadCase26Properties = EventSessionNextReasoningStartedProperties;
+
+export interface GlobalEventPayloadCase26 {
+  id: string;
+  type: GlobalEventPayloadCase26Type;
+  properties: EventSessionNextReasoningStartedProperties;
+}
+export const GlobalEventPayloadCase26 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase26Type,
+    properties: EventSessionNextReasoningStartedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase26" }) as any as S.Schema<GlobalEventPayloadCase26>;
+
+export type GlobalEventPayloadCase27Type = "session.next.reasoning.delta";
+export const GlobalEventPayloadCase27Type = S.String;
+
+export type GlobalEventPayloadCase27Properties = EventSessionNextReasoningDeltaProperties;
+export const GlobalEventPayloadCase27Properties = EventSessionNextReasoningDeltaProperties;
+
+export interface GlobalEventPayloadCase27 {
+  id: string;
+  type: GlobalEventPayloadCase27Type;
+  properties: EventSessionNextReasoningDeltaProperties;
+}
+export const GlobalEventPayloadCase27 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase27Type,
+    properties: EventSessionNextReasoningDeltaProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase27" }) as any as S.Schema<GlobalEventPayloadCase27>;
+
+export type GlobalEventPayloadCase28Type = "session.next.reasoning.ended";
+export const GlobalEventPayloadCase28Type = S.String;
+
+export type GlobalEventPayloadCase28Properties = EventSessionNextReasoningEndedProperties;
+export const GlobalEventPayloadCase28Properties = EventSessionNextReasoningEndedProperties;
+
+export interface GlobalEventPayloadCase28 {
+  id: string;
+  type: GlobalEventPayloadCase28Type;
+  properties: EventSessionNextReasoningEndedProperties;
+}
+export const GlobalEventPayloadCase28 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase28Type,
+    properties: EventSessionNextReasoningEndedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase28" }) as any as S.Schema<GlobalEventPayloadCase28>;
+
+export type GlobalEventPayloadCase29Type = "session.next.tool.input.started";
+export const GlobalEventPayloadCase29Type = S.String;
+
+export type GlobalEventPayloadCase29Properties = EventSessionNextToolInputStartedProperties;
+export const GlobalEventPayloadCase29Properties = EventSessionNextToolInputStartedProperties;
+
+export interface GlobalEventPayloadCase29 {
+  id: string;
+  type: GlobalEventPayloadCase29Type;
+  properties: EventSessionNextToolInputStartedProperties;
+}
+export const GlobalEventPayloadCase29 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase29Type,
+    properties: EventSessionNextToolInputStartedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase29" }) as any as S.Schema<GlobalEventPayloadCase29>;
+
+export type GlobalEventPayloadCase30Type = "session.next.tool.input.delta";
+export const GlobalEventPayloadCase30Type = S.String;
+
+export type GlobalEventPayloadCase30Properties = EventSessionNextToolInputDeltaProperties;
+export const GlobalEventPayloadCase30Properties = EventSessionNextToolInputDeltaProperties;
+
+export interface GlobalEventPayloadCase30 {
+  id: string;
+  type: GlobalEventPayloadCase30Type;
+  properties: EventSessionNextToolInputDeltaProperties;
+}
+export const GlobalEventPayloadCase30 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase30Type,
+    properties: EventSessionNextToolInputDeltaProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase30" }) as any as S.Schema<GlobalEventPayloadCase30>;
+
+export type GlobalEventPayloadCase31Type = "session.next.tool.input.ended";
+export const GlobalEventPayloadCase31Type = S.String;
+
+export type GlobalEventPayloadCase31Properties = EventSessionNextToolInputEndedProperties;
+export const GlobalEventPayloadCase31Properties = EventSessionNextToolInputEndedProperties;
+
+export interface GlobalEventPayloadCase31 {
+  id: string;
+  type: GlobalEventPayloadCase31Type;
+  properties: EventSessionNextToolInputEndedProperties;
+}
+export const GlobalEventPayloadCase31 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase31Type,
+    properties: EventSessionNextToolInputEndedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase31" }) as any as S.Schema<GlobalEventPayloadCase31>;
+
+export type GlobalEventPayloadCase32Type = "session.next.tool.called";
+export const GlobalEventPayloadCase32Type = S.String;
+
+export type GlobalEventPayloadCase32PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const GlobalEventPayloadCase32PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export type GlobalEventPayloadCase32Properties = EventSessionNextToolCalledProperties;
+export const GlobalEventPayloadCase32Properties = EventSessionNextToolCalledProperties;
+
+export interface GlobalEventPayloadCase32 {
+  id: string;
+  type: GlobalEventPayloadCase32Type;
+  properties: EventSessionNextToolCalledProperties;
+}
+export const GlobalEventPayloadCase32 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase32Type,
+    properties: EventSessionNextToolCalledProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase32" }) as any as S.Schema<GlobalEventPayloadCase32>;
+
+export type GlobalEventPayloadCase33Type = "session.next.tool.progress";
+export const GlobalEventPayloadCase33Type = S.String;
+
+export type GlobalEventPayloadCase33PropertiesContentList = Array<LLMToolContent>;
+export const GlobalEventPayloadCase33PropertiesContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<GlobalEventPayloadCase33PropertiesContentList>;
+
+export interface GlobalEventPayloadCase33Properties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: GlobalEventPayloadCase33PropertiesContentList;
+}
+export const GlobalEventPayloadCase33Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: GlobalEventPayloadCase33PropertiesContentList,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase33Properties",
+}) as any as S.Schema<GlobalEventPayloadCase33Properties>;
+
+export interface GlobalEventPayloadCase33 {
+  id: string;
+  type: GlobalEventPayloadCase33Type;
+  properties: GlobalEventPayloadCase33Properties;
+}
+export const GlobalEventPayloadCase33 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase33Type,
+    properties: GlobalEventPayloadCase33Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase33" }) as any as S.Schema<GlobalEventPayloadCase33>;
+
+export type GlobalEventPayloadCase34Type = "session.next.tool.success";
+export const GlobalEventPayloadCase34Type = S.String;
+
+export type GlobalEventPayloadCase34PropertiesContentList = Array<LLMToolContent>;
+export const GlobalEventPayloadCase34PropertiesContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<GlobalEventPayloadCase34PropertiesContentList>;
+
+export type GlobalEventPayloadCase34PropertiesOutputPathsList = Array<string>;
+export const GlobalEventPayloadCase34PropertiesOutputPathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase34PropertiesOutputPathsList>;
+
+export type GlobalEventPayloadCase34PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const GlobalEventPayloadCase34PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export interface GlobalEventPayloadCase34Properties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: GlobalEventPayloadCase34PropertiesContentList;
+  outputPaths?: GlobalEventPayloadCase34PropertiesOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export const GlobalEventPayloadCase34Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: GlobalEventPayloadCase34PropertiesContentList,
+    outputPaths: S.optional(GlobalEventPayloadCase34PropertiesOutputPathsList),
+    result: S.optional(S.Unknown),
+    provider: EventSessionNextToolCalledPropertiesProvider,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase34Properties",
+}) as any as S.Schema<GlobalEventPayloadCase34Properties>;
+
+export interface GlobalEventPayloadCase34 {
+  id: string;
+  type: GlobalEventPayloadCase34Type;
+  properties: GlobalEventPayloadCase34Properties;
+}
+export const GlobalEventPayloadCase34 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase34Type,
+    properties: GlobalEventPayloadCase34Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase34" }) as any as S.Schema<GlobalEventPayloadCase34>;
+
+export type GlobalEventPayloadCase35Type = "session.next.tool.failed";
+export const GlobalEventPayloadCase35Type = S.String;
+
+export type GlobalEventPayloadCase35PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const GlobalEventPayloadCase35PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export type GlobalEventPayloadCase35Properties = EventSessionNextToolFailedProperties;
+export const GlobalEventPayloadCase35Properties = EventSessionNextToolFailedProperties;
+
+export interface GlobalEventPayloadCase35 {
+  id: string;
+  type: GlobalEventPayloadCase35Type;
+  properties: EventSessionNextToolFailedProperties;
+}
+export const GlobalEventPayloadCase35 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase35Type,
+    properties: EventSessionNextToolFailedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase35" }) as any as S.Schema<GlobalEventPayloadCase35>;
+
+export type GlobalEventPayloadCase36Type = "session.next.retried";
+export const GlobalEventPayloadCase36Type = S.String;
+
+export type GlobalEventPayloadCase36Properties = EventSessionNextRetriedProperties;
+export const GlobalEventPayloadCase36Properties = EventSessionNextRetriedProperties;
+
+export interface GlobalEventPayloadCase36 {
+  id: string;
+  type: GlobalEventPayloadCase36Type;
+  properties: EventSessionNextRetriedProperties;
+}
+export const GlobalEventPayloadCase36 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase36Type,
+    properties: EventSessionNextRetriedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase36" }) as any as S.Schema<GlobalEventPayloadCase36>;
+
+export type GlobalEventPayloadCase37Type = "session.next.compaction.started";
+export const GlobalEventPayloadCase37Type = S.String;
+
+export type GlobalEventPayloadCase37PropertiesReason = "auto" | "manual";
+export const GlobalEventPayloadCase37PropertiesReason = S.String;
+
+export interface GlobalEventPayloadCase37Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: GlobalEventPayloadCase37PropertiesReason;
+}
+export const GlobalEventPayloadCase37Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: GlobalEventPayloadCase37PropertiesReason,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase37Properties",
+}) as any as S.Schema<GlobalEventPayloadCase37Properties>;
+
+export interface GlobalEventPayloadCase37 {
+  id: string;
+  type: GlobalEventPayloadCase37Type;
+  properties: GlobalEventPayloadCase37Properties;
+}
+export const GlobalEventPayloadCase37 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase37Type,
+    properties: GlobalEventPayloadCase37Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase37" }) as any as S.Schema<GlobalEventPayloadCase37>;
+
+export type GlobalEventPayloadCase38Type = "session.next.compaction.delta";
+export const GlobalEventPayloadCase38Type = S.String;
+
+export type GlobalEventPayloadCase38Properties = EventSessionNextContextUpdatedProperties;
+export const GlobalEventPayloadCase38Properties = EventSessionNextContextUpdatedProperties;
+
+export interface GlobalEventPayloadCase38 {
+  id: string;
+  type: GlobalEventPayloadCase38Type;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export const GlobalEventPayloadCase38 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase38Type,
+    properties: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase38" }) as any as S.Schema<GlobalEventPayloadCase38>;
+
+export type GlobalEventPayloadCase39Type = "session.next.compaction.ended";
+export const GlobalEventPayloadCase39Type = S.String;
+
+export type GlobalEventPayloadCase39PropertiesReason = "auto" | "manual";
+export const GlobalEventPayloadCase39PropertiesReason = S.String;
+
+export interface GlobalEventPayloadCase39Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: GlobalEventPayloadCase39PropertiesReason;
+  text: string;
+  recent: string;
+}
+export const GlobalEventPayloadCase39Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: GlobalEventPayloadCase39PropertiesReason,
+    text: S.String,
+    recent: S.String,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase39Properties",
+}) as any as S.Schema<GlobalEventPayloadCase39Properties>;
+
+export interface GlobalEventPayloadCase39 {
+  id: string;
+  type: GlobalEventPayloadCase39Type;
+  properties: GlobalEventPayloadCase39Properties;
+}
+export const GlobalEventPayloadCase39 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase39Type,
+    properties: GlobalEventPayloadCase39Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase39" }) as any as S.Schema<GlobalEventPayloadCase39>;
+
+export type GlobalEventPayloadCase40Type = "session.next.revert.staged";
+export const GlobalEventPayloadCase40Type = S.String;
+
+export type GlobalEventPayloadCase40Properties = EventSessionNextRevertStagedProperties;
+export const GlobalEventPayloadCase40Properties = EventSessionNextRevertStagedProperties;
+
+export interface GlobalEventPayloadCase40 {
+  id: string;
+  type: GlobalEventPayloadCase40Type;
+  properties: EventSessionNextRevertStagedProperties;
+}
+export const GlobalEventPayloadCase40 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase40Type,
+    properties: EventSessionNextRevertStagedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase40" }) as any as S.Schema<GlobalEventPayloadCase40>;
+
+export type GlobalEventPayloadCase41Type = "session.next.revert.cleared";
+export const GlobalEventPayloadCase41Type = S.String;
+
+export type GlobalEventPayloadCase41Properties = EventSessionNextRevertClearedProperties;
+export const GlobalEventPayloadCase41Properties = EventSessionNextRevertClearedProperties;
+
+export interface GlobalEventPayloadCase41 {
+  id: string;
+  type: GlobalEventPayloadCase41Type;
+  properties: EventSessionNextRevertClearedProperties;
+}
+export const GlobalEventPayloadCase41 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase41Type,
+    properties: EventSessionNextRevertClearedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase41" }) as any as S.Schema<GlobalEventPayloadCase41>;
+
+export type GlobalEventPayloadCase42Type = "session.next.revert.committed";
+export const GlobalEventPayloadCase42Type = S.String;
+
+export type GlobalEventPayloadCase42Properties = EventSessionNextRevertCommittedProperties;
+export const GlobalEventPayloadCase42Properties = EventSessionNextRevertCommittedProperties;
+
+export interface GlobalEventPayloadCase42 {
+  id: string;
+  type: GlobalEventPayloadCase42Type;
+  properties: EventSessionNextRevertCommittedProperties;
+}
+export const GlobalEventPayloadCase42 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase42Type,
+    properties: EventSessionNextRevertCommittedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase42" }) as any as S.Schema<GlobalEventPayloadCase42>;
+
+export type GlobalEventPayloadCase43Type = "message.part.delta";
+export const GlobalEventPayloadCase43Type = S.String;
+
+export type GlobalEventPayloadCase43Properties = EventMessagePartDeltaProperties;
+export const GlobalEventPayloadCase43Properties = EventMessagePartDeltaProperties;
+
+export interface GlobalEventPayloadCase43 {
+  id: string;
+  type: GlobalEventPayloadCase43Type;
+  properties: EventMessagePartDeltaProperties;
+}
+export const GlobalEventPayloadCase43 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase43Type,
+    properties: EventMessagePartDeltaProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase43" }) as any as S.Schema<GlobalEventPayloadCase43>;
+
+export type GlobalEventPayloadCase44Type = "session.diff";
+export const GlobalEventPayloadCase44Type = S.String;
+
+export type GlobalEventPayloadCase44PropertiesDiffList = Array<SnapshotFileDiff>;
+export const GlobalEventPayloadCase44PropertiesDiffList = /*@__PURE__*/ S.Array(
+  SnapshotFileDiff,
+) as any as S.Schema<GlobalEventPayloadCase44PropertiesDiffList>;
+
+export interface GlobalEventPayloadCase44Properties {
+  sessionID: string;
+  diff: GlobalEventPayloadCase44PropertiesDiffList;
+}
+export const GlobalEventPayloadCase44Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    diff: GlobalEventPayloadCase44PropertiesDiffList,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase44Properties",
+}) as any as S.Schema<GlobalEventPayloadCase44Properties>;
+
+export interface GlobalEventPayloadCase44 {
+  id: string;
+  type: GlobalEventPayloadCase44Type;
+  properties: GlobalEventPayloadCase44Properties;
+}
+export const GlobalEventPayloadCase44 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase44Type,
+    properties: GlobalEventPayloadCase44Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase44" }) as any as S.Schema<GlobalEventPayloadCase44>;
+
+export type GlobalEventPayloadCase45Type = "session.error";
+export const GlobalEventPayloadCase45Type = S.String;
+
+export type GlobalEventPayloadCase45PropertiesError =
+  | ProviderAuthError
+  | UnknownError
+  | MessageOutputLengthError
+  | MessageAbortedError
+  | StructuredOutputError
+  | ContextOverflowError
+  | ContentFilterError
+  | APIError;
+export const GlobalEventPayloadCase45PropertiesError =
+  S.Unknown as any as S.Schema<GlobalEventPayloadCase45PropertiesError>;
+
+export interface GlobalEventPayloadCase45Properties {
+  sessionID?: string;
+  error?: GlobalEventPayloadCase45PropertiesError;
+}
+export const GlobalEventPayloadCase45Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.optional(S.String),
+    error: S.optional(GlobalEventPayloadCase45PropertiesError),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase45Properties",
+}) as any as S.Schema<GlobalEventPayloadCase45Properties>;
+
+export interface GlobalEventPayloadCase45 {
+  id: string;
+  type: GlobalEventPayloadCase45Type;
+  properties: GlobalEventPayloadCase45Properties;
+}
+export const GlobalEventPayloadCase45 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase45Type,
+    properties: GlobalEventPayloadCase45Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase45" }) as any as S.Schema<GlobalEventPayloadCase45>;
+
+export type GlobalEventPayloadCase46Type = "installation.updated";
+export const GlobalEventPayloadCase46Type = S.String;
+
+export type GlobalEventPayloadCase46Properties = EventInstallationUpdatedProperties;
+export const GlobalEventPayloadCase46Properties = EventInstallationUpdatedProperties;
+
+export interface GlobalEventPayloadCase46 {
+  id: string;
+  type: GlobalEventPayloadCase46Type;
+  properties: EventInstallationUpdatedProperties;
+}
+export const GlobalEventPayloadCase46 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase46Type,
+    properties: EventInstallationUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase46" }) as any as S.Schema<GlobalEventPayloadCase46>;
+
+export type GlobalEventPayloadCase47Type = "installation.update-available";
+export const GlobalEventPayloadCase47Type = S.String;
+
+export type GlobalEventPayloadCase47Properties = EventInstallationUpdatedProperties;
+export const GlobalEventPayloadCase47Properties = EventInstallationUpdatedProperties;
+
+export interface GlobalEventPayloadCase47 {
+  id: string;
+  type: GlobalEventPayloadCase47Type;
+  properties: EventInstallationUpdatedProperties;
+}
+export const GlobalEventPayloadCase47 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase47Type,
+    properties: EventInstallationUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase47" }) as any as S.Schema<GlobalEventPayloadCase47>;
+
+export type GlobalEventPayloadCase48Type = "file.edited";
+export const GlobalEventPayloadCase48Type = S.String;
+
+export type GlobalEventPayloadCase48Properties = EventFileEditedProperties;
+export const GlobalEventPayloadCase48Properties = EventFileEditedProperties;
+
+export interface GlobalEventPayloadCase48 {
+  id: string;
+  type: GlobalEventPayloadCase48Type;
+  properties: EventFileEditedProperties;
+}
+export const GlobalEventPayloadCase48 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase48Type,
+    properties: EventFileEditedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase48" }) as any as S.Schema<GlobalEventPayloadCase48>;
+
+export type GlobalEventPayloadCase49Type = "reference.updated";
+export const GlobalEventPayloadCase49Type = S.String;
+
+export interface GlobalEventPayloadCase49 {
+  id: string;
+  type: GlobalEventPayloadCase49Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase49 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase49Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase49" }) as any as S.Schema<GlobalEventPayloadCase49>;
+
+export type GlobalEventPayloadCase50Type = "permission.v2.asked";
+export const GlobalEventPayloadCase50Type = S.String;
+
+export type GlobalEventPayloadCase50PropertiesResourcesList = Array<string>;
+export const GlobalEventPayloadCase50PropertiesResourcesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase50PropertiesResourcesList>;
+
+export type GlobalEventPayloadCase50PropertiesSaveList = Array<string>;
+export const GlobalEventPayloadCase50PropertiesSaveList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase50PropertiesSaveList>;
+
+export interface GlobalEventPayloadCase50Properties {
+  id: string;
+  sessionID: string;
+  action: string;
+  resources: GlobalEventPayloadCase50PropertiesResourcesList;
+  save?: GlobalEventPayloadCase50PropertiesSaveList;
+  metadata?: unknown;
+  source?: PermissionV2Source;
+}
+export const GlobalEventPayloadCase50Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    action: S.String,
+    resources: GlobalEventPayloadCase50PropertiesResourcesList,
+    save: S.optional(GlobalEventPayloadCase50PropertiesSaveList),
+    metadata: S.optional(S.Unknown),
+    source: S.optional(PermissionV2Source),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase50Properties",
+}) as any as S.Schema<GlobalEventPayloadCase50Properties>;
+
+export interface GlobalEventPayloadCase50 {
+  id: string;
+  type: GlobalEventPayloadCase50Type;
+  properties: GlobalEventPayloadCase50Properties;
+}
+export const GlobalEventPayloadCase50 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase50Type,
+    properties: GlobalEventPayloadCase50Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase50" }) as any as S.Schema<GlobalEventPayloadCase50>;
+
+export type GlobalEventPayloadCase51Type = "permission.v2.replied";
+export const GlobalEventPayloadCase51Type = S.String;
+
+export type GlobalEventPayloadCase51Properties = EventPermissionV2RepliedProperties;
+export const GlobalEventPayloadCase51Properties = EventPermissionV2RepliedProperties;
+
+export interface GlobalEventPayloadCase51 {
+  id: string;
+  type: GlobalEventPayloadCase51Type;
+  properties: EventPermissionV2RepliedProperties;
+}
+export const GlobalEventPayloadCase51 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase51Type,
+    properties: EventPermissionV2RepliedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase51" }) as any as S.Schema<GlobalEventPayloadCase51>;
+
+export type GlobalEventPayloadCase52Type = "plugin.added";
+export const GlobalEventPayloadCase52Type = S.String;
+
+export type GlobalEventPayloadCase52Properties = EventPluginAddedProperties;
+export const GlobalEventPayloadCase52Properties = EventPluginAddedProperties;
+
+export interface GlobalEventPayloadCase52 {
+  id: string;
+  type: GlobalEventPayloadCase52Type;
+  properties: EventPluginAddedProperties;
+}
+export const GlobalEventPayloadCase52 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase52Type,
+    properties: EventPluginAddedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase52" }) as any as S.Schema<GlobalEventPayloadCase52>;
+
+export type GlobalEventPayloadCase53Type = "project.directories.updated";
+export const GlobalEventPayloadCase53Type = S.String;
+
+export type GlobalEventPayloadCase53Properties = EventProjectDirectoriesUpdatedProperties;
+export const GlobalEventPayloadCase53Properties = EventProjectDirectoriesUpdatedProperties;
+
+export interface GlobalEventPayloadCase53 {
+  id: string;
+  type: GlobalEventPayloadCase53Type;
+  properties: EventProjectDirectoriesUpdatedProperties;
+}
+export const GlobalEventPayloadCase53 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase53Type,
+    properties: EventProjectDirectoriesUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase53" }) as any as S.Schema<GlobalEventPayloadCase53>;
+
+export type GlobalEventPayloadCase54Type = "file.watcher.updated";
+export const GlobalEventPayloadCase54Type = S.String;
+
+export type GlobalEventPayloadCase54PropertiesEvent = "add" | "change" | "unlink";
+export const GlobalEventPayloadCase54PropertiesEvent = S.String;
+
+export interface GlobalEventPayloadCase54Properties {
+  file: string;
+  event: GlobalEventPayloadCase54PropertiesEvent;
+}
+export const GlobalEventPayloadCase54Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    file: S.String,
+    event: GlobalEventPayloadCase54PropertiesEvent,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase54Properties",
+}) as any as S.Schema<GlobalEventPayloadCase54Properties>;
+
+export interface GlobalEventPayloadCase54 {
+  id: string;
+  type: GlobalEventPayloadCase54Type;
+  properties: GlobalEventPayloadCase54Properties;
+}
+export const GlobalEventPayloadCase54 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase54Type,
+    properties: GlobalEventPayloadCase54Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase54" }) as any as S.Schema<GlobalEventPayloadCase54>;
+
+export type GlobalEventPayloadCase55Type = "pty.created";
+export const GlobalEventPayloadCase55Type = S.String;
+
+export type GlobalEventPayloadCase55Properties = EventPtyCreatedProperties;
+export const GlobalEventPayloadCase55Properties = EventPtyCreatedProperties;
+
+export interface GlobalEventPayloadCase55 {
+  id: string;
+  type: GlobalEventPayloadCase55Type;
+  properties: EventPtyCreatedProperties;
+}
+export const GlobalEventPayloadCase55 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase55Type,
+    properties: EventPtyCreatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase55" }) as any as S.Schema<GlobalEventPayloadCase55>;
+
+export type GlobalEventPayloadCase56Type = "pty.updated";
+export const GlobalEventPayloadCase56Type = S.String;
+
+export type GlobalEventPayloadCase56Properties = EventPtyCreatedProperties;
+export const GlobalEventPayloadCase56Properties = EventPtyCreatedProperties;
+
+export interface GlobalEventPayloadCase56 {
+  id: string;
+  type: GlobalEventPayloadCase56Type;
+  properties: EventPtyCreatedProperties;
+}
+export const GlobalEventPayloadCase56 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase56Type,
+    properties: EventPtyCreatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase56" }) as any as S.Schema<GlobalEventPayloadCase56>;
+
+export type GlobalEventPayloadCase57Type = "pty.exited";
+export const GlobalEventPayloadCase57Type = S.String;
+
+export type GlobalEventPayloadCase57Properties = EventPtyExitedProperties;
+export const GlobalEventPayloadCase57Properties = EventPtyExitedProperties;
+
+export interface GlobalEventPayloadCase57 {
+  id: string;
+  type: GlobalEventPayloadCase57Type;
+  properties: EventPtyExitedProperties;
+}
+export const GlobalEventPayloadCase57 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase57Type,
+    properties: EventPtyExitedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase57" }) as any as S.Schema<GlobalEventPayloadCase57>;
+
+export type GlobalEventPayloadCase58Type = "pty.deleted";
+export const GlobalEventPayloadCase58Type = S.String;
+
+export type GlobalEventPayloadCase58Properties = EventPluginAddedProperties;
+export const GlobalEventPayloadCase58Properties = EventPluginAddedProperties;
+
+export interface GlobalEventPayloadCase58 {
+  id: string;
+  type: GlobalEventPayloadCase58Type;
+  properties: EventPluginAddedProperties;
+}
+export const GlobalEventPayloadCase58 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase58Type,
+    properties: EventPluginAddedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase58" }) as any as S.Schema<GlobalEventPayloadCase58>;
+
+export type GlobalEventPayloadCase59Type = "question.v2.asked";
+export const GlobalEventPayloadCase59Type = S.String;
+
+/** Questions to ask */
+export type GlobalEventPayloadCase59PropertiesQuestionsList = Array<QuestionV2Info>;
+export const GlobalEventPayloadCase59PropertiesQuestionsList = /*@__PURE__*/ S.Array(
+  QuestionV2Info,
+) as any as S.Schema<GlobalEventPayloadCase59PropertiesQuestionsList>;
+
+export interface GlobalEventPayloadCase59Properties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: GlobalEventPayloadCase59PropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export const GlobalEventPayloadCase59Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    questions: GlobalEventPayloadCase59PropertiesQuestionsList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase59Properties",
+}) as any as S.Schema<GlobalEventPayloadCase59Properties>;
+
+export interface GlobalEventPayloadCase59 {
+  id: string;
+  type: GlobalEventPayloadCase59Type;
+  properties: GlobalEventPayloadCase59Properties;
+}
+export const GlobalEventPayloadCase59 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase59Type,
+    properties: GlobalEventPayloadCase59Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase59" }) as any as S.Schema<GlobalEventPayloadCase59>;
+
+export type GlobalEventPayloadCase60Type = "question.v2.replied";
+export const GlobalEventPayloadCase60Type = S.String;
+
+export type GlobalEventPayloadCase60PropertiesAnswersList = Array<QuestionV2Answer>;
+export const GlobalEventPayloadCase60PropertiesAnswersList = /*@__PURE__*/ S.Array(
+  QuestionV2Answer,
+) as any as S.Schema<GlobalEventPayloadCase60PropertiesAnswersList>;
+
+export interface GlobalEventPayloadCase60Properties {
+  sessionID: string;
+  requestID: string;
+  answers: GlobalEventPayloadCase60PropertiesAnswersList;
+}
+export const GlobalEventPayloadCase60Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    answers: GlobalEventPayloadCase60PropertiesAnswersList,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase60Properties",
+}) as any as S.Schema<GlobalEventPayloadCase60Properties>;
+
+export interface GlobalEventPayloadCase60 {
+  id: string;
+  type: GlobalEventPayloadCase60Type;
+  properties: GlobalEventPayloadCase60Properties;
+}
+export const GlobalEventPayloadCase60 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase60Type,
+    properties: GlobalEventPayloadCase60Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase60" }) as any as S.Schema<GlobalEventPayloadCase60>;
+
+export type GlobalEventPayloadCase61Type = "question.v2.rejected";
+export const GlobalEventPayloadCase61Type = S.String;
+
+export type GlobalEventPayloadCase61Properties = EventQuestionV2RejectedProperties;
+export const GlobalEventPayloadCase61Properties = EventQuestionV2RejectedProperties;
+
+export interface GlobalEventPayloadCase61 {
+  id: string;
+  type: GlobalEventPayloadCase61Type;
+  properties: EventQuestionV2RejectedProperties;
+}
+export const GlobalEventPayloadCase61 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase61Type,
+    properties: EventQuestionV2RejectedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase61" }) as any as S.Schema<GlobalEventPayloadCase61>;
+
+export type GlobalEventPayloadCase62Type = "todo.updated";
+export const GlobalEventPayloadCase62Type = S.String;
+
+export type GlobalEventPayloadCase62PropertiesTodosList = Array<Todo>;
+export const GlobalEventPayloadCase62PropertiesTodosList = /*@__PURE__*/ S.Array(
+  Todo,
+) as any as S.Schema<GlobalEventPayloadCase62PropertiesTodosList>;
+
+export interface GlobalEventPayloadCase62Properties {
+  sessionID: string;
+  todos: GlobalEventPayloadCase62PropertiesTodosList;
+}
+export const GlobalEventPayloadCase62Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    todos: GlobalEventPayloadCase62PropertiesTodosList,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase62Properties",
+}) as any as S.Schema<GlobalEventPayloadCase62Properties>;
+
+export interface GlobalEventPayloadCase62 {
+  id: string;
+  type: GlobalEventPayloadCase62Type;
+  properties: GlobalEventPayloadCase62Properties;
+}
+export const GlobalEventPayloadCase62 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase62Type,
+    properties: GlobalEventPayloadCase62Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase62" }) as any as S.Schema<GlobalEventPayloadCase62>;
+
+export type GlobalEventPayloadCase63Type = "lsp.updated";
+export const GlobalEventPayloadCase63Type = S.String;
+
+export interface GlobalEventPayloadCase63 {
+  id: string;
+  type: GlobalEventPayloadCase63Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase63 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase63Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase63" }) as any as S.Schema<GlobalEventPayloadCase63>;
+
+export type GlobalEventPayloadCase64Type = "permission.asked";
+export const GlobalEventPayloadCase64Type = S.String;
+
+export type GlobalEventPayloadCase64PropertiesPatternsList = Array<string>;
+export const GlobalEventPayloadCase64PropertiesPatternsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase64PropertiesPatternsList>;
+
+export type GlobalEventPayloadCase64PropertiesAlwaysList = Array<string>;
+export const GlobalEventPayloadCase64PropertiesAlwaysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase64PropertiesAlwaysList>;
+
+export type GlobalEventPayloadCase64PropertiesTool = PermissionRequestTool;
+export const GlobalEventPayloadCase64PropertiesTool = PermissionRequestTool;
+
+export interface GlobalEventPayloadCase64Properties {
+  id: string;
+  sessionID: string;
+  permission: string;
+  patterns: GlobalEventPayloadCase64PropertiesPatternsList;
+  metadata: unknown;
+  always: GlobalEventPayloadCase64PropertiesAlwaysList;
+  tool?: PermissionRequestTool;
+}
+export const GlobalEventPayloadCase64Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    permission: S.String,
+    patterns: GlobalEventPayloadCase64PropertiesPatternsList,
+    metadata: S.Unknown,
+    always: GlobalEventPayloadCase64PropertiesAlwaysList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase64Properties",
+}) as any as S.Schema<GlobalEventPayloadCase64Properties>;
+
+export interface GlobalEventPayloadCase64 {
+  id: string;
+  type: GlobalEventPayloadCase64Type;
+  properties: GlobalEventPayloadCase64Properties;
+}
+export const GlobalEventPayloadCase64 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase64Type,
+    properties: GlobalEventPayloadCase64Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase64" }) as any as S.Schema<GlobalEventPayloadCase64>;
+
+export type GlobalEventPayloadCase65Type = "permission.replied";
+export const GlobalEventPayloadCase65Type = S.String;
+
+export type GlobalEventPayloadCase65PropertiesReply = "once" | "always" | "reject";
+export const GlobalEventPayloadCase65PropertiesReply = S.String;
+
+export interface GlobalEventPayloadCase65Properties {
+  sessionID: string;
+  requestID: string;
+  reply: GlobalEventPayloadCase65PropertiesReply;
+}
+export const GlobalEventPayloadCase65Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    reply: GlobalEventPayloadCase65PropertiesReply,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase65Properties",
+}) as any as S.Schema<GlobalEventPayloadCase65Properties>;
+
+export interface GlobalEventPayloadCase65 {
+  id: string;
+  type: GlobalEventPayloadCase65Type;
+  properties: GlobalEventPayloadCase65Properties;
+}
+export const GlobalEventPayloadCase65 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase65Type,
+    properties: GlobalEventPayloadCase65Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase65" }) as any as S.Schema<GlobalEventPayloadCase65>;
+
+export type GlobalEventPayloadCase66Type = "tui.prompt.append";
+export const GlobalEventPayloadCase66Type = S.String;
+
+export type GlobalEventPayloadCase66Properties = FindTextResponseBodyItemPath;
+export const GlobalEventPayloadCase66Properties = FindTextResponseBodyItemPath;
+
+export interface GlobalEventPayloadCase66 {
+  id: string;
+  type: GlobalEventPayloadCase66Type;
+  properties: FindTextResponseBodyItemPath;
+}
+export const GlobalEventPayloadCase66 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase66Type,
+    properties: FindTextResponseBodyItemPath,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase66" }) as any as S.Schema<GlobalEventPayloadCase66>;
+
+export type GlobalEventPayloadCase67Type = "tui.command.execute";
+export const GlobalEventPayloadCase67Type = S.String;
+
+export type GlobalEventPayloadCase67PropertiesCommandCase0 =
+  | "session.list"
+  | "session.new"
+  | "session.share"
+  | "session.interrupt"
+  | "session.compact"
+  | "session.page.up"
+  | "session.page.down"
+  | "session.line.up"
+  | "session.line.down"
+  | "session.half.page.up"
+  | "session.half.page.down"
+  | "session.first"
+  | "session.last"
+  | "prompt.clear"
+  | "prompt.submit"
+  | "agent.cycle";
+export const GlobalEventPayloadCase67PropertiesCommandCase0 = S.String;
+
+export type GlobalEventPayloadCase67PropertiesCommand =
+  | GlobalEventPayloadCase67PropertiesCommandCase0
+  | string;
+export const GlobalEventPayloadCase67PropertiesCommand =
+  S.Unknown as any as S.Schema<GlobalEventPayloadCase67PropertiesCommand>;
+
+export interface GlobalEventPayloadCase67Properties {
+  command: GlobalEventPayloadCase67PropertiesCommand;
+}
+export const GlobalEventPayloadCase67Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    command: GlobalEventPayloadCase67PropertiesCommand,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase67Properties",
+}) as any as S.Schema<GlobalEventPayloadCase67Properties>;
+
+export interface GlobalEventPayloadCase67 {
+  id: string;
+  type: GlobalEventPayloadCase67Type;
+  properties: GlobalEventPayloadCase67Properties;
+}
+export const GlobalEventPayloadCase67 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase67Type,
+    properties: GlobalEventPayloadCase67Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase67" }) as any as S.Schema<GlobalEventPayloadCase67>;
+
+export type GlobalEventPayloadCase68Type = "tui.toast.show";
+export const GlobalEventPayloadCase68Type = S.String;
+
+export type GlobalEventPayloadCase68PropertiesVariant = "info" | "success" | "warning" | "error";
+export const GlobalEventPayloadCase68PropertiesVariant = S.String;
+
+export interface GlobalEventPayloadCase68Properties {
+  title?: string;
+  message: string;
+  variant: GlobalEventPayloadCase68PropertiesVariant;
+  duration?: number;
+}
+export const GlobalEventPayloadCase68Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    message: S.String,
+    variant: GlobalEventPayloadCase68PropertiesVariant,
+    duration: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase68Properties",
+}) as any as S.Schema<GlobalEventPayloadCase68Properties>;
+
+export interface GlobalEventPayloadCase68 {
+  id: string;
+  type: GlobalEventPayloadCase68Type;
+  properties: GlobalEventPayloadCase68Properties;
+}
+export const GlobalEventPayloadCase68 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase68Type,
+    properties: GlobalEventPayloadCase68Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase68" }) as any as S.Schema<GlobalEventPayloadCase68>;
+
+export type GlobalEventPayloadCase69Type = "tui.session.select";
+export const GlobalEventPayloadCase69Type = S.String;
+
+export type GlobalEventPayloadCase69Properties = EventTuiSessionSelectProperties2;
+export const GlobalEventPayloadCase69Properties = EventTuiSessionSelectProperties2;
+
+export interface GlobalEventPayloadCase69 {
+  id: string;
+  type: GlobalEventPayloadCase69Type;
+  properties: EventTuiSessionSelectProperties2;
+}
+export const GlobalEventPayloadCase69 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase69Type,
+    properties: EventTuiSessionSelectProperties2,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase69" }) as any as S.Schema<GlobalEventPayloadCase69>;
+
+export type GlobalEventPayloadCase70Type = "mcp.tools.changed";
+export const GlobalEventPayloadCase70Type = S.String;
+
+export type GlobalEventPayloadCase70Properties = EventMcpToolsChangedProperties;
+export const GlobalEventPayloadCase70Properties = EventMcpToolsChangedProperties;
+
+export interface GlobalEventPayloadCase70 {
+  id: string;
+  type: GlobalEventPayloadCase70Type;
+  properties: EventMcpToolsChangedProperties;
+}
+export const GlobalEventPayloadCase70 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase70Type,
+    properties: EventMcpToolsChangedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase70" }) as any as S.Schema<GlobalEventPayloadCase70>;
+
+export type GlobalEventPayloadCase71Type = "mcp.browser.open.failed";
+export const GlobalEventPayloadCase71Type = S.String;
+
+export type GlobalEventPayloadCase71Properties = EventMcpBrowserOpenFailedProperties;
+export const GlobalEventPayloadCase71Properties = EventMcpBrowserOpenFailedProperties;
+
+export interface GlobalEventPayloadCase71 {
+  id: string;
+  type: GlobalEventPayloadCase71Type;
+  properties: EventMcpBrowserOpenFailedProperties;
+}
+export const GlobalEventPayloadCase71 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase71Type,
+    properties: EventMcpBrowserOpenFailedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase71" }) as any as S.Schema<GlobalEventPayloadCase71>;
+
+export type GlobalEventPayloadCase72Type = "command.executed";
+export const GlobalEventPayloadCase72Type = S.String;
+
+export type GlobalEventPayloadCase72Properties = EventCommandExecutedProperties;
+export const GlobalEventPayloadCase72Properties = EventCommandExecutedProperties;
+
+export interface GlobalEventPayloadCase72 {
+  id: string;
+  type: GlobalEventPayloadCase72Type;
+  properties: EventCommandExecutedProperties;
+}
+export const GlobalEventPayloadCase72 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase72Type,
+    properties: EventCommandExecutedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase72" }) as any as S.Schema<GlobalEventPayloadCase72>;
+
+export type GlobalEventPayloadCase73Type = "project.updated";
+export const GlobalEventPayloadCase73Type = S.String;
+
+export type GlobalEventPayloadCase73PropertiesSandboxesList = Array<string>;
+export const GlobalEventPayloadCase73PropertiesSandboxesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GlobalEventPayloadCase73PropertiesSandboxesList>;
+
+export interface GlobalEventPayloadCase73Properties {
+  id: string;
+  worktree: string;
+  vcs?: ProjectVcs;
+  name?: string;
+  icon?: ProjectIcon;
+  commands?: ProjectCommands;
+  time: ProjectTime;
+  sandboxes: GlobalEventPayloadCase73PropertiesSandboxesList;
+}
+export const GlobalEventPayloadCase73Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    worktree: S.String,
+    vcs: S.optional(ProjectVcs),
+    name: S.optional(S.String),
+    icon: S.optional(ProjectIcon),
+    commands: S.optional(ProjectCommands),
+    time: ProjectTime,
+    sandboxes: GlobalEventPayloadCase73PropertiesSandboxesList,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase73Properties",
+}) as any as S.Schema<GlobalEventPayloadCase73Properties>;
+
+export interface GlobalEventPayloadCase73 {
+  id: string;
+  type: GlobalEventPayloadCase73Type;
+  properties: GlobalEventPayloadCase73Properties;
+}
+export const GlobalEventPayloadCase73 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase73Type,
+    properties: GlobalEventPayloadCase73Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase73" }) as any as S.Schema<GlobalEventPayloadCase73>;
+
+export type GlobalEventPayloadCase74Type = "session.status";
+export const GlobalEventPayloadCase74Type = S.String;
+
+export type GlobalEventPayloadCase74Properties = EventSessionStatusProperties;
+export const GlobalEventPayloadCase74Properties = EventSessionStatusProperties;
+
+export interface GlobalEventPayloadCase74 {
+  id: string;
+  type: GlobalEventPayloadCase74Type;
+  properties: EventSessionStatusProperties;
+}
+export const GlobalEventPayloadCase74 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase74Type,
+    properties: EventSessionStatusProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase74" }) as any as S.Schema<GlobalEventPayloadCase74>;
+
+export type GlobalEventPayloadCase75Type = "session.idle";
+export const GlobalEventPayloadCase75Type = S.String;
+
+export type GlobalEventPayloadCase75Properties = EventSessionIdleProperties;
+export const GlobalEventPayloadCase75Properties = EventSessionIdleProperties;
+
+export interface GlobalEventPayloadCase75 {
+  id: string;
+  type: GlobalEventPayloadCase75Type;
+  properties: EventSessionIdleProperties;
+}
+export const GlobalEventPayloadCase75 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase75Type,
+    properties: EventSessionIdleProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase75" }) as any as S.Schema<GlobalEventPayloadCase75>;
+
+export type GlobalEventPayloadCase76Type = "question.asked";
+export const GlobalEventPayloadCase76Type = S.String;
+
+/** Questions to ask */
+export type GlobalEventPayloadCase76PropertiesQuestionsList = Array<QuestionInfo>;
+export const GlobalEventPayloadCase76PropertiesQuestionsList = /*@__PURE__*/ S.Array(
+  QuestionInfo,
+) as any as S.Schema<GlobalEventPayloadCase76PropertiesQuestionsList>;
+
+export interface GlobalEventPayloadCase76Properties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: GlobalEventPayloadCase76PropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export const GlobalEventPayloadCase76Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    questions: GlobalEventPayloadCase76PropertiesQuestionsList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase76Properties",
+}) as any as S.Schema<GlobalEventPayloadCase76Properties>;
+
+export interface GlobalEventPayloadCase76 {
+  id: string;
+  type: GlobalEventPayloadCase76Type;
+  properties: GlobalEventPayloadCase76Properties;
+}
+export const GlobalEventPayloadCase76 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase76Type,
+    properties: GlobalEventPayloadCase76Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase76" }) as any as S.Schema<GlobalEventPayloadCase76>;
+
+export type GlobalEventPayloadCase77Type = "question.replied";
+export const GlobalEventPayloadCase77Type = S.String;
+
+export type GlobalEventPayloadCase77PropertiesAnswersList = Array<QuestionAnswer>;
+export const GlobalEventPayloadCase77PropertiesAnswersList = /*@__PURE__*/ S.Array(
+  QuestionAnswer,
+) as any as S.Schema<GlobalEventPayloadCase77PropertiesAnswersList>;
+
+export interface GlobalEventPayloadCase77Properties {
+  sessionID: string;
+  requestID: string;
+  answers: GlobalEventPayloadCase77PropertiesAnswersList;
+}
+export const GlobalEventPayloadCase77Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    answers: GlobalEventPayloadCase77PropertiesAnswersList,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase77Properties",
+}) as any as S.Schema<GlobalEventPayloadCase77Properties>;
+
+export interface GlobalEventPayloadCase77 {
+  id: string;
+  type: GlobalEventPayloadCase77Type;
+  properties: GlobalEventPayloadCase77Properties;
+}
+export const GlobalEventPayloadCase77 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase77Type,
+    properties: GlobalEventPayloadCase77Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase77" }) as any as S.Schema<GlobalEventPayloadCase77>;
+
+export type GlobalEventPayloadCase78Type = "question.rejected";
+export const GlobalEventPayloadCase78Type = S.String;
+
+export type GlobalEventPayloadCase78Properties = EventQuestionV2RejectedProperties;
+export const GlobalEventPayloadCase78Properties = EventQuestionV2RejectedProperties;
+
+export interface GlobalEventPayloadCase78 {
+  id: string;
+  type: GlobalEventPayloadCase78Type;
+  properties: EventQuestionV2RejectedProperties;
+}
+export const GlobalEventPayloadCase78 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase78Type,
+    properties: EventQuestionV2RejectedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase78" }) as any as S.Schema<GlobalEventPayloadCase78>;
+
+export type GlobalEventPayloadCase79Type = "session.compacted";
+export const GlobalEventPayloadCase79Type = S.String;
+
+export type GlobalEventPayloadCase79Properties = EventSessionIdleProperties;
+export const GlobalEventPayloadCase79Properties = EventSessionIdleProperties;
+
+export interface GlobalEventPayloadCase79 {
+  id: string;
+  type: GlobalEventPayloadCase79Type;
+  properties: EventSessionIdleProperties;
+}
+export const GlobalEventPayloadCase79 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase79Type,
+    properties: EventSessionIdleProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase79" }) as any as S.Schema<GlobalEventPayloadCase79>;
+
+export type GlobalEventPayloadCase80Type = "vcs.branch.updated";
+export const GlobalEventPayloadCase80Type = S.String;
+
+export type GlobalEventPayloadCase80Properties = EventVcsBranchUpdatedProperties;
+export const GlobalEventPayloadCase80Properties = EventVcsBranchUpdatedProperties;
+
+export interface GlobalEventPayloadCase80 {
+  id: string;
+  type: GlobalEventPayloadCase80Type;
+  properties: EventVcsBranchUpdatedProperties;
+}
+export const GlobalEventPayloadCase80 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase80Type,
+    properties: EventVcsBranchUpdatedProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase80" }) as any as S.Schema<GlobalEventPayloadCase80>;
+
+export type GlobalEventPayloadCase81Type = "workspace.ready";
+export const GlobalEventPayloadCase81Type = S.String;
+
+export type GlobalEventPayloadCase81Properties = EventWorkspaceReadyProperties;
+export const GlobalEventPayloadCase81Properties = EventWorkspaceReadyProperties;
+
+export interface GlobalEventPayloadCase81 {
+  id: string;
+  type: GlobalEventPayloadCase81Type;
+  properties: EventWorkspaceReadyProperties;
+}
+export const GlobalEventPayloadCase81 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase81Type,
+    properties: EventWorkspaceReadyProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase81" }) as any as S.Schema<GlobalEventPayloadCase81>;
+
+export type GlobalEventPayloadCase82Type = "workspace.failed";
+export const GlobalEventPayloadCase82Type = S.String;
+
+export type GlobalEventPayloadCase82Properties = MessageAbortedErrorData;
+export const GlobalEventPayloadCase82Properties = MessageAbortedErrorData;
+
+export interface GlobalEventPayloadCase82 {
+  id: string;
+  type: GlobalEventPayloadCase82Type;
+  properties: MessageAbortedErrorData;
+}
+export const GlobalEventPayloadCase82 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase82Type,
+    properties: MessageAbortedErrorData,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase82" }) as any as S.Schema<GlobalEventPayloadCase82>;
+
+export type GlobalEventPayloadCase83Type = "workspace.status";
+export const GlobalEventPayloadCase83Type = S.String;
+
+export type GlobalEventPayloadCase83PropertiesStatus =
+  | "connected"
+  | "connecting"
+  | "disconnected"
+  | "error";
+export const GlobalEventPayloadCase83PropertiesStatus = S.String;
+
+export interface GlobalEventPayloadCase83Properties {
+  workspaceID: string;
+  status: GlobalEventPayloadCase83PropertiesStatus;
+}
+export const GlobalEventPayloadCase83Properties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceID: S.String,
+    status: GlobalEventPayloadCase83PropertiesStatus,
+  }),
+).annotate({
+  identifier: "GlobalEventPayloadCase83Properties",
+}) as any as S.Schema<GlobalEventPayloadCase83Properties>;
+
+export interface GlobalEventPayloadCase83 {
+  id: string;
+  type: GlobalEventPayloadCase83Type;
+  properties: GlobalEventPayloadCase83Properties;
+}
+export const GlobalEventPayloadCase83 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase83Type,
+    properties: GlobalEventPayloadCase83Properties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase83" }) as any as S.Schema<GlobalEventPayloadCase83>;
+
+export type GlobalEventPayloadCase84Type = "worktree.ready";
+export const GlobalEventPayloadCase84Type = S.String;
+
+export type GlobalEventPayloadCase84Properties = EventWorktreeReadyProperties;
+export const GlobalEventPayloadCase84Properties = EventWorktreeReadyProperties;
+
+export interface GlobalEventPayloadCase84 {
+  id: string;
+  type: GlobalEventPayloadCase84Type;
+  properties: EventWorktreeReadyProperties;
+}
+export const GlobalEventPayloadCase84 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase84Type,
+    properties: EventWorktreeReadyProperties,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase84" }) as any as S.Schema<GlobalEventPayloadCase84>;
+
+export type GlobalEventPayloadCase85Type = "worktree.failed";
+export const GlobalEventPayloadCase85Type = S.String;
+
+export type GlobalEventPayloadCase85Properties = MessageAbortedErrorData;
+export const GlobalEventPayloadCase85Properties = MessageAbortedErrorData;
+
+export interface GlobalEventPayloadCase85 {
+  id: string;
+  type: GlobalEventPayloadCase85Type;
+  properties: MessageAbortedErrorData;
+}
+export const GlobalEventPayloadCase85 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase85Type,
+    properties: MessageAbortedErrorData,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase85" }) as any as S.Schema<GlobalEventPayloadCase85>;
+
+export type GlobalEventPayloadCase86Type = "server.connected";
+export const GlobalEventPayloadCase86Type = S.String;
+
+export interface GlobalEventPayloadCase86 {
+  id: string;
+  type: GlobalEventPayloadCase86Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase86 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase86Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase86" }) as any as S.Schema<GlobalEventPayloadCase86>;
+
+export type GlobalEventPayloadCase87Type = "global.disposed";
+export const GlobalEventPayloadCase87Type = S.String;
+
+export interface GlobalEventPayloadCase87 {
+  id: string;
+  type: GlobalEventPayloadCase87Type;
+  properties: unknown;
+}
+export const GlobalEventPayloadCase87 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: GlobalEventPayloadCase87Type,
+    properties: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalEventPayloadCase87" }) as any as S.Schema<GlobalEventPayloadCase87>;
+
+export type SyncEventSessionCreatedType = "sync";
+export const SyncEventSessionCreatedType = S.String;
+
+export type SyncEventSessionCreatedSyncEventType = "session.created.1";
+export const SyncEventSessionCreatedSyncEventType = S.String;
+
+export type SyncEventSessionCreatedSyncEventData = EventSessionCreatedProperties;
+export const SyncEventSessionCreatedSyncEventData = EventSessionCreatedProperties;
+
+export interface SyncEventSessionCreatedSyncEvent {
+  type: SyncEventSessionCreatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionCreatedProperties;
+}
+export const SyncEventSessionCreatedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionCreatedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionCreatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionCreatedSyncEvent",
+}) as any as S.Schema<SyncEventSessionCreatedSyncEvent>;
+
+export interface SyncEventSessionCreated {
+  type: SyncEventSessionCreatedType;
+  id: string;
+  syncEvent: SyncEventSessionCreatedSyncEvent;
+}
+export const SyncEventSessionCreated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionCreatedType,
+    id: S.String,
+    syncEvent: SyncEventSessionCreatedSyncEvent,
+  }),
+).annotate({ identifier: "SyncEventSessionCreated" }) as any as S.Schema<SyncEventSessionCreated>;
+
+export type SyncEventSessionUpdatedType = "sync";
+export const SyncEventSessionUpdatedType = S.String;
+
+export type SyncEventSessionUpdatedSyncEventType = "session.updated.1";
+export const SyncEventSessionUpdatedSyncEventType = S.String;
+
+export type SyncEventSessionUpdatedSyncEventData = EventSessionCreatedProperties;
+export const SyncEventSessionUpdatedSyncEventData = EventSessionCreatedProperties;
+
+export interface SyncEventSessionUpdatedSyncEvent {
+  type: SyncEventSessionUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionCreatedProperties;
+}
+export const SyncEventSessionUpdatedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionUpdatedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionCreatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionUpdatedSyncEvent",
+}) as any as S.Schema<SyncEventSessionUpdatedSyncEvent>;
+
+export interface SyncEventSessionUpdated {
+  type: SyncEventSessionUpdatedType;
+  id: string;
+  syncEvent: SyncEventSessionUpdatedSyncEvent;
+}
+export const SyncEventSessionUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionUpdatedType,
+    id: S.String,
+    syncEvent: SyncEventSessionUpdatedSyncEvent,
+  }),
+).annotate({ identifier: "SyncEventSessionUpdated" }) as any as S.Schema<SyncEventSessionUpdated>;
+
+export type SyncEventSessionDeletedType = "sync";
+export const SyncEventSessionDeletedType = S.String;
+
+export type SyncEventSessionDeletedSyncEventType = "session.deleted.1";
+export const SyncEventSessionDeletedSyncEventType = S.String;
+
+export type SyncEventSessionDeletedSyncEventData = EventSessionCreatedProperties;
+export const SyncEventSessionDeletedSyncEventData = EventSessionCreatedProperties;
+
+export interface SyncEventSessionDeletedSyncEvent {
+  type: SyncEventSessionDeletedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionCreatedProperties;
+}
+export const SyncEventSessionDeletedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionDeletedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionCreatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionDeletedSyncEvent",
+}) as any as S.Schema<SyncEventSessionDeletedSyncEvent>;
+
+export interface SyncEventSessionDeleted {
+  type: SyncEventSessionDeletedType;
+  id: string;
+  syncEvent: SyncEventSessionDeletedSyncEvent;
+}
+export const SyncEventSessionDeleted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionDeletedType,
+    id: S.String,
+    syncEvent: SyncEventSessionDeletedSyncEvent,
+  }),
+).annotate({ identifier: "SyncEventSessionDeleted" }) as any as S.Schema<SyncEventSessionDeleted>;
+
+export type SyncEventMessageUpdatedType = "sync";
+export const SyncEventMessageUpdatedType = S.String;
+
+export type SyncEventMessageUpdatedSyncEventType = "message.updated.1";
+export const SyncEventMessageUpdatedSyncEventType = S.String;
+
+export type SyncEventMessageUpdatedSyncEventData = EventMessageUpdatedProperties;
+export const SyncEventMessageUpdatedSyncEventData = EventMessageUpdatedProperties;
+
+export interface SyncEventMessageUpdatedSyncEvent {
+  type: SyncEventMessageUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessageUpdatedProperties;
+}
+export const SyncEventMessageUpdatedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessageUpdatedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventMessageUpdatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventMessageUpdatedSyncEvent",
+}) as any as S.Schema<SyncEventMessageUpdatedSyncEvent>;
+
+export interface SyncEventMessageUpdated {
+  type: SyncEventMessageUpdatedType;
+  id: string;
+  syncEvent: SyncEventMessageUpdatedSyncEvent;
+}
+export const SyncEventMessageUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessageUpdatedType,
+    id: S.String,
+    syncEvent: SyncEventMessageUpdatedSyncEvent,
+  }),
+).annotate({ identifier: "SyncEventMessageUpdated" }) as any as S.Schema<SyncEventMessageUpdated>;
+
+export type SyncEventMessageRemovedType = "sync";
+export const SyncEventMessageRemovedType = S.String;
+
+export type SyncEventMessageRemovedSyncEventType = "message.removed.1";
+export const SyncEventMessageRemovedSyncEventType = S.String;
+
+export type SyncEventMessageRemovedSyncEventData = EventMessageRemovedProperties;
+export const SyncEventMessageRemovedSyncEventData = EventMessageRemovedProperties;
+
+export interface SyncEventMessageRemovedSyncEvent {
+  type: SyncEventMessageRemovedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessageRemovedProperties;
+}
+export const SyncEventMessageRemovedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessageRemovedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventMessageRemovedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventMessageRemovedSyncEvent",
+}) as any as S.Schema<SyncEventMessageRemovedSyncEvent>;
+
+export interface SyncEventMessageRemoved {
+  type: SyncEventMessageRemovedType;
+  id: string;
+  syncEvent: SyncEventMessageRemovedSyncEvent;
+}
+export const SyncEventMessageRemoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessageRemovedType,
+    id: S.String,
+    syncEvent: SyncEventMessageRemovedSyncEvent,
+  }),
+).annotate({ identifier: "SyncEventMessageRemoved" }) as any as S.Schema<SyncEventMessageRemoved>;
+
+export type SyncEventMessagePartUpdatedType = "sync";
+export const SyncEventMessagePartUpdatedType = S.String;
+
+export type SyncEventMessagePartUpdatedSyncEventType = "message.part.updated.1";
+export const SyncEventMessagePartUpdatedSyncEventType = S.String;
+
+export type SyncEventMessagePartUpdatedSyncEventData = EventMessagePartUpdatedProperties;
+export const SyncEventMessagePartUpdatedSyncEventData = EventMessagePartUpdatedProperties;
+
+export interface SyncEventMessagePartUpdatedSyncEvent {
+  type: SyncEventMessagePartUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessagePartUpdatedProperties;
+}
+export const SyncEventMessagePartUpdatedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessagePartUpdatedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventMessagePartUpdatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventMessagePartUpdatedSyncEvent",
+}) as any as S.Schema<SyncEventMessagePartUpdatedSyncEvent>;
+
+export interface SyncEventMessagePartUpdated {
+  type: SyncEventMessagePartUpdatedType;
+  id: string;
+  syncEvent: SyncEventMessagePartUpdatedSyncEvent;
+}
+export const SyncEventMessagePartUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessagePartUpdatedType,
+    id: S.String,
+    syncEvent: SyncEventMessagePartUpdatedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventMessagePartUpdated",
+}) as any as S.Schema<SyncEventMessagePartUpdated>;
+
+export type SyncEventMessagePartRemovedType = "sync";
+export const SyncEventMessagePartRemovedType = S.String;
+
+export type SyncEventMessagePartRemovedSyncEventType = "message.part.removed.1";
+export const SyncEventMessagePartRemovedSyncEventType = S.String;
+
+export type SyncEventMessagePartRemovedSyncEventData = EventMessagePartRemovedProperties;
+export const SyncEventMessagePartRemovedSyncEventData = EventMessagePartRemovedProperties;
+
+export interface SyncEventMessagePartRemovedSyncEvent {
+  type: SyncEventMessagePartRemovedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessagePartRemovedProperties;
+}
+export const SyncEventMessagePartRemovedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessagePartRemovedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventMessagePartRemovedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventMessagePartRemovedSyncEvent",
+}) as any as S.Schema<SyncEventMessagePartRemovedSyncEvent>;
+
+export interface SyncEventMessagePartRemoved {
+  type: SyncEventMessagePartRemovedType;
+  id: string;
+  syncEvent: SyncEventMessagePartRemovedSyncEvent;
+}
+export const SyncEventMessagePartRemoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventMessagePartRemovedType,
+    id: S.String,
+    syncEvent: SyncEventMessagePartRemovedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventMessagePartRemoved",
+}) as any as S.Schema<SyncEventMessagePartRemoved>;
+
+export type SyncEventSessionNextAgentSwitchedType = "sync";
+export const SyncEventSessionNextAgentSwitchedType = S.String;
+
+export type SyncEventSessionNextAgentSwitchedSyncEventType = "session.next.agent.switched.1";
+export const SyncEventSessionNextAgentSwitchedSyncEventType = S.String;
+
+export type SyncEventSessionNextAgentSwitchedSyncEventData =
+  EventSessionNextAgentSwitchedProperties;
+export const SyncEventSessionNextAgentSwitchedSyncEventData =
+  EventSessionNextAgentSwitchedProperties;
+
+export interface SyncEventSessionNextAgentSwitchedSyncEvent {
+  type: SyncEventSessionNextAgentSwitchedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextAgentSwitchedProperties;
+}
+export const SyncEventSessionNextAgentSwitchedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextAgentSwitchedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextAgentSwitchedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextAgentSwitchedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextAgentSwitchedSyncEvent>;
+
+export interface SyncEventSessionNextAgentSwitched {
+  type: SyncEventSessionNextAgentSwitchedType;
+  id: string;
+  syncEvent: SyncEventSessionNextAgentSwitchedSyncEvent;
+}
+export const SyncEventSessionNextAgentSwitched = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextAgentSwitchedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextAgentSwitchedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextAgentSwitched",
+}) as any as S.Schema<SyncEventSessionNextAgentSwitched>;
+
+export type SyncEventSessionNextModelSwitchedType = "sync";
+export const SyncEventSessionNextModelSwitchedType = S.String;
+
+export type SyncEventSessionNextModelSwitchedSyncEventType = "session.next.model.switched.1";
+export const SyncEventSessionNextModelSwitchedSyncEventType = S.String;
+
+export type SyncEventSessionNextModelSwitchedSyncEventData =
+  EventSessionNextModelSwitchedProperties;
+export const SyncEventSessionNextModelSwitchedSyncEventData =
+  EventSessionNextModelSwitchedProperties;
+
+export interface SyncEventSessionNextModelSwitchedSyncEvent {
+  type: SyncEventSessionNextModelSwitchedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextModelSwitchedProperties;
+}
+export const SyncEventSessionNextModelSwitchedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextModelSwitchedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextModelSwitchedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextModelSwitchedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextModelSwitchedSyncEvent>;
+
+export interface SyncEventSessionNextModelSwitched {
+  type: SyncEventSessionNextModelSwitchedType;
+  id: string;
+  syncEvent: SyncEventSessionNextModelSwitchedSyncEvent;
+}
+export const SyncEventSessionNextModelSwitched = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextModelSwitchedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextModelSwitchedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextModelSwitched",
+}) as any as S.Schema<SyncEventSessionNextModelSwitched>;
+
+export type SyncEventSessionNextMovedType = "sync";
+export const SyncEventSessionNextMovedType = S.String;
+
+export type SyncEventSessionNextMovedSyncEventType = "session.next.moved.1";
+export const SyncEventSessionNextMovedSyncEventType = S.String;
+
+export type SyncEventSessionNextMovedSyncEventData = EventSessionNextMovedProperties;
+export const SyncEventSessionNextMovedSyncEventData = EventSessionNextMovedProperties;
+
+export interface SyncEventSessionNextMovedSyncEvent {
+  type: SyncEventSessionNextMovedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextMovedProperties;
+}
+export const SyncEventSessionNextMovedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextMovedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextMovedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextMovedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextMovedSyncEvent>;
+
+export interface SyncEventSessionNextMoved {
+  type: SyncEventSessionNextMovedType;
+  id: string;
+  syncEvent: SyncEventSessionNextMovedSyncEvent;
+}
+export const SyncEventSessionNextMoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextMovedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextMovedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextMoved",
+}) as any as S.Schema<SyncEventSessionNextMoved>;
+
+export type SyncEventSessionNextPromptedType = "sync";
+export const SyncEventSessionNextPromptedType = S.String;
+
+export type SyncEventSessionNextPromptedSyncEventType = "session.next.prompted.1";
+export const SyncEventSessionNextPromptedSyncEventType = S.String;
+
+export type SyncEventSessionNextPromptedSyncEventDataDelivery = "steer" | "queue";
+export const SyncEventSessionNextPromptedSyncEventDataDelivery = S.String;
+
+export interface SyncEventSessionNextPromptedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SyncEventSessionNextPromptedSyncEventDataDelivery;
+}
+export const SyncEventSessionNextPromptedSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: SyncEventSessionNextPromptedSyncEventDataDelivery,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextPromptedSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextPromptedSyncEventData>;
+
+export interface SyncEventSessionNextPromptedSyncEvent {
+  type: SyncEventSessionNextPromptedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextPromptedSyncEventData;
+}
+export const SyncEventSessionNextPromptedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextPromptedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextPromptedSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextPromptedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextPromptedSyncEvent>;
+
+export interface SyncEventSessionNextPrompted {
+  type: SyncEventSessionNextPromptedType;
+  id: string;
+  syncEvent: SyncEventSessionNextPromptedSyncEvent;
+}
+export const SyncEventSessionNextPrompted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextPromptedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextPromptedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextPrompted",
+}) as any as S.Schema<SyncEventSessionNextPrompted>;
+
+export type SyncEventSessionNextPromptAdmittedType = "sync";
+export const SyncEventSessionNextPromptAdmittedType = S.String;
+
+export type SyncEventSessionNextPromptAdmittedSyncEventType = "session.next.prompt.admitted.1";
+export const SyncEventSessionNextPromptAdmittedSyncEventType = S.String;
+
+export type SyncEventSessionNextPromptAdmittedSyncEventDataDelivery = "steer" | "queue";
+export const SyncEventSessionNextPromptAdmittedSyncEventDataDelivery = S.String;
+
+export interface SyncEventSessionNextPromptAdmittedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SyncEventSessionNextPromptAdmittedSyncEventDataDelivery;
+}
+export const SyncEventSessionNextPromptAdmittedSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: SyncEventSessionNextPromptAdmittedSyncEventDataDelivery,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextPromptAdmittedSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextPromptAdmittedSyncEventData>;
+
+export interface SyncEventSessionNextPromptAdmittedSyncEvent {
+  type: SyncEventSessionNextPromptAdmittedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextPromptAdmittedSyncEventData;
+}
+export const SyncEventSessionNextPromptAdmittedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextPromptAdmittedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextPromptAdmittedSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextPromptAdmittedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextPromptAdmittedSyncEvent>;
+
+export interface SyncEventSessionNextPromptAdmitted {
+  type: SyncEventSessionNextPromptAdmittedType;
+  id: string;
+  syncEvent: SyncEventSessionNextPromptAdmittedSyncEvent;
+}
+export const SyncEventSessionNextPromptAdmitted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextPromptAdmittedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextPromptAdmittedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextPromptAdmitted",
+}) as any as S.Schema<SyncEventSessionNextPromptAdmitted>;
+
+export type SyncEventSessionNextContextUpdatedType = "sync";
+export const SyncEventSessionNextContextUpdatedType = S.String;
+
+export type SyncEventSessionNextContextUpdatedSyncEventType = "session.next.context.updated.1";
+export const SyncEventSessionNextContextUpdatedSyncEventType = S.String;
+
+export type SyncEventSessionNextContextUpdatedSyncEventData =
+  EventSessionNextContextUpdatedProperties;
+export const SyncEventSessionNextContextUpdatedSyncEventData =
+  EventSessionNextContextUpdatedProperties;
+
+export interface SyncEventSessionNextContextUpdatedSyncEvent {
+  type: SyncEventSessionNextContextUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export const SyncEventSessionNextContextUpdatedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextContextUpdatedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextContextUpdatedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextContextUpdatedSyncEvent>;
+
+export interface SyncEventSessionNextContextUpdated {
+  type: SyncEventSessionNextContextUpdatedType;
+  id: string;
+  syncEvent: SyncEventSessionNextContextUpdatedSyncEvent;
+}
+export const SyncEventSessionNextContextUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextContextUpdatedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextContextUpdatedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextContextUpdated",
+}) as any as S.Schema<SyncEventSessionNextContextUpdated>;
+
+export type SyncEventSessionNextSyntheticType = "sync";
+export const SyncEventSessionNextSyntheticType = S.String;
+
+export type SyncEventSessionNextSyntheticSyncEventType = "session.next.synthetic.1";
+export const SyncEventSessionNextSyntheticSyncEventType = S.String;
+
+export type SyncEventSessionNextSyntheticSyncEventData = EventSessionNextContextUpdatedProperties;
+export const SyncEventSessionNextSyntheticSyncEventData = EventSessionNextContextUpdatedProperties;
+
+export interface SyncEventSessionNextSyntheticSyncEvent {
+  type: SyncEventSessionNextSyntheticSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export const SyncEventSessionNextSyntheticSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextSyntheticSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextSyntheticSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextSyntheticSyncEvent>;
+
+export interface SyncEventSessionNextSynthetic {
+  type: SyncEventSessionNextSyntheticType;
+  id: string;
+  syncEvent: SyncEventSessionNextSyntheticSyncEvent;
+}
+export const SyncEventSessionNextSynthetic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextSyntheticType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextSyntheticSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextSynthetic",
+}) as any as S.Schema<SyncEventSessionNextSynthetic>;
+
+export type SyncEventSessionNextShellStartedType = "sync";
+export const SyncEventSessionNextShellStartedType = S.String;
+
+export type SyncEventSessionNextShellStartedSyncEventType = "session.next.shell.started.1";
+export const SyncEventSessionNextShellStartedSyncEventType = S.String;
+
+export type SyncEventSessionNextShellStartedSyncEventData = EventSessionNextShellStartedProperties;
+export const SyncEventSessionNextShellStartedSyncEventData = EventSessionNextShellStartedProperties;
+
+export interface SyncEventSessionNextShellStartedSyncEvent {
+  type: SyncEventSessionNextShellStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextShellStartedProperties;
+}
+export const SyncEventSessionNextShellStartedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextShellStartedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextShellStartedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextShellStartedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextShellStartedSyncEvent>;
+
+export interface SyncEventSessionNextShellStarted {
+  type: SyncEventSessionNextShellStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextShellStartedSyncEvent;
+}
+export const SyncEventSessionNextShellStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextShellStartedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextShellStartedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextShellStarted",
+}) as any as S.Schema<SyncEventSessionNextShellStarted>;
+
+export type SyncEventSessionNextShellEndedType = "sync";
+export const SyncEventSessionNextShellEndedType = S.String;
+
+export type SyncEventSessionNextShellEndedSyncEventType = "session.next.shell.ended.1";
+export const SyncEventSessionNextShellEndedSyncEventType = S.String;
+
+export type SyncEventSessionNextShellEndedSyncEventData = EventSessionNextShellEndedProperties;
+export const SyncEventSessionNextShellEndedSyncEventData = EventSessionNextShellEndedProperties;
+
+export interface SyncEventSessionNextShellEndedSyncEvent {
+  type: SyncEventSessionNextShellEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextShellEndedProperties;
+}
+export const SyncEventSessionNextShellEndedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextShellEndedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextShellEndedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextShellEndedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextShellEndedSyncEvent>;
+
+export interface SyncEventSessionNextShellEnded {
+  type: SyncEventSessionNextShellEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextShellEndedSyncEvent;
+}
+export const SyncEventSessionNextShellEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextShellEndedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextShellEndedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextShellEnded",
+}) as any as S.Schema<SyncEventSessionNextShellEnded>;
+
+export type SyncEventSessionNextStepStartedType = "sync";
+export const SyncEventSessionNextStepStartedType = S.String;
+
+export type SyncEventSessionNextStepStartedSyncEventType = "session.next.step.started.1";
+export const SyncEventSessionNextStepStartedSyncEventType = S.String;
+
+export type SyncEventSessionNextStepStartedSyncEventData = EventSessionNextStepStartedProperties;
+export const SyncEventSessionNextStepStartedSyncEventData = EventSessionNextStepStartedProperties;
+
+export interface SyncEventSessionNextStepStartedSyncEvent {
+  type: SyncEventSessionNextStepStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextStepStartedProperties;
+}
+export const SyncEventSessionNextStepStartedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextStepStartedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextStepStartedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepStartedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextStepStartedSyncEvent>;
+
+export interface SyncEventSessionNextStepStarted {
+  type: SyncEventSessionNextStepStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextStepStartedSyncEvent;
+}
+export const SyncEventSessionNextStepStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextStepStartedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextStepStartedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepStarted",
+}) as any as S.Schema<SyncEventSessionNextStepStarted>;
+
+export type SyncEventSessionNextStepEndedType = "sync";
+export const SyncEventSessionNextStepEndedType = S.String;
+
+export type SyncEventSessionNextStepEndedSyncEventType = "session.next.step.ended.2";
+export const SyncEventSessionNextStepEndedSyncEventType = S.String;
+
+export type SyncEventSessionNextStepEndedSyncEventDataTokensCache = ModelCostCache;
+export const SyncEventSessionNextStepEndedSyncEventDataTokensCache = ModelCostCache;
+
+export type SyncEventSessionNextStepEndedSyncEventDataTokens = SessionTokens;
+export const SyncEventSessionNextStepEndedSyncEventDataTokens = SessionTokens;
+
+export type SyncEventSessionNextStepEndedSyncEventDataFilesList = Array<string>;
+export const SyncEventSessionNextStepEndedSyncEventDataFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SyncEventSessionNextStepEndedSyncEventDataFilesList>;
+
+export interface SyncEventSessionNextStepEndedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: SyncEventSessionNextStepEndedSyncEventDataFilesList;
+}
+export const SyncEventSessionNextStepEndedSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    finish: S.String,
+    cost: S.Number,
+    tokens: SessionTokens,
+    snapshot: S.optional(S.String),
+    files: S.optional(SyncEventSessionNextStepEndedSyncEventDataFilesList),
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepEndedSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextStepEndedSyncEventData>;
+
+export interface SyncEventSessionNextStepEndedSyncEvent {
+  type: SyncEventSessionNextStepEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextStepEndedSyncEventData;
+}
+export const SyncEventSessionNextStepEndedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextStepEndedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextStepEndedSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepEndedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextStepEndedSyncEvent>;
+
+export interface SyncEventSessionNextStepEnded {
+  type: SyncEventSessionNextStepEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextStepEndedSyncEvent;
+}
+export const SyncEventSessionNextStepEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextStepEndedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextStepEndedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepEnded",
+}) as any as S.Schema<SyncEventSessionNextStepEnded>;
+
+export type SyncEventSessionNextStepFailedType = "sync";
+export const SyncEventSessionNextStepFailedType = S.String;
+
+export type SyncEventSessionNextStepFailedSyncEventType = "session.next.step.failed.2";
+export const SyncEventSessionNextStepFailedSyncEventType = S.String;
+
+export type SyncEventSessionNextStepFailedSyncEventData = EventSessionNextStepFailedProperties;
+export const SyncEventSessionNextStepFailedSyncEventData = EventSessionNextStepFailedProperties;
+
+export interface SyncEventSessionNextStepFailedSyncEvent {
+  type: SyncEventSessionNextStepFailedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextStepFailedProperties;
+}
+export const SyncEventSessionNextStepFailedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextStepFailedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextStepFailedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepFailedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextStepFailedSyncEvent>;
+
+export interface SyncEventSessionNextStepFailed {
+  type: SyncEventSessionNextStepFailedType;
+  id: string;
+  syncEvent: SyncEventSessionNextStepFailedSyncEvent;
+}
+export const SyncEventSessionNextStepFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextStepFailedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextStepFailedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextStepFailed",
+}) as any as S.Schema<SyncEventSessionNextStepFailed>;
+
+export type SyncEventSessionNextTextStartedType = "sync";
+export const SyncEventSessionNextTextStartedType = S.String;
+
+export type SyncEventSessionNextTextStartedSyncEventType = "session.next.text.started.1";
+export const SyncEventSessionNextTextStartedSyncEventType = S.String;
+
+export type SyncEventSessionNextTextStartedSyncEventData = EventSessionNextTextStartedProperties;
+export const SyncEventSessionNextTextStartedSyncEventData = EventSessionNextTextStartedProperties;
+
+export interface SyncEventSessionNextTextStartedSyncEvent {
+  type: SyncEventSessionNextTextStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextTextStartedProperties;
+}
+export const SyncEventSessionNextTextStartedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextTextStartedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextTextStartedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextTextStartedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextTextStartedSyncEvent>;
+
+export interface SyncEventSessionNextTextStarted {
+  type: SyncEventSessionNextTextStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextTextStartedSyncEvent;
+}
+export const SyncEventSessionNextTextStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextTextStartedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextTextStartedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextTextStarted",
+}) as any as S.Schema<SyncEventSessionNextTextStarted>;
+
+export type SyncEventSessionNextTextEndedType = "sync";
+export const SyncEventSessionNextTextEndedType = S.String;
+
+export type SyncEventSessionNextTextEndedSyncEventType = "session.next.text.ended.1";
+export const SyncEventSessionNextTextEndedSyncEventType = S.String;
+
+export type SyncEventSessionNextTextEndedSyncEventData = EventSessionNextTextEndedProperties;
+export const SyncEventSessionNextTextEndedSyncEventData = EventSessionNextTextEndedProperties;
+
+export interface SyncEventSessionNextTextEndedSyncEvent {
+  type: SyncEventSessionNextTextEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextTextEndedProperties;
+}
+export const SyncEventSessionNextTextEndedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextTextEndedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextTextEndedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextTextEndedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextTextEndedSyncEvent>;
+
+export interface SyncEventSessionNextTextEnded {
+  type: SyncEventSessionNextTextEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextTextEndedSyncEvent;
+}
+export const SyncEventSessionNextTextEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextTextEndedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextTextEndedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextTextEnded",
+}) as any as S.Schema<SyncEventSessionNextTextEnded>;
+
+export type SyncEventSessionNextReasoningStartedType = "sync";
+export const SyncEventSessionNextReasoningStartedType = S.String;
+
+export type SyncEventSessionNextReasoningStartedSyncEventType = "session.next.reasoning.started.1";
+export const SyncEventSessionNextReasoningStartedSyncEventType = S.String;
+
+export type SyncEventSessionNextReasoningStartedSyncEventData =
+  EventSessionNextReasoningStartedProperties;
+export const SyncEventSessionNextReasoningStartedSyncEventData =
+  EventSessionNextReasoningStartedProperties;
+
+export interface SyncEventSessionNextReasoningStartedSyncEvent {
+  type: SyncEventSessionNextReasoningStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextReasoningStartedProperties;
+}
+export const SyncEventSessionNextReasoningStartedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextReasoningStartedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextReasoningStartedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextReasoningStartedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextReasoningStartedSyncEvent>;
+
+export interface SyncEventSessionNextReasoningStarted {
+  type: SyncEventSessionNextReasoningStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextReasoningStartedSyncEvent;
+}
+export const SyncEventSessionNextReasoningStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextReasoningStartedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextReasoningStartedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextReasoningStarted",
+}) as any as S.Schema<SyncEventSessionNextReasoningStarted>;
+
+export type SyncEventSessionNextReasoningEndedType = "sync";
+export const SyncEventSessionNextReasoningEndedType = S.String;
+
+export type SyncEventSessionNextReasoningEndedSyncEventType = "session.next.reasoning.ended.1";
+export const SyncEventSessionNextReasoningEndedSyncEventType = S.String;
+
+export type SyncEventSessionNextReasoningEndedSyncEventData =
+  EventSessionNextReasoningEndedProperties;
+export const SyncEventSessionNextReasoningEndedSyncEventData =
+  EventSessionNextReasoningEndedProperties;
+
+export interface SyncEventSessionNextReasoningEndedSyncEvent {
+  type: SyncEventSessionNextReasoningEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextReasoningEndedProperties;
+}
+export const SyncEventSessionNextReasoningEndedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextReasoningEndedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextReasoningEndedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextReasoningEndedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextReasoningEndedSyncEvent>;
+
+export interface SyncEventSessionNextReasoningEnded {
+  type: SyncEventSessionNextReasoningEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextReasoningEndedSyncEvent;
+}
+export const SyncEventSessionNextReasoningEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextReasoningEndedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextReasoningEndedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextReasoningEnded",
+}) as any as S.Schema<SyncEventSessionNextReasoningEnded>;
+
+export type SyncEventSessionNextToolInputStartedType = "sync";
+export const SyncEventSessionNextToolInputStartedType = S.String;
+
+export type SyncEventSessionNextToolInputStartedSyncEventType = "session.next.tool.input.started.1";
+export const SyncEventSessionNextToolInputStartedSyncEventType = S.String;
+
+export type SyncEventSessionNextToolInputStartedSyncEventData =
+  EventSessionNextToolInputStartedProperties;
+export const SyncEventSessionNextToolInputStartedSyncEventData =
+  EventSessionNextToolInputStartedProperties;
+
+export interface SyncEventSessionNextToolInputStartedSyncEvent {
+  type: SyncEventSessionNextToolInputStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolInputStartedProperties;
+}
+export const SyncEventSessionNextToolInputStartedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolInputStartedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextToolInputStartedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolInputStartedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextToolInputStartedSyncEvent>;
+
+export interface SyncEventSessionNextToolInputStarted {
+  type: SyncEventSessionNextToolInputStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolInputStartedSyncEvent;
+}
+export const SyncEventSessionNextToolInputStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolInputStartedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextToolInputStartedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolInputStarted",
+}) as any as S.Schema<SyncEventSessionNextToolInputStarted>;
+
+export type SyncEventSessionNextToolInputEndedType = "sync";
+export const SyncEventSessionNextToolInputEndedType = S.String;
+
+export type SyncEventSessionNextToolInputEndedSyncEventType = "session.next.tool.input.ended.1";
+export const SyncEventSessionNextToolInputEndedSyncEventType = S.String;
+
+export type SyncEventSessionNextToolInputEndedSyncEventData =
+  EventSessionNextToolInputEndedProperties;
+export const SyncEventSessionNextToolInputEndedSyncEventData =
+  EventSessionNextToolInputEndedProperties;
+
+export interface SyncEventSessionNextToolInputEndedSyncEvent {
+  type: SyncEventSessionNextToolInputEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolInputEndedProperties;
+}
+export const SyncEventSessionNextToolInputEndedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolInputEndedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextToolInputEndedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolInputEndedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextToolInputEndedSyncEvent>;
+
+export interface SyncEventSessionNextToolInputEnded {
+  type: SyncEventSessionNextToolInputEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolInputEndedSyncEvent;
+}
+export const SyncEventSessionNextToolInputEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolInputEndedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextToolInputEndedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolInputEnded",
+}) as any as S.Schema<SyncEventSessionNextToolInputEnded>;
+
+export type SyncEventSessionNextToolCalledType = "sync";
+export const SyncEventSessionNextToolCalledType = S.String;
+
+export type SyncEventSessionNextToolCalledSyncEventType = "session.next.tool.called.1";
+export const SyncEventSessionNextToolCalledSyncEventType = S.String;
+
+export type SyncEventSessionNextToolCalledSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const SyncEventSessionNextToolCalledSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export type SyncEventSessionNextToolCalledSyncEventData = EventSessionNextToolCalledProperties;
+export const SyncEventSessionNextToolCalledSyncEventData = EventSessionNextToolCalledProperties;
+
+export interface SyncEventSessionNextToolCalledSyncEvent {
+  type: SyncEventSessionNextToolCalledSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolCalledProperties;
+}
+export const SyncEventSessionNextToolCalledSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolCalledSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextToolCalledProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolCalledSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextToolCalledSyncEvent>;
+
+export interface SyncEventSessionNextToolCalled {
+  type: SyncEventSessionNextToolCalledType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolCalledSyncEvent;
+}
+export const SyncEventSessionNextToolCalled = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolCalledType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextToolCalledSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolCalled",
+}) as any as S.Schema<SyncEventSessionNextToolCalled>;
+
+export type SyncEventSessionNextToolProgressType = "sync";
+export const SyncEventSessionNextToolProgressType = S.String;
+
+export type SyncEventSessionNextToolProgressSyncEventType = "session.next.tool.progress.1";
+export const SyncEventSessionNextToolProgressSyncEventType = S.String;
+
+export type SyncEventSessionNextToolProgressSyncEventDataContentList = Array<LLMToolContent>;
+export const SyncEventSessionNextToolProgressSyncEventDataContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<SyncEventSessionNextToolProgressSyncEventDataContentList>;
+
+export interface SyncEventSessionNextToolProgressSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SyncEventSessionNextToolProgressSyncEventDataContentList;
+}
+export const SyncEventSessionNextToolProgressSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: SyncEventSessionNextToolProgressSyncEventDataContentList,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolProgressSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextToolProgressSyncEventData>;
+
+export interface SyncEventSessionNextToolProgressSyncEvent {
+  type: SyncEventSessionNextToolProgressSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextToolProgressSyncEventData;
+}
+export const SyncEventSessionNextToolProgressSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolProgressSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextToolProgressSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolProgressSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextToolProgressSyncEvent>;
+
+export interface SyncEventSessionNextToolProgress {
+  type: SyncEventSessionNextToolProgressType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolProgressSyncEvent;
+}
+export const SyncEventSessionNextToolProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolProgressType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextToolProgressSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolProgress",
+}) as any as S.Schema<SyncEventSessionNextToolProgress>;
+
+export type SyncEventSessionNextToolSuccessType = "sync";
+export const SyncEventSessionNextToolSuccessType = S.String;
+
+export type SyncEventSessionNextToolSuccessSyncEventType = "session.next.tool.success.1";
+export const SyncEventSessionNextToolSuccessSyncEventType = S.String;
+
+export type SyncEventSessionNextToolSuccessSyncEventDataContentList = Array<LLMToolContent>;
+export const SyncEventSessionNextToolSuccessSyncEventDataContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<SyncEventSessionNextToolSuccessSyncEventDataContentList>;
+
+export type SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList = Array<string>;
+export const SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList>;
+
+export type SyncEventSessionNextToolSuccessSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const SyncEventSessionNextToolSuccessSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export interface SyncEventSessionNextToolSuccessSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SyncEventSessionNextToolSuccessSyncEventDataContentList;
+  outputPaths?: SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export const SyncEventSessionNextToolSuccessSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: SyncEventSessionNextToolSuccessSyncEventDataContentList,
+    outputPaths: S.optional(SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList),
+    result: S.optional(S.Unknown),
+    provider: EventSessionNextToolCalledPropertiesProvider,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolSuccessSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextToolSuccessSyncEventData>;
+
+export interface SyncEventSessionNextToolSuccessSyncEvent {
+  type: SyncEventSessionNextToolSuccessSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextToolSuccessSyncEventData;
+}
+export const SyncEventSessionNextToolSuccessSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolSuccessSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextToolSuccessSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolSuccessSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextToolSuccessSyncEvent>;
+
+export interface SyncEventSessionNextToolSuccess {
+  type: SyncEventSessionNextToolSuccessType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolSuccessSyncEvent;
+}
+export const SyncEventSessionNextToolSuccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolSuccessType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextToolSuccessSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolSuccess",
+}) as any as S.Schema<SyncEventSessionNextToolSuccess>;
+
+export type SyncEventSessionNextToolFailedType = "sync";
+export const SyncEventSessionNextToolFailedType = S.String;
+
+export type SyncEventSessionNextToolFailedSyncEventType = "session.next.tool.failed.1";
+export const SyncEventSessionNextToolFailedSyncEventType = S.String;
+
+export type SyncEventSessionNextToolFailedSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export const SyncEventSessionNextToolFailedSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+
+export type SyncEventSessionNextToolFailedSyncEventData = EventSessionNextToolFailedProperties;
+export const SyncEventSessionNextToolFailedSyncEventData = EventSessionNextToolFailedProperties;
+
+export interface SyncEventSessionNextToolFailedSyncEvent {
+  type: SyncEventSessionNextToolFailedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolFailedProperties;
+}
+export const SyncEventSessionNextToolFailedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolFailedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextToolFailedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolFailedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextToolFailedSyncEvent>;
+
+export interface SyncEventSessionNextToolFailed {
+  type: SyncEventSessionNextToolFailedType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolFailedSyncEvent;
+}
+export const SyncEventSessionNextToolFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextToolFailedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextToolFailedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextToolFailed",
+}) as any as S.Schema<SyncEventSessionNextToolFailed>;
+
+export type SyncEventSessionNextRetriedType = "sync";
+export const SyncEventSessionNextRetriedType = S.String;
+
+export type SyncEventSessionNextRetriedSyncEventType = "session.next.retried.1";
+export const SyncEventSessionNextRetriedSyncEventType = S.String;
+
+export type SyncEventSessionNextRetriedSyncEventData = EventSessionNextRetriedProperties;
+export const SyncEventSessionNextRetriedSyncEventData = EventSessionNextRetriedProperties;
+
+export interface SyncEventSessionNextRetriedSyncEvent {
+  type: SyncEventSessionNextRetriedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRetriedProperties;
+}
+export const SyncEventSessionNextRetriedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRetriedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextRetriedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRetriedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextRetriedSyncEvent>;
+
+export interface SyncEventSessionNextRetried {
+  type: SyncEventSessionNextRetriedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRetriedSyncEvent;
+}
+export const SyncEventSessionNextRetried = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRetriedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextRetriedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRetried",
+}) as any as S.Schema<SyncEventSessionNextRetried>;
+
+export type SyncEventSessionNextCompactionStartedType = "sync";
+export const SyncEventSessionNextCompactionStartedType = S.String;
+
+export type SyncEventSessionNextCompactionStartedSyncEventType =
+  "session.next.compaction.started.1";
+export const SyncEventSessionNextCompactionStartedSyncEventType = S.String;
+
+export type SyncEventSessionNextCompactionStartedSyncEventDataReason = "auto" | "manual";
+export const SyncEventSessionNextCompactionStartedSyncEventDataReason = S.String;
+
+export interface SyncEventSessionNextCompactionStartedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SyncEventSessionNextCompactionStartedSyncEventDataReason;
+}
+export const SyncEventSessionNextCompactionStartedSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: SyncEventSessionNextCompactionStartedSyncEventDataReason,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextCompactionStartedSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextCompactionStartedSyncEventData>;
+
+export interface SyncEventSessionNextCompactionStartedSyncEvent {
+  type: SyncEventSessionNextCompactionStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextCompactionStartedSyncEventData;
+}
+export const SyncEventSessionNextCompactionStartedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextCompactionStartedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextCompactionStartedSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextCompactionStartedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextCompactionStartedSyncEvent>;
+
+export interface SyncEventSessionNextCompactionStarted {
+  type: SyncEventSessionNextCompactionStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextCompactionStartedSyncEvent;
+}
+export const SyncEventSessionNextCompactionStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextCompactionStartedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextCompactionStartedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextCompactionStarted",
+}) as any as S.Schema<SyncEventSessionNextCompactionStarted>;
+
+export type SyncEventSessionNextCompactionEndedType = "sync";
+export const SyncEventSessionNextCompactionEndedType = S.String;
+
+export type SyncEventSessionNextCompactionEndedSyncEventType = "session.next.compaction.ended.1";
+export const SyncEventSessionNextCompactionEndedSyncEventType = S.String;
+
+export type SyncEventSessionNextCompactionEndedSyncEventDataReason = "auto" | "manual";
+export const SyncEventSessionNextCompactionEndedSyncEventDataReason = S.String;
+
+export interface SyncEventSessionNextCompactionEndedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SyncEventSessionNextCompactionEndedSyncEventDataReason;
+  text: string;
+  recent: string;
+}
+export const SyncEventSessionNextCompactionEndedSyncEventData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: SyncEventSessionNextCompactionEndedSyncEventDataReason,
+    text: S.String,
+    recent: S.String,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextCompactionEndedSyncEventData",
+}) as any as S.Schema<SyncEventSessionNextCompactionEndedSyncEventData>;
+
+export interface SyncEventSessionNextCompactionEndedSyncEvent {
+  type: SyncEventSessionNextCompactionEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextCompactionEndedSyncEventData;
+}
+export const SyncEventSessionNextCompactionEndedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextCompactionEndedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: SyncEventSessionNextCompactionEndedSyncEventData,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextCompactionEndedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextCompactionEndedSyncEvent>;
+
+export interface SyncEventSessionNextCompactionEnded {
+  type: SyncEventSessionNextCompactionEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextCompactionEndedSyncEvent;
+}
+export const SyncEventSessionNextCompactionEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextCompactionEndedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextCompactionEndedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextCompactionEnded",
+}) as any as S.Schema<SyncEventSessionNextCompactionEnded>;
+
+export type SyncEventSessionNextRevertStagedType = "sync";
+export const SyncEventSessionNextRevertStagedType = S.String;
+
+export type SyncEventSessionNextRevertStagedSyncEventType = "session.next.revert.staged.1";
+export const SyncEventSessionNextRevertStagedSyncEventType = S.String;
+
+export type SyncEventSessionNextRevertStagedSyncEventData = EventSessionNextRevertStagedProperties;
+export const SyncEventSessionNextRevertStagedSyncEventData = EventSessionNextRevertStagedProperties;
+
+export interface SyncEventSessionNextRevertStagedSyncEvent {
+  type: SyncEventSessionNextRevertStagedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRevertStagedProperties;
+}
+export const SyncEventSessionNextRevertStagedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRevertStagedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextRevertStagedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRevertStagedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextRevertStagedSyncEvent>;
+
+export interface SyncEventSessionNextRevertStaged {
+  type: SyncEventSessionNextRevertStagedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRevertStagedSyncEvent;
+}
+export const SyncEventSessionNextRevertStaged = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRevertStagedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextRevertStagedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRevertStaged",
+}) as any as S.Schema<SyncEventSessionNextRevertStaged>;
+
+export type SyncEventSessionNextRevertClearedType = "sync";
+export const SyncEventSessionNextRevertClearedType = S.String;
+
+export type SyncEventSessionNextRevertClearedSyncEventType = "session.next.revert.cleared.1";
+export const SyncEventSessionNextRevertClearedSyncEventType = S.String;
+
+export type SyncEventSessionNextRevertClearedSyncEventData =
+  EventSessionNextRevertClearedProperties;
+export const SyncEventSessionNextRevertClearedSyncEventData =
+  EventSessionNextRevertClearedProperties;
+
+export interface SyncEventSessionNextRevertClearedSyncEvent {
+  type: SyncEventSessionNextRevertClearedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRevertClearedProperties;
+}
+export const SyncEventSessionNextRevertClearedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRevertClearedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextRevertClearedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRevertClearedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextRevertClearedSyncEvent>;
+
+export interface SyncEventSessionNextRevertCleared {
+  type: SyncEventSessionNextRevertClearedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRevertClearedSyncEvent;
+}
+export const SyncEventSessionNextRevertCleared = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRevertClearedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextRevertClearedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRevertCleared",
+}) as any as S.Schema<SyncEventSessionNextRevertCleared>;
+
+export type SyncEventSessionNextRevertCommittedType = "sync";
+export const SyncEventSessionNextRevertCommittedType = S.String;
+
+export type SyncEventSessionNextRevertCommittedSyncEventType = "session.next.revert.committed.1";
+export const SyncEventSessionNextRevertCommittedSyncEventType = S.String;
+
+export type SyncEventSessionNextRevertCommittedSyncEventData =
+  EventSessionNextRevertCommittedProperties;
+export const SyncEventSessionNextRevertCommittedSyncEventData =
+  EventSessionNextRevertCommittedProperties;
+
+export interface SyncEventSessionNextRevertCommittedSyncEvent {
+  type: SyncEventSessionNextRevertCommittedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRevertCommittedProperties;
+}
+export const SyncEventSessionNextRevertCommittedSyncEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRevertCommittedSyncEventType,
+    id: S.String,
+    seq: S.Number,
+    aggregateID: S.String,
+    data: EventSessionNextRevertCommittedProperties,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRevertCommittedSyncEvent",
+}) as any as S.Schema<SyncEventSessionNextRevertCommittedSyncEvent>;
+
+export interface SyncEventSessionNextRevertCommitted {
+  type: SyncEventSessionNextRevertCommittedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRevertCommittedSyncEvent;
+}
+export const SyncEventSessionNextRevertCommitted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SyncEventSessionNextRevertCommittedType,
+    id: S.String,
+    syncEvent: SyncEventSessionNextRevertCommittedSyncEvent,
+  }),
+).annotate({
+  identifier: "SyncEventSessionNextRevertCommitted",
+}) as any as S.Schema<SyncEventSessionNextRevertCommitted>;
+
+export type GlobalEventPayload =
+  | GlobalEventPayloadCase0
+  | GlobalEventPayloadCase1
+  | GlobalEventPayloadCase2
+  | GlobalEventPayloadCase3
+  | GlobalEventPayloadCase4
+  | GlobalEventPayloadCase5
+  | GlobalEventPayloadCase6
+  | GlobalEventPayloadCase7
+  | GlobalEventPayloadCase8
+  | GlobalEventPayloadCase9
+  | GlobalEventPayloadCase10
+  | GlobalEventPayloadCase11
+  | GlobalEventPayloadCase12
+  | GlobalEventPayloadCase13
+  | GlobalEventPayloadCase14
+  | GlobalEventPayloadCase15
+  | GlobalEventPayloadCase16
+  | GlobalEventPayloadCase17
+  | GlobalEventPayloadCase18
+  | GlobalEventPayloadCase19
+  | GlobalEventPayloadCase20
+  | GlobalEventPayloadCase21
+  | GlobalEventPayloadCase22
+  | GlobalEventPayloadCase23
+  | GlobalEventPayloadCase24
+  | GlobalEventPayloadCase25
+  | GlobalEventPayloadCase26
+  | GlobalEventPayloadCase27
+  | GlobalEventPayloadCase28
+  | GlobalEventPayloadCase29
+  | GlobalEventPayloadCase30
+  | GlobalEventPayloadCase31
+  | GlobalEventPayloadCase32
+  | GlobalEventPayloadCase33
+  | GlobalEventPayloadCase34
+  | GlobalEventPayloadCase35
+  | GlobalEventPayloadCase36
+  | GlobalEventPayloadCase37
+  | GlobalEventPayloadCase38
+  | GlobalEventPayloadCase39
+  | GlobalEventPayloadCase40
+  | GlobalEventPayloadCase41
+  | GlobalEventPayloadCase42
+  | GlobalEventPayloadCase43
+  | GlobalEventPayloadCase44
+  | GlobalEventPayloadCase45
+  | GlobalEventPayloadCase46
+  | GlobalEventPayloadCase47
+  | GlobalEventPayloadCase48
+  | GlobalEventPayloadCase49
+  | GlobalEventPayloadCase50
+  | GlobalEventPayloadCase51
+  | GlobalEventPayloadCase52
+  | GlobalEventPayloadCase53
+  | GlobalEventPayloadCase54
+  | GlobalEventPayloadCase55
+  | GlobalEventPayloadCase56
+  | GlobalEventPayloadCase57
+  | GlobalEventPayloadCase58
+  | GlobalEventPayloadCase59
+  | GlobalEventPayloadCase60
+  | GlobalEventPayloadCase61
+  | GlobalEventPayloadCase62
+  | GlobalEventPayloadCase63
+  | GlobalEventPayloadCase64
+  | GlobalEventPayloadCase65
+  | GlobalEventPayloadCase66
+  | GlobalEventPayloadCase67
+  | GlobalEventPayloadCase68
+  | GlobalEventPayloadCase69
+  | GlobalEventPayloadCase70
+  | GlobalEventPayloadCase71
+  | GlobalEventPayloadCase72
+  | GlobalEventPayloadCase73
+  | GlobalEventPayloadCase74
+  | GlobalEventPayloadCase75
+  | GlobalEventPayloadCase76
+  | GlobalEventPayloadCase77
+  | GlobalEventPayloadCase78
+  | GlobalEventPayloadCase79
+  | GlobalEventPayloadCase80
+  | GlobalEventPayloadCase81
+  | GlobalEventPayloadCase82
+  | GlobalEventPayloadCase83
+  | GlobalEventPayloadCase84
+  | GlobalEventPayloadCase85
+  | GlobalEventPayloadCase86
+  | GlobalEventPayloadCase87
+  | EventServerInstanceDisposed
+  | SyncEventSessionCreated
+  | SyncEventSessionUpdated
+  | SyncEventSessionDeleted
+  | SyncEventMessageUpdated
+  | SyncEventMessageRemoved
+  | SyncEventMessagePartUpdated
+  | SyncEventMessagePartRemoved
+  | SyncEventSessionNextAgentSwitched
+  | SyncEventSessionNextModelSwitched
+  | SyncEventSessionNextMoved
+  | SyncEventSessionNextPrompted
+  | SyncEventSessionNextPromptAdmitted
+  | SyncEventSessionNextContextUpdated
+  | SyncEventSessionNextSynthetic
+  | SyncEventSessionNextShellStarted
+  | SyncEventSessionNextShellEnded
+  | SyncEventSessionNextStepStarted
+  | SyncEventSessionNextStepEnded
+  | SyncEventSessionNextStepFailed
+  | SyncEventSessionNextTextStarted
+  | SyncEventSessionNextTextEnded
+  | SyncEventSessionNextReasoningStarted
+  | SyncEventSessionNextReasoningEnded
+  | SyncEventSessionNextToolInputStarted
+  | SyncEventSessionNextToolInputEnded
+  | SyncEventSessionNextToolCalled
+  | SyncEventSessionNextToolProgress
+  | SyncEventSessionNextToolSuccess
+  | SyncEventSessionNextToolFailed
+  | SyncEventSessionNextRetried
+  | SyncEventSessionNextCompactionStarted
+  | SyncEventSessionNextCompactionEnded
+  | SyncEventSessionNextRevertStaged
+  | SyncEventSessionNextRevertCleared
+  | SyncEventSessionNextRevertCommitted;
+export const GlobalEventPayload = S.Unknown as any as S.Schema<GlobalEventPayload>;
+
+export interface GlobalEvent {
+  directory: string;
+  project?: string;
+  workspace?: string;
+  payload: GlobalEventPayload;
+}
+export const GlobalEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    directory: S.String,
+    project: S.optional(S.String),
+    workspace: S.optional(S.String),
+    payload: GlobalEventPayload,
+  }),
+).annotate({ identifier: "GlobalEvent" }) as any as S.Schema<GlobalEvent>;
 
 export interface SubscribeV2EventRequest {}
 export const SubscribeV2EventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/event", code: 200 })),
 ).annotate({ identifier: "SubscribeV2EventRequest" }) as any as S.Schema<SubscribeV2EventRequest>;
 
-export interface SubscribeV2EventResponse {}
-export const SubscribeV2EventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "SubscribeV2EventResponse",
-}) as any as S.Schema<SubscribeV2EventResponse>;
+export type ModelsDevRefreshedType = "models-dev.refreshed";
+export const ModelsDevRefreshedType = S.String;
+
+export interface ModelsDevRefreshedDurable {
+  aggregateID: string;
+  seq: number;
+  version: number;
+}
+export const ModelsDevRefreshedDurable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aggregateID: S.String,
+    seq: S.Number,
+    version: S.Number,
+  }),
+).annotate({
+  identifier: "ModelsDevRefreshedDurable",
+}) as any as S.Schema<ModelsDevRefreshedDurable>;
+
+export interface ModelsDevRefreshed {
+  id: string;
+  metadata?: unknown;
+  type: ModelsDevRefreshedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const ModelsDevRefreshed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: ModelsDevRefreshedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "ModelsDevRefreshed" }) as any as S.Schema<ModelsDevRefreshed>;
+
+export type IntegrationUpdatedType = "integration.updated";
+export const IntegrationUpdatedType = S.String;
+
+export type IntegrationUpdatedDurable = ModelsDevRefreshedDurable;
+export const IntegrationUpdatedDurable = ModelsDevRefreshedDurable;
+
+export interface IntegrationUpdated {
+  id: string;
+  metadata?: unknown;
+  type: IntegrationUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const IntegrationUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: IntegrationUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "IntegrationUpdated" }) as any as S.Schema<IntegrationUpdated>;
+
+export type IntegrationConnectionUpdatedType = "integration.connection.updated";
+export const IntegrationConnectionUpdatedType = S.String;
+
+export type IntegrationConnectionUpdatedDurable = ModelsDevRefreshedDurable;
+export const IntegrationConnectionUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type IntegrationConnectionUpdatedData = EventIntegrationConnectionUpdatedProperties;
+export const IntegrationConnectionUpdatedData = EventIntegrationConnectionUpdatedProperties;
+
+export interface IntegrationConnectionUpdated {
+  id: string;
+  metadata?: unknown;
+  type: IntegrationConnectionUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventIntegrationConnectionUpdatedProperties;
+}
+export const IntegrationConnectionUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: IntegrationConnectionUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventIntegrationConnectionUpdatedProperties,
+  }),
+).annotate({
+  identifier: "IntegrationConnectionUpdated",
+}) as any as S.Schema<IntegrationConnectionUpdated>;
+
+export type CatalogUpdatedType = "catalog.updated";
+export const CatalogUpdatedType = S.String;
+
+export type CatalogUpdatedDurable = ModelsDevRefreshedDurable;
+export const CatalogUpdatedDurable = ModelsDevRefreshedDurable;
+
+export interface CatalogUpdated {
+  id: string;
+  metadata?: unknown;
+  type: CatalogUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const CatalogUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: CatalogUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "CatalogUpdated" }) as any as S.Schema<CatalogUpdated>;
+
+export type SessionCreatedType = "session.created";
+export const SessionCreatedType = S.String;
+
+export type SessionCreatedDurable = ModelsDevRefreshedDurable;
+export const SessionCreatedDurable = ModelsDevRefreshedDurable;
+
+export type SessionCreatedData = EventSessionCreatedProperties;
+export const SessionCreatedData = EventSessionCreatedProperties;
+
+export interface SessionCreated {
+  id: string;
+  metadata?: unknown;
+  type: SessionCreatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionCreatedProperties;
+}
+export const SessionCreated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionCreatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "SessionCreated" }) as any as S.Schema<SessionCreated>;
+
+export type SessionUpdatedType = "session.updated";
+export const SessionUpdatedType = S.String;
+
+export type SessionUpdatedDurable = ModelsDevRefreshedDurable;
+export const SessionUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type SessionUpdatedData = EventSessionCreatedProperties;
+export const SessionUpdatedData = EventSessionCreatedProperties;
+
+export interface SessionUpdated {
+  id: string;
+  metadata?: unknown;
+  type: SessionUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionCreatedProperties;
+}
+export const SessionUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "SessionUpdated" }) as any as S.Schema<SessionUpdated>;
+
+export type SessionDeletedType = "session.deleted";
+export const SessionDeletedType = S.String;
+
+export type SessionDeletedDurable = ModelsDevRefreshedDurable;
+export const SessionDeletedDurable = ModelsDevRefreshedDurable;
+
+export type SessionDeletedData = EventSessionCreatedProperties;
+export const SessionDeletedData = EventSessionCreatedProperties;
+
+export interface SessionDeleted {
+  id: string;
+  metadata?: unknown;
+  type: SessionDeletedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionCreatedProperties;
+}
+export const SessionDeleted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionDeletedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionCreatedProperties,
+  }),
+).annotate({ identifier: "SessionDeleted" }) as any as S.Schema<SessionDeleted>;
+
+export type MessageUpdatedType = "message.updated";
+export const MessageUpdatedType = S.String;
+
+export type MessageUpdatedDurable = ModelsDevRefreshedDurable;
+export const MessageUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type MessageUpdatedData = EventMessageUpdatedProperties;
+export const MessageUpdatedData = EventMessageUpdatedProperties;
+
+export interface MessageUpdated {
+  id: string;
+  metadata?: unknown;
+  type: MessageUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessageUpdatedProperties;
+}
+export const MessageUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: MessageUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMessageUpdatedProperties,
+  }),
+).annotate({ identifier: "MessageUpdated" }) as any as S.Schema<MessageUpdated>;
+
+export type MessageRemovedType = "message.removed";
+export const MessageRemovedType = S.String;
+
+export type MessageRemovedDurable = ModelsDevRefreshedDurable;
+export const MessageRemovedDurable = ModelsDevRefreshedDurable;
+
+export type MessageRemovedData = EventMessageRemovedProperties;
+export const MessageRemovedData = EventMessageRemovedProperties;
+
+export interface MessageRemoved {
+  id: string;
+  metadata?: unknown;
+  type: MessageRemovedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessageRemovedProperties;
+}
+export const MessageRemoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: MessageRemovedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMessageRemovedProperties,
+  }),
+).annotate({ identifier: "MessageRemoved" }) as any as S.Schema<MessageRemoved>;
+
+export type MessagePartUpdatedType = "message.part.updated";
+export const MessagePartUpdatedType = S.String;
+
+export type MessagePartUpdatedDurable = ModelsDevRefreshedDurable;
+export const MessagePartUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type MessagePartUpdatedData = EventMessagePartUpdatedProperties;
+export const MessagePartUpdatedData = EventMessagePartUpdatedProperties;
+
+export interface MessagePartUpdated {
+  id: string;
+  metadata?: unknown;
+  type: MessagePartUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessagePartUpdatedProperties;
+}
+export const MessagePartUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: MessagePartUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMessagePartUpdatedProperties,
+  }),
+).annotate({ identifier: "MessagePartUpdated" }) as any as S.Schema<MessagePartUpdated>;
+
+export type MessagePartRemovedType = "message.part.removed";
+export const MessagePartRemovedType = S.String;
+
+export type MessagePartRemovedDurable = ModelsDevRefreshedDurable;
+export const MessagePartRemovedDurable = ModelsDevRefreshedDurable;
+
+export type MessagePartRemovedData = EventMessagePartRemovedProperties;
+export const MessagePartRemovedData = EventMessagePartRemovedProperties;
+
+export interface MessagePartRemoved {
+  id: string;
+  metadata?: unknown;
+  type: MessagePartRemovedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessagePartRemovedProperties;
+}
+export const MessagePartRemoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: MessagePartRemovedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMessagePartRemovedProperties,
+  }),
+).annotate({ identifier: "MessagePartRemoved" }) as any as S.Schema<MessagePartRemoved>;
+
+export type SessionNextAgentSwitchedType = "session.next.agent.switched";
+export const SessionNextAgentSwitchedType = S.String;
+
+export type SessionNextAgentSwitchedDurable = ModelsDevRefreshedDurable;
+export const SessionNextAgentSwitchedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextAgentSwitchedData = EventSessionNextAgentSwitchedProperties;
+export const SessionNextAgentSwitchedData = EventSessionNextAgentSwitchedProperties;
+
+export interface SessionNextAgentSwitched {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextAgentSwitchedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextAgentSwitchedProperties;
+}
+export const SessionNextAgentSwitched = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextAgentSwitchedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextAgentSwitchedProperties,
+  }),
+).annotate({ identifier: "SessionNextAgentSwitched" }) as any as S.Schema<SessionNextAgentSwitched>;
+
+export type SessionNextModelSwitchedType = "session.next.model.switched";
+export const SessionNextModelSwitchedType = S.String;
+
+export type SessionNextModelSwitchedDurable = ModelsDevRefreshedDurable;
+export const SessionNextModelSwitchedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextModelSwitchedData = EventSessionNextModelSwitchedProperties;
+export const SessionNextModelSwitchedData = EventSessionNextModelSwitchedProperties;
+
+export interface SessionNextModelSwitched {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextModelSwitchedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextModelSwitchedProperties;
+}
+export const SessionNextModelSwitched = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextModelSwitchedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextModelSwitchedProperties,
+  }),
+).annotate({ identifier: "SessionNextModelSwitched" }) as any as S.Schema<SessionNextModelSwitched>;
+
+export type SessionNextMovedType = "session.next.moved";
+export const SessionNextMovedType = S.String;
+
+export type SessionNextMovedDurable = ModelsDevRefreshedDurable;
+export const SessionNextMovedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextMovedData = EventSessionNextMovedProperties;
+export const SessionNextMovedData = EventSessionNextMovedProperties;
+
+export interface SessionNextMoved {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextMovedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextMovedProperties;
+}
+export const SessionNextMoved = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextMovedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextMovedProperties,
+  }),
+).annotate({ identifier: "SessionNextMoved" }) as any as S.Schema<SessionNextMoved>;
+
+export type SessionNextPromptedType = "session.next.prompted";
+export const SessionNextPromptedType = S.String;
+
+export type SessionNextPromptedDurable = ModelsDevRefreshedDurable;
+export const SessionNextPromptedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextPromptedDataDelivery = "steer" | "queue";
+export const SessionNextPromptedDataDelivery = S.String;
+
+export interface SessionNextPromptedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SessionNextPromptedDataDelivery;
+}
+export const SessionNextPromptedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: SessionNextPromptedDataDelivery,
+  }),
+).annotate({ identifier: "SessionNextPromptedData" }) as any as S.Schema<SessionNextPromptedData>;
+
+export interface SessionNextPrompted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextPromptedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextPromptedData;
+}
+export const SessionNextPrompted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextPromptedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextPromptedData,
+  }),
+).annotate({ identifier: "SessionNextPrompted" }) as any as S.Schema<SessionNextPrompted>;
+
+export type SessionNextPromptAdmittedType = "session.next.prompt.admitted";
+export const SessionNextPromptAdmittedType = S.String;
+
+export type SessionNextPromptAdmittedDurable = ModelsDevRefreshedDurable;
+export const SessionNextPromptAdmittedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextPromptAdmittedDataDelivery = "steer" | "queue";
+export const SessionNextPromptAdmittedDataDelivery = S.String;
+
+export interface SessionNextPromptAdmittedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SessionNextPromptAdmittedDataDelivery;
+}
+export const SessionNextPromptAdmittedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    prompt: Prompt,
+    delivery: SessionNextPromptAdmittedDataDelivery,
+  }),
+).annotate({
+  identifier: "SessionNextPromptAdmittedData",
+}) as any as S.Schema<SessionNextPromptAdmittedData>;
+
+export interface SessionNextPromptAdmitted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextPromptAdmittedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextPromptAdmittedData;
+}
+export const SessionNextPromptAdmitted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextPromptAdmittedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextPromptAdmittedData,
+  }),
+).annotate({
+  identifier: "SessionNextPromptAdmitted",
+}) as any as S.Schema<SessionNextPromptAdmitted>;
+
+export type SessionNextContextUpdatedType = "session.next.context.updated";
+export const SessionNextContextUpdatedType = S.String;
+
+export type SessionNextContextUpdatedDurable = ModelsDevRefreshedDurable;
+export const SessionNextContextUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextContextUpdatedData = EventSessionNextContextUpdatedProperties;
+export const SessionNextContextUpdatedData = EventSessionNextContextUpdatedProperties;
+
+export interface SessionNextContextUpdated {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextContextUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export const SessionNextContextUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextContextUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextContextUpdated",
+}) as any as S.Schema<SessionNextContextUpdated>;
+
+export type SessionNextSyntheticType = "session.next.synthetic";
+export const SessionNextSyntheticType = S.String;
+
+export type SessionNextSyntheticDurable = ModelsDevRefreshedDurable;
+export const SessionNextSyntheticDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextSyntheticData = EventSessionNextContextUpdatedProperties;
+export const SessionNextSyntheticData = EventSessionNextContextUpdatedProperties;
+
+export interface SessionNextSynthetic {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextSyntheticType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export const SessionNextSynthetic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextSyntheticType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({ identifier: "SessionNextSynthetic" }) as any as S.Schema<SessionNextSynthetic>;
+
+export type SessionNextShellStartedType = "session.next.shell.started";
+export const SessionNextShellStartedType = S.String;
+
+export type SessionNextShellStartedDurable = ModelsDevRefreshedDurable;
+export const SessionNextShellStartedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextShellStartedData = EventSessionNextShellStartedProperties;
+export const SessionNextShellStartedData = EventSessionNextShellStartedProperties;
+
+export interface SessionNextShellStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextShellStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextShellStartedProperties;
+}
+export const SessionNextShellStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextShellStartedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextShellStartedProperties,
+  }),
+).annotate({ identifier: "SessionNextShellStarted" }) as any as S.Schema<SessionNextShellStarted>;
+
+export type SessionNextShellEndedType = "session.next.shell.ended";
+export const SessionNextShellEndedType = S.String;
+
+export type SessionNextShellEndedDurable = ModelsDevRefreshedDurable;
+export const SessionNextShellEndedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextShellEndedData = EventSessionNextShellEndedProperties;
+export const SessionNextShellEndedData = EventSessionNextShellEndedProperties;
+
+export interface SessionNextShellEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextShellEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextShellEndedProperties;
+}
+export const SessionNextShellEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextShellEndedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextShellEndedProperties,
+  }),
+).annotate({ identifier: "SessionNextShellEnded" }) as any as S.Schema<SessionNextShellEnded>;
+
+export type SessionNextStepStartedType = "session.next.step.started";
+export const SessionNextStepStartedType = S.String;
+
+export type SessionNextStepStartedDurable = ModelsDevRefreshedDurable;
+export const SessionNextStepStartedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextStepStartedData = EventSessionNextStepStartedProperties;
+export const SessionNextStepStartedData = EventSessionNextStepStartedProperties;
+
+export interface SessionNextStepStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextStepStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextStepStartedProperties;
+}
+export const SessionNextStepStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextStepStartedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextStepStartedProperties,
+  }),
+).annotate({ identifier: "SessionNextStepStarted" }) as any as S.Schema<SessionNextStepStarted>;
+
+export type SessionNextStepEndedType = "session.next.step.ended";
+export const SessionNextStepEndedType = S.String;
+
+export type SessionNextStepEndedDurable = ModelsDevRefreshedDurable;
+export const SessionNextStepEndedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextStepEndedDataTokensCache = ModelCostCache;
+export const SessionNextStepEndedDataTokensCache = ModelCostCache;
+
+export type SessionNextStepEndedDataTokens = SessionTokens;
+export const SessionNextStepEndedDataTokens = SessionTokens;
+
+export type SessionNextStepEndedDataFilesList = Array<string>;
+export const SessionNextStepEndedDataFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SessionNextStepEndedDataFilesList>;
+
+export interface SessionNextStepEndedData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: SessionNextStepEndedDataFilesList;
+}
+export const SessionNextStepEndedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    finish: S.String,
+    cost: S.Number,
+    tokens: SessionTokens,
+    snapshot: S.optional(S.String),
+    files: S.optional(SessionNextStepEndedDataFilesList),
+  }),
+).annotate({ identifier: "SessionNextStepEndedData" }) as any as S.Schema<SessionNextStepEndedData>;
+
+export interface SessionNextStepEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextStepEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextStepEndedData;
+}
+export const SessionNextStepEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextStepEndedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextStepEndedData,
+  }),
+).annotate({ identifier: "SessionNextStepEnded" }) as any as S.Schema<SessionNextStepEnded>;
+
+export type SessionNextStepFailedType = "session.next.step.failed";
+export const SessionNextStepFailedType = S.String;
+
+export type SessionNextStepFailedDurable = ModelsDevRefreshedDurable;
+export const SessionNextStepFailedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextStepFailedData = EventSessionNextStepFailedProperties;
+export const SessionNextStepFailedData = EventSessionNextStepFailedProperties;
+
+export interface SessionNextStepFailed {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextStepFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextStepFailedProperties;
+}
+export const SessionNextStepFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextStepFailedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextStepFailedProperties,
+  }),
+).annotate({ identifier: "SessionNextStepFailed" }) as any as S.Schema<SessionNextStepFailed>;
+
+export type SessionNextTextStartedType = "session.next.text.started";
+export const SessionNextTextStartedType = S.String;
+
+export type SessionNextTextStartedDurable = ModelsDevRefreshedDurable;
+export const SessionNextTextStartedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextTextStartedData = EventSessionNextTextStartedProperties;
+export const SessionNextTextStartedData = EventSessionNextTextStartedProperties;
+
+export interface SessionNextTextStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextTextStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextTextStartedProperties;
+}
+export const SessionNextTextStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextTextStartedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextTextStartedProperties,
+  }),
+).annotate({ identifier: "SessionNextTextStarted" }) as any as S.Schema<SessionNextTextStarted>;
+
+export type SessionNextTextDeltaType = "session.next.text.delta";
+export const SessionNextTextDeltaType = S.String;
+
+export type SessionNextTextDeltaDurable = ModelsDevRefreshedDurable;
+export const SessionNextTextDeltaDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextTextDeltaData = EventSessionNextTextDeltaProperties;
+export const SessionNextTextDeltaData = EventSessionNextTextDeltaProperties;
+
+export interface SessionNextTextDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextTextDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextTextDeltaProperties;
+}
+export const SessionNextTextDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextTextDeltaType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextTextDeltaProperties,
+  }),
+).annotate({ identifier: "SessionNextTextDelta" }) as any as S.Schema<SessionNextTextDelta>;
+
+export type SessionNextTextEndedType = "session.next.text.ended";
+export const SessionNextTextEndedType = S.String;
+
+export type SessionNextTextEndedDurable = ModelsDevRefreshedDurable;
+export const SessionNextTextEndedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextTextEndedData = EventSessionNextTextEndedProperties;
+export const SessionNextTextEndedData = EventSessionNextTextEndedProperties;
+
+export interface SessionNextTextEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextTextEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextTextEndedProperties;
+}
+export const SessionNextTextEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextTextEndedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextTextEndedProperties,
+  }),
+).annotate({ identifier: "SessionNextTextEnded" }) as any as S.Schema<SessionNextTextEnded>;
+
+export type SessionNextReasoningStartedType = "session.next.reasoning.started";
+export const SessionNextReasoningStartedType = S.String;
+
+export type SessionNextReasoningStartedDurable = ModelsDevRefreshedDurable;
+export const SessionNextReasoningStartedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextReasoningStartedData = EventSessionNextReasoningStartedProperties;
+export const SessionNextReasoningStartedData = EventSessionNextReasoningStartedProperties;
+
+export interface SessionNextReasoningStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextReasoningStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextReasoningStartedProperties;
+}
+export const SessionNextReasoningStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextReasoningStartedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextReasoningStartedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextReasoningStarted",
+}) as any as S.Schema<SessionNextReasoningStarted>;
+
+export type SessionNextReasoningDeltaType = "session.next.reasoning.delta";
+export const SessionNextReasoningDeltaType = S.String;
+
+export type SessionNextReasoningDeltaDurable = ModelsDevRefreshedDurable;
+export const SessionNextReasoningDeltaDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextReasoningDeltaData = EventSessionNextReasoningDeltaProperties;
+export const SessionNextReasoningDeltaData = EventSessionNextReasoningDeltaProperties;
+
+export interface SessionNextReasoningDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextReasoningDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextReasoningDeltaProperties;
+}
+export const SessionNextReasoningDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextReasoningDeltaType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextReasoningDeltaProperties,
+  }),
+).annotate({
+  identifier: "SessionNextReasoningDelta",
+}) as any as S.Schema<SessionNextReasoningDelta>;
+
+export type SessionNextReasoningEndedType = "session.next.reasoning.ended";
+export const SessionNextReasoningEndedType = S.String;
+
+export type SessionNextReasoningEndedDurable = ModelsDevRefreshedDurable;
+export const SessionNextReasoningEndedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextReasoningEndedData = EventSessionNextReasoningEndedProperties;
+export const SessionNextReasoningEndedData = EventSessionNextReasoningEndedProperties;
+
+export interface SessionNextReasoningEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextReasoningEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextReasoningEndedProperties;
+}
+export const SessionNextReasoningEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextReasoningEndedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextReasoningEndedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextReasoningEnded",
+}) as any as S.Schema<SessionNextReasoningEnded>;
+
+export type SessionNextToolInputStartedType = "session.next.tool.input.started";
+export const SessionNextToolInputStartedType = S.String;
+
+export type SessionNextToolInputStartedDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolInputStartedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolInputStartedData = EventSessionNextToolInputStartedProperties;
+export const SessionNextToolInputStartedData = EventSessionNextToolInputStartedProperties;
+
+export interface SessionNextToolInputStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolInputStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolInputStartedProperties;
+}
+export const SessionNextToolInputStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolInputStartedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextToolInputStartedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextToolInputStarted",
+}) as any as S.Schema<SessionNextToolInputStarted>;
+
+export type SessionNextToolInputDeltaType = "session.next.tool.input.delta";
+export const SessionNextToolInputDeltaType = S.String;
+
+export type SessionNextToolInputDeltaDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolInputDeltaDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolInputDeltaData = EventSessionNextToolInputDeltaProperties;
+export const SessionNextToolInputDeltaData = EventSessionNextToolInputDeltaProperties;
+
+export interface SessionNextToolInputDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolInputDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolInputDeltaProperties;
+}
+export const SessionNextToolInputDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolInputDeltaType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextToolInputDeltaProperties,
+  }),
+).annotate({
+  identifier: "SessionNextToolInputDelta",
+}) as any as S.Schema<SessionNextToolInputDelta>;
+
+export type SessionNextToolInputEndedType = "session.next.tool.input.ended";
+export const SessionNextToolInputEndedType = S.String;
+
+export type SessionNextToolInputEndedDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolInputEndedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolInputEndedData = EventSessionNextToolInputEndedProperties;
+export const SessionNextToolInputEndedData = EventSessionNextToolInputEndedProperties;
+
+export interface SessionNextToolInputEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolInputEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolInputEndedProperties;
+}
+export const SessionNextToolInputEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolInputEndedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextToolInputEndedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextToolInputEnded",
+}) as any as S.Schema<SessionNextToolInputEnded>;
+
+export type SessionNextToolCalledType = "session.next.tool.called";
+export const SessionNextToolCalledType = S.String;
+
+export type SessionNextToolCalledDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolCalledDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolCalledDataProvider = EventSessionNextToolCalledPropertiesProvider;
+export const SessionNextToolCalledDataProvider = EventSessionNextToolCalledPropertiesProvider;
+
+export type SessionNextToolCalledData = EventSessionNextToolCalledProperties;
+export const SessionNextToolCalledData = EventSessionNextToolCalledProperties;
+
+export interface SessionNextToolCalled {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolCalledType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolCalledProperties;
+}
+export const SessionNextToolCalled = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolCalledType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextToolCalledProperties,
+  }),
+).annotate({ identifier: "SessionNextToolCalled" }) as any as S.Schema<SessionNextToolCalled>;
+
+export type SessionNextToolProgressType = "session.next.tool.progress";
+export const SessionNextToolProgressType = S.String;
+
+export type SessionNextToolProgressDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolProgressDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolProgressDataContentList = Array<LLMToolContent>;
+export const SessionNextToolProgressDataContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<SessionNextToolProgressDataContentList>;
+
+export interface SessionNextToolProgressData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SessionNextToolProgressDataContentList;
+}
+export const SessionNextToolProgressData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: SessionNextToolProgressDataContentList,
+  }),
+).annotate({
+  identifier: "SessionNextToolProgressData",
+}) as any as S.Schema<SessionNextToolProgressData>;
+
+export interface SessionNextToolProgress {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolProgressType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextToolProgressData;
+}
+export const SessionNextToolProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolProgressType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextToolProgressData,
+  }),
+).annotate({ identifier: "SessionNextToolProgress" }) as any as S.Schema<SessionNextToolProgress>;
+
+export type SessionNextToolSuccessType = "session.next.tool.success";
+export const SessionNextToolSuccessType = S.String;
+
+export type SessionNextToolSuccessDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolSuccessDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolSuccessDataContentList = Array<LLMToolContent>;
+export const SessionNextToolSuccessDataContentList = /*@__PURE__*/ S.Array(
+  LLMToolContent,
+) as any as S.Schema<SessionNextToolSuccessDataContentList>;
+
+export type SessionNextToolSuccessDataOutputPathsList = Array<string>;
+export const SessionNextToolSuccessDataOutputPathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SessionNextToolSuccessDataOutputPathsList>;
+
+export type SessionNextToolSuccessDataProvider = EventSessionNextToolCalledPropertiesProvider;
+export const SessionNextToolSuccessDataProvider = EventSessionNextToolCalledPropertiesProvider;
+
+export interface SessionNextToolSuccessData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SessionNextToolSuccessDataContentList;
+  outputPaths?: SessionNextToolSuccessDataOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export const SessionNextToolSuccessData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    assistantMessageID: S.String,
+    callID: S.String,
+    structured: S.Unknown,
+    content: SessionNextToolSuccessDataContentList,
+    outputPaths: S.optional(SessionNextToolSuccessDataOutputPathsList),
+    result: S.optional(S.Unknown),
+    provider: EventSessionNextToolCalledPropertiesProvider,
+  }),
+).annotate({
+  identifier: "SessionNextToolSuccessData",
+}) as any as S.Schema<SessionNextToolSuccessData>;
+
+export interface SessionNextToolSuccess {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolSuccessType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextToolSuccessData;
+}
+export const SessionNextToolSuccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolSuccessType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextToolSuccessData,
+  }),
+).annotate({ identifier: "SessionNextToolSuccess" }) as any as S.Schema<SessionNextToolSuccess>;
+
+export type SessionNextToolFailedType = "session.next.tool.failed";
+export const SessionNextToolFailedType = S.String;
+
+export type SessionNextToolFailedDurable = ModelsDevRefreshedDurable;
+export const SessionNextToolFailedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextToolFailedDataProvider = EventSessionNextToolCalledPropertiesProvider;
+export const SessionNextToolFailedDataProvider = EventSessionNextToolCalledPropertiesProvider;
+
+export type SessionNextToolFailedData = EventSessionNextToolFailedProperties;
+export const SessionNextToolFailedData = EventSessionNextToolFailedProperties;
+
+export interface SessionNextToolFailed {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolFailedProperties;
+}
+export const SessionNextToolFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextToolFailedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextToolFailedProperties,
+  }),
+).annotate({ identifier: "SessionNextToolFailed" }) as any as S.Schema<SessionNextToolFailed>;
+
+export type SessionNextRetriedType = "session.next.retried";
+export const SessionNextRetriedType = S.String;
+
+export type SessionNextRetriedDurable = ModelsDevRefreshedDurable;
+export const SessionNextRetriedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextRetriedData = EventSessionNextRetriedProperties;
+export const SessionNextRetriedData = EventSessionNextRetriedProperties;
+
+export interface SessionNextRetried {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRetriedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRetriedProperties;
+}
+export const SessionNextRetried = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextRetriedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextRetriedProperties,
+  }),
+).annotate({ identifier: "SessionNextRetried" }) as any as S.Schema<SessionNextRetried>;
+
+export type SessionNextCompactionStartedType = "session.next.compaction.started";
+export const SessionNextCompactionStartedType = S.String;
+
+export type SessionNextCompactionStartedDurable = ModelsDevRefreshedDurable;
+export const SessionNextCompactionStartedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextCompactionStartedDataReason = "auto" | "manual";
+export const SessionNextCompactionStartedDataReason = S.String;
+
+export interface SessionNextCompactionStartedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SessionNextCompactionStartedDataReason;
+}
+export const SessionNextCompactionStartedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: SessionNextCompactionStartedDataReason,
+  }),
+).annotate({
+  identifier: "SessionNextCompactionStartedData",
+}) as any as S.Schema<SessionNextCompactionStartedData>;
+
+export interface SessionNextCompactionStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextCompactionStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextCompactionStartedData;
+}
+export const SessionNextCompactionStarted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextCompactionStartedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextCompactionStartedData,
+  }),
+).annotate({
+  identifier: "SessionNextCompactionStarted",
+}) as any as S.Schema<SessionNextCompactionStarted>;
+
+export type SessionNextCompactionDeltaType = "session.next.compaction.delta";
+export const SessionNextCompactionDeltaType = S.String;
+
+export type SessionNextCompactionDeltaDurable = ModelsDevRefreshedDurable;
+export const SessionNextCompactionDeltaDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextCompactionDeltaData = EventSessionNextContextUpdatedProperties;
+export const SessionNextCompactionDeltaData = EventSessionNextContextUpdatedProperties;
+
+export interface SessionNextCompactionDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextCompactionDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export const SessionNextCompactionDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextCompactionDeltaType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextContextUpdatedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextCompactionDelta",
+}) as any as S.Schema<SessionNextCompactionDelta>;
+
+export type SessionNextCompactionEndedType = "session.next.compaction.ended";
+export const SessionNextCompactionEndedType = S.String;
+
+export type SessionNextCompactionEndedDurable = ModelsDevRefreshedDurable;
+export const SessionNextCompactionEndedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextCompactionEndedDataReason = "auto" | "manual";
+export const SessionNextCompactionEndedDataReason = S.String;
+
+export interface SessionNextCompactionEndedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SessionNextCompactionEndedDataReason;
+  text: string;
+  recent: string;
+}
+export const SessionNextCompactionEndedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.Number,
+    sessionID: S.String,
+    messageID: S.String,
+    reason: SessionNextCompactionEndedDataReason,
+    text: S.String,
+    recent: S.String,
+  }),
+).annotate({
+  identifier: "SessionNextCompactionEndedData",
+}) as any as S.Schema<SessionNextCompactionEndedData>;
+
+export interface SessionNextCompactionEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextCompactionEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextCompactionEndedData;
+}
+export const SessionNextCompactionEnded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextCompactionEndedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionNextCompactionEndedData,
+  }),
+).annotate({
+  identifier: "SessionNextCompactionEnded",
+}) as any as S.Schema<SessionNextCompactionEnded>;
+
+export type SessionNextRevertStagedType = "session.next.revert.staged";
+export const SessionNextRevertStagedType = S.String;
+
+export type SessionNextRevertStagedDurable = ModelsDevRefreshedDurable;
+export const SessionNextRevertStagedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextRevertStagedData = EventSessionNextRevertStagedProperties;
+export const SessionNextRevertStagedData = EventSessionNextRevertStagedProperties;
+
+export interface SessionNextRevertStaged {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRevertStagedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRevertStagedProperties;
+}
+export const SessionNextRevertStaged = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextRevertStagedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextRevertStagedProperties,
+  }),
+).annotate({ identifier: "SessionNextRevertStaged" }) as any as S.Schema<SessionNextRevertStaged>;
+
+export type SessionNextRevertClearedType = "session.next.revert.cleared";
+export const SessionNextRevertClearedType = S.String;
+
+export type SessionNextRevertClearedDurable = ModelsDevRefreshedDurable;
+export const SessionNextRevertClearedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextRevertClearedData = EventSessionNextRevertClearedProperties;
+export const SessionNextRevertClearedData = EventSessionNextRevertClearedProperties;
+
+export interface SessionNextRevertCleared {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRevertClearedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRevertClearedProperties;
+}
+export const SessionNextRevertCleared = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextRevertClearedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextRevertClearedProperties,
+  }),
+).annotate({ identifier: "SessionNextRevertCleared" }) as any as S.Schema<SessionNextRevertCleared>;
+
+export type SessionNextRevertCommittedType = "session.next.revert.committed";
+export const SessionNextRevertCommittedType = S.String;
+
+export type SessionNextRevertCommittedDurable = ModelsDevRefreshedDurable;
+export const SessionNextRevertCommittedDurable = ModelsDevRefreshedDurable;
+
+export type SessionNextRevertCommittedData = EventSessionNextRevertCommittedProperties;
+export const SessionNextRevertCommittedData = EventSessionNextRevertCommittedProperties;
+
+export interface SessionNextRevertCommitted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRevertCommittedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRevertCommittedProperties;
+}
+export const SessionNextRevertCommitted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionNextRevertCommittedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionNextRevertCommittedProperties,
+  }),
+).annotate({
+  identifier: "SessionNextRevertCommitted",
+}) as any as S.Schema<SessionNextRevertCommitted>;
+
+export type MessagePartDeltaType = "message.part.delta";
+export const MessagePartDeltaType = S.String;
+
+export type MessagePartDeltaDurable = ModelsDevRefreshedDurable;
+export const MessagePartDeltaDurable = ModelsDevRefreshedDurable;
+
+export type MessagePartDeltaData = EventMessagePartDeltaProperties;
+export const MessagePartDeltaData = EventMessagePartDeltaProperties;
+
+export interface MessagePartDelta {
+  id: string;
+  metadata?: unknown;
+  type: MessagePartDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessagePartDeltaProperties;
+}
+export const MessagePartDelta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: MessagePartDeltaType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMessagePartDeltaProperties,
+  }),
+).annotate({ identifier: "MessagePartDelta" }) as any as S.Schema<MessagePartDelta>;
+
+export type SessionDiffType = "session.diff";
+export const SessionDiffType = S.String;
+
+export type SessionDiffDurable = ModelsDevRefreshedDurable;
+export const SessionDiffDurable = ModelsDevRefreshedDurable;
+
+export type SessionDiffDataDiffList = Array<SnapshotFileDiff>;
+export const SessionDiffDataDiffList = /*@__PURE__*/ S.Array(
+  SnapshotFileDiff,
+) as any as S.Schema<SessionDiffDataDiffList>;
+
+export interface SessionDiffData {
+  sessionID: string;
+  diff: SessionDiffDataDiffList;
+}
+export const SessionDiffData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    diff: SessionDiffDataDiffList,
+  }),
+).annotate({ identifier: "SessionDiffData" }) as any as S.Schema<SessionDiffData>;
+
+export interface SessionDiff2 {
+  id: string;
+  metadata?: unknown;
+  type: SessionDiffType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionDiffData;
+}
+export const SessionDiff2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionDiffType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionDiffData,
+  }),
+).annotate({ identifier: "SessionDiff2" }) as any as S.Schema<SessionDiff2>;
+
+export type SessionErrorType = "session.error";
+export const SessionErrorType = S.String;
+
+export type SessionErrorDurable = ModelsDevRefreshedDurable;
+export const SessionErrorDurable = ModelsDevRefreshedDurable;
+
+export type SessionErrorDataError =
+  | ProviderAuthError
+  | UnknownError
+  | MessageOutputLengthError
+  | MessageAbortedError
+  | StructuredOutputError
+  | ContextOverflowError
+  | ContentFilterError
+  | APIError;
+export const SessionErrorDataError = S.Unknown as any as S.Schema<SessionErrorDataError>;
+
+export interface SessionErrorData {
+  sessionID?: string;
+  error?: SessionErrorDataError;
+}
+export const SessionErrorData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.optional(S.String),
+    error: S.optional(SessionErrorDataError),
+  }),
+).annotate({ identifier: "SessionErrorData" }) as any as S.Schema<SessionErrorData>;
+
+export interface SessionError {
+  id: string;
+  metadata?: unknown;
+  type: SessionErrorType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionErrorData;
+}
+export const SessionError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionErrorType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: SessionErrorData,
+  }),
+).annotate({ identifier: "SessionError" }) as any as S.Schema<SessionError>;
+
+export type InstallationUpdatedType = "installation.updated";
+export const InstallationUpdatedType = S.String;
+
+export type InstallationUpdatedDurable = ModelsDevRefreshedDurable;
+export const InstallationUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type InstallationUpdatedData = EventInstallationUpdatedProperties;
+export const InstallationUpdatedData = EventInstallationUpdatedProperties;
+
+export interface InstallationUpdated {
+  id: string;
+  metadata?: unknown;
+  type: InstallationUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventInstallationUpdatedProperties;
+}
+export const InstallationUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: InstallationUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventInstallationUpdatedProperties,
+  }),
+).annotate({ identifier: "InstallationUpdated" }) as any as S.Schema<InstallationUpdated>;
+
+export type InstallationUpdateAvailableType = "installation.update-available";
+export const InstallationUpdateAvailableType = S.String;
+
+export type InstallationUpdateAvailableDurable = ModelsDevRefreshedDurable;
+export const InstallationUpdateAvailableDurable = ModelsDevRefreshedDurable;
+
+export type InstallationUpdateAvailableData = EventInstallationUpdatedProperties;
+export const InstallationUpdateAvailableData = EventInstallationUpdatedProperties;
+
+export interface InstallationUpdateAvailable {
+  id: string;
+  metadata?: unknown;
+  type: InstallationUpdateAvailableType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventInstallationUpdatedProperties;
+}
+export const InstallationUpdateAvailable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: InstallationUpdateAvailableType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventInstallationUpdatedProperties,
+  }),
+).annotate({
+  identifier: "InstallationUpdateAvailable",
+}) as any as S.Schema<InstallationUpdateAvailable>;
+
+export type FileEditedType = "file.edited";
+export const FileEditedType = S.String;
+
+export type FileEditedDurable = ModelsDevRefreshedDurable;
+export const FileEditedDurable = ModelsDevRefreshedDurable;
+
+export type FileEditedData = EventFileEditedProperties;
+export const FileEditedData = EventFileEditedProperties;
+
+export interface FileEdited {
+  id: string;
+  metadata?: unknown;
+  type: FileEditedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventFileEditedProperties;
+}
+export const FileEdited = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: FileEditedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventFileEditedProperties,
+  }),
+).annotate({ identifier: "FileEdited" }) as any as S.Schema<FileEdited>;
+
+export type ReferenceUpdatedType = "reference.updated";
+export const ReferenceUpdatedType = S.String;
+
+export type ReferenceUpdatedDurable = ModelsDevRefreshedDurable;
+export const ReferenceUpdatedDurable = ModelsDevRefreshedDurable;
+
+export interface ReferenceUpdated {
+  id: string;
+  metadata?: unknown;
+  type: ReferenceUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const ReferenceUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: ReferenceUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "ReferenceUpdated" }) as any as S.Schema<ReferenceUpdated>;
+
+export type PermissionV2AskedType = "permission.v2.asked";
+export const PermissionV2AskedType = S.String;
+
+export type PermissionV2AskedDurable = ModelsDevRefreshedDurable;
+export const PermissionV2AskedDurable = ModelsDevRefreshedDurable;
+
+export type PermissionV2AskedDataResourcesList = Array<string>;
+export const PermissionV2AskedDataResourcesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PermissionV2AskedDataResourcesList>;
+
+export type PermissionV2AskedDataSaveList = Array<string>;
+export const PermissionV2AskedDataSaveList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PermissionV2AskedDataSaveList>;
+
+export interface PermissionV2AskedData {
+  id: string;
+  sessionID: string;
+  action: string;
+  resources: PermissionV2AskedDataResourcesList;
+  save?: PermissionV2AskedDataSaveList;
+  metadata?: unknown;
+  source?: PermissionV2Source;
+}
+export const PermissionV2AskedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    action: S.String,
+    resources: PermissionV2AskedDataResourcesList,
+    save: S.optional(PermissionV2AskedDataSaveList),
+    metadata: S.optional(S.Unknown),
+    source: S.optional(PermissionV2Source),
+  }),
+).annotate({ identifier: "PermissionV2AskedData" }) as any as S.Schema<PermissionV2AskedData>;
+
+export interface PermissionV2Asked {
+  id: string;
+  metadata?: unknown;
+  type: PermissionV2AskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: PermissionV2AskedData;
+}
+export const PermissionV2Asked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PermissionV2AskedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: PermissionV2AskedData,
+  }),
+).annotate({ identifier: "PermissionV2Asked" }) as any as S.Schema<PermissionV2Asked>;
+
+export type PermissionV2RepliedType = "permission.v2.replied";
+export const PermissionV2RepliedType = S.String;
+
+export type PermissionV2RepliedDurable = ModelsDevRefreshedDurable;
+export const PermissionV2RepliedDurable = ModelsDevRefreshedDurable;
+
+export type PermissionV2RepliedData = EventPermissionV2RepliedProperties;
+export const PermissionV2RepliedData = EventPermissionV2RepliedProperties;
+
+export interface PermissionV2Replied {
+  id: string;
+  metadata?: unknown;
+  type: PermissionV2RepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPermissionV2RepliedProperties;
+}
+export const PermissionV2Replied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PermissionV2RepliedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventPermissionV2RepliedProperties,
+  }),
+).annotate({ identifier: "PermissionV2Replied" }) as any as S.Schema<PermissionV2Replied>;
+
+export type PluginAddedType = "plugin.added";
+export const PluginAddedType = S.String;
+
+export type PluginAddedDurable = ModelsDevRefreshedDurable;
+export const PluginAddedDurable = ModelsDevRefreshedDurable;
+
+export type PluginAddedData = EventPluginAddedProperties;
+export const PluginAddedData = EventPluginAddedProperties;
+
+export interface PluginAdded {
+  id: string;
+  metadata?: unknown;
+  type: PluginAddedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPluginAddedProperties;
+}
+export const PluginAdded = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PluginAddedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventPluginAddedProperties,
+  }),
+).annotate({ identifier: "PluginAdded" }) as any as S.Schema<PluginAdded>;
+
+export type ProjectDirectoriesUpdatedType = "project.directories.updated";
+export const ProjectDirectoriesUpdatedType = S.String;
+
+export type ProjectDirectoriesUpdatedDurable = ModelsDevRefreshedDurable;
+export const ProjectDirectoriesUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type ProjectDirectoriesUpdatedData = EventProjectDirectoriesUpdatedProperties;
+export const ProjectDirectoriesUpdatedData = EventProjectDirectoriesUpdatedProperties;
+
+export interface ProjectDirectoriesUpdated {
+  id: string;
+  metadata?: unknown;
+  type: ProjectDirectoriesUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventProjectDirectoriesUpdatedProperties;
+}
+export const ProjectDirectoriesUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: ProjectDirectoriesUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventProjectDirectoriesUpdatedProperties,
+  }),
+).annotate({
+  identifier: "ProjectDirectoriesUpdated",
+}) as any as S.Schema<ProjectDirectoriesUpdated>;
+
+export type FileWatcherUpdatedType = "file.watcher.updated";
+export const FileWatcherUpdatedType = S.String;
+
+export type FileWatcherUpdatedDurable = ModelsDevRefreshedDurable;
+export const FileWatcherUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type FileWatcherUpdatedDataEvent = "add" | "change" | "unlink";
+export const FileWatcherUpdatedDataEvent = S.String;
+
+export interface FileWatcherUpdatedData {
+  file: string;
+  event: FileWatcherUpdatedDataEvent;
+}
+export const FileWatcherUpdatedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    file: S.String,
+    event: FileWatcherUpdatedDataEvent,
+  }),
+).annotate({ identifier: "FileWatcherUpdatedData" }) as any as S.Schema<FileWatcherUpdatedData>;
+
+export interface FileWatcherUpdated {
+  id: string;
+  metadata?: unknown;
+  type: FileWatcherUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: FileWatcherUpdatedData;
+}
+export const FileWatcherUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: FileWatcherUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: FileWatcherUpdatedData,
+  }),
+).annotate({ identifier: "FileWatcherUpdated" }) as any as S.Schema<FileWatcherUpdated>;
+
+export type PtyCreatedType = "pty.created";
+export const PtyCreatedType = S.String;
+
+export type PtyCreatedDurable = ModelsDevRefreshedDurable;
+export const PtyCreatedDurable = ModelsDevRefreshedDurable;
+
+export type PtyCreatedData = EventPtyCreatedProperties;
+export const PtyCreatedData = EventPtyCreatedProperties;
+
+export interface PtyCreated {
+  id: string;
+  metadata?: unknown;
+  type: PtyCreatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPtyCreatedProperties;
+}
+export const PtyCreated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PtyCreatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventPtyCreatedProperties,
+  }),
+).annotate({ identifier: "PtyCreated" }) as any as S.Schema<PtyCreated>;
+
+export type PtyUpdatedType = "pty.updated";
+export const PtyUpdatedType = S.String;
+
+export type PtyUpdatedDurable = ModelsDevRefreshedDurable;
+export const PtyUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type PtyUpdatedData = EventPtyCreatedProperties;
+export const PtyUpdatedData = EventPtyCreatedProperties;
+
+export interface PtyUpdated {
+  id: string;
+  metadata?: unknown;
+  type: PtyUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPtyCreatedProperties;
+}
+export const PtyUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PtyUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventPtyCreatedProperties,
+  }),
+).annotate({ identifier: "PtyUpdated" }) as any as S.Schema<PtyUpdated>;
+
+export type PtyExitedType = "pty.exited";
+export const PtyExitedType = S.String;
+
+export type PtyExitedDurable = ModelsDevRefreshedDurable;
+export const PtyExitedDurable = ModelsDevRefreshedDurable;
+
+export type PtyExitedData = EventPtyExitedProperties;
+export const PtyExitedData = EventPtyExitedProperties;
+
+export interface PtyExited {
+  id: string;
+  metadata?: unknown;
+  type: PtyExitedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPtyExitedProperties;
+}
+export const PtyExited = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PtyExitedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventPtyExitedProperties,
+  }),
+).annotate({ identifier: "PtyExited" }) as any as S.Schema<PtyExited>;
+
+export type PtyDeletedType = "pty.deleted";
+export const PtyDeletedType = S.String;
+
+export type PtyDeletedDurable = ModelsDevRefreshedDurable;
+export const PtyDeletedDurable = ModelsDevRefreshedDurable;
+
+export type PtyDeletedData = EventPluginAddedProperties;
+export const PtyDeletedData = EventPluginAddedProperties;
+
+export interface PtyDeleted {
+  id: string;
+  metadata?: unknown;
+  type: PtyDeletedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPluginAddedProperties;
+}
+export const PtyDeleted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PtyDeletedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventPluginAddedProperties,
+  }),
+).annotate({ identifier: "PtyDeleted" }) as any as S.Schema<PtyDeleted>;
+
+export type QuestionV2AskedType = "question.v2.asked";
+export const QuestionV2AskedType = S.String;
+
+export type QuestionV2AskedDurable = ModelsDevRefreshedDurable;
+export const QuestionV2AskedDurable = ModelsDevRefreshedDurable;
+
+/** Questions to ask */
+export type QuestionV2AskedDataQuestionsList = Array<QuestionV2Info>;
+export const QuestionV2AskedDataQuestionsList = /*@__PURE__*/ S.Array(
+  QuestionV2Info,
+) as any as S.Schema<QuestionV2AskedDataQuestionsList>;
+
+export interface QuestionV2AskedData {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: QuestionV2AskedDataQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export const QuestionV2AskedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    questions: QuestionV2AskedDataQuestionsList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({ identifier: "QuestionV2AskedData" }) as any as S.Schema<QuestionV2AskedData>;
+
+export interface QuestionV2Asked {
+  id: string;
+  metadata?: unknown;
+  type: QuestionV2AskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionV2AskedData;
+}
+export const QuestionV2Asked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: QuestionV2AskedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: QuestionV2AskedData,
+  }),
+).annotate({ identifier: "QuestionV2Asked" }) as any as S.Schema<QuestionV2Asked>;
+
+export type QuestionV2RepliedType = "question.v2.replied";
+export const QuestionV2RepliedType = S.String;
+
+export type QuestionV2RepliedDurable = ModelsDevRefreshedDurable;
+export const QuestionV2RepliedDurable = ModelsDevRefreshedDurable;
+
+export type QuestionV2RepliedDataAnswersList = Array<QuestionV2Answer>;
+export const QuestionV2RepliedDataAnswersList = /*@__PURE__*/ S.Array(
+  QuestionV2Answer,
+) as any as S.Schema<QuestionV2RepliedDataAnswersList>;
+
+export interface QuestionV2RepliedData {
+  sessionID: string;
+  requestID: string;
+  answers: QuestionV2RepliedDataAnswersList;
+}
+export const QuestionV2RepliedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    answers: QuestionV2RepliedDataAnswersList,
+  }),
+).annotate({ identifier: "QuestionV2RepliedData" }) as any as S.Schema<QuestionV2RepliedData>;
+
+export interface QuestionV2Replied {
+  id: string;
+  metadata?: unknown;
+  type: QuestionV2RepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionV2RepliedData;
+}
+export const QuestionV2Replied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: QuestionV2RepliedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: QuestionV2RepliedData,
+  }),
+).annotate({ identifier: "QuestionV2Replied" }) as any as S.Schema<QuestionV2Replied>;
+
+export type QuestionV2RejectedType = "question.v2.rejected";
+export const QuestionV2RejectedType = S.String;
+
+export type QuestionV2RejectedDurable = ModelsDevRefreshedDurable;
+export const QuestionV2RejectedDurable = ModelsDevRefreshedDurable;
+
+export type QuestionV2RejectedData = EventQuestionV2RejectedProperties;
+export const QuestionV2RejectedData = EventQuestionV2RejectedProperties;
+
+export interface QuestionV2Rejected {
+  id: string;
+  metadata?: unknown;
+  type: QuestionV2RejectedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventQuestionV2RejectedProperties;
+}
+export const QuestionV2Rejected = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: QuestionV2RejectedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventQuestionV2RejectedProperties,
+  }),
+).annotate({ identifier: "QuestionV2Rejected" }) as any as S.Schema<QuestionV2Rejected>;
+
+export type TodoUpdatedType = "todo.updated";
+export const TodoUpdatedType = S.String;
+
+export type TodoUpdatedDurable = ModelsDevRefreshedDurable;
+export const TodoUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type TodoUpdatedDataTodosList = Array<Todo>;
+export const TodoUpdatedDataTodosList = /*@__PURE__*/ S.Array(
+  Todo,
+) as any as S.Schema<TodoUpdatedDataTodosList>;
+
+export interface TodoUpdatedData {
+  sessionID: string;
+  todos: TodoUpdatedDataTodosList;
+}
+export const TodoUpdatedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    todos: TodoUpdatedDataTodosList,
+  }),
+).annotate({ identifier: "TodoUpdatedData" }) as any as S.Schema<TodoUpdatedData>;
+
+export interface TodoUpdated {
+  id: string;
+  metadata?: unknown;
+  type: TodoUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: TodoUpdatedData;
+}
+export const TodoUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: TodoUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: TodoUpdatedData,
+  }),
+).annotate({ identifier: "TodoUpdated" }) as any as S.Schema<TodoUpdated>;
+
+export type LspUpdatedType = "lsp.updated";
+export const LspUpdatedType = S.String;
+
+export type LspUpdatedDurable = ModelsDevRefreshedDurable;
+export const LspUpdatedDurable = ModelsDevRefreshedDurable;
+
+export interface LspUpdated {
+  id: string;
+  metadata?: unknown;
+  type: LspUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const LspUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: LspUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "LspUpdated" }) as any as S.Schema<LspUpdated>;
+
+export type PermissionAskedType = "permission.asked";
+export const PermissionAskedType = S.String;
+
+export type PermissionAskedDurable = ModelsDevRefreshedDurable;
+export const PermissionAskedDurable = ModelsDevRefreshedDurable;
+
+export type PermissionAskedDataPatternsList = Array<string>;
+export const PermissionAskedDataPatternsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PermissionAskedDataPatternsList>;
+
+export type PermissionAskedDataAlwaysList = Array<string>;
+export const PermissionAskedDataAlwaysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PermissionAskedDataAlwaysList>;
+
+export type PermissionAskedDataTool = PermissionRequestTool;
+export const PermissionAskedDataTool = PermissionRequestTool;
+
+export interface PermissionAskedData {
+  id: string;
+  sessionID: string;
+  permission: string;
+  patterns: PermissionAskedDataPatternsList;
+  metadata: unknown;
+  always: PermissionAskedDataAlwaysList;
+  tool?: PermissionRequestTool;
+}
+export const PermissionAskedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    permission: S.String,
+    patterns: PermissionAskedDataPatternsList,
+    metadata: S.Unknown,
+    always: PermissionAskedDataAlwaysList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({ identifier: "PermissionAskedData" }) as any as S.Schema<PermissionAskedData>;
+
+export interface PermissionAsked {
+  id: string;
+  metadata?: unknown;
+  type: PermissionAskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: PermissionAskedData;
+}
+export const PermissionAsked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PermissionAskedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: PermissionAskedData,
+  }),
+).annotate({ identifier: "PermissionAsked" }) as any as S.Schema<PermissionAsked>;
+
+export type PermissionRepliedType = "permission.replied";
+export const PermissionRepliedType = S.String;
+
+export type PermissionRepliedDurable = ModelsDevRefreshedDurable;
+export const PermissionRepliedDurable = ModelsDevRefreshedDurable;
+
+export type PermissionRepliedDataReply = "once" | "always" | "reject";
+export const PermissionRepliedDataReply = S.String;
+
+export interface PermissionRepliedData {
+  sessionID: string;
+  requestID: string;
+  reply: PermissionRepliedDataReply;
+}
+export const PermissionRepliedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    reply: PermissionRepliedDataReply,
+  }),
+).annotate({ identifier: "PermissionRepliedData" }) as any as S.Schema<PermissionRepliedData>;
+
+export interface PermissionReplied {
+  id: string;
+  metadata?: unknown;
+  type: PermissionRepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: PermissionRepliedData;
+}
+export const PermissionReplied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: PermissionRepliedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: PermissionRepliedData,
+  }),
+).annotate({ identifier: "PermissionReplied" }) as any as S.Schema<PermissionReplied>;
+
+export type TuiPromptAppendType = "tui.prompt.append";
+export const TuiPromptAppendType = S.String;
+
+export type TuiPromptAppendDurable = ModelsDevRefreshedDurable;
+export const TuiPromptAppendDurable = ModelsDevRefreshedDurable;
+
+export type TuiPromptAppendData = FindTextResponseBodyItemPath;
+export const TuiPromptAppendData = FindTextResponseBodyItemPath;
+
+export interface TuiPromptAppend {
+  id: string;
+  metadata?: unknown;
+  type: TuiPromptAppendType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: FindTextResponseBodyItemPath;
+}
+export const TuiPromptAppend = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: TuiPromptAppendType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: FindTextResponseBodyItemPath,
+  }),
+).annotate({ identifier: "TuiPromptAppend" }) as any as S.Schema<TuiPromptAppend>;
+
+export type TuiCommandExecuteType = "tui.command.execute";
+export const TuiCommandExecuteType = S.String;
+
+export type TuiCommandExecuteDurable = ModelsDevRefreshedDurable;
+export const TuiCommandExecuteDurable = ModelsDevRefreshedDurable;
+
+export type TuiCommandExecuteDataCommandCase0 =
+  | "session.list"
+  | "session.new"
+  | "session.share"
+  | "session.interrupt"
+  | "session.compact"
+  | "session.page.up"
+  | "session.page.down"
+  | "session.line.up"
+  | "session.line.down"
+  | "session.half.page.up"
+  | "session.half.page.down"
+  | "session.first"
+  | "session.last"
+  | "prompt.clear"
+  | "prompt.submit"
+  | "agent.cycle";
+export const TuiCommandExecuteDataCommandCase0 = S.String;
+
+export type TuiCommandExecuteDataCommand = TuiCommandExecuteDataCommandCase0 | string;
+export const TuiCommandExecuteDataCommand =
+  S.Unknown as any as S.Schema<TuiCommandExecuteDataCommand>;
+
+export interface TuiCommandExecuteData {
+  command: TuiCommandExecuteDataCommand;
+}
+export const TuiCommandExecuteData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    command: TuiCommandExecuteDataCommand,
+  }),
+).annotate({ identifier: "TuiCommandExecuteData" }) as any as S.Schema<TuiCommandExecuteData>;
+
+export interface TuiCommandExecute {
+  id: string;
+  metadata?: unknown;
+  type: TuiCommandExecuteType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: TuiCommandExecuteData;
+}
+export const TuiCommandExecute = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: TuiCommandExecuteType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: TuiCommandExecuteData,
+  }),
+).annotate({ identifier: "TuiCommandExecute" }) as any as S.Schema<TuiCommandExecute>;
+
+export type TuiToastShowType = "tui.toast.show";
+export const TuiToastShowType = S.String;
+
+export type TuiToastShowDurable = ModelsDevRefreshedDurable;
+export const TuiToastShowDurable = ModelsDevRefreshedDurable;
+
+export type TuiToastShowDataVariant = "info" | "success" | "warning" | "error";
+export const TuiToastShowDataVariant = S.String;
+
+export interface TuiToastShowData {
+  title?: string;
+  message: string;
+  variant: TuiToastShowDataVariant;
+  duration?: number;
+}
+export const TuiToastShowData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    message: S.String,
+    variant: TuiToastShowDataVariant,
+    duration: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TuiToastShowData" }) as any as S.Schema<TuiToastShowData>;
+
+export interface TuiToastShow {
+  id: string;
+  metadata?: unknown;
+  type: TuiToastShowType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: TuiToastShowData;
+}
+export const TuiToastShow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: TuiToastShowType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: TuiToastShowData,
+  }),
+).annotate({ identifier: "TuiToastShow" }) as any as S.Schema<TuiToastShow>;
+
+export type TuiSessionSelectType = "tui.session.select";
+export const TuiSessionSelectType = S.String;
+
+export type TuiSessionSelectDurable = ModelsDevRefreshedDurable;
+export const TuiSessionSelectDurable = ModelsDevRefreshedDurable;
+
+export type TuiSessionSelectData = EventTuiSessionSelectProperties2;
+export const TuiSessionSelectData = EventTuiSessionSelectProperties2;
+
+export interface TuiSessionSelect {
+  id: string;
+  metadata?: unknown;
+  type: TuiSessionSelectType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventTuiSessionSelectProperties2;
+}
+export const TuiSessionSelect = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: TuiSessionSelectType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventTuiSessionSelectProperties2,
+  }),
+).annotate({ identifier: "TuiSessionSelect" }) as any as S.Schema<TuiSessionSelect>;
+
+export type McpToolsChangedType = "mcp.tools.changed";
+export const McpToolsChangedType = S.String;
+
+export type McpToolsChangedDurable = ModelsDevRefreshedDurable;
+export const McpToolsChangedDurable = ModelsDevRefreshedDurable;
+
+export type McpToolsChangedData = EventMcpToolsChangedProperties;
+export const McpToolsChangedData = EventMcpToolsChangedProperties;
+
+export interface McpToolsChanged {
+  id: string;
+  metadata?: unknown;
+  type: McpToolsChangedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMcpToolsChangedProperties;
+}
+export const McpToolsChanged = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: McpToolsChangedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMcpToolsChangedProperties,
+  }),
+).annotate({ identifier: "McpToolsChanged" }) as any as S.Schema<McpToolsChanged>;
+
+export type McpBrowserOpenFailedType = "mcp.browser.open.failed";
+export const McpBrowserOpenFailedType = S.String;
+
+export type McpBrowserOpenFailedDurable = ModelsDevRefreshedDurable;
+export const McpBrowserOpenFailedDurable = ModelsDevRefreshedDurable;
+
+export type McpBrowserOpenFailedData = EventMcpBrowserOpenFailedProperties;
+export const McpBrowserOpenFailedData = EventMcpBrowserOpenFailedProperties;
+
+export interface McpBrowserOpenFailed {
+  id: string;
+  metadata?: unknown;
+  type: McpBrowserOpenFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMcpBrowserOpenFailedProperties;
+}
+export const McpBrowserOpenFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: McpBrowserOpenFailedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventMcpBrowserOpenFailedProperties,
+  }),
+).annotate({ identifier: "McpBrowserOpenFailed" }) as any as S.Schema<McpBrowserOpenFailed>;
+
+export type CommandExecutedType = "command.executed";
+export const CommandExecutedType = S.String;
+
+export type CommandExecutedDurable = ModelsDevRefreshedDurable;
+export const CommandExecutedDurable = ModelsDevRefreshedDurable;
+
+export type CommandExecutedData = EventCommandExecutedProperties;
+export const CommandExecutedData = EventCommandExecutedProperties;
+
+export interface CommandExecuted {
+  id: string;
+  metadata?: unknown;
+  type: CommandExecutedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventCommandExecutedProperties;
+}
+export const CommandExecuted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: CommandExecutedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventCommandExecutedProperties,
+  }),
+).annotate({ identifier: "CommandExecuted" }) as any as S.Schema<CommandExecuted>;
+
+export type ProjectUpdatedType = "project.updated";
+export const ProjectUpdatedType = S.String;
+
+export type ProjectUpdatedDurable = ModelsDevRefreshedDurable;
+export const ProjectUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type ProjectUpdatedDataSandboxesList = Array<string>;
+export const ProjectUpdatedDataSandboxesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ProjectUpdatedDataSandboxesList>;
+
+export interface ProjectUpdatedData {
+  id: string;
+  worktree: string;
+  vcs?: ProjectVcs;
+  name?: string;
+  icon?: ProjectIcon;
+  commands?: ProjectCommands;
+  time: ProjectTime;
+  sandboxes: ProjectUpdatedDataSandboxesList;
+}
+export const ProjectUpdatedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    worktree: S.String,
+    vcs: S.optional(ProjectVcs),
+    name: S.optional(S.String),
+    icon: S.optional(ProjectIcon),
+    commands: S.optional(ProjectCommands),
+    time: ProjectTime,
+    sandboxes: ProjectUpdatedDataSandboxesList,
+  }),
+).annotate({ identifier: "ProjectUpdatedData" }) as any as S.Schema<ProjectUpdatedData>;
+
+export interface ProjectUpdated {
+  id: string;
+  metadata?: unknown;
+  type: ProjectUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: ProjectUpdatedData;
+}
+export const ProjectUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: ProjectUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: ProjectUpdatedData,
+  }),
+).annotate({ identifier: "ProjectUpdated" }) as any as S.Schema<ProjectUpdated>;
+
+export type SessionStatusType = "session.status";
+export const SessionStatusType = S.String;
+
+export type SessionStatusDurable = ModelsDevRefreshedDurable;
+export const SessionStatusDurable = ModelsDevRefreshedDurable;
+
+export type SessionStatusData = EventSessionStatusProperties;
+export const SessionStatusData = EventSessionStatusProperties;
+
+export interface SessionStatus3 {
+  id: string;
+  metadata?: unknown;
+  type: SessionStatusType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionStatusProperties;
+}
+export const SessionStatus3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionStatusType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionStatusProperties,
+  }),
+).annotate({ identifier: "SessionStatus3" }) as any as S.Schema<SessionStatus3>;
+
+export type SessionIdleType = "session.idle";
+export const SessionIdleType = S.String;
+
+export type SessionIdleDurable = ModelsDevRefreshedDurable;
+export const SessionIdleDurable = ModelsDevRefreshedDurable;
+
+export type SessionIdleData = EventSessionIdleProperties;
+export const SessionIdleData = EventSessionIdleProperties;
+
+export interface SessionIdle {
+  id: string;
+  metadata?: unknown;
+  type: SessionIdleType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionIdleProperties;
+}
+export const SessionIdle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionIdleType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionIdleProperties,
+  }),
+).annotate({ identifier: "SessionIdle" }) as any as S.Schema<SessionIdle>;
+
+export type QuestionAskedType = "question.asked";
+export const QuestionAskedType = S.String;
+
+export type QuestionAskedDurable = ModelsDevRefreshedDurable;
+export const QuestionAskedDurable = ModelsDevRefreshedDurable;
+
+/** Questions to ask */
+export type QuestionAskedDataQuestionsList = Array<QuestionInfo>;
+export const QuestionAskedDataQuestionsList = /*@__PURE__*/ S.Array(
+  QuestionInfo,
+) as any as S.Schema<QuestionAskedDataQuestionsList>;
+
+export interface QuestionAskedData {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: QuestionAskedDataQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export const QuestionAskedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sessionID: S.String,
+    questions: QuestionAskedDataQuestionsList,
+    tool: S.optional(PermissionRequestTool),
+  }),
+).annotate({ identifier: "QuestionAskedData" }) as any as S.Schema<QuestionAskedData>;
+
+export interface QuestionAsked {
+  id: string;
+  metadata?: unknown;
+  type: QuestionAskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionAskedData;
+}
+export const QuestionAsked = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: QuestionAskedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: QuestionAskedData,
+  }),
+).annotate({ identifier: "QuestionAsked" }) as any as S.Schema<QuestionAsked>;
+
+export type QuestionRepliedType = "question.replied";
+export const QuestionRepliedType = S.String;
+
+export type QuestionRepliedDurable = ModelsDevRefreshedDurable;
+export const QuestionRepliedDurable = ModelsDevRefreshedDurable;
+
+export type QuestionRepliedDataAnswersList = Array<QuestionAnswer>;
+export const QuestionRepliedDataAnswersList = /*@__PURE__*/ S.Array(
+  QuestionAnswer,
+) as any as S.Schema<QuestionRepliedDataAnswersList>;
+
+export interface QuestionRepliedData {
+  sessionID: string;
+  requestID: string;
+  answers: QuestionRepliedDataAnswersList;
+}
+export const QuestionRepliedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionID: S.String,
+    requestID: S.String,
+    answers: QuestionRepliedDataAnswersList,
+  }),
+).annotate({ identifier: "QuestionRepliedData" }) as any as S.Schema<QuestionRepliedData>;
+
+export interface QuestionReplied {
+  id: string;
+  metadata?: unknown;
+  type: QuestionRepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionRepliedData;
+}
+export const QuestionReplied = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: QuestionRepliedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: QuestionRepliedData,
+  }),
+).annotate({ identifier: "QuestionReplied" }) as any as S.Schema<QuestionReplied>;
+
+export type QuestionRejectedType = "question.rejected";
+export const QuestionRejectedType = S.String;
+
+export type QuestionRejectedDurable = ModelsDevRefreshedDurable;
+export const QuestionRejectedDurable = ModelsDevRefreshedDurable;
+
+export type QuestionRejectedData = EventQuestionV2RejectedProperties;
+export const QuestionRejectedData = EventQuestionV2RejectedProperties;
+
+export interface QuestionRejected {
+  id: string;
+  metadata?: unknown;
+  type: QuestionRejectedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventQuestionV2RejectedProperties;
+}
+export const QuestionRejected = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: QuestionRejectedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventQuestionV2RejectedProperties,
+  }),
+).annotate({ identifier: "QuestionRejected" }) as any as S.Schema<QuestionRejected>;
+
+export type SessionCompactedType = "session.compacted";
+export const SessionCompactedType = S.String;
+
+export type SessionCompactedDurable = ModelsDevRefreshedDurable;
+export const SessionCompactedDurable = ModelsDevRefreshedDurable;
+
+export type SessionCompactedData = EventSessionIdleProperties;
+export const SessionCompactedData = EventSessionIdleProperties;
+
+export interface SessionCompacted {
+  id: string;
+  metadata?: unknown;
+  type: SessionCompactedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionIdleProperties;
+}
+export const SessionCompacted = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: SessionCompactedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventSessionIdleProperties,
+  }),
+).annotate({ identifier: "SessionCompacted" }) as any as S.Schema<SessionCompacted>;
+
+export type VcsBranchUpdatedType = "vcs.branch.updated";
+export const VcsBranchUpdatedType = S.String;
+
+export type VcsBranchUpdatedDurable = ModelsDevRefreshedDurable;
+export const VcsBranchUpdatedDurable = ModelsDevRefreshedDurable;
+
+export type VcsBranchUpdatedData = EventVcsBranchUpdatedProperties;
+export const VcsBranchUpdatedData = EventVcsBranchUpdatedProperties;
+
+export interface VcsBranchUpdated {
+  id: string;
+  metadata?: unknown;
+  type: VcsBranchUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventVcsBranchUpdatedProperties;
+}
+export const VcsBranchUpdated = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: VcsBranchUpdatedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventVcsBranchUpdatedProperties,
+  }),
+).annotate({ identifier: "VcsBranchUpdated" }) as any as S.Schema<VcsBranchUpdated>;
+
+export type WorkspaceReadyType = "workspace.ready";
+export const WorkspaceReadyType = S.String;
+
+export type WorkspaceReadyDurable = ModelsDevRefreshedDurable;
+export const WorkspaceReadyDurable = ModelsDevRefreshedDurable;
+
+export type WorkspaceReadyData = EventWorkspaceReadyProperties;
+export const WorkspaceReadyData = EventWorkspaceReadyProperties;
+
+export interface WorkspaceReady {
+  id: string;
+  metadata?: unknown;
+  type: WorkspaceReadyType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventWorkspaceReadyProperties;
+}
+export const WorkspaceReady = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: WorkspaceReadyType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventWorkspaceReadyProperties,
+  }),
+).annotate({ identifier: "WorkspaceReady" }) as any as S.Schema<WorkspaceReady>;
+
+export type WorkspaceFailedType = "workspace.failed";
+export const WorkspaceFailedType = S.String;
+
+export type WorkspaceFailedDurable = ModelsDevRefreshedDurable;
+export const WorkspaceFailedDurable = ModelsDevRefreshedDurable;
+
+export type WorkspaceFailedData = MessageAbortedErrorData;
+export const WorkspaceFailedData = MessageAbortedErrorData;
+
+export interface WorkspaceFailed {
+  id: string;
+  metadata?: unknown;
+  type: WorkspaceFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: MessageAbortedErrorData;
+}
+export const WorkspaceFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: WorkspaceFailedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: MessageAbortedErrorData,
+  }),
+).annotate({ identifier: "WorkspaceFailed" }) as any as S.Schema<WorkspaceFailed>;
+
+export type WorkspaceStatusType = "workspace.status";
+export const WorkspaceStatusType = S.String;
+
+export type WorkspaceStatusDurable = ModelsDevRefreshedDurable;
+export const WorkspaceStatusDurable = ModelsDevRefreshedDurable;
+
+export type WorkspaceStatusDataStatus = "connected" | "connecting" | "disconnected" | "error";
+export const WorkspaceStatusDataStatus = S.String;
+
+export interface WorkspaceStatusData {
+  workspaceID: string;
+  status: WorkspaceStatusDataStatus;
+}
+export const WorkspaceStatusData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceID: S.String,
+    status: WorkspaceStatusDataStatus,
+  }),
+).annotate({ identifier: "WorkspaceStatusData" }) as any as S.Schema<WorkspaceStatusData>;
+
+export interface WorkspaceStatus {
+  id: string;
+  metadata?: unknown;
+  type: WorkspaceStatusType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: WorkspaceStatusData;
+}
+export const WorkspaceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: WorkspaceStatusType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: WorkspaceStatusData,
+  }),
+).annotate({ identifier: "WorkspaceStatus" }) as any as S.Schema<WorkspaceStatus>;
+
+export type WorktreeReadyType = "worktree.ready";
+export const WorktreeReadyType = S.String;
+
+export type WorktreeReadyDurable = ModelsDevRefreshedDurable;
+export const WorktreeReadyDurable = ModelsDevRefreshedDurable;
+
+export type WorktreeReadyData = EventWorktreeReadyProperties;
+export const WorktreeReadyData = EventWorktreeReadyProperties;
+
+export interface WorktreeReady {
+  id: string;
+  metadata?: unknown;
+  type: WorktreeReadyType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventWorktreeReadyProperties;
+}
+export const WorktreeReady = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: WorktreeReadyType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: EventWorktreeReadyProperties,
+  }),
+).annotate({ identifier: "WorktreeReady" }) as any as S.Schema<WorktreeReady>;
+
+export type WorktreeFailedType = "worktree.failed";
+export const WorktreeFailedType = S.String;
+
+export type WorktreeFailedDurable = ModelsDevRefreshedDurable;
+export const WorktreeFailedDurable = ModelsDevRefreshedDurable;
+
+export type WorktreeFailedData = MessageAbortedErrorData;
+export const WorktreeFailedData = MessageAbortedErrorData;
+
+export interface WorktreeFailed {
+  id: string;
+  metadata?: unknown;
+  type: WorktreeFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: MessageAbortedErrorData;
+}
+export const WorktreeFailed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: WorktreeFailedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: MessageAbortedErrorData,
+  }),
+).annotate({ identifier: "WorktreeFailed" }) as any as S.Schema<WorktreeFailed>;
+
+export type ServerConnectedType = "server.connected";
+export const ServerConnectedType = S.String;
+
+export type ServerConnectedDurable = ModelsDevRefreshedDurable;
+export const ServerConnectedDurable = ModelsDevRefreshedDurable;
+
+export interface ServerConnected {
+  id: string;
+  metadata?: unknown;
+  type: ServerConnectedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const ServerConnected = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: ServerConnectedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "ServerConnected" }) as any as S.Schema<ServerConnected>;
+
+export type GlobalDisposedType = "global.disposed";
+export const GlobalDisposedType = S.String;
+
+export type GlobalDisposedDurable = ModelsDevRefreshedDurable;
+export const GlobalDisposedDurable = ModelsDevRefreshedDurable;
+
+export interface GlobalDisposed {
+  id: string;
+  metadata?: unknown;
+  type: GlobalDisposedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export const GlobalDisposed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    metadata: S.optional(S.Unknown),
+    type: GlobalDisposedType,
+    durable: S.optional(ModelsDevRefreshedDurable),
+    location: S.optional(LocationRef),
+    data: S.Unknown,
+  }),
+).annotate({ identifier: "GlobalDisposed" }) as any as S.Schema<GlobalDisposed>;
+
+export type V2Event =
+  | ModelsDevRefreshed
+  | IntegrationUpdated
+  | IntegrationConnectionUpdated
+  | CatalogUpdated
+  | SessionCreated
+  | SessionUpdated
+  | SessionDeleted
+  | MessageUpdated
+  | MessageRemoved
+  | MessagePartUpdated
+  | MessagePartRemoved
+  | SessionNextAgentSwitched
+  | SessionNextModelSwitched
+  | SessionNextMoved
+  | SessionNextPrompted
+  | SessionNextPromptAdmitted
+  | SessionNextContextUpdated
+  | SessionNextSynthetic
+  | SessionNextShellStarted
+  | SessionNextShellEnded
+  | SessionNextStepStarted
+  | SessionNextStepEnded
+  | SessionNextStepFailed
+  | SessionNextTextStarted
+  | SessionNextTextDelta
+  | SessionNextTextEnded
+  | SessionNextReasoningStarted
+  | SessionNextReasoningDelta
+  | SessionNextReasoningEnded
+  | SessionNextToolInputStarted
+  | SessionNextToolInputDelta
+  | SessionNextToolInputEnded
+  | SessionNextToolCalled
+  | SessionNextToolProgress
+  | SessionNextToolSuccess
+  | SessionNextToolFailed
+  | SessionNextRetried
+  | SessionNextCompactionStarted
+  | SessionNextCompactionDelta
+  | SessionNextCompactionEnded
+  | SessionNextRevertStaged
+  | SessionNextRevertCleared
+  | SessionNextRevertCommitted
+  | MessagePartDelta
+  | SessionDiff2
+  | SessionError
+  | InstallationUpdated
+  | InstallationUpdateAvailable
+  | FileEdited
+  | ReferenceUpdated
+  | PermissionV2Asked
+  | PermissionV2Replied
+  | PluginAdded
+  | ProjectDirectoriesUpdated
+  | FileWatcherUpdated
+  | PtyCreated
+  | PtyUpdated
+  | PtyExited
+  | PtyDeleted
+  | QuestionV2Asked
+  | QuestionV2Replied
+  | QuestionV2Rejected
+  | TodoUpdated
+  | LspUpdated
+  | PermissionAsked
+  | PermissionReplied
+  | TuiPromptAppend
+  | TuiCommandExecute
+  | TuiToastShow
+  | TuiSessionSelect
+  | McpToolsChanged
+  | McpBrowserOpenFailed
+  | CommandExecuted
+  | ProjectUpdated
+  | SessionStatus3
+  | SessionIdle
+  | QuestionAsked
+  | QuestionReplied
+  | QuestionRejected
+  | SessionCompacted
+  | VcsBranchUpdated
+  | WorkspaceReady
+  | WorkspaceFailed
+  | WorkspaceStatus
+  | WorktreeReady
+  | WorktreeFailed
+  | ServerConnected
+  | GlobalDisposed;
+export const V2Event = S.Unknown as any as S.Schema<V2Event>;
+
+export type SubscribeV2EventResponse = V2Event;
+export const SubscribeV2EventResponse = /*@__PURE__*/ S.suspend(() =>
+  V2Event.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "SubscribeV2EventResponse" }) as any as S.Schema<SubscribeV2EventResponse>;
 
 export interface SyncReplayRequestEventsItem {
   id: string;
@@ -10215,51 +20273,10 @@ export const SessionMessageModelSwitched = /*@__PURE__*/ S.suspend(() =>
 export type SessionMessageUserTime = RetryPartTime;
 export const SessionMessageUserTime = RetryPartTime;
 
-export interface PromptSource {
-  start: number;
-  end: number;
-  text: string;
-}
-export const PromptSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    start: S.Number,
-    end: S.Number,
-    text: S.String,
-  }),
-).annotate({ identifier: "PromptSource" }) as any as S.Schema<PromptSource>;
-
-export interface PromptFileAttachment {
-  uri: string;
-  mime: string;
-  name?: string;
-  description?: string;
-  source?: PromptSource;
-}
-export const PromptFileAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.String,
-    mime: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    source: S.optional(PromptSource),
-  }),
-).annotate({ identifier: "PromptFileAttachment" }) as any as S.Schema<PromptFileAttachment>;
-
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
 export const SessionMessageUserFilesList = /*@__PURE__*/ S.Array(
   PromptFileAttachment,
 ) as any as S.Schema<SessionMessageUserFilesList>;
-
-export interface PromptAgentAttachment {
-  name: string;
-  source?: PromptSource;
-}
-export const PromptAgentAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    source: S.optional(PromptSource),
-  }),
-).annotate({ identifier: "PromptAgentAttachment" }) as any as S.Schema<PromptAgentAttachment>;
 
 export type SessionMessageUserAgentsList = Array<PromptAgentAttachment>;
 export const SessionMessageUserAgentsList = /*@__PURE__*/ S.Array(
@@ -10392,12 +20409,6 @@ export const SessionMessageAssistantText = /*@__PURE__*/ S.suspend(() =>
 export type SessionMessageAssistantReasoningType = "reasoning";
 export const SessionMessageAssistantReasoningType = S.String;
 
-export type LLMProviderMetadata = { [key: string]: unknown | undefined };
-export const LLMProviderMetadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<LLMProviderMetadata>;
-
 export type SessionMessageAssistantReasoningTime = AssistantMessageTime;
 export const SessionMessageAssistantReasoningTime = AssistantMessageTime;
 
@@ -10456,41 +20467,6 @@ export const SessionMessageToolStatePending = /*@__PURE__*/ S.suspend(() =>
 
 export type SessionMessageToolStateRunningStatus = "running";
 export const SessionMessageToolStateRunningStatus = S.String;
-
-export type ToolTextContentType = "text";
-export const ToolTextContentType = S.String;
-
-export interface ToolTextContent {
-  type: ToolTextContentType;
-  text: string;
-}
-export const ToolTextContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ToolTextContentType,
-    text: S.String,
-  }),
-).annotate({ identifier: "ToolTextContent" }) as any as S.Schema<ToolTextContent>;
-
-export type ToolFileContentType = "file";
-export const ToolFileContentType = S.String;
-
-export interface ToolFileContent {
-  type: ToolFileContentType;
-  uri: string;
-  mime: string;
-  name?: string;
-}
-export const ToolFileContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ToolFileContentType,
-    uri: S.String,
-    mime: S.String,
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "ToolFileContent" }) as any as S.Schema<ToolFileContent>;
-
-export type LLMToolContent = ToolTextContent | ToolFileContent;
-export const LLMToolContent = S.Unknown as any as S.Schema<LLMToolContent>;
 
 export type SessionMessageToolStateRunningContentList = Array<LLMToolContent>;
 export const SessionMessageToolStateRunningContentList = /*@__PURE__*/ S.Array(
@@ -10562,20 +20538,6 @@ export type SessionMessageToolStateErrorContentList = Array<LLMToolContent>;
 export const SessionMessageToolStateErrorContentList = /*@__PURE__*/ S.Array(
   LLMToolContent,
 ) as any as S.Schema<SessionMessageToolStateErrorContentList>;
-
-export type SessionErrorUnknownType = "unknown";
-export const SessionErrorUnknownType = S.String;
-
-export interface SessionErrorUnknown {
-  type: SessionErrorUnknownType;
-  message: string;
-}
-export const SessionErrorUnknown = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: SessionErrorUnknownType,
-    message: S.String,
-  }),
-).annotate({ identifier: "SessionErrorUnknown" }) as any as S.Schema<SessionErrorUnknown>;
 
 export interface SessionMessageToolStateError {
   status: SessionMessageToolStateErrorStatus;
@@ -10779,10 +20741,18 @@ export const V2SessionEventsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/event", code: 200 })),
 ).annotate({ identifier: "V2SessionEventsRequest" }) as any as S.Schema<V2SessionEventsRequest>;
 
-export interface V2SessionEventsResponse {}
-export const V2SessionEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "V2SessionEventsResponse",
-}) as any as S.Schema<V2SessionEventsResponse>;
+export interface V2SessionEventsResponse {
+  id: string;
+  event: string;
+  data: string;
+}
+export const V2SessionEventsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    event: S.String,
+    data: S.String,
+  }),
+).annotate({ identifier: "V2SessionEventsResponse" }) as any as S.Schema<V2SessionEventsResponse>;
 
 export interface V2SessionHistoryRequest {
   sessionID: string;
@@ -10796,1351 +20766,6 @@ export const V2SessionHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/history", code: 200 })),
 ).annotate({ identifier: "V2SessionHistoryRequest" }) as any as S.Schema<V2SessionHistoryRequest>;
-
-export type SessionNextAgentSwitchedType = "session.next.agent.switched";
-export const SessionNextAgentSwitchedType = S.String;
-
-export interface SessionNextAgentSwitchedDurable {
-  aggregateID: string;
-  seq: number;
-  version: number;
-}
-export const SessionNextAgentSwitchedDurable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aggregateID: S.String,
-    seq: S.Number,
-    version: S.Number,
-  }),
-).annotate({
-  identifier: "SessionNextAgentSwitchedDurable",
-}) as any as S.Schema<SessionNextAgentSwitchedDurable>;
-
-export interface SessionNextAgentSwitchedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  agent: string;
-}
-export const SessionNextAgentSwitchedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    agent: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextAgentSwitchedData",
-}) as any as S.Schema<SessionNextAgentSwitchedData>;
-
-export interface SessionNextAgentSwitched {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextAgentSwitchedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextAgentSwitchedData;
-}
-export const SessionNextAgentSwitched = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextAgentSwitchedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextAgentSwitchedData,
-  }),
-).annotate({ identifier: "SessionNextAgentSwitched" }) as any as S.Schema<SessionNextAgentSwitched>;
-
-export type SessionNextModelSwitchedType = "session.next.model.switched";
-export const SessionNextModelSwitchedType = S.String;
-
-export type SessionNextModelSwitchedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextModelSwitchedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextModelSwitchedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  model: CreateSessionRequestModel;
-}
-export const SessionNextModelSwitchedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    model: CreateSessionRequestModel,
-  }),
-).annotate({
-  identifier: "SessionNextModelSwitchedData",
-}) as any as S.Schema<SessionNextModelSwitchedData>;
-
-export interface SessionNextModelSwitched {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextModelSwitchedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextModelSwitchedData;
-}
-export const SessionNextModelSwitched = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextModelSwitchedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextModelSwitchedData,
-  }),
-).annotate({ identifier: "SessionNextModelSwitched" }) as any as S.Schema<SessionNextModelSwitched>;
-
-export type SessionNextMovedType = "session.next.moved";
-export const SessionNextMovedType = S.String;
-
-export type SessionNextMovedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextMovedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextMovedData {
-  timestamp: number;
-  sessionID: string;
-  location: LocationRef;
-  subdirectory?: string;
-}
-export const SessionNextMovedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    location: LocationRef,
-    subdirectory: S.optional(S.String),
-  }),
-).annotate({ identifier: "SessionNextMovedData" }) as any as S.Schema<SessionNextMovedData>;
-
-export interface SessionNextMoved {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextMovedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextMovedData;
-}
-export const SessionNextMoved = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextMovedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextMovedData,
-  }),
-).annotate({ identifier: "SessionNextMoved" }) as any as S.Schema<SessionNextMoved>;
-
-export type SessionNextPromptedType = "session.next.prompted";
-export const SessionNextPromptedType = S.String;
-
-export type SessionNextPromptedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextPromptedDurable = SessionNextAgentSwitchedDurable;
-
-export type PromptFilesList = Array<PromptFileAttachment>;
-export const PromptFilesList = /*@__PURE__*/ S.Array(
-  PromptFileAttachment,
-) as any as S.Schema<PromptFilesList>;
-
-export type PromptAgentsList = Array<PromptAgentAttachment>;
-export const PromptAgentsList = /*@__PURE__*/ S.Array(
-  PromptAgentAttachment,
-) as any as S.Schema<PromptAgentsList>;
-
-export interface Prompt {
-  text: string;
-  files?: PromptFilesList;
-  agents?: PromptAgentsList;
-}
-export const Prompt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.String,
-    files: S.optional(PromptFilesList),
-    agents: S.optional(PromptAgentsList),
-  }),
-).annotate({ identifier: "Prompt" }) as any as S.Schema<Prompt>;
-
-export type SessionNextPromptedDataDelivery = "steer" | "queue";
-export const SessionNextPromptedDataDelivery = S.String;
-
-export interface SessionNextPromptedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  prompt: Prompt;
-  delivery: SessionNextPromptedDataDelivery;
-}
-export const SessionNextPromptedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    prompt: Prompt,
-    delivery: SessionNextPromptedDataDelivery,
-  }),
-).annotate({ identifier: "SessionNextPromptedData" }) as any as S.Schema<SessionNextPromptedData>;
-
-export interface SessionNextPrompted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextPromptedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextPromptedData;
-}
-export const SessionNextPrompted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextPromptedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextPromptedData,
-  }),
-).annotate({ identifier: "SessionNextPrompted" }) as any as S.Schema<SessionNextPrompted>;
-
-export type SessionNextPromptAdmittedType = "session.next.prompt.admitted";
-export const SessionNextPromptAdmittedType = S.String;
-
-export type SessionNextPromptAdmittedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextPromptAdmittedDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextPromptAdmittedDataDelivery = "steer" | "queue";
-export const SessionNextPromptAdmittedDataDelivery = S.String;
-
-export interface SessionNextPromptAdmittedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  prompt: Prompt;
-  delivery: SessionNextPromptAdmittedDataDelivery;
-}
-export const SessionNextPromptAdmittedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    prompt: Prompt,
-    delivery: SessionNextPromptAdmittedDataDelivery,
-  }),
-).annotate({
-  identifier: "SessionNextPromptAdmittedData",
-}) as any as S.Schema<SessionNextPromptAdmittedData>;
-
-export interface SessionNextPromptAdmitted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextPromptAdmittedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextPromptAdmittedData;
-}
-export const SessionNextPromptAdmitted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextPromptAdmittedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextPromptAdmittedData,
-  }),
-).annotate({
-  identifier: "SessionNextPromptAdmitted",
-}) as any as S.Schema<SessionNextPromptAdmitted>;
-
-export type SessionNextContextUpdatedType = "session.next.context.updated";
-export const SessionNextContextUpdatedType = S.String;
-
-export type SessionNextContextUpdatedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextContextUpdatedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextContextUpdatedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  text: string;
-}
-export const SessionNextContextUpdatedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    text: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextContextUpdatedData",
-}) as any as S.Schema<SessionNextContextUpdatedData>;
-
-export interface SessionNextContextUpdated {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextContextUpdatedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextContextUpdatedData;
-}
-export const SessionNextContextUpdated = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextContextUpdatedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextContextUpdatedData,
-  }),
-).annotate({
-  identifier: "SessionNextContextUpdated",
-}) as any as S.Schema<SessionNextContextUpdated>;
-
-export type SessionNextSyntheticType = "session.next.synthetic";
-export const SessionNextSyntheticType = S.String;
-
-export type SessionNextSyntheticDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextSyntheticDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextSyntheticData = SessionNextContextUpdatedData;
-export const SessionNextSyntheticData = SessionNextContextUpdatedData;
-
-export interface SessionNextSynthetic {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextSyntheticType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextContextUpdatedData;
-}
-export const SessionNextSynthetic = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextSyntheticType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextContextUpdatedData,
-  }),
-).annotate({ identifier: "SessionNextSynthetic" }) as any as S.Schema<SessionNextSynthetic>;
-
-export type SessionNextShellStartedType = "session.next.shell.started";
-export const SessionNextShellStartedType = S.String;
-
-export type SessionNextShellStartedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextShellStartedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextShellStartedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  callID: string;
-  command: string;
-}
-export const SessionNextShellStartedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    callID: S.String,
-    command: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextShellStartedData",
-}) as any as S.Schema<SessionNextShellStartedData>;
-
-export interface SessionNextShellStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextShellStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextShellStartedData;
-}
-export const SessionNextShellStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextShellStartedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextShellStartedData,
-  }),
-).annotate({ identifier: "SessionNextShellStarted" }) as any as S.Schema<SessionNextShellStarted>;
-
-export type SessionNextShellEndedType = "session.next.shell.ended";
-export const SessionNextShellEndedType = S.String;
-
-export type SessionNextShellEndedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextShellEndedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextShellEndedData {
-  timestamp: number;
-  sessionID: string;
-  callID: string;
-  output: string;
-}
-export const SessionNextShellEndedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    callID: S.String,
-    output: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextShellEndedData",
-}) as any as S.Schema<SessionNextShellEndedData>;
-
-export interface SessionNextShellEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextShellEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextShellEndedData;
-}
-export const SessionNextShellEnded = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextShellEndedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextShellEndedData,
-  }),
-).annotate({ identifier: "SessionNextShellEnded" }) as any as S.Schema<SessionNextShellEnded>;
-
-export type SessionNextStepStartedType = "session.next.step.started";
-export const SessionNextStepStartedType = S.String;
-
-export type SessionNextStepStartedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextStepStartedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextStepStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  agent: string;
-  model: CreateSessionRequestModel;
-  snapshot?: string;
-}
-export const SessionNextStepStartedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    agent: S.String,
-    model: CreateSessionRequestModel,
-    snapshot: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SessionNextStepStartedData",
-}) as any as S.Schema<SessionNextStepStartedData>;
-
-export interface SessionNextStepStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextStepStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextStepStartedData;
-}
-export const SessionNextStepStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextStepStartedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextStepStartedData,
-  }),
-).annotate({ identifier: "SessionNextStepStarted" }) as any as S.Schema<SessionNextStepStarted>;
-
-export type SessionNextStepEndedType = "session.next.step.ended";
-export const SessionNextStepEndedType = S.String;
-
-export type SessionNextStepEndedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextStepEndedDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextStepEndedDataTokensCache = ModelCostCache;
-export const SessionNextStepEndedDataTokensCache = ModelCostCache;
-
-export type SessionNextStepEndedDataTokens = SessionTokens;
-export const SessionNextStepEndedDataTokens = SessionTokens;
-
-export type SessionNextStepEndedDataFilesList = Array<string>;
-export const SessionNextStepEndedDataFilesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SessionNextStepEndedDataFilesList>;
-
-export interface SessionNextStepEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  finish: string;
-  cost: number;
-  tokens: SessionTokens;
-  snapshot?: string;
-  files?: SessionNextStepEndedDataFilesList;
-}
-export const SessionNextStepEndedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    finish: S.String,
-    cost: S.Number,
-    tokens: SessionTokens,
-    snapshot: S.optional(S.String),
-    files: S.optional(SessionNextStepEndedDataFilesList),
-  }),
-).annotate({ identifier: "SessionNextStepEndedData" }) as any as S.Schema<SessionNextStepEndedData>;
-
-export interface SessionNextStepEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextStepEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextStepEndedData;
-}
-export const SessionNextStepEnded = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextStepEndedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextStepEndedData,
-  }),
-).annotate({ identifier: "SessionNextStepEnded" }) as any as S.Schema<SessionNextStepEnded>;
-
-export type SessionNextStepFailedType = "session.next.step.failed";
-export const SessionNextStepFailedType = S.String;
-
-export type SessionNextStepFailedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextStepFailedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextStepFailedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  error: SessionErrorUnknown;
-}
-export const SessionNextStepFailedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    error: SessionErrorUnknown,
-  }),
-).annotate({
-  identifier: "SessionNextStepFailedData",
-}) as any as S.Schema<SessionNextStepFailedData>;
-
-export interface SessionNextStepFailed {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextStepFailedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextStepFailedData;
-}
-export const SessionNextStepFailed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextStepFailedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextStepFailedData,
-  }),
-).annotate({ identifier: "SessionNextStepFailed" }) as any as S.Schema<SessionNextStepFailed>;
-
-export type SessionNextTextStartedType = "session.next.text.started";
-export const SessionNextTextStartedType = S.String;
-
-export type SessionNextTextStartedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextTextStartedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextTextStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  textID: string;
-}
-export const SessionNextTextStartedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    textID: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextTextStartedData",
-}) as any as S.Schema<SessionNextTextStartedData>;
-
-export interface SessionNextTextStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextTextStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextTextStartedData;
-}
-export const SessionNextTextStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextTextStartedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextTextStartedData,
-  }),
-).annotate({ identifier: "SessionNextTextStarted" }) as any as S.Schema<SessionNextTextStarted>;
-
-export type SessionNextTextEndedType = "session.next.text.ended";
-export const SessionNextTextEndedType = S.String;
-
-export type SessionNextTextEndedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextTextEndedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextTextEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  textID: string;
-  text: string;
-}
-export const SessionNextTextEndedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    textID: S.String,
-    text: S.String,
-  }),
-).annotate({ identifier: "SessionNextTextEndedData" }) as any as S.Schema<SessionNextTextEndedData>;
-
-export interface SessionNextTextEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextTextEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextTextEndedData;
-}
-export const SessionNextTextEnded = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextTextEndedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextTextEndedData,
-  }),
-).annotate({ identifier: "SessionNextTextEnded" }) as any as S.Schema<SessionNextTextEnded>;
-
-export type SessionNextToolInputStartedType = "session.next.tool.input.started";
-export const SessionNextToolInputStartedType = S.String;
-
-export type SessionNextToolInputStartedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextToolInputStartedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextToolInputStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  name: string;
-}
-export const SessionNextToolInputStartedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    callID: S.String,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextToolInputStartedData",
-}) as any as S.Schema<SessionNextToolInputStartedData>;
-
-export interface SessionNextToolInputStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolInputStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolInputStartedData;
-}
-export const SessionNextToolInputStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextToolInputStartedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextToolInputStartedData,
-  }),
-).annotate({
-  identifier: "SessionNextToolInputStarted",
-}) as any as S.Schema<SessionNextToolInputStarted>;
-
-export type SessionNextToolInputEndedType = "session.next.tool.input.ended";
-export const SessionNextToolInputEndedType = S.String;
-
-export type SessionNextToolInputEndedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextToolInputEndedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextToolInputEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  text: string;
-}
-export const SessionNextToolInputEndedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    callID: S.String,
-    text: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextToolInputEndedData",
-}) as any as S.Schema<SessionNextToolInputEndedData>;
-
-export interface SessionNextToolInputEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolInputEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolInputEndedData;
-}
-export const SessionNextToolInputEnded = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextToolInputEndedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextToolInputEndedData,
-  }),
-).annotate({
-  identifier: "SessionNextToolInputEnded",
-}) as any as S.Schema<SessionNextToolInputEnded>;
-
-export type SessionNextToolCalledType = "session.next.tool.called";
-export const SessionNextToolCalledType = S.String;
-
-export type SessionNextToolCalledDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextToolCalledDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextToolCalledDataProvider {
-  executed: boolean;
-  metadata?: LLMProviderMetadata;
-}
-export const SessionNextToolCalledDataProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    executed: S.Boolean,
-    metadata: S.optional(LLMProviderMetadata),
-  }),
-).annotate({
-  identifier: "SessionNextToolCalledDataProvider",
-}) as any as S.Schema<SessionNextToolCalledDataProvider>;
-
-export interface SessionNextToolCalledData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  tool: string;
-  input: unknown;
-  provider: SessionNextToolCalledDataProvider;
-}
-export const SessionNextToolCalledData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    callID: S.String,
-    tool: S.String,
-    input: S.Unknown,
-    provider: SessionNextToolCalledDataProvider,
-  }),
-).annotate({
-  identifier: "SessionNextToolCalledData",
-}) as any as S.Schema<SessionNextToolCalledData>;
-
-export interface SessionNextToolCalled {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolCalledType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolCalledData;
-}
-export const SessionNextToolCalled = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextToolCalledType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextToolCalledData,
-  }),
-).annotate({ identifier: "SessionNextToolCalled" }) as any as S.Schema<SessionNextToolCalled>;
-
-export type SessionNextToolProgressType = "session.next.tool.progress";
-export const SessionNextToolProgressType = S.String;
-
-export type SessionNextToolProgressDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextToolProgressDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextToolProgressDataContentList = Array<LLMToolContent>;
-export const SessionNextToolProgressDataContentList = /*@__PURE__*/ S.Array(
-  LLMToolContent,
-) as any as S.Schema<SessionNextToolProgressDataContentList>;
-
-export interface SessionNextToolProgressData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  structured: unknown;
-  content: SessionNextToolProgressDataContentList;
-}
-export const SessionNextToolProgressData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    callID: S.String,
-    structured: S.Unknown,
-    content: SessionNextToolProgressDataContentList,
-  }),
-).annotate({
-  identifier: "SessionNextToolProgressData",
-}) as any as S.Schema<SessionNextToolProgressData>;
-
-export interface SessionNextToolProgress {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolProgressType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolProgressData;
-}
-export const SessionNextToolProgress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextToolProgressType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextToolProgressData,
-  }),
-).annotate({ identifier: "SessionNextToolProgress" }) as any as S.Schema<SessionNextToolProgress>;
-
-export type SessionNextToolSuccessType = "session.next.tool.success";
-export const SessionNextToolSuccessType = S.String;
-
-export type SessionNextToolSuccessDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextToolSuccessDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextToolSuccessDataContentList = Array<LLMToolContent>;
-export const SessionNextToolSuccessDataContentList = /*@__PURE__*/ S.Array(
-  LLMToolContent,
-) as any as S.Schema<SessionNextToolSuccessDataContentList>;
-
-export type SessionNextToolSuccessDataOutputPathsList = Array<string>;
-export const SessionNextToolSuccessDataOutputPathsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SessionNextToolSuccessDataOutputPathsList>;
-
-export type SessionNextToolSuccessDataProvider = SessionNextToolCalledDataProvider;
-export const SessionNextToolSuccessDataProvider = SessionNextToolCalledDataProvider;
-
-export interface SessionNextToolSuccessData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  structured: unknown;
-  content: SessionNextToolSuccessDataContentList;
-  outputPaths?: SessionNextToolSuccessDataOutputPathsList;
-  result?: unknown;
-  provider: SessionNextToolCalledDataProvider;
-}
-export const SessionNextToolSuccessData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    callID: S.String,
-    structured: S.Unknown,
-    content: SessionNextToolSuccessDataContentList,
-    outputPaths: S.optional(SessionNextToolSuccessDataOutputPathsList),
-    result: S.optional(S.Unknown),
-    provider: SessionNextToolCalledDataProvider,
-  }),
-).annotate({
-  identifier: "SessionNextToolSuccessData",
-}) as any as S.Schema<SessionNextToolSuccessData>;
-
-export interface SessionNextToolSuccess {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolSuccessType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolSuccessData;
-}
-export const SessionNextToolSuccess = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextToolSuccessType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextToolSuccessData,
-  }),
-).annotate({ identifier: "SessionNextToolSuccess" }) as any as S.Schema<SessionNextToolSuccess>;
-
-export type SessionNextToolFailedType = "session.next.tool.failed";
-export const SessionNextToolFailedType = S.String;
-
-export type SessionNextToolFailedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextToolFailedDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextToolFailedDataProvider = SessionNextToolCalledDataProvider;
-export const SessionNextToolFailedDataProvider = SessionNextToolCalledDataProvider;
-
-export interface SessionNextToolFailedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  error: SessionErrorUnknown;
-  result?: unknown;
-  provider: SessionNextToolCalledDataProvider;
-}
-export const SessionNextToolFailedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    callID: S.String,
-    error: SessionErrorUnknown,
-    result: S.optional(S.Unknown),
-    provider: SessionNextToolCalledDataProvider,
-  }),
-).annotate({
-  identifier: "SessionNextToolFailedData",
-}) as any as S.Schema<SessionNextToolFailedData>;
-
-export interface SessionNextToolFailed {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolFailedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolFailedData;
-}
-export const SessionNextToolFailed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextToolFailedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextToolFailedData,
-  }),
-).annotate({ identifier: "SessionNextToolFailed" }) as any as S.Schema<SessionNextToolFailed>;
-
-export type SessionNextReasoningStartedType = "session.next.reasoning.started";
-export const SessionNextReasoningStartedType = S.String;
-
-export type SessionNextReasoningStartedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextReasoningStartedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextReasoningStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  reasoningID: string;
-  providerMetadata?: LLMProviderMetadata;
-}
-export const SessionNextReasoningStartedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    reasoningID: S.String,
-    providerMetadata: S.optional(LLMProviderMetadata),
-  }),
-).annotate({
-  identifier: "SessionNextReasoningStartedData",
-}) as any as S.Schema<SessionNextReasoningStartedData>;
-
-export interface SessionNextReasoningStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextReasoningStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextReasoningStartedData;
-}
-export const SessionNextReasoningStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextReasoningStartedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextReasoningStartedData,
-  }),
-).annotate({
-  identifier: "SessionNextReasoningStarted",
-}) as any as S.Schema<SessionNextReasoningStarted>;
-
-export type SessionNextReasoningEndedType = "session.next.reasoning.ended";
-export const SessionNextReasoningEndedType = S.String;
-
-export type SessionNextReasoningEndedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextReasoningEndedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextReasoningEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  reasoningID: string;
-  text: string;
-  providerMetadata?: LLMProviderMetadata;
-}
-export const SessionNextReasoningEndedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    assistantMessageID: S.String,
-    reasoningID: S.String,
-    text: S.String,
-    providerMetadata: S.optional(LLMProviderMetadata),
-  }),
-).annotate({
-  identifier: "SessionNextReasoningEndedData",
-}) as any as S.Schema<SessionNextReasoningEndedData>;
-
-export interface SessionNextReasoningEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextReasoningEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextReasoningEndedData;
-}
-export const SessionNextReasoningEnded = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextReasoningEndedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextReasoningEndedData,
-  }),
-).annotate({
-  identifier: "SessionNextReasoningEnded",
-}) as any as S.Schema<SessionNextReasoningEnded>;
-
-export type SessionNextRetriedType = "session.next.retried";
-export const SessionNextRetriedType = S.String;
-
-export type SessionNextRetriedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextRetriedDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextRetryErrorResponseHeadersMap = { [key: string]: string | undefined };
-export const SessionNextRetryErrorResponseHeadersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SessionNextRetryErrorResponseHeadersMap>;
-
-export type SessionNextRetryErrorMetadataMap = { [key: string]: string | undefined };
-export const SessionNextRetryErrorMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SessionNextRetryErrorMetadataMap>;
-
-export interface SessionNextRetryError {
-  message: string;
-  statusCode?: number;
-  isRetryable: boolean;
-  responseHeaders?: SessionNextRetryErrorResponseHeadersMap;
-  responseBody?: string;
-  metadata?: SessionNextRetryErrorMetadataMap;
-}
-export const SessionNextRetryError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.String,
-    statusCode: S.optional(S.Number),
-    isRetryable: S.Boolean,
-    responseHeaders: S.optional(SessionNextRetryErrorResponseHeadersMap),
-    responseBody: S.optional(S.String),
-    metadata: S.optional(SessionNextRetryErrorMetadataMap),
-  }),
-).annotate({ identifier: "SessionNextRetryError" }) as any as S.Schema<SessionNextRetryError>;
-
-export interface SessionNextRetriedData {
-  timestamp: number;
-  sessionID: string;
-  attempt: number;
-  error: SessionNextRetryError;
-}
-export const SessionNextRetriedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    attempt: S.Number,
-    error: SessionNextRetryError,
-  }),
-).annotate({ identifier: "SessionNextRetriedData" }) as any as S.Schema<SessionNextRetriedData>;
-
-export interface SessionNextRetried {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRetriedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRetriedData;
-}
-export const SessionNextRetried = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextRetriedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextRetriedData,
-  }),
-).annotate({ identifier: "SessionNextRetried" }) as any as S.Schema<SessionNextRetried>;
-
-export type SessionNextCompactionStartedType = "session.next.compaction.started";
-export const SessionNextCompactionStartedType = S.String;
-
-export type SessionNextCompactionStartedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextCompactionStartedDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextCompactionStartedDataReason = "auto" | "manual";
-export const SessionNextCompactionStartedDataReason = S.String;
-
-export interface SessionNextCompactionStartedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  reason: SessionNextCompactionStartedDataReason;
-}
-export const SessionNextCompactionStartedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    reason: SessionNextCompactionStartedDataReason,
-  }),
-).annotate({
-  identifier: "SessionNextCompactionStartedData",
-}) as any as S.Schema<SessionNextCompactionStartedData>;
-
-export interface SessionNextCompactionStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextCompactionStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextCompactionStartedData;
-}
-export const SessionNextCompactionStarted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextCompactionStartedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextCompactionStartedData,
-  }),
-).annotate({
-  identifier: "SessionNextCompactionStarted",
-}) as any as S.Schema<SessionNextCompactionStarted>;
-
-export type SessionNextCompactionEndedType = "session.next.compaction.ended";
-export const SessionNextCompactionEndedType = S.String;
-
-export type SessionNextCompactionEndedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextCompactionEndedDurable = SessionNextAgentSwitchedDurable;
-
-export type SessionNextCompactionEndedDataReason = "auto" | "manual";
-export const SessionNextCompactionEndedDataReason = S.String;
-
-export interface SessionNextCompactionEndedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  reason: SessionNextCompactionEndedDataReason;
-  text: string;
-  recent: string;
-}
-export const SessionNextCompactionEndedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-    reason: SessionNextCompactionEndedDataReason,
-    text: S.String,
-    recent: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextCompactionEndedData",
-}) as any as S.Schema<SessionNextCompactionEndedData>;
-
-export interface SessionNextCompactionEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextCompactionEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextCompactionEndedData;
-}
-export const SessionNextCompactionEnded = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextCompactionEndedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextCompactionEndedData,
-  }),
-).annotate({
-  identifier: "SessionNextCompactionEnded",
-}) as any as S.Schema<SessionNextCompactionEnded>;
-
-export type SessionNextRevertStagedType = "session.next.revert.staged";
-export const SessionNextRevertStagedType = S.String;
-
-export type SessionNextRevertStagedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextRevertStagedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextRevertStagedData {
-  timestamp: number;
-  sessionID: string;
-  revert: RevertState;
-}
-export const SessionNextRevertStagedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    revert: RevertState,
-  }),
-).annotate({
-  identifier: "SessionNextRevertStagedData",
-}) as any as S.Schema<SessionNextRevertStagedData>;
-
-export interface SessionNextRevertStaged {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRevertStagedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRevertStagedData;
-}
-export const SessionNextRevertStaged = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextRevertStagedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextRevertStagedData,
-  }),
-).annotate({ identifier: "SessionNextRevertStaged" }) as any as S.Schema<SessionNextRevertStaged>;
-
-export type SessionNextRevertClearedType = "session.next.revert.cleared";
-export const SessionNextRevertClearedType = S.String;
-
-export type SessionNextRevertClearedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextRevertClearedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextRevertClearedData {
-  timestamp: number;
-  sessionID: string;
-}
-export const SessionNextRevertClearedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextRevertClearedData",
-}) as any as S.Schema<SessionNextRevertClearedData>;
-
-export interface SessionNextRevertCleared {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRevertClearedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRevertClearedData;
-}
-export const SessionNextRevertCleared = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextRevertClearedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextRevertClearedData,
-  }),
-).annotate({ identifier: "SessionNextRevertCleared" }) as any as S.Schema<SessionNextRevertCleared>;
-
-export type SessionNextRevertCommittedType = "session.next.revert.committed";
-export const SessionNextRevertCommittedType = S.String;
-
-export type SessionNextRevertCommittedDurable = SessionNextAgentSwitchedDurable;
-export const SessionNextRevertCommittedDurable = SessionNextAgentSwitchedDurable;
-
-export interface SessionNextRevertCommittedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-}
-export const SessionNextRevertCommittedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.Number,
-    sessionID: S.String,
-    messageID: S.String,
-  }),
-).annotate({
-  identifier: "SessionNextRevertCommittedData",
-}) as any as S.Schema<SessionNextRevertCommittedData>;
-
-export interface SessionNextRevertCommitted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRevertCommittedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRevertCommittedData;
-}
-export const SessionNextRevertCommitted = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    metadata: S.optional(S.Unknown),
-    type: SessionNextRevertCommittedType,
-    durable: S.optional(SessionNextAgentSwitchedDurable),
-    location: S.optional(LocationRef),
-    data: SessionNextRevertCommittedData,
-  }),
-).annotate({
-  identifier: "SessionNextRevertCommitted",
-}) as any as S.Schema<SessionNextRevertCommitted>;
 
 export type SessionDurableEvent =
   | SessionNextAgentSwitched
@@ -13366,21 +21991,6 @@ export const globalDispose: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GlobalEventError = BadRequest | OpencodeOpError;
-/** Get global events Subscribe to global events from the OpenCode system using server-sent events. */
-export const globalEvent: API.OperationMethod<
-  GlobalEventRequest,
-  GlobalEventResponse,
-  GlobalEventError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GlobalEventRequest,
-  output: GlobalEventResponse,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GlobalHealthError = BadRequest | OpencodeOpError;
 /** Get health Get health information about the OpenCode server. */
 export const globalHealth: API.OperationMethod<
@@ -14598,32 +23208,50 @@ export const startSync: API.OperationMethod<
 
 export type SubscribeEventError = OpencodeOpError;
 /** Subscribe to events Get events */
-export const subscribeEvent: API.OperationMethod<
+export const subscribeEvent: API.StreamOperationMethod<
   SubscribeEventRequest,
   SubscribeEventResponse,
   SubscribeEventError,
   OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStream(() => ({
   input: SubscribeEventRequest,
   output: SubscribeEventResponse,
   errors: [UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  eventStream: {},
+}));
+
+export type SubscribeGlobalEventError = BadRequest | OpencodeOpError;
+/** Get global events Subscribe to global events from the OpenCode system using server-sent events. */
+export const subscribeGlobalEvent: API.StreamOperationMethod<
+  SubscribeGlobalEventRequest,
+  GlobalEvent,
+  SubscribeGlobalEventError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: SubscribeGlobalEventRequest,
+  output: GlobalEvent,
+  errors: [BadRequest, UnknownOpencodeError],
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  eventStream: {},
 }));
 
 export type SubscribeV2EventError = BadRequest | OpencodeOpError;
 /** Subscribe to events Subscribe to native event payloads for the server. */
-export const subscribeV2Event: API.OperationMethod<
+export const subscribeV2Event: API.StreamOperationMethod<
   SubscribeV2EventRequest,
   SubscribeV2EventResponse,
   SubscribeV2EventError,
   OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStream(() => ({
   input: SubscribeV2EventRequest,
   output: SubscribeV2EventResponse,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  eventStream: {},
 }));
 
 export type SyncReplayError = BadRequest | OpencodeOpError;
@@ -15135,17 +23763,18 @@ export const v2SessionContext: API.OperationMethod<
 
 export type V2SessionEventsError = BadRequest | NotFound | OpencodeOpError;
 /** Subscribe to session events Replay durable events after an aggregate sequence, then continue with new durable events. */
-export const v2SessionEvents: API.OperationMethod<
+export const v2SessionEvents: API.StreamOperationMethod<
   V2SessionEventsRequest,
   V2SessionEventsResponse,
   V2SessionEventsError,
   OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStream(() => ({
   input: V2SessionEventsRequest,
   output: V2SessionEventsResponse,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  eventStream: {},
 }));
 
 export type V2SessionHistoryError = BadRequest | NotFound | OpencodeOpError;

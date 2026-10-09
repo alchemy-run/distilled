@@ -1,0 +1,238 @@
+{
+  "description": "The Admin API's project routes declare one generic 404 (`NotFound`) per operation, although the spec's own descriptions name which resource is missing: \"The project was not found.\" (getProject), \"The project or service account was not found.\" (service-account routes), \"The project or API key was not found.\" (getProjectApiKey), \"The project or pagination cursor was not found.\" (listProjectRateLimits). A missing project answers 404 `{ error: { code: \"project_not_found\", message: \"The project proj_abc was not found\", type: \"invalid_request_error\", param: null } }` (the spec's own example on GET /organization/projects/{project_id} and .../rate_limits). So: on the project-only routes (getProject, modifyProject, archiveProject) every 404 is ProjectNotFound; on the service-account routes and getProjectApiKey the 404 becomes ServiceAccountNotFound / ProjectApiKeyNotFound, while a body with `error.code: project_not_found` (two matcher fields, more specific) is ProjectNotFound. ServiceAccountNotFound/ProjectApiKeyNotFound replace NotFound in place, ahead of the appended ProjectNotFound, so a bare 404 ties to them by declaration order. The rate-limit routes keep NotFound (cursor / rate limit missing) and gain ProjectNotFound for the coded body only \u2014 the bare-404 matcher ties with the earlier NotFound and loses. Source: the OpenAPI spec descriptions and examples above; the Admin API could not be probed live (2026-10-06, no admin key).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#ProjectNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The project does not exist in the organization.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "project_not_found"
+              }
+            },
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#ServiceAccountNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The project service account does not exist.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#ProjectApiKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The project API key does not exist.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#GetProject/errors/1",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#GetProject/errors/1",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#ModifyProject/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#ModifyProject/errors/2",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#ArchiveProject/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#ArchiveProject/errors/2",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#GetProjectServiceAccount/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#GetProjectServiceAccount/errors/2",
+      "value": {
+        "target": "com.openai.projects#ServiceAccountNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#GetProjectServiceAccount/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#UpdateProjectServiceAccount/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#UpdateProjectServiceAccount/errors/2",
+      "value": {
+        "target": "com.openai.projects#ServiceAccountNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#UpdateProjectServiceAccount/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#DeleteProjectServiceAccount/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#DeleteProjectServiceAccount/errors/2",
+      "value": {
+        "target": "com.openai.projects#ServiceAccountNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#DeleteProjectServiceAccount/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#CreateServiceAccountApiKey/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#CreateServiceAccountApiKey/errors/2",
+      "value": {
+        "target": "com.openai.projects#ServiceAccountNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#CreateServiceAccountApiKey/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openai.projects#GetProjectApiKey/errors/2",
+      "value": {
+        "target": "com.openai.projects#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openai.projects#GetProjectApiKey/errors/2",
+      "value": {
+        "target": "com.openai.projects#ProjectApiKeyNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#GetProjectApiKey/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#ListProjectRateLimits/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.projects#UpdateProjectRateLimits/errors/-",
+      "value": {
+        "target": "com.openai.projects#ProjectNotFound"
+      }
+    }
+  ]
+}

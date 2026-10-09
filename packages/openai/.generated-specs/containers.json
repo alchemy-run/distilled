@@ -1,0 +1,1385 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.containers#ListContainersRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ListContainersRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.containers#ListContainersRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter results by container name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#ContainerListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.containers#ContainerListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The type of object returned, must be 'list'.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.containers#ContainerListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of containers.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the first container in the list.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the last container in the list.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more containers available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of object returned, must be 'list'."
+      }
+    },
+    "com.openai.containers#ContainerResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the container.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of this object.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the container.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the container was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the container (e.g., active, deleted).",
+            "smithy.api#required": {}
+          }
+        },
+        "last_active_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the container was last active."
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.containers#ContainerResourceExpiresAfter",
+          "traits": {
+            "smithy.api#documentation": "The container will expire after this time period.\nThe anchor is the reference point for the expiration.\nThe minutes is the number of minutes after the anchor before the container expires.\n"
+          }
+        },
+        "memory_limit": {
+          "target": "com.openai.containers#ContainerResourceMemoryLimit",
+          "traits": {
+            "smithy.api#documentation": "The memory limit configured for the container."
+          }
+        },
+        "network_policy": {
+          "target": "com.openai.containers#ContainerResourceNetworkPolicy",
+          "traits": {
+            "smithy.api#documentation": "Network access policy for the container."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerResourceExpiresAfterAnchor": {
+      "type": "enum",
+      "members": {
+        "LAST_ACTIVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_active_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The reference point for the expiration."
+      }
+    },
+    "com.openai.containers#ContainerResourceExpiresAfter": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.containers#ContainerResourceExpiresAfterAnchor",
+          "traits": {
+            "smithy.api#documentation": "The reference point for the expiration."
+          }
+        },
+        "minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of minutes after the anchor before the container expires."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The container will expire after this time period.\nThe anchor is the reference point for the expiration.\nThe minutes is the number of minutes after the anchor before the container expires.\n"
+      }
+    },
+    "com.openai.containers#ContainerResourceMemoryLimit": {
+      "type": "enum",
+      "members": {
+        "_1G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1g"
+          }
+        },
+        "_4G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "4g"
+          }
+        },
+        "_16G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "16g"
+          }
+        },
+        "_64G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "64g"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The memory limit configured for the container."
+      }
+    },
+    "com.openai.containers#ContainerResourceNetworkPolicyType": {
+      "type": "enum",
+      "members": {
+        "ALLOWLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allowlist"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The network policy mode."
+      }
+    },
+    "com.openai.containers#ContainerResourceNetworkPolicyAllowedDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowed outbound domains when `type` is `allowlist`."
+      }
+    },
+    "com.openai.containers#ContainerResourceNetworkPolicy": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.containers#ContainerResourceNetworkPolicyType",
+          "traits": {
+            "smithy.api#documentation": "The network policy mode.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_domains": {
+          "target": "com.openai.containers#ContainerResourceNetworkPolicyAllowedDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Allowed outbound domains when `type` is `allowlist`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network access policy for the container."
+      }
+    },
+    "com.openai.containers#ContainerListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.containers#ContainerResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of containers."
+      }
+    },
+    "com.openai.containers#ListContainers": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#ListContainersRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#ContainerListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/containers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List containers\n\nList Containers",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.containers#CreateContainerRequestFileIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of files to copy to the container."
+      }
+    },
+    "com.openai.containers#CreateContainerRequestExpiresAfterAnchor": {
+      "type": "enum",
+      "members": {
+        "LAST_ACTIVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_active_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Time anchor for the expiration time. Currently only 'last_active_at' is supported."
+      }
+    },
+    "com.openai.containers#CreateContainerRequestExpiresAfter": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.containers#CreateContainerRequestExpiresAfterAnchor",
+          "traits": {
+            "smithy.api#documentation": "Time anchor for the expiration time. Currently only 'last_active_at' is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Container expiration time in seconds relative to the 'anchor' time."
+      }
+    },
+    "com.openai.containers#SkillReferenceParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.containers#SkillReferenceParamType",
+          "traits": {
+            "smithy.api#documentation": "References a skill created with the /v1/skills endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the referenced skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional skill version. Use a positive integer or 'latest'. Omit for default."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#SkillReferenceParamType": {
+      "type": "enum",
+      "members": {
+        "SKILL_REFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skill_reference"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "References a skill created with the /v1/skills endpoint."
+      }
+    },
+    "com.openai.containers#InlineSkillParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.containers#InlineSkillParamType",
+          "traits": {
+            "smithy.api#documentation": "Defines an inline skill for this request.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the skill.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.containers#InlineSkillSourceParam",
+          "traits": {
+            "smithy.api#documentation": "Inline skill payload",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#InlineSkillParamType": {
+      "type": "enum",
+      "members": {
+        "INLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inline"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines an inline skill for this request."
+      }
+    },
+    "com.openai.containers#InlineSkillSourceParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.containers#InlineSkillSourceParamType",
+          "traits": {
+            "smithy.api#documentation": "The type of the inline skill source. Must be `base64`.",
+            "smithy.api#required": {}
+          }
+        },
+        "media_type": {
+          "target": "com.openai.containers#InlineSkillSourceParamMediaType",
+          "traits": {
+            "smithy.api#documentation": "The media type of the inline skill payload. Must be `application/zip`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64-encoded skill zip bundle.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inline skill payload"
+      }
+    },
+    "com.openai.containers#InlineSkillSourceParamType": {
+      "type": "enum",
+      "members": {
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the inline skill source. Must be `base64`."
+      }
+    },
+    "com.openai.containers#InlineSkillSourceParamMediaType": {
+      "type": "enum",
+      "members": {
+        "APPLICATION_ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/zip"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The media type of the inline skill payload. Must be `application/zip`."
+      }
+    },
+    "com.openai.containers#CreateContainerRequestSkillsItem": {
+      "type": "union",
+      "members": {
+        "SkillReferenceParam": {
+          "target": "com.openai.containers#SkillReferenceParam"
+        },
+        "InlineSkillParam": {
+          "target": "com.openai.containers#InlineSkillParam"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#CreateContainerRequestSkillsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.containers#CreateContainerRequestSkillsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional list of skills referenced by id or inline data."
+      }
+    },
+    "com.openai.containers#CreateContainerRequestMemoryLimit": {
+      "type": "enum",
+      "members": {
+        "_1G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1g"
+          }
+        },
+        "_4G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "4g"
+          }
+        },
+        "_16G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "16g"
+          }
+        },
+        "_64G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "64g"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional memory limit for the container. Defaults to \"1g\"."
+      }
+    },
+    "com.openai.containers#ContainerNetworkPolicyDisabledParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.containers#ContainerNetworkPolicyDisabledParamType",
+          "traits": {
+            "smithy.api#documentation": "Disable outbound network access. Always `disabled`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerNetworkPolicyDisabledParamType": {
+      "type": "enum",
+      "members": {
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Disable outbound network access. Always `disabled`."
+      }
+    },
+    "com.openai.containers#ContainerNetworkPolicyAllowlistParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.containers#ContainerNetworkPolicyAllowlistParamType",
+          "traits": {
+            "smithy.api#documentation": "Allow outbound network access only to specified domains. Always `allowlist`.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_domains": {
+          "target": "com.openai.containers#ContainerNetworkPolicyAllowlistParamAllowedDomainsList",
+          "traits": {
+            "smithy.api#documentation": "A list of allowed domains when type is `allowlist`.",
+            "smithy.api#required": {}
+          }
+        },
+        "domain_secrets": {
+          "target": "com.openai.containers#ContainerNetworkPolicyAllowlistParamDomainSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Optional domain-scoped secrets for allowlisted domains."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerNetworkPolicyAllowlistParamType": {
+      "type": "enum",
+      "members": {
+        "ALLOWLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allowlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Allow outbound network access only to specified domains. Always `allowlist`."
+      }
+    },
+    "com.openai.containers#ContainerNetworkPolicyAllowlistParamAllowedDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of allowed domains when type is `allowlist`."
+      }
+    },
+    "com.openai.containers#ContainerNetworkPolicyDomainSecretParam": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain associated with the secret.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the secret to inject for the domain.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secret value to inject for the domain.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerNetworkPolicyAllowlistParamDomainSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.containers#ContainerNetworkPolicyDomainSecretParam"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional domain-scoped secrets for allowlisted domains."
+      }
+    },
+    "com.openai.containers#CreateContainerRequestNetworkPolicy": {
+      "type": "union",
+      "members": {
+        "ContainerNetworkPolicyDisabledParam": {
+          "target": "com.openai.containers#ContainerNetworkPolicyDisabledParam"
+        },
+        "ContainerNetworkPolicyAllowlistParam": {
+          "target": "com.openai.containers#ContainerNetworkPolicyAllowlistParam"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network access policy for the container."
+      }
+    },
+    "com.openai.containers#CreateContainerRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the container to create.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_ids": {
+          "target": "com.openai.containers#CreateContainerRequestFileIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of files to copy to the container."
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.containers#CreateContainerRequestExpiresAfter",
+          "traits": {
+            "smithy.api#documentation": "Container expiration time in seconds relative to the 'anchor' time."
+          }
+        },
+        "skills": {
+          "target": "com.openai.containers#CreateContainerRequestSkillsList",
+          "traits": {
+            "smithy.api#documentation": "An optional list of skills referenced by id or inline data."
+          }
+        },
+        "memory_limit": {
+          "target": "com.openai.containers#CreateContainerRequestMemoryLimit",
+          "traits": {
+            "smithy.api#documentation": "Optional memory limit for the container. Defaults to \"1g\"."
+          }
+        },
+        "network_policy": {
+          "target": "com.openai.containers#CreateContainerRequestNetworkPolicy",
+          "traits": {
+            "smithy.api#documentation": "Network access policy for the container."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#CreateContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#CreateContainerRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#ContainerResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/containers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create container\n\nCreate Container"
+      }
+    },
+    "com.openai.containers#GetContainerRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#GetContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#GetContainerRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#ContainerResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/containers/{container_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve container\n\nRetrieve Container"
+      }
+    },
+    "com.openai.containers#DeleteContainerRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the container to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#DeleteContainerResponseObject": {
+      "type": "enum",
+      "members": {
+        "CONTAINER_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#DeleteContainerResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.containers#DeleteContainerResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.containers#DeleteContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#DeleteContainerRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#DeleteContainerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/containers/{container_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a container\n\nDelete Container"
+      }
+    },
+    "com.openai.containers#ListContainerFilesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ListContainerFilesRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.containers#ListContainerFilesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#ContainerFileListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.containers#ContainerFileListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The type of object returned, must be 'list'.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.containers#ContainerFileListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of container files.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the first file in the list.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the last file in the list.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more files available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerFileListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of object returned, must be 'list'."
+      }
+    },
+    "com.openai.containers#ContainerFileResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of this object (`container.file`).",
+            "smithy.api#required": {}
+          }
+        },
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The container this file belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) when the file was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the file in bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path of the file in the container.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source of the file (e.g., `user`, `assistant`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#ContainerFileListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.containers#ContainerFileResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of container files."
+      }
+    },
+    "com.openai.containers#ListContainerFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#ListContainerFilesRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#ContainerFileListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/containers/{container_id}/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "List container files\n\nList Container files",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.containers#CreateContainerFileRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the file to create."
+          }
+        },
+        "file": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The File object (not file name) to be uploaded.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#CreateContainerFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#CreateContainerFileRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#ContainerFileResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#BadRequest"
+        },
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/containers/{container_id}/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create container file\n\nCreate a Container File\n\nYou can send either a multipart/form-data request with the raw file content, or a JSON request with a file ID."
+      }
+    },
+    "com.openai.containers#GetContainerFileRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#GetContainerFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#GetContainerFileRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#ContainerFileResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/containers/{container_id}/files/{file_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve container file\n\nRetrieve Container File"
+      }
+    },
+    "com.openai.containers#DeleteContainerFileRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#DeleteContainerFileResponseObject": {
+      "type": "enum",
+      "members": {
+        "CONTAINER_FILE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container.file.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.containers#DeleteContainerFileResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.containers#DeleteContainerFileResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.containers#DeleteContainerFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#DeleteContainerFileRequest"
+      },
+      "output": {
+        "target": "com.openai.containers#DeleteContainerFileResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/containers/{container_id}/files/{file_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a container file\n\nDelete Container File"
+      }
+    },
+    "com.openai.containers#GetContainerFileContentRequest": {
+      "type": "structure",
+      "members": {
+        "container_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.containers#GetContainerFileContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.containers#GetContainerFileContentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.openai.containers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/containers/{container_id}/files/{file_id}/content",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve container file content\n\nRetrieve Container File Content"
+      }
+    },
+    "com.openai.containers#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.containers#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.containers#Containers": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.containers#ListContainers"
+        },
+        {
+          "target": "com.openai.containers#CreateContainer"
+        },
+        {
+          "target": "com.openai.containers#GetContainer"
+        },
+        {
+          "target": "com.openai.containers#DeleteContainer"
+        },
+        {
+          "target": "com.openai.containers#ListContainerFiles"
+        },
+        {
+          "target": "com.openai.containers#CreateContainerFile"
+        },
+        {
+          "target": "com.openai.containers#GetContainerFile"
+        },
+        {
+          "target": "com.openai.containers#DeleteContainerFile"
+        },
+        {
+          "target": "com.openai.containers#GetContainerFileContent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

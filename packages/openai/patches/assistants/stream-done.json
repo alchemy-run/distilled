@@ -1,0 +1,20 @@
+{
+  "description": "Assistants run streams end with `event: done` / `data: [DONE]` (documented under AssistantStreamEvent's DoneEvent in the same spec). Mark `[DONE]` as the stream terminator on every run-streaming operation so it is not decoded as an event.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.assistants#CreateThreadAndRunStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.assistants#CreateRunStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.assistants#SubmitToolOutputsToRunStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    }
+  ]
+}

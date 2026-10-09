@@ -320,7 +320,36 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/acp:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
+      '@effect/platform-node':
+        specifier: 'catalog:'
+        version: 4.0.0(effect@4.0.0)(redis@6.2.1)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/adyen:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
+  packages/anthropic:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*
@@ -488,6 +517,19 @@ importers:
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.0.0(effect@4.0.0)(redis@6.2.1)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
+  packages/codex:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
       '@types/node':
         specifier: 'catalog:'
         version: 26.2.0
@@ -1007,7 +1049,33 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/openai:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/opencode:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
+  packages/openrouter:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*

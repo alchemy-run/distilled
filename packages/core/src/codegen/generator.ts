@@ -9,6 +9,7 @@ import {
   PURE,
   suspendConst,
 } from "./emit.ts";
+import { EVENT_STREAM_TRAIT, type EventStreamTraitValue } from "./event-stream.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
 import { memberBases, smithyWireName } from "./members.ts";
 /**
@@ -158,6 +159,11 @@ export interface OperationEmit {
   readonly doc: string | undefined;
   /** The validated pagination trait, when the op paginates. */
   readonly pagination: unknown | undefined;
+  /**
+   * The `com.distilled#eventStream` trait, when the op streams its response
+   * as server-sent events (emitted with `API.makeStream`).
+   */
+  readonly eventStream: EventStreamTraitValue | undefined;
 }
 
 export interface SdkSpec {
@@ -1066,12 +1072,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
-      const paginated = ctx.pagination !== undefined;
+      const streaming = ctx.eventStream !== undefined;
+      const paginated = !streaming && ctx.pagination !== undefined;
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
       const typeAnnotation =
-        `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
+        `API.${streaming ? "StreamOperationMethod" : paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
         `  ${ctx.inputName},\n` +
         `  ${ctx.outputTsType},\n` +
         `  ${ctx.opName}Error,\n` +
@@ -1090,6 +1097,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
+        (streaming ? `  eventStream: ${JSON.stringify(ctx.eventStream)},\n` : "") +
         `}`;
       return [
         errorUnionAlias(ctx.opName, ctx.errorNames, decl.commonErrorType),
@@ -1097,7 +1105,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         operationConst({
           exportName: ctx.exportName,
           typeAnnotation,
-          factory: paginated ? "API.makePaginated" : "API.make",
+          factory: streaming ? "API.makeStream" : paginated ? "API.makePaginated" : "API.make",
           pure,
           extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
           config,
@@ -1126,6 +1134,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         errorNames: errNames,
         doc: oneLine(op.def.traits?.["smithy.api#documentation"]),
         pagination: op.def.__pagination,
+        eventStream: op.def.traits?.[EVENT_STREAM_TRAIT],
       }),
     );
   }

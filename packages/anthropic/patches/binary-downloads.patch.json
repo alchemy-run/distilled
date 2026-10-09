@@ -1,0 +1,57 @@
+{
+  "description": "Five GET endpoints answer with a raw body, which the spec types in ways the converter cannot deliver: file content (`application/octet-stream`) is a plain `{type: string}` without `format: binary`, a skill version download is `application/zip`, and message-batch results are `application/x-jsonl` (one `MessageBatchIndividualResponse` JSON object per line — https://docs.anthropic.com/en/api/retrieving-message-batch-results). Without a binary success schema these operations generate a `void` output and the body is dropped. Declare each as an `application/octet-stream` binary string so the operation returns the raw bytes (`Uint8Array`) — callers decode the zip or split the JSONL lines themselves.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1files~1{file_id}~1content/get/responses/200/content/application~1octet-stream/schema/format",
+      "value": "binary"
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1files~1{file_id}~1content?beta=true/get/responses/200/content/application~1octet-stream/schema/format",
+      "value": "binary"
+    },
+    {
+      "op": "remove",
+      "path": "/paths/~1v1~1skills~1{skill_id}~1versions~1{version}~1content?beta=true/get/responses/200/content/application~1zip"
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1skills~1{skill_id}~1versions~1{version}~1content?beta=true/get/responses/200/content/application~1octet-stream",
+      "value": {
+        "schema": {
+          "type": "string",
+          "format": "binary"
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/paths/~1v1~1messages~1batches~1{message_batch_id}~1results/get/responses/200/content/application~1x-jsonl"
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1messages~1batches~1{message_batch_id}~1results/get/responses/200/content/application~1octet-stream",
+      "value": {
+        "schema": {
+          "type": "string",
+          "format": "binary"
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/paths/~1v1~1messages~1batches~1{message_batch_id}~1results?beta=true/get/responses/200/content/application~1x-jsonl"
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1messages~1batches~1{message_batch_id}~1results?beta=true/get/responses/200/content/application~1octet-stream",
+      "value": {
+        "schema": {
+          "type": "string",
+          "format": "binary"
+        }
+      }
+    }
+  ]
+}

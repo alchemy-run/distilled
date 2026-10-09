@@ -1,0 +1,289 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.models#ListModelsResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.models#ListModelsResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.models#ListModelsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.models#ListModelsResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.models#Model": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model identifier, which can be referenced in the API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) when the model was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.models#ModelObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"model\".",
+            "smithy.api#required": {}
+          }
+        },
+        "owned_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization that owns the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "shutdown_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date when the model will shut down, or null if not announced.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes an OpenAI model offering that can be used with the API."
+      }
+    },
+    "com.openai.models#ModelObject": {
+      "type": "enum",
+      "members": {
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"model\"."
+      }
+    },
+    "com.openai.models#ListModelsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.models#Model"
+      },
+      "traits": {}
+    },
+    "com.openai.models#ListModels": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.openai.models#ListModelsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.models#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/models",
+          "code": 200
+        },
+        "smithy.api#documentation": "List models\n\nLists the currently available models, and provides basic information about each one such as the owner and availability."
+      }
+    },
+    "com.openai.models#GetModelRequest": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the model to use for this request"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.models#GetModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.models#GetModelRequest"
+      },
+      "output": {
+        "target": "com.openai.models#Model"
+      },
+      "errors": [
+        {
+          "target": "com.openai.models#Forbidden"
+        },
+        {
+          "target": "com.openai.models#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/models/{model}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve model\n\nRetrieves a model instance, providing basic information about the model such as the owner and permissioning."
+      }
+    },
+    "com.openai.models#DeleteModelRequest": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The model to delete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.models#DeleteModelResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.models#DeleteModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.models#DeleteModelRequest"
+      },
+      "output": {
+        "target": "com.openai.models#DeleteModelResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.models#Forbidden"
+        },
+        {
+          "target": "com.openai.models#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/models/{model}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a fine-tuned model\n\nDelete a fine-tuned model. You must have the Owner role in your organization to delete a model."
+      }
+    },
+    "com.openai.models#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.models#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.models#Models": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.models#ListModels"
+        },
+        {
+          "target": "com.openai.models#GetModel"
+        },
+        {
+          "target": "com.openai.models#DeleteModel"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

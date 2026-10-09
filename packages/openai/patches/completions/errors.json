@@ -1,0 +1,43 @@
+{
+  "description": "Type context-window overflows. The spec only declares a generic 400 (ErrorResponse) on this operation, but an input that does not fit the model context window is a distinct, non-retryable failure the caller usually handles (truncate and resend). The wire: 400 {\"error\":{\"type\":\"invalid_request_error\",\"param\":\"input\",\"code\":\"context_length_exceeded\"}} — observed live on POST /responses (gpt-4o-mini, ~160k tokens, 2026-10-05); chat/completions/embeddings return the same code per the OpenAI error-codes guide. Matched on the body pointer /error/code, which beats the status-only BadRequest matcher.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.completions#ContextLengthExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/error/code": "context_length_exceeded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.completions#CreateCompletion/errors/-",
+      "value": {
+        "target": "com.openai.completions#ContextLengthExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.completions#CreateCompletionStream/errors/-",
+      "value": {
+        "target": "com.openai.completions#ContextLengthExceeded"
+      }
+    }
+  ]
+}

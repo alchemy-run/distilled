@@ -1,0 +1,67 @@
+{
+  "description": "The spec gives the beta skills routes (GET/POST /v1/skills?beta=true, GET /v1/skills/{skill_id}?beta=true) the same `Skill` shape as GA `/v1/skills` — `display_name`, `latest_version_id`, `source: { type }`. The beta routes still answer with the original beta shape: `display_title`, `latest_version` (a version string such as `20260914`) and `source` as a plain string (observed 2026-10-05: GET /v1/skills?beta=true with `anthropic-beta: skills-2025-10-02` returns `{type, id, created_at, updated_at, display_title, source: \"anthropic\", latest_version}` while GET /v1/skills returns the GA shape). Model `BetaSkill` as the wire does.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaSkill/required",
+      "value": [
+        "created_at",
+        "display_title",
+        "id",
+        "latest_version",
+        "source",
+        "type",
+        "updated_at"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/BetaSkill/properties/display_name"
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/BetaSkill/properties/latest_version_id"
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/BetaSkill/properties/display_title",
+      "value": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Display Title",
+        "description": "Display title for the skill — a human-readable label, not included in the prompt sent to the model."
+      }
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/BetaSkill/properties/latest_version",
+      "value": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Latest Version",
+        "description": "The latest version identifier for the skill (an epoch-timestamp-style string)."
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaSkill/properties/source",
+      "value": {
+        "type": "string",
+        "title": "Source",
+        "description": "Source of the skill: `\"custom\"` (created by a user) or `\"anthropic\"` (created by Anthropic)."
+      }
+    }
+  ]
+}

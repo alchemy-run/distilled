@@ -1,0 +1,981 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.webhooks#ListWebhookEndpointsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of webhook endpoints to return. Defaults to 20."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "ID of the last webhook endpoint from the previous page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.webhooks#WebhookEndpointListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always list.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.webhooks#WebhookEndpointListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "The webhook endpoints in this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether more webhook endpoints are available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#WebhookEndpointListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always list."
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointBody": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of the webhook endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.webhooks#WebhookEndpointBodyObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always webhook_endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp when the endpoint was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp of the last endpoint configuration or signing-secret change. Initialized at creation; tests and unchanged updates do not advance it."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS URL that receives webhook deliveries.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_types": {
+          "target": "com.openai.webhooks#WebhookEndpointBodyEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "The event types that trigger deliveries to this endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "signing_secret_hint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#WebhookEndpointBodyObject": {
+      "type": "enum",
+      "members": {
+        "WEBHOOK_ENDPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_endpoint"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always webhook_endpoint."
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointBodyEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The event types that trigger deliveries to this endpoint."
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.webhooks#WebhookEndpointBody"
+      },
+      "traits": {
+        "smithy.api#documentation": "The webhook endpoints in this page."
+      }
+    },
+    "com.openai.webhooks#ListWebhookEndpoints": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#ListWebhookEndpointsRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEndpointListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        },
+        {
+          "target": "com.openai.webhooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhook_endpoints",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Webhook Endpoints\n\nReturns webhook endpoints for the authenticated project in newest-first order.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.webhooks#ProjectEventTypeEnum": {
+      "type": "enum",
+      "members": {
+        "BATCH_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch.completed"
+          }
+        },
+        "BATCH_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch.failed"
+          }
+        },
+        "BATCH_EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch.expired"
+          }
+        },
+        "BATCH_CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch.cancelled"
+          }
+        },
+        "RESPONSE_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response.completed"
+          }
+        },
+        "RESPONSE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response.failed"
+          }
+        },
+        "RESPONSE_CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response.cancelled"
+          }
+        },
+        "RESPONSE_INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response.incomplete"
+          }
+        },
+        "EVAL_RUN_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eval.run.succeeded"
+          }
+        },
+        "EVAL_RUN_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eval.run.failed"
+          }
+        },
+        "EVAL_RUN_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eval.run.canceled"
+          }
+        },
+        "FINE_TUNING_JOB_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine_tuning.job.succeeded"
+          }
+        },
+        "FINE_TUNING_JOB_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine_tuning.job.failed"
+          }
+        },
+        "FINE_TUNING_JOB_CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine_tuning.job.cancelled"
+          }
+        },
+        "REALTIME_CALL_INCOMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "realtime.call.incoming"
+          }
+        },
+        "VIDEO_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video.completed"
+          }
+        },
+        "VIDEO_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video.failed"
+          }
+        },
+        "AGENT_SESSION_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent.session.created"
+          }
+        },
+        "AGENT_SESSION_ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent.session.action_required"
+          }
+        },
+        "AGENT_SESSION_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent.session.in_progress"
+          }
+        },
+        "AGENT_SESSION_IDLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent.session.idle"
+          }
+        },
+        "AGENT_SESSION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent.session.failed"
+          }
+        },
+        "SAFETY_ALERT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "safety.alert.created"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#CreateWebhookEndpointRequestEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.webhooks#ProjectEventTypeEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "The event types that trigger deliveries to this endpoint."
+      }
+    },
+    "com.openai.webhooks#CreateWebhookEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for the webhook endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS URL that receives webhook deliveries.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_types": {
+          "target": "com.openai.webhooks#CreateWebhookEndpointRequestEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "The event types that trigger deliveries to this endpoint.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointWithSecretResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of the webhook endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.webhooks#WebhookEndpointWithSecretResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always webhook_endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp when the endpoint was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp of the last endpoint configuration or signing-secret change. Initialized at creation; tests and unchanged updates do not advance it."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS URL that receives webhook deliveries.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_types": {
+          "target": "com.openai.webhooks#WebhookEndpointWithSecretResourceEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "The event types that trigger deliveries to this endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "signing_secret_hint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signing_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The endpoint's signing secret. This is returned only when the endpoint is created or the secret is rotated.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#WebhookEndpointWithSecretResourceObject": {
+      "type": "enum",
+      "members": {
+        "WEBHOOK_ENDPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_endpoint"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always webhook_endpoint."
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointWithSecretResourceEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The event types that trigger deliveries to this endpoint."
+      }
+    },
+    "com.openai.webhooks#CreateWebhookEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#CreateWebhookEndpointRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEndpointWithSecretResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhook_endpoints",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Webhook Endpoint\n\nCreates a webhook endpoint for the authenticated project."
+      }
+    },
+    "com.openai.webhooks#GetWebhookEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "webhook_endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the webhook endpoint to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#GetWebhookEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#GetWebhookEndpointRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEndpointBody"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        },
+        {
+          "target": "com.openai.webhooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhook_endpoints/{webhook_endpoint_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Webhook Endpoint\n\nRetrieves a webhook endpoint for the authenticated project."
+      }
+    },
+    "com.openai.webhooks#UpdateWebhookEndpointRequestEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.webhooks#ProjectEventTypeEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "The complete set of event types that should trigger deliveries."
+      }
+    },
+    "com.openai.webhooks#UpdateWebhookEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "webhook_endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the webhook endpoint to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A new human-readable name for the webhook endpoint."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A new HTTPS URL that receives webhook deliveries."
+          }
+        },
+        "event_types": {
+          "target": "com.openai.webhooks#UpdateWebhookEndpointRequestEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "The complete set of event types that should trigger deliveries."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#UpdateWebhookEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#UpdateWebhookEndpointRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEndpointBody"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        },
+        {
+          "target": "com.openai.webhooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhook_endpoints/{webhook_endpoint_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Webhook Endpoint\n\nUpdates a webhook endpoint for the authenticated project."
+      }
+    },
+    "com.openai.webhooks#DeleteWebhookEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "webhook_endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the webhook endpoint to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#DeletedWebhookEndpointResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the deleted webhook endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.webhooks#DeletedWebhookEndpointResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always webhook_endpoint.deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the endpoint was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#DeletedWebhookEndpointResourceObject": {
+      "type": "enum",
+      "members": {
+        "WEBHOOK_ENDPOINT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_endpoint.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always webhook_endpoint.deleted."
+      }
+    },
+    "com.openai.webhooks#DeleteWebhookEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#DeleteWebhookEndpointRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#DeletedWebhookEndpointResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        },
+        {
+          "target": "com.openai.webhooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/webhook_endpoints/{webhook_endpoint_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Webhook Endpoint\n\nDeletes a webhook endpoint for the authenticated project."
+      }
+    },
+    "com.openai.webhooks#RotateWebhookEndpointSigningSecretRequest": {
+      "type": "structure",
+      "members": {
+        "webhook_endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the webhook endpoint whose signing secret will be rotated."
+          }
+        },
+        "keep_old_secret_active_for_24_hours": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to keep the previous signing secret valid for 24 hours after rotation. Defaults to false, which invalidates the previous secret immediately."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#RotateWebhookEndpointSigningSecret": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#RotateWebhookEndpointSigningSecretRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEndpointWithSecretResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        },
+        {
+          "target": "com.openai.webhooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhook_endpoints/{webhook_endpoint_id}/rotate_secret",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rotate Webhook Endpoint Signing Secret\n\nRotates the signing secret for a webhook endpoint in the authenticated project."
+      }
+    },
+    "com.openai.webhooks#TestWebhookEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "webhook_endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the webhook endpoint to test."
+          }
+        },
+        "event_type": {
+          "target": "com.openai.webhooks#ProjectEventTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The event type to send as a sample delivery.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.webhooks#WebhookEndpointTestResultResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.webhooks#WebhookEndpointTestResultResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always webhook_endpoint.test.",
+            "smithy.api#required": {}
+          }
+        },
+        "webhook_endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the webhook endpoint that received the test.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event type sent in the test.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The HTTP status code returned by the endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the test request completed. Always true for returned results; use status_code to determine the endpoint response.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#WebhookEndpointTestResultResourceObject": {
+      "type": "enum",
+      "members": {
+        "WEBHOOK_ENDPOINT_TEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_endpoint.test"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always webhook_endpoint.test."
+      }
+    },
+    "com.openai.webhooks#TestWebhookEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.webhooks#TestWebhookEndpointRequest"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEndpointTestResultResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.webhooks#BadRequest"
+        },
+        {
+          "target": "com.openai.webhooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhook_endpoints/{webhook_endpoint_id}/test",
+          "code": 200
+        },
+        "smithy.api#documentation": "Test Webhook Endpoint\n\nSends a sample event to a webhook endpoint for the authenticated project."
+      }
+    },
+    "com.openai.webhooks#WebhookEventTypeListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.webhooks#WebhookEventTypeListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always list.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.webhooks#WebhookEventTypeListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "The webhook event types available to the authenticated project.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.webhooks#WebhookEventTypeListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always list."
+      }
+    },
+    "com.openai.webhooks#WebhookEventTypeListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The webhook event types available to the authenticated project."
+      }
+    },
+    "com.openai.webhooks#ListWebhookEventTypes": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.openai.webhooks#WebhookEventTypeListResource"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhook_event_types",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Webhook Event Types\n\nReturns webhook event types visible to the authenticated project."
+      }
+    },
+    "com.openai.webhooks#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.webhooks#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.webhooks#Webhooks": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.webhooks#ListWebhookEndpoints"
+        },
+        {
+          "target": "com.openai.webhooks#CreateWebhookEndpoint"
+        },
+        {
+          "target": "com.openai.webhooks#GetWebhookEndpoint"
+        },
+        {
+          "target": "com.openai.webhooks#UpdateWebhookEndpoint"
+        },
+        {
+          "target": "com.openai.webhooks#DeleteWebhookEndpoint"
+        },
+        {
+          "target": "com.openai.webhooks#RotateWebhookEndpointSigningSecret"
+        },
+        {
+          "target": "com.openai.webhooks#TestWebhookEndpoint"
+        },
+        {
+          "target": "com.openai.webhooks#ListWebhookEventTypes"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

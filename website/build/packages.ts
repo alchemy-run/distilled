@@ -126,6 +126,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "opencode",
     ],
   ],
+  ["AI", ["anthropic", "acp", "codex", "openai", "openrouter"]],
   [
     "Business & analytics",
     ["google-workspace", "notion", "squarespace", "porkbun", "metabase", "apache-superset"],
@@ -134,6 +135,11 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
 
 /** Extra words the catalogue filter matches on, keyed by `packages/<dir>`. */
 export const SEARCH_HINTS: Record<string, string> = {
+  anthropic: "ai llm claude messages streaming batches files skills managed agents admin",
+  acp: "agent client protocol coding agents json-rpc opencode gemini claude zed",
+  codex: "openai codex app-server coding agent json-rpc stdio threads turns approvals",
+  openai: "ai llm gpt chatgpt responses chat completions embeddings realtime admin",
+  openrouter: "ai llm inference chat completions models router gateway",
   neon: "postgres serverless",
   supabase: "postgres auth storage",
   planetscale: "mysql postgres",

@@ -1,0 +1,125 @@
+{
+  "description": "The spec declares only `application/json` for POST /v1/messages and POST /v1/messages?beta=true, but both endpoints are dual-mode: `stream: true` in the body switches the response to `text/event-stream` (https://docs.anthropic.com/en/docs/build-with-claude/streaming; observed live 2026-10-05 with claude-haiku-4-5-20251001). Each SSE `data` payload is one `MessageStreamEvent` (`BetaMessageStreamEvent` on the beta route) — or a `{\"type\":\"ping\"}` keep-alive, which the spec does not model at all, so the event schema is the stream-event union plus a new `MessagePingEvent`. Mid-stream `{\"type\":\"error\",...}` events are not part of the union: the protocol turns them into the typed error classes. Declaring the SSE content makes the converter emit `createMessageStream` / `createBetaMessageStream` siblings that force `stream: true`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/MessagePingEvent",
+      "value": {
+        "title": "MessagePingEvent",
+        "description": "Keep-alive event sent periodically on a message stream.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "ping",
+            "default": "ping",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": ["type"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/MessageStreamEventOrPing",
+      "value": {
+        "title": "MessageStreamEventOrPing",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "message_start": "#/components/schemas/MessageStartEvent",
+            "message_delta": "#/components/schemas/MessageDeltaEvent",
+            "message_stop": "#/components/schemas/MessageStopEvent",
+            "content_block_start": "#/components/schemas/ContentBlockStartEvent",
+            "content_block_delta": "#/components/schemas/ContentBlockDeltaEvent",
+            "content_block_stop": "#/components/schemas/ContentBlockStopEvent",
+            "ping": "#/components/schemas/MessagePingEvent"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MessageStartEvent"
+          },
+          {
+            "$ref": "#/components/schemas/MessageDeltaEvent"
+          },
+          {
+            "$ref": "#/components/schemas/MessageStopEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ContentBlockStartEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ContentBlockDeltaEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ContentBlockStopEvent"
+          },
+          {
+            "$ref": "#/components/schemas/MessagePingEvent"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/BetaMessageStreamEventOrPing",
+      "value": {
+        "title": "BetaMessageStreamEventOrPing",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "message_start": "#/components/schemas/BetaMessageStartEvent",
+            "message_delta": "#/components/schemas/BetaMessageDeltaEvent",
+            "message_stop": "#/components/schemas/BetaMessageStopEvent",
+            "content_block_start": "#/components/schemas/BetaContentBlockStartEvent",
+            "content_block_delta": "#/components/schemas/BetaContentBlockDeltaEvent",
+            "content_block_stop": "#/components/schemas/BetaContentBlockStopEvent",
+            "ping": "#/components/schemas/MessagePingEvent"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/BetaMessageStartEvent"
+          },
+          {
+            "$ref": "#/components/schemas/BetaMessageDeltaEvent"
+          },
+          {
+            "$ref": "#/components/schemas/BetaMessageStopEvent"
+          },
+          {
+            "$ref": "#/components/schemas/BetaContentBlockStartEvent"
+          },
+          {
+            "$ref": "#/components/schemas/BetaContentBlockDeltaEvent"
+          },
+          {
+            "$ref": "#/components/schemas/BetaContentBlockStopEvent"
+          },
+          {
+            "$ref": "#/components/schemas/MessagePingEvent"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1messages/post/responses/200/content/text~1event-stream",
+      "value": {
+        "schema": {
+          "$ref": "#/components/schemas/MessageStreamEventOrPing"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1messages?beta=true/post/responses/200/content/text~1event-stream",
+      "value": {
+        "schema": {
+          "$ref": "#/components/schemas/BetaMessageStreamEventOrPing"
+        }
+      }
+    }
+  ]
+}

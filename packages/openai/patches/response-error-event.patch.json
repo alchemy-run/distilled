@@ -1,0 +1,121 @@
+{
+  "description": "The Responses streaming `error` event nests its failure under `error` \u2014 the wire is `{ \"type\": \"error\", \"error\": { \"type\", \"code\", \"message\", \"param\" }, \"sequence_number\" }` \u2014 but ResponseErrorEvent (and its beta twin BetaResponseErrorEvent) declare flat, required `code`/`message`/`param`, so the event fails to decode or decodes without its failure. Replace the flat members with the nested `error` object (`type` and `message` required; `code`/`param` optional and nullable). The docs only ever show one shape, so the flat members are removed rather than kept optional. Observed live on streamed POST /responses by alchemy's OpenAI LanguageModel, which carried a local decode workaround for it (2026-10).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/components/schemas/ResponseErrorEvent/properties/code"
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/ResponseErrorEvent/properties/message"
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/ResponseErrorEvent/properties/param"
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/ResponseErrorEvent/properties/error",
+      "value": {
+        "type": "object",
+        "description": "The error that interrupted the stream.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The error type, e.g. `invalid_request_error`."
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message."
+          },
+          "param": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The parameter the error relates to."
+          }
+        },
+        "required": ["type", "message"]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/ResponseErrorEvent/required",
+      "value": ["type", "error", "sequence_number"]
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/BetaResponseErrorEvent/properties/code"
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/BetaResponseErrorEvent/properties/message"
+    },
+    {
+      "op": "remove",
+      "path": "/components/schemas/BetaResponseErrorEvent/properties/param"
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/BetaResponseErrorEvent/properties/error",
+      "value": {
+        "type": "object",
+        "description": "The error that interrupted the stream.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The error type, e.g. `invalid_request_error`."
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message."
+          },
+          "param": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The parameter the error relates to."
+          }
+        },
+        "required": ["type", "message"]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaResponseErrorEvent/required",
+      "value": ["type", "error", "sequence_number"]
+    }
+  ]
+}

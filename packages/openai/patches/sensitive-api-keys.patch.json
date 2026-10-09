@@ -1,0 +1,20 @@
+{
+  "description": "API key secrets returned on create are plain strings in the spec, so they surface as `string` and leak into logs and traces. Mark them `x-sensitive` so they decode as `Redacted`: the service-account key returned by createProjectServiceAccount (ProjectServiceAccountApiKey.value) and createServiceAccountApiKey (ServiceAccountApiKeyBody.value \u2014 \"The unredacted API key value.\"), and the admin key returned by createAdminApiKey (AdminApiKeyCreateResponse.value \u2014 \"Only shown on create.\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/ProjectServiceAccountApiKey/properties/value/x-sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/ServiceAccountApiKeyBody/properties/value/x-sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/AdminApiKeyCreateResponse/allOf/1/properties/value/x-sensitive",
+      "value": true
+    }
+  ]
+}

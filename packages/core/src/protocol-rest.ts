@@ -390,6 +390,26 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       return wrapSensitive(outputAst, mapped);
     });
 
+  // One server-sent event's `data` gets the same treatment as a 2xx JSON
+  // body: provider transform, wire→TS key mapping, strict-mode validation,
+  // sensitive wrapping.
+  const decodeEvent = ({
+    data,
+    outputAst,
+  }: {
+    readonly data: unknown;
+    readonly outputAst: AST.AST;
+  }) =>
+    Effect.gen(function* () {
+      const body = options.transformResponse ? options.transformResponse(data) : data;
+      const mapped = yield* validateResponse(
+        outputAst,
+        mapKeys(outputAst, body, "decode"),
+        (cause) => options.parseError({ body: data, cause }),
+      ).pipe(Effect.catch(fail));
+      return wrapSensitive(outputAst, mapped);
+    });
+
   return Layer.succeed(
     API.Protocol,
     API.Protocol.of({
@@ -397,6 +417,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // fiber; see RestProtocolOptions.credentials).
       encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
       decode,
+      decodeEvent,
     }),
   );
 };
