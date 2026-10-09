@@ -8221,6 +8221,7 @@ export const PatchDispatchNamespaceScriptSettingRequest = /*@__PURE__*/ S.suspen
         method: "PATCH",
         uri: "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/settings",
         code: 200,
+        contentType: "multipart",
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -12018,6 +12019,50 @@ export const PutDispatchNamespaceScriptMetadataStreamingTailConsumersList = /*@_
   PutDispatchNamespaceScriptTailConsumer,
 ) as any as S.Schema<PutDispatchNamespaceScriptMetadataStreamingTailConsumersList>;
 
+export type PutDispatchNamespaceScriptMetadataExportType = "worker" | "durable-object";
+export const PutDispatchNamespaceScriptMetadataExportType = S.String;
+
+export type PutDispatchNamespaceScriptMetadataExportState =
+  | "created"
+  | "deleted"
+  | "renamed"
+  | "transferred"
+  | "expecting-transfer";
+export const PutDispatchNamespaceScriptMetadataExportState = S.String;
+
+export interface PutDispatchNamespaceScriptMetadataExport {
+  type?: PutDispatchNamespaceScriptMetadataExportType | (string & {});
+  cache?: PutDispatchNamespaceScriptMetadataCache;
+  storage?: string;
+  container?: string;
+  state?: PutDispatchNamespaceScriptMetadataExportState | (string & {});
+  renamedTo?: string;
+  transferredTo?: string;
+  transferFrom?: string;
+}
+export const PutDispatchNamespaceScriptMetadataExport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(PutDispatchNamespaceScriptMetadataExportType),
+    cache: S.optional(PutDispatchNamespaceScriptMetadataCache),
+    storage: S.optional(S.String),
+    container: S.optional(S.String),
+    state: S.optional(PutDispatchNamespaceScriptMetadataExportState),
+    renamedTo: S.optional(S.String.pipe(T.Body("renamed_to"))),
+    transferredTo: S.optional(S.String.pipe(T.Body("transferred_to"))),
+    transferFrom: S.optional(S.String.pipe(T.Body("transfer_from"))),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMetadataExport",
+}) as any as S.Schema<PutDispatchNamespaceScriptMetadataExport>;
+
+export type PutDispatchNamespaceScriptMetadataExports = {
+  [key: string]: PutDispatchNamespaceScriptMetadataExport | undefined;
+};
+export const PutDispatchNamespaceScriptMetadataExports = /*@__PURE__*/ S.Record(
+  S.String,
+  PutDispatchNamespaceScriptMetadataExport,
+) as any as S.Schema<PutDispatchNamespaceScriptMetadataExports>;
+
 export interface PutDispatchNamespaceScriptMetadata {
   annotations?: PutDispatchNamespaceScriptMetadataAnnotations;
   assets?: PutDispatchNamespaceScriptMetadataAssets;
@@ -12039,6 +12084,8 @@ export interface PutDispatchNamespaceScriptMetadata {
   usageModel?: PutDispatchNamespaceScriptMetadataUsageModel | (string & {});
   cacheOptions?: PutDispatchNamespaceScriptMetadataCache;
   streamingTailConsumers?: PutDispatchNamespaceScriptMetadataStreamingTailConsumersList | null;
+  /** Per-export settings keyed by the verbatim export name (default for the default export). */
+  exports?: PutDispatchNamespaceScriptMetadataExports;
 }
 export const PutDispatchNamespaceScriptMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12074,6 +12121,7 @@ export const PutDispatchNamespaceScriptMetadata = /*@__PURE__*/ S.suspend(() =>
         T.Body("streaming_tail_consumers"),
       ),
     ),
+    exports: S.optional(PutDispatchNamespaceScriptMetadataExports.pipe(T.KeyDictionary({}))),
   }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptMetadata",
@@ -12202,6 +12250,9 @@ export const PutDispatchNamespaceScriptRequest = /*@__PURE__*/ S.suspend(() =>
         workflowName: "workflow_name",
         zoneId: "zone_id",
         zoneName: "zone_name",
+        renamedTo: "renamed_to",
+        transferredTo: "transferred_to",
+        transferFrom: "transfer_from",
       }),
     ),
     files: S.optional(S.Unknown.pipe(T.FormDataFile())),
